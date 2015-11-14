@@ -1,0 +1,3 @@
+#!/bin/bash
+svn update --non-interactive
+svn info | grep 'Revision:' | awk '{print $2}' > ./svnVersion

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"       
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       ">
+
+
+     <bean id="jspModelConributeFilter" class="org.cmas.presentation.controller.filter.JspModelConributeFilter">
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer" >
+                <property name="propertyEditorRegistrars">
+                      <list>
+                           <ref bean="customEditors"/>
+                      </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+	<bean id="customEditors" class="org.cmas.presentation.controller.EditorConfigurer"/>
+
+	<bean id="registrationController"
+          class="org.cmas.presentation.controller.user.RegistrationController"/>
+    <bean id="recoveryController"
+          class="org.cmas.presentation.controller.user.RecoveryController"/>
+    <bean id="userHomeController"
+          class="org.cmas.presentation.controller.user.UserHomeController"/>
+    <bean id="userProfileController"
+          class="org.cmas.presentation.controller.user.UserProfileController"/>
+
+    <bean id="adminController"
+          class="org.cmas.presentation.controller.admin.AdminController"/>
+    <bean id="adminRegController"
+          class="org.cmas.presentation.controller.admin.AdminRegController"/>
+
+    <bean id="loginController"
+          class="org.cmas.util.presentation.controller.LoginController"/>
+    <bean id="homeController"
+          class="org.cmas.presentation.controller.face.HomePageController"/>
+
+    <bean id="interKassaController"
+              class="org.cmas.presentation.controller.user.billing.interkassa.InterKassaController"/>
+        
+    <bean id="interKassaValidator"
+          class="org.cmas.presentation.controller.user.billing.interkassa.InterKassaValidator"/>
+
+    <bean id="lostPasswdValidator"
+          class="org.cmas.presentation.validator.recovery.LostPasswordValidator"/>
+    <bean id="editUserValidator"
+          class="org.cmas.presentation.validator.admin.EditUserValidator"/>
+    <bean id="adminPasswdValidator"
+          class="org.cmas.presentation.validator.admin.PasswdValidator"/>
+
+	<bean id="foCompletenessValidator"
+          class="org.cmas.presentation.validator.FormObjectCompletenessValidatorImpl"/>
+
+    <bean id="validator" class="org.cmas.presentation.validator.HibernateSpringValidator"/>
+
+</beans>

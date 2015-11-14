@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       ">
+    <!-- настройки хибернейта, общие для всех процессов, запускаемых нами,
+    а также ДАО-классы, которым ничего кроме этого самого хибернейта для работы не нужно. -->
+
+    <!-- требует наличия в контексте датасорса с именем hibernateDataSource -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="hibernateDataSource"/>
+        <property name="annotatedClasses">
+            <list>
+
+                <value>org.cmas.entities.User</value>
+                <value>org.cmas.entities.UserBalance</value>
+
+                <value>org.cmas.presentation.entities.billing.Invoice</value>
+                <value>org.cmas.presentation.entities.billing.FinLog</value>
+                <value>org.cmas.presentation.entities.billing.OperationType</value>
+                <value>org.cmas.presentation.entities.billing.InvoiceType</value>
+                <value>org.cmas.presentation.entities.billing.InvoiceStatus</value>
+                <value>org.cmas.presentation.entities.billing.FinSettings</value>
+
+                <value>org.cmas.presentation.entities.user.Registration</value>
+                <value>org.cmas.presentation.entities.user.UserClient</value>
+
+
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="hibernate.connection.characterEncoding">utf8</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--transactions -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    <!--rulezz -->
+    <bean name="openSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+        <property name="sessionFactory" ref="sessionFactory"/>
+
+    </bean>
+
+    <!--hibernate  DAO  classes  -->
+    <bean id="userDao" class="org.cmas.presentation.dao.user.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="invoiceDao" class="org.cmas.presentation.dao.billing.InvoiceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="finLogDao" class="org.cmas.presentation.dao.billing.FinLogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="finSettingsDao" class="org.cmas.presentation.dao.billing.FinSettingsDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="registrationDao" class="org.cmas.presentation.dao.user.RegistrationDaoImpl">
+        <constructor-arg index="0" value="org.cmas.presentation.entities.user.Registration"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userBalanceDao" class="org.cmas.presentation.dao.user.UserBalanceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userEventDao" class="org.cmas.presentation.dao.user.UserEventDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+
+
+
+
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+        <property name="order" value="0"/>
+        <property name="viewNames" value=".*"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="1"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- declare the resolver -->
+    <bean id="localeResolver" class="org.cmas.i18n.LocaleResolverImpl">
+    </bean>
+
+
+    <bean id="propertyPlaceholderConfigurer"
+          class="org.springframework.beans.factory.config.PropertyOverrideConfigurer">
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/server.properties</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <!-- сообщения об ошибках валидации -->
+                <value>org.cmas.presentation.validation</value>
+                <!-- туча неиспользуемых сообщений -->
+                <value>org.cmas.presentation.messages</value>
+                <!-- локализация морды -->
+                <value>org.cmas.presentation.ui</value>
+                <!-- сабжи для мейлера-->
+                <value>org.cmas.presentation.service.mail.mail-subjects</value>
+                <!-- используется для локализации кодировок, меню сайта и всякого такого, системного -->
+                <value>org.cmas.i18n.SystemBundle</value>
+                <!--локализация экспорта в excel-->
+                <value>org.cmas.presentation.service.excel.messages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+
+    <!--  -->
+    <bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder"/>
+
+    <!-- mail beans -->
+    <bean id="mailSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/mail/session"/>
+    </bean>
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="defaultEncoding" value="koi8-r"/>
+        <property name="javaMailProperties">
+            <value>mail.mime.charset=utf-8</value>
+        </property>
+        <property name="session" ref="mailSource"/>
+    </bean>
+
+    <bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="templateLoaderPath" value="/WEB-INF/email/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="number_format">0.####</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="mailer" class="org.cmas.util.mail.MailerConfig">
+        <property name="questionFormEmail" value="no-reply@cmas.org"/>
+    </bean>
+
+    <bean id="mailerService" class="org.cmas.presentation.service.mail.MailServiceImpl">
+        <property name="addresses" ref="mailer"/>
+        <property name="msgSource" ref="messageSource"/>
+        <property name="localeResolver" ref="localeResolver"/>
+        <property name="mailTransport" ref="mailTransport"/>
+        <property name="textRenderer" ref="textRenderer"/>
+        <property name="subjRenderer" ref="subjRenderer"/>
+    </bean>
+
+    <bean id="mailTransport" class="org.cmas.util.mail.MailTransportImpl">
+        <property name="executor">
+            <bean class="org.springframework.scheduling.timer.TimerTaskExecutor"/>
+        </property>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="session" ref="mailSource"/>
+    </bean>
+
+    <bean id="textRenderer" class="org.cmas.util.mail.FreemarkerRenderer">
+        <property name="configuration" ref="freemarkerConfiguration"/>
+        <property name="localeResolver" ref="localeResolver"/>
+        <property name="mailerConfig" ref="mailer"/>
+    </bean>
+
+    <bean id="subjRenderer" class="org.cmas.util.mail.MessageRenderer">
+        <property name="msgSource" ref="messageSource"/>
+    </bean>
+
+    <!-- schedulers -->
+    <bean id="scheduler" class="org.cmas.util.schedule.SchedulerImpl"/>
+
+    <!--<bean id="billingScheduler" class="com.apntation.manager.impl.BillingScheduler">-->
+    <!--</bean>-->
+
+    <!--<bean id="maillingScheduler" class="com.apntation.manager.impl.MailingScheduler">-->
+    <!--</bean>-->
+
+
+    <bean id="authenticationService" class="org.cmas.presentation.service.AuthenticationServiceImpl">
+    </bean>
+
+    <bean id="adminService" class="org.cmas.presentation.service.admin.AdminServiceImpl">
+    </bean>
+
+    <bean id="passwordServicer" class="org.cmas.presentation.service.user.PasswordServiceImpl"/>
+
+    <bean id="captchaService" class="org.cmas.presentation.service.CaptchaServiceImpl"/>
+
+
+    <bean id="userService" class="org.cmas.presentation.service.user.UserServiceImpl">
+        <property name="formObjectClass" value="org.cmas.presentation.model.user.UserFormObject"/>
+        <property name="entityClass" value="org.cmas.presentation.entities.user.UserClient"/>
+        <property name="entityDao" ref="userDao"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
+        <property name="formObjectClass"
+                  value="org.cmas.presentation.model.registration.RegistrationAddFormObject"/>
+        <property name="entityClass" value="org.cmas.presentation.entities.user.Registration"/>
+        <property name="entityDao" ref="registrationDao"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="paySystemSettings" class="org.cmas.presentation.controller.user.billing.PaySystemSettings">
+    </bean>
+
+    <bean id="billingService" class="org.cmas.presentation.service.billing.BillingServiceImpl">
+    </bean>
+
+    <bean id="transactionalBillingService" class="org.cmas.presentation.service.billing.TransactionalBillingServiceImpl">
+    </bean>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="maxPoolSize" value="10"/>
+        <property name="corePoolSize" value="10"/>
+        <property name="beanName" value="taskExecutor"/>
+    </bean>
+
+    <beans:bean id="gsonViewFactory" class="org.cmas.util.json.gson.GsonViewFactoryImpl">
+    </beans:bean>
+
+</beans>

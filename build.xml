@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<project name="lobOrders" default="compile">
+    <!-- Каталог с исходными файлами -->
+    <property name="java_src" location="src/java"/>
+    <!-- Environment переменные операционной системы -->
+    <property file="build.properties"/>
+    <!--<property name="TOMCAT_HOME" location="/usr/local/t2"/>-->
+
+    <!-- Каталог куда компилируем классы -->
+    <property name="java_build" location="target/classes"/>
+    <property name="deploy" location="${DEPLOY_DIR}"/>
+
+    <!-- Библиотеки, всегда необходимые для работы приложения/сайта (run-time) -->
+    <property name="corelib" location="lib"/>
+
+    <!-- Путь, включающий в себя все классы, испоьзуемые в процессе компиляции -->
+    <path id="syspath">
+        <fileset dir="${corelib}">
+            <include name="**/*.jar"/>
+        </fileset>
+
+
+        <fileset dir="${corelib}/test">
+            <include name="**/*.jar"/>
+        </fileset>
+
+        <!--<pathelement path="${corelib}/addon"/>-->
+
+        <!-- Классы приложения -->
+        <pathelement location="${java_build}"/>
+
+        <!-- Системные классы Java -->
+        <pathelement location="${java.class.path}"/>
+    </path>
+
+    <target name="init" description="Инциализация перед запуском всех других задач">
+        <!-- uriroot="www"  webXml="www/WEB-INF/generated_web.xml" Импортируем свойства из файла описания проекта -->
+        <!--<property name="deploy.location" location="/var/www/argon/ROOT"/>-->
+    </target>
+
+
+    <target name="compile" description="Компиляция" depends="init">
+        <mkdir dir="${java_build}"/>
+        <!-- Вызов компилятора Java -->
+        <javac destdir="${java_build}" debug="on" encoding="UTF-8">
+            <classpath refid="syspath"/>
+            <src path="${java_src}"/>
+        </javac>
+
+        <!-- Копирование файлов ресурсов, которые должны быть вместе с классами -->
+        <copy todir="${java_build}">
+            <fileset dir="${java_src}"
+                     includes="**/*.xml,**/*.txt,**/*.properties,**/*.sql,**/*.png,**/*.gif,**/*.pdf,**/*.ttf"/>
+        </copy>
+    </target>
+
+
+    <target name="deploy" depends="compile">
+        <mkdir dir="${deploy}"/>
+
+
+        <mkdir dir="${deploy}/WEB-INF/classes"/>
+        <delete>
+            <fileset dir="${deploy}/WEB-INF/classes">
+                <present targetdir="${java_build}" present="srconly"/>
+            </fileset>
+        </delete>
+        <copy todir="${deploy}/WEB-INF/classes" preservelastmodified="true">
+            <fileset dir="${java_build}"/>
+        </copy>
+
+        <mkdir dir="${deploy}/WEB-INF/lib"/>
+        <delete>
+            <fileset dir="${deploy}/WEB-INF/lib">
+                <present targetdir="lib" present="srconly"/>
+            </fileset>
+        </delete>
+        <copy todir="${deploy}/WEB-INF/lib" preservelastmodified="true">
+            <fileset dir="lib" includes="*.jar"/>
+        </copy>
+
+        <!-- Копируем остальные файлы -->
+        <copy todir="${deploy}" preservelastmodified="true">
+            <fileset dir="./web"
+                     excludes="META-INF/**,WEB-INF/log4j.xml,**/*.example"/>
+        </copy>
+
+        <!-- Копируем файл с номером текущей SVN версии, если он есть -->
+
+	<copy file="${REVISION_FILE}" tofile="${deploy}/WEB-INF/revision.txt" />
+
+
+    </target>
+
+    <!-- Очищает все, что было сгенерировано в target -->
+    <target name="clean" description="clean up">
+        <delete dir="target"/>
+    </target>
+
+    <!-- Output Properties: Output directory -->
+
+    <target name="javadoc" depends="compile">
+        <delete failonerror="false" dir="../docs"/>
+        <javadoc sourcepath="${java_src}" noindex="false" encoding="UTF-8" maxmemory="256m" charset="UTF-8" linksource="true" destdir="../docs" additionalparam="-linksource">
+            <!--
+            <doclet
+                name="ydoc.doclets.YStandard"
+                path="lib\ant\ydoc.jar;lib\ant\resources">
+                <param name="-author"/>
+                <param name="-linksource" value="true"/>
+                <param name="-generic"/>
+                <param name="-umlautogen"/>
+                <param name="-tag" value="param"/>
+                <param name="-tag" value="return"/>
+                <param name="-tag" value="see"/>
+            </doclet>
+            -->
+        </javadoc>
+    </target>
+
+
+</project>
+

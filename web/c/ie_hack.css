@@ -1,0 +1,5 @@
+/* hacking fucking ie (all) */
+.login, .how, .registr, .btn_call, .login_pop-up, .login_pop-up .ok, .login_pop-up .login_input,
+.login_pop-up .password, .btn_agree, .btn_confirm, .btn_search, .header .btn_call, .header .btn_pay, .navigation .menu-block .menu p,
+.navigation .bottom_line,  .search-form .title_string,  .search-form .btn_search, .quest .faqtext, .reg-block input, .pay_agree, .setting_rules, .warning, .login_pop-up .error
+{ behavior: url(/c/PIE_uncompressed.htc);}

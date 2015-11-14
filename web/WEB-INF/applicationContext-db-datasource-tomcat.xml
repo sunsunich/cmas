@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <!-- настройки соединения с Mysql для работы из томката -->
+    <!-- объявляет алиасы hibernateDataSource и jdbcDataSource чтобы остальным лучше жилось -->
+    <!-- датасорсы -->
+    <bean id="rawUserDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/hiber"/>
+    </bean>
+
+    <bean id="hibernateDataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+        <property name="targetDataSource" ref="rawUserDataSource"/>
+    </bean>
+
+    <bean id="jdbcDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/true"/>
+    </bean>
+
+     <!--jdbc templates-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+        <constructor-arg ref="jdbcDataSource"/>
+    </bean>
+
+
+</beans>

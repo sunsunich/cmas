@@ -1,0 +1,278 @@
+.shipping-info {
+    display: block;
+    position: absolute;
+    text-decoration: none;
+    background-color: #FFFFFF;
+    border: 1px solid #CFCFCF;
+    -webkit-border-radius: 5px 5px 5px 5px !important;
+    -moz-border-radius: 5px 5px 5px 5px !important;
+    -o-border-radius: 5px 5px 5px 5px !important;
+    border-radius: 5px 5px 5px 5px !important;
+    box-shadow: -2px 5px 7px -3px #A7A7A7;
+    -webkit-box-shadow: 2px 5px 7px -3px #A7A7A7;
+    -moz-box-shadow: -2px 5px 7px -3px #A7A7A7;
+    -o-box-shadow: -2px 5px 7px -3px #A7A7A7;
+    color: #3A3A3A;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 8px 3px 6px 5px;
+    text-align: center;
+    width: 120px;
+    margin: -1px 860px;
+}
+.shipping-info:hover {
+    background-color: #3a3a3a;
+    color: #ffffff;
+    text-decoration: none;
+}
+.shipping-content ul {
+    display: block;
+    width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    -webkit-border-radius: 5px 5px 5px 5px !important;
+    -moz-border-radius: 5px 5px 5px 5px !important;
+    -o-border-radius: 5px 5px 5px 5px !important;
+    border-radius: 5px 5px 5px 5px !important;
+    
+}
+.shipping-content ul span {
+    font-family: Helv_otf,Helv_pfb,Helv_pfm,Helv_2_pfb;
+    font-size: 24px;
+    width: 330px;
+    display: inline-block;
+    margin: 20px 0;
+}
+.shipping-content ul var {
+    font-family: Helv_otf,Helv_pfb,Helv_pfm,Helv_2_pfb;
+    font-size: 18px;
+}
+.renew {
+    color: #e55e04;
+}
+.orders, .order-list {
+    width: 1000px;
+    margin: 0 auto;
+}
+.orders th, .order-list th {
+    text-align: center;
+    font-family: Helv_otf, Helv_pfb, Helv_pfm, Helv_2_pfb;
+    font-size: 24px;
+    font-weight: normal;
+}
+.orders .list {
+    background-color: #ffffff;
+    height: 50px; 
+}
+.orders td, .order-list td {
+    text-align: center;
+}
+.orders td .order-id {
+    color:#00A5D5;
+    text-decoration: none;
+    font-size: 16px;
+}
+.orders td .order-id:hover {
+    color: #E55E04;
+    text-decoration: underline;
+    font-size: 16px;
+}
+.t-code a {
+    color: #000000;
+}
+.t-code a:hover {
+    color: #00A5D5;
+}
+.controls-block var {
+    font-size: 16px;
+    font-style: normal;
+}
+.order-list .item-id, .order-list .missmatch {
+    width: 310px;
+    text-align: left;
+}
+.order-list .item-id a {
+    color:#3a3a3a;
+    text-decoration: none;
+}
+.order-list .item-id a:hover {
+    color: #E55E04;
+    text-decoration: underline;
+}
+.orders .id {
+    width: 170px;
+}
+.orders .c-date {
+    width: 170px;
+}
+.orders .count {
+    width: 50px;
+}
+.orders .price-cost {
+    width: 80px;
+    
+}
+.orders .status {
+    width: 300px;
+    text-align: left;
+}
+.orders .status a {
+    color: #00a5d5;
+    text-decoration: none;
+    position: relative;
+    left: 185px;
+}
+.orders .status a:hover {
+    color: #e55e04;
+    text-decoration: underline;
+}
+.orders .fin-status {
+    width: 300px;
+    text-align: center;
+    
+}
+.orders .t-code {
+    width: 190px
+}
+
+.order-list .count {
+    width: 50px;
+}
+.order-list .price-cost {
+    width: 80px;
+}
+  .price-cost .select-in {
+    color: #e55e04;
+    font-weight: bold;
+}
+  .price-cost .select-return {
+    color: #00a5d5;
+    font-weight: bold;
+}
+  .price-cost .select-purchase {
+    color: #3a3a3a;
+    font-weight: bold;
+}
+.order-list .item-amount {
+    width: 50px;
+}
+.order-list .status {
+    width: 200px;
+}
+.order-list .list {
+    background-color: #ffffff;
+    height: 50px;   
+}
+.delivery-block {
+    width: 930px;
+    padding: 270px 0;
+    margin: 0 auto;
+}
+.delivery-block span {
+    margin: 20px auto;
+    width: 300px;
+    font-size: 24px;
+    text-align: left;
+    display: inline-block;
+    font-family: Helv_otf, Helv_pfb, Helv_pfm, Helv_2_pfb;
+}
+.delivery-block input {
+    width: 400px;
+    height: 40px;  
+    margin: 20px 0;
+    display: inline-block;
+}
+.delivery_rules {
+    font-family: Helv_otf,Helv_pfb,Helv_pfm, Helv_2_pfb;
+    font-size: 30px;
+    height: 60px;
+    margin: 0 auto;
+    text-align: center;
+    width: 900px;
+}
+.delivery_agree {
+    background-color: #3A3A3A;
+    color: #FFFFFF;
+    font-family: Helv_otf,Helv_pfb,Helv_pfm, Helv_2_pfb;
+    left: 303px;
+    position: relative;
+    text-align: center;
+    width: 196px !important;
+    cursor: pointer;
+}
+.delivery-block .error {
+    color: #fc0404;
+    padding: 0 20px;
+    font-size: 14px;
+    font-family: Myriad, Myriad_otf;
+    position: absolute;
+    width: 200px;
+}
+.delivery {
+    padding: 0px 0 10px;
+}
+.field {
+    width: 420px;
+    height: 100px;
+}
+.order-error {
+    width: 1000px;
+    background: #fb741a;
+    font-size: 24px;
+    color: #ffffff;
+    text-align: center;
+    font-family: Helv_otf, Helv_pfb, Helv_pfm, Helv_2_pfb;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -o-border-radius: 5px 5px 0 0;
+    display: block;
+}
+.btn_confirm_orange {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+.decision-block {
+    margin: 0 auto 10px;
+    width: 1000px;
+    height: 150px;
+}
+.decision-block .btn_confirm_orange {
+    position: absolute;
+    margin: 50px 0px;
+}
+.decision-block .btn_confirm {
+    margin: 50px 799px;
+    position: absolute;
+}
+.btn_confirm_orange a {		
+	background-color: #FA7319;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	box-shadow: 0 1px 5px 2px #CFCFCF;
+	-webkit-box-shadow: 0 1px 5px 2px #CFCFCF;
+	-moz-box-shadow: 0 1px 5px 2px #CFCFCF;
+	-o-box-shadow: 0 1px 5px 2px #CFCFCF;
+	height: 30px;
+	width: 200px;
+	color: #ffffff;
+	font-family: Helv_otf, Helv_pfb, Helv_pfm, Helv_2_pfb;
+	font-size: 36px;
+	text-decoration: none;
+	display: block;
+	padding: 8px 0 13px 1px;
+	text-align: center;
+}
+.information-text {
+   font-family: Helv_otf, Helv_pfb, Helv_pfm, Helv_2_pfb;
+   font-size: 24px;
+   color:#FA7319;
+   margin: 0 auto;
+   width: 900px;
+   text-align: center;
+}

@@ -1,0 +1,4 @@
+#!/bin/bash
+./svnUpdate
+export ANT_OPTS="-Dfile.encoding=UTF-8 -Duser.country=RU -Djava.awt.headless=true -Duser.language=ru"
+ant deploy

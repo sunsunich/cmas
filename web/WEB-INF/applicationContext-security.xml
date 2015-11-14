@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd">
+
+    <!--<http auto-config="false" entry-point-ref="ajaxEntryPoint">-->
+
+
+        <!-- стандартные урлы клиентского, админского интерфейса -->
+        <!--<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
+
+        <!--<intercept-url pattern="/secure/**" access="ROLE_USER" />-->
+
+        <!-- на урлы платежных систем посылают запросы собсна платежные системы, их надо пускать без авторизации -->
+        <!--<intercept-url pattern="/billing/webmoney/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_DEFAULT" requires-channel="https"/>-->
+        <!--<intercept-url pattern="/billing/yandex/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_DEFAULT" requires-channel="https"/>-->
+
+        <!--<logout logout-url="/logout.html" logout-success-url="/index.html"/>-->
+        <!--<remember-me key="appKey" user-service-ref="authenticationService" />-->
+        <!--<anonymous/>-->
+    <!--</http>-->
+
+    <http auto-config="false" entry-point-ref="ajaxEntryPoint">
+		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/secure/**" access="ROLE_USER,ROLE_VIP_USER"/>
+
+
+		<!--<logout logout-url="/logout.html" logout-success-url="/index.html" />-->
+		<remember-me key="appKey" user-service-ref="authenticationService"/>
+	</http>
+
+	<authentication-provider user-service-ref="authenticationService">
+		<password-encoder hash="md5">
+            <salt-source system-wide="f5r$m#%G0"/>
+        </password-encoder>
+	</authentication-provider>
+
+    <beans:bean id="applicationListener" class="org.cmas.util.presentation.spring.ApplicationListenerImpl"/>
+
+    <beans:bean id="logoutFilter" class="org.springframework.security.ui.logout.LogoutFilter">
+        <custom-filter position="LOGOUT_FILTER"/>
+        
+		<beans:constructor-arg value="/index.html" /> <!-- URL redirected to after logout -->
+		<beans:constructor-arg>
+			<beans:list>
+				<beans:ref bean="logoutHandler"/>
+				<beans:ref bean="rememberMeServices"/>
+				<!--<beans:bean class="org.springframework.security.ui.logout.SecurityContextLogoutHandler"/>-->
+                <beans:ref bean="securityContextLogoutHandler"/>                
+			</beans:list>
+		</beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/logout.html"/>        
+	</beans:bean>
+
+    <beans:bean id="securityContextLogoutHandler" class="org.springframework.security.ui.logout.SecurityContextLogoutHandler"/>
+
+	<beans:bean id="logoutHandler" class="org.cmas.util.presentation.spring.LogoutEventBroadcaster"/>
+
+	<authentication-manager alias="authenticationManager"/>
+	<beans:bean id="customAuthenticationProcessingFilter"
+		  class="org.springframework.security.ui.webapp.AuthenticationProcessingFilter">
+		<custom-filter position="AUTHENTICATION_PROCESSING_FILTER"/>
+		<beans:property name="defaultTargetUrl" value="/secure/index.html"/>
+		<!--suppress SpringModelInspection -->
+		<beans:property name="authenticationManager" ref="_authenticationManager"/>
+		<beans:property name="authenticationFailureUrl" value="/login.html?login_error=1"/>
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+		<beans:property name="allowSessionCreation" value="true"/>
+		<beans:property name="rememberMeServices" ref="rememberMeServices"/>
+		<beans:property name="targetUrlResolver" ref="roleBasedTargetResolver" />
+	</beans:bean>
+	<beans:bean id="roleBasedTargetResolver" class="org.cmas.util.presentation.spring.RoleBasedUrlResolver">
+        <beans:property name="authenticationService" ref="authenticationService"/>
+	</beans:bean>
+
+	<beans:bean id="ajaxEntryPoint"
+		  class="org.cmas.util.presentation.spring.WithAjaxAuthenticationProcessingFilterEntryPoint">
+		<beans:property name="loginFormUrl" value="/login-redirect.html"/>
+		<beans:property name="ajaxLoginForm" value="/notLogged.jsp"/>
+	</beans:bean>
+
+	<beans:bean id="rememberMeServices" class="org.springframework.security.ui.rememberme.TokenBasedRememberMeServices">
+		<beans:property name="key" value="appKey"/>
+		<beans:property name="userDetailsService" ref="authenticationService"/>
+		<beans:property name="alwaysRemember" value="false"/>
+	</beans:bean>
+    
+    <!--<beans:bean class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService" id="imageCaptchaService"/>-->
+
+</beans:beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       ">
+
+    <!-- настройки соединения с Mysql, общие для всех процессов, запускаемых нами -->
+    <!-- объявляет алиасы hibernateDataSource и jdbcDataSource чтобы остальным лучше жилось -->
+
+    <!-- Native MySQL датасорс -->
+    <bean id="dataSource"  class="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+        <!-- Чтобы можно было слать пакеты запросов -->
+        <property name="allowMultiQueries" value="true"/>
+        <!-- INSERT INTO table(c1, c2) values (x1,y1); INSERT INTO table(c1, c2) values (x2,y2) => INSERT INTO table(c1, c2) values (x1,y1),(x2, y2) -->
+        <property name="rewriteBatchedStatements" value="true"/>
+        <!-- Запись логов JDBC в наши логи-->
+        <property name="logger" value="com.mysql.jdbc.log.Log4JLogger"/>
+        <!-- Типа мы сами все честно закрываем, не надо следить -->
+        <property name="dontTrackOpenResources" value="true"/>
+        <!-- Server prerared statements + MySQL = ЗЛО -->
+        <property name="useServerPrepStmts" value="false"/>
+        <!-- Чтобы знать источник проблем в лицо -->
+        <property name="dumpQueriesOnException" value="true"/>
+        <!-- Оптимизации чтобы не спрашивал у сервера лишнего -->
+        <property name="elideSetAutoCommits" value="true"/>
+        <property name="useLocalSessionState" value="true"/>
+        <property name="alwaysSendSetIsolation" value="false"/>
+        <property name="cacheServerConfiguration" value="true"/>
+        <!-- Отладочные штуки
+        <property name="explainSlowQueries" value="true"/>
+        <property name="profileSQL" value="true"/>
+        -->
+    </bean>
+
+    <!-- Пул коннектов вокруг Native датасорса -->
+    <bean id="connectionPool" class="org.cmas.util.jdbc.ConnectionPool">
+        <property name="ds" ref="dataSource"/>
+        <property name="poolCapacity" value="8"/>
+    </bean>
+    <alias name="connectionPool" alias="hibernateDataSource"/>
+    <alias name="connectionPool" alias="jdbcDataSource"/>
+
+    <!-- jdbc templates -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.simple.SimpleJdbcTemplate">
+        <constructor-arg ref="jdbcDataSource"/>
+    </bean>
+
+
+</beans>

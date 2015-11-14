@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd
+        ">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.cmas" >
+    </context:component-scan>
+
+
+    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+        <property name="paramName" value="_localeChange"/>
+    </bean>
+
+    <bean id="accessInterceptor" class="org.cmas.presentation.controller.filter.AccessInterceptor">
+        <property name="exceptions">
+            <list>
+
+                <value>/secure/index.html</value>
+
+				<value>/secure/passwdForm.html</value>
+				<value>/secure/generatePassword.html</value>
+                <value>/secure/processEditPasswd.html</value>
+
+                <value>/secure/pay.html</value>
+
+                <value>/secure/favorites.html</value>
+                <value>/secure/published.html</value>
+                <value>/secure/ordered.html</value>
+                <value>/secure/booked.html</value>
+                <value>/secure/finstat.html</value>
+                <value>/secure/faq.html</value>
+
+                <value>/secure/search.html</value>
+                <value>/secure/item.html</value>
+                <value>/secure/addItemToFavorites.html</value>
+                <value>/secure/removeItemFromFavorites.html</value>
+
+                <value>/secure/addToCart.html</value>
+                <value>/secure/editCartItem.html</value>
+                <value>/secure/deleteFromCart.html</value>
+                <value>/secure/emptyCart.html</value>
+                <value>/secure/checkout.html</value>
+                <value>/secure/updateItemPrice.html</value>
+                <value>/secure/cartItem.html</value>
+                <value>/secure/orderItem.html</value>
+
+                <value>/secure/pageErrorLoad.html</value>
+
+				<value>/secure/profile/getUser.html</value>
+				<value>/secure/profile/processEditUser.html</value>
+
+                <value>/secure/billing/interkassa/accept.html</value>
+            </list>
+        </property>
+    </bean>
+
+
+     <!--maps request URLs to Controller names -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="openSessionInViewInterceptor"/>
+                <ref bean="accessInterceptor"/>
+                <ref bean="localeChangeInterceptor"/>
+                <!--<ref bean="Log4jNestedCtx"/>-->
+
+            </list>
+        </property>
+    </bean>
+
+    <bean name="statusError" class="org.springframework.web.servlet.view.json.error.HttpStatusError">
+        <property name="errorCode"><value>311</value></property>
+    </bean>
+    <bean name="modelflagError" class="org.springframework.web.servlet.view.json.error.ModelFlagError">
+        <property name="name"><value>failure</value></property>
+        <property name="value"><value>true</value></property>
+    </bean>
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="2"/>
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+         <!--one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="100000000"/>
+    </bean>
+
+    <bean id="errorHandler" class="org.cmas.util.presentation.spring.CustomExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="org.springframework.beans.TypeMismatchException">/errors/typeMismatch</prop>
+                <prop key=" org.cmas.util.http.BadRequestException">/errors/notFound</prop>
+
+                <!--<prop key="org.hibernate.ObjectNotFoundException">/errors/notFound</prop>-->
+
+            </props>
+        </property>
+    </bean>
+
+</beans>
