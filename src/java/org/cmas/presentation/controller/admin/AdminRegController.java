@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.admin;
 
+import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.service.admin.AdminService;
@@ -17,6 +18,9 @@ import java.util.List;
 @Controller
 public class AdminRegController {
     
+
+    @Autowired
+    private RegistrationDao registrationDao;
 
     @Autowired
     @Qualifier("registrationService")
@@ -51,7 +55,7 @@ public class AdminRegController {
 
     @RequestMapping("/admin/registration/add.html")
     public String addRegistration(@RequestParam("regId") Long id) {
-        Registration registration = registrationService.getRegistrationDao().getById(id);
+        Registration registration = registrationDao.getById(id);
         RegistrationConfirmFormObject formObject = new RegistrationConfirmFormObject();
         formObject.setRegId(registration.getNullableId());
         formObject.setSec(registration.getMd5());

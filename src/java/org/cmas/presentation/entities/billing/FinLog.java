@@ -1,18 +1,11 @@
 package org.cmas.presentation.entities.billing;
 
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.Globals;
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.sport.Sportsman;
 import org.hibernate.validator.NotNull;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -28,8 +21,11 @@ public class FinLog {
     @Column(nullable = false)
     private Date recordDate;
 
-    @ManyToOne
-    private UserClient user;
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
+    private Sportsman sportsman;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
+    private Amateur amateur;
 
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal amount;
@@ -45,9 +41,9 @@ public class FinLog {
     protected FinLog() {
     }
 
-    public FinLog(UserClient user, BigDecimal amount, OperationType operationType, String ip) {
+    public FinLog(Sportsman sportsman, BigDecimal amount, OperationType operationType, String ip) {
         recordDate = new Date();
-        this.user = user;
+        this.sportsman = sportsman;
         this.amount = amount;
         this.operationType = operationType;
         this.ip = ip;
@@ -69,12 +65,20 @@ public class FinLog {
         this.recordDate = recordDate;
     }
 
-    public UserClient getUser() {
-        return user;
+    public Sportsman getSportsman() {
+        return sportsman;
     }
 
-    public void setUser(UserClient user) {
-        this.user = user;
+    public void setSportsman(Sportsman sportsman) {
+        this.sportsman = sportsman;
+    }
+
+    public Amateur getAmateur() {
+        return amateur;
+    }
+
+    public void setAmateur(Amateur amateur) {
+        this.amateur = amateur;
     }
 
     public OperationType getOperationType() {

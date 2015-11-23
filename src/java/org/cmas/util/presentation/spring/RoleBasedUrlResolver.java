@@ -1,7 +1,7 @@
 package org.cmas.util.presentation.spring;
 
 import org.cmas.util.presentation.CommonAuthentificationService;
-import org.cmas.util.presentation.Role;
+import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
 import org.springframework.security.ui.TargetUrlResolver;
@@ -17,10 +17,13 @@ public class RoleBasedUrlResolver implements TargetUrlResolver {
     public String determineTargetUrl(
             SavedRequest savedRequest, HttpServletRequest currentRequest, Authentication auth
     ) {
-        if (authenticationService.isGranted(auth, Role.ROLE_USER)) {
+        if (authenticationService.isGranted(auth, SpringRole.ROLE_AMATEUR)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
-        if (authenticationService.isGranted(auth, Role.ROLE_ADMIN)) {
+        if (authenticationService.isGranted(auth, SpringRole.ROLE_SPORTSMAN)) {
+            return "/login.html?redirectUrl=/sports/index.html";
+        }
+        if (authenticationService.isGranted(auth, SpringRole.ROLE_ADMIN)) {
             return "/login.html?redirectUrl=/admin/index.html";
         }
         return "/index.html";

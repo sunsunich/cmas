@@ -1,17 +1,14 @@
 package org.cmas.presentation.controller.user.billing;
 
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceType;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import org.springframework.validation.Validator;
+import org.springframework.validation.*;
 
 public abstract class PaySystemValidator implements Validator {
 
@@ -43,16 +40,16 @@ public abstract class PaySystemValidator implements Validator {
            ) {
             return false;
         }
-        UserClient invoiceUser = invoice.getUser();
+        Sportsman invoiceUser = invoice.getSportsman();
         if (invoiceUser == null) {
             return false;
         }
-        UserClient currentUser = authenticationService.getCurrentUser();
+        BackendUser currentUser = authenticationService.getCurrentSportsman();
         //noinspection SimplifiableIfStatement
         if (currentUser == null) {
             return false;
         }
-        return currentUser.getNullableId().equals(invoiceUser.getNullableId());
+        return currentUser.getNullableId().equals(invoiceUser.getId());
     }
 
     public String makeMessageFromErrors(BindingResult errors) {

@@ -1,10 +1,10 @@
 package org.cmas.presentation.service.billing;
 
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.presentation.model.billing.PaymentAddData;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.mail.MailService;
@@ -84,7 +84,7 @@ public class BillingServiceImpl implements BillingService {
 
 
     @Override
-    public void orderCreationErrorPaymentReturn(UserClient user, BigDecimal amount, String errorCause) {
+    public void orderCreationErrorPaymentReturn(Sportsman user, BigDecimal amount, String errorCause) {
 
         checkAmount(amount);
 
@@ -123,7 +123,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public boolean paymentReturn(UserClient user, BigDecimal amount, long orderId, String ip) {
+    public boolean paymentReturn(Sportsman user, BigDecimal amount, long orderId, String ip) {
         checkAmount(amount);
 
         int attemptCnt = 0;
@@ -146,7 +146,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public Invoice createInvoice(PaymentAddFormObject fo, UserClient user) {
+    public Invoice createInvoice(PaymentAddFormObject fo, Sportsman user) {
         BigDecimal amount = new BigDecimal(fo.getAmount());
         InvoiceType type = InvoiceType.valueOf(fo.getPaymentType());
         Invoice invoice = new Invoice();
@@ -155,7 +155,7 @@ public class BillingServiceImpl implements BillingService {
         invoice.setCreateDate(new Date());
         invoice.setInvoiceStatus(InvoiceStatus.NOT_PAID);
         invoice.setInvoiceType(type);
-        invoice.setUser(user);
+        invoice.setSportsman(user);
         saveInvoiceAndSetExtId(invoice);
         return invoice;
     }
@@ -183,7 +183,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PaymentWithdrawResult paymentWithdraw(UserClient user, BigDecimal amount, String ip) {
+    public PaymentWithdrawResult paymentWithdraw(Sportsman user, BigDecimal amount, String ip) {
 
         checkAmount(amount);
 

@@ -1,10 +1,11 @@
 package org.cmas.presentation.service.mail;
 
 import org.cmas.Globals;
+import org.cmas.entities.User;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.util.mail.CommonMailServiceImpl;
 import org.cmas.util.mail.ModelAttr;
 import org.jetbrains.annotations.Nullable;
@@ -38,7 +39,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
      * Отправляет пользователю подтверждение о смене email
      */
     @Override
-    public void confirmChangeEmail(UserClient user) {
+    public void confirmChangeEmail(User user) {
         Locale locale = localeResolver.getDefaultLocale();
         String text = textRenderer.renderText("sendEmailConfirmation.ftl", locale, new ModelAttr("user", user));
         String subj = subjects.renderText("ChangeEmail", locale, addresses.getSiteName(locale));
@@ -49,7 +50,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
 
     @Override
-    public void sendLostPasswd(UserClient user) {
+    public void sendLostPasswd(User user) {
         Locale locale = localeResolver.getDefaultLocale();
         String subj = subjects.renderText("LostPasswd", locale, addresses.getSiteName(locale));
         String text = textRenderer.renderText("lostPasswd.ftl", locale, new ModelAttr("user", user));
@@ -62,7 +63,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
      * Отправляем пользователю сообщение, об успешной активации его в системе
      */
     @Override
-    public void regCompleteNotify(UserClient user) {
+    public void regCompleteNotify(BackendUser user) {
         Locale locale = localeResolver.getDefaultLocale();
 
         String text = textRenderer.renderText(
@@ -87,7 +88,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                 , new ModelAttr("date", Globals.getDTF().format(invoice.getCreateDate().getTime()))
         );
 
-        UserClient user = invoice.getUser();
+        User user = invoice.getSportsman();
         InternetAddress to = getInternetAddress(user);
         InternetAddress from = getSiteReplyAddress(locale);
         //String from = addresses.getFromText();
@@ -122,6 +123,11 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                 break;
         }
         return invoiceTypeStr;
+    }
+
+    @Nullable
+    private InternetAddress getInternetAddress(User user) {
+        return getInternetAddress(new BackendUser(user));
     }
 
     // обернул UnsupportedEncodingException

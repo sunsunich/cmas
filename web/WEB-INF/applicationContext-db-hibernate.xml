@@ -20,6 +20,22 @@
                 <value>org.cmas.entities.User</value>
                 <value>org.cmas.entities.UserBalance</value>
 
+                <value>org.cmas.entities.sport.Sportsman</value>
+                <value>org.cmas.entities.sport.SportsFederation</value>
+                <value>org.cmas.entities.sport.SportsmanCard</value>
+                <value>org.cmas.entities.sport.SportsmanCardType</value>
+
+                <value>org.cmas.entities.amateur.Amateur</value>
+                <value>org.cmas.entities.amateur.MassEvent</value>
+                <value>org.cmas.entities.amateur.MassEventRequest</value>
+
+                <value>org.cmas.entities.doc.DocFile</value>
+                <value>org.cmas.entities.doc.Document</value>
+                <value>org.cmas.entities.doc.DocumentType</value>
+
+                <value>org.cmas.entities.Country</value>
+                <value>org.cmas.entities.DictionaryEntity</value>
+
                 <value>org.cmas.presentation.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
                 <value>org.cmas.presentation.entities.billing.OperationType</value>
@@ -28,7 +44,6 @@
                 <value>org.cmas.presentation.entities.billing.FinSettings</value>
 
                 <value>org.cmas.presentation.entities.user.Registration</value>
-                <value>org.cmas.presentation.entities.user.UserClient</value>
 
 
             </list>
@@ -62,7 +77,23 @@
     </bean>
 
     <!--hibernate  DAO  classes  -->
-    <bean id="userDao" class="org.cmas.presentation.dao.user.UserDaoImpl">
+    <bean id="sportsmanDao" class="org.cmas.presentation.dao.user.sport.SportsmanDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sportsmanCardDao" class="org.cmas.presentation.dao.user.sport.SportsmanCardDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sportsmanCardTypeDao" class="org.cmas.presentation.dao.user.sport.SportsmanCardTypeDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="amateurDao" class="org.cmas.presentation.dao.user.AmateurDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="countryDao" class="org.cmas.presentation.dao.CountryDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

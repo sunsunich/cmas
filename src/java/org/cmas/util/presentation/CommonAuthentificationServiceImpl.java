@@ -14,8 +14,8 @@ import java.util.Arrays;
 public abstract class CommonAuthentificationServiceImpl<T extends UserDetails> implements CommonAuthentificationService<T>{
 
     @Override
-    public void loginAs(T user, Role[] roles) {
-        GrantedAuthority[] gas = Role.getAuthorities(roles);
+    public void loginAs(T user, SpringRole[] roles) {
+        GrantedAuthority[] gas = SpringRole.getAuthorities(roles);
         SecurityContext ctx = SecurityContextHolder.getContext();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, "", gas);
         ctx.setAuthentication(token);
@@ -44,7 +44,7 @@ public abstract class CommonAuthentificationServiceImpl<T extends UserDetails> i
 
 
     @Override
-    public boolean isGranted(@NotNull Authentication auth, Role role) {
+    public boolean isGranted(@NotNull Authentication auth, SpringRole role) {
         return Arrays.asList(auth.getAuthorities()).contains(role.getAuthority());
 
     }

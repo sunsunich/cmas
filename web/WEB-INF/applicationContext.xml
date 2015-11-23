@@ -139,20 +139,24 @@
 
     <bean id="captchaService" class="org.cmas.presentation.service.CaptchaServiceImpl"/>
 
+    <bean id="sportsmanService" class="org.cmas.presentation.service.user.SportsmanServiceImpl">
+        <property name="entityClass" value="org.cmas.entities.sport.Sportsman"/>
+        <property name="entityDao" ref="sportsmanDao"/>
+        <property name="validator" ref="validator"/>
+    </bean>
 
-    <bean id="userService" class="org.cmas.presentation.service.user.UserServiceImpl">
-        <property name="formObjectClass" value="org.cmas.presentation.model.user.UserFormObject"/>
-        <property name="entityClass" value="org.cmas.presentation.entities.user.UserClient"/>
-        <property name="entityDao" ref="userDao"/>
+    <bean id="sportsFederationService" class="org.cmas.presentation.service.sports.SportsFederationServiceImpl"/>
+
+    <bean id="amateurService" class="org.cmas.presentation.service.user.UserServiceImpl">
+        <property name="entityClass" value="org.cmas.entities.amateur.Amateur"/>
+        <property name="entityDao" ref="amateurDao"/>
         <property name="validator" ref="validator"/>
     </bean>
 
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
-        <property name="formObjectClass"
-                  value="org.cmas.presentation.model.registration.RegistrationAddFormObject"/>
-        <property name="entityClass" value="org.cmas.presentation.entities.user.Registration"/>
-        <property name="entityDao" ref="registrationDao"/>
-        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="allUsersService" class="org.cmas.presentation.service.user.AllUsersServiceImpl">
     </bean>
 
     <bean id="paySystemSettings" class="org.cmas.presentation.controller.user.billing.PaySystemSettings">

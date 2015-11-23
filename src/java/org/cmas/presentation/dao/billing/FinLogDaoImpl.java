@@ -1,10 +1,10 @@
 package org.cmas.presentation.dao.billing;
 
+import org.cmas.Globals;
 import org.cmas.presentation.entities.billing.FinLog;
 import org.cmas.presentation.entities.billing.OperationType;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.fin.FinStatsFormObject;
-import org.cmas.Globals;
 import org.cmas.util.dao.SearchDaoImpl;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
@@ -18,12 +18,12 @@ import java.util.List;
 public class FinLogDaoImpl  extends SearchDaoImpl<FinLog> implements FinLogDao {//, InitializingBean{
 
     @Override
-    public List<FinLog> getByUser(UserClient u, FinStatsFormObject formObject) {
+    public List<FinLog> getByUser(BackendUser u, FinStatsFormObject formObject) {
         Criteria criteria = createSearchCriteria(u, formObject);
         return search(criteria, formObject);
     }
 
-    private Criteria createSearchCriteria(UserClient u, FinStatsFormObject formObject) {
+    private Criteria createSearchCriteria(BackendUser u, FinStatsFormObject formObject) {
         Criteria criteria = createCriteria();
         criteria.add(Restrictions.eq("user",u));
         List<OperationType> operationTypes = formObject.getOperationTypes();
@@ -43,13 +43,13 @@ public class FinLogDaoImpl  extends SearchDaoImpl<FinLog> implements FinLogDao {
     }
 
     @Override
-    public int countForUser(UserClient u, FinStatsFormObject formObject) {
+    public int countForUser(BackendUser u, FinStatsFormObject formObject) {
         return getMaxCountSearch(createSearchCriteria(u, formObject));
     }
 
     @Override
     @Nullable
-    public BigDecimal getAllUserInMoney(UserClient u) {
+    public BigDecimal getAllUserInMoney(BackendUser u) {
         Criteria criteria = createCriteria();
 		criteria.add(Restrictions.eq("user",u))
                 .add(Restrictions.eq("operationType", OperationType.IN))

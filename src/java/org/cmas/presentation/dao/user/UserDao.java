@@ -1,6 +1,6 @@
 package org.cmas.presentation.dao.user;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.User;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.dao.IdGeneratingDao;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public interface UserDao extends IdGeneratingDao<UserClient> {
+public interface UserDao<T extends User> extends IdGeneratingDao<T> {
 
     boolean isEmailUnique(String email);
     boolean isEmailUnique(String email, @Nullable Long id);
@@ -19,7 +19,7 @@ public interface UserDao extends IdGeneratingDao<UserClient> {
      * @param form
      * @return
      */
-    List<UserClient> searchUsers(UserSearchFormObject form);
+    List<T> searchUsers(UserSearchFormObject form);
 
     int getMaxCountSearchUsers(UserSearchFormObject form);
 
@@ -28,14 +28,14 @@ public interface UserDao extends IdGeneratingDao<UserClient> {
      * @param email
      * @return
      */
-    UserClient getByEmail(@NotNull String email);
+    T getByEmail(@NotNull String email);
 
     /**
      * Ищем аккаунт по коду для смены пароля
      * @param lostPasswdCode
      * @return
      */
-    UserClient getBylostPasswdCode(@NotNull String lostPasswdCode);
+    T getBylostPasswdCode(@NotNull String lostPasswdCode);
 
    /**
      * Используется при смене e-mail клиента
@@ -44,7 +44,7 @@ public interface UserDao extends IdGeneratingDao<UserClient> {
      * @param md5
      * @return
      */
-    UserClient getUserChangedEmail(String md5);
+   T getUserChangedEmail(String md5);
 
     void evictUser(long userId);    
 }

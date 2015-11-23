@@ -1,6 +1,6 @@
 package org.cmas.i18n;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.Locale;
 public interface CustomLocaleResolver extends LocaleResolver {
 
      // должно работать всегда.
-    Locale getLocale(UserClient user);
+    Locale getLocale(BackendUser user);
     // должно работать в контексте обработки http-запроса.
     Locale getCurrentLocale();
 

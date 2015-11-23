@@ -5,7 +5,7 @@
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="lightHeader" required="false" %>
 
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.UserClient"/>
+<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html itemtype="http://schema.org/Product" itemscope="" xmlns="http://www.w3.org/1999/xhtml">

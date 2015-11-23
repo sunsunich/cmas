@@ -1,5 +1,7 @@
 package org.cmas.presentation.entities.user;
 
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.sport.Sportsman;
 import org.hibernate.validator.NotNull;
 
 import javax.persistence.*;
@@ -21,23 +23,34 @@ public class UserEvent {
 	@Enumerated(EnumType.STRING)
     private UserEventType userEventType;
 
-    @ManyToOne
-    private UserClient user;
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
+    private Sportsman sportsman;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
+    private Amateur amateur;
 
     private String ip;
 
     private String description;
 
     protected UserEvent(){
-
     }
 
-    public UserEvent(UserEventType userEventType, UserClient user, String ip, String description) {
+    private UserEvent(UserEventType userEventType, String ip, String description) {
         recordDate = new Date();
         this.userEventType = userEventType;
-        this.user = user;
         this.ip = ip;
         this.description = description;
+    }
+
+    public UserEvent(UserEventType userEventType, String ip, String description, Sportsman sportsman) {
+        this(userEventType, ip, description);
+        this.sportsman = sportsman;
+    }
+
+    public UserEvent(UserEventType userEventType, String ip, String description, Amateur amateur) {
+        this(userEventType, ip, description);
+        this.amateur = amateur;
     }
 
     public Long getId() {
@@ -64,12 +77,20 @@ public class UserEvent {
         this.userEventType = userEventType;
     }
 
-    public UserClient getUser() {
-        return user;
+    public Sportsman getSportsman() {
+        return sportsman;
     }
 
-    public void setUser(UserClient user) {
-        this.user = user;
+    public void setSportsman(Sportsman sportsman) {
+        this.sportsman = sportsman;
+    }
+
+    public Amateur getAmateur() {
+        return amateur;
+    }
+
+    public void setAmateur(Amateur amateur) {
+        this.amateur = amateur;
     }
 
     public String getIp() {

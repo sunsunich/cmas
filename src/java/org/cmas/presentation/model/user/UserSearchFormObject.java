@@ -10,8 +10,8 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     @SuppressWarnings({"EnumeratedConstantNamingConvention"})
     public enum UserReportColumnNames implements ColumnName {
           email("contactInfo.email")
-        , dateReg("dateReg")
-        , shopName("shopName");
+        , dateReg("dateReg");
+
         private String name;
 
         UserReportColumnNames(String name){
@@ -30,7 +30,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     // условие отбора
     private String email;
-    private String shopName;
+    private String userRole;
 
 
     public UserSearchFormObject() {
@@ -50,12 +50,11 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
         this.email = email;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
-
 }

@@ -5,7 +5,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.UserClient"/>
+<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:basePage title="ВОССТАНОВЛЕНИЕ ПАРОЛЯ" indexpage="false"
              customScripts="/js/scroll.js"

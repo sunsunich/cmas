@@ -1,5 +1,7 @@
 package org.cmas.entities;
 
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.sport.Sportsman;
 import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
@@ -25,9 +27,11 @@ public class UserBalance implements Serializable {
     @Version
     private long version;
 
-    @OneToOne(mappedBy = "userBalance")
-    @PrimaryKeyJoinColumn
-    private User user;
+    @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
+    private Sportsman sportsman;
+
+    @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
+    private Amateur amateur;
 
     @Column
     private BigDecimal balance;
@@ -55,12 +59,20 @@ public class UserBalance implements Serializable {
         this.version = version;
     }
 
-    public User getUser() {
-        return user;
+    public Sportsman getSportsman() {
+        return sportsman;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSportsman(Sportsman sportsman) {
+        this.sportsman = sportsman;
+    }
+
+    public Amateur getAmateur() {
+        return amateur;
+    }
+
+    public void setAmateur(Amateur amateur) {
+        this.amateur = amateur;
     }
 
     public BigDecimal getBalance() {

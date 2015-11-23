@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.billing;
 
 import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
@@ -19,7 +19,7 @@ public class InvoiceDaoImpl extends IdGeneratingDaoImpl<Invoice> implements Invo
 	}
 
 	@Override
-	public List<Invoice> getAllNotRemovedByUser(UserClient u) {
+	public List<Invoice> getAllNotRemovedByUser(BackendUser u) {
         //noinspection unchecked
         return createNotRemovedOrdered().add(Restrictions.eq("user",u)).list();
 	}

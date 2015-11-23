@@ -1,12 +1,12 @@
 package org.cmas.presentation.controller.user.billing.interkassa;
 
+import org.cmas.Globals;
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.presentation.model.billing.PaymentAddData;
 import org.cmas.presentation.service.billing.BillingService;
-import org.cmas.Globals;
 import org.cmas.util.http.HttpLogger;
 import org.cmas.util.http.HttpUtil;
 import org.slf4j.Logger;
@@ -102,8 +102,8 @@ public class InterKassaController {
 
                     PaymentAddData paymentAddData = new PaymentAddData();
                     paymentAddData.setInvoiceId(invoice.getId());
-                    UserClient user = invoice.getUser();
-                    paymentAddData.setUserId(user.getNullableId());
+                    Sportsman user = invoice.getSportsman();
+                    paymentAddData.setUserId(user.getId());
                     paymentAddData.setAmount(data.getIk_payment_amount());
                     if (!billingService.paymentAdd(paymentAddData, HttpUtil.getIP(request), true)) {
                         logger.error(

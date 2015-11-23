@@ -10,12 +10,12 @@ public class SimpleGsonResponse {
 
     private Boolean success;
 
-    private String message;
+    private String[] message;
 
     public SimpleGsonResponse() {
     }
 
-    public SimpleGsonResponse(Boolean success, String message) {
+    public SimpleGsonResponse(Boolean success, String... message) {
         this.success = success;
         this.message = message;
     }
@@ -28,11 +28,11 @@ public class SimpleGsonResponse {
         this.success = success;
     }
 
-    public String getMessage() {
+    public String[] getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(String... message) {
         this.message = message;
     }
 }

@@ -1,9 +1,9 @@
 package org.cmas.util.json.gson;
 
-import org.cmas.Globals;
-import org.cmas.util.json.SimpleGsonResponse;
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
+import org.cmas.Globals;
+import org.cmas.util.json.SimpleGsonResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +30,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     }
 
     @Override
-    public GsonView createErrorGsonView(String message) {
+    public GsonView createErrorGsonView(String... message) {
         Gson gson = new Gson();
         SimpleGsonResponse toSerialize = new SimpleGsonResponse(false, message);
         return new GsonView(toSerialize, gson);

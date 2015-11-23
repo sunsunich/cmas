@@ -1,7 +1,11 @@
 package org.cmas.presentation.controller.admin;
 
-import org.cmas.presentation.dao.user.UserDao;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.Role;
+import org.cmas.entities.User;
+import org.cmas.entities.sport.Sportsman;
+import org.cmas.presentation.dao.user.AmateurDao;
+import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserFormObject;
@@ -12,7 +16,7 @@ import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
 import org.cmas.util.http.BadRequestException;
-import org.cmas.util.presentation.Role;
+import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,8 +45,9 @@ public class AdminController {
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
-    protected UserDao userDao;
-
+    protected SportsmanDao sportsmanDao;
+    @Autowired
+    protected AmateurDao amateurDao;
 
     @Autowired
     private EditUserValidator editUserValidator;
@@ -57,8 +62,8 @@ public class AdminController {
     public static final int MAX_PAGE_ITEMS = 30;
 
     @ModelAttribute("roleList")
-    public Collection<Role> getRoleList() {
-        Role[] roles = {Role.ROLE_USER,Role.ROLE_ADMIN};
+    public Collection<SpringRole> getRoleList() {
+        SpringRole[] roles = {SpringRole.ROLE_AMATEUR, SpringRole.ROLE_SPORTSMAN, SpringRole.ROLE_ADMIN};
         return Arrays.asList(roles);
     }
 
@@ -67,16 +72,30 @@ public class AdminController {
         model.setLimit(MAX_PAGE_ITEMS);
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", model);
-        List<UserClient> users = userDao.searchUsers(model);
+        List<Sportsman> users = sportsmanDao.searchUsers(model);
         mm.addAttribute("users", users);
-        mm.addAttribute("count", userDao.getMaxCountSearchUsers(model));
+        mm.addAttribute("count", sportsmanDao.getMaxCountSearchUsers(model));
         return new ModelAndView("admin/index", mm);
     }
 
 
     @RequestMapping(value = "/admin/userInfo.html")
-    public ModelAndView showUserInfo(@RequestParam("userId") final Long userId) {
-        UserClient user = userDao.getModel(userId);
+    public ModelAndView showUserInfo(
+            @RequestParam("userId") final Long userId,
+            @RequestParam("userRole") final String userRole
+    ) {
+        User user = null;
+        Role role = Role.valueOf(userRole);
+        switch (role) {
+            case ROLE_AMATEUR:
+                user = amateurDao.getModel(userId);
+                break;
+            case ROLE_SPORTSMAN:
+                user = sportsmanDao.getModel(userId);
+                break;
+            case ROLE_ADMIN:
+                break;
+        }
         if (user == null) {
             throw new BadRequestException();
         }
@@ -95,21 +114,21 @@ public class AdminController {
         if (res.user == null) {
             return "";
         }
-        authenticationService.loginAs(res.user, new Role[]{Role.ROLE_USER});
+        authenticationService.loginAs(res.user, new SpringRole[]{SpringRole.ROLE_AMATEUR});
         return "redirect:" + res.redirectTo;
     }
 
     private IdName getUserAndView(Long userId) {
         IdName res = new IdName();
         if (userId != null) {
-            res.user = userDao.getModel(userId);
+            res.user = new BackendUser(sportsmanDao.getModel(userId));
             res.redirectTo = "/secure/index.html";
         }
         return res;
     }
 
     private static class IdName { // нет в яве кортежей, какая досада.
-        UserClient user;
+        BackendUser user;
         String redirectTo;
     }
 
@@ -118,7 +137,7 @@ public class AdminController {
     @Transactional
     public ModelAndView loadUser(@RequestParam("userId") final Long userId) {
         AdminUserFormObject data = new AdminUserFormObject();
-        UserClient user = userDao.getModel(userId);
+        Sportsman user = sportsmanDao.getModel(userId);
         if (user == null) {
             throw new BadRequestException();
         }
@@ -175,12 +194,12 @@ public class AdminController {
     @RequestMapping(value = "/admin/deleteUser.html", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteUser(@RequestParam("userId") final Long userId) {
-        UserClient user = userDao.getModel(userId);
+        Sportsman user = sportsmanDao.getModel(userId);
         if (user == null) {
             throw new BadRequestException();
         }
         user.setEnabled(false);
-        userDao.updateModel(user);
+        sportsmanDao.updateModel(user);
 
         return new ModelAndView("redirect:/admin/index.html");
     }

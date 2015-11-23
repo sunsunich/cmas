@@ -1,0 +1,1 @@
+INSERT into sportsman_card_types values (1, "primary", 1, false);

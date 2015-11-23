@@ -4,10 +4,10 @@ import org.springframework.security.GrantedAuthority;
 
 public class UserAuthority implements GrantedAuthority {
 
-    Role role;
+    SpringRole role;
     private static final long serialVersionUID = -4086288513335428033L;
 
-    public UserAuthority(Role role) {
+    public UserAuthority(SpringRole role) {
         this.role = role;
     }
 
@@ -21,6 +21,6 @@ public class UserAuthority implements GrantedAuthority {
 
     @Override
     public int compareTo(Object o) {
-        return role.compareTo((Role) o);
+        return role.compareTo((SpringRole) o);
     }
 }

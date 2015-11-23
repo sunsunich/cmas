@@ -1,39 +1,31 @@
 package org.cmas.presentation.controller.user;
 
 import org.cmas.i18n.LocaleResolverImpl;
-import org.cmas.presentation.dao.user.UserDao;
-import org.cmas.presentation.dao.user.UserEventDao;
+import org.cmas.presentation.dao.user.AmateurDao;
+import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.entities.user.UserClient;
-import org.cmas.presentation.entities.user.UserEvent;
-import org.cmas.presentation.entities.user.UserEventType;
-import org.cmas.presentation.model.registration.RegistrationAddFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.service.user.PasswordStrength;
 import org.cmas.presentation.service.user.RegistrationService;
-import org.cmas.presentation.service.user.UserService;
-import org.cmas.util.http.BadRequestException;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.gson.GsonViewFactory;
-import org.cmas.util.presentation.Role;
+import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  */
@@ -41,13 +33,9 @@ import java.util.Map;
 public class RegistrationController {
 
 	@Autowired
-	@Qualifier("userService")
-	private UserService userService;
-
+	protected SportsmanDao sportsmanDao;
 	@Autowired
-	protected UserDao userDao;
-    @Autowired
-    private UserEventDao userEventDao;
+	protected AmateurDao amateurDao;
 	@Autowired
     private AdminService adminService;
     @Autowired
@@ -61,10 +49,8 @@ public class RegistrationController {
     @Autowired
     private PasswordService passwordService;
 
-	public static final String DEFAULT_ZONE = "Europe/Moscow";
-
     @Autowired
-    private GsonViewFactory jsonFactory;
+    private GsonViewFactory gsonViewFactory;
 
 	/**
 	 *
@@ -75,8 +61,8 @@ public class RegistrationController {
      */
 	@SuppressWarnings({"UnusedDeclaration"})
     @RequestMapping("/registration.html")
-	public ModelAndView registerUser(@ModelAttribute("command") RegistrationAddFormObject formObject, BindingResult result, Model model) {
-        model.addAttribute("command", new RegistrationAddFormObject());
+	public ModelAndView registerUser(@ModelAttribute("command") Registration formObject, BindingResult result, Model model) {
+        model.addAttribute("command", new Registration());
 		return buidAddRegistrationForm(model, PasswordStrength.NONE);
 	}
 
@@ -87,37 +73,55 @@ public class RegistrationController {
 
     /**
      * добавляем в базу регистрацию.
+     *
      * @param formObject
      * @param result
-     * @param model
      * @return
      */
-    @RequestMapping(value = "/register-user-submit.html", method = RequestMethod.POST)
-    public ModelAndView registrationAdd(
-              @ModelAttribute("command") RegistrationAddFormObject formObject
+    @RequestMapping(value = "/register-user-submit.html")
+    public View registrationAdd(
+            @ModelAttribute("command") Registration formObject
             , BindingResult result
-            , Model model) {
-        PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
+            ) {
+    //    PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
         registrationService.validate(formObject, result);
         if (result.hasErrors()) { // show form view.
-            return buidAddRegistrationForm(model, passwordStrength);
+            return gsonViewFactory.createErrorGsonView(
+                    ValidatorUtils.getAllErrorCodes(result)
+            );
         } else {  // submit form
             formObject.setLocale(localeResolver.getCurrentLocale());
-            Registration registration = registrationService.add(formObject, result);
-
-
-            Map<String, Object> modelMap = new HashMap<String, Object>();
-            modelMap.put("email", registration.getEmail());
-//			if (returnAddress != null) {
-//				model.put("returnAddress", returnAddress);
-//			}
-            modelMap.put("passwordStrength", passwordStrength.name());
-            return new ModelAndView("registrationSuccess", modelMap);
+            registrationService.add(formObject, result);
+            return gsonViewFactory.createSuccessGsonView();
         }
     }
 
+    //todo mobile registration - protect
+//    @RequestMapping("/registerNewUser.html")
+//    public View registerNewUser(@ModelAttribute("command") Registration formObject
+//    ) {
+//        BackendUser user = userDao.getByLogin(username);
+//        if (user != null) {
+//            return gsonViewFactory.createErrorGsonView(ErrorCodes.USER_ALREADY_EXISTS);
+//        }
+//        BackendUser newUser = new BackendUser();
+//        newUser.setRole(SpringRole.ROLE_AMATEUR);
+//        newUser.setUsername(username);
+//        newUser.setPassword(
+//                passwordEncoder.encodePassword(password, UserDetails.SALT)
+//        );
+//        try {
+//            Long userId = (Long) userDao.save(newUser);
+//            newUser.setId(userId);
+//            return gsonViewFactory.createGsonView(new RegisterNewUserReply(userId));
+//        } catch (Exception e) {
+//            log.error(e.getMessage(), e);
+//            return gsonViewFactory.createErrorGsonView(ErrorCodes.ERROR_WHILE_SAVING_USER);
+//        }
+//    }
+
 	/**
-	 * добавленную в базу регистрацию превращаем в клиента.
+	 * добавленную в базу регистрацию превращаем в юзера.
      * @param request
      * @param formObject
      * @param result
@@ -131,9 +135,26 @@ public class RegistrationController {
     ) {
 		registrationService.validateConfirm(formObject, result);
 		if (!result.hasErrors()) {
-            UserClient user = adminService.processConfirmRegistration(formObject, HttpUtil.getIP(request));
-			authenticationService.loginAs(user, new Role[]{Role.ROLE_USER});
-			return new ModelAndView("redirect:/secure/index.html", null);
+            BackendUser user = adminService.processConfirmRegistration(formObject, HttpUtil.getIP(request));
+            SpringRole springRole = null;
+            String redirectUrl = null;
+            switch (user.getUser().getRole()) {
+                case ROLE_AMATEUR:
+                    springRole = SpringRole.ROLE_AMATEUR;
+                    redirectUrl = "redirect:/secure/index.html";
+                    break;
+                case ROLE_SPORTSMAN:
+                    springRole = SpringRole.ROLE_SPORTSMAN;
+                    redirectUrl = "redirect:/sports/index.html";
+                    break;
+                case ROLE_ADMIN:
+                   break;
+            }
+            if (springRole == null) {
+                throw new IllegalStateException();
+            }
+            authenticationService.loginAs(user, new SpringRole[]{springRole});
+			return new ModelAndView(redirectUrl, null);
 		}
 		return new ModelAndView("redirect:/index.html", null);
 	}
@@ -146,33 +167,33 @@ public class RegistrationController {
      * @param mm
      * @return
      */
-	@RequestMapping("/changeEmail.html")
-	@Transactional
-	public String changeEmailComplete(HttpServletRequest request, @RequestParam("sec") final String sec, Model mm) {
-		if (sec == null) {
-			throw new IllegalArgumentException();
-		}
-		UserClient user = userDao.getUserChangedEmail(sec);
-		if (user == null) {
-			throw new BadRequestException();
-		}
-		mm.addAttribute("user", user);
-		String newMail = user.getNewMail();
-		if (newMail == null) {
-			throw new BadRequestException();
-		}
-		if (userService.isEmailUnique(user, newMail)) {
-            userEventDao.save(new UserEvent(UserEventType.EMAIL_CHANGE, user, HttpUtil.getIP(request), user.getEmail()));
-			user.setEmail(newMail);
-			user.setNewMail(null);
-			user.setMd5newMail(null);
-			userDao.updateModel(user);
-            authenticationService.loginAs(user, new Role[]{Role.ROLE_USER});
-			//email changed successfully
-			return "changeEmail";
-		} else {
-			//email change failed
-			return "changeEmailFailed";
-		}
-	}
+//	@RequestMapping("/changeEmail.html")
+//	@Transactional
+//	public String changeEmailComplete(HttpServletRequest request, @RequestParam("sec") final String sec, Model mm) {
+//		if (sec == null) {
+//			throw new IllegalArgumentException();
+//		}
+//		BackendUser user = userDao.getUserChangedEmail(sec);
+//		if (user == null) {
+//			throw new BadRequestException();
+//		}
+//		mm.addAttribute("user", user);
+//		String newMail = user.getNewMail();
+//		if (newMail == null) {
+//			throw new BadRequestException();
+//		}
+//		if (userService.isEmailUnique(user, newMail)) {
+//            userEventDao.save(new UserEvent(UserEventType.EMAIL_CHANGE, user, HttpUtil.getIP(request), user.getEmail()));
+//			user.setEmail(newMail);
+//			user.setNewMail(null);
+//			user.setMd5newMail(null);
+//			userDao.updateModel(user);
+//            authenticationService.loginAs(user, new SpringRole[]{SpringRole.ROLE_AMATEUR});
+//			//email changed successfully
+//			return "changeEmail";
+//		} else {
+//			//email change failed
+//			return "changeEmailFailed";
+//		}
+//	}
 }

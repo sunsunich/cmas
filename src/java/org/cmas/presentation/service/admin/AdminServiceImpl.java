@@ -1,29 +1,26 @@
 package org.cmas.presentation.service.admin;
 
-import org.cmas.presentation.dao.user.UserBalanceDao;
-import org.cmas.presentation.dao.user.UserDao;
-import org.cmas.presentation.dao.user.UserEventDao;
+import org.cmas.entities.Role;
+import org.cmas.entities.User;
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.sport.Sportsman;
+import org.cmas.presentation.dao.user.RegistrationDao;
+import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.entities.user.UserClient;
-import org.cmas.presentation.entities.user.UserEvent;
-import org.cmas.presentation.entities.user.UserEventType;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.http.BadRequestException;
-import org.cmas.util.presentation.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 public class AdminServiceImpl implements AdminService {
 	
@@ -35,62 +32,48 @@ public class AdminServiceImpl implements AdminService {
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
 
+    @Autowired
+	@Qualifier("sportsmanService")
+	private UserService<Sportsman> sportsmanService;
 
     @Autowired
-    @Qualifier("registrationService")
-    private RegistrationService registrationService;
+    @Qualifier("amateurService")
+    private UserService<Amateur> amateurService;
 
     @Autowired
-	@Qualifier("userService")
-	private UserService userService;
+    private SportsmanDao sportsmanDao;
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private UserEventDao userEventDao;
-
-    @Autowired
-    private UserBalanceDao userBalanceDao;
+    private RegistrationDao registrationDao;
     
     @Override
     // @Transactional
-    public UserClient processConfirmRegistration(RegistrationConfirmFormObject formObject, String ip) {
-        Registration registration = registrationService.getRegistrationDao().getById(formObject.getRegId());
-        UserClient user = userService.createNew();
-        transferToUser(user, registration);
-
-        userDao.saveModel(user);
-
-        //userFinancesDao.save(user.getUserBalance());
-        registrationService.getRegistrationDao().deleteModel(registration);
-
-        userEventDao.save( new UserEvent(UserEventType.REGISTER, user
-                         , ip, "ordinary")
-                         );
-        
+    public BackendUser processConfirmRegistration(RegistrationConfirmFormObject formObject, String ip) {
+        Registration registration = registrationDao.getById(formObject.getRegId());
+        UserService userService = null;
+        Role role = Role.valueOf(registration.getRole());
+        switch (role) {
+            case ROLE_AMATEUR:
+                userService = amateurService;
+                break;
+            case ROLE_SPORTSMAN:
+                userService = sportsmanService;
+                break;
+            case ROLE_ADMIN:
+                break;
+        }
+        if (userService == null) {
+            throw new IllegalStateException();
+        }
+        User user = userService.add(registration);
+        BackendUser result = new BackendUser(user);
         try {
-            mailer.regCompleteNotify(user);
+            mailer.regCompleteNotify(result);
         } catch (Exception e) {
             log.error("error send email for new user " + user, e);
         }
 
-        return user;
-    }
-
-
-    private void transferToUser(UserClient user, Registration registration) {
-
-        user.setEmail(registration.getEmail());
-        // Устанавливаем дату подтверждения регистрации
-        user.setDateReg(new Date());
-        //String realPassword = passwordEncoder.encodePassword(entity.getPassword(), UserDetails.SALT);
-        String realPassword = registration.getPassword();
-        user.setPassword(realPassword);
-        user.setEnabled(true);
-        // Устанавливаем роли по умолчанию
-        user.setRole(Role.ROLE_USER);
-       
+        return result;
     }
 
 
@@ -101,12 +84,12 @@ public class AdminServiceImpl implements AdminService {
         if (id == null) {
             throw new BadRequestException();
         }
-        UserClient user = userDao.getById(id);
+        Sportsman user = sportsmanDao.getById(id);
         if (user == null) {
             throw new BadRequestException();
         }
         formObject.transferToEntity(user);
-        userDao.updateModel(user);
+        sportsmanDao.updateModel(user);
 
     }
 
@@ -115,9 +98,9 @@ public class AdminServiceImpl implements AdminService {
     public void changePassword(PasswordChangeFormObject formObject) {
         if (formObject.getUserId() != null) {
             String realPassword = passwordEncoder.encodePassword(formObject.getPasswd(), UserDetails.SALT);
-            UserClient user = userDao.getById(formObject.getUserId());
+            Sportsman user = sportsmanDao.getById(formObject.getUserId());
             user.setPassword(realPassword);
-            userDao.updateModel(user);
+            sportsmanDao.updateModel(user);
         }
     }
 

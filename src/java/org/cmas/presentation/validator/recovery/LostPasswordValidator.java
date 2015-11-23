@@ -1,10 +1,10 @@
 package org.cmas.presentation.validator.recovery;
 
-import org.cmas.presentation.entities.user.UserClient;
-import org.jetbrains.annotations.Nullable;
-import org.springframework.validation.Errors;
+import org.cmas.entities.User;
 import org.cmas.presentation.model.recovery.LostPasswordFormObject;
 import org.cmas.util.text.StringUtil;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.validation.Errors;
 
 
 public class LostPasswordValidator extends RecoveryValidator{
@@ -21,7 +21,7 @@ public class LostPasswordValidator extends RecoveryValidator{
         String email = StringUtil.trim(formObject.getEmail());
         if (email != null) {
 			@Nullable
-            UserClient user = userDao.getByEmail(email);
+            User user = sportsmanDao.getByEmail(email);
 			if (user == null) {
 				result.rejectValue("email", "validation.cantFindEmail");
 			}

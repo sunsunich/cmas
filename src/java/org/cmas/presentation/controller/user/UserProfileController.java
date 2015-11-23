@@ -1,19 +1,19 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.User;
+import org.cmas.entities.sport.Sportsman;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
-import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.service.user.PasswordStrength;
-import org.cmas.presentation.service.user.UserService;
+import org.cmas.presentation.service.user.SportsmanService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,8 +36,7 @@ public class UserProfileController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    @Qualifier(value = "userService")
-    private UserService userService;
+    private SportsmanService userService;
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -46,8 +45,8 @@ public class UserProfileController {
     private PasswordService passwordService;
 
     @ModelAttribute("user")
-    public UserClient getUser() {
-        UserClient user = authenticationService.getCurrentUser();
+    public BackendUser getUser() {
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -57,11 +56,11 @@ public class UserProfileController {
     @RequestMapping("/secure/profile/processEditUser.html")
     public ModelAndView processEditUser(
               HttpServletRequest request
-            , @ModelAttribute("command") UserFormObject formObject
+            , @ModelAttribute("command") User formObject
             , BindingResult result
             , Model mm)
     {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -69,7 +68,7 @@ public class UserProfileController {
 		if (result.hasErrors()) {
 			return buidUserEditForm(mm, user, false);
 		} else {
-            userService.editUser(formObject, user, HttpUtil.getIP(request));
+            userService.editUser((Sportsman)user.getUser(), HttpUtil.getIP(request));
 			return new ModelAndView("redirect:/secure/profile/getUser.html?isSuccess=true");
 		}
     }
@@ -78,17 +77,15 @@ public class UserProfileController {
     public ModelAndView getUser(
 		    @RequestParam(required = false) Boolean isSuccess,
 			Model model) {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
 		if (user == null) {
             throw new BadRequestException();
         }
-		UserFormObject formObject = new UserFormObject();
-		formObject.transferFromEntity(user);
-		model.addAttribute("command", formObject);
+		model.addAttribute("command", user.getUser());
 		return buidUserEditForm(model, user, isSuccess);
     }
 
-	private ModelAndView buidUserEditForm(Model model, UserClient user, @Nullable Boolean isSuccess) {
+	private ModelAndView buidUserEditForm(Model model, BackendUser user, @Nullable Boolean isSuccess) {
 		if (isSuccess == null) {
 			model.addAttribute("isSuccess", false);
 		} else {
@@ -102,7 +99,7 @@ public class UserProfileController {
      */
     @RequestMapping(value = "/secure/passwdForm.html")
 	public ModelAndView loadUserPasswd(Model mm) {
-	   UserClient user = authenticationService.getCurrentUser();
+	   BackendUser user = authenticationService.getCurrentSportsman();
 	   if (user == null) {
 		   throw new BadRequestException();
 	   }
@@ -120,12 +117,12 @@ public class UserProfileController {
             , @ModelAttribute("command") PasswordEditFormObject formObject
             , BindingResult result
 			, Model mm) {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
 		PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
-        userService.changePassword(user, formObject, result, HttpUtil.getIP(request));
+        userService.changePassword((Sportsman)user.getUser(), formObject, result, HttpUtil.getIP(request));
         if (result.hasErrors()) {
             return buidPassChangeForm(mm, user, passwordStrength);
         } else {
@@ -135,7 +132,7 @@ public class UserProfileController {
 		}
     }
 
-	private ModelAndView buidPassChangeForm(Model model, UserClient user, PasswordStrength passwordStrength) {
+	private ModelAndView buidPassChangeForm(Model model, BackendUser user, PasswordStrength passwordStrength) {
 		model.addAttribute("passwordStrength", passwordStrength.name());
 		return new ModelAndView("secure/passwdForm");
 	}
@@ -145,7 +142,7 @@ public class UserProfileController {
      */
     @RequestMapping(value = "/secure/editEmail.html")
     public ModelAndView loadUserEmail(Model model) {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -158,11 +155,11 @@ public class UserProfileController {
     @RequestMapping("/secure/processEditEmail.html")
     public ModelAndView userEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
                                 BindingResult result, Model mm) {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changeEmail(user, formObject, result);
+        userService.changeEmail((Sportsman)user.getUser(), formObject, result);
         if (result.hasErrors()) {
 			return buidEmailChangeForm(mm, user);
         } else {
@@ -170,7 +167,7 @@ public class UserProfileController {
         }
     }
 
-	private ModelAndView buidEmailChangeForm(Model model, UserClient user) {
+	private ModelAndView buidEmailChangeForm(Model model, BackendUser user) {
 		return new ModelAndView("secure/emailForm");
 	}
 }

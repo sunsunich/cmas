@@ -1,12 +1,12 @@
 package org.cmas.presentation.model.user;
 
 import org.cmas.Globals;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.User;
 import org.cmas.presentation.model.Transferable;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.Pattern;
 
-public class UserFormObject implements Transferable<UserClient> {
+public class UserFormObject implements Transferable<User> {
 
 
 	private String region;
@@ -26,12 +26,12 @@ public class UserFormObject implements Transferable<UserClient> {
 
 
 	@Override
-    public void transferToEntity(UserClient entity) {
+    public void transferToEntity(User entity) {
 
     }
 
     @Override
-    public void transferFromEntity(UserClient entity) {
+    public void transferFromEntity(User entity) {
 
 
 

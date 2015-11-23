@@ -4,7 +4,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserFormObject"/>
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.UserClient"/>
+<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:securepage title="face.client.editProfile.title">
 

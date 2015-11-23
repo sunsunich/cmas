@@ -1,7 +1,8 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;
@@ -36,8 +37,8 @@ public class UserHomeController {
     private BillingService billingService;
 
     @ModelAttribute("user")
-    public UserClient getUser() {
-        UserClient user = authenticationService.getCurrentUser();
+    public BackendUser getUser() {
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -57,7 +58,7 @@ public class UserHomeController {
 
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", fo);
-        final UserClient user = authenticationService.getCurrentUser();
+        final BackendUser<Sportsman> user = authenticationService.getCurrentSportsman();
         if (StringUtil.isEmpty(fo.getAmount()) ||
                 StringUtil.isEmpty(fo.getPaymentType())) {//|| StringUtil.isEmpty(fo.getCurrencyType())) {
             return new ModelAndView("/secure/pay", mm);
@@ -68,7 +69,7 @@ public class UserHomeController {
             return new ModelAndView("/secure/pay", mm);
         }
 
-        Invoice invoice = billingService.createInvoice(fo, user);
+        Invoice invoice = billingService.createInvoice(fo, user.getUser());
 
         mm.addAttribute("invoiceId", invoice.getExternalInvoiceNumber());
         return new ModelAndView("redirect:/secure/billing/interkassa/accept.html", mm);

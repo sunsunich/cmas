@@ -1,9 +1,9 @@
 package org.cmas.presentation.service;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.util.presentation.CommonAuthentificationService;
 
-public interface AuthenticationService extends CommonAuthentificationService<UserClient> {
+public interface AuthenticationService extends CommonAuthentificationService<BackendUser> {
 
     String getCurrentUserName();
 

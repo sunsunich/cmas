@@ -1,11 +1,13 @@
 package org.cmas.presentation.validator;
 
 import org.cmas.util.text.StringUtil;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.Errors;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 public class ValidatorUtils {
 
@@ -80,6 +82,22 @@ public class ValidatorUtils {
             catch (Exception e) {
                 errors.rejectValue(fieldName, validaitionMessage);
             }
+        }
+    }
+
+    public static String[] getAllErrorCodes(Errors errors) {
+        if (errors.hasErrors()) {
+            String[] codes = new String[errors.getErrorCount()];
+            List allErrors = errors.getAllErrors();
+            for (int i = 0; i < allErrors.size(); i++) {
+                Object error = allErrors.get(i);
+                if (error instanceof DefaultMessageSourceResolvable) {
+                    codes[i]= ((DefaultMessageSourceResolvable) error).getCode();
+                }
+            }
+            return codes;
+        } else {
+            return new String[]{};
         }
     }
 }

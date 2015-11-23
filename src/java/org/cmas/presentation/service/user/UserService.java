@@ -1,30 +1,26 @@
 package org.cmas.presentation.service.user;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.User;
+import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
-import org.cmas.presentation.model.user.UserFormObject;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 
-public interface UserService
-        {
+public interface UserService<T extends User> {
 
-	UserClient createNew();
+    T add(Registration registration);
 
 	@Transactional
-    void changePassword(UserClient user, PasswordEditFormObject formObject, BindingResult errors, String ip);
+    void changePassword(T user, PasswordEditFormObject formObject, BindingResult errors, String ip);
 
     void checkUserPassword( String codedPassword, String enteredPassword
                           , String propertyName, String validationMessage, BindingResult errors);
 
-    boolean isEmailUnique(@Nullable UserClient user, String email);
+    @Transactional
+    void editUser(T user, String ip);
 
     @Transactional
-    void editUser(UserFormObject formObject, UserClient user, String ip);
-
-    @Transactional
-    void changeEmail(UserClient user, EmailEditFormObject formObject, BindingResult errors);
+    void changeEmail(T user, EmailEditFormObject formObject, BindingResult errors);
 }

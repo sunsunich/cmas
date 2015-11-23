@@ -2,7 +2,7 @@ package org.cmas.presentation.controller.user.stats;
 
 import org.cmas.presentation.dao.billing.FinLogDao;
 import org.cmas.presentation.entities.billing.FinLog;
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.fin.FinStatsFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
@@ -33,8 +33,8 @@ public class FinStatsController {
     private HibernateSpringValidator validator;
 
     @ModelAttribute("user")
-    public UserClient getUser() {
-        UserClient user = authenticationService.getCurrentUser();
+    public BackendUser getUser() {
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -46,7 +46,7 @@ public class FinStatsController {
             @ModelAttribute("command") FinStatsFormObject finStatsFormObject
             , BindingResult result
     ) {
-        UserClient user = authenticationService.getCurrentUser();
+        BackendUser user = authenticationService.getCurrentSportsman();
         if (user == null) {
             throw new BadRequestException();
         }

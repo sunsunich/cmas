@@ -1,12 +1,12 @@
 package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.UserBalance;
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.billing.FinLogDao;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.UserEventDao;
 import org.cmas.presentation.entities.billing.*;
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.presentation.entities.user.UserEvent;
 import org.cmas.presentation.entities.user.UserEventType;
 import org.hibernate.StaleObjectStateException;
@@ -43,7 +43,7 @@ public class TransactionalBillingServiceImpl {
         invoice.setInvoiceStatus(InvoiceStatus.PAID);
         invoiceDao.saveModel(invoice);
 
-        UserClient user = invoice.getUser();
+        Sportsman user = invoice.getSportsman();
         simpleAddToBallance(user, amount);
 
         FinLog finLogRecord = new FinLog(user, amount, OperationType.IN, ip);
@@ -51,12 +51,12 @@ public class TransactionalBillingServiceImpl {
         finLogDao.save(finLogRecord);
 
         userEventDao.save(
-                new UserEvent(UserEventType.MONEY_IN, user, ip, invoice.getExternalInvoiceNumber())
+                new UserEvent(UserEventType.MONEY_IN, ip, invoice.getExternalInvoiceNumber(), user)
         );
         return true;
     }
 
-    private void simpleAddToBallance(UserClient user, BigDecimal amount) {
+    private void simpleAddToBallance(Sportsman user, BigDecimal amount) {
         UserBalance userBalance = user.getUserBalance();
         userBalance.setBalance(
                 userBalance.getBalance().add(amount)
@@ -65,7 +65,7 @@ public class TransactionalBillingServiceImpl {
     }
 
     @Transactional
-    void orderErrorPaymentReturn(UserClient user, BigDecimal amount, String errorCause) {
+    void orderErrorPaymentReturn(Sportsman user, BigDecimal amount, String errorCause) {
         simpleAddToBallance(user, amount);
 
         FinLog finLogRecord = new FinLog(user, amount, OperationType.RETURN, "");
@@ -73,7 +73,7 @@ public class TransactionalBillingServiceImpl {
         finLogDao.save(finLogRecord);
 
         userEventDao.save(
-                new UserEvent(UserEventType.RETURN, user, "", errorCause)
+                new UserEvent(UserEventType.RETURN, "", errorCause, user)
         );
     }
 
@@ -85,7 +85,7 @@ public class TransactionalBillingServiceImpl {
 //            return false;
 //        }
 //
-//        UserClient user = order.getUser();
+//        BackendUser user = order.getUser();
 //        BigDecimal amount = order.getCartCost();
 //        simpleAddToBallance(user, amount);
 //
@@ -106,7 +106,7 @@ public class TransactionalBillingServiceImpl {
     }
 
     @Transactional
-    void paymentReturn(UserClient user, BigDecimal amount, long orderId, String ip) {
+    void paymentReturn(Sportsman user, BigDecimal amount, long orderId, String ip) {
 
         simpleAddToBallance(user, amount);
 
@@ -116,12 +116,12 @@ public class TransactionalBillingServiceImpl {
         finLogDao.save(finLogRecord);
 
         userEventDao.save(
-                new UserEvent(UserEventType.RETURN, user, ip, description)
+                new UserEvent(UserEventType.RETURN, ip, description, user)
         );
     }
 
     @Transactional
-    boolean canPaymentWithdraw(UserClient user, BigDecimal amount, String ip) {
+    boolean canPaymentWithdraw(Sportsman user, BigDecimal amount, String ip) {
         UserBalance userBalance = user.getUserBalance();
         BigDecimal balance = userBalance.getBalance();
         if (balance.compareTo(amount) < 0) {
@@ -136,7 +136,7 @@ public class TransactionalBillingServiceImpl {
         finLogDao.save(finLogRecord);
 
         userEventDao.save(
-                new UserEvent(UserEventType.PURCHASE, user, ip, "PURCHASE")
+                new UserEvent(UserEventType.PURCHASE, ip, "PURCHASE", user)
         );
 
         return true;

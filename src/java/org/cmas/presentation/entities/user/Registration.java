@@ -1,17 +1,12 @@
 package org.cmas.presentation.entities.user;
 
-import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.Globals;
+import org.cmas.presentation.entities.InternetAddressOwner;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 import javax.mail.internet.InternetAddress;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Locale;
@@ -38,22 +33,12 @@ public class Registration implements InternetAddressOwner {
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     @NotNull(message = "validation.emptyField")
     @Column(nullable = false)
-    private String phone;
+    private String country;
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     @NotNull(message = "validation.emptyField")
     @Column(nullable = false)
-    private String shopName;
-
-    @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotNull(message = "validation.emptyField")
-    @Column(nullable = false)
-    private String city;
-
-    @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotNull(message = "validation.emptyField")
-    @Column(nullable = false)
-    private String webAddress;
+    private String role;
 
     // Пароль
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
@@ -61,12 +46,6 @@ public class Registration implements InternetAddressOwner {
     // Для подтверждения регистрации
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     private String md5;
-    // Регистрация подтверждена?
-    @NotNull(message = "validation.emptyField")
-    @Column(nullable = false)
-    private boolean confirm;
-    // Дата подтверждения регистрации
-    private Date dateConfirm;
 
     //локаль с которрой регился
     @Column(nullable = false)
@@ -98,14 +77,6 @@ public class Registration implements InternetAddressOwner {
         this.id = id;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public Date getDateReg() {
         return dateReg;
     }
@@ -114,28 +85,12 @@ public class Registration implements InternetAddressOwner {
         this.dateReg = dateReg;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getCountry() {
+        return country;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getWebAddress() {
-        return webAddress;
-    }
-
-    public void setWebAddress(String webAddress) {
-        this.webAddress = webAddress;
+    public void setCountry(String city) {
+        this.country = city;
     }
 
     public String getEmail() {
@@ -162,27 +117,19 @@ public class Registration implements InternetAddressOwner {
         this.md5 = md5;
     }
 
-    public boolean isConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(boolean confirm) {
-        this.confirm = confirm;
-    }
-
-    public Date getDateConfirm() {
-        return dateConfirm;
-    }
-
-    public void setDateConfirm(Date dateConfirm) {
-        this.dateConfirm = dateConfirm;
-    }
-
     public Locale getLocale() {
         return locale;
     }
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

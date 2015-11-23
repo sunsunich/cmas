@@ -1,6 +1,5 @@
 package org.cmas.presentation.dao.user;
 
-import org.cmas.presentation.dao.DAOException;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.util.dao.HibernateDao;
 
@@ -25,7 +24,5 @@ public interface RegistrationDao extends HibernateDao<Registration> {
      * @return
      */
     List<Registration> getReadyToRegister();
-        
-    Registration createNew() throws DAOException;
 
 }

@@ -13,6 +13,8 @@ interface GlobalsStaticContainer {
     int MAX_LENGTH = 255;
     int HALF_MAX_LENGTH = 128;
 
+    int SPORTS_CARD_NUMBER_MAX_LENGTH = 32;
+
     int VERY_BIG_MAX_LENGTH = 2048;
 
     int DB_PIC_MAX_BYTE_SIZE = 17000000;

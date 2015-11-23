@@ -1,6 +1,6 @@
 package org.cmas.presentation.dao.user;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.entities.User;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
 import org.cmas.util.text.StringUtil;
@@ -16,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-public class UserDaoImpl extends IdGeneratingDaoImpl<UserClient> implements UserDao {
+public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implements UserDao<T> {
 
     @Transactional
     @Override
-    public List<UserClient> searchUsers(UserSearchFormObject form) {
+    public List<T> searchUsers(UserSearchFormObject form) {
         Criteria crit = makeSearchRequest(form);
         boolean dir = form.isDir();
         String sort = form.getSortColumnName();
@@ -47,18 +47,20 @@ public class UserDaoImpl extends IdGeneratingDaoImpl<UserClient> implements User
 
     @Transactional
     @Override
-    public UserClient getBylostPasswdCode(@NotNull String lostPasswdCode) {
+    public T getBylostPasswdCode(@NotNull String lostPasswdCode) {
         Criteria crit = createCriteria();
-        return (UserClient) crit.add(Restrictions.eq("lostPasswdCode", lostPasswdCode))
+        //noinspection unchecked
+        return (T) crit.add(Restrictions.eq("lostPasswdCode", lostPasswdCode))
                 .add(Restrictions.eq("enabled", Boolean.TRUE))
                 .setCacheable(true).uniqueResult();
     }
 
     @Transactional
     @Override
-    public UserClient getByEmail(@NotNull String email) {
+    public T getByEmail(@NotNull String email) {
         Criteria crit = createCriteria();
-        return (UserClient) crit.add(Restrictions.eq("contactInfo.email", email))
+        //noinspection unchecked
+        return (T) crit.add(Restrictions.eq("contactInfo.email", email))
                 .add(Restrictions.eq("enabled", Boolean.TRUE))
                 .setCacheable(true).uniqueResult();
     }
@@ -66,8 +68,9 @@ public class UserDaoImpl extends IdGeneratingDaoImpl<UserClient> implements User
     @Override
     @Transactional
     @Nullable
-    public UserClient getUserChangedEmail(@NotNull String md5) {
-        return (UserClient) createCriteria().add(Restrictions.eq("md5newMail", md5)).uniqueResult();
+    public T getUserChangedEmail(@NotNull String md5) {
+        //noinspection unchecked
+        return (T) createCriteria().add(Restrictions.eq("md5newMail", md5)).uniqueResult();
     }
 
     @Transactional
@@ -84,10 +87,6 @@ public class UserDaoImpl extends IdGeneratingDaoImpl<UserClient> implements User
         if (!StringUtil.isEmpty(email)) {
             crit.add(Restrictions.like("contactInfo.email", email.trim(), MatchMode.START));
         }
-        String shopName = form.getShopName();
-        if (!StringUtil.isEmpty(shopName)) {
-            crit.add(Restrictions.like("shopName", shopName.trim(), MatchMode.START));
-        } 
         return crit;
     }
 
@@ -100,6 +99,6 @@ public class UserDaoImpl extends IdGeneratingDaoImpl<UserClient> implements User
 
     @Override
     public void evictUser(long userId) {
-        getSessionFactory().evict(UserClient.class, userId);
+        getSessionFactory().evict(getModelClass(), userId);
     }
 }

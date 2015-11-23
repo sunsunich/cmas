@@ -1,21 +1,12 @@
 package org.cmas.presentation.entities.billing;
 
-import org.cmas.presentation.entities.user.UserClient;
 import org.cmas.Globals;
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.sport.Sportsman;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -37,9 +28,11 @@ public class Invoice implements Comparable<Invoice>{
     @Enumerated(EnumType.STRING)
     private InvoiceType invoiceType;
 
-    // Клиент
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, targetEntity = UserClient.class)
-    private UserClient user;
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
+    private Sportsman sportsman;
+
+    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
+    private Amateur amateur;
 
     // Скока денег
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
@@ -97,12 +90,20 @@ public class Invoice implements Comparable<Invoice>{
         this.invoiceStatus = invoiceStatus;
     }
 
-    public UserClient getUser() {
-        return user;
+    public Sportsman getSportsman() {
+        return sportsman;
     }
 
-    public void setUser(UserClient user) {
-        this.user = user;
+    public void setSportsman(Sportsman user) {
+        this.sportsman = user;
+    }
+
+    public Amateur getAmateur() {
+        return amateur;
+    }
+
+    public void setAmateur(Amateur amateur) {
+        this.amateur = amateur;
     }
 
     public BigDecimal getAmount() {

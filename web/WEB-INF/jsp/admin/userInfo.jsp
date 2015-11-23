@@ -5,7 +5,7 @@
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.UserClient"/>
+<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:adminpage title="Информация о пользователе в системе">
 <h2>Информация о пользователе в системе</h2>

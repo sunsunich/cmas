@@ -12,7 +12,7 @@
         <!-- стандартные урлы клиентского, админского интерфейса -->
         <!--<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
 
-        <!--<intercept-url pattern="/secure/**" access="ROLE_USER" />-->
+        <!--<intercept-url pattern="/secure/**" access="ROLE_AMATEUR" />-->
 
         <!-- на урлы платежных систем посылают запросы собсна платежные системы, их надо пускать без авторизации -->
         <!--<intercept-url pattern="/billing/webmoney/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_DEFAULT" requires-channel="https"/>-->

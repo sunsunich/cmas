@@ -1,0 +1,206 @@
+#glass-box{
+    background: #fff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	margin-top: 32px;
+}
+
+body{
+    font: 81% 'Open Sans',sans-serif !important;
+}
+#content p{
+	line-height: 19px;
+}
+#footer-menus{
+	background-color: #074498;
+	border: 1px solid #074498;
+	padding: 40px 0 40px 0;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+#footer-menus .footer-menu-box{
+	margin-left:30px;
+	width: 197px;
+}
+
+
+#glass-box-content{
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	border-color: transparent;
+}
+
+.logo {
+    background-image: url("../images/redesign/cmas-logo.png");
+    width: 202px;
+}
+
+.langchange-flags-cont{
+	display:none;
+}
+
+.white-box-top {
+	display:none;
+}
+
+.white-box-bottom {
+	display:none;
+}
+
+.login-link{
+	float:right;
+	width:95px;
+}
+
+#head .white-box-middle{
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+#top{
+	margin:0;
+	padding:0;
+	position:absolute;
+	top:65px;
+	right: 20px;
+	z-index:25;
+}
+
+.utilities{
+    right: 318px;
+    top: 65px;
+}
+
+.search-box {
+    background: transparent;
+	border:1px solid #cecece;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	padding:0;
+	height: 27px;
+}
+.search-btn{
+    background: #cecece;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+	float:right;
+	color: #777;
+	font-size: 13px;
+    -webkit-transition: color 0.5s; /* For Safari 3.1 to 6.0 */
+    transition: color 0.5s;
+	height: 27px;
+	line-height: 27px;
+}
+.search-btn:hover{
+	background-color: #002f6e;
+	color: #fff;
+
+}
+
+.search-query{
+    color: #bebebe;
+	-webkit-text-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    -moz-text-shadow: 0 0 0 rgba(0, 0, 0, 0);    
+    text-shadow: 0 0 0 rgba(0, 0, 0, 0); 
+}
+
+.search-query:focus{
+	color: #333;
+}
+.social-media-sites {
+	padding-right: 11px;
+}
+
+.social-media-sites li{
+	width:27px;
+	height:27px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	border-radius: 5px;
+    border: 1px solid #fff;
+	overflow:hidden;
+	position: relative;
+	padding:0;
+	margin-left: 10px;
+}
+
+.social-media-sites li a{
+	position: absolute;
+	left:-2px;
+	top:-1px;
+	background-image: url(../images/redesign/social-media-icons.gif)
+}
+
+#main-menu{
+	position: absolute;
+	right: 20px;
+	top: 10px;
+	z-index: 200;
+}
+
+#main-menu a, 
+#main-menu a:visited {
+	color: #0057b8
+}
+
+.feature-box.tc-box img,
+.feature-box.sc-box img{
+	display:none;
+}
+.feature-box.tc-box,
+.feature-box.sc-box{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.feature-box.tc-box{
+	background-image: url(../images/redesign/scuba-diving.jpg);
+	background-position: -12px 20px;
+}
+.feature-box.sc-box{
+	background-image: url(../images/redesign/scientific.jpg);
+	background-position: 0 0;
+}
+.feature-box.tc-box h2,
+.feature-box.sc-box h2{
+	display: none;
+}
+.feature-box.tc-box h3,
+.feature-box.sc-box h3{
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	background-color: #0057b8;
+}
+.feature-box.sc-box h3{
+	background-color: #0090ff;
+}
+
+.submenu{
+	z-index: 300;
+}
+
+
+#glass-box-bottom{
+	display: none;
+}
+
+/*Todo: betenni a style.css-be*/
+.document_tree .file .closed_dir.last_dir{
+	margin-bottom: 10px;
+}
+.document_tree .file{
+	padding-bottom: 12px;
+}

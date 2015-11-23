@@ -1,6 +1,6 @@
 package org.cmas.i18n;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.util.text.StringUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +38,7 @@ public class LocaleResolverImpl implements CustomLocaleResolver {
 	}
 
     @Override
-    public Locale getLocale(UserClient user) {
+    public Locale getLocale(BackendUser user) {
 //        Locale result;
 //        if (user != null && user.get() != null) {
 //            result = user.getLocale();

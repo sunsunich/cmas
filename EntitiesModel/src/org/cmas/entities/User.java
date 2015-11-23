@@ -5,23 +5,45 @@ import com.google.myjson.annotations.Expose;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
 
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class User implements Serializable, HasId {
+@MappedSuperclass
+public abstract class User implements Serializable, HasId {
 
     private static final long serialVersionUID = -5985814100072616561L;
 
     //set by server
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
     protected long id;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private UserBalance userBalance;
+    //служебные данные
+
+    // Дата регистрации
+    @Column(nullable = false)
+    protected Date dateReg;
+
+    @Column
+    protected boolean enabled;
+
+    @Column(name = "last_action")
+    protected Date lastAction;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    protected Role role;
+
+    //служебные и обязательные данные
+    @Column
+    protected String lostPasswdCode;
+
+    // Новая почта пользователя
+    protected String newMail;
+
+    // Код для смены почтового адреса
+    @Column(length = 32)
+    protected String md5newMail;
 
     //end set by server
 
@@ -33,7 +55,24 @@ public class User implements Serializable, HasId {
 
     protected String mobileLockCode;
 
+    @Column(unique = true, nullable = false)
     protected String email;
+
+    @Expose
+    protected String firstName;
+
+    @Expose
+    protected String lastName;
+
+    @Expose
+    @ManyToOne
+    protected Country country;
+
+    @Expose
+    @Column(nullable = true)
+    protected Date dob;
+
+    protected String picPath;
 
     //end set by user from mobile
 
@@ -44,6 +83,27 @@ public class User implements Serializable, HasId {
     //end used only on mob device
 
     public User() {
+    }
+
+    public User(long id) {
+        this.id = id;
+    }
+
+    public abstract UserBalance getUserBalance();
+
+    public abstract void setUserBalance(UserBalance userBalance);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
@@ -95,11 +155,99 @@ public class User implements Serializable, HasId {
         this.password = password;
     }
 
-    public UserBalance getUserBalance() {
-        return userBalance;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserBalance(UserBalance userBalance) {
-        this.userBalance = userBalance;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getPicPath() {
+        return picPath;
+    }
+
+    public void setPicPath(String picPath) {
+        this.picPath = picPath;
+    }
+
+    public Date getDateReg() {
+        return dateReg;
+    }
+
+    public void setDateReg(Date dateReg) {
+        this.dateReg = dateReg;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Date getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Date lastAction) {
+        this.lastAction = lastAction;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getLostPasswdCode() {
+        return lostPasswdCode;
+    }
+
+    public void setLostPasswdCode(String lostPasswdCode) {
+        this.lostPasswdCode = lostPasswdCode;
+    }
+
+    public String getNewMail() {
+        return newMail;
+    }
+
+    public void setNewMail(String newMail) {
+        this.newMail = newMail;
+    }
+
+    public String getMd5newMail() {
+        return md5newMail;
+    }
+
+    public void setMd5newMail(String md5newMail) {
+        this.md5newMail = md5newMail;
     }
 }

@@ -1,17 +1,17 @@
 package org.cmas.presentation.model.admin;
 
-import org.cmas.presentation.entities.user.UserClient;
+import org.cmas.Globals;
+import org.cmas.entities.User;
 import org.cmas.presentation.model.Editable;
 import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
-import org.cmas.Globals;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.Pattern;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.validation.Errors;
 
-public class AdminUserFormObject extends UserFormObject implements Editable<UserClient>, Validatable {
+public class AdminUserFormObject extends UserFormObject implements Editable<User>, Validatable {
 
 	@Nullable
     private Long id;
@@ -30,7 +30,7 @@ public class AdminUserFormObject extends UserFormObject implements Editable<User
     private String discountPercent;
 
 	@Override
-    public void transferToEntity(UserClient entity) {
+    public void transferToEntity(User entity) {
 		super.transferToEntity(entity);
 //        if (password !=null){
 //			entity.setPassword(password);
@@ -43,14 +43,14 @@ public class AdminUserFormObject extends UserFormObject implements Editable<User
     }
 
     @Override
-    public void transferFromEntity(UserClient entity) {
+    public void transferFromEntity(User entity) {
 		super.transferFromEntity(entity);
    //     password = entity.getPassword();
         email = entity.getEmail();
 //        discountPercent = String.valueOf(
 //                entity.getUserBalance().getDiscountPercent()
 //                );
-        id = entity.getNullableId();
+        id = entity.getId();
     }
 
     @Override
