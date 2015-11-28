@@ -159,7 +159,7 @@ public class RegistrationController {
                     break;
                 case ROLE_SPORTSMAN:
                     springRole = SpringRole.ROLE_SPORTSMAN;
-                    redirectUrl = "redirect:/sports/index.html";
+                    redirectUrl = "redirect:/secure/index.html";
                     break;
                 case ROLE_ADMIN:
                    break;

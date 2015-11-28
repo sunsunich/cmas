@@ -1,6 +1,6 @@
 package org.cmas.presentation.service.billing;
 
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.User;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
@@ -84,7 +84,7 @@ public class BillingServiceImpl implements BillingService {
 
 
     @Override
-    public void orderCreationErrorPaymentReturn(Sportsman user, BigDecimal amount, String errorCause) {
+    public void orderCreationErrorPaymentReturn(User user, BigDecimal amount, String errorCause) {
 
         checkAmount(amount);
 
@@ -123,7 +123,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public boolean paymentReturn(Sportsman user, BigDecimal amount, long orderId, String ip) {
+    public boolean paymentReturn(User user, BigDecimal amount, long orderId, String ip) {
         checkAmount(amount);
 
         int attemptCnt = 0;
@@ -146,7 +146,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public Invoice createInvoice(PaymentAddFormObject fo, Sportsman user) {
+    public Invoice createInvoice(PaymentAddFormObject fo, User user) {
         BigDecimal amount = new BigDecimal(fo.getAmount());
         InvoiceType type = InvoiceType.valueOf(fo.getPaymentType());
         Invoice invoice = new Invoice();
@@ -155,7 +155,7 @@ public class BillingServiceImpl implements BillingService {
         invoice.setCreateDate(new Date());
         invoice.setInvoiceStatus(InvoiceStatus.NOT_PAID);
         invoice.setInvoiceType(type);
-        invoice.setSportsman(user);
+        invoice.setUser(user);
         saveInvoiceAndSetExtId(invoice);
         return invoice;
     }
@@ -183,7 +183,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public PaymentWithdrawResult paymentWithdraw(Sportsman user, BigDecimal amount, String ip) {
+    public PaymentWithdrawResult paymentWithdraw(User user, BigDecimal amount, String ip) {
 
         checkAmount(amount);
 

@@ -8,7 +8,7 @@
     
         <#nested>
     <#if automail>    
-    <p>Это письмо отправленно автоматически </p>
+    <p>This email has been sent automatically </p>
     </#if>
     <br/>   
     </div>

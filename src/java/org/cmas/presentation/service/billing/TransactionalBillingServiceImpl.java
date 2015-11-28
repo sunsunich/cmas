@@ -2,7 +2,6 @@ package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
-import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.billing.FinLogDao;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
@@ -66,7 +65,7 @@ public class TransactionalBillingServiceImpl {
     }
 
     @Transactional
-    void orderErrorPaymentReturn(Sportsman user, BigDecimal amount, String errorCause) {
+    void orderErrorPaymentReturn(User user, BigDecimal amount, String errorCause) {
         simpleAddToBallance(user, amount);
 
         FinLog finLogRecord = new FinLog(user, amount, OperationType.RETURN, "");
@@ -107,7 +106,7 @@ public class TransactionalBillingServiceImpl {
     }
 
     @Transactional
-    void paymentReturn(Sportsman user, BigDecimal amount, long orderId, String ip) {
+    void paymentReturn(User user, BigDecimal amount, long orderId, String ip) {
 
         simpleAddToBallance(user, amount);
 

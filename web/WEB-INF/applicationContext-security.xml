@@ -25,7 +25,8 @@
 
     <http auto-config="false" entry-point-ref="ajaxEntryPoint">
 		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-		<intercept-url pattern="/secure/**" access="ROLE_USER,ROLE_VIP_USER"/>
+		<intercept-url pattern="/secure/**" access="ROLE_AMATEUR,ROLE_SPORTSMAN"/>
+		<!--<intercept-url pattern="/sports/**" access="ROLE_SPORTSMAN"/>-->
 
 
 		<!--<logout logout-url="/logout.html" logout-success-url="/index.html" />-->

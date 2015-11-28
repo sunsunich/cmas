@@ -6,6 +6,7 @@ import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.sport.SportsmanDao;
 import org.cmas.presentation.entities.user.BackendUser;
+import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.util.presentation.CommonAuthentificationServiceImpl;
 import org.cmas.util.presentation.SpringRole;
 import org.jetbrains.annotations.Nullable;
@@ -28,6 +29,9 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
     @Autowired
     private AmateurDao amateurDao;
 
+    @Autowired
+    private AllUsersService allUsersService;
+
     @Override
     @Nullable
     public BackendUser<Sportsman> getCurrentSportsman() {
@@ -35,7 +39,12 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         if (details == null) {
             return null;
         } else {
-            return new BackendUser<Sportsman>(sportsmanDao.getByEmail(details.getUsername()));
+            Sportsman sportsman = sportsmanDao.getByEmail(details.getUsername());
+            if (sportsman != null) {
+                return new BackendUser<Sportsman>(sportsman);
+            } else {
+                return null;
+            }
         }
     }
 
@@ -79,14 +88,16 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
     @Override
     @Nullable
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
-        BackendUser user = new BackendUser(sportsmanDao.getByEmail(userName));
+        User user = allUsersService.getByEmail(userName);
         if (user == null) {
             throw new UsernameNotFoundException("No user with name: " + userName);
         }
+        BackendUser backendUser = new BackendUser(user);
+
 //		GrantedAuthority[] roles = SpringRole.getAuthorities(new SpringRole[]{user.getRole()});
 //            return new org.springframework.security.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(),
 //                    true, true, true, roles);
-        return user;
+        return backendUser;
     }
 
     @Override

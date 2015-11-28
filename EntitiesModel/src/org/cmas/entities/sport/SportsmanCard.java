@@ -19,7 +19,7 @@ public class SportsmanCard {
     @Expose
     private long id;
 
-    @Column(length = Globals.SPORTS_CARD_NUMBER_MAX_LENGTH)
+    @Column(length = Globals.HALF_MAX_LENGTH)
     private String number;
 
     @ManyToOne

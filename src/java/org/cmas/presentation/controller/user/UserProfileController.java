@@ -46,7 +46,7 @@ public class UserProfileController {
 
     @ModelAttribute("user")
     public BackendUser getUser() {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -60,7 +60,7 @@ public class UserProfileController {
             , BindingResult result
             , Model mm)
     {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -77,7 +77,7 @@ public class UserProfileController {
     public ModelAndView getUser(
 		    @RequestParam(required = false) Boolean isSuccess,
 			Model model) {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
 		if (user == null) {
             throw new BadRequestException();
         }
@@ -99,7 +99,7 @@ public class UserProfileController {
      */
     @RequestMapping(value = "/secure/passwdForm.html")
 	public ModelAndView loadUserPasswd(Model mm) {
-	   BackendUser user = authenticationService.getCurrentSportsman();
+	   BackendUser user = authenticationService.getCurrentUser();
 	   if (user == null) {
 		   throw new BadRequestException();
 	   }
@@ -117,7 +117,7 @@ public class UserProfileController {
             , @ModelAttribute("command") PasswordEditFormObject formObject
             , BindingResult result
 			, Model mm) {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -142,7 +142,7 @@ public class UserProfileController {
      */
     @RequestMapping(value = "/secure/editEmail.html")
     public ModelAndView loadUserEmail(Model model) {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -155,7 +155,7 @@ public class UserProfileController {
     @RequestMapping("/secure/processEditEmail.html")
     public ModelAndView userEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
                                 BindingResult result, Model mm) {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }

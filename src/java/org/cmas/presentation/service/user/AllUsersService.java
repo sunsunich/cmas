@@ -1,6 +1,7 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Role;
+import org.cmas.entities.User;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -11,4 +12,6 @@ import org.jetbrains.annotations.Nullable;
 public interface AllUsersService {
 
     boolean isEmailUnique(Role role, @Nullable Long userId, String email);
+
+    User getByEmail(String email);
 }

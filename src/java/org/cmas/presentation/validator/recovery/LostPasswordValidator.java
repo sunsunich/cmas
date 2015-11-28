@@ -21,7 +21,7 @@ public class LostPasswordValidator extends RecoveryValidator{
         String email = StringUtil.trim(formObject.getEmail());
         if (email != null) {
 			@Nullable
-            User user = sportsmanDao.getByEmail(email);
+            User user = allUsersService.getByEmail(email);
 			if (user == null) {
 				result.rejectValue("email", "validation.cantFindEmail");
 			}

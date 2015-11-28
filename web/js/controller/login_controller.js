@@ -6,21 +6,27 @@ var login_controller = {
 
     setListeners: function() {
         var self = this;
-        $('#loginForm').submit(function() {
+        $('#loginForm').click(function() {
             self.sendLogin();
             return false;
+        });
+        $('#txbPassword').keydown(function (e) {
+            if (e.which == 13) {
+                self.sendLogin();
+                return false;
+            }
+            return true;
         });
     },
 
     sendLogin: function () {
-        var username = $('#loginField').val();
-        var password = $('#passField').val();
-        var rememberMe;
-        if ($('#rememberLogin').prop("checked")) {
-            rememberMe = 'on';
-        } else {
-            rememberMe = '';
-        }
+        $("#errorMessage1").empty();
+        var username = $('#txbLogin').val();
+        var password = $('#txbPassword').val();
+        var rememberMe = '';
+        //if ($('#rememberLogin').prop("checked")) {
+        //    rememberMe = 'on';
+        //}
         login_model.login(
                 username
                 , password
@@ -29,10 +35,7 @@ var login_controller = {
                     window.location = json.redirectUrl;
                 }
                 , function(message) {
-                    $("#error").fadeOut("300");
-                    setTimeout(function() {
-                        $("#error").fadeIn("slow");
-                    }, 300);
+                    $("#errorMessage1").html("Invalid ID or password, login failed!");
                 });
         // this.overlay.hide();
     }

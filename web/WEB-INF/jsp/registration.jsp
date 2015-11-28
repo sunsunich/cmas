@@ -1,8 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="ef" tagdir="/WEB-INF/tags/external-form" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
@@ -230,17 +228,17 @@
                     <div class="login_box">
                         <h3>I am a returning member</h3>
 
-                        <div id="errorMessage1"></div>
+                        <div class="errorMessage" id="errorMessage1"></div>
                         <div id="loginPanel"><p>
                             <label for="txbLogin">CMAS ID (Usually your email address):</label>
                             <input type="text" id="txbLogin" name="txbLogin" value="" class='input'/> <label
                                 for="txbPassword">Password:</label>
                             <input type="password" name="txbPassword" id="txbPassword" value=""
-                                   onkeypress="if (CheckEnter(event)) {SignIn();}" class='input'/></p>
+                                   class='input'/></p>
 
                             <div class="buttons-container">
                                 <img src="i/ajax-loader.gif" id="login-anim" class="loader-anim"/>
-                                <button type="button" onclick="SignIn()" value="Sign In">Sign In</button>
+                                <button id="loginForm" type="button" value="Sign In">Sign In</button>
                             </div>
                             <p><a href="javascript:void(0)" onclick="ShowForgetPassword()">Did you forget your
                                 password?</a></p>

@@ -21,6 +21,12 @@ public class SportsFederationServiceImpl implements SportsFederationService {
         SportsFederation sportsFederation = sportsFederationDao.getByCountry(country);
         if (sportsFederation == null) {
             //todo remote call
+            if("Alexander".equals(firstName) && country.getCode().equalsIgnoreCase("rus")){
+                sportsFederation =  new SportsFederation();
+                sportsFederation.setCountry(country);
+                sportsFederation.setName("Test Russia");
+                sportsFederationDao.save(sportsFederation);
+            }
         }
         return sportsFederation;
     }

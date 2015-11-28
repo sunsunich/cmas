@@ -1,6 +1,6 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.User;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
@@ -38,7 +38,7 @@ public class UserHomeController {
 
     @ModelAttribute("user")
     public BackendUser getUser() {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -47,9 +47,10 @@ public class UserHomeController {
 
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() throws IOException {
-        ModelMap mm = new ModelMap();
-        mm.addAttribute("isError", false);
-        return new ModelAndView("secure/index", mm);
+//        ModelMap mm = new ModelMap();
+//        mm.addAttribute("isError", false);
+//        return new ModelAndView("secure/index", mm);
+        return new ModelAndView("redirect:/secure/profile/getUser.html");
     }
 
     @RequestMapping("/secure/pay.html")
@@ -58,7 +59,10 @@ public class UserHomeController {
 
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", fo);
-        final BackendUser<Sportsman> user = authenticationService.getCurrentSportsman();
+        final BackendUser<? extends User> user = authenticationService.getCurrentUser();
+        if (user == null) {
+            throw new BadRequestException();
+        }
         if (StringUtil.isEmpty(fo.getAmount()) ||
                 StringUtil.isEmpty(fo.getPaymentType())) {//|| StringUtil.isEmpty(fo.getCurrencyType())) {
             return new ModelAndView("/secure/pay", mm);

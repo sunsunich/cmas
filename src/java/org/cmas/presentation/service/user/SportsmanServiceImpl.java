@@ -48,6 +48,8 @@ public class SportsmanServiceImpl extends UserServiceImpl<Sportsman> implements 
             sportsmanCard.setSportsman(sportsman);
             sportsmanCard.setSportsmanCardType(sportsmanCardTypeDao.getPrimaryCardType());
             saveAndSetCardNumber(sportsmanCard);
+            sportsman.setPrimarySportsmanCard(sportsmanCard);
+            entityDao.updateModel(sportsman);
         }
 
         return sportsman;

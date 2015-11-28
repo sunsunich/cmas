@@ -1,6 +1,8 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Role;
+import org.cmas.entities.User;
+import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.SportsmanDao;
@@ -41,5 +43,14 @@ public class AllUsersServiceImpl implements AllUsersService {
                 break;
         }
         return isEmailUnique && registrationDao.isEmailUnique(email);
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        Sportsman sportsman = sportsmanDao.getByEmail(email);
+        if(sportsman == null){
+            return amateurDao.getByEmail(email);
+        }
+        return sportsman;
     }
 }

@@ -19,7 +19,7 @@ var login_model = {
                 }
                 loader_controller.stopwait();
             },
-            error: function (){
+            error: function (e){
                 window.location.reload();
             }
         });
