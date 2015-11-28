@@ -88,7 +88,7 @@ public class RecoveryController {
             Sportsman user = userDao.getByEmail(email);
 			// генерим код для смены пароля
 			long rndNum = rnd.nextLong();
-			String checkCode = passwordEncoder.encodePassword(user.getUsername() + rndNum, SALT);
+			String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
 			user.setLostPasswdCode(checkCode);
 			userDao.updateModel(user);
 			mailer.sendLostPasswd(user);

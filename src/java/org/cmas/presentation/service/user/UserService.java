@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 
 public interface UserService<T extends User> {
 
-    T add(Registration registration);
+    T add(Registration registration, String ip);
 
 	@Transactional
     void changePassword(T user, PasswordEditFormObject formObject, BindingResult errors, String ip);

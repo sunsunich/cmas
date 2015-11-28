@@ -156,6 +156,9 @@
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
     </bean>
 
+    <bean id="dictionaryDataService" class="org.cmas.presentation.service.mobile.DictionaryDataServiceImpl">
+    </bean>
+
     <bean id="allUsersService" class="org.cmas.presentation.service.user.AllUsersServiceImpl">
     </bean>
 

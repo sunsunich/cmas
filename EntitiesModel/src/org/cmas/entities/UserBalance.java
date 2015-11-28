@@ -2,7 +2,6 @@ package org.cmas.entities;
 
 import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.sport.Sportsman;
-import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,12 +15,7 @@ public class UserBalance implements Serializable {
     private static final long serialVersionUID = 7938270442178947557L;
 
     @Id
-    @GeneratedValue(generator = "customForeignGenerator")
-    @org.hibernate.annotations.GenericGenerator(
-            name = "customForeignGenerator",
-            strategy = "foreign",
-            parameters = @Parameter(name = "property", value = "user")
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Version

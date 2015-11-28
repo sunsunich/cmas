@@ -6,5 +6,5 @@ public interface GsonViewFactory {
 
     GsonView createSuccessGsonView();
 
-    GsonView createErrorGsonView(String... message);
+    GsonView createErrorGsonView(String message);
 }

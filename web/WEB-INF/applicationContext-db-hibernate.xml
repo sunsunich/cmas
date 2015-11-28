@@ -44,6 +44,7 @@
                 <value>org.cmas.presentation.entities.billing.FinSettings</value>
 
                 <value>org.cmas.presentation.entities.user.Registration</value>
+                <value>org.cmas.presentation.entities.user.UserEvent</value>
 
 
             </list>
@@ -86,6 +87,10 @@
     </bean>
 
     <bean id="sportsmanCardTypeDao" class="org.cmas.presentation.dao.user.sport.SportsmanCardTypeDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sportsFederationDao" class="org.cmas.presentation.dao.user.sport.SportsFederationDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

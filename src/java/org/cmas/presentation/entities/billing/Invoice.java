@@ -1,8 +1,7 @@
 package org.cmas.presentation.entities.billing;
 
 import org.cmas.Globals;
-import org.cmas.entities.amateur.Amateur;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.UserAwareEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,7 +13,7 @@ import java.util.Date;
 @Entity
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Table(name="invoice")
-public class Invoice implements Comparable<Invoice>{
+public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
     
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +26,6 @@ public class Invoice implements Comparable<Invoice>{
     @Column
     @Enumerated(EnumType.STRING)
     private InvoiceType invoiceType;
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
-    private Sportsman sportsman;
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
-    private Amateur amateur;
 
     // Скока денег
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
@@ -88,22 +81,6 @@ public class Invoice implements Comparable<Invoice>{
 
     public void setInvoiceStatus(InvoiceStatus invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
-    }
-
-    public Sportsman getSportsman() {
-        return sportsman;
-    }
-
-    public void setSportsman(Sportsman user) {
-        this.sportsman = user;
-    }
-
-    public Amateur getAmateur() {
-        return amateur;
-    }
-
-    public void setAmateur(Amateur amateur) {
-        this.amateur = amateur;
     }
 
     public BigDecimal getAmount() {

@@ -62,6 +62,14 @@
         }
     </script>
 
+    <script type="text/javascript" src="js/lib/json.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.ba-hashchange.min.js"></script>
+    <script type="text/javascript" src="js/lib/ejs_production.js"></script>
+
+    <script type="text/javascript" src="js/controller/loader_controller.js"></script>
+    <script type="text/javascript" src="js/model/error_codes.js"></script>
+
     <c:forEach items="${customCSSFiles}" var="customCSSFile">
         <link type="text/css" rel="stylesheet" href="${customCSSFile}"/>
     </c:forEach>

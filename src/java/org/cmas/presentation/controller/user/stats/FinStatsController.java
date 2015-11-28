@@ -34,7 +34,7 @@ public class FinStatsController {
 
     @ModelAttribute("user")
     public BackendUser getUser() {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
@@ -46,7 +46,7 @@ public class FinStatsController {
             @ModelAttribute("command") FinStatsFormObject finStatsFormObject
             , BindingResult result
     ) {
-        BackendUser user = authenticationService.getCurrentSportsman();
+        BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }

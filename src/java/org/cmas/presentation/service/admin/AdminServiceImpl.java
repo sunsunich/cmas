@@ -65,15 +65,14 @@ public class AdminServiceImpl implements AdminService {
         if (userService == null) {
             throw new IllegalStateException();
         }
-        User user = userService.add(registration);
-        BackendUser result = new BackendUser(user);
+        User user = userService.add(registration, ip);
         try {
-            mailer.regCompleteNotify(result);
+            mailer.regCompleteNotify(user);
         } catch (Exception e) {
             log.error("error send email for new user " + user, e);
         }
 
-        return result;
+        return new BackendUser(user);
     }
 
 

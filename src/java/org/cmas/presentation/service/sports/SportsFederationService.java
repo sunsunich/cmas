@@ -1,7 +1,7 @@
 package org.cmas.presentation.service.sports;
 
+import org.cmas.entities.Country;
 import org.cmas.entities.sport.SportsFederation;
-import org.cmas.entities.sport.Sportsman;
 
 /**
  * Created on Nov 20, 2015
@@ -10,5 +10,5 @@ import org.cmas.entities.sport.Sportsman;
  */
 public interface SportsFederationService {
 
-    SportsFederation getSportsmanFederation(Sportsman sportsman);
+    SportsFederation getSportsmanFederationBySportsmanData(String firstName, String lastName, Country country);
 }

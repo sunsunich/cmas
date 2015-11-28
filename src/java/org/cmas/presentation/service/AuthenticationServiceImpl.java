@@ -1,5 +1,7 @@
 package org.cmas.presentation.service;
 
+import org.cmas.entities.User;
+import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.sport.SportsmanDao;
@@ -14,6 +16,8 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+
 
 public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl<BackendUser>
         implements AuthenticationService {
@@ -24,7 +28,6 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
     @Autowired
     private AmateurDao amateurDao;
 
-
     @Override
     @Nullable
     public BackendUser<Sportsman> getCurrentSportsman() {
@@ -33,6 +36,31 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
             return null;
         } else {
             return new BackendUser<Sportsman>(sportsmanDao.getByEmail(details.getUsername()));
+        }
+    }
+
+    @Override
+    @Nullable
+    public BackendUser<? extends User> getCurrentUser() {
+        UserDetails details = getUserDetails();
+        if (details == null) {
+            return null;
+        } else {
+            if (Arrays.asList(details.getAuthorities()).contains(SpringRole.ROLE_SPORTSMAN.getAuthority())) {
+                Sportsman sportsman = sportsmanDao.getByEmail(details.getUsername());
+                if (sportsman != null) {
+                    return new BackendUser<Sportsman>(sportsman);
+                } else {
+                    return null;
+                }
+            } else {
+                Amateur amateur = amateurDao.getByEmail(details.getUsername());
+                if (amateur != null) {
+                    return new BackendUser<Amateur>(amateur);
+                } else {
+                    return null;
+                }
+            }
         }
     }
 
@@ -51,14 +79,14 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
     @Override
     @Nullable
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
-		BackendUser user = new BackendUser(sportsmanDao.getByEmail(userName));
-		if (user == null) {
-			throw new UsernameNotFoundException("No user with name: " + userName);
-		}
+        BackendUser user = new BackendUser(sportsmanDao.getByEmail(userName));
+        if (user == null) {
+            throw new UsernameNotFoundException("No user with name: " + userName);
+        }
 //		GrantedAuthority[] roles = SpringRole.getAuthorities(new SpringRole[]{user.getRole()});
 //            return new org.springframework.security.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(),
 //                    true, true, true, roles);
-		return user;
+        return user;
     }
 
     @Override

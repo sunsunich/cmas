@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao;
 
 import org.cmas.entities.Country;
-import org.cmas.util.dao.HibernateDaoImpl;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
@@ -11,16 +11,16 @@ import java.util.List;
  *
  * @author Alexander Petukhov
  */
-public class CountryDaoImpl extends HibernateDaoImpl<Country> implements CountryDao {
+public class CountryDaoImpl extends DictionaryDataDaoImpl<Country> implements CountryDao {
 
     @Override
-    public Country getByName(String name) {
-        return (Country)createCriteria().add(Restrictions.eq("name", name)).uniqueResult();
+    public Country getByCode(String code) {
+        return (Country)createCriteria().add(Restrictions.eq("code", code)).uniqueResult();
     }
 
     @Override
     public List<Country> getAll() {
         //noinspection unchecked
-        return createCriteria().list();
+        return createCriteria().addOrder(Order.asc("name")).list();
     }
 }

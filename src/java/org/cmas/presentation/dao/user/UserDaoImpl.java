@@ -36,7 +36,7 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     @Transactional
     @Override
     public boolean isEmailUnique(String email, Long id) {
-        return isCommonFieldUnique(id, "contactInfo.email", email);
+        return isCommonFieldUnique(id, "email", email);
     }
 
     @Transactional
@@ -60,7 +60,7 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     public T getByEmail(@NotNull String email) {
         Criteria crit = createCriteria();
         //noinspection unchecked
-        return (T) crit.add(Restrictions.eq("contactInfo.email", email))
+        return (T) crit.add(Restrictions.eq("email", email))
                 .add(Restrictions.eq("enabled", Boolean.TRUE))
                 .setCacheable(true).uniqueResult();
     }
@@ -85,7 +85,7 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         Criteria crit = createCriteria().add(Restrictions.eq("enabled", true)); 
         String email = form.getEmail();
         if (!StringUtil.isEmpty(email)) {
-            crit.add(Restrictions.like("contactInfo.email", email.trim(), MatchMode.START));
+            crit.add(Restrictions.like("email", email.trim(), MatchMode.START));
         }
         return crit;
     }

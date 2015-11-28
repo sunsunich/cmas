@@ -1571,7 +1571,7 @@ a.tag.fed,a.tag.fed:visited{color: #002F6E;}
 .article p,
 .article-body p{
 	margin: 0 0 10px 0;
-    text-align: justify;
+    text-align: left;
 }
 
 .w539 .article .pictures{
@@ -2640,7 +2640,7 @@ div.login_container input.button:focus{border-color:#002F6E;background-color:#00
 .login_container div.fadeit {filter:alpha(opacity=40); -moz-opacity:0.4; opacity: 0.4;}
 .loader-anim {display:none; float:left; margin:5px 8px 0 0;}
 #registrationOkPanel,#forgetPasswordPanel,#forgetPasswordOkPanel,#registrationPanel{display:none;}
-#errorMessage1,#errorMessage2{margin:0 15px 0 15px;min-height:28px; color:#f10000;}
+.errorMessage{margin:0 15px 0 15px;min-height:28px; color:#f10000;}
 
 /* event calendar */
 .event-calendar{

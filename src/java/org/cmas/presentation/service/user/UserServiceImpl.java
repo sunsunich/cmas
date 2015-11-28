@@ -1,13 +1,18 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Country;
+import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.UserBalance;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.billing.FinSettingsDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
+import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.dao.user.UserEventDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.entities.user.UserEvent;
+import org.cmas.presentation.entities.user.UserEventType;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserDetails;
@@ -33,13 +38,16 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
     private MailService mailer;
 
     @Autowired
-    private UserEventDao userEventDao;
+    protected UserEventDao userEventDao;
 
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
 
     @Autowired
     private FinSettingsDao finSettingsDao;
+
+    @Autowired
+    protected UserBalanceDao userBalanceDao;
 
     @Autowired
     private AllUsersService allUsersService;
@@ -51,7 +59,8 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
     private RegistrationDao registrationDao;
 
     @Override
-    public T add(Registration registration) {
+    @Transactional
+    public T add(Registration registration, String ip) {
         T user = ((UserDao<T>) entityDao).createNew(entityClass);
 //        UserBalance userBalance = new UserBalance(user);
 //        FinSettings finSettings = finSettingsDao.getFinSettings();
@@ -65,18 +74,22 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
         String realPassword = registration.getPassword();
         user.setPassword(realPassword);
         user.setEnabled(true);
+        user.setRole(Role.valueOf(registration.getRole()));
+        user.setFirstName(registration.getFirstName());
+        user.setLastName(registration.getLastName());
+        user.setLocale(registration.getLocale());
 
-        Country country = countryDao.getByName(registration.getCountry());
+        Country country = countryDao.getByCode(registration.getCountry());
         user.setCountry(country);
 
-        //        userEventDao.save( new UserEvent(UserEventType.REGISTER, user
-//                         , ip, "ordinary")
-//                         );
+        UserBalance userBalance = new UserBalance();
+        userBalanceDao.save(userBalance);
+        user.setUserBalance(userBalance);
 
-        Long id = (Long)entityDao.save(user);
+        Long id = (Long) entityDao.save(user);
         user.setId(id);
 
-        //userFinancesDao.save(user.getUserBalance());
+        userEventDao.save(new UserEvent(UserEventType.REGISTER, ip, "ordinary", user));
         registrationDao.deleteModel(registration);
 
         return user;
@@ -141,7 +154,7 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
         if (!errors.hasErrors() && !user.getEmail().equals(email)) {
             // Сменил, собираем md5 и обновляем user
             try {
-                String md5 = passwordEncoder.encodePassword(email + user.getUsername(), UserDetails.SALT);
+                String md5 = passwordEncoder.encodePassword(email + user.getEmail(), UserDetails.SALT);
                 user.setNewMail(email);
                 user.setMd5newMail(md5);
                 mailer.confirmChangeEmail(user);

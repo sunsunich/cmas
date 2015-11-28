@@ -8,11 +8,13 @@ import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
+import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.service.user.PasswordStrength;
 import org.cmas.presentation.service.user.RegistrationService;
-import org.cmas.presentation.validator.ValidatorUtils;
+import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
+import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,9 @@ public class RegistrationController {
     private PasswordService passwordService;
 
     @Autowired
+    private DictionaryDataService dictionaryDataService;
+
+    @Autowired
     private GsonViewFactory gsonViewFactory;
 
 	/**
@@ -68,6 +73,13 @@ public class RegistrationController {
 
     private ModelAndView buidAddRegistrationForm(Model model, PasswordStrength passwordStrength) {
 		model.addAttribute("passwordStrength", passwordStrength.name());
+        try {
+            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+            model.addAttribute("roles", dictionaryDataService.getRoles(0L));
+        }
+        catch (Exception e){
+            throw new BadRequestException(e);
+        }
 		return new ModelAndView("registration");
 	}
 
@@ -85,9 +97,11 @@ public class RegistrationController {
             ) {
     //    PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
         registrationService.validate(formObject, result);
-        if (result.hasErrors()) { // show form view.
-            return gsonViewFactory.createErrorGsonView(
-                    ValidatorUtils.getAllErrorCodes(result)
+        if (formObject.isSkipFederationCheck() && result.hasFieldErrors()
+           || !formObject.isSkipFederationCheck() && result.hasErrors())
+        {
+            return gsonViewFactory.createGsonView(
+                    new JsonBindingResult(result)
             );
         } else {  // submit form
             formObject.setLocale(localeResolver.getCurrentLocale());

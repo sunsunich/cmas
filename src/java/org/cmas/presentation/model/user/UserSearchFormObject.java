@@ -9,7 +9,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     @SuppressWarnings({"EnumeratedConstantNamingConvention"})
     public enum UserReportColumnNames implements ColumnName {
-          email("contactInfo.email")
+          email("email")
         , dateReg("dateReg");
 
         private String name;

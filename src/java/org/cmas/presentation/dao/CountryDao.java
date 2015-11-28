@@ -1,7 +1,6 @@
 package org.cmas.presentation.dao;
 
 import org.cmas.entities.Country;
-import org.cmas.util.dao.HibernateDao;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ import java.util.List;
  *
  * @author Alexander Petukhov
  */
-public interface CountryDao extends HibernateDao<Country> {
+public interface CountryDao extends DictionaryDataDao<Country> {
 
-    Country getByName(String name);
+    Country getByCode(String code);
 
     List<Country> getAll();
 }

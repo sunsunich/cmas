@@ -1,16 +1,22 @@
 package org.cmas.presentation.service.user;
 
+import org.cmas.entities.Country;
 import org.cmas.entities.Role;
+import org.cmas.entities.sport.SportsFederation;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.presentation.service.sports.SportsFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.text.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -38,9 +44,33 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private AllUsersService allUsersService;
 
+    @Autowired
+    private CountryDao countryDao;
+
+    @Autowired
+    private SportsFederationService federationService;
+
     public void validate(Registration formObject, BindingResult errors) {
         validator.validate(formObject, errors);
-        validateEmail(formObject, errors);
+        String countryCode = formObject.getCountry();
+        if (!StringUtil.isEmpty(countryCode)) {
+            Country country = countryDao.getByCode(countryCode);
+            if (country == null) {
+                errors.rejectValue("country", "validation.incorrectField");
+            } else {
+                if (!errors.hasFieldErrors("role")) {
+                    validateEmail(formObject, errors);
+                    if(Role.ROLE_SPORTSMAN.name().equals(formObject.getRole())) {
+                        SportsFederation sportsFederation = federationService.getSportsmanFederationBySportsmanData(
+                                formObject.getFirstName(), formObject.getLastName(), country
+                        );
+                        if (sportsFederation == null) {
+                            errors.reject("validation.noSportsmanInFederation");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -76,19 +106,30 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     @Transactional
     public Registration add(Registration formObject, BindingResult result) {
-        formObject.setDateReg(new Date());
+        Registration entity = new Registration(new Date());
+        entity.setEmail(formObject.getEmail());
+        entity.setCountry(formObject.getCountry());
+        entity.setRole(formObject.getRole());
+        entity.setFirstName(formObject.getFirstName());
+        entity.setLastName(formObject.getLastName());
+        entity.setLocale(LocaleContextHolder.getLocale());
+
         String realPassword = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
-        formObject.setPassword(realPassword);
+        entity.setPassword(realPassword);
         // это секретный код.
-        formObject.setMd5(passwordEncoder.encodePassword(formObject.getPassword() + formObject.getEmail(), UserDetails.SALT));
-        registrationDao.saveModel(formObject);
+        entity.setMd5(passwordEncoder.encodePassword(formObject.getPassword() + formObject.getEmail(), UserDetails.SALT));
+        entity.setId(
+                (Long) registrationDao.save(entity)
+        );
+
+        Country country = countryDao.getByCode(formObject.getCountry());
         try {
-            mailer.confirmRegistrator(formObject);
+            mailer.confirmRegistrator(entity, country);
         } catch (Exception e) {
-            log.error("error send confirm email for new registraion " + formObject.getNullableId(), e);
+            log.error("error send confirm email for new registration " + entity.getNullableId(), e);
         }
 
-        return formObject;
+        return entity;
     }
 
     /**

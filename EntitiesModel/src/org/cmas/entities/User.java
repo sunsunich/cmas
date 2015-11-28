@@ -6,6 +6,7 @@ import com.google.myjson.annotations.Expose;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -34,6 +35,10 @@ public abstract class User implements Serializable, HasId {
     @Enumerated(EnumType.STRING)
     protected Role role;
 
+    //локаль с которрой регился
+    @Column(nullable = false)
+    protected Locale locale;
+
     //служебные и обязательные данные
     @Column
     protected String lostPasswdCode;
@@ -48,8 +53,6 @@ public abstract class User implements Serializable, HasId {
     //end set by server
 
     //set by user from mobile
-    @Column(unique = true, nullable = false)
-    protected String username;
 
     protected String password;
 
@@ -87,6 +90,14 @@ public abstract class User implements Serializable, HasId {
 
     public User(long id) {
         this.id = id;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
     public abstract UserBalance getUserBalance();
@@ -129,14 +140,6 @@ public abstract class User implements Serializable, HasId {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getMobileLockCode() {

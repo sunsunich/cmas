@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="ef" tagdir="/WEB-INF/tags/external-form" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<jsp:useBean id="passwordStrength" scope="request" type="java.lang.String"/>
+<jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 <my:basePage title="Members' Area" indexpage="false"
-             customScripts="/js/model/registration.js"
-        >    <script type="text/javascript" src="/js/app/models/welcome/registration.js"></script>
-    <script type="text/javascript" src="/js/app/controllers/welcome/registration.controller.js"></script>
+             customScripts="js/model/registration_model.js,js/controller/registration_controller.js,js/model/login_model.js,js/controller/login_controller.js"
+        >
     <!--middle section: committee boxes-->
     <div class="full mb10">
         <ul class="committees-menu">
@@ -162,7 +162,7 @@
     <div class="white-box full mb10" id="content">
         <div class="white-box-top"></div>
         <div class="white-box-middle article clearfix">
-            <script type="text/javascript" src="http://www.cmas.org/js/login.js"></script>
+            <script type="text/javascript" src="js/login.js"></script>
 
             <div class="column w539">
                 <h1 class="header">
@@ -177,7 +177,6 @@
                     <div class="registration_box">
                         <h3>I am new to CMAS</h3>
 
-                        <div id="errorMessage2"></div>
                         <div id="regInfoPanel">
                             <input type="button" value="Create a CMAS account" class="createacc"
                                    onclick="ShowRegistration()"/>
@@ -186,156 +185,48 @@
                                 have access to the Document Area of the site.</P>
                         </div>
                         <div id="registrationPanel">
-
                             <p>
                                 <label for="txbEmail">Your e-mail address:</label><br/>
+                                <label class="errorMessage" id="error_email"></label>
                                 <input type="text" id="txbEmail" name="txbEmail" value="" class='input'/><br/>
+                                <label for="txbRegPassword">Your password:</label><br/>
+                                <label class="errorMessage" id="error_password"></label>
+                                <input type="text" id="txbRegPassword" name="txbRegPassword" value="" class='input'/><br/>
+                                <label for="txbRegPasswordRepeat">Repeat your password:</label><br/>
+                                <label class="errorMessage" id="error_passwordRepeat"></label>
+                                <input type="text" id="txbRegPasswordRepeat" name="txbRegPasswordRepeat" value="" class='input'/><br/>
                                 <label for="oplCountries">Your country:</label><br/>
+                                <label class="errorMessage" id="error_country"></label>
                                 <select name="oplCountries" id="oplCountries" size=1 onChange="" class='optionlist'>
                                     <option value='' class='optionlist'></option>
-                                    <option value='AFG' class='optionlist'>Afghanistan</option>
-                                    <option value='RSA' class='optionlist'>South Africa</option>
-                                    <option value='ALB' class='optionlist'>Albania</option>
-                                    <option value='ALG' class='optionlist'>Algeria</option>
-                                    <option value='GER' class='optionlist'>Germany</option>
-                                    <option value='RDA' class='optionlist'>Germany Democratic Rep</option>
-                                    <option value='RFA' class='optionlist'>Germany Federal Rep</option>
-                                    <option value='AND' class='optionlist'>Andorra</option>
-                                    <option value='ANG' class='optionlist'>Angola</option>
-                                    <option value='KSA' class='optionlist'>Saudi Arabia</option>
-                                    <option value='ARG' class='optionlist'>Argentina</option>
-                                    <option value='ARM' class='optionlist'>Armenia</option>
-                                    <option value='AUS' class='optionlist'>Australia</option>
-                                    <option value='AUT' class='optionlist'>Austria</option>
-                                    <option value='BAH' class='optionlist'>Bahamas</option>
-                                    <option value='BEL' class='optionlist'>Belgium</option>
-                                    <option value='BLR' class='optionlist'>Byelorussia</option>
-                                    <option value='BOL' class='optionlist'>Bolivia</option>
-                                    <option value='BIH' class='optionlist'>Bosnia-Herzegovina</option>
-                                    <option value='BRA' class='optionlist'>Brazil</option>
-                                    <option value='BWI' class='optionlist'>British West Indies</option>
-                                    <option value='BUL' class='optionlist'>Bulgaria</option>
-                                    <option value='CAM' class='optionlist'>Cambodgia</option>
-                                    <option value='CMR' class='optionlist'>Cameroon</option>
-                                    <option value='CAN' class='optionlist'>Canada</option>
-                                    <option value='CPV' class='optionlist'>Cape Verde</option>
-                                    <option value='CHI' class='optionlist'>Chile</option>
-                                    <option value='CHN' class='optionlist'>China, P. R. of</option>
-                                    <option value='CYP' class='optionlist'>Cyprus</option>
-                                    <option value='COL' class='optionlist'>Colombia</option>
-                                    <option value='KOR' class='optionlist'>South Korea</option>
-                                    <option value='CRC' class='optionlist'>Costa Rica</option>
-                                    <option value='CRO' class='optionlist'>Croatia</option>
-                                    <option value='CUB' class='optionlist'>Cuba</option>
-                                    <option value='DEN' class='optionlist'>Denmark</option>
-                                    <option value='DOM' class='optionlist'>Dominican Rep</option>
-                                    <option value='EGY' class='optionlist'>Egypt</option>
-                                    <option value='UEA' class='optionlist'>Arab Emirates</option>
-                                    <option value='ECU' class='optionlist'>Ecuador</option>
-                                    <option value='ESP' class='optionlist'>Spain</option>
-                                    <option value='EST' class='optionlist'>Estonia</option>
-                                    <option value='USA' class='optionlist'>United States of America</option>
-                                    <option value='FIN' class='optionlist'>Finland</option>
-                                    <option value='MKD' class='optionlist'>Former Yugoslav Republic of Macedonia
-                                    </option>
-                                    <option value='FRA' class='optionlist'>France</option>
-                                    <option value='GEO' class='optionlist'>Georgia</option>
-                                    <option value='GBR' class='optionlist'>Great Britain</option>
-                                    <option value='GRE' class='optionlist'>Greece</option>
-                                    <option value='GUM' class='optionlist'>Guam</option>
-                                    <option value='HON' class='optionlist'>Honduras</option>
-                                    <option value='HKG' class='optionlist'>Hong Kong</option>
-                                    <option value='HUN' class='optionlist'>Hungary</option>
-                                    <option value='IND' class='optionlist'>India</option>
-                                    <option value='INA' class='optionlist'>Indonesia</option>
-                                    <option value='INT' class='optionlist'>International</option>
-                                    <option value='IRI' class='optionlist'>Iran</option>
-                                    <option value='IRL' class='optionlist'>Ireland</option>
-                                    <option value='ISR' class='optionlist'>Israel</option>
-                                    <option value='ITA' class='optionlist'>Italy</option>
-                                    <option value='JPN' class='optionlist'>Japan</option>
-                                    <option value='JOR' class='optionlist'>Jordan</option>
-                                    <option value='KAZ' class='optionlist'>Kazkhstan</option>
-                                    <option value='KEN' class='optionlist'>Kenya</option>
-                                    <option value='KUW' class='optionlist'>Kuwait</option>
-                                    <option value='KGZ' class='optionlist'>Kyrgyz Republic</option>
-                                    <option value='LAT' class='optionlist'>Latvia</option>
-                                    <option value='LIB' class='optionlist'>Lebanon</option>
-                                    <option value='LBA' class='optionlist'>Libya</option>
-                                    <option value='LIE' class='optionlist'>Liechtenstein</option>
-                                    <option value='LTU' class='optionlist'>Lithuania</option>
-                                    <option value='LUX' class='optionlist'>Luxembourg Gd Duchy</option>
-                                    <option value='MAD' class='optionlist'>Madagascar</option>
-                                    <option value='MAS' class='optionlist'>Malaysia</option>
-                                    <option value='MDV' class='optionlist'>Maldives</option>
-                                    <option value='MLT' class='optionlist'>Malta</option>
-                                    <option value='IMA' class='optionlist'>Marianas</option>
-                                    <option value='MAR' class='optionlist'>Marocco</option>
-                                    <option value='MRI' class='optionlist'>Mauritius</option>
-                                    <option value='MEX' class='optionlist'>Mexico</option>
-                                    <option value='MDA' class='optionlist'>Republic of Moldova</option>
-                                    <option value='MON' class='optionlist'>Monaco</option>
-                                    <option value='MNE' class='optionlist'>Montenegro</option>
-                                    <option value='NAM' class='optionlist'>Namibia</option>
-                                    <option value='NGR' class='optionlist'>Nigeria</option>
-                                    <option value='NOR' class='optionlist'>Norway</option>
-                                    <option value='NCL' class='optionlist'>New Caledonia</option>
-                                    <option value='NZL' class='optionlist'>New Zealand</option>
-                                    <option value='OMA' class='optionlist'>Oman</option>
-                                    <option value='PAK' class='optionlist'>Pakistan</option>
-                                    <option value='PLE' class='optionlist'>Palestine</option>
-                                    <option value='PAN' class='optionlist'>Panama</option>
-                                    <option value='NED' class='optionlist'>The Netherlands</option>
-                                    <option value='PER' class='optionlist'>Peru</option>
-                                    <option value='PHI' class='optionlist'>Philippines</option>
-                                    <option value='POL' class='optionlist'>Poland</option>
-                                    <option value='TAH' class='optionlist'>French Polynesia</option>
-                                    <option value='PUR' class='optionlist'>Puerto Rico</option>
-                                    <option value='POR' class='optionlist'>Portugal</option>
-                                    <option value='QAT' class='optionlist'>Qatar</option>
-                                    <option value='ROM' class='optionlist'>Rumania</option>
-                                    <option value='RUS' class='optionlist'>Russia</option>
-                                    <option value='SMR' class='optionlist'>San Marino</option>
-                                    <option value='ESA' class='optionlist'>El Salvador</option>
-                                    <option value='SEN' class='optionlist'>Senegal</option>
-                                    <option value='SRB' class='optionlist'>Serbia</option>
-                                    <option value='SEY' class='optionlist'>Seychelles</option>
-                                    <option value='SIN' class='optionlist'>Singapore</option>
-                                    <option value='SVK' class='optionlist'>Slovakia</option>
-                                    <option value='SLO' class='optionlist'>Slovenia</option>
-                                    <option value='SUD' class='optionlist'>Dudan</option>
-                                    <option value='SRI' class='optionlist'>Sri Lanka</option>
-                                    <option value='SWE' class='optionlist'>Sweden</option>
-                                    <option value='SUI' class='optionlist'>Switzerland</option>
-                                    <option value='SYR' class='optionlist'>Syria</option>
-                                    <option value='TPE' class='optionlist'>Taipei Chinese</option>
-                                    <option value='TAN' class='optionlist'>Tanzania</option>
-                                    <option value='CZE' class='optionlist'>Czech Republic</option>
-                                    <option value='THA' class='optionlist'>Thailand</option>
-                                    <option value='TUN' class='optionlist'>Tunisia</option>
-                                    <option value='TUR' class='optionlist'>Turkey</option>
-                                    <option value='UKR' class='optionlist'>Ukrainia</option>
-                                    <option value='URS' class='optionlist'>USSR</option>
-                                    <option value='URU' class='optionlist'>Uruguay</option>
-                                    <option value='VEN' class='optionlist'>Venezuela</option>
-                                    <option value='VIE' class='optionlist'>Viet Nam</option>
-                                    <option value='YUG' class='optionlist'>Yugoslavia</option>
-                                    <option value='ZIM' class='optionlist'>Zimbabwe</option>
-                                    <option value='TWN' class='optionlist'>Republic of China</option>
-                                    <option value='NCYP' class='optionlist'>North Cyprus</option>
-                                    <option value='SCG' class='optionlist'>Serbia and Montenegro</option>
-                                </select></p>
+                                    <c:forEach items="${countries}" var="country">
+                                        <option value='${country.code}' class='optionlist'>${country.name}</option>
+                                    </c:forEach>
+                                </select>
+                                <label for="oplRoles">Your are:</label><br/>
+                                <label class="errorMessage" id="error_role"></label>
+                                <select name="oplRoles" id="oplRoles" size=1 onChange="" class='optionlist'>
+                                    <option value='' class='optionlist'></option>
+                                    <option value='ROLE_AMATEUR' class='optionlist'>Amateur</option>
+                                    <option value='ROLE_SPORTSMAN' class='optionlist'>Sportsman</option>
+                                </select>
+                                <label for="txbFirstName">Your first name:</label><br/>
+                                <input type="text" id="txbFirstName" name="txbFirstName" value="" class='input'/><br/>
+                                <label for="txbLastName">Your last name:</label><br/>
+                                <input type="text" id="txbLastName" name="txbLastName" value="" class='input'/><br/>
+                            </p>
                             <p>By continuing, you are agreeing to <A href="data_security.php" target=_new>our Privacy
                                 Policy.</A></p>
                             <br/>
 
                             <div class="buttons-container">
-                                <img src="i/ajax-loader.gif" id="registration-anim" class="loader-anim"/>
-                                <button type="button" onclick="CreateAccount()" value="Continue">Continue</button>
+                                <img src="i/ajax-loader.gif" id="loading" class="loader-anim"/>
+                                <button id="regForm" type="button" value="Continue">Continue</button>
                             </div>
                         </div>
                     </div>
-                    <div id="registrationOkPanel"></div>
+                    <div id="registrationOkPanel"><p>Your registration was sucessful. You will automatically receive an
+                        e-mail with your login password wich you can sign in with.</p></div>
                     <div class="login_box">
                         <h3>I am a returning member</h3>
 

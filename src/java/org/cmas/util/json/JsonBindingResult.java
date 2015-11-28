@@ -19,22 +19,28 @@ public class JsonBindingResult {
     @Expose
     private final Map<String, String> fieldErrors;
 
+    public JsonBindingResult(BindingResult bindingResult) {
+        this(bindingResult, true);
+    }
+
     public JsonBindingResult() {
-        success = false;        
+        success = false;
         errors = new ArrayList<String>();
         fieldErrors = new HashMap<String, String>();
     }
 
-    public JsonBindingResult(BindingResult bindingResult) {
+    public JsonBindingResult(BindingResult bindingResult, boolean isUseCodes) {
         this();
         if (bindingResult.hasErrors()) {
             for (Object error : bindingResult.getFieldErrors()) {
                 FieldError fieldError = (FieldError) error;
-                fieldErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+                String message = isUseCodes ? fieldError.getCode() : fieldError.getDefaultMessage();
+                fieldErrors.put(fieldError.getField(), message);
             }
             for (Object error : bindingResult.getGlobalErrors()) {
                 ObjectError objectError = (ObjectError) error;
-                errors.add(objectError.getDefaultMessage());
+                String message = isUseCodes ? objectError.getCode() : objectError.getDefaultMessage();
+                errors.add(message);
             }
         }
         else{

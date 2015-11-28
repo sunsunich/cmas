@@ -44,7 +44,7 @@ public abstract class PaySystemValidator implements Validator {
         if (invoiceUser == null) {
             return false;
         }
-        BackendUser currentUser = authenticationService.getCurrentSportsman();
+        BackendUser currentUser = authenticationService.getCurrentUser();
         //noinspection SimplifiableIfStatement
         if (currentUser == null) {
             return false;

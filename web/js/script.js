@@ -96,7 +96,7 @@ function showChampionshipResults(argRow, argDivId, argURL)
 	if (div!=null){
 		if (div.style.display!='block'){
 			$(div).slideDown(300);
-			div.innerHTML = '<img src="images/ajax-loader.gif" />';
+			div.innerHTML = '<img src="i/ajax-loader.gif" />';
 			setTimeout(function(){loadChampionshipResults(argDivId,argURL)},
 					   100);		
 		}
@@ -241,7 +241,7 @@ function ShowCDCDetails(argId,argObjRow, argLanguage)
 	obj.style.display = 'block';
 	if (argObjRow) argObjRow.className+=' active';
 	obj.style.display = 'block';
-	obj.innerHTML = '<img src="images/document_tree_loader.gif" class=\"preloader\">';
+	obj.innerHTML = '<img src="i/document_tree_loader.gif" class=\"preloader\">';
 
 	client = new HttpClient();
         client.requestType = 'POST';

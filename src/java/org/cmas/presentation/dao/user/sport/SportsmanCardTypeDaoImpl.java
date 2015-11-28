@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.sport.SportsmanCardType;
-import org.cmas.util.dao.HibernateDaoImpl;
+import org.cmas.presentation.dao.DictionaryDataDaoImpl;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -9,7 +9,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author Alexander Petukhov
  */
-public class SportsmanCardTypeDaoImpl extends HibernateDaoImpl<SportsmanCardType> implements SportsmanCardTypeDao {
+public class SportsmanCardTypeDaoImpl extends DictionaryDataDaoImpl<SportsmanCardType> implements SportsmanCardTypeDao {
 
     @Override
     public SportsmanCardType getPrimaryCardType() {

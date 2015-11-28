@@ -1,5 +1,6 @@
 package org.cmas.util.presentation;
 
+import org.cmas.entities.User;
 import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.jetbrains.annotations.Nullable;
@@ -13,6 +14,9 @@ public interface CommonAuthentificationService<T extends UserDetails> extends Us
 
     @Nullable
     BackendUser<Sportsman> getCurrentSportsman();
+
+    @Nullable
+    BackendUser<? extends User> getCurrentUser();
 
     Authentication getCurrentAuthentication();
 

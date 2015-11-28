@@ -1,13 +1,13 @@
 package org.cmas.presentation.service.mail;
 
+import org.cmas.entities.Country;
 import org.cmas.entities.User;
 import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 
 public interface MailService {
 
-     void confirmRegistrator(Registration reg);
+     void confirmRegistrator(Registration reg, Country country);
 
     /**
      * Отправляет пользователю подтверждение о смене email
@@ -21,7 +21,7 @@ public interface MailService {
      * Отправляем пользователю сообщение, об успешной активации его в системе
      * @param user
      */
-    void regCompleteNotify(BackendUser user);
+    void regCompleteNotify(User user);
 
     void confirmPayment(Invoice invoice);
 

@@ -1,6 +1,7 @@
 package org.cmas.presentation.service.mail;
 
 import org.cmas.Globals;
+import org.cmas.entities.Country;
 import org.cmas.entities.User;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.billing.Invoice;
@@ -18,17 +19,15 @@ import java.util.Locale;
  */
 public class MailServiceImpl extends CommonMailServiceImpl implements MailService {
 
-    private String getTemplateName(Registration reg) {
-        return "sendConfirmation.ftl";
-    }
-
     /**
      * Отправляет пользователю подтверждение регистрации
      */
     @Override
-    public void confirmRegistrator(Registration reg) {
+    public void confirmRegistrator(Registration reg, Country country) {
         Locale locale = reg.getLocale();
-        String text = textRenderer.renderText(getTemplateName(reg), locale, new ModelAttr("reg", reg));
+        String text = textRenderer.renderText("sendConfirmation.ftl", locale
+                , new ModelAttr("reg", reg), new ModelAttr("country", country.getName())
+        );
         String subj = subjects.renderText("User", locale, addresses.getSiteName(locale));
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = addresses.getAdminMailAddress();
@@ -63,7 +62,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
      * Отправляем пользователю сообщение, об успешной активации его в системе
      */
     @Override
-    public void regCompleteNotify(BackendUser user) {
+    public void regCompleteNotify(User user) {
         Locale locale = localeResolver.getDefaultLocale();
 
         String text = textRenderer.renderText(
@@ -83,7 +82,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
         String text = textRenderer.renderText(
                 "paymentConfirm.ftl", locale,
-                  new ModelAttr("invoice", invoice)
+                new ModelAttr("invoice", invoice)
                 , new ModelAttr("invoiceType", invoiceTypeStr)
                 , new ModelAttr("date", Globals.getDTF().format(invoice.getCreateDate().getTime()))
         );
@@ -103,7 +102,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
         String text = textRenderer.renderText(
                 "paymentFailed.ftl", locale,
-                  new ModelAttr("invoice", invoice)
+                new ModelAttr("invoice", invoice)
                 , new ModelAttr("invoiceType", invoiceTypeStr)
                 , new ModelAttr("date", Globals.getDTF().format(invoice.getCreateDate().getTime()))
         );

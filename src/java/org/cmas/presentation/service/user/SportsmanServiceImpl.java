@@ -31,9 +31,16 @@ public class SportsmanServiceImpl extends UserServiceImpl<Sportsman> implements 
 
     @Nullable
     @Override
-    public Sportsman add(Registration registration) {
-        Sportsman sportsman = super.add(registration);
-        SportsFederation sportsmanFederation = sportsFederationService.getSportsmanFederation(sportsman);
+    public Sportsman add(Registration registration, String ip) {
+        Sportsman sportsman = super.add(registration, ip);
+        String firstName = registration.getFirstName();
+        sportsman.setFirstName(firstName);
+        String lastName = registration.getLastName();
+        sportsman.setLastName(lastName);
+        SportsFederation sportsmanFederation
+                = sportsFederationService.getSportsmanFederationBySportsmanData(
+                firstName, lastName, sportsman.getCountry()
+        );
         sportsman.setFederation(sportsmanFederation);
 
         if(sportsmanFederation != null){

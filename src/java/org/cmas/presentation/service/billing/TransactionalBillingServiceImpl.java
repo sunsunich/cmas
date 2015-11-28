@@ -1,5 +1,6 @@
 package org.cmas.presentation.service.billing;
 
+import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.sport.Sportsman;
 import org.cmas.presentation.dao.billing.FinLogDao;
@@ -43,7 +44,7 @@ public class TransactionalBillingServiceImpl {
         invoice.setInvoiceStatus(InvoiceStatus.PAID);
         invoiceDao.saveModel(invoice);
 
-        Sportsman user = invoice.getSportsman();
+        User user = invoice.getUser();
         simpleAddToBallance(user, amount);
 
         FinLog finLogRecord = new FinLog(user, amount, OperationType.IN, ip);
@@ -56,7 +57,7 @@ public class TransactionalBillingServiceImpl {
         return true;
     }
 
-    private void simpleAddToBallance(Sportsman user, BigDecimal amount) {
+    private void simpleAddToBallance(User user, BigDecimal amount) {
         UserBalance userBalance = user.getUserBalance();
         userBalance.setBalance(
                 userBalance.getBalance().add(amount)
@@ -121,7 +122,7 @@ public class TransactionalBillingServiceImpl {
     }
 
     @Transactional
-    boolean canPaymentWithdraw(Sportsman user, BigDecimal amount, String ip) {
+    boolean canPaymentWithdraw(User user, BigDecimal amount, String ip) {
         UserBalance userBalance = user.getUserBalance();
         BigDecimal balance = userBalance.getBalance();
         if (balance.compareTo(amount) < 0) {

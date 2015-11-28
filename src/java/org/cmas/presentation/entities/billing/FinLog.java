@@ -1,8 +1,8 @@
 package org.cmas.presentation.entities.billing;
 
 import org.cmas.Globals;
-import org.cmas.entities.amateur.Amateur;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.User;
+import org.cmas.entities.UserAwareEntity;
 import org.hibernate.validator.NotNull;
 
 import javax.persistence.*;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "fin_log")
-public class FinLog {
+public class FinLog extends UserAwareEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,12 +20,6 @@ public class FinLog {
     @NotNull(message = "validation.emptyField")
     @Column(nullable = false)
     private Date recordDate;
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
-    private Sportsman sportsman;
-
-    @ManyToOne(optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
-    private Amateur amateur;
 
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal amount;
@@ -41,12 +35,13 @@ public class FinLog {
     protected FinLog() {
     }
 
-    public FinLog(Sportsman sportsman, BigDecimal amount, OperationType operationType, String ip) {
+    public FinLog(User user, BigDecimal amount, OperationType operationType, String ip) {
         recordDate = new Date();
-        this.sportsman = sportsman;
         this.amount = amount;
         this.operationType = operationType;
         this.ip = ip;
+
+        setUser(user);
     }
 
     public Long getId() {
@@ -63,22 +58,6 @@ public class FinLog {
 
     public void setRecordDate(Date recordDate) {
         this.recordDate = recordDate;
-    }
-
-    public Sportsman getSportsman() {
-        return sportsman;
-    }
-
-    public void setSportsman(Sportsman sportsman) {
-        this.sportsman = sportsman;
-    }
-
-    public Amateur getAmateur() {
-        return amateur;
-    }
-
-    public void setAmateur(Amateur amateur) {
-        this.amateur = amateur;
     }
 
     public OperationType getOperationType() {

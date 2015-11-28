@@ -1,6 +1,6 @@
 package org.cmas.presentation.controller.filter;
 
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.User;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -99,8 +99,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             Invoice invoice = invoiceDao.getById(invoiceId);
-            BackendUser<Sportsman> currentUser = authenticationService.getCurrentSportsman();
-            return invoice.getSportsman().equals(currentUser.getUser());
+            BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
+            return invoice.getUser().equals(currentUser.getUser());
         }
         return true;
     }

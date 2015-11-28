@@ -1,21 +1,17 @@
 var registration_model = {
 
-    login: function (username, password, remember_me, successHandler, errorHandler) {
+    register: function (regForm, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
             type: "POST",
-            url: "/j_spring_security_check",
+            url: "/register-user-submit.html",
             dataType: "json",
-            data: {
-                  j_username : username
-                , j_password : password
-                , _spring_security_remember_me : remember_me
-            },
+            data: regForm,
             success: function(json){
                 if (json.success) {
                     successHandler(json);
                 } else {
-                    errorHandler(json.message);
+                    errorHandler(json);
                 }
                 loader_controller.stopwait();
             },

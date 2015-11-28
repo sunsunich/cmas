@@ -38,7 +38,7 @@ body{
 }
 
 .logo {
-    background-image: url("../images/redesign/cmas-logo.png");
+    background-image: url("../i/redesign/cmas-logo.png");
     width: 202px;
 }
 
@@ -137,7 +137,7 @@ body{
 	position: absolute;
 	left:-2px;
 	top:-1px;
-	background-image: url(../images/redesign/social-media-icons.gif)
+	background-image: url(../i/redesign/social-media-icons.gif)
 }
 
 #main-menu{
@@ -163,11 +163,11 @@ body{
 	border-radius: 5px;
 }
 .feature-box.tc-box{
-	background-image: url(../images/redesign/scuba-diving.jpg);
+	background-image: url(../i/redesign/scuba-diving.jpg);
 	background-position: -12px 20px;
 }
 .feature-box.sc-box{
-	background-image: url(../images/redesign/scientific.jpg);
+	background-image: url(../i/redesign/scientific.jpg);
 	background-position: 0 0;
 }
 .feature-box.tc-box h2,
