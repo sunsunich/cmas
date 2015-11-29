@@ -67,6 +67,8 @@
     <script type="text/javascript" src="js/lib/jquery.ba-hashchange.min.js"></script>
     <script type="text/javascript" src="js/lib/ejs_production.js"></script>
 
+    <script type="text/javascript" src="js/util.js"></script>
+
     <script type="text/javascript" src="js/controller/cookie_controller.js"></script>
     <script type="text/javascript" src="js/controller/loader_controller.js"></script>
     <script type="text/javascript" src="js/model/error_codes.js"></script>

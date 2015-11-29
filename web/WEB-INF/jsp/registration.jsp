@@ -189,10 +189,10 @@
                                 <input type="text" id="txbEmail" name="txbEmail" value="" class='input'/><br/>
                                 <label for="txbRegPassword">Your password:</label><br/>
                                 <label class="errorMessage" id="error_password"></label>
-                                <input type="text" id="txbRegPassword" name="txbRegPassword" value="" class='input'/><br/>
+                                <input type="password" id="txbRegPassword" name="txbRegPassword" value="" class='input'/><br/>
                                 <label for="txbRegPasswordRepeat">Repeat your password:</label><br/>
                                 <label class="errorMessage" id="error_passwordRepeat"></label>
-                                <input type="text" id="txbRegPasswordRepeat" name="txbRegPasswordRepeat" value="" class='input'/><br/>
+                                <input type="password" id="txbRegPasswordRepeat" name="txbRegPasswordRepeat" value="" class='input'/><br/>
                                 <label for="oplCountries">Your country:</label><br/>
                                 <label class="errorMessage" id="error_country"></label>
                                 <select name="oplCountries" id="oplCountries" size=1 onChange="" class='optionlist'>

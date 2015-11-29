@@ -16,21 +16,21 @@ var registration_controller = {
         var regForm = {
             email: $('#txbEmail').val(),
             password: $('#txbRegPassword').val(),
-            repeatPassword: $('#txbRegPasswordRepeat').val(),
+            passwordRepeat: $('#txbRegPasswordRepeat').val(),
             country: $('#oplCountries').val(),
             firstName: $('#txbFirstName').val(),
             lastName: $('#txbLastName').val(),
             role: $('#oplRoles').val(),
-            isSkipFederationCheck : isSkipFederationCheck
+            isSkipFederationCheck: isSkipFederationCheck
         };
 
+        this.cleanErrors();
         var formErrors = this.validateRegForm(regForm);
         if (formErrors.success) {
-            this.cleanErrors();
             var self = this;
             registration_model.register(
                 regForm
-                , function (json) {
+                , function (/*json*/) {
                     self.ShowRegistrationOk(regForm.email);
                 }
                 , function (json) {
@@ -44,10 +44,35 @@ var registration_controller = {
 
     validateRegForm: function (regForm) {
         var result = {};
-        result.success = true;
-        if (regForm.email) {
-
+        result.fieldErrors = {};
+        result.errors = {};
+        if (isStringTrimmedEmpty(regForm.email)) {
+            result.fieldErrors["email"] = 'validation.emailEmpty';
+        } else {
+            if (!regForm.email.match(/^.+@.+\..+$/i)) {
+                result.fieldErrors["email"] = 'validation.emailValid';
+            }
         }
+        if (isStringTrimmedEmpty(regForm.password)) {
+            result.fieldErrors["password"] = 'validation.passwordEmpty';
+        }
+        if (isStringTrimmedEmpty(regForm.passwordRepeat)) {
+            result.fieldErrors["passwordRepeat"] = 'validation.checkPasswordEmpty';
+        }
+        if (isStringTrimmedEmpty(regForm.country)) {
+            result.fieldErrors["country"] = 'validation.emptyField';
+        }
+        if (isStringTrimmedEmpty(regForm.role)) {
+            result.fieldErrors["role"] = 'validation.emptyField';
+        }
+
+        if (!isStringTrimmedEmpty(regForm.password) && !isStringTrimmedEmpty(regForm.passwordRepeat)) {
+            if (regForm.password != regForm.passwordRepeat) {
+                result.fieldErrors["passwordRepeat"] = 'validation.passwordMismatch';
+            }
+        }
+
+        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
 
         return result;
     },
@@ -85,7 +110,7 @@ var registration_controller = {
     cleanErrors: function () {
         $('#error_email').empty();
         $('#error_password').empty();
-        $('#error_repeatPassword').empty();
+        $('#error_passwordRepeat').empty();
         $('#error_country').empty();
         $('#error_role').empty();
     },

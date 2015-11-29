@@ -9,7 +9,7 @@ var error_codes = {
     "validation.oldPasswordRejected": "old password is incorrect",
     "validation.passwordRejected": "password is incorrect",
 
-    "validation.positiveNumber": "the number entred must be positive",
+    "validation.positiveNumber": "the number entered must be positive",
     "validation.incorrectDateRanges": "date ranges are incorrect",
 
     "validation.emailValid": "email is invalid",
