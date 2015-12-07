@@ -20,10 +20,10 @@
                 <value>org.cmas.entities.User</value>
                 <value>org.cmas.entities.UserBalance</value>
 
-                <value>org.cmas.entities.sport.Sportsman</value>
+                <value>org.cmas.entities.sport.Athlete</value>
                 <value>org.cmas.entities.sport.SportsFederation</value>
-                <value>org.cmas.entities.sport.SportsmanCard</value>
-                <value>org.cmas.entities.sport.SportsmanCardType</value>
+                <value>org.cmas.entities.PersonalCard</value>
+                <value>org.cmas.entities.PersonalCardType</value>
 
                 <value>org.cmas.entities.amateur.Amateur</value>
                 <value>org.cmas.entities.amateur.MassEvent</value>
@@ -78,15 +78,15 @@
     </bean>
 
     <!--hibernate  DAO  classes  -->
-    <bean id="sportsmanDao" class="org.cmas.presentation.dao.user.sport.SportsmanDaoImpl">
+    <bean id="athleteDao" class="org.cmas.presentation.dao.user.sport.AthleteDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="sportsmanCardDao" class="org.cmas.presentation.dao.user.sport.SportsmanCardDaoImpl">
+    <bean id="personalCardDao" class="org.cmas.presentation.dao.user.PersonalCardDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="sportsmanCardTypeDao" class="org.cmas.presentation.dao.user.sport.SportsmanCardTypeDaoImpl">
+    <bean id="personalCardTypeDao" class="org.cmas.presentation.dao.user.PersonalCardTypeDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

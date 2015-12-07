@@ -1,14 +1,14 @@
 package org.cmas.presentation.controller.user;
 
 import org.cmas.entities.User;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.user.AthleteService;
 import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.service.user.PasswordStrength;
-import org.cmas.presentation.service.user.SportsmanService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
@@ -36,7 +36,7 @@ public class UserProfileController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    private SportsmanService userService;
+    private AthleteService userService;
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -68,7 +68,7 @@ public class UserProfileController {
 		if (result.hasErrors()) {
 			return buidUserEditForm(mm, user, false);
 		} else {
-            userService.editUser((Sportsman)user.getUser(), HttpUtil.getIP(request));
+            userService.editUser((Athlete)user.getUser(), HttpUtil.getIP(request));
 			return new ModelAndView("redirect:/secure/profile/getUser.html?isSuccess=true");
 		}
     }
@@ -122,7 +122,7 @@ public class UserProfileController {
             throw new BadRequestException();
         }
 		PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
-        userService.changePassword((Sportsman)user.getUser(), formObject, result, HttpUtil.getIP(request));
+        userService.changePassword((Athlete)user.getUser(), formObject, result, HttpUtil.getIP(request));
         if (result.hasErrors()) {
             return buidPassChangeForm(mm, user, passwordStrength);
         } else {
@@ -159,7 +159,7 @@ public class UserProfileController {
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changeEmail((Sportsman)user.getUser(), formObject, result);
+        userService.changeEmail((Athlete)user.getUser(), formObject, result);
         if (result.hasErrors()) {
 			return buidEmailChangeForm(mm, user);
         } else {

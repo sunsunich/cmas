@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:background="@drawable/white_item"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="@dimen/margin_from_screen_borders"
+            android:paddingRight="@dimen/margin_from_screen_borders"
+            >
+        <TextView
+                android:id="@+id/doc_custom_field_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="@string/hospitalization_from"
+                android:textColor="@color/dark_gray"/>
+        <TextView
+                android:id="@+id/doc_custom_field_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="№ заказа"
+                android:textColor="@color/dark_gray"/>
+
+    </LinearLayout>
+    <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_gray"/>
+</LinearLayout>

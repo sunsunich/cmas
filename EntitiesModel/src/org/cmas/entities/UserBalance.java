@@ -1,9 +1,18 @@
 package org.cmas.entities;
 
 import org.cmas.entities.amateur.Amateur;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.diver.Diver;
+import org.cmas.entities.sport.Athlete;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -21,11 +30,14 @@ public class UserBalance implements Serializable {
     @Version
     private long version;
 
-    @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
-    private Sportsman sportsman;
+    @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Athlete.class)
+    private Athlete athlete;
 
     @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Amateur.class)
     private Amateur amateur;
+
+    @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Diver.class)
+    private Diver diver;
 
     @Column
     private BigDecimal balance;
@@ -53,12 +65,12 @@ public class UserBalance implements Serializable {
         this.version = version;
     }
 
-    public Sportsman getSportsman() {
-        return sportsman;
+    public Athlete getAthlete() {
+        return athlete;
     }
 
-    public void setSportsman(Sportsman sportsman) {
-        this.sportsman = sportsman;
+    public void setAthlete(Athlete athlete) {
+        this.athlete = athlete;
     }
 
     public Amateur getAmateur() {
@@ -83,5 +95,13 @@ public class UserBalance implements Serializable {
 
     public void setDiscountPercent(BigDecimal discountPercent) {
         this.discountPercent = discountPercent;
+    }
+
+    public Diver getDiver() {
+        return diver;
+    }
+
+    public void setDiver(Diver diver) {
+        this.diver = diver;
     }
 }

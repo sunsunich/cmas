@@ -206,7 +206,7 @@
                                 <select name="oplRoles" id="oplRoles" size=1 onChange="" class='optionlist'>
                                     <option value='' class='optionlist'></option>
                                     <option value='ROLE_AMATEUR' class='optionlist'>Amateur</option>
-                                    <option value='ROLE_SPORTSMAN' class='optionlist'>Sportsman</option>
+                                    <option value='ROLE_ATHLETE' class='optionlist'>Athlete</option>
                                 </select>
                                 <label for="txbFirstName">Your first name:</label><br/>
                                 <input type="text" id="txbFirstName" name="txbFirstName" value="" class='input'/><br/>

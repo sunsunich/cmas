@@ -20,6 +20,6 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
 
     @Override
     public List<Role> getRoles(long version) throws Exception {
-        return Arrays.asList(Role.ROLE_AMATEUR, Role.ROLE_SPORTSMAN);
+        return Arrays.asList(Role.ROLE_AMATEUR, Role.ROLE_ATHLETE);
     }
 }

@@ -22,7 +22,7 @@ public class SportsFederation extends DictionaryEntity {
     private Country country;
 
     @OneToMany(mappedBy = "federation")
-    private List<Sportsman> sportsmanList;
+    private List<Athlete> athleteList;
 
     public Country getCountry() {
         return country;
@@ -32,11 +32,11 @@ public class SportsFederation extends DictionaryEntity {
         this.country = country;
     }
 
-    public List<Sportsman> getSportsmanList() {
-        return sportsmanList;
+    public List<Athlete> getAthleteList() {
+        return athleteList;
     }
 
-    public void setSportsmanList(List<Sportsman> sportsmanList) {
-        this.sportsmanList = sportsmanList;
+    public void setAthleteList(List<Athlete> athleteList) {
+        this.athleteList = athleteList;
     }
 }

@@ -20,7 +20,7 @@ var error_codes = {
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
 
-    "validation.noSportsmanInFederation": "Cannot find a sportsman with given name in federation of given country",
+    "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country",
 
     "validation.incorrectLocale": "locale is incorrect",
     "validation.termsNotAggreed": "You did not confirm that you have accepted terms and conditions",

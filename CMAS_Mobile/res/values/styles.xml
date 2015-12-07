@@ -1,0 +1,117 @@
+<resources>
+    <style name="textSize">
+        <item name="android:textSize">18sp</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="text" parent="textSize">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="buttonText" parent="text">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Helter.Button" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="Helter.Button.White" parent="Helter.Button">
+        <item name="android:textColor">@color/turquoise</item>
+        <item name="android:background">@drawable/white_item</item>
+    </style>
+    <style name="Helter.Button.Transparent" parent="Helter.Button">
+        <item name="android:textColor">@color/menu_text_gray</item>
+        <item name="android:background">@drawable/transparent_element</item>
+    </style>
+
+    <style name="Helter.Button.Red" parent="Helter.Button">
+        <item name="android:background">@drawable/red_element</item>
+    </style>
+    <style name="Helter.Button.Orange" parent="Helter.Button">
+        <item name="android:background">@drawable/orange_element</item>
+    </style>
+    <style name="Helter.Button.Turquoise" parent="Helter.Button">
+        <item name="android:background">@drawable/turquoise_element</item>
+    </style>
+    <style name="Helter.Button.Gray" parent="Helter.Button">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:background">@drawable/gray_element</item>
+    </style>
+    <style name="Helter.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
+        <item name="android:background">@drawable/edit_text_selector</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+    <style name="Helter.CheckedTextView" parent="@android:style/Widget.TextView">
+        <item name="android:checkMark">@drawable/radiobutton_selector</item>
+        <!--<item name="android:background">@drawable/white_item</item>-->
+    </style>
+
+    <style name="Helter.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="Helter.Spinner" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/spinner</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+    <style name="Helter.RadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/radiobutton_selector</item>
+    </style>
+    <style name="Helter.CheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+    </style>
+    <style name="Helter.ActionBarTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Helter.Title" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/turquoise</item>
+    </style>
+
+    <style name="Helter.Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:textAppearance">@style/Helter.TextAppearance</item>
+        <item name="android:buttonStyle">@style/Helter.Button</item>
+        <item name="android:editTextStyle">@style/Helter.EditText</item>
+        <item name="android:textViewStyle">@style/Helter.TextView</item>
+        <item name="android:windowBackground">@drawable/dialog_bkg</item>
+        <item name="android:checkboxStyle">@style/Helter.CheckBox</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="finderTextBackground">@drawable/finder_text_selector</item>
+        <item name="finderButtonSrc">@drawable/arrow_down_gray</item>
+        <item name="finderButtonBackground">@drawable/finder_btn_selector</item>
+        <item name="finderEditPaddingTop">10dp</item>
+        <item name="finderEditPaddingBottom">10dp</item>
+        <item name="android:spinnerStyle">@style/Helter.Spinner</item>
+
+    </style>
+
+    <style name="Helter.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Light.Helter.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+</resources>

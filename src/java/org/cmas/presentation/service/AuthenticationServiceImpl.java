@@ -2,9 +2,9 @@ package org.cmas.presentation.service;
 
 import org.cmas.entities.User;
 import org.cmas.entities.amateur.Amateur;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.AmateurDao;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.util.presentation.CommonAuthentificationServiceImpl;
@@ -24,7 +24,7 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         implements AuthenticationService {
 
     @Autowired
-    private SportsmanDao sportsmanDao;
+    private AthleteDao athleteDao;
 
     @Autowired
     private AmateurDao amateurDao;
@@ -34,14 +34,14 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
 
     @Override
     @Nullable
-    public BackendUser<Sportsman> getCurrentSportsman() {
+    public BackendUser<Athlete> getCurrentAthlete() {
         UserDetails details = getUserDetails();
         if (details == null) {
             return null;
         } else {
-            Sportsman sportsman = sportsmanDao.getByEmail(details.getUsername());
-            if (sportsman != null) {
-                return new BackendUser<Sportsman>(sportsman);
+            Athlete athlete = athleteDao.getByEmail(details.getUsername());
+            if (athlete != null) {
+                return new BackendUser<Athlete>(athlete);
             } else {
                 return null;
             }
@@ -55,10 +55,10 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         if (details == null) {
             return null;
         } else {
-            if (Arrays.asList(details.getAuthorities()).contains(SpringRole.ROLE_SPORTSMAN.getAuthority())) {
-                Sportsman sportsman = sportsmanDao.getByEmail(details.getUsername());
-                if (sportsman != null) {
-                    return new BackendUser<Sportsman>(sportsman);
+            if (Arrays.asList(details.getAuthorities()).contains(SpringRole.ROLE_ATHLETE.getAuthority())) {
+                Athlete athlete = athleteDao.getByEmail(details.getUsername());
+                if (athlete != null) {
+                    return new BackendUser<Athlete>(athlete);
                 } else {
                     return null;
                 }

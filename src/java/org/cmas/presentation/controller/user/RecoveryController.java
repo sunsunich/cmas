@@ -1,7 +1,7 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.entities.sport.Sportsman;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.entities.sport.Athlete;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.model.recovery.LostPasswordFormObject;
 import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserDetails;
@@ -44,7 +44,7 @@ public class RecoveryController {
     private MailService mailer;
 
     @Autowired
-    protected SportsmanDao userDao;
+    protected AthleteDao userDao;
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
     @Autowired
@@ -85,7 +85,7 @@ public class RecoveryController {
 		} else {
             String email = StringUtil.trim(formObject.getEmail());
 			@SuppressWarnings({"ConstantConditions"})
-            Sportsman user = userDao.getByEmail(email);
+            Athlete user = userDao.getByEmail(email);
 			// генерим код для смены пароля
 			long rndNum = rnd.nextLong();
 			String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
@@ -99,7 +99,7 @@ public class RecoveryController {
 
     @RequestMapping(value = "/toChangePasswd.html", method = RequestMethod.GET)
     public String prepareRegData(@RequestParam("code") final String code, Model mm) {
-        Sportsman user = userDao.getBylostPasswdCode(code);
+        Athlete user = userDao.getBylostPasswdCode(code);
         if (user == null) {
             return "redirect:/lostPasswdForm.html";
         }
@@ -123,7 +123,7 @@ public class RecoveryController {
         if (StringUtil.isEmpty(code)) {
             throw new BadRequestException();
         }               
-        Sportsman account = userDao.getBylostPasswdCode(code);
+        Athlete account = userDao.getBylostPasswdCode(code);
         if (account == null) {
             return new ModelAndView("redirect:/lostPasswdForm.html");
         }

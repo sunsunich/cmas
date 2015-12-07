@@ -7,8 +7,12 @@
         window.location = '/secure/index.html';
     </script>
 </authz:authorize>
-
-<authz:authorize ifAnyGranted="ROLE_SPORTSMAN" ifNotGranted="ROLE_ADMIN">
+<%--
+	ROLE_ATHLETE(Role.ROLE_ATHLETE),
+	ROLE_DIVER(Role.ROLE_DIVER),
+	ROLE_DIVER_INSTRUCTOR(Role.ROLE_DIVER_INSTRUCTOR),
+--%>
+<authz:authorize ifAnyGranted="ROLE_ATHLETE,ROLE_DIVER,ROLE_DIVER_INSTRUCTOR" ifNotGranted="ROLE_ADMIN">
     <script type="text/javascript">
         cookie_controller.addAuthCookie();
         window.location = '/secure/index.html';
@@ -23,7 +27,7 @@
 </authz:authorize>
 
 
-<authz:authorize ifNotGranted="ROLE_ADMIN, ROLE_SPORTSMAN, ROLE_AMATEUR">
+<authz:authorize ifNotGranted="ROLE_ADMIN, ROLE_ATHLETE,,ROLE_DIVER,ROLE_DIVER_INSTRUCTOR ROLE_AMATEUR">
     <script type="text/javascript">
         cookie_controller.removeAuthCookie();
     </script>

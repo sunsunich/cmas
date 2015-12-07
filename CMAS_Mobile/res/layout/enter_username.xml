@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_container"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="40dp"
+            android:gravity="center"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_weight="0.6"
+                android:src="@drawable/logo_full"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+        <!--todo просто через margin на планшетах выглядит растянуто. либо для них отдельную view, либо менять здесь-->
+        <EditText
+            android:id="@+id/username_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:singleLine="true"
+            android:inputType="text"
+            android:hint="@string/username"
+            android:drawableLeft="@drawable/login_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"/>
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:singleLine="true"
+            android:password="true"
+            android:inputType="textPassword"
+            android:hint="@string/password"
+            android:drawableLeft="@drawable/pass_icon"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp" />
+
+        <Button
+            android:id="@+id/bnt_enter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_enter"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
+
+        <LinearLayout
+            android:id="@+id/registr_btns_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/bnt_register"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/login_register"
+                android:textSize="15sp"
+                style="@style/Helter.Button.Turquoise" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/forgot_password_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/forgot_password_main"
+            android:textColor="@color/turquoise"
+            android:textStyle="normal" />
+    </LinearLayout>
+</ScrollView>

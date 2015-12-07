@@ -4,9 +4,15 @@ package org.cmas.entities.doc;
 import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.DictionaryEntity;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +27,8 @@ public class Document extends DictionaryEntity {
     private DocumentType documentType;
 
     @Expose
-    @ManyToOne(optional = false, fetch = FetchType.LAZY, targetEntity = Sportsman.class)
-    private Sportsman sportsman;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, targetEntity = Athlete.class)
+    private Athlete athlete;
 
     @Expose
     @Column(nullable = false)
@@ -59,12 +65,12 @@ public class Document extends DictionaryEntity {
         }
     }
 
-    public Sportsman getSportsman() {
-        return sportsman;
+    public Athlete getAthlete() {
+        return athlete;
     }
 
-    public void setSportsman(Sportsman sportsman) {
-        this.sportsman = sportsman;
+    public void setAthlete(Athlete athlete) {
+        this.athlete = athlete;
     }
 
     public Date getDateCreation() {

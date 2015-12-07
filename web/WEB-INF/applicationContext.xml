@@ -139,9 +139,9 @@
 
     <bean id="captchaService" class="org.cmas.presentation.service.CaptchaServiceImpl"/>
 
-    <bean id="sportsmanService" class="org.cmas.presentation.service.user.SportsmanServiceImpl">
-        <property name="entityClass" value="org.cmas.entities.sport.Sportsman"/>
-        <property name="entityDao" ref="sportsmanDao"/>
+    <bean id="FathleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
+        <property name="entityClass" value="org.cmas.entities.sport.Athlete"/>
+        <property name="entityDao" ref="athleteDao"/>
         <property name="validator" ref="validator"/>
     </bean>
 

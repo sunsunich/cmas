@@ -1,7 +1,7 @@
 package org.cmas.presentation.controller.user.billing.interkassa;
 
 import org.cmas.Globals;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
@@ -102,7 +102,7 @@ public class InterKassaController {
 
                     PaymentAddData paymentAddData = new PaymentAddData();
                     paymentAddData.setInvoiceId(invoice.getId());
-                    Sportsman user = invoice.getSportsman();
+                    Athlete user = invoice.getAthlete();
                     paymentAddData.setUserId(user.getId());
                     paymentAddData.setAmount(data.getIk_payment_amount());
                     if (!billingService.paymentAdd(paymentAddData, HttpUtil.getIP(request), true)) {

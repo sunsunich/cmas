@@ -89,22 +89,6 @@ public final class Globals implements GlobalsStaticContainer {
         return new SimpleDateFormat(DOCUMENT_DATE_FORMAT);
     }
 
-    public static SimpleDateFormat getTableGraphDateFormat() {
-        return new SimpleDateFormat(TABLE_GRAPH_DATE_DISPLAY_FORMAT);
-    }
-
-    public static SimpleDateFormat getDirectiveDateFormat() {
-        return new SimpleDateFormat(DIRECTIVE_DATE_FORMAT);
-    }
-
-    public static SimpleDateFormat getDirectiveDateFullFormat() {
-        return new SimpleDateFormat(DIRECTIVE_FULL_DATE_FORMAT);
-    }
-
-    public static SimpleDateFormat getDirectiveDateTimeDBFormat() {
-        return new SimpleDateFormat(DIRECTIVE_DATE_TIME_DB_FORMAT);
-    }
-
     public static SimpleDateFormat getTimeFormat() {
         return new SimpleDateFormat(TIME_FORMAT);
     }

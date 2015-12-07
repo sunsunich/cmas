@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_bkg"
+              android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/vertical_space_between_views"
+        android:layout_marginLeft="@dimen/margin_from_screen_borders"
+        android:layout_marginRight="@dimen/margin_from_screen_borders"
+        android:layout_marginBottom="@dimen/vertical_space_between_views"
+        style="@style/Helter.Title"
+        android:text="@string/select_avatar_caps"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_gray"/>
+    <GridView
+        android:layout_width="wrap_content"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:numColumns="4"
+        android:id="@+id/default_avatars"/>
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Helter.Button.White"
+        android:drawableLeft="@drawable/camera_icon_gray"
+        android:drawableRight="@drawable/arrow_right_gray"
+        android:paddingLeft="@dimen/margin_from_screen_borders"
+        android:paddingRight="@dimen/margin_from_screen_borders"
+        android:text="@string/photo_from_camera"
+        android:textColor="@color/dark_gray"
+        android:textSize="20sp"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="@dimen/space_between_views"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_gray"/>
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Helter.Button.White"
+        android:drawableLeft="@drawable/documents_icon_gray"
+        android:drawableRight="@drawable/arrow_right_gray"
+        android:paddingLeft="@dimen/margin_from_screen_borders"
+        android:paddingRight="@dimen/margin_from_screen_borders"
+        android:text="@string/file_from_disc"
+        android:textColor="@color/dark_gray"
+        android:textSize="20sp"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="@dimen/space_between_views"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_gray"/>
+
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Helter.Button.Gray"
+        android:layout_margin="@dimen/margin_from_screen_borders"
+        android:text="@string/cancel"/>
+
+</LinearLayout>

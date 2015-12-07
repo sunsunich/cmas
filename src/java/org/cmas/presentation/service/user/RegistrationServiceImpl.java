@@ -60,12 +60,12 @@ public class RegistrationServiceImpl implements RegistrationService {
             } else {
                 if (!errors.hasFieldErrors("role")) {
                     validateEmail(formObject, errors);
-                    if(Role.ROLE_SPORTSMAN.name().equals(formObject.getRole())) {
+                    if(Role.ROLE_ATHLETE.name().equals(formObject.getRole())) {
                         SportsFederation sportsFederation = federationService.getSportsmanFederationBySportsmanData(
                                 formObject.getFirstName(), formObject.getLastName(), country
                         );
                         if (sportsFederation == null) {
-                            errors.reject("validation.noSportsmanInFederation");
+                            errors.reject("validation.noPersonInFederation");
                         }
                     }
                 }

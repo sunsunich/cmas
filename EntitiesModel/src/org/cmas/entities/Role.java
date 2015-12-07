@@ -1,7 +1,10 @@
 package org.cmas.entities;
 
 public enum Role {
-    ROLE_AMATEUR("ROLE_AMATEUR", "amateur"), ROLE_SPORTSMAN("ROLE_SPORTSMAN", "professional sportsman"),
+    ROLE_AMATEUR("ROLE_AMATEUR", "amateur"),
+    ROLE_ATHLETE("ROLE_ATHLETE", "professional athlete"),
+    ROLE_DIVER("ROLE_DIVER", "diver"),
+    ROLE_DIVER_INSTRUCTOR("ROLE_DIVER_INSTRUCTOR", "diver instructor"),
     ROLE_ADMIN("ROLE_ADMIN", "admin");
 
 

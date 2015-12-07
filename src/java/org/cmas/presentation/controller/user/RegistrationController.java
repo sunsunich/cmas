@@ -2,7 +2,7 @@ package org.cmas.presentation.controller.user;
 
 import org.cmas.i18n.LocaleResolverImpl;
 import org.cmas.presentation.dao.user.AmateurDao;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 public class RegistrationController {
 
 	@Autowired
-	protected SportsmanDao sportsmanDao;
+	protected AthleteDao athleteDao;
 	@Autowired
 	protected AmateurDao amateurDao;
 	@Autowired
@@ -157,8 +157,8 @@ public class RegistrationController {
                     springRole = SpringRole.ROLE_AMATEUR;
                     redirectUrl = "redirect:/secure/index.html";
                     break;
-                case ROLE_SPORTSMAN:
-                    springRole = SpringRole.ROLE_SPORTSMAN;
+                case ROLE_ATHLETE:
+                    springRole = SpringRole.ROLE_ATHLETE;
                     redirectUrl = "redirect:/secure/index.html";
                     break;
                 case ROLE_ADMIN:

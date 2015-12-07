@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.cmas"
+          android:versionCode="12"
+          android:versionName="0.119316"
+          android:installLocation="preferExternal"
+        >
+
+    <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="18"/>
+
+    <permission android:name="org.cmas.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+    <uses-permission android:name="org.cmas.permission.C2D_MESSAGE"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <!-- App receives GCM messages. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <!-- GCM connects to Google Services. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!--google services-->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+     <!--current location-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <!--read\write events to calendar-->
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <!--vibration for notification-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-feature android:name="android.hardware.telephony" android:required="false"/>
+    <!--maps-->
+    <permission
+            android:name="org.cmas.permission.MAPS_RECEIVE"
+            android:protectionLevel="signature"/>
+    <uses-permission android:name="org.cmas.permission.MAPS_RECEIVE"/>
+
+    <application android:label="@string/app_name"
+                 android:theme="@style/Helter"
+                 android:icon="@drawable/icon"
+                 android:name=".CmasApplication"
+            >
+        <!--api-key for maps-->
+        <meta-data
+                android:name="com.google.android.maps.v2.API_KEY"
+                android:value="@string/debug_key"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver"
+                  android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
+                <category android:name="org.cmas"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService"/>
+
+        <activity android:name=".activities.settings.SettingsListActivity"
+                  android:label="@string/app_name"/>
+
+        <activity android:name="org.cmas.activities.LoaderActivity"
+                  android:configChanges="keyboardHidden|screenSize|orientation"
+                  android:theme="@android:style/Theme.NoTitleBar"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".activities.Dispatcher"
+                  android:label="@string/app_name"
+                >
+        </activity>
+
+        <activity android:name=".activities.settings.CodeEnter"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name=".activities.enter.EnterUsername"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name=".activities.AuthorizedHolder"
+                  android:configChanges="keyboardHidden|screenSize|orientation"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name="org.cmas.activities.trial.MainTrialScreen"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name=".activities.enter.Registration"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".activities.settings.AddSecureCode"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".activities.settings.AddEmail"
+                  android:label="@string/app_name">
+        </activity>
+
+        <activity android:name=".activities.results.ResearchSearchForm">
+
+        </activity>
+
+
+        <activity android:name=".activities.trial.ViewDirectiveLines"
+                  android:label="@string/app_name">
+        </activity>
+        <activity android:name=".activities.trial.ViewTestResult"
+                  android:label="@string/app_name">
+        </activity>
+        <!--<activity android:name="cz.atria.activity.RMISAuthActivity"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>-->
+        <activity android:name="cz.atria.activity.CreateRecordHolder"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name="cz.atria.activity.CreateRecordServices"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name="cz.atria.activity.CreateRecordResources"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name="cz.atria.activity.CreateRecordScheduleHolder"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <activity android:name="cz.atria.activity.FullMapActivity"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+
+        <service android:name="cz.atria.service.MessagesCheckerStarter" android:enabled="true"/>
+        <activity android:name=".activities.file.FileChooseActivity"
+                  android:theme="@style/Light.Helter"
+                  android:configChanges="keyboardHidden|screenSize|orientation"/>
+        <receiver android:name="cz.atria.service.MessagesCheckerReceiver"/>
+    </application>
+</manifest> 

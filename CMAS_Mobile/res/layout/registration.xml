@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.cmas.tags.BaseLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/registration_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/caps_login_register"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/turquoise"
+                android:textStyle="bold"
+                android:textSize="19sp"/>
+
+        <EditText
+                android:id="@+id/username_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:inputType="text"
+                android:hint="@string/username"
+                android:drawableLeft="@drawable/login_icon"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp"/>
+
+        <EditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:password="true"
+                android:inputType="textPassword"
+                android:hint="@string/password"
+                android:drawableLeft="@drawable/pass_icon"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp" />
+
+        <EditText
+                android:id="@+id/repeat_password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:singleLine="true"
+                android:password="true"
+                android:inputType="textPassword"
+                android:hint="@string/repeat_password"
+                android:drawableLeft="@drawable/pass_icon"
+                android:drawablePadding="10dp"
+                android:paddingLeft="10dp" />
+
+        <Button
+                android:id="@+id/bnt_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/caps_do_register"/>
+    </LinearLayout>
+</org.cmas.tags.BaseLayout>

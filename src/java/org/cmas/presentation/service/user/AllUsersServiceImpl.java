@@ -2,10 +2,10 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AllUsersServiceImpl implements AllUsersService {
 
     @Autowired
-    private SportsmanDao sportsmanDao;
+    private AthleteDao athleteDao;
 
     @Autowired
     private AmateurDao amateurDao;
@@ -33,11 +33,11 @@ public class AllUsersServiceImpl implements AllUsersService {
                 //fall through
             case ROLE_AMATEUR:
                 isEmailUnique = amateurDao.isEmailUnique(email, userId)
-                        || sportsmanDao.isEmailUnique(email)
+                        || athleteDao.isEmailUnique(email)
                 ;
                 break;
-            case ROLE_SPORTSMAN:
-                isEmailUnique = sportsmanDao.isEmailUnique(email, userId)
+            case ROLE_ATHLETE:
+                isEmailUnique = athleteDao.isEmailUnique(email, userId)
                         || amateurDao.isEmailUnique(email)
                 ;
                 break;
@@ -47,10 +47,10 @@ public class AllUsersServiceImpl implements AllUsersService {
 
     @Override
     public User getByEmail(String email) {
-        Sportsman sportsman = sportsmanDao.getByEmail(email);
-        if(sportsman == null){
+        Athlete athlete = athleteDao.getByEmail(email);
+        if(athlete == null){
             return amateurDao.getByEmail(email);
         }
-        return sportsman;
+        return athlete;
     }
 }

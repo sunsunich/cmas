@@ -16,8 +16,8 @@ public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<SportsFederat
     @Override
     public SportsFederation getFederationForSportsman(String firstName, String lastName, Country country) {
         String hql = "select sf from org.cmas.presentation.dao.user.sport.SportsFederation" +
-                     " inner join sf.sportsmanList sp" +
-                     " where sp.firstName = :firstName and sp.lastName = :lastName and sp.country.id = :countryId"
+                     " inner join sf.athleteList a" +
+                     " where a.firstName = :firstName and a.lastName = :lastName and a.country.id = :countryId"
                 ;
         Query query = createQuery(hql);
         query.setString("firstName", firstName);

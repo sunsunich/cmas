@@ -2,9 +2,9 @@ package org.cmas.presentation.controller.admin;
 
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.AmateurDao;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
@@ -45,7 +45,7 @@ public class AdminController {
     @Autowired
     private AuthenticationService authenticationService;
     @Autowired
-    protected SportsmanDao sportsmanDao;
+    protected AthleteDao athleteDao;
     @Autowired
     protected AmateurDao amateurDao;
 
@@ -63,7 +63,7 @@ public class AdminController {
 
     @ModelAttribute("roleList")
     public Collection<SpringRole> getRoleList() {
-        SpringRole[] roles = {SpringRole.ROLE_AMATEUR, SpringRole.ROLE_SPORTSMAN, SpringRole.ROLE_ADMIN};
+        SpringRole[] roles = {SpringRole.ROLE_AMATEUR, SpringRole.ROLE_ATHLETE, SpringRole.ROLE_ADMIN};
         return Arrays.asList(roles);
     }
 
@@ -72,9 +72,9 @@ public class AdminController {
         model.setLimit(MAX_PAGE_ITEMS);
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", model);
-        List<Sportsman> users = sportsmanDao.searchUsers(model);
+        List<Athlete> users = athleteDao.searchUsers(model);
         mm.addAttribute("users", users);
-        mm.addAttribute("count", sportsmanDao.getMaxCountSearchUsers(model));
+        mm.addAttribute("count", athleteDao.getMaxCountSearchUsers(model));
         return new ModelAndView("admin/index", mm);
     }
 
@@ -90,8 +90,8 @@ public class AdminController {
             case ROLE_AMATEUR:
                 user = amateurDao.getModel(userId);
                 break;
-            case ROLE_SPORTSMAN:
-                user = sportsmanDao.getModel(userId);
+            case ROLE_ATHLETE:
+                user = athleteDao.getModel(userId);
                 break;
             case ROLE_ADMIN:
                 break;
@@ -121,7 +121,7 @@ public class AdminController {
     private IdName getUserAndView(Long userId) {
         IdName res = new IdName();
         if (userId != null) {
-            res.user = new BackendUser(sportsmanDao.getModel(userId));
+            res.user = new BackendUser(athleteDao.getModel(userId));
             res.redirectTo = "/secure/index.html";
         }
         return res;
@@ -137,7 +137,7 @@ public class AdminController {
     @Transactional
     public ModelAndView loadUser(@RequestParam("userId") final Long userId) {
         AdminUserFormObject data = new AdminUserFormObject();
-        Sportsman user = sportsmanDao.getModel(userId);
+        Athlete user = athleteDao.getModel(userId);
         if (user == null) {
             throw new BadRequestException();
         }
@@ -194,12 +194,12 @@ public class AdminController {
     @RequestMapping(value = "/admin/deleteUser.html", method = RequestMethod.GET)
     @Transactional
     public ModelAndView deleteUser(@RequestParam("userId") final Long userId) {
-        Sportsman user = sportsmanDao.getModel(userId);
+        Athlete user = athleteDao.getModel(userId);
         if (user == null) {
             throw new BadRequestException();
         }
         user.setEnabled(false);
-        sportsmanDao.updateModel(user);
+        athleteDao.updateModel(user);
 
         return new ModelAndView("redirect:/admin/index.html");
     }

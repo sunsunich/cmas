@@ -1,4 +1,4 @@
-INSERT into sportsman_card_types (id, deleted, name, version) values (1, false, 'primary', 1);
+INSERT into personal_card_types (id, deleted, name, version) values (1, false, 'primary', 1);
 INSERT into countries (id, deleted, name, code, version) values (1, false, 'Serbia and Montenegro', 'SCG', 1);
 INSERT into countries (id, deleted, name, code, version) values (2, false, 'Afghanistan', 'AFG', 1);
 INSERT into countries (id, deleted, name, code, version) values (3, false, 'South Africa', 'RSA', 1);

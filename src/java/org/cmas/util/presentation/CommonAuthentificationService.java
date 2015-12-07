@@ -1,7 +1,7 @@
 package org.cmas.util.presentation;
 
 import org.cmas.entities.User;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.security.Authentication;
@@ -13,7 +13,7 @@ public interface CommonAuthentificationService<T extends UserDetails> extends Us
     void loginAs(T user, SpringRole[] roles);
 
     @Nullable
-    BackendUser<Sportsman> getCurrentSportsman();
+    BackendUser<Athlete> getCurrentAthlete();
 
     @Nullable
     BackendUser<? extends User> getCurrentUser();

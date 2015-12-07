@@ -3,9 +3,9 @@ package org.cmas.presentation.service.admin;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.amateur.Amateur;
-import org.cmas.entities.sport.Sportsman;
+import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.RegistrationDao;
-import org.cmas.presentation.dao.user.sport.SportsmanDao;
+import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
@@ -33,15 +33,15 @@ public class AdminServiceImpl implements AdminService {
     private Md5PasswordEncoder passwordEncoder;
 
     @Autowired
-	@Qualifier("sportsmanService")
-	private UserService<Sportsman> sportsmanService;
+	@Qualifier("athleteService")
+	private UserService<Athlete> athleteService;
 
     @Autowired
     @Qualifier("amateurService")
     private UserService<Amateur> amateurService;
 
     @Autowired
-    private SportsmanDao sportsmanDao;
+    private AthleteDao athleteDao;
 
     @Autowired
     private RegistrationDao registrationDao;
@@ -56,8 +56,8 @@ public class AdminServiceImpl implements AdminService {
             case ROLE_AMATEUR:
                 userService = amateurService;
                 break;
-            case ROLE_SPORTSMAN:
-                userService = sportsmanService;
+            case ROLE_ATHLETE:
+                userService = athleteService;
                 break;
             case ROLE_ADMIN:
                 break;
@@ -83,12 +83,12 @@ public class AdminServiceImpl implements AdminService {
         if (id == null) {
             throw new BadRequestException();
         }
-        Sportsman user = sportsmanDao.getById(id);
+        Athlete user = athleteDao.getById(id);
         if (user == null) {
             throw new BadRequestException();
         }
         formObject.transferToEntity(user);
-        sportsmanDao.updateModel(user);
+        athleteDao.updateModel(user);
 
     }
 
@@ -97,9 +97,9 @@ public class AdminServiceImpl implements AdminService {
     public void changePassword(PasswordChangeFormObject formObject) {
         if (formObject.getUserId() != null) {
             String realPassword = passwordEncoder.encodePassword(formObject.getPasswd(), UserDetails.SALT);
-            Sportsman user = sportsmanDao.getById(formObject.getUserId());
+            Athlete user = athleteDao.getById(formObject.getUserId());
             user.setPassword(realPassword);
-            sportsmanDao.updateModel(user);
+            athleteDao.updateModel(user);
         }
     }
 

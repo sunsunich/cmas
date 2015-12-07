@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="barcode_contents_text">Простой текст</string>
+    <string name="barcode_contents_email">Email</string>
+    <string name="barcode_contents_phone">Телефон</string>
+    <string name="barcode_contents_sms">СМС-адрес</string>
+    <string name="barcode_contents_contact">Контактная информация</string>
+    <string name="barcode_contents_location">Географические координаты</string>
+</resources>

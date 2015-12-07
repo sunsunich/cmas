@@ -20,7 +20,7 @@ public class RoleBasedUrlResolver implements TargetUrlResolver {
         if (authenticationService.isGranted(auth, SpringRole.ROLE_AMATEUR)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
-        if (authenticationService.isGranted(auth, SpringRole.ROLE_SPORTSMAN)) {
+        if (authenticationService.isGranted(auth, SpringRole.ROLE_ATHLETE)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
         if (authenticationService.isGranted(auth, SpringRole.ROLE_ADMIN)) {

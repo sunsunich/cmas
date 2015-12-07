@@ -5,7 +5,10 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 
 public enum SpringRole {
-    ROLE_AMATEUR(Role.ROLE_AMATEUR), ROLE_SPORTSMAN(Role.ROLE_SPORTSMAN),
+    ROLE_AMATEUR(Role.ROLE_AMATEUR),
+    ROLE_ATHLETE(Role.ROLE_ATHLETE),
+    ROLE_DIVER(Role.ROLE_DIVER),
+    ROLE_DIVER_INSTRUCTOR(Role.ROLE_DIVER_INSTRUCTOR),
     ROLE_ADMIN(Role.ROLE_ADMIN);
 
     private final GrantedAuthority authority;
@@ -32,11 +35,17 @@ public enum SpringRole {
         switch (role) {
             case ROLE_AMATEUR:
                 return ROLE_AMATEUR;
-            case ROLE_SPORTSMAN:
-                return ROLE_SPORTSMAN;
+            case ROLE_ATHLETE:
+                return ROLE_ATHLETE;
+            case ROLE_DIVER:
+                return ROLE_DIVER;
+            case ROLE_DIVER_INSTRUCTOR:
+                return ROLE_DIVER_INSTRUCTOR;
             case ROLE_ADMIN:
                 return ROLE_ADMIN;
+            default:
+                throw new IllegalStateException();
         }
-        throw new IllegalStateException();
+
     }
 }

@@ -29,15 +29,15 @@
 
             </ef:form>
 
-            <c:if test="${command.role eq 'ROLE_SPORTSMAN'}">
-                <c:if test="${command.primarySportsmanCard != null}">
+            <c:if test="${command.role eq 'ROLE_ATHLETE'}">
+                <c:if test="${command.primaryPersonalCard != null}">
                     <div>
                         Your federation is: <br/>
                             ${command.federation.name}
                     </div>
                     <div>
                         Your primary card number is: <br/>
-                            ${command.primarySportsmanCard.number}
+                            ${command.primaryPersonalCard.number}
                     </div>
                 </c:if>
             </c:if>

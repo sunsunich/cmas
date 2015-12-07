@@ -3,12 +3,20 @@ package org.cmas.entities;
 
 import com.google.myjson.annotations.Expose;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+@SuppressWarnings({"CallToSimpleGetterFromWithinClass", "InstanceofInterfaces"})
 @MappedSuperclass
 public abstract class User implements Serializable, HasId {
 
@@ -18,6 +26,9 @@ public abstract class User implements Serializable, HasId {
     @Id
     @Expose
     protected long id;
+
+    @OneToOne
+    protected UserBalance userBalance;
 
     //служебные данные
 
@@ -100,9 +111,13 @@ public abstract class User implements Serializable, HasId {
         this.locale = locale;
     }
 
-    public abstract UserBalance getUserBalance();
+    public UserBalance getUserBalance() {
+        return userBalance;
+    }
 
-    public abstract void setUserBalance(UserBalance userBalance);
+    public void setUserBalance(UserBalance userBalance) {
+        this.userBalance = userBalance;
+    }
 
     @Override
     public boolean equals(Object o) {
