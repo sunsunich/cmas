@@ -58,7 +58,7 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
         inflater.inflate(R.menu.search_and_add, menu);
         MenuItem item = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setQueryHint(getString(R.string.documents_storage));
+        searchView.setQueryHint(getString(R.string.logbook));
         searchView.setOnQueryTextListener(this);
     }
 
@@ -84,7 +84,7 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupHeader(getString(R.string.documents_storage), navigationService.getMainFragmentClass());
+        setupHeader(getString(R.string.logbook), navigationService.getMainFragmentClass());
 
         listView = (ListView) getView().findViewById(R.id.documents_holder);
         listView.setAdapter(new DocumentListAdapter(getActivity(), null));
@@ -93,7 +93,7 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
         final ActionBarActivity activity = (ActionBarActivity) getActivity();
         ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setIcon(R.drawable.documents_icon);
+        actionBar.setIcon(R.drawable.account_info_icon);
         actionBar.setDisplayShowHomeEnabled(true);
 
         loadData();
@@ -165,7 +165,7 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
             replaceCurrentMainFragment(getId(), BaseFragment.newInstance(ViewDocument.class, args), true);
         } catch (Exception e) {
             Log.e(getClass().getName()
-                    , "Error while opening EditProfile fragment"
+                    , "Error while opening UserAccount fragment"
                     , e
             );
         }

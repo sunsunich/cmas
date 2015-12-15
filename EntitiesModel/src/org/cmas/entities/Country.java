@@ -12,6 +12,15 @@ import javax.persistence.Table;
 @Table(name = "countries")
 public class Country extends DictionaryEntity {
 
+    private static final long serialVersionUID = 3857192785221652490L;
+
+    public Country() {
+    }
+
+    public Country(String code) {
+        this.code = code;
+    }
+
     private String code;
 
     public String getCode() {

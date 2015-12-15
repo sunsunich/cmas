@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CMAS</string>
-    <bool name="is_tablet">false</bool>
-    <string name="debug_key">AIzaSyBOs3hgNjuJ3f6LMGH_1ml9XOUO4703k0s</string>
-    <string name="release_key">AIzaSyCG-zflBvuu9dXCYZ7ZgOabTNXFO3kGkTw</string>
+
     <string name="forward">Next</string>
     <string name="country">Country</string>
-    <string name="select_country">Select Country</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="dob">Dob</string>
@@ -29,9 +25,9 @@
     <string name="back_to_main">The main menu</string>
     <string name="forgot_password_main">Forgot your password?</string>
     <string name="expand">Expand</string>
-    <string name="login_enter">Login</string>
+    <string name="login_enter">ENTER</string>
     <string name="login_register">Register</string>
-    <string name="caps_login_register">Sign in</string>
+    <string name="caps_login_register">REGISTRATION</string>
     <string name="do_register">Register</string>
     <string name="caps_do_register">Register</string>
     <string name="login_no_register">Without registration</string>
@@ -154,9 +150,33 @@
     <string name="hide">Hide</string>
     <string name="set_as_read">Mark All Read</string>
     <string name="logbook">Logbook</string>
-    <string name="logbook_title">LOGBOOK</string>
-    <string name="my_account_title">MY ACCOUNT</string>
-
+    <string name="logbook_title">Logbook</string>
+    <string name="my_account_title">PROFILES</string>
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="gender_title">Paul</string>
+    <string-array name="gender_names">
+        <item>Men</item>
+        <item>Female</item>
+    </string-array>
+    <string name="relationship_title">The degree of kinship</string>
+    <string-array name="relationship_names">
+        <item></item>
+        <item>Man</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Grandfather</item>
+        <item>Grandma</item>
+    </string-array>
+    <string-array name="settings_items">
+        <item>Screen Lock</item>
+        <item>Select language applications</item>
+        <item>Change password</item>
+        <item>Specify email</item>
+        <item>Reset</item>
+    </string-array>
     <dimen name="sliding_menu_offset">50dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
     <string name="current_user_select">Selecting the current user</string>
@@ -166,8 +186,8 @@
     <string name="check">Select</string>
     <string name="loading_complete">Download complete</string>
     <string name="loading">Loading …</string>
-    <string name="loading_dictionaries_complete">The dictionary data is loaded</string>
-    <string name="loading_dictionaries">Load the dictionary data </string>
+    <string name="loading_dictionaries_complete">Loading dictionary data complete</string>
+    <string name="loading_dictionaries">Loading dictionary data </string>
     <string name="authorization_attempt">Authorization</string>
     <string name="loading_profiles">Load Profiles</string>
     <string name="loading_documents">download documents</string>

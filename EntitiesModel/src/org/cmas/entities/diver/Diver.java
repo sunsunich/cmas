@@ -16,4 +16,10 @@ public class Diver extends CardUser {
 
     private static final long serialVersionUID = -6873304958863096818L;
 
+    public Diver() {
+    }
+
+    public Diver(long id) {
+        super(id);
+    }
 }

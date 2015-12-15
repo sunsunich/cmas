@@ -24,7 +24,7 @@ public class EditDocument extends NewEditBaseDocumentFragment {
 
         Bundle extrasMap = new Bundle();
         extrasMap.putSerializable("document", document);
-        setupHeader(getString(R.string.documents_storage), ViewDocument.class, extrasMap);
+        setupHeader(getString(R.string.logbook), ViewDocument.class, extrasMap);
 
         addedFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override

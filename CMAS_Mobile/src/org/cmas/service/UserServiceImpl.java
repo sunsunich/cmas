@@ -7,6 +7,7 @@ import org.cmas.Globals;
 import org.cmas.InitializingBean;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.UserDao;
+import org.cmas.entities.MockUtil;
 import org.cmas.entities.User;
 
 public class UserServiceImpl<T extends User>  implements UserService<T>, InitializingBean {
@@ -42,13 +43,14 @@ public class UserServiceImpl<T extends User>  implements UserService<T>, Initial
 
     @Override
     public T getByEmail(Context context, String email) {
-        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
-        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
-        try {
-            return userDao.getByEmail(readableDatabase, email);
-        } finally {
-            readableDatabase.close();
-        }
+        return (T)MockUtil.getMockDiver();
+//        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
+//        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
+//        try {
+//            return userDao.getByEmail(readableDatabase, email);
+//        } finally {
+//            readableDatabase.close();
+//        }
     }
 
     @Override

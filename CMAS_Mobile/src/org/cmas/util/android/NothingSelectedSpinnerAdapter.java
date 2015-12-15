@@ -1,4 +1,4 @@
-package org.cmas.fragments;
+package org.cmas.util.android;
 
 import android.content.Context;
 import android.database.DataSetObserver;

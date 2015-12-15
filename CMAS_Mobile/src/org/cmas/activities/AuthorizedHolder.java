@@ -156,21 +156,21 @@ public class AuthorizedHolder extends SlidingActionBarActivity {
 
 
         /*обработку нижней панели вынесли сюда, чтобы в каждом фрагменте с ней не мучаться*/
-        findViewById(R.id.messages).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View count = view.findViewById(R.id.messages_count);
-                count.setVisibility(count.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-            }
-        });
-
-        findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                View count = view.findViewById(R.id.notifications_count);
-                count.setVisibility(count.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
-            }
-        });
+//        findViewById(R.id.messages).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                View count = view.findViewById(R.id.messages_count);
+//                count.setVisibility(count.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+//            }
+//        });
+//
+//        findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                View count = view.findViewById(R.id.notifications_count);
+//                count.setVisibility(count.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+//            }
+//        });
     }
 
     private void handleMenuClosed() {

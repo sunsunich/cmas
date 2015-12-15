@@ -15,9 +15,9 @@ import org.cmas.entities.doc.Document;
 import org.cmas.entities.doc.DocumentType;
 import org.cmas.fragments.BaseFragment;
 import org.cmas.fragments.EntityManagementAction;
-import org.cmas.fragments.NothingSelectedSpinnerAdapter;
 import org.cmas.json.doc.DocCreateReply;
 import org.cmas.util.StringUtil;
+import org.cmas.util.android.NothingSelectedSpinnerAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class NewDocument extends NewEditBaseDocumentFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupHeader(getString(R.string.documents_storage), DocumentsFragment.class);
+        setupHeader(getString(R.string.logbook), DocumentsFragment.class);
 
         final FragmentActivity activity = getActivity();
 

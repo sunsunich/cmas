@@ -2,6 +2,6 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-            android:drawable="@drawable/create_record_icon"
+            android:drawable="@drawable/logbook_icon"
             android:right="5dp"/>
 </layer-list>

@@ -19,7 +19,7 @@ public class ViewDocument extends BaseDocumentFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupHeader(getString(R.string.documents_storage), DocumentsFragment.class);
+        setupHeader(getString(R.string.logbook), DocumentsFragment.class);
 
         addedFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override

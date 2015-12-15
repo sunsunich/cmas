@@ -22,7 +22,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 //    public static final String PUSH_MESSAGE_ACTION =
 //                "com.aegosanum.PUSH_MESSAGE";
-    public static final String EGOSANUM_PUSH_PROFILE = "cmas.push.profile";
+    public static final String EGOSANUM_PUSH_PROFILE = "cmas.push.user";
 
     public GCMIntentService(){
         super(BaseBeanContainer.getInstance().getAppProperties().getGcmSenderId());

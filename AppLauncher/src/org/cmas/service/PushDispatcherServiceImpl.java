@@ -43,7 +43,7 @@ public class PushDispatcherServiceImpl implements PushDispatcherService, Initial
             String subtitle=bundle.getString("subtitle",null);
             String message=bundle.getString("message",null);
             /*else {
-                message=context.getString(R.string.new_data_for_profile) + ' ' + profile.getName();
+                message=context.getString(R.string.new_data_for_profile) + ' ' + user.getName();
             }*/
             String tickerText=bundle.getString("tickerText",null);
 
@@ -51,7 +51,7 @@ public class PushDispatcherServiceImpl implements PushDispatcherService, Initial
             String allData=bundle.getString("all_data",null);
 
             /*long profileId =Long.parseLong(intent.getExtras().getString("profileId"));
-            Profile profile = profileService.getById(context, profileId);*/
+            Profile user = profileService.getById(context, profileId);*/
 
             long when = System.currentTimeMillis();
             NotificationManager notificationManager = (NotificationManager)
@@ -59,7 +59,7 @@ public class PushDispatcherServiceImpl implements PushDispatcherService, Initial
 
             int icon = R.drawable.icon;
             Intent notificationIntent = new Intent(context, AuthorizedHolder.class);
-            //notificationIntent.putExtra(GCMIntentService.EGOSANUM_PUSH_PROFILE, profile);
+            //notificationIntent.putExtra(GCMIntentService.EGOSANUM_PUSH_PROFILE, user);
             // set intent so it does not start a new activity
             //не обязательно
             notificationIntent.setFlags(

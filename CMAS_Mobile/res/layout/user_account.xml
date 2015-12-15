@@ -32,32 +32,32 @@
                 <RelativeLayout
                         android:layout_width="70dp"
                         android:layout_height="70dp">
-                   <!-- <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/avatar0"
-                            android:id="@+id/default_avatar"/>-->
+                    <!-- <ImageView
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:src="@drawable/userpic0"
+                             android:id="@+id/default_userpic"/>-->
                     <ImageView
-                            android:id="@+id/user_avatar_img"
+                            android:id="@+id/user_userpic_img"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop"
-                            android:contentDescription="@string/user_avatar_icon"/>
+                            android:contentDescription="@string/user_userpic_icon"/>
                     <!--<ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/delete"
-                            android:id="@+id/delete_avatar"/>-->
+                            android:id="@+id/delete_userpic"/>-->
                 </RelativeLayout>
                 <Button
-                        android:id="@+id/select_avatar_btn"
+                        android:id="@+id/select_userpic_btn"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/camera_icon"
                         android:paddingLeft="15dp"
                         style="@style/Helter.Button.Turquoise"
-                        android:text="@string/select_avatar"/>
+                        android:text="@string/select_userpic"/>
             </LinearLayout>
             <LinearLayout
                     android:layout_width="match_parent"
@@ -67,67 +67,42 @@
                     android:layout_marginRight="@dimen/margin_from_screen_borders"
                     android:orientation="vertical"
                     android:gravity="center">
-                <EditText
-                        android:id="@+id/enter_profile_name_edit"
+                <TextView
+                        android:id="@+id/user_account_first_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textStyle="normal"
-                        android:hint="@string/enter_user_name_hint"
-                        android:singleLine="true"/>
-                <Spinner
-                        android:id="@+id/relationship_spinner"
+                        android:layout_marginTop="16dp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        style="Helter.TextView"
+                        />
+
+                <TextView
+                        android:id="@+id/user_account_last_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/vertical_space_between_views"
-                        android:prompt="@string/relationship_title"/>
-                <Spinner
-                        android:id="@+id/select_gender_spinner"
+                        android:layout_marginTop="16dp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        style="Helter.TextView"
+                        />
+                <TextView
+                        android:id="@+id/user_account_dob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/vertical_space_between_views"
-                        android:prompt="@string/gender_title"/>
-                <EditText
-                        android:id="@+id/enter_profile_oms_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:textStyle="normal"
-                        android:hint="@string/enter_oms_hint"
-                        android:singleLine="true"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:layout_marginLeft="@dimen/margin_from_screen_borders"
-                    android:layout_marginRight="@dimen/margin_from_screen_borders"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                <ImageButton
-                        android:id="@+id/set_date_of_birthday_btn"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/calendar_icon"
-                        style="@style/Helter.Button"
-                        android:background="@drawable/image_button_bkg"
-                        android:contentDescription="@string/calendar_icon"/>
-                <EditText
-                        android:id="@+id/date_of_birthday_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginLeft="@dimen/space_between_views"
-                        android:textStyle="normal"
-                        android:hint="@string/date_birthday_hint"
-                        android:editable="false"/>
+                        android:layout_marginTop="16dp"
+                        android:textStyle="bold"
+                        android:singleLine="true"
+                        style="Helter.TextView"
+                        />
+
             </LinearLayout>
             <LinearLayout
                     android:id="@+id/add_access_barcode_root"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -139,13 +114,13 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"/>
                 <!--<Button-->
-                        <!--android:id="@+id/add_access_btn"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="70dp"-->
-                        <!--android:text="@string/add_access"-->
-                        <!--android:drawableLeft="@drawable/plus"-->
-                        <!--android:paddingLeft="@dimen/margin_from_screen_borders"-->
-                        <!--style="@style/Helter.Button.White"/>-->
+                <!--android:id="@+id/add_access_btn"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:text="@string/add_access"-->
+                <!--android:drawableLeft="@drawable/plus"-->
+                <!--android:paddingLeft="@dimen/margin_from_screen_borders"-->
+                <!--style="@style/Helter.Button.White"/>-->
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -174,33 +149,22 @@
                     android:orientation="horizontal"
                     android:gravity="center">
                 <Button
-                        android:id="@+id/cancel_add_profile_btn"
+                        android:id="@+id/change_email_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/cancel"
-                        style="@style/Helter.Button.Gray"/>
+                        android:text="@string/change_email"
+                        style="@style/Helter.Button.Orange"/>
                 <Button
-                        android:id="@+id/save_new_profile_btn"
+                        android:id="@+id/change_pass_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="@dimen/space_between_views"
-                        android:text="@string/save_caps"
+                        android:text="@string/change_pass"
                         android:textColor="@color/white"
-                        android:enabled="false"
                         style="@style/Helter.Button.Orange"/>
             </LinearLayout>
-            <Button
-                    android:id="@+id/delete_profile_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:layout_marginLeft="@dimen/margin_from_screen_borders"
-                    android:layout_marginRight="@dimen/margin_from_screen_borders"
-                    android:text="@string/delete_profile"
-                    style="@style/Helter.Button.Red"
-                    android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>
 </org.cmas.tags.BaseViewLayout>

@@ -73,7 +73,7 @@ public abstract class BaseDocumentFragment extends BaseResultViewFragment {
         FragmentActivity activity = getActivity();
         ActionBar actionBar = ((ActionBarActivity) activity).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setIcon(R.drawable.documents_icon);
+        actionBar.setIcon(R.drawable.account_info_icon);
         actionBar.setDisplayShowHomeEnabled(true);
 
         View view = getView();

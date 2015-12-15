@@ -1,0 +1,5 @@
+<resources>
+    <bool name="is_tablet">false</bool>
+    <string name="loading_libraries_complete">Библиотеки загружены</string>
+    <string name="loading_libraries">Загружаем библиотеки</string>
+</resources>

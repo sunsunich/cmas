@@ -68,7 +68,7 @@ public class AssetImagesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi=convertView;
         if(vi==null){
-            vi=inflater.inflate(R.layout.default_avatar_row,null,false);
+            vi=inflater.inflate(R.layout.default_userpic_row,null,false);
         }
         ImageView imageView= (ImageView) vi.findViewById(R.id.img);
         Bitmap current=getItem(position);

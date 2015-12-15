@@ -44,7 +44,7 @@ public class FileChooseActivity extends ActionBarActivity {
         setContentView(R.layout.file_choose);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayUseLogoEnabled(false);
-        getSupportActionBar().setIcon(R.drawable.documents_icon);
+        getSupportActionBar().setIcon(R.drawable.account_info_icon);
         listView= (ListView) findViewById(android.R.id.list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

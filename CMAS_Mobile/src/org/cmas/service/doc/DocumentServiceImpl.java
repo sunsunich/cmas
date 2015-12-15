@@ -81,8 +81,8 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
                     writableDatabase.beginTransaction();
                     try {
                         for (DocumentViewerDisplayModel displayModel : okResult.getCreators()) {
-//                            Profile profile = profileDao.getById(writableDatabase, displayModel.getId());
-//                            if (profile == null) {
+//                            Profile user = profileDao.getById(writableDatabase, displayModel.getId());
+//                            if (user == null) {
 //                                Profile newProfile = new Profile();
 //                                newProfile.setId(displayModel.getId());
 //                                newProfile.setName(displayModel.getName());
@@ -92,9 +92,9 @@ public class DocumentServiceImpl implements DocumentService, InitializingBean {
 //
 //                                profileDao.save(writableDatabase, newProfile);
 //                            } else {
-//                                profile.setName(displayModel.getName());
-//                                profile.setUserTypeId(displayModel.getTypeId());
-//                                profileDao.update(writableDatabase, profile);
+//                                user.setName(displayModel.getName());
+//                                user.setUserTypeId(displayModel.getTypeId());
+//                                profileDao.update(writableDatabase, user);
 //                            }
                         }
 

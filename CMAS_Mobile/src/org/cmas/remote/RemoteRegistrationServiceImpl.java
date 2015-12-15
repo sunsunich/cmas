@@ -6,11 +6,14 @@ import android.util.Pair;
 import com.google.android.gcm.GCMRegistrar;
 import org.cmas.Settings;
 import org.cmas.entities.DeviceType;
+import org.cmas.entities.MockUtil;
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.json.user.RegisterNewUserReply;
 import org.cmas.util.android.SecurePreferences;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,16 +31,20 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
         params.put("deviceId", loginData.deviceId);
         params.put("pushServiceRegId", loginData.gcmRegId);
 
-        Pair<Pair<User, String>, Map<String, String>> result =
-                basicGetRequestSend(context, appProperties.getLoginURL(), params, User.class);
+        //todo remove stub
+        Diver user = MockUtil.getMockDiver();
 
-        User user = result.first.first;
+        Pair<Pair<User, String>, Map<String, String>> result =
+                new Pair<>(new Pair<User, String>(user, ""), Collections.<String,String>emptyMap());
+      //          basicGetRequestSend(context, appProperties.getLoginURL(), params, User.class);
+
+      //  User user = result.first.first;
         if (user != null) {
             SharedPreferences sharedPreferences = new SecurePreferences(context);
             Settings settings = settingsService.getSettings(sharedPreferences);
 
             settings.setJsessionid(result.second.get(SESSION_COOKIE_NAME));
-            GCMRegistrar.setRegisteredOnServer(context, true);
+        //    GCMRegistrar.setRegisteredOnServer(context, true);
             settingsService.setSettings(sharedPreferences, settings);
         }
         return result.first;

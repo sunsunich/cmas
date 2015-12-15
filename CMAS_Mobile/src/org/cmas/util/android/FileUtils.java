@@ -39,8 +39,9 @@ public final class FileUtils {
 
     public static String[] childrenFileNamesFromAssets(Context context, String path) {
         Resources res = context.getResources();
+        @SuppressWarnings("resource")
         AssetManager am = res.getAssets();
-        String fileList[] = null;
+        String[] fileList = null;
         try {
             fileList = am.list(path);
         } catch (IOException e) {
@@ -50,17 +51,14 @@ public final class FileUtils {
     }
 
     public static Bitmap getBitmapFromAsset(Context context, String strName) {
+        @SuppressWarnings("resource")
         AssetManager assetManager = context.getAssets();
-        InputStream istr;
-        Bitmap bitmap = null;
         try {
-            istr = assetManager.open(strName);
-            bitmap = BitmapFactory.decodeStream(istr);
+            try (InputStream istr = assetManager.open(strName)) {
+                return BitmapFactory.decodeStream(istr);
+            }
         } catch (IOException e) {
             return null;
         }
-
-        return bitmap;
     }
-
 }

@@ -14,47 +14,45 @@
             android:gravity="top"
             >
 
+        <!--<LinearLayout-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:gravity="center"-->
+                <!--android:weightSum="1"-->
+                <!--android:orientation="horizontal">-->
+
+            <TextView
+                android:id="@+id/txt_proceed_to_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:textSize="22sp"
+                android:text="@string/card_purchase_text"
+                style="Helter.TextView"
+                android:paddingLeft="36dp"
+                />
+
+        <!--</LinearLayout>-->
+
         <LinearLayout
                 android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:weightSum="1"
                 android:orientation="horizontal">
 
             <Button
-                    android:id="@+id/bnt_user_account"
+                    android:id="@+id/bnt_proceed_to_payment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.9"
-                    android:text="@string/personal_info"
+                    android:text="@string/proceed_to_payment"
                     android:textSize="22sp"
                     android:textStyle="normal"
                     android:gravity="left|center_horizontal"
-                    android:drawableLeft="@drawable/account_info_icon"
-                    android:paddingLeft="10dp"
-                    android:drawablePadding="15dp"
-                    style="@style/Helter.Button.Turquoise"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_height="wrap_content"
-                android:layout_width="fill_parent"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:weightSum="1"
-                android:orientation="horizontal">
-
-            <Button
-                    android:id="@+id/bnt_logbook"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
-                    android:text="@string/logbook"
-                    android:textSize="22sp"
-                    android:textStyle="normal"
-                    android:gravity="left|center_horizontal"
-                    android:drawableLeft="@drawable/logbook_icon"
                     android:paddingLeft="10dp"
                     android:drawablePadding="15dp"
                     style="@style/Helter.Button.Turquoise"/>

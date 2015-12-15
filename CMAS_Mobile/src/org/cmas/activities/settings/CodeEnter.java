@@ -59,7 +59,7 @@ public class CodeEnter extends SecureActivity {
         );
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Button regButton = (Button) findViewById(R.id.bnt_confirm);
+        Button regButton = (Button) findViewById(R.id.bnt_confirm);
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,10 +67,10 @@ public class CodeEnter extends SecureActivity {
             }
         });
 
-        final TextView codeInput1 = (TextView) findViewById(R.id.code_input1);
-        final TextView codeInput2 = ((TextView) findViewById(R.id.code_input2));
-        final TextView codeInput3 = ((TextView) findViewById(R.id.code_input3));
-        final TextView codeInput4 = ((TextView) findViewById(R.id.code_input4));
+        TextView codeInput1 = (TextView) findViewById(R.id.code_input1);
+        TextView codeInput2 = (TextView) findViewById(R.id.code_input2);
+        TextView codeInput3 = (TextView) findViewById(R.id.code_input3);
+        TextView codeInput4 = (TextView) findViewById(R.id.code_input4);
 
         setInputFocusChange(regButton, codeInput1, codeInput2, codeInput3, codeInput4);
     }
@@ -101,13 +101,13 @@ public class CodeEnter extends SecureActivity {
     public void onClickForward() {
         final Activity activity = this;
 
-        final TextView codeInput1 = (TextView) activity.findViewById(R.id.code_input1);
-        final TextView codeInput2 = ((TextView) activity.findViewById(R.id.code_input2));
-        final TextView codeInput3 = ((TextView) activity.findViewById(R.id.code_input3));
-        final TextView codeInput4 = ((TextView) activity.findViewById(R.id.code_input4));
+        TextView codeInput1 = (TextView) activity.findViewById(R.id.code_input1);
+        TextView codeInput2 = (TextView) activity.findViewById(R.id.code_input2);
+        TextView codeInput3 = (TextView) activity.findViewById(R.id.code_input3);
+        TextView codeInput4 = (TextView) activity.findViewById(R.id.code_input4);
 
         final String code = evalCode(codeInput1, codeInput2, codeInput3, codeInput4);
-        new LoaderTask<String>(
+        new LoaderTask<>(
                 activity,
                 new Task<String>() {
 
@@ -143,20 +143,18 @@ public class CodeEnter extends SecureActivity {
     }
 
     protected <T> void setupHeader(
-            String headerTextStr, final Class<T> backActivityClass
+            String headerTextStr, Class<T> backActivityClass
     ) {
         setupHeader(headerTextStr, backActivityClass, Collections.<String, Serializable>emptyMap());
     }
 
-    private Intent backIntent = null;
-
-    protected <T> void setupHeader(String headerTextStr, final Class<T> backActivityClass,
-                                   final Map<String, Serializable> extraData) {
+    protected <T> void setupHeader(String headerTextStr, Class<T> backActivityClass,
+                                   Map<String, Serializable> extraData) {
         getSupportActionBar().setTitle(makeHtmlTitle(headerTextStr));
 
         if (backActivityClass != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            backIntent = new Intent(getBaseContext(), backActivityClass);
+            Intent backIntent = new Intent(getBaseContext(), backActivityClass);
             for (Map.Entry<String, Serializable> item : extraData.entrySet()) {
                 backIntent.putExtra(item.getKey(), item.getValue());
             }
@@ -166,11 +164,11 @@ public class CodeEnter extends SecureActivity {
         }
     }
 
-    protected void setInputFocusChange(final View endElement,
-                                       final TextView codeInput1,
-                                       final TextView codeInput2,
-                                       final TextView codeInput3,
-                                       final TextView codeInput4) {
+    protected void setInputFocusChange(View endElement,
+                                       TextView codeInput1,
+                                       TextView codeInput2,
+                                       TextView codeInput3,
+                                       TextView codeInput4) {
 
         setListenersForCodeInput(null, codeInput1, codeInput2);
         setListenersForCodeInput(codeInput1, codeInput2, codeInput3);
@@ -233,10 +231,10 @@ public class CodeEnter extends SecureActivity {
     }
 
     protected String evalCode(TextView codeInput1, TextView codeInput2, TextView codeInput3, TextView codeInput4) {
-        final String code1 = codeInput1.getText().toString();
-        final String code2 = codeInput2.getText().toString();
-        final String code3 = codeInput3.getText().toString();
-        final String code4 = codeInput4.getText().toString();
+        String code1 = codeInput1.getText().toString();
+        String code2 = codeInput2.getText().toString();
+        String code3 = codeInput3.getText().toString();
+        String code4 = codeInput4.getText().toString();
         return code1 + code2 + code3 + code4;
     }
 

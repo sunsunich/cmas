@@ -184,9 +184,9 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
 //                    .create();
 //            Type resultType = new TypeToken<List<ProfileDisplayModel>>() {
 //            }.getType();
-//            String responseBody = "[{\"profile\":{\"id\":124,\"relationship\":\"\",\"version\":1989,\"extId\":3720454252014032,\"sex\":\"M\",\"dob\":\"01.03.1972\",\"oms\":\"11111\",\"snils\":\"\",\"name\":\"Леонард\",\"default\":true" +
-//                    ",\"avatar\":\"....\"},\"newDirectivesCnt\":0}," +
-//                    "{\"profile\":{\"id\":488,\"relationship\":\"\",\"version\":1979,\"extId\":4558098732014041,\"sex\":\"M\",\"oms\":\"OMS-123456\",\"snils\":\"\",\"name\":\"Бабушка\",\"default\":false,\"avatar\":\"\"},\"newDirectivesCnt\":0}]";
+//            String responseBody = "[{\"user\":{\"id\":124,\"relationship\":\"\",\"version\":1989,\"extId\":3720454252014032,\"sex\":\"M\",\"dob\":\"01.03.1972\",\"oms\":\"11111\",\"snils\":\"\",\"name\":\"Леонард\",\"default\":true" +
+//                    ",\"userpic\":\"....\"},\"newDirectivesCnt\":0}," +
+//                    "{\"user\":{\"id\":488,\"relationship\":\"\",\"version\":1979,\"extId\":4558098732014041,\"sex\":\"M\",\"oms\":\"OMS-123456\",\"snils\":\"\",\"name\":\"Бабушка\",\"default\":false,\"userpic\":\"\"},\"newDirectivesCnt\":0}]";
 //
 //            List<ProfileDisplayModel> result =
 //                    gson.fromJson(responseBody, resultType);

@@ -1,6 +1,8 @@
 package org.cmas.fragments;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import org.cmas.R;
 import org.cmas.fragments.documents.DocumentsFragment;
+import org.cmas.fragments.user.UserAccount;
 
 /**
  * User: ABadretdinov
@@ -48,13 +51,23 @@ public class MainScreen extends BaseResultViewFragment {
                 getString(R.string.app_name),
                 null
         );
+        // todo logoff button only for testing purposes
+        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Button buttonDocuments = (Button) getView().findViewById(R.id.bnt_documents);
-        buttonDocuments.setOnClickListener(new View.OnClickListener()
-        {
+        Button buttonUserAccount = (Button) getView().findViewById(R.id.bnt_user_account);
+        buttonUserAccount.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View v) {
+                replaceCurrentMainFragment(getId(), UserAccount.newInstance(null), true);
+            }
+        });
+
+        Button buttonLogBook = (Button) getView().findViewById(R.id.bnt_logbook);
+        buttonLogBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 replaceCurrentMainFragment(getId(), DocumentsFragment.newInstance(null), true);
             }
         });

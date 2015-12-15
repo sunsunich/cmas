@@ -23,8 +23,8 @@ public abstract class BaseEnterView extends BaseActivity {
 		switch (item.getItemId()) {
 			case android.R.id.home:
 
-				startActivity(backIntent);
-				//finish();
+				//startActivity(backIntent);
+				finish();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
