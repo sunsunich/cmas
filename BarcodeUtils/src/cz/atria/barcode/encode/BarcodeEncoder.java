@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
@@ -31,32 +32,29 @@ import java.util.Hashtable;
  *
  * @author dswitkin@google.com (Daniel Switkin)
  */
-public final class BarcodeEncoder
-{
+public final class BarcodeEncoder {
 
-	private static final String TAG = BarcodeEncoder.class.getSimpleName();
+    private static final String TAG = BarcodeEncoder.class.getSimpleName();
 
-	private static final int WHITE = 0xFFFFFFFF;
-	private static final int BLACK = 0xFF000000;
+    private static final int WHITE = 0xFFFFFFFF;
+    private static final int BLACK = 0xFF000000;
 
-	//private final Activity activity;
-	private String contents;
-	private String displayContents;
-	private String title;
-	private BarcodeFormat format;
+    //private final Activity activity;
+    private String contents;
+    private String displayContents;
+    private String title;
+    private BarcodeFormat format;
 
-	public static Bitmap createBarcode(String number, int imgWidth, int imgHeight) throws Exception
-	{
-		return encodeAsBitmap(number, BarcodeFormat.CODE_128, imgWidth, imgHeight);
-	}
+    public static Bitmap createBarcode(String number, int imgWidth, int imgHeight) throws Exception {
+        return encodeAsBitmap(number, BarcodeFormat.CODE_128, imgWidth, imgHeight);
+    }
 
-	public static Bitmap createQRCode(String number, int imgWidth, int imgHeight) throws Exception
-	{
-		return encodeAsBitmap(number, BarcodeFormat.QR_CODE, imgWidth, imgHeight);
-	}
+    public static Bitmap createQRCode(String number, int imgWidth, int imgHeight) throws Exception {
+        return encodeAsBitmap(number, BarcodeFormat.QR_CODE, imgWidth, imgHeight);
+    }
 
 	/*public BarcodeEncoder(Activity activity, Intent intent)
-	{
+    {
 		this.activity = activity;
 		if (intent == null)
 		{
@@ -386,48 +384,41 @@ public final class BarcodeEncoder
 		}
 	}*/
 
-	public static Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int desiredWidth, int desiredHeight)
-			throws WriterException
-	{
-		Hashtable<EncodeHintType, Object> hints = null;
-		String encoding = guessAppropriateEncoding(contents);
-		if (encoding != null)
-		{
-			hints = new Hashtable<EncodeHintType, Object>(2);
-			hints.put(EncodeHintType.CHARACTER_SET, encoding);
-		}
-		MultiFormatWriter writer = new MultiFormatWriter();
-		BitMatrix result = writer.encode(contents, format, desiredWidth, desiredHeight, hints);
-		int width = result.getWidth();
-		int height = result.getHeight();
-		int[] pixels = new int[width * height];
-		// All are 0, or black, by default
-		for (int y = 0; y < height; y++)
-		{
-			int offset = y * width;
-			for (int x = 0; x < width; x++)
-			{
-				pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
-			}
-		}
+    public static Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int desiredWidth, int desiredHeight)
+            throws WriterException {
+        Hashtable<EncodeHintType, Object> hints = null;
+        String encoding = guessAppropriateEncoding(contents);
+        if (encoding != null) {
+            hints = new Hashtable<>(2);
+            hints.put(EncodeHintType.CHARACTER_SET, encoding);
+        }
+        Writer writer = new MultiFormatWriter();
+        BitMatrix result = writer.encode(contents, format, desiredWidth, desiredHeight, hints);
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        // All are 0, or black, by default
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
+            }
+        }
 
-		Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-		return bitmap;
-	}
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
 
-	private static String guessAppropriateEncoding(CharSequence contents)
-	{
-		// Very crude at the moment
-		for (int i = 0; i < contents.length(); i++)
-		{
-			if (contents.charAt(i) > 0xFF)
-			{
-				return "UTF-8";
-			}
-		}
-		return null;
-	}
+    private static String guessAppropriateEncoding(CharSequence contents) {
+        // Very crude at the moment
+        for (int i = 0; i < contents.length(); i++) {
+            if (contents.charAt(i) > 0xFF) {
+                return "UTF-8";
+            }
+        }
+        return null;
+    }
 	 /*
 	private static String trim(String s)
 	{

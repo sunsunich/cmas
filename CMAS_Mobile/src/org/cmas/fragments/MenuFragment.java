@@ -40,10 +40,10 @@ public class MenuFragment extends SecureFragment {
         checkProfilesWheelState();
 
         View view = getView();
-        view.findViewById(R.id.barcode).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.qr_code).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SecureActivity.showBarCode(getActivity(), (Diver)currentUser);
+                SecureActivity.showQRCode(getActivity(), (Diver) currentUser);
             }
         });
         view.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {

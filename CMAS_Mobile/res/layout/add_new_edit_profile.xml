@@ -153,7 +153,7 @@
                     android:drawableRight="@drawable/arrow_right_gray"
                     android:paddingLeft="@dimen/margin_from_screen_borders"
                     android:paddingRight="@dimen/margin_from_screen_borders"
-                    android:text="@string/barcode_title"/>
+                    android:text="@string/qr_code_title"/>
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"

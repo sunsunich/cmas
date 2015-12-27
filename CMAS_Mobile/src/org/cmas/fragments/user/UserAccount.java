@@ -1,16 +1,18 @@
 package org.cmas.fragments.user;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import org.cmas.Globals;
 import org.cmas.R;
 import org.cmas.activities.SecureActivity;
 import org.cmas.entities.diver.Diver;
 import org.cmas.fragments.MenuFragment;
+import org.cmas.service.DrawCardService;
 
 import java.text.MessageFormat;
 import java.util.Date;
@@ -71,34 +73,36 @@ public class UserAccount extends BaseUserAccountFragment {
             ));
         }
 
-        Button showBarCodeButton = (Button) fragmentView.findViewById(R.id.show_barcode_btn);
         final Diver diver = (Diver) currentUser;
-        String cardText = (String)getResources().getText(R.string.barcode_title) + ' ' +
-                diver.getPrimaryPersonalCard().getNumber();
-        showBarCodeButton.setText(
-                cardText
-        );
-        showBarCodeButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SecureActivity.showBarCode(
-                                getActivity(), diver
-                        );
+        try {
+            ImageView cardView = (ImageView)getView().findViewById(R.id.card);
+            cardView.setImageDrawable(
+                    DrawCardService.drawUserCard(getActivity(), diver)
+            );
+            cardView.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            SecureActivity.showQRCode(
+                                    getActivity(), diver
+                            );
+                        }
                     }
-                }
-        );
+            );
+        } catch (Exception e) {
+            Log.e(getClass().getName(), e.getMessage(), e);
+        }
 
 
         changePassButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doProfileSave();
+                doPassChange();
             }
         });
     }
 
-    private void doProfileSave() {
+    private void doPassChange() {
 //        collectProfileData();
 //
 //        final ProfileManagementService profileManagementService

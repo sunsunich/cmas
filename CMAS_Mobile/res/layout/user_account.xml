@@ -97,49 +97,18 @@
                         />
 
             </LinearLayout>
-            <LinearLayout
-                    android:id="@+id/add_access_barcode_root"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginTop="@dimen/vertical_space_between_views"
-                        android:background="@color/divider_gray"/>
-                <LinearLayout
-                        android:id="@+id/profiles_holder"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"/>
-                <!--<Button-->
-                <!--android:id="@+id/add_access_btn"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="70dp"-->
-                <!--android:text="@string/add_access"-->
-                <!--android:drawableLeft="@drawable/plus"-->
-                <!--android:paddingLeft="@dimen/margin_from_screen_borders"-->
-                <!--style="@style/Helter.Button.White"/>-->
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_gray"/>
-                <Button
-                        android:id="@+id/show_barcode_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
-                        style="@style/Helter.Button.White"
-                        android:drawableLeft="@drawable/barcode"
-                        android:drawableRight="@drawable/arrow_right_gray"
-                        android:paddingLeft="@dimen/margin_from_screen_borders"
-                        android:paddingRight="@dimen/margin_from_screen_borders"
-                        android:text="@string/barcode_title"/>
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_gray"/>
-            </LinearLayout>
+
+            <ImageView android:id="@+id/card"
+                       android:layout_width="fill_parent"
+                       android:layout_height="fill_parent"
+                       android:adjustViewBounds="true"
+                       android:scaleType="centerInside"
+                       android:layout_marginTop="@dimen/vertical_space_between_views"
+                       android:layout_marginLeft="@dimen/margin_from_screen_borders"
+                       android:layout_marginRight="@dimen/margin_from_screen_borders"
+                    />
+
+
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

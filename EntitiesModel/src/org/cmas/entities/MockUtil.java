@@ -1,6 +1,8 @@
 package org.cmas.entities;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.SportsFederation;
 
 import java.util.Date;
@@ -18,8 +20,12 @@ public class MockUtil {
         user.setPassword("aaaa");
         user.setCountry(new Country("us"));
         user.setDob(new Date());
-        user.setFirstName("John");
-        user.setLastName("Smith");
+        user.setFirstName("Christopher");
+        user.setLastName("Wolfeschlegelsteinhausenbergerdorff");
+
+        user.setDiverLevel(DiverLevel.THREE_STAR);
+        user.setDiverType(DiverType.INSTRUCTOR);
+
         SportsFederation federation = new SportsFederation();
         federation.setName("THE UNDERWATER SOCIETY OF AMERICA");
         PersonalCard card = new PersonalCard();

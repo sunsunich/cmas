@@ -115,14 +115,14 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="close">Close</string>
-    <string name="barcode_error">Failed to create a bar code</string>
+    <string name="qr_code_error">Failed to create a bar code</string>
     <string name="profile_operations_title">Operations with the profile</string>
     <string name="add_new_profile">Add new profile</string>
     <string name="add_new_profile_title">Add new profile</string>
     <string name="add">Add</string>
     <string name="bind_profile_title">Allow</string>
     <string name="barcode">Barcode</string>
-    <string name="barcode_title">CARD NUMBER</string>
+    <string name="qr_code_title">CARD NUMBER</string>
     <string name="delete_profile_title">Remove all</string>
     <string name="unbind_profile_title">Remove from the device</string>
     <string name="rename_profile_title">Rename profile</string>

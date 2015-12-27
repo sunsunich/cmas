@@ -121,7 +121,7 @@
     <string name="edit">редактировать</string>
     <string name="delete">Удалить</string>
     <string name="close">Закрыть</string>
-    <string name="barcode_error">Ошибка при создании штрих-кода</string>
+    <string name="qr_code_error">Ошибка при создании штрих-кода</string>
     <string name="profile_operations_title">Операции с профилем</string>
     <string name="add_new_profile">Добавить новый профиль</string>
 
@@ -129,7 +129,7 @@
     <string name="add">Добавить</string>
     <string name="bind_profile_title">Разрешить доступ</string>
     <string name="barcode">Штрих-код</string>
-    <string name="barcode_title">ШТРИХ-КОД</string>
+    <string name="qr_code_title">ШТРИХ-КОД</string>
     <string name="delete_profile_title">Удалить навсегда</string>
     <string name="unbind_profile_title">Удалить с устройства</string>
     <string name="rename_profile_title">Переименовать профиль</string>

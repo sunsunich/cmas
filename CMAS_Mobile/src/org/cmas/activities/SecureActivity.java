@@ -28,7 +28,7 @@ import org.cmas.util.android.SecurePreferences;
 
 public abstract class SecureActivity extends BaseActivity {
 
-    public static void showBarCode(FragmentActivity activity, final Diver diver) {
+    public static void showQRCode(FragmentActivity activity, final Diver diver) {
         try {
             DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
             int width = StrictMath.round((float) displayMetrics.widthPixels * 0.8f);
@@ -37,17 +37,17 @@ public abstract class SecureActivity extends BaseActivity {
             final Dialog dialog = new Dialog(activity);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-            dialog.setContentView(R.layout.view_barcode);
-            TextView barcodeTitle = (TextView) dialog.findViewById(R.id.elem_text);
-            String profileNumber = diver.getPrimaryPersonalCard().getNumber();
-            barcodeTitle.setText(
-                    activity.getString(R.string.barcode_title)
+            dialog.setContentView(R.layout.view_qr_code);
+            TextView qrCodeTitle = (TextView) dialog.findViewById(R.id.elem_text);
+            String cardNumber = diver.getPrimaryPersonalCard().getNumber();
+            qrCodeTitle.setText(
+                    activity.getString(R.string.qr_code_title)
                             + '\n' + diver.getEmail()
-                            + " ( " + profileNumber + " )"
+                            + " ( " + cardNumber + " )"
             );
-            ImageView barcodeImageView = (ImageView) dialog.findViewById(R.id.barcode);
-            barcodeImageView.setImageBitmap(
-                    BarcodeEncoder.createBarcode(profileNumber, width, height)
+            ImageView qrCodeImageView = (ImageView) dialog.findViewById(R.id.qr_code);
+            qrCodeImageView.setImageBitmap(
+                    BarcodeEncoder.createQRCode(cardNumber, width, height)
             );
 
             Button cancelBtn = (Button) dialog.findViewById(R.id.cancel);
@@ -59,7 +59,7 @@ public abstract class SecureActivity extends BaseActivity {
             });
             dialog.show();
         } catch (Exception e) {
-            BaseActivity.reportError(activity, activity.getString(R.string.barcode_error));
+            BaseActivity.reportError(activity, activity.getString(R.string.qr_code_error));
             Log.e(activity.getClass().getName(), e.getMessage(), e);
         }
     }
@@ -70,7 +70,6 @@ public abstract class SecureActivity extends BaseActivity {
 
     protected String currentUsername;
     protected User currentUser;
-    protected long profileId;
 
 
     protected SecureActivity(boolean storeState) {

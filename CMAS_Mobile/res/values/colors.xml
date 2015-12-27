@@ -39,4 +39,7 @@
     <color name="actionBarBackground">#303030</color>
     <color name="bottomActionBarBackground">#efefef</color>
     <color name="bottomActionBarTextColor">#555555</color>
+    <color name="cardNumberGradStartColor">#111111</color>
+    <color name="cardNumberGradEndColor">#dddddd</color>
+    <color name="cardNameColor">#25456c</color>
 </resources>

@@ -14,7 +14,7 @@
         android:gravity="center"
         android:layout_margin="20dip"
         android:textColor="@color/turquoise"
-        android:text="@string/barcode_title"
+        android:text="@string/qr_code_title"
         style="@style/Helter.Title"
         />
     <View
@@ -23,7 +23,7 @@
         android:background="#E0E0E0"/>
 
     <ImageView
-        android:id="@+id/barcode"
+        android:id="@+id/qr_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
