@@ -11,7 +11,7 @@
             android:layout_height="1dp"
             android:background="@color/divider_gray"/>
     <ListView
-            android:id="@+id/documents_holder"
+            android:id="@+id/entries_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:dividerHeight="1dp"

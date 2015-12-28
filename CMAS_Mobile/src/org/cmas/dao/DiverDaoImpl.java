@@ -4,7 +4,7 @@ import org.cmas.entities.diver.Diver;
 
 public class DiverDaoImpl extends UserDaoImpl<Diver> implements UserDao<Diver> {
 
-    static final String DIVER_TABLE = "divers";
+    public static final String DIVER_TABLE = "divers";
 
     // Database creation SQL statement
     private static final String CREATE_TABLE_ENDING_QUERY = ");";

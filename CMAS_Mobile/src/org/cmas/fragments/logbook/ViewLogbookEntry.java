@@ -1,4 +1,4 @@
-package org.cmas.fragments.documents;
+package org.cmas.fragments.logbook;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import org.cmas.R;
-import org.cmas.entities.doc.Document;
+import org.cmas.entities.logbook.LogbookEntry;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,12 +14,12 @@ import org.cmas.entities.doc.Document;
  * Date: 13.02.14
  * Time: 9:10
  */
-public class ViewDocument extends BaseDocumentFragment {
+public class ViewLogbookEntry extends BaseLogbookEntryFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setupHeader(getString(R.string.logbook), DocumentsFragment.class);
+        setupHeader(getString(R.string.logbook), LogbookFragment.class);
 
         addedFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,8 +34,8 @@ public class ViewDocument extends BaseDocumentFragment {
             }
         });
 
-        Button editDocumentButton = (Button) getView().findViewById(R.id.doc_edit_btn);
-        editDocumentButton.setVisibility(View.VISIBLE);
+        Button editEntryButton = (Button) getView().findViewById(R.id.entry_edit_btn);
+        editEntryButton.setVisibility(View.VISIBLE);
     }
 
 
@@ -44,11 +44,11 @@ public class ViewDocument extends BaseDocumentFragment {
         if (getArguments() == null) {
             return inflater.inflate(R.layout.fatal_error, null, false);
         } else {
-            document = (Document) getArguments().getSerializable("document");
-            if (document == null) {
+            logbookEntry = (LogbookEntry) getArguments().getSerializable("logbookEntry");
+            if (logbookEntry == null) {
                 return inflater.inflate(R.layout.fatal_error, null, false);
             } else {
-                return inflater.inflate(R.layout.document_view, null, false);
+                return inflater.inflate(R.layout.logbook_entry_view, null, false);
             }
         }
     }

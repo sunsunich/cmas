@@ -1,4 +1,4 @@
-package org.cmas.fragments.documents;
+package org.cmas.fragments.logbook;
 
 import android.os.Bundle;
 import android.util.Pair;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import org.cmas.R;
-import org.cmas.entities.doc.Document;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.fragments.EntityManagementAction;
 import org.cmas.json.EntityEditReply;
 
@@ -16,15 +16,15 @@ import org.cmas.json.EntityEditReply;
  * Date: 21.01.14
  * Time: 17:42
  */
-public class EditDocument extends NewEditBaseDocumentFragment {
+public class EditLogbookEntry extends NewEditBaseLogbookEntryFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         Bundle extrasMap = new Bundle();
-        extrasMap.putSerializable("document", document);
-        setupHeader(getString(R.string.logbook), ViewDocument.class, extrasMap);
+        extrasMap.putSerializable("logbookEntry", logbookEntry);
+        setupHeader(getString(R.string.logbook), ViewLogbookEntry.class, extrasMap);
 
         addedFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +44,7 @@ public class EditDocument extends NewEditBaseDocumentFragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doDocumentEdit();
+                doEntryEdit();
             }
         });
     }
@@ -54,31 +54,26 @@ public class EditDocument extends NewEditBaseDocumentFragment {
         if (getArguments() == null) {
             return inflater.inflate(R.layout.fatal_error, null, false);
         } else {
-            document = (Document) getArguments().getSerializable("document");
-            if (document == null) {
+            logbookEntry = (LogbookEntry) getArguments().getSerializable("logbookEntry");
+            if (logbookEntry == null) {
                 return inflater.inflate(R.layout.fatal_error, null, false);
             } else {
-                return inflater.inflate(R.layout.document_edit, null, false);
+                return inflater.inflate(R.layout.logbook_entry_edit, null, false);
             }
         }
     }
 
-    private void doDocumentEdit() {
-        if (collectDocumentData()) {
+    private void doEntryEdit() {
+        if (collectLogbookEntryData()) {
             EntityManagementAction<EntityEditReply> action = new EntityManagementAction<EntityEditReply>() {
                 @Override
                 protected Pair<EntityEditReply, String> manageEntity() {
-                    return documentService.editDoc(
-                            getActivity(), document
+                    return logbookService.editEntry(
+                            getActivity(), logbookEntry
                     );
                 }
             };
-            action.doAction(this, "edit document", DocumentsFragment.class);
+            action.doAction(this, "edit logbookEntry", LogbookFragment.class);
         }
-    }
-
-    @Override
-    protected long getTypeId() {
-        return document.getTypeId();
     }
 }

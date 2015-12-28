@@ -182,8 +182,7 @@
     <string name="loading_dictionaries_complete">Словарные данные загружены</string>
     <string name="loading_dictionaries">Загружаем словарные данные</string>
     <string name="authorization_attempt">Авторизация</string>
-    <string name="loading_profiles">Загружаем профили</string>
-    <string name="loading_documents">Загружаем документы</string>
+    <string name="loading_logbook">Загружаем LogBook</string>
 
     <string name="doc_aux_data">ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ</string>
     <string name="doc_type_title">Тип документа</string>
@@ -194,9 +193,9 @@
     <string name="doc_edit_title">Редактирование документа</string>
     <string name="doc_delete_title">Удаление документа</string>
     <string name="doc_desc_title">ПОЛНОЕ ОПИСАНИЕ</string>
-    <string name="doc_delete_question">Вы уверены, что хотите удалить этот документ?</string>
+    <string name="entry_delete_question">Вы уверены, что хотите удалить эту запись?</string>
     <string name="add_new_document">Добавить документ</string>
-    <string name="new_document_title_caps">ДОБАВЛЕНИЕ ДОКУМЕНТА</string>
+    <string name="new_logbook_entry_title_caps">ДОБАВЛЕНИЕ ЗАПИСИ</string>
     <string name="doc_common_info">ОБЩАЯ ИНФОРМАЦИЯ</string>
     <string name="doc_name">Название</string>
     <string name="description">Описание</string>
@@ -216,7 +215,7 @@
     <string name="comments_caps">КОММЕНТАРИИ</string>
     <string name="doc_description">ОПИСАНИЕ</string>
 
-    <string name="error_doc_name_empty">Имя документа не может быть пустым</string>
+    <string name="error_entry_name_empty">Имя документа не может быть пустым</string>
     <string name="error_doc_type_empty">Тип документа не выбран</string>
     <string name="error_while_opening_doc_file_format">Ошибка в ходе открытия файла {0}</string>
     <string name="error_while_saving_profile">Ошибка в ходе сохранения профиля на сервере</string>

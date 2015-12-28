@@ -28,16 +28,9 @@ public class MenuFragment extends SecureFragment {
         return inflater.inflate(R.layout.menu_layout, null);
     }
 
-
-    public void checkProfilesWheelState() {
-        checkUserLoggedIn();
-
-    }
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        checkProfilesWheelState();
 
         View view = getView();
         view.findViewById(R.id.qr_code).setOnClickListener(new View.OnClickListener() {
@@ -49,7 +42,6 @@ public class MenuFragment extends SecureFragment {
         view.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  detectProfileChange();
 
                 if (getActivity() instanceof SlidingActionBarActivity) {
                     ((SlidingActionBarActivity) getActivity()).toggle();

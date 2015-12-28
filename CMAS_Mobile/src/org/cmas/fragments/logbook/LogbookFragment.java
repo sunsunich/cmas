@@ -1,4 +1,4 @@
-package org.cmas.fragments.documents;
+package org.cmas.fragments.logbook;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,10 +19,10 @@ import android.widget.ListView;
 import com.cocosw.undobar.UndoBarController;
 import org.cmas.BaseBeanContainer;
 import org.cmas.R;
-import org.cmas.entities.doc.Document;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.fragments.BaseFragment;
 import org.cmas.fragments.BaseResultViewFragment;
-import org.cmas.service.doc.DocumentService;
+import org.cmas.service.logbook.LogbookService;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.ProgressTask;
 
@@ -31,25 +31,25 @@ import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: 1
+ * User: 1ø
  * Date: 21.01.14
  * Time: 11:32
  */
-public class DocumentsFragment extends BaseResultViewFragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
+public class LogbookFragment extends BaseResultViewFragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
 
-    private DocumentService documentService;
+    private final LogbookService logbookService;
 
-    public static DocumentsFragment newInstance(Bundle data) {
-        DocumentsFragment fragment = new DocumentsFragment();
+    public static LogbookFragment newInstance(Bundle data) {
+        LogbookFragment fragment = new LogbookFragment();
         fragment.setArguments(data);
         return fragment;
     }
 
-    public DocumentsFragment() {
+    public LogbookFragment() {
         super(true);
 
         BaseBeanContainer baseBeanContainer = BaseBeanContainer.getInstance();
-        documentService = baseBeanContainer.getDocumentService();
+        logbookService = baseBeanContainer.getLogbookService();
     }
 
     @Override
@@ -67,10 +67,10 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
         int i = item.getItemId();
         if (i == R.id.add) {
             try {
-                replaceCurrentMainFragment(getId(), BaseFragment.newInstance(NewDocument.class, null), true);
+                replaceCurrentMainFragment(getId(), BaseFragment.newInstance(NewLogbookEntry.class, null), true);
             } catch (Exception e) {
                 Log.e(getClass().getName()
-                        , "Error while opening NewDocument fragment"
+                        , "Error while opening NewLogbookEntry fragment"
                         , e
                 );
             }
@@ -86,14 +86,14 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
         super.onActivityCreated(savedInstanceState);
         setupHeader(getString(R.string.logbook), navigationService.getMainFragmentClass());
 
-        listView = (ListView) getView().findViewById(R.id.documents_holder);
-        listView.setAdapter(new DocumentListAdapter(getActivity(), null));
+        listView = (ListView) getView().findViewById(R.id.entries_holder);
+        listView.setAdapter(new LogbookEntryListAdapter(getActivity(), null));
         listView.setOnItemClickListener(this);
 
-        final ActionBarActivity activity = (ActionBarActivity) getActivity();
+        ActionBarActivity activity = (ActionBarActivity) getActivity();
         ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setIcon(R.drawable.account_info_icon);
+        actionBar.setIcon(R.drawable.logbook_icon);
         actionBar.setDisplayShowHomeEnabled(true);
 
         loadData();
@@ -101,22 +101,22 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
 
     private void loadData() {
         final ActionBarActivity activity = (ActionBarActivity) getActivity();
-        DialogUtils.showLoaderDialog(getFragmentManager(), new ProgressTask<List<Document>>() {
+        DialogUtils.showLoaderDialog(getFragmentManager(), new ProgressTask<List<LogbookEntry>>() {
             @Override
-            public List<Document> doTask(OnPublishProgressListener listener) {
+            public List<LogbookEntry> doTask(ProgressTask.OnPublishProgressListener listener) {
                 if (getActivity() == null) {
-                    return new ArrayList<Document>();
+                    return new ArrayList<>();
                 }
                 if (listener != null) {
-                    listener.onPublishProgress(activity.getString(R.string.loading_documents));
+                    listener.onPublishProgress(activity.getString(R.string.loading_logbook));
                 }
-                documentService.loadUserDocs(activity);
-                return documentService.getByProfileNoRemoteCall(activity, currentUser.getId(), null);
+                logbookService.loadLogbook(activity, currentUser.getId());
+                return logbookService.getByDiverNoRemoteCall(activity, currentUser.getId(), null);
             }
 
             @Override
-            public void doAfterTask(List<Document> documents) {
-                listView.setAdapter(new DocumentListAdapter(activity, documents));
+            public void doAfterTask(List<LogbookEntry> result) {
+                listView.setAdapter(new LogbookEntryListAdapter(activity, result));
             }
 
             @Override
@@ -147,22 +147,22 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
         super.onDestroyView();
     }
 
-    private void getRequested(String documentName) {
+    private void getRequested(String entryName) {
         Activity activity = getActivity();
-        List<Document> documents = documentService.getByProfileNoRemoteCall(
-                activity, currentUser.getId(), documentName
+        List<LogbookEntry> logbookEntries = logbookService.getByDiverNoRemoteCall(
+                activity, currentUser.getId(), entryName
         );
-        listView.setAdapter(new DocumentListAdapter(activity, documents));
+        listView.setAdapter(new LogbookEntryListAdapter(activity, logbookEntries));
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        DocumentListAdapter adapter = (DocumentListAdapter) parent.getAdapter();
+        LogbookEntryListAdapter adapter = (LogbookEntryListAdapter) parent.getAdapter();
 
         Bundle args = new Bundle();
-        args.putSerializable("document", adapter.getItem(position));
+        args.putSerializable("logbookEntry", adapter.getItem(position));
         try {
-            replaceCurrentMainFragment(getId(), BaseFragment.newInstance(ViewDocument.class, args), true);
+            replaceCurrentMainFragment(getId(), BaseFragment.newInstance(ViewLogbookEntry.class, args), true);
         } catch (Exception e) {
             Log.e(getClass().getName()
                     , "Error while opening UserAccount fragment"
@@ -174,17 +174,17 @@ public class DocumentsFragment extends BaseResultViewFragment implements Adapter
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.documents, null, false);
+        return inflater.inflate(R.layout.logbook, null, false);
     }
 
     @Override
-    public boolean onQueryTextSubmit(String text) {
+    public boolean onQueryTextSubmit(String s) {
         return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String text) {
-        getRequested(text);
+    public boolean onQueryTextChange(String s) {
+        getRequested(s);
         return true;
     }
 }

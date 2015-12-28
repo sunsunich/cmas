@@ -17,13 +17,13 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_document_title_caps"
+                android:text="@string/new_logbook_entry_title_caps"
                 style="@style/Helter.Title"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
                 />
 
         <EditText
-                android:id="@+id/doc_name"
+                android:id="@+id/entry_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
@@ -33,7 +33,7 @@
                 />
 
         <EditText
-                android:id="@+id/doc_desc"
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
@@ -51,7 +51,7 @@
                 >
 
             <ImageButton
-                    android:id="@+id/doc_set_date_btn"
+                    android:id="@+id/entry_set_date_btn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/calendar_icon"
@@ -187,7 +187,7 @@
                 />
 
         <Button
-                android:id="@+id/doc_add_file_btn"
+                android:id="@+id/entry_add_file_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"

@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import org.cmas.R;
-import org.cmas.fragments.documents.DocumentsFragment;
+import org.cmas.fragments.logbook.LogbookFragment;
 import org.cmas.fragments.user.UserAccount;
 
 /**
@@ -68,7 +68,7 @@ public class MainScreen extends BaseResultViewFragment {
         buttonLogBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceCurrentMainFragment(getId(), DocumentsFragment.newInstance(null), true);
+                replaceCurrentMainFragment(getId(), LogbookFragment.newInstance(null), true);
             }
         });
     }

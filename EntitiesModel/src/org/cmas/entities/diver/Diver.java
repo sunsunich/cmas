@@ -1,12 +1,15 @@
 package org.cmas.entities.diver;
 
 import org.cmas.entities.CardUser;
+import org.cmas.entities.logbook.LogbookEntry;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * Created on Dec 04, 2015
@@ -27,11 +30,22 @@ public class Diver extends CardUser {
     @Enumerated(EnumType.STRING)
     private DiverType diverType;
 
+    @OneToMany(mappedBy = "diver")
+    private List<LogbookEntry> logbookEntries;
+
     public Diver() {
     }
 
     public Diver(long id) {
         super(id);
+    }
+
+    public List<LogbookEntry> getLogbookEntries() {
+        return logbookEntries;
+    }
+
+    public void setLogbookEntries(List<LogbookEntry> logbookEntries) {
+        this.logbookEntries = logbookEntries;
     }
 
     public DiverLevel getDiverLevel() {

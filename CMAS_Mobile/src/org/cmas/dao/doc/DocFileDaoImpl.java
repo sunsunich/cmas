@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DocFileDaoImpl extends GeneralDaoImpl<DocFile> implements DocFileDao {
 
-    static final String DOC_FILE_TABLE = "user";
+    static final String DOC_FILE_TABLE = "document_files";
 
     static final String COLUMN_NAME = "name";
     private static final String COLUMN_EXT = "ext";

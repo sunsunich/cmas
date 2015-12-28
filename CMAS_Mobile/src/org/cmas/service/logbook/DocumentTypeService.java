@@ -1,4 +1,4 @@
-package org.cmas.service.doc;
+package org.cmas.service.logbook;
 
 import android.content.Context;
 import org.cmas.entities.doc.DocumentType;

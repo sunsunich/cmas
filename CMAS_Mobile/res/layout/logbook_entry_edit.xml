@@ -10,7 +10,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal">
         <TextView
-                android:id="@+id/doc_name"
+                android:id="@+id/entry_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -87,7 +87,7 @@
                     >
 
                 <ImageButton
-                        android:id="@+id/doc_set_date_btn"
+                        android:id="@+id/entry_set_date_btn"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/calendar_icon"
@@ -253,7 +253,7 @@
         </LinearLayout>
 
         <Button
-                android:id="@+id/doc_desc_btn"
+                android:id="@+id/note_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
@@ -263,7 +263,7 @@
                 android:drawableRight="@drawable/arrow_down_white"
                 style="@style/Helter.Button.Turquoise"/>
         <EditText
-                android:id="@+id/doc_desc"
+                android:id="@+id/note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
@@ -309,7 +309,7 @@
                 android:orientation="vertical"
                 android:visibility="gone"/>
         <Button
-                android:id="@+id/doc_add_file_btn"
+                android:id="@+id/entry_add_file_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"

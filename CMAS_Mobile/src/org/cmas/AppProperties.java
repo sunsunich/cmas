@@ -56,10 +56,10 @@ public class AppProperties {
     private final String deleteAppointmentURL;
 
     private final String getDocsDictURL;
-    private final String getUserDocsURL;
-    private final String addNewDocURL;
-    private final String editDocURL;
-    private final String deleteDocURL;
+    private final String getDiverLogbookEntriesURL;
+    private final String addNewLogbookEntryURL;
+    private final String editLogbookEntryURL;
+    private final String deleteLogbookEntryURL;
 
     private final String regionRegistryWSDL;
 
@@ -111,10 +111,10 @@ public class AppProperties {
         deleteAppointmentURL=properties.getProperty("rmis.deleteAppointmentURL");
 
         getDocsDictURL=properties.getProperty("egosanum.getDocsDictURL");
-        getUserDocsURL=properties.getProperty("egosanum.getUserDocsURL");
-        addNewDocURL=properties.getProperty("egosanum.addNewDocURL");
-        editDocURL=properties.getProperty("egosanum.editDocURL");
-        deleteDocURL=properties.getProperty("egosanum.deleteDocURL");
+        getDiverLogbookEntriesURL =properties.getProperty("egosanum.getUserDocsURL");
+        addNewLogbookEntryURL =properties.getProperty("egosanum.addNewDocURL");
+        editLogbookEntryURL =properties.getProperty("egosanum.editDocURL");
+        deleteLogbookEntryURL =properties.getProperty("egosanum.deleteDocURL");
 
         regionRegistryWSDL=properties.getProperty("rmis.regionRegistryWSDL");
     }
@@ -223,20 +223,20 @@ public class AppProperties {
         return getDocsDictURL;
     }
 
-    public String getGetUserDocsURL() {
-        return getUserDocsURL;
+    public String getGetDiverLogbookEntriesURL() {
+        return getDiverLogbookEntriesURL;
     }
 
-    public String getAddNewDocURL() {
-        return addNewDocURL;
+    public String getAddNewLogbookEntryURL() {
+        return addNewLogbookEntryURL;
     }
 
-    public String getEditDocURL() {
-        return editDocURL;
+    public String getEditLogbookEntryURL() {
+        return editLogbookEntryURL;
     }
 
-    public String getDeleteDocURL() {
-        return deleteDocURL;
+    public String getDeleteLogbookEntryURL() {
+        return deleteLogbookEntryURL;
     }
 
     public String getRegionRegistryWSDL() {

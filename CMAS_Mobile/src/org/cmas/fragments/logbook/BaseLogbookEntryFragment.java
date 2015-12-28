@@ -1,4 +1,4 @@
-package org.cmas.fragments.documents;
+package org.cmas.fragments.logbook;
 
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
@@ -16,21 +16,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.cmas.R;
-import org.cmas.dao.doc.DocFileDao;
-import org.cmas.entities.doc.Document;
-import org.cmas.entities.doc.DocumentType;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.fragments.BaseFragment;
 import org.cmas.fragments.BaseResultViewFragment;
 import org.cmas.fragments.EntityManagementAction;
 import org.cmas.json.EntityEditReply;
-import org.cmas.service.doc.DocumentService;
-import org.cmas.service.doc.DocumentTypeService;
+import org.cmas.service.logbook.LogbookService;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.StringUtil;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,30 +35,20 @@ import java.util.Map;
  * Date: 11.02.14
  * Time: 18:18
  */
-public abstract class BaseDocumentFragment extends BaseResultViewFragment {
+public abstract class BaseLogbookEntryFragment extends BaseResultViewFragment {
 
-    protected static final long ANALYSIS_DOC_TYPE_ID = 2L;
-    protected static final long HOSPITALIZATION_DOC_TYPE_ID = 6L;
+    protected final LogbookService logbookService = beanContainer.getLogbookService();
 
-    protected final DocumentService documentService = beanContainer.getDocumentService();
-    protected final DocFileDao docFileDao = beanContainer.getDocFileDao();
-    protected final DocumentTypeService documentTypeService = beanContainer.getDocumentTypeService();
+    protected LogbookEntry logbookEntry;
 
-    protected Document document;
-
-    protected TextView docNameView;
-    protected TextView docDescView;
-    protected TextView docDateView;
-
-    protected LinearLayout hospitalizationHolder;
-    protected TextView hospitalizationFromView;
-    protected TextView hospitalizationTillView;
+    protected TextView entryNameView;
+    protected TextView noteView;
 
     protected Button addedFilesButton;
     protected LinearLayout attachedFilesHolder;
     protected Map<String, String> attachedFileFullPaths;
 
-    protected BaseDocumentFragment() {
+    protected BaseLogbookEntryFragment() {
         super(false);
     }
 
@@ -77,8 +63,8 @@ public abstract class BaseDocumentFragment extends BaseResultViewFragment {
         actionBar.setDisplayShowHomeEnabled(true);
 
         View view = getView();
-        docNameView = (TextView) view.findViewById(R.id.doc_name);
-        setStringValue(docNameView, document.getName());
+        entryNameView = (TextView) view.findViewById(R.id.entry_name);
+        setStringValue(entryNameView, logbookEntry.getName());
 
         final Button commonInfoButton = (Button) view.findViewById(R.id.common_info_btn);
         if (commonInfoButton != null) {
@@ -97,74 +83,43 @@ public abstract class BaseDocumentFragment extends BaseResultViewFragment {
             });
         }
 
-        docDescView = (TextView) view.findViewById(R.id.doc_desc);
-        setStringValue(docDescView, document.getDescription());
+        noteView = (TextView) view.findViewById(R.id.note);
+        setStringValue(noteView, logbookEntry.getNote());
 
-        final Button docDescButton = (Button) view.findViewById(R.id.doc_desc_btn);
-        if (docDescButton != null) {
-            docDescButton.setOnClickListener(new View.OnClickListener() {
+        final Button noteButton = (Button) view.findViewById(R.id.note_btn);
+        if (noteButton != null) {
+            noteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (docDescView.getVisibility() == View.GONE) {
-                        docDescView.setVisibility(View.VISIBLE);
-                        docDescButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_white, 0);
+                    if (noteView.getVisibility() == View.GONE) {
+                        noteView.setVisibility(View.VISIBLE);
+                        noteButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_white, 0);
                     } else {
-                        docDescView.setVisibility(View.GONE);
-                        docDescButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_white, 0);
+                        noteView.setVisibility(View.GONE);
+                        noteButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_white, 0);
                     }
                 }
             });
         }
 
-
-        long docTypeId = document.getTypeId();
-        TextView docTypeView = (TextView) view.findViewById(R.id.doc_type);
-        if (docTypeView != null) {
-            DocumentType documentType = documentTypeService.getById(activity, docTypeId);
-            docTypeView.setText(documentType.getLocalName());
-        }
-
-        attachedFileFullPaths = new HashMap<String, String>();
+        attachedFileFullPaths = new HashMap<>();
         addedFilesButton = (Button) view.findViewById(R.id.doc_added_files_btn);
         attachedFilesHolder = (LinearLayout) view.findViewById(R.id.doc_added_files_holder);
-        if (document.getId() != 0L) {
-            List<File> files = docFileDao.getFiles(activity, document);
-            for (File file : files) {
-                attachFile(file.getAbsolutePath());
-            }
-        }
+//        if (logbookEntry.getId() != 0L) {
+//            List<File> files = docFileDao.getFiles(activity, logbookEntry);
+//            for (File file : files) {
+//                attachFile(file.getAbsolutePath());
+//            }
+//        }
 
-        final Button docDeleteButton = (Button) view.findViewById(R.id.doc_delete);
-        if (docDeleteButton != null) {
-            docDeleteButton.setOnClickListener(new View.OnClickListener() {
+        Button deleteButton = (Button) view.findViewById(R.id.entry_delete);
+        if (deleteButton != null) {
+            deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    doDocumentDelete();
+                    doLogbookEntryDelete();
                 }
             });
-        }
-    }
-
-    protected void addCustomField(LinearLayout customFieldsRootLayout, Map.Entry<String, String> customFields) {
-
-        final FragmentActivity activity = getActivity();
-
-
-        final LinearLayout row = (LinearLayout) activity.getLayoutInflater()
-                .inflate(R.layout.document_custom_field_row, null);
-
-
-        String key = customFields.getKey();
-        if (!StringUtil.isTrimmedEmpty(key)) {
-            TextView customFieldNameTextView = (TextView) row.findViewById(R.id.doc_custom_field_name);
-            customFieldNameTextView.setText(key);
-
-            String value = customFields.getValue();
-            if (value != null) {
-                TextView customFieldValueTextView = (TextView) row.findViewById(R.id.doc_custom_field_value);
-                customFieldValueTextView.setText(value);
-            }
-            customFieldsRootLayout.addView(row);
         }
     }
 
@@ -226,26 +181,26 @@ public abstract class BaseDocumentFragment extends BaseResultViewFragment {
         }
     }
 
-    private void doDocumentDelete() {
+    private void doLogbookEntryDelete() {
         final FragmentActivity activity = getActivity();
         DialogUtils.showYesNoDialog(
-                activity, activity.getString(R.string.doc_delete_question), activity.getString(R.string.delete),
+                activity, activity.getString(R.string.entry_delete_question), activity.getString(R.string.delete),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EntityManagementAction<EntityEditReply> action = new EntityManagementAction<EntityEditReply>() {
                             @Override
                             protected Pair<EntityEditReply, String> manageEntity() {
-                                return documentService.deleteDoc(
-                                        activity, document.getId()
+                                return logbookService.deleteEntry(
+                                        activity, logbookEntry.getId()
                                 );
                             }
                         };
                         action.doAction(
-                                BaseDocumentFragment.this,
-                                "delete document",
+                                BaseLogbookEntryFragment.this,
+                                "delete logbookEntry",
                                 activity.getString(R.string.data_deleted_successfully),
-                                DocumentsFragment.class);
+                                LogbookFragment.class);
                     }
                 }
         );

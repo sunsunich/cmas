@@ -2,15 +2,15 @@
 
 <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal">
         <TextView
-                android:id="@+id/doc_name"
+                android:id="@+id/entry_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -18,11 +18,10 @@
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                style="@style/Helter.Title"
-                android:text="МАГНИТНО-РЕЗОНАНСНАЯ ТОМОГРАФИЯ ПОДЖЕЛУДОЧНОЙ ЖЕЛЕЗЫ"/>
+                style="@style/Helter.Title"/>
         <Button
                 android:id="@+id/common_info_btn"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
                 android:paddingRight="@dimen/margin_from_screen_borders"
@@ -32,7 +31,7 @@
                 style="@style/Helter.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/common_info_root"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
@@ -43,15 +42,15 @@
 
 
             <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
                 <TextView
                         android:id="@+id/doc_type_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:gravity="left"
                         android:text="@string/doc_type_title"
                         android:textColor="@color/dark_gray"/>
@@ -65,19 +64,19 @@
                         android:textColor="@color/dark_gray"/>
             </LinearLayout>
             <View
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_gray"/>
             <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
                 <TextView
                         android:id="@+id/doc_date_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:gravity="left"
                         android:text="@string/doc_date_title"
                         android:textColor="@color/dark_gray"/>
@@ -91,19 +90,19 @@
                         android:textColor="@color/dark_gray"/>
             </LinearLayout>
             <View
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_gray"/>
             <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
                 <TextView
                         android:id="@+id/doc_author_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:gravity="left"
                         android:text="@string/doc_author_title"
                         android:textColor="@color/dark_gray"/>
@@ -117,20 +116,20 @@
                         android:textColor="@color/dark_gray"/>
             </LinearLayout>
             <View
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/divider_gray"/>
             <LinearLayout
                     android:id="@+id/doc_num_of_order_holder"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp">
                 <TextView
                         android:id="@+id/doc_num_of_order_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:gravity="left"
                         android:text="@string/doc_directive_number_title"
                         android:textColor="@color/dark_gray"/>
@@ -160,9 +159,9 @@
                         >
                     <TextView
                             android:id="@+id/date_hospitalization_from_tv"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:singleLine="true"
                             android:gravity="left"
                             android:text="@string/hospitalization_from"
                             android:textColor="@color/dark_gray"/>
@@ -178,7 +177,7 @@
                 </LinearLayout>
 
                 <View
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/divider_gray"/>
 
@@ -192,9 +191,9 @@
 
                     <TextView
                             android:id="@+id/date_hospitalization_till_tv"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:singleLine="true"
                             android:gravity="left"
                             android:text="@string/hospitalization_till"
                             android:textColor="@color/dark_gray"/>
@@ -209,7 +208,7 @@
                 </LinearLayout>
 
                 <View
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/divider_gray"/>
 
@@ -218,8 +217,8 @@
         </LinearLayout>
 
         <Button
-                android:id="@+id/doc_desc_btn"
-                android:layout_width="fill_parent"
+                android:id="@+id/note_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
                 android:paddingRight="@dimen/margin_from_screen_borders"
@@ -228,8 +227,8 @@
                 android:drawableRight="@drawable/arrow_down_white"
                 style="@style/Helter.Button.Turquoise"/>
         <TextView
-                android:id="@+id/doc_desc"
-                android:layout_width="fill_parent"
+                android:id="@+id/note"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -242,7 +241,7 @@
 
         <Button
                 android:id="@+id/doc_custom_fields_btn"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
                 android:paddingRight="@dimen/margin_from_screen_borders"
@@ -252,14 +251,14 @@
                 style="@style/Helter.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/doc_custom_fields_root"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"/>
 
         <Button
                 android:id="@+id/doc_added_files_btn"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
                 android:paddingRight="@dimen/margin_from_screen_borders"
@@ -269,14 +268,14 @@
                 style="@style/Helter.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/doc_added_files_holder"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"/>
 
         <Button
-                android:id="@+id/doc_edit_btn"
-                android:layout_width="fill_parent"
+                android:id="@+id/entry_edit_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_between_views"
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
@@ -284,8 +283,8 @@
                 android:text="@string/doc_edit_title"
                 style="@style/Helter.Button.Gray"/>
         <Button
-                android:id="@+id/doc_delete"
-                android:layout_width="fill_parent"
+                android:id="@+id/entry_delete"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_between_views"
                 android:layout_marginBottom="@dimen/space_between_views"
