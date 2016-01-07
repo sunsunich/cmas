@@ -9,10 +9,7 @@ import org.cmas.InitializingBean;
 import org.cmas.Settings;
 import org.cmas.SettingsService;
 import org.cmas.dao.DataBaseHolder;
-import org.cmas.dao.doc.DocFileDao;
-import org.cmas.dao.doc.DocumentDao;
 import org.cmas.dao.logbook.LogbookEntryDao;
-import org.cmas.entities.doc.Document;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.util.android.SecurePreferences;
 
@@ -21,8 +18,6 @@ public class EntityDeleteServiceImpl implements EntityDeleteService, Initializin
 
     private LogbookEntryDao logbookEntryDao;
 
-    private DocumentDao documentDao;
-    private DocFileDao docFileDao;
 
     @Override
     public void initialize() {
@@ -30,8 +25,6 @@ public class EntityDeleteServiceImpl implements EntityDeleteService, Initializin
         BaseBeanContainer baseBeanContainer = BaseBeanContainer.getInstance();
         logbookEntryDao = baseBeanContainer.getLogbookEntryDao();
 
-        documentDao = baseBeanContainer.getDocumentDao();
-        docFileDao = baseBeanContainer.getDocFileDao();
     }
 
 //    @Override
@@ -47,13 +40,6 @@ public class EntityDeleteServiceImpl implements EntityDeleteService, Initializin
 //
 //        u.delete(database, user);
 //    }
-
-    @Override
-    public void deleteDocument(Context context, SQLiteDatabase database, Document document) {
-        docFileDao.deleteAllForDocument(context, document);
-
-        documentDao.delete(database, document);
-    }
 
     @Override
     public void deleteLogbookEntry(Context context, SQLiteDatabase database, LogbookEntry logbookEntry) {

@@ -187,7 +187,6 @@
     </inspection_tool>
     <inspection_tool class="CollectionContainsUrl" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CollectionsFieldAccessReplaceableByMethodCall" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="CollectionsMustHaveInitialCapacity" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ComparableImplementedButEqualsNotOverridden" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ComparatorNotSerializable" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="CompareToUsesNonFinalVariable" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -210,7 +209,7 @@
       <option name="onlyCheckImmutables" value="false" />
       <option name="m_regex" value="[A-Z][A-Z_\d]*" />
       <option name="m_minLength" value="3" />
-      <option name="m_maxLength" value="32" />
+      <option name="m_maxLength" value="42" />
     </inspection_tool>
     <inspection_tool class="ConstantValueVariableUse" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConstructorCount" enabled="true" level="WARNING" enabled_by_default="true">
@@ -781,6 +780,8 @@
           <option value="StringConcatenation" />
           <option value="StringToUpperCaseOrToLowerCaseWithoutLocale" />
           <option value="MethodOnlyUsedFromInnerClass" />
+          <option value="ConstantDeclaredInInterface" />
+          <option value="ObjectAllocationInLoop" />
         </list>
       </option>
     </inspection_tool>

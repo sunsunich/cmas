@@ -10,9 +10,9 @@ import org.cmas.InitializingBean;
 import org.cmas.R;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.dictionary.DictionaryDataDao;
-import org.cmas.dao.dictionary.DocumentTypeDao;
+import org.cmas.dao.divespot.DiveSpotDao;
 import org.cmas.entities.DictionaryEntity;
-import org.cmas.entities.doc.DocumentType;
+import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.remote.RemoteDictionaryService;
 import org.cmas.util.ProgressTask;
 
@@ -23,18 +23,16 @@ import java.util.List;
 
 public class DictionaryDataServiceImpl implements DictionaryDataService, InitializingBean {
 
-
     private RemoteDictionaryService remoteDictionaryService;
 
-    private DocumentTypeDao documentTypeDao;
+    private DiveSpotDao diveSpotDao;
 
     @Override
     public void initialize() {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
 
         remoteDictionaryService = beanContainer.getRemoteDictionaryService();
-
-        documentTypeDao = beanContainer.getDocumentTypeDao();
+        diveSpotDao = beanContainer.getDiveSpotDao();
     }
 
     @Override
@@ -60,12 +58,12 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
 
         loadEntity(
                 context,
-                documentTypeDao,
-                new RemoteListEntityGetter<DocumentType>() {
+                diveSpotDao,
+                new RemoteListEntityGetter<DiveSpot>() {
                     @Override
-                    public Pair<List<DocumentType>, String> getEntitiesList(long maxVersion)
+                    public Pair<List<DiveSpot>, String> getEntitiesList(long maxVersion)
                             throws Exception {
-                        return remoteDictionaryService.getDocDict(context, maxVersion);
+                        return remoteDictionaryService.getDiveSpots(context, maxVersion);
                     }
                 }
         );

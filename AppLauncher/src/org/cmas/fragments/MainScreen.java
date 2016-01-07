@@ -1,14 +1,16 @@
 package org.cmas.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import org.cmas.R;
+import org.cmas.activities.divespot.DiveSpotActivity;
 import org.cmas.fragments.logbook.LogbookFragment;
 import org.cmas.fragments.user.UserAccount;
 
@@ -52,7 +54,7 @@ public class MainScreen extends BaseResultViewFragment {
                 null
         );
         // todo logoff button only for testing purposes
-        ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -69,6 +71,14 @@ public class MainScreen extends BaseResultViewFragment {
             @Override
             public void onClick(View view) {
                 replaceCurrentMainFragment(getId(), LogbookFragment.newInstance(null), true);
+            }
+        });
+
+        Button buttonDiveSpot = (Button) getView().findViewById(R.id.bnt_dive_spot);
+        buttonDiveSpot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DiveSpotActivity.class));
             }
         });
     }

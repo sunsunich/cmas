@@ -1,7 +1,7 @@
 package org.cmas.json.logbook;
 
 import com.google.myjson.annotations.Expose;
-import org.cmas.entities.doc.Document;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.EntityEditReply;
 
 import java.util.Date;
@@ -17,10 +17,10 @@ public class LogbookEntryCreateReply extends EntityEditReply {
     public LogbookEntryCreateReply() {
     }
 
-    public LogbookEntryCreateReply(Document document) {
-        super(document.getVersion());
-        id = document.getId();
-        dateCreation = document.getDateCreation();
+    public LogbookEntryCreateReply(LogbookEntry logbookEntry) {
+        super(logbookEntry.getVersion());
+        id = logbookEntry.getId();
+        dateCreation = logbookEntry.getDateCreation();
     }
 
     public long getId() {

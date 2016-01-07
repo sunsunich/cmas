@@ -29,10 +29,6 @@
                 <value>org.cmas.entities.amateur.MassEvent</value>
                 <value>org.cmas.entities.amateur.MassEventRequest</value>
 
-                <value>org.cmas.entities.doc.DocFile</value>
-                <value>org.cmas.entities.doc.Document</value>
-                <value>org.cmas.entities.doc.DocumentType</value>
-
                 <value>org.cmas.entities.Country</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
 

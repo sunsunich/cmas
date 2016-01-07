@@ -3,12 +3,9 @@ package org.cmas;
 import org.cmas.dao.CreateTableDao;
 import org.cmas.dao.DiverDaoImpl;
 import org.cmas.dao.UserDao;
-import org.cmas.dao.dictionary.DocumentTypeDao;
-import org.cmas.dao.dictionary.DocumentTypeDaoImpl;
-import org.cmas.dao.doc.DocFileDao;
-import org.cmas.dao.doc.DocFileDaoFileImpl;
-import org.cmas.dao.doc.DocumentDao;
-import org.cmas.dao.doc.DocumentDaoImpl;
+import org.cmas.dao.divespot.DiveSpotDao;
+import org.cmas.dao.divespot.DiveSpotDaoImpl;
+import org.cmas.dao.logbook.LogbookEntryDao;
 import org.cmas.dao.logbook.LogbookEntryDaoImpl;
 import org.cmas.entities.diver.Diver;
 import org.cmas.remote.RemoteDictionaryService;
@@ -30,6 +27,8 @@ import org.cmas.service.UserService;
 import org.cmas.service.UserServiceImpl;
 import org.cmas.service.dictionary.DictionaryDataService;
 import org.cmas.service.dictionary.DictionaryDataServiceImpl;
+import org.cmas.service.divespot.DiveSpotService;
+import org.cmas.service.divespot.DiveSpotServiceImpl;
 import org.cmas.service.logbook.LogbookService;
 import org.cmas.service.logbook.LogbookServiceImpl;
 import org.cmas.util.android.WakeLocker;
@@ -71,15 +70,16 @@ public class BaseBeanContainer {
 
     private WakeLocker wakeLocker;
 
+    private PermissionChecker permissionChecker;
+
     private RemoteLogbookServiceImpl remoteDocumentService;
     private LogbookServiceImpl logbookService;
+    private DiveSpotServiceImpl diveSpotService;
 
     private UserDao<Diver> userDao;
 
     private LogbookEntryDaoImpl logbookEntryDao;
-    private DocumentTypeDao documentTypeDao;
-    private DocumentDaoImpl documentDao;
-    private DocFileDaoFileImpl docFileDao;
+    private DiveSpotDaoImpl diveSpotDao;
 
     private List<CreateTableDao> allDaos;
 
@@ -125,22 +125,17 @@ public class BaseBeanContainer {
 
             remoteDocumentService = new RemoteLogbookServiceImpl();
             logbookService = new LogbookServiceImpl();
-
+            diveSpotService = new DiveSpotServiceImpl();
 
             userDao = new DiverDaoImpl();
 
             logbookEntryDao = new LogbookEntryDaoImpl();
-
-            documentDao = new DocumentDaoImpl();
-            documentTypeDao = new DocumentTypeDaoImpl();
-            docFileDao = new DocFileDaoFileImpl();
+            diveSpotDao = new DiveSpotDaoImpl();
 
             allDaos = new ArrayList<>(5);
             allDaos.add(userDao);
             allDaos.add(logbookEntryDao);
-
-            allDaos.add(documentTypeDao);
-            allDaos.add(documentDao);
+            allDaos.add(diveSpotDao);
 
         } catch (IOException e) {
             throw new IllegalStateException("Context failed to initialize", e);
@@ -150,7 +145,7 @@ public class BaseBeanContainer {
     public void initialize() {
 
         logbookEntryDao.initialize();
-        documentDao.initialize();
+        diveSpotDao.initialize();
 
         registrationService.initialize();
         loginService.initialize();
@@ -165,6 +160,19 @@ public class BaseBeanContainer {
 
         remoteDocumentService.initialize();
         logbookService.initialize();
+        diveSpotService.initialize();
+    }
+
+    public PermissionChecker getPermissionChecker() {
+        return permissionChecker;
+    }
+
+    public void setPermissionChecker(PermissionChecker permissionChecker) {
+        this.permissionChecker = permissionChecker;
+    }
+
+    public DiveSpotDao getDiveSpotDao() {
+        return diveSpotDao;
     }
 
     public RemoteDictionaryService getRemoteDictionaryService() {
@@ -191,7 +199,7 @@ public class BaseBeanContainer {
         return userDao;
     }
 
-    public LogbookEntryDaoImpl getLogbookEntryDao() {
+    public LogbookEntryDao getLogbookEntryDao() {
         return logbookEntryDao;
     }
 
@@ -243,14 +251,6 @@ public class BaseBeanContainer {
         return dictionaryDataService;
     }
 
-    public DocumentTypeDao getDocumentTypeDao() {
-        return documentTypeDao;
-    }
-
-    public DocumentDao getDocumentDao() {
-        return documentDao;
-    }
-
     public RemoteLogbookService getRemoteDocumentService() {
         return remoteDocumentService;
     }
@@ -259,8 +259,8 @@ public class BaseBeanContainer {
         return logbookService;
     }
 
-    public DocFileDao getDocFileDao() {
-        return docFileDao;
+    public DiveSpotService getDiveSpotService() {
+        return diveSpotService;
     }
 }
 

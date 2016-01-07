@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
-import com.google.android.gcm.GCMBaseIntentService;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.remote.RemoteRegistrationService;
 import org.cmas.service.LoginService;
@@ -18,18 +17,18 @@ import org.cmas.util.android.SecurePreferences;
  * Date: 16/11/12
  * Time: 14:21
  */
-public class GCMIntentService extends GCMBaseIntentService {
+public class GCMIntentService {//} extends GCMBaseIntentService {
 
 //    public static final String PUSH_MESSAGE_ACTION =
 //                "com.aegosanum.PUSH_MESSAGE";
     public static final String EGOSANUM_PUSH_PROFILE = "cmas.push.user";
 
     public GCMIntentService(){
-        super(BaseBeanContainer.getInstance().getAppProperties().getGcmSenderId());
+     //   super(BaseBeanContainer.getInstance().getAppProperties().getGcmSenderId());
     }
 
     public GCMIntentService(String senderId) {
-        super(senderId);
+ //       super(senderId);
     }
 
 //    /**
@@ -41,7 +40,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 //        context.sendBroadcast(intent);
 //    }
 
-    @Override
+  //  @Override
     protected void onMessage(Context context, Intent intent) {
         Log.i(getClass().getName(), "Received message");
 
@@ -51,13 +50,13 @@ public class GCMIntentService extends GCMBaseIntentService {
       //  sendPushBroadcast(context, message);
     }
 
-    @Override
+//    @Override
     protected void onError(Context context, String s) {
         Log.i(getClass().getName(), "Got onError ");
         Log.e(getClass().getName(), "Error: " + s);
     }
 
-    @Override
+  //  @Override
     protected void onRegistered(final Context context, final String registrationId) {
         Log.i(getClass().getName(), "Device registered: regId = " + registrationId);
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
@@ -90,7 +89,7 @@ public class GCMIntentService extends GCMBaseIntentService {
         reLoginAction.doAction(context);
     }
 
-    @Override
+ //   @Override
     protected void onUnregistered(final Context context, final String registrationId) {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
         SharedPreferences sharedPreferences = new SecurePreferences(context);

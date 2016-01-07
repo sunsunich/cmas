@@ -4,15 +4,18 @@ import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.DictionaryEntity;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "document_files")
 public class DocFile extends DictionaryEntity {
 
     //set by server
-    @ManyToOne
-    private Document document;
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
@@ -26,21 +29,6 @@ public class DocFile extends DictionaryEntity {
 //    @Expose
 //    @Transient
 //    private String file;
-
-    //used at mobile device only
-    @Transient
-    private long documentId;
-
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-        if (document != null) {
-            documentId = document.getId();
-        }
-    }
 
     public byte[] getFileBytes() {
         return fileBytes;
@@ -58,6 +46,7 @@ public class DocFile extends DictionaryEntity {
         this.ext = ext;
     }
 
+
 //    public String getFile() {
 //        return file;
 //    }
@@ -65,12 +54,4 @@ public class DocFile extends DictionaryEntity {
 //    public void setFile(String file) {
 //        this.file = file;
 //    }
-
-    public long getDocumentId() {
-        return documentId;
-    }
-
-    public void setDocumentId(long documentId) {
-        this.documentId = documentId;
-    }
 }

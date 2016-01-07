@@ -29,6 +29,9 @@
      <!--current location-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-feature
+            android:glEsVersion="0x00020000"
+            android:required="true"/>
     <!--read\write events to calendar-->
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
@@ -46,28 +49,29 @@
                  android:theme="@style/Helter"
                  android:icon="@drawable/icon"
                  android:name=".CmasApplication"
-            >
+                 android:allowBackup="true">
         <!--api-key for maps-->
+        <!--<meta-data-->
+                <!--android:name="com.google.android.maps.v2.API_KEY"-->
+                <!--android:value="@string/debug_key"/>-->
+
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
-                android:value="@string/debug_key"/>
+                android:value="AIzaSyDNgjHkhbIz4ME8QQVA7dM6ZXACLQgI_kE"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <receiver android:name="com.google.android.gcm.GCMBroadcastReceiver"
-                  android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION"/>
-                <category android:name="org.cmas"/>
-            </intent-filter>
-        </receiver>
+        <!--<receiver android:name="com.google.android.gcm.GCMBroadcastReceiver"-->
+                  <!--android:permission="com.google.android.c2dm.permission.SEND">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.android.c2dm.intent.RECEIVE"/>-->
+                <!--<action android:name="com.google.android.c2dm.intent.REGISTRATION"/>-->
+                <!--<category android:name="org.cmas"/>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
 
-        <service android:name=".GCMIntentService"/>
-
-        <activity android:name=".activities.settings.SettingsListActivity"
-                  android:label="@string/app_name"/>
+        <!--<service android:name=".GCMIntentService"/>-->
 
         <activity android:name="org.cmas.activities.LoaderActivity"
                   android:configChanges="keyboardHidden|screenSize|orientation"
@@ -88,6 +92,10 @@
                   android:label="@string/app_name">
         </activity>
 
+        <activity android:name=".activities.divespot.DiveSpotActivity"
+                  android:label="@string/app_name">
+        </activity>
+
         <activity android:name=".activities.enter.EnterUsername"
                   android:label="@string/app_name">
         </activity>
@@ -97,48 +105,9 @@
                   android:label="@string/app_name">
         </activity>
 
-        <activity android:name="org.cmas.activities.trial.MainTrialScreen"
-                  android:label="@string/app_name">
-        </activity>
-
         <activity android:name=".activities.enter.Registration"
                   android:label="@string/app_name">
         </activity>
-        <activity android:name=".activities.settings.AddSecureCode"
-                  android:label="@string/app_name">
-        </activity>
-        <activity android:name=".activities.settings.AddEmail"
-                  android:label="@string/app_name">
-        </activity>
 
-        <activity android:name=".activities.results.ResearchSearchForm">
-
-        </activity>
-
-
-        <activity android:name=".activities.trial.ViewDirectiveLines"
-                  android:label="@string/app_name">
-        </activity>
-        <activity android:name=".activities.trial.ViewTestResult"
-                  android:label="@string/app_name">
-        </activity>
-        <!--<activity android:name="cz.atria.activity.RMISAuthActivity"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>-->
-        <activity android:name="cz.atria.activity.CreateRecordHolder"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-        <activity android:name="cz.atria.activity.CreateRecordServices"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-        <activity android:name="cz.atria.activity.CreateRecordResources"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-        <activity android:name="cz.atria.activity.CreateRecordScheduleHolder"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-        <activity android:name="cz.atria.activity.FullMapActivity"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-
-        <service android:name="cz.atria.service.MessagesCheckerStarter" android:enabled="true"/>
-        <activity android:name=".activities.file.FileChooseActivity"
-                  android:theme="@style/Light.Helter"
-                  android:configChanges="keyboardHidden|screenSize|orientation"/>
-        <receiver android:name="cz.atria.service.MessagesCheckerReceiver"/>
     </application>
 </manifest> 

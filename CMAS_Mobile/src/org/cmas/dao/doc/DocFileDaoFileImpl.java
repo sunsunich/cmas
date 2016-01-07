@@ -1,8 +1,8 @@
 package org.cmas.dao.doc;
 
 import android.content.Context;
+import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.doc.DocFile;
-import org.cmas.entities.doc.Document;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.android.DeviceInfo;
@@ -38,7 +38,7 @@ public class DocFileDaoFileImpl implements DocFileDao {
         });
     }
 
-    private String generateFileName(Context context, Document document, DocFile docFile) {
+    private String generateFileName(Context context, DictionaryEntity document, DocFile docFile) {
         String fileStoreLocation = getFileStoreLocation(context);
         File fileStore = new File(fileStoreLocation);
         String pattern = Pattern.quote(
@@ -54,20 +54,20 @@ public class DocFileDaoFileImpl implements DocFileDao {
                 + '.' + docFile.getExt();
     }
 
-    private String getFileBeginning(Document document) {
+    private String getFileBeginning(DictionaryEntity document) {
         long id = document.getId();
         String name = document.getName();
         return (id == 0L ? "tmp" : id) + "_" + (StringUtil.isTrimmedEmpty(name) ? "tmp" : name);
     }
 
-    private String getFileBeginningForDeletion(Document document) {
+    private String getFileBeginningForDeletion(DictionaryEntity document) {
         long id = document.getId();
         return (id == 0L ? "tmp" : id) + "_";
     }
 
 
     @Override
-    public String save(Context context, Document document, DocFile docFile) throws Exception {
+    public String save(Context context, DictionaryEntity document, DocFile docFile) throws Exception {
         String fileName = generateFileName(context, document, docFile);
         String fullPath = getFileStoreLocation(context) + File.separator + fileName;
         File file = new File(fullPath);
@@ -98,7 +98,7 @@ public class DocFileDaoFileImpl implements DocFileDao {
     }
 
     @Override
-    public List<File> getFiles(Context context, Document document) {
+    public List<File> getFiles(Context context, DictionaryEntity document) {
         String fileStoreLocation = getFileStoreLocation(context);
         File fileStore = new File(fileStoreLocation);
         String pattern = Pattern.quote(getFileBeginningForDeletion(document))
@@ -116,7 +116,7 @@ public class DocFileDaoFileImpl implements DocFileDao {
     }
 
     @Override
-    public void deleteAllForDocument(Context context, Document document) {
+    public void deleteAllForDocument(Context context, DictionaryEntity document) {
         List<File> files = getFiles(context, document);
         for (File file : files) {
             delete(context, file.getName());

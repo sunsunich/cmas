@@ -55,7 +55,7 @@ public class AppProperties {
     private final String getFutureAppointmentsURL;
     private final String deleteAppointmentURL;
 
-    private final String getDocsDictURL;
+    private final String getDiveSpotsURL;
     private final String getDiverLogbookEntriesURL;
     private final String addNewLogbookEntryURL;
     private final String editLogbookEntryURL;
@@ -110,7 +110,7 @@ public class AppProperties {
         getFutureAppointmentsURL=properties.getProperty("rmis.getFutureAppointmentsURL");
         deleteAppointmentURL=properties.getProperty("rmis.deleteAppointmentURL");
 
-        getDocsDictURL=properties.getProperty("egosanum.getDocsDictURL");
+        getDiveSpotsURL =properties.getProperty("egosanum.getDiveSpotsURL");
         getDiverLogbookEntriesURL =properties.getProperty("egosanum.getUserDocsURL");
         addNewLogbookEntryURL =properties.getProperty("egosanum.addNewDocURL");
         editLogbookEntryURL =properties.getProperty("egosanum.editDocURL");
@@ -219,8 +219,8 @@ public class AppProperties {
         return getParametersURL;
     }
 
-    public String getGetDocsDictURL() {
-        return getDocsDictURL;
+    public String getGetDiveSpotsURL() {
+        return getDiveSpotsURL;
     }
 
     public String getGetDiverLogbookEntriesURL() {

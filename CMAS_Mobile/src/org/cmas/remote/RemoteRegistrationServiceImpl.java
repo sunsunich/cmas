@@ -3,7 +3,6 @@ package org.cmas.remote;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Pair;
-import com.google.android.gcm.GCMRegistrar;
 import org.cmas.Settings;
 import org.cmas.entities.DeviceType;
 import org.cmas.entities.MockUtil;
@@ -97,7 +96,7 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
                 basicGetRequestSend(context, appProperties.getRegisterDeviceURL(), params, SimpleGsonResponse.class);
         Pair<SimpleGsonResponse, String> responseStringPair = result.first;
         if (responseStringPair.first != null) {
-            GCMRegistrar.setRegisteredOnServer(context, true);
+     //       GCMRegistrar.setRegisteredOnServer(context, true);
         }
         return responseStringPair;
     }

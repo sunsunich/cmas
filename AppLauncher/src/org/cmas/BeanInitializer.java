@@ -34,6 +34,9 @@ public class BeanInitializer {
         entityDeleteService.initialize();
         baseBeanContainer.setEntityDeleteService(entityDeleteService);
 
+        PermissionChecker permissionChecker = new PermissionCheckerImpl();
+        baseBeanContainer.setPermissionChecker(permissionChecker);
+
         PushDispatcherServiceImpl dispatcherService = new PushDispatcherServiceImpl();
         dispatcherService.initialize();
         baseBeanContainer.setPushDispatcherService(dispatcherService);

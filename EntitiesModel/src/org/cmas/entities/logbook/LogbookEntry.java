@@ -3,6 +3,7 @@ package org.cmas.entities.logbook;
 import com.google.myjson.annotations.Expose;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.divespot.DiveSpot;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

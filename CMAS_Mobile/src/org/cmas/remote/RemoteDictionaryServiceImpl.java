@@ -4,8 +4,7 @@ import android.content.Context;
 import android.util.Pair;
 import com.google.myjson.reflect.TypeToken;
 import org.cmas.entities.DictionaryEntity;
-import org.cmas.entities.doc.DocumentType;
-import org.cmas.json.doc.DocDictDataForClient;
+import org.cmas.entities.divespot.DiveSpot;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,17 +34,15 @@ public class RemoteDictionaryServiceImpl extends BaseRemoteServiceImpl implement
     }
 
     @Override
-    public Pair<List<DocumentType>, String> getDocDict(
+    public Pair<List<DiveSpot>, String> getDiveSpots(
             Context context,
             long maxDocTypesVersion
     ) throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("maxDocTypesVersion", String.valueOf(maxDocTypesVersion));
-
-        Pair<Pair<DocDictDataForClient, String>, Map<String, String>> result =
-                basicGetRequestSend(context, appProperties.getGetDocsDictURL(), params, DocDictDataForClient.class);
-        return new Pair<List<DocumentType>, String>(
-                result.first.first.getDocTypes(), result.first.second
+        return getDictionaryEntities(
+                context,
+                maxDocTypesVersion,
+                appProperties.getGetDiveSpotsURL(),
+                new TypeToken<List<DiveSpot>>() {}
         );
     }
 }
