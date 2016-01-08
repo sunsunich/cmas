@@ -19,16 +19,13 @@ public class DiveSpotAdapter extends BaseEfficientAdapter<DiveSpot, DiveSpotView
     @Override
     protected DiveSpotViewHolder createHolder(View view) {
         return new DiveSpotViewHolder(
-                (TextView) view.findViewById(R.id.name),
-                (TextView) view.findViewById(R.id.latitude),
-                (TextView) view.findViewById(R.id.longitude)
+                (TextView) view.findViewById(R.id.name)
         );
     }
 
     @Override
     protected void modifyHolder(DiveSpotViewHolder holder, DiveSpot datum) {
         holder.getName().setText(datum.getName());
-        holder.getLatitude().setText(activity.getString(R.string.latitude_label) + datum.getLatitude());
-        holder.getLongitude().setText(activity.getString(R.string.longitude_label) + datum.getLongitude());
+
     }
 }

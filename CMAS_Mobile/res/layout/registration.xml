@@ -33,6 +33,7 @@
 
         <EditText
                 android:id="@+id/first_name_input"
+                android:textColor="@color/text_gray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dip"
@@ -47,6 +48,7 @@
 
         <EditText
                 android:id="@+id/last_name_input"
+                android:textColor="@color/text_gray"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dip"
@@ -72,11 +74,12 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/calendar_icon"
-                    style="@style/Helter.Button"
+                    style="@style/Helter.Button.White"
                     android:background="@drawable/image_button_bkg"
                     android:contentDescription="@string/calendar_icon"/>
             <EditText
                     android:id="@+id/date_of_birthday_edit"
+                    android:textColor="@color/text_gray"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -87,6 +90,7 @@
         </LinearLayout>
 
         <Button
+                style="@style/Helter.Button.Orange"
                 android:id="@+id/bnt_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

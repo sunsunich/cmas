@@ -37,7 +37,7 @@ public class DiveSpotServiceImpl implements DiveSpotService, InitializingBean{
         }
     }
 
-    private static long id = 2L;
+    private static long id = 1L;
 
     @Override
     public DiveSpot addDiveSpot(Context context, DiveSpot diveSpot, boolean isNew) {

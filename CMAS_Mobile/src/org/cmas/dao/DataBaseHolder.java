@@ -12,7 +12,7 @@ import java.util.List;
 public class DataBaseHolder extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "cmas.db";
-    private static final int DATABASE_VERSION = 48;
+    private static final int DATABASE_VERSION = 49;
 
     public static String getDBLocation(Context context) {
         if (DeviceInfo.isExternalStorageWritable()) {

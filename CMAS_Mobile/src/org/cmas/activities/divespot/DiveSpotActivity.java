@@ -1,7 +1,7 @@
 package org.cmas.activities.divespot;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,6 +30,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.cmas.BaseBeanContainer;
 import org.cmas.PermissionChecker;
 import org.cmas.R;
@@ -36,10 +40,7 @@ import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.service.divespot.DiveSpotService;
 import org.cmas.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created on Jan 02, 2016
@@ -70,9 +71,11 @@ public class DiveSpotActivity extends SecureActivity
 
     private DiveSpotService diveSpotService;
 
-    private Map<String, DiveSpot> markerSpotMap;
+    private BiMap<Marker, DiveSpot> markerSpotMap;
 
     private ListView listView;
+
+    private boolean isChoosing;
 
     public DiveSpotActivity() {
         super(true);
@@ -83,20 +86,23 @@ public class DiveSpotActivity extends SecureActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dive_spot);
 
+        setupHeader(
+                getString(R.string.diving_spots)
+                , null
+        );
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (savedInstanceState == null) {
+            isChoosing = false;
+        } else {
+            isChoosing = savedInstanceState.getBoolean("isChoosing", false);
+        }
+
         permissionChecker = BaseBeanContainer.getInstance().getPermissionChecker();
         diveSpotService = BaseBeanContainer.getInstance().getDiveSpotService();
-        markerSpotMap = new HashMap<>();
+        markerSpotMap = HashBiMap.create();
 
         listView = (ListView) findViewById(R.id.dive_spots_holder);
-        listView.setAdapter(new DiveSpotAdapter(new ArrayList<DiveSpot>(), this));
-        listView.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    }
-                }
-        );
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -132,7 +138,14 @@ public class DiveSpotActivity extends SecureActivity
 
                 @Override
                 public void onMapLongClick(LatLng latLng) {
-                    showNewDiveSpotMarker(latLng);
+                    MarkerOptions markerOptions = new MarkerOptions()
+                            .position(latLng)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.dive_site_map_icon));
+                    Marker marker = map.addMarker(
+                            markerOptions
+                    );
+
+                    showDiveSpotEditDialog(marker);
                 }
             });
 
@@ -151,29 +164,52 @@ public class DiveSpotActivity extends SecureActivity
         showDiveSpotEditDialog(marker);
     }
 
-    private void showNewDiveSpotMarker(LatLng latLng) {
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(latLng)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.dive_site_map_icon));
-        Marker marker = map.addMarker(
-                markerOptions
-        );
-
-        showDiveSpotEditDialog(marker);
-    }
-
     private void showDiveSpotEditDialog(final Marker marker) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.setContentView(R.layout.dive_spot_edit_dialog);
+        final DiveSpot diveSpot = markerSpotMap.get(marker);
+        boolean isNew = diveSpot == null;
         final EditText spotNameEditText = (EditText) dialog.findViewById(R.id.spot_name);
+        TextView spotEditTitle = (TextView) dialog.findViewById(R.id.spot_edit_title);
+        if(isNew){
+            spotEditTitle.setText(getResources().getText(R.string.create_new_diving_spot));
+        }
+        else {
+            spotEditTitle.setText(getResources().getText(R.string.edit_diving_spot));
+            spotNameEditText.setText(diveSpot.getName());
+        }
+
+        Button chooseBtn = (Button) dialog.findViewById(R.id.bnt_choose);
+        if(isChoosing) {
+            chooseBtn.setVisibility(View.VISIBLE);
+            chooseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DiveSpot updateDiveSpot = createOrUpdateDiveSpot(spotNameEditText, marker, diveSpot);
+                    if (updateDiveSpot == null) {
+                        setResult(RESULT_CANCELED);
+                    } else {
+                        setResult(RESULT_OK,
+                                new Intent().putExtra("diveSpotId", updateDiveSpot.getId())
+                        );
+                    }
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        }
+        else{
+            chooseBtn.setVisibility(View.GONE);
+        }
 
         Button deleteBtn = (Button) dialog.findViewById(R.id.delete);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteSpot(marker, dialog);
+                deleteSpot(marker);
+                dialog.dismiss();
             }
         });
 
@@ -181,55 +217,71 @@ public class DiveSpotActivity extends SecureActivity
         saveBnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String spotName = spotNameEditText.getText().toString();
-                if (StringUtil.isTrimmedEmpty(spotName)) {
-                    deleteSpot(marker, dialog);
+                DiveSpot updateDiveSpot = createOrUpdateDiveSpot(spotNameEditText, marker, diveSpot);
+                if (updateDiveSpot != null) {
+                    marker.showInfoWindow();
                 }
-                DiveSpot diveSpot = markerSpotMap.get(marker.getId());
-                boolean isNew = diveSpot == null;
-                if (isNew) {
-                    diveSpot = new DiveSpot();
-                    markerSpotMap.put(marker.getId(), diveSpot);
-                }
-                diveSpot.setName(spotName);
-                LatLng position = marker.getPosition();
-                diveSpot.setLatitude(position.latitude);
-                diveSpot.setLongitude(position.longitude);
-
-                diveSpotService.addDiveSpot(DiveSpotActivity.this, diveSpot, isNew);
-
-                marker.setTitle(spotName);
-                marker.showInfoWindow();
                 dialog.dismiss();
             }
         });
         dialog.show();
     }
 
-    private void deleteSpot(Marker marker, DialogInterface dialog) {
-        DiveSpot diveSpot = markerSpotMap.remove(marker.getId());
+    private DiveSpot createOrUpdateDiveSpot(EditText spotNameEditText, Marker marker, DiveSpot diveSpot) {
+        String spotName = spotNameEditText.getText().toString();
+        if (StringUtil.isTrimmedEmpty(spotName)) {
+            deleteSpot(marker);
+            return null;
+        }
+        boolean isNew = diveSpot == null;
+        if (isNew) {
+            diveSpot = new DiveSpot();
+            markerSpotMap.put(marker, diveSpot);
+        }
+        diveSpot.setName(spotName);
+        LatLng position = marker.getPosition();
+        diveSpot.setLatitude(position.latitude);
+        diveSpot.setLongitude(position.longitude);
+
+        diveSpotService.addDiveSpot(this, diveSpot, isNew);
+
+        marker.setTitle(spotName);
+        ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
+        return diveSpot;
+    }
+
+    private void deleteSpot(Marker marker) {
+        DiveSpot diveSpot = markerSpotMap.remove(marker);
         if (diveSpot != null) {
             diveSpotService.deleteDiveSpot(this, diveSpot);
         }
+        ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
         marker.remove();
-        dialog.dismiss();
     }
 
     @SuppressWarnings("ObjectAllocationInLoop")
     private void showDiveSpotsOnMap(LatLngBounds bounds) {
-        List<DiveSpot> diveSpots = diveSpotService.getInMapBounds(this, bounds);
+        final List<DiveSpot> diveSpots = diveSpotService.getInMapBounds(this, bounds);
         listView.setAdapter(
                 new DiveSpotAdapter(diveSpots, this)
         );
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        showDiveSpotEditDialog(markerSpotMap.inverse().get(diveSpots.get(position)));
+                    }
+                }
+        );
         for (DiveSpot diveSpot : diveSpots) {
-            if (!markerSpotMap.values().contains(diveSpot)) {
+            if (!markerSpotMap.containsValue(diveSpot)) {
                 Marker marker = map.addMarker(
                         new MarkerOptions()
                                 .position(new LatLng(diveSpot.getLatitude(), diveSpot.getLongitude()))
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.dive_site_map_icon))
                                 .title(diveSpot.getName())
                 );
-                markerSpotMap.put(marker.getId(), diveSpot);
+                markerSpotMap.put(marker, diveSpot);
             }
         }
     }

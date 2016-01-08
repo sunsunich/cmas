@@ -36,6 +36,7 @@
                 android:layout_marginTop="15dip"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textColor="@color/text_gray"
                 android:singleLine="true"
                 android:inputType="text"
                 android:hint="@string/username"
@@ -49,6 +50,7 @@
                 android:layout_marginTop="10dip"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:textColor="@color/text_gray"
                 android:singleLine="true"
                 android:password="true"
                 android:inputType="textPassword"
@@ -64,7 +66,9 @@
                 android:text="@string/login_enter"
                 android:layout_marginTop="10dip"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
+                android:layout_marginRight="20dp"
+                style="@style/Helter.Button.Orange"
+                />
 
         <LinearLayout
                 android:id="@+id/registr_btns_root"

@@ -244,4 +244,7 @@
     <string name="edit_diving_spot">Edit diving spot</string>
     <string name="latitude_label">Latitude:</string>
     <string name="longitude_label">Longitude:</string>
+    <string name="choose_spot">Choose this spot</string>
+    <string name="create_new_diving_spot">Create new diving spot</string>
+    <string name="diving_spots">Diving Spots</string>
 </resources>

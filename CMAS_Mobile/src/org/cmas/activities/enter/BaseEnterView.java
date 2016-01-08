@@ -46,18 +46,17 @@ public abstract class BaseEnterView extends BaseActivity {
         actionBar.setCustomView(titleView);
         actionBar.setDisplayShowCustomEnabled(true);
 
-		if(backActivityClass!=null){
+		if (backActivityClass == null) {
+			getSupportActionBar().setHomeButtonEnabled(false);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		} else {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			backIntent = new Intent(getBaseContext(), backActivityClass);
 			for (Map.Entry<String, Serializable> item : extraData.entrySet()) {
 				backIntent.putExtra(item.getKey(), item.getValue());
 			}
 		}
-		else {
-			getSupportActionBar().setHomeButtonEnabled(false);
-			getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-		}
-    }
+	}
 
 
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -25,6 +26,10 @@ import org.cmas.util.DialogUtils;
 import org.cmas.util.ProgressTask;
 import org.cmas.util.StringUtil;
 import org.cmas.util.android.SecurePreferences;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Map;
 
 public abstract class SecureActivity extends BaseActivity {
 
@@ -74,6 +79,41 @@ public abstract class SecureActivity extends BaseActivity {
 
     protected SecureActivity(boolean storeState) {
         super(storeState);
+    }
+
+    private Intent backIntent;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+
+                //startActivity(backIntent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected <B extends Activity> void setupHeader(
+            String headerTextStr, Class<B> backActivityClass
+    ) {
+        setupHeader(headerTextStr, backActivityClass, Collections.<String, Serializable>emptyMap());
+    }
+
+    protected <B extends Activity> void setupHeader(String headerTextStr, Class<B> backActivityClass,
+                                                    Map<String, Serializable> extraData) {
+        getSupportActionBar().setTitle(makeHtmlTitle(headerTextStr));
+
+        if (backActivityClass == null) {
+            getSupportActionBar().setHomeButtonEnabled(false);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        } else {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            backIntent = new Intent(getBaseContext(), backActivityClass);
+            for (Map.Entry<String, Serializable> item : extraData.entrySet()) {
+                backIntent.putExtra(item.getKey(), item.getValue());
+            }
+        }
     }
 
     @Override

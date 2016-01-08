@@ -21,10 +21,6 @@ import org.cmas.util.LoaderTask;
 import org.cmas.util.StringUtil;
 import org.cmas.util.Task;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Map;
-
 public class CodeEnter extends SecureActivity {
 
     private final CodeService codeService = beanContainer.getCodeService();
@@ -142,27 +138,7 @@ public class CodeEnter extends SecureActivity {
         ).execute(1);
     }
 
-    protected <T> void setupHeader(
-            String headerTextStr, Class<T> backActivityClass
-    ) {
-        setupHeader(headerTextStr, backActivityClass, Collections.<String, Serializable>emptyMap());
-    }
 
-    protected <T> void setupHeader(String headerTextStr, Class<T> backActivityClass,
-                                   Map<String, Serializable> extraData) {
-        getSupportActionBar().setTitle(makeHtmlTitle(headerTextStr));
-
-        if (backActivityClass != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            Intent backIntent = new Intent(getBaseContext(), backActivityClass);
-            for (Map.Entry<String, Serializable> item : extraData.entrySet()) {
-                backIntent.putExtra(item.getKey(), item.getValue());
-            }
-        } else {
-            getSupportActionBar().setHomeButtonEnabled(false);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-    }
 
     protected void setInputFocusChange(View endElement,
                                        TextView codeInput1,
