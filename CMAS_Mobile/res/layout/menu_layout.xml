@@ -14,7 +14,7 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            style="@style/Helter.Button.Transparent"
+            style="@style/CMAS.Button.Transparent"
             android:drawableLeft="@drawable/barcode_icon"
             android:drawableRight="@drawable/arrow_right_gray"
             android:drawablePadding="10dp"
@@ -33,7 +33,7 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            style="@style/Helter.Button.Transparent"
+            style="@style/CMAS.Button.Transparent"
             android:drawableLeft="@drawable/settings"
             android:drawableRight="@drawable/arrow_right_gray"
             android:drawablePadding="10dp"
@@ -52,7 +52,7 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            style="@style/Helter.Button.Transparent"
+            style="@style/CMAS.Button.Transparent"
             android:drawableLeft="@drawable/exit"
             android:drawableRight="@drawable/arrow_right_gray"
             android:drawablePadding="10dp"

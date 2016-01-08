@@ -199,7 +199,7 @@
     <string name="doc_common_info">ОБЩАЯ ИНФОРМАЦИЯ</string>
     <string name="doc_name">Название</string>
     <string name="description">Описание</string>
-    <string name="type_of_document">Тип документа</string>
+    <string name="dive_score">Оценка погруженния</string>
     <string name="date">Дата</string>
     <string name="hospitalization_from">Начало госпитализации</string>
     <string name="hospitalization_till">Конец госпитализации</string>

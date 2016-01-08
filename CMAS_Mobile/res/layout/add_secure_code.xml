@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/clear_code"
-                        style="@style/Helter.Button.Gray"
+                        style="@style/CMAS.Button.Gray"
                         android:textSize="14sp"/>
 
                     <Button

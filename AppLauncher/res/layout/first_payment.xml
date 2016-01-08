@@ -30,7 +30,7 @@
                 android:textStyle="bold"
                 android:textSize="22sp"
                 android:text="@string/card_purchase_text"
-                style="Helter.TextView"
+                style="CMAS.TextView"
                 android:paddingLeft="36dp"
                 />
 
@@ -55,7 +55,7 @@
                     android:gravity="left|center_horizontal"
                     android:paddingLeft="10dp"
                     android:drawablePadding="15dp"
-                    style="@style/Helter.Button.Turquoise"/>
+                    style="@style/CMAS.Button.Turquoise"/>
         </LinearLayout>
     </LinearLayout>
 

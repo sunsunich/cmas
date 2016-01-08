@@ -130,7 +130,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
         } finally {
             stream.close();
         }
-        //SimpleHttpClientHB     HB-32
+
         Pair<String, Map<String, String>> reply = SimpleHttpsClient.sendRequest(
                 serverUrl,
                 keyManager.getKeyStore(),

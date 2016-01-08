@@ -50,7 +50,7 @@
         android:layout_above="@id/progress"
         android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
-        style="@style/Helter.TextView"
+        style="@style/CMAS.TextView"
         android:text="Loading..."
         android:id="@+id/progress_status"/>
 </RelativeLayout>

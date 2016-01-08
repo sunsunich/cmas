@@ -59,22 +59,22 @@ public abstract class BaseResultViewFragment extends SecureFragment {
                 currentUsername
         ));
         //actionBar.setSubtitle(subtitle);
-        if (backFragmentClass != null) {
+        if (backFragmentClass == null) {
+            actionBar.setHomeButtonEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        } else {
             actionBar.setDisplayHomeAsUpEnabled(true);
             Bundle bundle = new Bundle();
             if (extraData != null) {
                 bundle.putAll(extraData);
             }
             try {
-                this.backFragment = newInstance(backFragmentClass, bundle);
+               backFragment = newInstance(backFragmentClass, bundle);
             } catch (Exception e) {
                 Log.e(getClass().getName(), "Error while creating back fragment", e);
-                this.backFragment = navigationService.getMainFragment(bundle);
+                backFragment = navigationService.getMainFragment(bundle);
             }
 
-        } else {
-            actionBar.setHomeButtonEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 }

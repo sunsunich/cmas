@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        style="@style/Helter.TextView"
+        style="@style/CMAS.TextView"
         android:text="Loading..."
         android:id="@+id/progress_status"/>
     <ProgressBar

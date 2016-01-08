@@ -84,7 +84,7 @@ public abstract class NewEditBaseLogbookEntryFragment extends BaseLogbookEntryFr
                 imageCaptureFullPath = DocFileDaoFileImpl.getFileStoreLocation(context)
                         + File.separator
                         + System.currentTimeMillis()
-                        + ".png"
+                        + ".jpg"
                 ;
                 File imageCaptureFile = new File(imageCaptureFullPath);
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageCaptureFile));

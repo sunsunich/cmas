@@ -86,8 +86,9 @@ public abstract class SecureActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-
-                //startActivity(backIntent);
+                if(isTaskRoot()){
+                    startActivity(backIntent);
+                }
                 finish();
                 return true;
         }

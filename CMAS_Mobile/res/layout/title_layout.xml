@@ -5,5 +5,5 @@
               android:paddingLeft="5dp"
               android:gravity="center_vertical"
               android:singleLine="true"
-              style="@style/Helter.ActionBarTitle"
+              style="@style/CMAS.ActionBarTitle"
               android:layout_height="match_parent"/>

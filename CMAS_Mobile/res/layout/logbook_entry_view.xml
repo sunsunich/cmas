@@ -18,7 +18,7 @@
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                style="@style/Helter.Title"/>
+                style="@style/CMAS.Title"/>
         <Button
                 android:id="@+id/common_info_btn"
                 android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:gravity="left"
                 android:text="@string/doc_common_info"
                 android:drawableRight="@drawable/arrow_up_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/common_info_root"
                 android:layout_width="match_parent"
@@ -225,7 +225,7 @@
                 android:gravity="left"
                 android:text="@string/doc_desc_title"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <TextView
                 android:id="@+id/note"
                 android:layout_width="match_parent"
@@ -248,7 +248,7 @@
                 android:gravity="left"
                 android:text="@string/doc_aux_data"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/doc_custom_fields_root"
                 android:layout_width="match_parent"
@@ -265,9 +265,9 @@
                 android:gravity="left"
                 android:text="@string/added_files_title"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
-                android:id="@+id/doc_added_files_holder"
+                android:id="@+id/entry_added_files_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -281,7 +281,7 @@
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:text="@string/doc_edit_title"
-                style="@style/Helter.Button.Gray"/>
+                style="@style/CMAS.Button.Gray"/>
         <Button
                 android:id="@+id/entry_delete"
                 android:layout_width="match_parent"
@@ -291,6 +291,6 @@
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:text="@string/doc_delete_title"
-                style="@style/Helter.Button.Red"/>
+                style="@style/CMAS.Button.Red"/>
     </LinearLayout>
 </ScrollView>

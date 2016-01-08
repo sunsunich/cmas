@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            style="@style/Helter.TextView"
+            style="@style/CMAS.TextView"
             android:text="@string/restore_app"/>
         </LinearLayout>
     <LinearLayout
@@ -96,6 +96,6 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/confirm"
                 android:textColor="@color/white"
-                style="@style/Helter.Button.Orange"/>
+                style="@style/CMAS.Button.Orange"/>
     </LinearLayout>
 </LinearLayout>

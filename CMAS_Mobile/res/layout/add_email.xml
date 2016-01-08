@@ -62,7 +62,7 @@
 
                 android:typeface="sans"
                 android:textColor="@color/white"
-                style="@style/Helter.Button.Orange"
+                style="@style/CMAS.Button.Orange"
                 />
 
     </RelativeLayout>

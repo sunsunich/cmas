@@ -206,18 +206,13 @@
     <string name="doc_common_info">BACKGROUND</string>
     <string name="doc_name">Name</string>
     <string name="description">Description</string>
-    <string name="type_of_document">Document Type</string>
+    <string name="dive_score">Dive score</string>
     <string name="date">Date</string>
-    <string name="hospitalization_from">Home hospitalization</string>
-    <string name="hospitalization_till">End of the admission</string>
     <string name="doc_attach_file_title">Attach file</string>
     <string name="doc_attach_file_title_caps">Attach file</string>
     <string name="error_add_file_to_doc">error in the file attachment to the document</string>
     <string name="parameters_caps">OPTIONS</string>
-    <string name="doc_attach_parameter_title">Add option</string>
-    <string name="add_parameter_caps">add parameters</string>
-    <string name="search_parameter">Search option</string>
-    <string name="delete_parameter">Delete option</string>
+
     <string name="add_caps">ADD</string>
     <string name="comments_caps">NOTES</string>
     <string name="doc_description">Description</string>

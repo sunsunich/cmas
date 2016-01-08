@@ -15,7 +15,7 @@
             android:layout_marginLeft="@dimen/margin_from_screen_borders"
             android:layout_marginRight="@dimen/margin_from_screen_borders"
             android:layout_marginBottom="@dimen/vertical_space_between_views"
-            style="@style/Helter.Title"
+            style="@style/CMAS.Title"
             android:text="@string/doc_attach_file_title_caps"/>
 
     <View
@@ -27,7 +27,7 @@
             android:id="@+id/btn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Helter.Button.White"
+            style="@style/CMAS.Button.White"
             android:drawableLeft="@drawable/camera_icon_gray"
             android:drawableRight="@drawable/arrow_right_gray"
             android:paddingLeft="@dimen/margin_from_screen_borders"
@@ -47,7 +47,7 @@
             android:id="@+id/btn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Helter.Button.White"
+            style="@style/CMAS.Button.White"
             android:drawableLeft="@drawable/account_info_icon_gray"
             android:drawableRight="@drawable/arrow_right_gray"
             android:paddingLeft="@dimen/margin_from_screen_borders"
@@ -67,7 +67,7 @@
             android:id="@+id/cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Helter.Button.Gray"
+            style="@style/CMAS.Button.Gray"
             android:layout_margin="@dimen/margin_from_screen_borders"
             android:text="@string/cancel"/>
 

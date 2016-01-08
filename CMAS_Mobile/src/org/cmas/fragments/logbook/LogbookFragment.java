@@ -92,9 +92,7 @@ public class LogbookFragment extends BaseResultViewFragment implements AdapterVi
 
         ActionBarActivity activity = (ActionBarActivity) getActivity();
         ActionBar actionBar = activity.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setIcon(R.drawable.logbook_icon);
-        actionBar.setDisplayShowHomeEnabled(true);
 
         loadData();
     }

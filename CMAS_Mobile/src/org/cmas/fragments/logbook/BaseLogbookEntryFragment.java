@@ -104,7 +104,7 @@ public abstract class BaseLogbookEntryFragment extends BaseResultViewFragment {
 
         attachedFileFullPaths = new HashMap<>();
         addedFilesButton = (Button) view.findViewById(R.id.doc_added_files_btn);
-        attachedFilesHolder = (LinearLayout) view.findViewById(R.id.doc_added_files_holder);
+        attachedFilesHolder = (LinearLayout) view.findViewById(R.id.entry_added_files_holder);
 //        if (logbookEntry.getId() != 0L) {
 //            List<File> files = docFileDao.getFiles(activity, logbookEntry);
 //            for (File file : files) {

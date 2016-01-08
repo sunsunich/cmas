@@ -118,7 +118,7 @@ public abstract class BaseFragment extends Fragment {
             final Class<? extends Activity> activityClass,
             final Map<String, Serializable> extraData
     ) {
-        final Dialog dialog = new Dialog(getActivity(),R.style.Helter_Dialog);
+        final Dialog dialog = new Dialog(getActivity(),R.style.CMAS_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.alert_dialog);
         dialog.findViewById(R.id.title).setVisibility(View.GONE);
@@ -159,7 +159,7 @@ public abstract class BaseFragment extends Fragment {
             final Bundle bundle,
             String successMessage
     ) {
-        final Dialog dialog = new Dialog(getActivity(),R.style.Helter_Dialog);
+        final Dialog dialog = new Dialog(getActivity(),R.style.CMAS_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.alert_dialog);
         dialog.findViewById(R.id.title).setVisibility(View.GONE);
@@ -174,7 +174,7 @@ public abstract class BaseFragment extends Fragment {
                         getFragmentManager().popBackStack();
                     } else {
                         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        replaceCurrentMainFragment(getId(), BaseFragment.newInstance(fragmentClass, bundle),true);
+                        replaceCurrentMainFragment(getId(), newInstance(fragmentClass, bundle),true);
                     }
                     dialog.dismiss();
                 } catch (Exception e) {
@@ -195,8 +195,8 @@ public abstract class BaseFragment extends Fragment {
         reportError(getActivity(), message);
     }
 
-    public static void reportError(Context context, String message) {
-        final Dialog dialog = new Dialog(context,R.style.Helter_Dialog);
+    public static void reportError(Context context, CharSequence message) {
+        final Dialog dialog = new Dialog(context,R.style.CMAS_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.alert_dialog);
         ((TextView)dialog.findViewById(R.id.title)).setText(R.string.error);

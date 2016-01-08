@@ -74,7 +74,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/calendar_icon"
-                    style="@style/Helter.Button.White"
+                    style="@style/CMAS.Button.White"
                     android:background="@drawable/image_button_bkg"
                     android:contentDescription="@string/calendar_icon"/>
             <EditText
@@ -90,7 +90,7 @@
         </LinearLayout>
 
         <Button
-                style="@style/Helter.Button.Orange"
+                style="@style/CMAS.Button.Orange"
                 android:id="@+id/bnt_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

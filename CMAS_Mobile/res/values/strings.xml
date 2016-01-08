@@ -188,7 +188,7 @@
     <string name="doc_common_info">BACKGROUND</string>
     <string name="doc_name">Name</string>
     <string name="description">Description</string>
-    <string name="type_of_document">Document Type</string>
+    <string name="dive_score">Dive score</string>
     <string name="date">Date</string>
     <string name="hospitalization_from">Home hospitalization</string>
     <string name="hospitalization_till">End of the admission</string>
@@ -247,4 +247,7 @@
     <string name="choose_spot">Choose this spot</string>
     <string name="create_new_diving_spot">Create new diving spot</string>
     <string name="diving_spots">Diving Spots</string>
+    <string name="logbook_entry_notes_hint">Notes</string>
+    <string name="diving_duration_hint">Diving duration in minutes</string>
+    <string name="diving_depth_hint">diving depth in meters</string>
 </resources>

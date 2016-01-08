@@ -42,7 +42,7 @@ public class LoaderDialogFragment<T> extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Helter_Dialog);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.CMAS_Dialog);
     }
 
     private ProgressBar progress;

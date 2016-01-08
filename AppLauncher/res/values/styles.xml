@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Sherlock.PageIndicatorDefaults" parent="Helter">
+    <style name="Theme.Sherlock.PageIndicatorDefaults" parent="Theme.CMAS">
 
     </style>
-    <style name="Helter" parent="Theme.AppCompat">
-        <item name="actionBarStyle">@style/Helter.Styled</item>
+    <style name="Theme.CMAS" parent="Theme.AppCompat">
+        <item name="actionBarStyle">@style/CMAS.Styled</item>
         <item name="android:homeAsUpIndicator">@drawable/left_arrow_gray_with_padding</item>
-        <item name="android:actionBarStyle">@style/Helter.Styled</item>
-        <item name="android:textAppearance">@style/Helter.TextAppearance</item>
+        <item name="android:actionBarStyle">@style/CMAS.Styled</item>
+        <item name="android:textAppearance">@style/CMAS.TextAppearance</item>
         
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textColorHint">@color/hint_color</item>
 
 
         <item name="android:windowBackground">@color/white</item>
-        <item name="android:buttonStyle">@style/Helter.Button.Orange</item>
-        <item name="android:editTextStyle">@style/Helter.EditText</item>
-        <item name="android:spinnerStyle">@style/Helter.Spinner</item>
-        <item name="android:checkedTextViewStyle">@style/Helter.CheckedTextView</item>
-        <item name="android:radioButtonStyle">@style/Helter.RadioButton</item>
-        <item name="android:checkboxStyle">@style/Helter.CheckBox</item>
+        <item name="android:buttonStyle">@style/CMAS.Button.Orange</item>
+        <item name="android:editTextStyle">@style/CMAS.EditText</item>
+        <item name="android:spinnerStyle">@style/CMAS.Spinner</item>
+        <item name="android:checkedTextViewStyle">@style/CMAS.CheckedTextView</item>
+        <item name="android:radioButtonStyle">@style/CMAS.RadioButton</item>
+        <item name="android:checkboxStyle">@style/CMAS.CheckBox</item>
 
     </style>
-    <style name="Helter.TabPageIndicator" >
+    <style name="Theme.CMAS.TabPageIndicator" >
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
@@ -37,58 +37,58 @@
         <item name="android:textColor">#ffffff</item>
         <item name="android:maxLines">2</item>
     </style>
-    <style name="Helter.TitlePageIndicator" >
+    <style name="Theme.CMAS.TitlePageIndicator" >
 
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="Helter.Styled" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="titleTextStyle">@style/Helter.Styled.TitleText</item>
-        <item name="android:titleTextStyle">@style/Helter.Styled.TitleText</item>
-        <item name="subtitleTextStyle">@style/Helter.Styled.SubTitleText</item>
-        <item name="android:subtitleTextStyle">@style/Helter.Styled.SubTitleText</item>
+    <style name="CMAS.Styled" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/CMAS.Styled.TitleText</item>
+        <item name="android:titleTextStyle">@style/CMAS.Styled.TitleText</item>
+        <item name="subtitleTextStyle">@style/CMAS.Styled.SubTitleText</item>
+        <item name="android:subtitleTextStyle">@style/CMAS.Styled.SubTitleText</item>
         <item name="background">@color/actionBarBackground</item>
         <item name="backgroundSplit">@color/bottomActionBarBackground</item>
         <item name="android:background">@color/actionBarBackground</item>
         <item name="android:backgroundSplit">@color/bottomActionBarBackground</item>
     </style>
 
-    <style name="Helter.Styled.TitleText" parent="@android:style/Widget.TextView">
+    <style name="CMAS.Styled.TitleText" parent="@android:style/Widget.TextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Helter.Styled.SubTitleText" parent="@android:style/Widget.TextView">
+    <style name="CMAS.Styled.SubTitleText" parent="@android:style/Widget.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Theme.Sherlock.PageIndicatorDefaults.Light" parent="Light.Helter">
+    <style name="Theme.Sherlock.PageIndicatorDefaults.Light" parent="Light.CMAS">
 
     </style>
 
-    <style name="Light.Helter" parent="Theme.AppCompat.Light">
-        <item name="actionBarStyle">@style/Light.Helter.Styled</item>
-        <item name="android:actionBarStyle">@style/Light.Helter.Styled</item>
-        <item name="android:buttonStyle">@style/Helter.Button.Orange</item>
-        <item name="android:editTextStyle">@style/Helter.EditText</item>
-        <item name="android:textAppearance">@style/Light.Helter.TextAppearance</item>
+    <style name="Light.CMAS" parent="Theme.AppCompat.Light">
+        <item name="actionBarStyle">@style/Light.CMAS.Styled</item>
+        <item name="android:actionBarStyle">@style/Light.CMAS.Styled</item>
+        <item name="android:buttonStyle">@style/CMAS.Button.Orange</item>
+        <item name="android:editTextStyle">@style/CMAS.EditText</item>
+        <item name="android:textAppearance">@style/Light.CMAS.TextAppearance</item>
 
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textColorHint">@color/hint_color</item>
 
-        <item name="actionButtonStyle">@style/Light.Helter.ActionButton</item>
+        <item name="actionButtonStyle">@style/Light.CMAS.ActionButton</item>
     </style>
 
     <style name="Dialog.Light" parent="@android:style/Theme.Dialog">
-        <item name="android:buttonStyle">@style/Helter.Button.Orange</item>
-        <item name="android:editTextStyle">@style/Helter.EditText</item>
-        <item name="android:textAppearance">@style/Light.Helter.TextAppearance</item>
+        <item name="android:buttonStyle">@style/CMAS.Button.Orange</item>
+        <item name="android:editTextStyle">@style/CMAS.EditText</item>
+        <item name="android:textAppearance">@style/Light.CMAS.TextAppearance</item>
     </style>
 
-    <style name="Light.Helter.ActionButton" parent="@style/Widget.AppCompat.Light.ActionButton">
+    <style name="Light.CMAS.ActionButton" parent="@style/Widget.AppCompat.Light.ActionButton">
         <!--        <item name="android:minHeight">10dp</item>
 
                 <item name="android:minWidth">10dp</item>
@@ -98,7 +98,7 @@
 
     </style>
 
-    <style name="Light.Helter.TabPageIndicator">
+    <style name="Light.CMAS.TabPageIndicator">
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/custom_tab_indicator</item>
         <item name="android:divider">@drawable/custom_tab_indicator_divider</item>
@@ -113,22 +113,22 @@
         <item name="android:maxLines">2</item>
     </style>
 
-    <style name="Light.Helter.Styled" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
-        <item name="titleTextStyle">@style/Light.Helter.Styled.TitleText</item>
-        <item name="android:titleTextStyle">@style/Light.Helter.Styled.TitleText</item>
-        <item name="subtitleTextStyle">@style/Light.Helter.Styled.SubTitleText</item>
-        <item name="android:subtitleTextStyle">@style/Light.Helter.Styled.SubTitleText</item>
+    <style name="Light.CMAS.Styled" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="titleTextStyle">@style/Light.CMAS.Styled.TitleText</item>
+        <item name="android:titleTextStyle">@style/Light.CMAS.Styled.TitleText</item>
+        <item name="subtitleTextStyle">@style/Light.CMAS.Styled.SubTitleText</item>
+        <item name="android:subtitleTextStyle">@style/Light.CMAS.Styled.SubTitleText</item>
         <item name="background">@color/actionBarBackground</item>
         <item name="android:background">@color/actionBarBackground</item>
     </style>
 
-    <style name="Light.Helter.Styled.TitleText" parent="@android:style/Widget.TextView">
+    <style name="Light.CMAS.Styled.TitleText" parent="@android:style/Widget.TextView">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Light.Helter.Styled.SubTitleText" parent="@android:style/Widget.TextView">
+    <style name="Light.CMAS.Styled.SubTitleText" parent="@android:style/Widget.TextView">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/white</item>

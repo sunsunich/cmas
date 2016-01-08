@@ -67,7 +67,7 @@
                 android:layout_marginTop="10dip"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                style="@style/Helter.Button.Orange"
+                style="@style/CMAS.Button.Orange"
                 />
 
         <LinearLayout
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/login_register"
                     android:textSize="15sp"
-                    style="@style/Helter.Button.Turquoise"/>
+                    style="@style/CMAS.Button.Turquoise"/>
 
         </LinearLayout>
 

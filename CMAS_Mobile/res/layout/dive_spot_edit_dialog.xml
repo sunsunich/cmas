@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_from_screen_borders"
             android:layout_marginBottom="@dimen/margin_from_screen_borders"
-            style="@style/Helter.Title"
+            style="@style/CMAS.Title"
             android:text="@string/create_new_diving_spot"/>
 
     <View
@@ -62,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                style="@style/Helter.Button.Red"
+                style="@style/CMAS.Button.Red"
                 android:text="@string/delete"/>
 
         <Button
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_between_views"
-                style="@style/Helter.Button.Orange"
+                style="@style/CMAS.Button.Orange"
                 android:text="@string/save_caps"/>
 
     </LinearLayout>

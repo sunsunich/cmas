@@ -18,7 +18,7 @@
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                style="@style/Helter.Title"/>
+                style="@style/CMAS.Title"/>
         <Button
                 android:id="@+id/common_info_btn"
                 android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:gravity="left"
                 android:text="@string/doc_common_info"
                 android:drawableRight="@drawable/arrow_up_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/common_info_root"
                 android:layout_width="match_parent"
@@ -91,7 +91,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/calendar_icon"
-                        style="@style/Helter.Button"
+                        style="@style/CMAS.Button"
                         android:background="@drawable/image_button_bkg"
                         android:contentDescription="@string/calendar_icon"
                         />
@@ -192,7 +192,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:src="@drawable/calendar_icon"
-                            style="@style/Helter.Button"
+                            style="@style/CMAS.Button"
                             android:background="@drawable/image_button_bkg"
                             android:contentDescription="@string/calendar_icon"
                             />
@@ -231,7 +231,7 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:src="@drawable/calendar_icon"
-                            style="@style/Helter.Button"
+                            style="@style/CMAS.Button"
                             android:background="@drawable/image_button_bkg"
                             android:contentDescription="@string/calendar_icon"
                             />
@@ -261,7 +261,7 @@
                 android:gravity="left"
                 android:text="@string/doc_desc_title"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <EditText
                 android:id="@+id/note"
                 android:layout_width="match_parent"
@@ -285,7 +285,7 @@
                 android:gravity="left"
                 android:text="@string/doc_aux_data"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
                 android:id="@+id/doc_custom_fields_root"
                 android:layout_width="match_parent"
@@ -301,9 +301,9 @@
                 android:gravity="left"
                 android:text="@string/added_files_title"
                 android:drawableRight="@drawable/arrow_down_white"
-                style="@style/Helter.Button.Turquoise"/>
+                style="@style/CMAS.Button.Turquoise"/>
         <LinearLayout
-                android:id="@+id/doc_added_files_holder"
+                android:id="@+id/entry_added_files_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -317,7 +317,7 @@
                 android:textColor="@color/turquoise"
                 android:paddingLeft="@dimen/margin_from_screen_borders"
                 android:paddingRight="@dimen/margin_from_screen_borders"
-                style="@style/Helter.Button.White"
+                style="@style/CMAS.Button.White"
                 android:drawableLeft="@drawable/plus"
                 android:drawablePadding="@dimen/margin_from_screen_borders"
                 android:visibility="gone"/>
@@ -335,7 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cancel"
-                    style="@style/Helter.Button.Gray"/>
+                    style="@style/CMAS.Button.Gray"/>
             <Button
                     android:id="@+id/save_btn"
                     android:layout_width="match_parent"
@@ -344,7 +344,7 @@
                     android:layout_marginLeft="@dimen/space_between_views"
                     android:text="@string/save_caps"
                     android:textColor="@color/white"
-                    style="@style/Helter.Button.Orange"/>
+                    style="@style/CMAS.Button.Orange"/>
         </LinearLayout>
         <Button
                 android:id="@+id/doc_edit_doc_delete"
@@ -355,6 +355,6 @@
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:text="@string/doc_delete_title"
-                style="@style/Helter.Button.Red"/>
+                style="@style/CMAS.Button.Red"/>
     </LinearLayout>
 </ScrollView>

@@ -34,7 +34,7 @@
                     android:drawableLeft="@drawable/account_info_icon"
                     android:paddingLeft="10dp"
                     android:drawablePadding="15dp"
-                    style="@style/Helter.Button.Turquoise"/>
+                    style="@style/CMAS.Button.Turquoise"/>
         </LinearLayout>
 
         <LinearLayout
@@ -57,7 +57,7 @@
                     android:drawableLeft="@drawable/logbook_icon"
                     android:paddingLeft="10dp"
                     android:drawablePadding="15dp"
-                    style="@style/Helter.Button.Turquoise"/>
+                    style="@style/CMAS.Button.Turquoise"/>
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +80,7 @@
                     android:drawableLeft="@drawable/logbook_icon"
                     android:paddingLeft="10dp"
                     android:drawablePadding="15dp"
-                    style="@style/Helter.Button.Turquoise"/>
+                    style="@style/CMAS.Button.Turquoise"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -58,7 +58,7 @@
                     android:layout_marginLeft="10dp"
                     android:drawableLeft="@drawable/camera_icon"
                     android:paddingLeft="15dp"
-                    style="@style/Helter.Button.Turquoise"
+                    style="@style/CMAS.Button.Turquoise"
                     android:text="@string/select_userpic"/>
             </LinearLayout>
             <LinearLayout
@@ -103,7 +103,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/calendar_icon"
-                    style="@style/Helter.Button"
+                    style="@style/CMAS.Button"
                     android:background="@drawable/image_button_bkg"
                     android:contentDescription="@string/calendar_icon"/>
                 <EditText
@@ -139,7 +139,7 @@
                     android:text="@string/add_access"
                     android:drawableLeft="@drawable/plus"
                     android:paddingLeft="@dimen/margin_from_screen_borders"
-                    style="@style/Helter.Button.White"/>
+                    style="@style/CMAS.Button.White"/>
                 <View
                     android:layout_width="fill_parent"
                     android:layout_height="1dp"
@@ -148,7 +148,7 @@
                     android:id="@+id/show_barcode_btn"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    style="@style/Helter.Button.White"
+                    style="@style/CMAS.Button.White"
                     android:drawableLeft="@drawable/barcode"
                     android:drawableRight="@drawable/arrow_right_gray"
                     android:paddingLeft="@dimen/margin_from_screen_borders"
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cancel"
-                    style="@style/Helter.Button.Gray"/>
+                    style="@style/CMAS.Button.Gray"/>
                 <Button
                     android:id="@+id/change_pass_btn"
                     android:layout_width="match_parent"
@@ -183,7 +183,7 @@
                     android:text="@string/save_caps"
                     android:textColor="@color/white"
                     android:enabled="false"
-                    style="@style/Helter.Button.Orange"/>
+                    style="@style/CMAS.Button.Orange"/>
             </LinearLayout>
             <Button
                 android:id="@+id/delete_profile_btn"
@@ -193,7 +193,7 @@
                 android:layout_marginLeft="@dimen/margin_from_screen_borders"
                 android:layout_marginRight="@dimen/margin_from_screen_borders"
                 android:text="@string/delete_profile"
-                style="@style/Helter.Button.Red"
+                style="@style/CMAS.Button.Red"
                 android:visibility="gone"/>
         </LinearLayout>
     </ScrollView>

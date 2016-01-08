@@ -30,8 +30,7 @@ public class LogbookEntryListAdapter extends BaseAdapter {
 
     private static LogbookEntryListAdapter.LogbookEntryRowHolder createHolder(View view) {
         return new LogbookEntryListAdapter.LogbookEntryRowHolder(
-                (TextView) view.findViewById(R.id.document_name),
-                (TextView) view.findViewById(R.id.date_creation)
+                (TextView) view.findViewById(R.id.logbook_entry_name)
         );
     }
 
@@ -79,11 +78,9 @@ public class LogbookEntryListAdapter extends BaseAdapter {
 
     private static final class LogbookEntryRowHolder {
         private final TextView entryName;
-        private final TextView dateCreation;
 
-        private LogbookEntryRowHolder(TextView entryName, TextView dateCreation) {
+        private LogbookEntryRowHolder(TextView entryName) {
             this.entryName = entryName;
-            this.dateCreation = dateCreation;
         }
     }
 }

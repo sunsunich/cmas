@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/new_logbook_entry_title_caps"
-                style="@style/Helter.Title"
+                style="@style/CMAS.Title"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
                 />
 
@@ -55,7 +55,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:src="@drawable/calendar_icon"
-                    style="@style/Helter.Button"
+                    style="@style/CMAS.Button"
                     android:background="@drawable/image_button_bkg"
                     android:contentDescription="@string/calendar_icon"
                     />
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
-                android:prompt="@string/type_of_document"
+                android:prompt="@string/dive_score"
                 />
 
         <LinearLayout
@@ -100,7 +100,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/calendar_icon"
-                        style="@style/Helter.Button"
+                        style="@style/CMAS.Button"
                         android:background="@drawable/image_button_bkg"
                         android:contentDescription="@string/calendar_icon"
                         />
@@ -130,7 +130,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/calendar_icon"
-                        style="@style/Helter.Button"
+                        style="@style/CMAS.Button"
                         android:background="@drawable/image_button_bkg"
                         android:contentDescription="@string/calendar_icon"
                         />
@@ -150,7 +150,7 @@
         </LinearLayout>
 
         <LinearLayout
-                android:id="@+id/doc_added_files_holder"
+                android:id="@+id/entry_added_files_holder"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
@@ -164,7 +164,7 @@
                 android:gravity="left"
                 android:text="@string/doc_attach_file_title"
                 android:textColor="@color/turquoise"
-                style="@style/Helter.Button.White"
+                style="@style/CMAS.Button.White"
                 android:drawableLeft="@drawable/plus"
                 android:drawablePadding="@dimen/margin_from_screen_borders"
                 />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cancel"
-                    style="@style/Helter.Button.Gray"/>
+                    style="@style/CMAS.Button.Gray"/>
             <Button
                     android:id="@+id/save_btn"
                     android:layout_width="0dp"
@@ -190,7 +190,7 @@
                     android:layout_marginLeft="@dimen/space_between_views"
                     android:text="@string/save_caps"
                     android:textColor="@color/white"
-                    style="@style/Helter.Button.Orange"/>
+                    style="@style/CMAS.Button.Orange"/>
         </LinearLayout>
 
     </LinearLayout>

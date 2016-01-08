@@ -12,7 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/margin_from_screen_borders"
         android:layout_marginBottom="@dimen/margin_from_screen_borders"
-        style="@style/Helter.Title"
+        style="@style/CMAS.Title"
         android:id="@+id/title"/>
 
     <View
@@ -39,7 +39,7 @@
             android:layout_marginRight="@dimen/margin_from_screen_borders"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="@dimen/space_between_views"
-            style="@style/Helter.Button.Orange"
+            style="@style/CMAS.Button.Orange"
             android:text="@android:string/ok"/>
 
 </LinearLayout>

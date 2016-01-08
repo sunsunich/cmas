@@ -2,6 +2,6 @@
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
     <item
-            android:drawable="@drawable/parameters_icon"
+            android:drawable="@drawable/spots_icon"
             android:right="@dimen/ab_icon_padding"/>
 </layer-list>

@@ -22,7 +22,7 @@
                 android:drawableLeft="@drawable/file"
                 android:drawablePadding="@dimen/margin_from_screen_borders"
                 android:gravity="left"
-                style="@style/Helter.TextView"
+                style="@style/CMAS.TextView"
                 android:text="Test.jpg"
                 android:singleLine="true"
                 android:id="@+id/file_name"/>

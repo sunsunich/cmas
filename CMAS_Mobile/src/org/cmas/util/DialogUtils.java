@@ -38,7 +38,7 @@ public class DialogUtils
 	{
 		try
 		{
-			AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context,R.style.Helter_Dialog));
+			AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(context,R.style.CMAS_Dialog));
 			builder.setTitle(context.getString(R.string.cv_alert));
 			builder.setMessage(alert);
 			builder.setPositiveButton(R.string.cv_next, listener);

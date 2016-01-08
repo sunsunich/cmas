@@ -10,7 +10,7 @@
               android:paddingBottom="13dp"
               android:gravity="center">
     <TextView
-            android:id="@+id/document_name"
+            android:id="@+id/logbook_entry_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -20,16 +20,5 @@
             android:textSize="20sp"
             android:text="Магнитно-резонансная терапия"
             android:singleLine="true"/>
-    <!--todo поменять картинку на скрепку-->
-    <TextView
-            android:id="@+id/date_creation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:textColor="#999999"
-            android:textSize="20sp"
-            android:text="000/000"
-            android:drawableLeft="@drawable/arrow_right_gray"
-            android:drawableRight="@drawable/arrow_right_gray"
-            android:drawablePadding="@dimen/margin_from_screen_borders"/>
+
 </LinearLayout>
