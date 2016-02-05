@@ -190,7 +190,7 @@
     <string name="loading_dictionaries">Loading dictionary data </string>
     <string name="authorization_attempt">Authorization</string>
 
-    <string name="loading_logbook">Loading LogBook</string>
+    <string name="loading_logbook">Loading Logbook</string>
     <string name="doc_aux_data">MORE INFORMATION</string>
     <string name="doc_type_title">Document Type</string>
     <string name="doc_date_title">Date</string>
@@ -202,7 +202,7 @@
     <string name="doc_desc_title">FULL DESCRIPTION</string>
     <string name="doc_delete_question">Are you sure you want to delete this document?</string>
     <string name="add_new_document">Add Document</string>
-    <string name="new_logbook_entry_title_caps">Adding Documents</string>
+    <string name="new_logbook_entry_title_caps">ADDING NEW LOGBOOK ENTRY</string>
     <string name="doc_common_info">BACKGROUND</string>
     <string name="doc_name">Name</string>
     <string name="description">Description</string>
@@ -248,4 +248,7 @@
     <string name="restore_password_message_sent">How to recover password sent to your Email</string>
     <string name="change_email">Change Email</string>
     <string name="change_pass">Change Password</string>
+    <string name="loading_users">Loading users</string>
+    <string name="spots_icon">Spots icon</string>
+    <string name="select_spot">Select spot</string>
 </resources>

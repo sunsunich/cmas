@@ -90,7 +90,7 @@ public class RegistrationController {
      * @param result
      * @return
      */
-    @RequestMapping(value = "/register-user-submit.html")
+    @RequestMapping("/register-user-submit.html")
     public View registrationAdd(
             @ModelAttribute("command") Registration formObject
             , BindingResult result
@@ -141,7 +141,7 @@ public class RegistrationController {
      * @param result
      * @return
      */
-	@RequestMapping(value = "/regConfirm.html")
+	@RequestMapping("/regConfirm.html")
 	public ModelAndView userAddConfirm(
               HttpServletRequest request
             , @ModelAttribute RegistrationConfirmFormObject formObject

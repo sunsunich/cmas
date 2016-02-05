@@ -45,10 +45,10 @@
                     android:id="@+id/entry_set_spot_btn"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/calendar_icon"
+                    android:src="@drawable/spots_icon"
                     style="@style/CMAS.Button"
-                    android:background="@drawable/image_button_bkg"
-                    android:contentDescription="@string/calendar_icon"
+                    android:background="@color/dark_gray"
+                    android:contentDescription="@string/spots_icon"
                     />
 
             <EditText
@@ -59,7 +59,7 @@
                     android:gravity="center"
                     android:layout_marginLeft="@dimen/space_between_views"
                     android:textStyle="normal"
-                    android:hint="@string/date"
+                    android:hint="@string/select_spot"
                     android:editable="false"
                     />
         </LinearLayout>
@@ -83,7 +83,7 @@
                     />
 
             <EditText
-                    android:id="@+id/doc_date"
+                    android:id="@+id/logbook_entry_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -94,16 +94,6 @@
                     />
         </LinearLayout>
 
-
-        <!--@Column-->
-        <!--private int durationSeconds;-->
-
-        <!--@Column-->
-        <!--private int depthMeters;-->
-
-        <!--@Column-->
-        <!--@Enumerated(EnumType.STRING)-->
-        <!--private DiveScore score;-->
         <EditText
                 style="@style/CMAS.EditText"
                 android:id="@+id/duration_minutes"
@@ -113,6 +103,7 @@
                 android:singleLine="true"
                 android:textStyle="normal"
                 android:hint="@string/diving_duration_hint"
+                android:inputType="numberDecimal"
                 />
 
         <EditText
@@ -124,6 +115,7 @@
                 android:singleLine="true"
                 android:textStyle="normal"
                 android:hint="@string/diving_depth_hint"
+                android:inputType="numberDecimal"
                 />
 
         <Spinner

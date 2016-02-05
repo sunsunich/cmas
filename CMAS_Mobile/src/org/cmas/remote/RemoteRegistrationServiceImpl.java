@@ -5,9 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Pair;
 import org.cmas.Settings;
 import org.cmas.entities.DeviceType;
-import org.cmas.entities.MockUtil;
 import org.cmas.entities.User;
-import org.cmas.entities.diver.Diver;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.json.user.RegisterNewUserReply;
 import org.cmas.util.android.SecurePreferences;
@@ -31,14 +29,14 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
         params.put("pushServiceRegId", loginData.gcmRegId);
 
         //todo remove stub
-        Diver user = MockUtil.getMockDiver();
+        Pair<User, String> mockLoginResult = MockUtil.loginMockDiver(loginData.username, loginData.password);
 
         Pair<Pair<User, String>, Map<String, String>> result =
-                new Pair<>(new Pair<User, String>(user, ""), Collections.<String,String>emptyMap());
+                new Pair<>(mockLoginResult, Collections.<String,String>emptyMap());
       //          basicGetRequestSend(context, appProperties.getLoginURL(), params, User.class);
 
       //  User user = result.first.first;
-        if (user != null) {
+        if (mockLoginResult.first != null) {
             SharedPreferences sharedPreferences = new SecurePreferences(context);
             Settings settings = settingsService.getSettings(sharedPreferences);
 

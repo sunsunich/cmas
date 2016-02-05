@@ -1,6 +1,7 @@
 package org.cmas;
 
 import org.cmas.service.EntityDeleteServiceImpl;
+import org.cmas.service.NavigationService;
 import org.cmas.service.NavigationServiceImpl;
 import org.cmas.service.PushDispatcherServiceImpl;
 
@@ -29,6 +30,8 @@ public class BeanInitializer {
 
     private BeanInitializer() {
         BaseBeanContainer baseBeanContainer = BaseBeanContainer.getInstance();
+        NavigationService navigationService = new NavigationServiceImpl();
+        baseBeanContainer.setNavigationService(navigationService);
 
         EntityDeleteServiceImpl entityDeleteService = new EntityDeleteServiceImpl();
         entityDeleteService.initialize();
@@ -40,9 +43,6 @@ public class BeanInitializer {
         PushDispatcherServiceImpl dispatcherService = new PushDispatcherServiceImpl();
         dispatcherService.initialize();
         baseBeanContainer.setPushDispatcherService(dispatcherService);
-
-        NavigationServiceImpl navigationService = new NavigationServiceImpl();
-        baseBeanContainer.setNavigationService(navigationService);
 
         baseBeanContainer.initialize();
 

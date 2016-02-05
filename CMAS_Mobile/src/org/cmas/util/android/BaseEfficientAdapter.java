@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import org.cmas.activities.SecureActivity;
 
 import java.util.List;
 
@@ -13,13 +12,11 @@ public abstract class BaseEfficientAdapter<T, H> extends BaseAdapter {
 
     protected List<T> data;
     protected LayoutInflater inflater;
-    protected SecureActivity activity;
     protected int layoutId;
 
-    protected BaseEfficientAdapter(List<T> data, SecureActivity activity, int layoutId) {
+    protected BaseEfficientAdapter(List<T> data, Context context, int layoutId) {
         this.data = data;
-        this.activity = activity;
-        this.inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.layoutId = layoutId;
     }
 

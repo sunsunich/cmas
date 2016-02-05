@@ -66,41 +66,8 @@ public abstract class BaseLogbookEntryFragment extends BaseResultViewFragment {
         entryNameView = (TextView) view.findViewById(R.id.entry_name);
         setStringValue(entryNameView, logbookEntry.getName());
 
-        final Button commonInfoButton = (Button) view.findViewById(R.id.common_info_btn);
-        if (commonInfoButton != null) {
-            final LinearLayout commonInfoRootLayout = (LinearLayout) view.findViewById(R.id.common_info_root);
-            commonInfoButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (commonInfoRootLayout.getVisibility() == View.GONE) {
-                        commonInfoRootLayout.setVisibility(View.VISIBLE);
-                        commonInfoButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_white, 0);
-                    } else {
-                        commonInfoRootLayout.setVisibility(View.GONE);
-                        commonInfoButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_white, 0);
-                    }
-                }
-            });
-        }
-
         noteView = (TextView) view.findViewById(R.id.note);
         setStringValue(noteView, logbookEntry.getNote());
-
-        final Button noteButton = (Button) view.findViewById(R.id.note_btn);
-        if (noteButton != null) {
-            noteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (noteView.getVisibility() == View.GONE) {
-                        noteView.setVisibility(View.VISIBLE);
-                        noteButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_white, 0);
-                    } else {
-                        noteView.setVisibility(View.GONE);
-                        noteButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_white, 0);
-                    }
-                }
-            });
-        }
 
         attachedFileFullPaths = new HashMap<>();
         addedFilesButton = (Button) view.findViewById(R.id.doc_added_files_btn);

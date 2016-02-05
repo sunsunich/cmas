@@ -171,7 +171,7 @@
     <string name="loading_dictionaries">Load the dictionary data </string>
     <string name="authorization_attempt">Authorization</string>
 
-    <string name="loading_logbook">Loading LogBook</string>
+    <string name="loading_logbook">Loading Logbook</string>
 
     <string name="doc_aux_data">MORE INFORMATION</string>
     <string name="doc_type_title">Document Type</string>
@@ -250,4 +250,9 @@
     <string name="logbook_entry_notes_hint">Notes</string>
     <string name="diving_duration_hint">Diving duration in minutes</string>
     <string name="diving_depth_hint">diving depth in meters</string>
+    <string name="search_buddies">Search buddies</string>
+    <string name="search_instructor">Search instructor</string>
+    <string name="loading_users">Loading users</string>
+    <string name="spots_icon">Spots icon</string>
+    <string name="select_spot">Select spot</string>
 </resources>

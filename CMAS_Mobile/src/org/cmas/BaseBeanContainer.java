@@ -31,6 +31,8 @@ import org.cmas.service.divespot.DiveSpotService;
 import org.cmas.service.divespot.DiveSpotServiceImpl;
 import org.cmas.service.logbook.LogbookService;
 import org.cmas.service.logbook.LogbookServiceImpl;
+import org.cmas.service.social.DiverSearchService;
+import org.cmas.service.social.DiverSearchServiceImpl;
 import org.cmas.util.android.WakeLocker;
 
 import java.io.IOException;
@@ -75,6 +77,7 @@ public class BaseBeanContainer {
     private RemoteLogbookServiceImpl remoteDocumentService;
     private LogbookServiceImpl logbookService;
     private DiveSpotServiceImpl diveSpotService;
+    private DiverSearchService diverSearchService;
 
     private UserDao<Diver> userDao;
 
@@ -126,6 +129,7 @@ public class BaseBeanContainer {
             remoteDocumentService = new RemoteLogbookServiceImpl();
             logbookService = new LogbookServiceImpl();
             diveSpotService = new DiveSpotServiceImpl();
+            diverSearchService = new DiverSearchServiceImpl();
 
             userDao = new DiverDaoImpl();
 
@@ -193,6 +197,10 @@ public class BaseBeanContainer {
 
     public UserService getUserService() {
         return userService;
+    }
+
+    public DiverSearchService getDiverSearchService() {
+        return diverSearchService;
     }
 
     public UserDao<Diver> getUserDao() {
