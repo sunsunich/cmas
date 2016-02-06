@@ -9,8 +9,10 @@ import org.cmas.Globals;
 import org.cmas.InitializingBean;
 import org.cmas.R;
 import org.cmas.dao.DataBaseHolder;
+import org.cmas.dao.dictionary.CountryDao;
 import org.cmas.dao.dictionary.DictionaryDataDao;
 import org.cmas.dao.divespot.DiveSpotDao;
+import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.remote.RemoteDictionaryService;
@@ -27,12 +29,15 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
 
     private DiveSpotDao diveSpotDao;
 
+    private CountryDao countryDao;
+
     @Override
     public void initialize() {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
 
         remoteDictionaryService = beanContainer.getRemoteDictionaryService();
         diveSpotDao = beanContainer.getDiveSpotDao();
+        countryDao = beanContainer.getCountryDao();
     }
 
     @Override
@@ -68,6 +73,17 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
                 }
         );
 
+        loadEntity(
+                context,
+                countryDao,
+                new RemoteListEntityGetter<Country>() {
+                    @Override
+                    public Pair<List<Country>, String> getEntitiesList(long maxVersion)
+                            throws Exception {
+                        return remoteDictionaryService.getCountries(context, maxVersion);
+                    }
+                }
+        );
 
         if (progressUpdateListener != null) {
             tekProgress += increasingProgress;
@@ -95,12 +111,11 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
                     public Pair<List<List<? extends DictionaryEntity>>, String> getEntitiesList(List<Long> maxVersions)
                             throws Exception {
                         Pair<? extends List<? extends DictionaryEntity>, String> result = entityGetter.getEntitiesList(maxVersions.get(0));
-                        List<List<? extends DictionaryEntity>> lists = new ArrayList<List<? extends
-                            DictionaryEntity>>();
+                        List<List<? extends DictionaryEntity>> lists = new ArrayList<>();
                         lists.add(result.first);
                        // (List<List<? extends DictionaryEntity>>)
                        // Arrays.asList(result.first);
-                        return new Pair<List<List<? extends DictionaryEntity>>, String>(
+                        return new Pair<>(
                                 lists, result.second
                         );
                     }
@@ -175,6 +190,29 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
                     dao.saveOrUpdate(writableDatabase, entity);
                 }
             }
+        }
+    }
+
+    @Override
+    public <T extends DictionaryEntity> List<T> getAllDictionaryEntities(
+            Context context, DictionaryDataDao<T> dao) {
+        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
+        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
+        try {
+            return dao.getAll(readableDatabase, 0L);
+        } finally {
+            readableDatabase.close();
+        }
+    }
+
+    @Override
+    public <T extends DictionaryEntity> T getByName(Context context, DictionaryDataDao<T> dao, String name) {
+        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
+        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
+        try {
+            return dao.getByName(readableDatabase, name);
+        } finally {
+            readableDatabase.close();
         }
     }
 }

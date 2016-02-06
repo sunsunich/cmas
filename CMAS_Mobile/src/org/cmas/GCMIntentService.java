@@ -20,7 +20,7 @@ import org.cmas.util.android.SecurePreferences;
 public class GCMIntentService {//} extends GCMBaseIntentService {
 
 //    public static final String PUSH_MESSAGE_ACTION =
-//                "com.aegosanum.PUSH_MESSAGE";
+//                "com.acmas.PUSH_MESSAGE";
     public static final String EGOSANUM_PUSH_PROFILE = "cmas.push.user";
 
     public GCMIntentService(){

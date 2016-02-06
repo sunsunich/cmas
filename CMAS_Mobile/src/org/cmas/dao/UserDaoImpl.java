@@ -16,16 +16,19 @@ public abstract class UserDaoImpl<T extends User> extends GeneralDaoImpl<T> impl
     private static final String COLUMN_CODE = "code";
     private static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_DOB = "dob";
+    private static final String COLUMN_FIRSTNAME = "firstname";
+    private static final String COLUMN_LASTNAME = "lastname";
 
     // Database creation SQL statement
     private static final String CREATE_TABLE_QUERY =
             "( "
-                    + COLUMN_ID + " integer primary key, "
-                    + COLUMN_EMAIL + " text not null, "
-                    + COLUMN_PASSWORD + " text not null, "
-                    + COLUMN_CODE + " text, "
-                    + COLUMN_DOB + " text "
-            ;
+            + COLUMN_ID + " integer primary key, "
+            + COLUMN_EMAIL + " text not null, "
+            + COLUMN_PASSWORD + " text not null, "
+            + COLUMN_CODE + " text, "
+            + COLUMN_DOB + " text, "
+            + COLUMN_FIRSTNAME + " text, "
+            + COLUMN_LASTNAME + " text ";
 
     private static final String[] ALL_COLUMNS = {
             COLUMN_ID,
@@ -33,6 +36,8 @@ public abstract class UserDaoImpl<T extends User> extends GeneralDaoImpl<T> impl
             COLUMN_PASSWORD,
             COLUMN_CODE,
             COLUMN_DOB,
+            COLUMN_FIRSTNAME,
+            COLUMN_LASTNAME
 
     };
 
@@ -69,6 +74,10 @@ public abstract class UserDaoImpl<T extends User> extends GeneralDaoImpl<T> impl
             } catch (ParseException ignored) {
             }
         }
+        i++;
+        entity.setFirstName(cursor.getString(i));
+        i++;
+        entity.setLastName(cursor.getString(i));
         return entity;
     }
 
@@ -86,6 +95,8 @@ public abstract class UserDaoImpl<T extends User> extends GeneralDaoImpl<T> impl
                     , Globals.getDTF().format(dob)
             );
         }
+        values.put(COLUMN_FIRSTNAME, entity.getFirstName());
+        values.put(COLUMN_LASTNAME, entity.getLastName());
         return values;
     }
 

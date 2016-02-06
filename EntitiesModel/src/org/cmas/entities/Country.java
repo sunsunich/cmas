@@ -1,5 +1,7 @@
 package org.cmas.entities;
 
+import com.google.myjson.annotations.Expose;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -21,6 +23,7 @@ public class Country extends DictionaryEntity {
         this.code = code;
     }
 
+    @Expose
     private String code;
 
     public String getCode() {

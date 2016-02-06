@@ -1,13 +1,14 @@
 package org.cmas;
 
 import org.cmas.dao.CreateTableDao;
+import org.cmas.dao.DiverDao;
 import org.cmas.dao.DiverDaoImpl;
-import org.cmas.dao.UserDao;
+import org.cmas.dao.dictionary.CountryDao;
+import org.cmas.dao.dictionary.CountryDaoImpl;
 import org.cmas.dao.divespot.DiveSpotDao;
 import org.cmas.dao.divespot.DiveSpotDaoImpl;
 import org.cmas.dao.logbook.LogbookEntryDao;
 import org.cmas.dao.logbook.LogbookEntryDaoImpl;
-import org.cmas.entities.diver.Diver;
 import org.cmas.remote.RemoteDictionaryService;
 import org.cmas.remote.RemoteDictionaryServiceImpl;
 import org.cmas.remote.RemoteLogbookService;
@@ -16,6 +17,8 @@ import org.cmas.remote.RemoteRegistrationService;
 import org.cmas.remote.RemoteRegistrationServiceImpl;
 import org.cmas.service.CodeService;
 import org.cmas.service.CodeServiceImpl;
+import org.cmas.service.DiverService;
+import org.cmas.service.DiverServiceImpl;
 import org.cmas.service.EntityDeleteService;
 import org.cmas.service.LoginService;
 import org.cmas.service.LoginServiceImpl;
@@ -23,8 +26,6 @@ import org.cmas.service.NavigationService;
 import org.cmas.service.PushDispatcherService;
 import org.cmas.service.RegistrationService;
 import org.cmas.service.RegistrationServiceImpl;
-import org.cmas.service.UserService;
-import org.cmas.service.UserServiceImpl;
 import org.cmas.service.dictionary.DictionaryDataService;
 import org.cmas.service.dictionary.DictionaryDataServiceImpl;
 import org.cmas.service.divespot.DiveSpotService;
@@ -59,7 +60,7 @@ public class BaseBeanContainer {
 
     private RegistrationServiceImpl registrationService;
     private LoginServiceImpl loginService;
-    private UserServiceImpl userService;
+    private DiverServiceImpl diverService;
     private CodeServiceImpl codeService;
 
     private DictionaryDataServiceImpl dictionaryDataService;
@@ -79,7 +80,9 @@ public class BaseBeanContainer {
     private DiveSpotServiceImpl diveSpotService;
     private DiverSearchService diverSearchService;
 
-    private UserDao<Diver> userDao;
+    private CountryDao countryDao;
+
+    private DiverDao diverDao;
 
     private LogbookEntryDaoImpl logbookEntryDao;
     private DiveSpotDaoImpl diveSpotDao;
@@ -116,7 +119,7 @@ public class BaseBeanContainer {
 
             registrationService = new RegistrationServiceImpl();
             loginService = new LoginServiceImpl();
-            userService = new UserServiceImpl();
+            diverService = new DiverServiceImpl();
 
             codeService = new CodeServiceImpl();
 
@@ -131,13 +134,16 @@ public class BaseBeanContainer {
             diveSpotService = new DiveSpotServiceImpl();
             diverSearchService = new DiverSearchServiceImpl();
 
-            userDao = new DiverDaoImpl();
+            countryDao = new CountryDaoImpl();
+
+            diverDao = new DiverDaoImpl();
 
             logbookEntryDao = new LogbookEntryDaoImpl();
             diveSpotDao = new DiveSpotDaoImpl();
 
             allDaos = new ArrayList<>(5);
-            allDaos.add(userDao);
+            allDaos.add(countryDao);
+            allDaos.add(diverDao);
             allDaos.add(logbookEntryDao);
             allDaos.add(diveSpotDao);
 
@@ -154,7 +160,7 @@ public class BaseBeanContainer {
         registrationService.initialize();
         loginService.initialize();
 
-        userService.initialize();
+        diverService.initialize();
 
         codeService.initialize();
         dictionaryDataService.initialize();
@@ -173,6 +179,10 @@ public class BaseBeanContainer {
 
     public void setPermissionChecker(PermissionChecker permissionChecker) {
         this.permissionChecker = permissionChecker;
+    }
+
+    public CountryDao getCountryDao() {
+        return countryDao;
     }
 
     public DiveSpotDao getDiveSpotDao() {
@@ -195,16 +205,16 @@ public class BaseBeanContainer {
         return registrationService;
     }
 
-    public UserService getUserService() {
-        return userService;
+    public DiverService getDiverService() {
+        return diverService;
     }
 
     public DiverSearchService getDiverSearchService() {
         return diverSearchService;
     }
 
-    public UserDao<Diver> getUserDao() {
-        return userDao;
+    public DiverDao getDiverDao() {
+        return diverDao;
     }
 
     public LogbookEntryDao getLogbookEntryDao() {

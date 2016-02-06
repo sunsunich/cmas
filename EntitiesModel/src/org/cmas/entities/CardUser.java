@@ -1,5 +1,6 @@
 package org.cmas.entities;
 
+import com.google.myjson.annotations.Expose;
 import org.cmas.entities.sport.SportsFederation;
 
 import javax.persistence.ManyToOne;
@@ -24,10 +25,11 @@ public abstract class CardUser extends User {
     }
 
 
+    @Expose
     @OneToOne
     private PersonalCard primaryPersonalCard;
 
-
+    @Expose
     @ManyToOne
     private SportsFederation federation;
 

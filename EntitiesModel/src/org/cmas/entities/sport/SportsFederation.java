@@ -2,6 +2,7 @@ package org.cmas.entities.sport;
 
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
+import org.cmas.entities.diver.Diver;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -24,6 +25,9 @@ public class SportsFederation extends DictionaryEntity {
     @OneToMany(mappedBy = "federation")
     private List<Athlete> athleteList;
 
+    @OneToMany(mappedBy = "federation")
+    private List<Diver> diverList;
+
     public Country getCountry() {
         return country;
     }
@@ -38,5 +42,13 @@ public class SportsFederation extends DictionaryEntity {
 
     public void setAthleteList(List<Athlete> athleteList) {
         this.athleteList = athleteList;
+    }
+
+    public List<Diver> getDiverList() {
+        return diverList;
+    }
+
+    public void setDiverList(List<Diver> diverList) {
+        this.diverList = diverList;
     }
 }

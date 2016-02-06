@@ -29,6 +29,10 @@
                 <value>org.cmas.entities.amateur.MassEvent</value>
                 <value>org.cmas.entities.amateur.MassEventRequest</value>
 
+                <value>org.cmas.entities.diver.Diver</value>
+                <value>org.cmas.entities.divespot.DiveSpot</value>
+                <value>org.cmas.entities.logbook.LogbookEntry</value>
+
                 <value>org.cmas.entities.Country</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
 
@@ -41,6 +45,8 @@
 
                 <value>org.cmas.presentation.entities.user.Registration</value>
                 <value>org.cmas.presentation.entities.user.UserEvent</value>
+                <value>org.cmas.presentation.entities.user.Device</value>
+
 
 
             </list>
@@ -78,6 +84,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="diverDao" class="org.cmas.presentation.dao.user.sport.DiverDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="personalCardDao" class="org.cmas.presentation.dao.user.PersonalCardDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -95,6 +105,10 @@
     </bean>
 
     <bean id="countryDao" class="org.cmas.presentation.dao.CountryDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="deviceDao" class="org.cmas.presentation.dao.user.DeviceDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

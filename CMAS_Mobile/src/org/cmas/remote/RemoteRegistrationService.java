@@ -2,14 +2,16 @@ package org.cmas.remote;
 
 import android.content.Context;
 import android.util.Pair;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
+import org.cmas.json.JsonBindingResultModel;
 import org.cmas.json.SimpleGsonResponse;
-import org.cmas.json.user.RegisterNewUserReply;
 
 public interface RemoteRegistrationService extends BaseRemoteService {
 
-    Pair<RegisterNewUserReply, String> registerUsername(Context context, String username, String password)
-            throws Exception;
+    Pair<JsonBindingResultModel, String> checkDiverRegistration(
+            Context context,
+            String countryCode, String firstName, String lastName, String dobStr
+    ) throws Exception;
 
     Pair<SimpleGsonResponse, String> addCode(
             Context context,
@@ -21,7 +23,7 @@ public interface RemoteRegistrationService extends BaseRemoteService {
             String email
     ) throws Exception;
 
-    Pair<User, String> loginUsername(
+    Pair<Diver, String> login(
             Context context,
             LoginData loginData
     ) throws Exception;

@@ -69,6 +69,7 @@ public abstract class User implements Serializable, HasId {
 
     protected String mobileLockCode;
 
+    @Expose
     @Column(unique = true, nullable = false)
     protected String email;
 

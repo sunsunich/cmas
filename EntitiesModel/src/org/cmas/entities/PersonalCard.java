@@ -28,7 +28,7 @@ public class PersonalCard implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Expose
     private long id;
-
+    @Expose
     @Column(length = Globals.HALF_MAX_LENGTH)
     private String number;
 
@@ -38,6 +38,7 @@ public class PersonalCard implements Serializable{
     @ManyToOne
     private Diver diver;
 
+    @Expose
     @ManyToOne
     private PersonalCardType personalCardType;
 

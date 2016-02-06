@@ -137,13 +137,13 @@ public class AppLoader {
 //        BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
 //        RemoteRegistrationService remoteRegistrationService = beanContainer.getRemoteRegistrationService();
 //        ProfileService profileService = beanContainer.getProfileService();
-//        UserService userService = beanContainer.getUserService();
-//        User user = userService.getByUsername(context, userName);
+//        DiverService diverService = beanContainer.getDiverService();
+//        User user = diverService.getByUsername(context, userName);
 //        if(user == null){
 //            user = new User();
 //            user.setUsername(userName);
 //            user.setPassword("aaa");
-//            long userId = userService.persistUser(context, user);
+//            long userId = diverService.persist(context, user);
 //            user.setId(userId);
 //            List<Profile> profiles = remoteRegistrationService.getProfiles(userName);
 //            for(Profile profile : profiles){

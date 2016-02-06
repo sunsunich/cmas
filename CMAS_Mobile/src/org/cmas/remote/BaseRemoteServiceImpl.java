@@ -20,7 +20,7 @@ import org.cmas.json.SimpleGsonResponse;
 import org.cmas.remote.json.DateDeserializer;
 import org.cmas.util.StringUtil;
 import org.cmas.util.android.SecurePreferences;
-import org.cmas.util.http.SimpleHttpsClient;
+import org.cmas.util.http.SimpleHttpClient;
 import org.cmas.util.http.ssl.AliasKeyManager;
 
 import java.io.InputStream;
@@ -131,7 +131,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
             stream.close();
         }
 
-        Pair<String, Map<String, String>> reply = SimpleHttpsClient.sendRequest(
+        Pair<String, Map<String, String>> reply = SimpleHttpClient.sendRequest(
                 serverUrl,
                 keyManager.getKeyStore(),
                 Globals.UTF_8_ENC, params, cookies, requestMethod

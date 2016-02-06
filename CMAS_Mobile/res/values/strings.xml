@@ -23,7 +23,7 @@
     <string name="error_connecting_to_server">Error connecting to server</string>
     <string name="registration_success">Registration is successful</string>
     <string name="terms_not_agreed">You do not agree to the terms of the application</string>
-    <string name="error">error.</string>
+    <string name="error">Error</string>
     <string name="fatal_error">An error has occurred. Restart the application.</string>
     <string name="search_txt">Search</string>
     <string name="back_to_main">The main menu</string>
@@ -56,7 +56,7 @@
                 who has access to the profile you are trying to rename
     </string>
     <string name="error_profile_management">Error during operation with a profile</string>
-    <string name="no_such_user">No user to specify the search login</string>
+    <string name="no_such_user">This diver is not registered</string>
     <string name="rename">rename</string>
     <string name="new_profile_name">a new profile name</string>
     <string name="bind">to access</string>
@@ -255,4 +255,11 @@
     <string name="loading_users">Loading users</string>
     <string name="spots_icon">Spots icon</string>
     <string name="select_spot">Select spot</string>
+    <string name="invalid_country">Invalid country</string>
+    <string name="invalid_dob">invalid dob</string>
+    <string name="country_empty_error">Enter conrry</string>
+    <string name="firstname_empty_error">Enter first name</string>
+    <string name="lastname_empty_error">Enter last name</string>
+    <string name="dob_empty_error">Enter date of birth</string>
+    <string name="registration_attempt">Checking with National Federation</string>
 </resources>

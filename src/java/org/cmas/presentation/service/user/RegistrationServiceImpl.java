@@ -9,7 +9,7 @@ import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.presentation.service.sports.SportsFederationService;
+import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
 import org.cmas.util.text.StringUtil;
@@ -48,8 +48,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     private CountryDao countryDao;
 
     @Autowired
-    private SportsFederationService federationService;
+    private NationalFederationService federationService;
 
+    @Override
     public void validate(Registration formObject, BindingResult errors) {
         validator.validate(formObject, errors);
         String countryCode = formObject.getCountry();

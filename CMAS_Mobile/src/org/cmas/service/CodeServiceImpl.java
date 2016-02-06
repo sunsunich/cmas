@@ -17,7 +17,7 @@ public class CodeServiceImpl implements CodeService, InitializingBean {
     @Override
     public void initialize() {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
-        userDao = beanContainer.getUserDao();
+        userDao = beanContainer.getDiverDao();
     }
 
     @Override

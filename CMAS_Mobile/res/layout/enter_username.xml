@@ -38,7 +38,7 @@
                 android:layout_marginRight="20dp"
                 android:textColor="@color/text_gray"
                 android:singleLine="true"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:hint="@string/username"
                 android:drawableLeft="@drawable/login_icon"
                 android:drawablePadding="10dp"

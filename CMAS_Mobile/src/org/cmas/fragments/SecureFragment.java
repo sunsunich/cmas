@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import org.cmas.Settings;
 import org.cmas.SettingsService;
 import org.cmas.entities.User;
+import org.cmas.service.DiverService;
 import org.cmas.service.LoginService;
-import org.cmas.service.UserService;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.ProgressTask;
 import org.cmas.util.StringUtil;
@@ -22,7 +22,7 @@ import org.cmas.util.android.SecurePreferences;
 public abstract class SecureFragment extends BaseFragment {
 
     protected final SettingsService settingsService = beanContainer.getSettingsService();
-    protected final UserService userService = beanContainer.getUserService();
+    protected final DiverService diverService = beanContainer.getDiverService();
     protected final LoginService loginService = beanContainer.getLoginService();
 
     protected String currentUsername;
@@ -45,7 +45,7 @@ public abstract class SecureFragment extends BaseFragment {
     }
 
     protected void checkUserLoggedIn() {
-        final FragmentActivity activity = getActivity();
+        FragmentActivity activity = getActivity();
         SharedPreferences sharedPreferences = new SecurePreferences(activity);
         Settings settings = settingsService.getSettings(sharedPreferences);
         currentUsername = settings.getCurrentUsername();
@@ -54,7 +54,7 @@ public abstract class SecureFragment extends BaseFragment {
             loaderLogout();
         } else {
             try {
-                currentUser = userService.getByEmail(activity, currentUsername);
+                currentUser = diverService.getByEmail(activity, currentUsername);
                 if (currentUser == null) {
                     loaderLogout();
                 }
@@ -68,7 +68,7 @@ public abstract class SecureFragment extends BaseFragment {
         final FragmentActivity activity = getActivity();
         DialogUtils.showLoaderDialog(getFragmentManager(), new ProgressTask<String>() {
             @Override
-            public String doTask(OnPublishProgressListener listener) {
+            public String doTask(ProgressTask.OnPublishProgressListener listener) {
                 loginService.logout(activity, currentUsername);
                 return "";
             }

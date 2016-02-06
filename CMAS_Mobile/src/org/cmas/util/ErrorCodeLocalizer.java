@@ -30,22 +30,6 @@ public class ErrorCodeLocalizer {
             return context.getString(R.string.wrong_password);
         }
 
-        if (ErrorCodes.IS_ALREADY_THE_OWNER_OF_PROFILE.equals(code)) {
-            return context.getString(R.string.user_is_already_the_owner);
-        }
-
-        if (code.contains(ErrorCodes.IS_NOT_THE_OWNER_OF_PROFILE)) {
-            return context.getString(R.string.is_not_the_owner);
-        }
-
-        if (code.contains(ErrorCodes.NO_SUCH_PROFILE)) {
-            return context.getString(R.string.error_profile_management);
-        }
-
-        if (code.contains(ErrorCodes.NO_SUCH_DIRECTIVE)) {
-            return context.getString(R.string.no_such_directive);
-        }
-
         if (code.contains(ErrorCodes.ERROR_WHILE_SAVING_PROFILE)) {
             return context.getString(R.string.error_while_saving_profile);
         }
@@ -54,9 +38,6 @@ public class ErrorCodeLocalizer {
             return context.getString(R.string.error_while_saving_document);
         }
 
-        if (code.contains(ErrorCodes.NO_SUCH_DOCUMENT)) {
-            return context.getString(R.string.no_such_document);
-        }
         if(code.contains(ErrorCodes.EMAIL_ALREADY_EXISTS)){
             return context.getString(R.string.email_already_exists);
         }

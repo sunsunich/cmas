@@ -5,19 +5,18 @@ import android.content.SharedPreferences;
 import android.util.Pair;
 import org.cmas.Settings;
 import org.cmas.entities.DeviceType;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
+import org.cmas.json.JsonBindingResultModel;
 import org.cmas.json.SimpleGsonResponse;
-import org.cmas.json.user.RegisterNewUserReply;
 import org.cmas.util.android.SecurePreferences;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl implements RemoteRegistrationService {
 
     @Override
-    public Pair<User, String> loginUsername(
+    public Pair<Diver, String> login(
             Context context,
             LoginData loginData
     ) throws Exception {
@@ -28,20 +27,16 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
         params.put("deviceId", loginData.deviceId);
         params.put("pushServiceRegId", loginData.gcmRegId);
 
-        //todo remove stub
-        Pair<User, String> mockLoginResult = MockUtil.loginMockDiver(loginData.username, loginData.password);
+        Pair<Pair<Diver, String>, Map<String, String>> result =
+                basicGetRequestSend(context, appProperties.getLoginURL(), params, Diver.class);
 
-        Pair<Pair<User, String>, Map<String, String>> result =
-                new Pair<>(mockLoginResult, Collections.<String,String>emptyMap());
-      //          basicGetRequestSend(context, appProperties.getLoginURL(), params, User.class);
-
-      //  User user = result.first.first;
-        if (mockLoginResult.first != null) {
+        Diver diver = result.first.first;
+        if (diver != null) {
             SharedPreferences sharedPreferences = new SecurePreferences(context);
             Settings settings = settingsService.getSettings(sharedPreferences);
 
             settings.setJsessionid(result.second.get(SESSION_COOKIE_NAME));
-        //    GCMRegistrar.setRegisteredOnServer(context, true);
+            //    GCMRegistrar.setRegisteredOnServer(context, true);
             settingsService.setSettings(sharedPreferences, settings);
         }
         return result.first;
@@ -49,13 +44,18 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
 
 
     @Override
-    public Pair<RegisterNewUserReply, String> registerUsername(Context context, String username, String password) throws Exception {
+    public Pair<JsonBindingResultModel, String> checkDiverRegistration(
+            Context context,
+            String countryCode, String firstName, String lastName, String dobStr
+    ) throws Exception {
         Map<String, Object> params = new HashMap<String, Object>();
-        params.put("username", username);
-        params.put("password", password);
+        params.put("country", countryCode);
+        params.put("firstName", firstName);
+        params.put("lastName", lastName);
+        params.put("dob", dobStr);
 
-        Pair<Pair<RegisterNewUserReply, String>, Map<String, String>> result =
-                basicGetRequestSend(context, appProperties.getRegisterNewUserURL(), params, RegisterNewUserReply.class);
+        Pair<Pair<JsonBindingResultModel, String>, Map<String, String>> result = basicGetRequestSend(
+                context, appProperties.getCheckDiverRegistrationURL(), params, JsonBindingResultModel.class);
         return result.first;
     }
 
@@ -94,7 +94,7 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
                 basicGetRequestSend(context, appProperties.getRegisterDeviceURL(), params, SimpleGsonResponse.class);
         Pair<SimpleGsonResponse, String> responseStringPair = result.first;
         if (responseStringPair.first != null) {
-     //       GCMRegistrar.setRegisteredOnServer(context, true);
+            //       GCMRegistrar.setRegisteredOnServer(context, true);
         }
         return responseStringPair;
     }

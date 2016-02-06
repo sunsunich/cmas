@@ -21,6 +21,18 @@
                 android:textStyle="bold"
                 android:textSize="19sp"/>
 
+        <!--<TextView-->
+                <!--android:id="@+id/country_spinner_label"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:textStyle="bold"-->
+                <!--android:singleLine="true"-->
+                <!--android:text="@string/select_country"-->
+                <!--style="CMAS.TextView"-->
+                <!--/>-->
         <Spinner
                 android:id="@+id/country_spinner"
                 android:layout_width="match_parent"
@@ -29,6 +41,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="@dimen/vertical_space_between_views"
                 android:prompt="@string/select_country"
+                android:popupBackground="@color/menu_gray"
                 />
 
         <EditText

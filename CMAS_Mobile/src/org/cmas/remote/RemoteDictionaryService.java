@@ -1,6 +1,8 @@
 package org.cmas.remote;
 
 import android.content.Context;
+import android.util.Pair;
+import org.cmas.entities.Country;
 import org.cmas.entities.divespot.DiveSpot;
 
 import java.util.List;
@@ -13,5 +15,7 @@ import java.util.List;
  */
 public interface RemoteDictionaryService extends BaseRemoteService{
 
-    android.util.Pair<List<DiveSpot>, String> getDiveSpots(Context context, long maxDocTypesVersion) throws Exception;
+    Pair<List<DiveSpot>, String> getDiveSpots(Context context, long maxVersion) throws Exception;
+
+    Pair<List<Country>, String> getCountries(Context context, long maxVersion) throws Exception;
 }

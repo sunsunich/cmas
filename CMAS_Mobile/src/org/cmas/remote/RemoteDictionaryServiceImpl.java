@@ -3,6 +3,7 @@ package org.cmas.remote;
 import android.content.Context;
 import android.util.Pair;
 import com.google.myjson.reflect.TypeToken;
+import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.divespot.DiveSpot;
 
@@ -36,13 +37,23 @@ public class RemoteDictionaryServiceImpl extends BaseRemoteServiceImpl implement
     @Override
     public Pair<List<DiveSpot>, String> getDiveSpots(
             Context context,
-            long maxDocTypesVersion
+            long maxVersion
     ) throws Exception {
         return getDictionaryEntities(
                 context,
-                maxDocTypesVersion,
+                maxVersion,
                 appProperties.getGetDiveSpotsURL(),
                 new TypeToken<List<DiveSpot>>() {}
+        );
+    }
+
+    @Override
+    public Pair<List<Country>, String> getCountries(Context context, long maxVersion) throws Exception {
+        return getDictionaryEntities(
+                context,
+                maxVersion,
+                appProperties.getGetCountriesURL(),
+                new TypeToken<List<Country>>() {}
         );
     }
 }

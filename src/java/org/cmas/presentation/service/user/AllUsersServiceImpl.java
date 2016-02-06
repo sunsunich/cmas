@@ -2,10 +2,13 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,6 +26,9 @@ public class AllUsersServiceImpl implements AllUsersService {
     private AmateurDao amateurDao;
 
     @Autowired
+    private DiverDao diverDao;
+
+    @Autowired
     private RegistrationDao registrationDao;
 
     @Override
@@ -31,14 +37,21 @@ public class AllUsersServiceImpl implements AllUsersService {
         switch (role) {
             case ROLE_ADMIN:
                 //fall through
+            case ROLE_DIVER:
+                //fall through
+            case ROLE_DIVER_INSTRUCTOR:
+                isEmailUnique = diverDao.isEmailUnique(email, userId)
+                                || diverDao.isEmailUnique(email)
+                ;
+                break;
             case ROLE_AMATEUR:
                 isEmailUnique = amateurDao.isEmailUnique(email, userId)
-                        || athleteDao.isEmailUnique(email)
+                                || athleteDao.isEmailUnique(email)
                 ;
                 break;
             case ROLE_ATHLETE:
                 isEmailUnique = athleteDao.isEmailUnique(email, userId)
-                        || amateurDao.isEmailUnique(email)
+                                || amateurDao.isEmailUnique(email)
                 ;
                 break;
         }
@@ -48,9 +61,17 @@ public class AllUsersServiceImpl implements AllUsersService {
     @Override
     public User getByEmail(String email) {
         Athlete athlete = athleteDao.getByEmail(email);
-        if(athlete == null){
-            return amateurDao.getByEmail(email);
+        if (athlete != null) {
+            return athlete;
         }
-        return athlete;
+        Amateur amateur = amateurDao.getByEmail(email);
+        if (amateur != null) {
+            return amateur;
+        }
+        Diver diver = diverDao.getByEmail(email);
+        if (diver != null) {
+            return diver;
+        }
+        return null;
     }
 }

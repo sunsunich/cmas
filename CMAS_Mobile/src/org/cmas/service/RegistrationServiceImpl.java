@@ -10,66 +10,84 @@ import org.cmas.InitializingBean;
 import org.cmas.R;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.UserDao;
-import org.cmas.entities.User;
+import org.cmas.dao.dictionary.CountryDao;
+import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
+import org.cmas.json.JsonBindingResultModel;
 import org.cmas.json.SimpleGsonResponse;
-import org.cmas.json.user.RegisterNewUserReply;
 import org.cmas.remote.RemoteRegistrationService;
+import org.cmas.service.dictionary.DictionaryDataService;
 import org.cmas.util.ErrorCodeLocalizer;
 import org.cmas.util.StringUtil;
 
+import java.text.ParseException;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RegistrationServiceImpl implements RegistrationService, InitializingBean {
 
-    private UserService userService;
+    private DiverService diverService;
     private UserDao<Diver> userDao;
-
+    private CountryDao countryDao;
+    private DictionaryDataService dictionaryDataService;
     private RemoteRegistrationService remoteRegistrationService;
     private LoginService loginService;
 
     @Override
     public void initialize() {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
-        userService = beanContainer.getUserService();
-        userDao = beanContainer.getUserDao();
+        diverService = beanContainer.getDiverService();
+        userDao = beanContainer.getDiverDao();
+        countryDao = beanContainer.getCountryDao();
 
         remoteRegistrationService = beanContainer.getRemoteRegistrationService();
         loginService = beanContainer.getLoginService();
+        dictionaryDataService = beanContainer.getDictionaryDataService();
     }
 
     @Override
-    public String registerUser(Activity activity, String email, String password, String repeatPassword) {
-        String message = validateRegisterUser(activity, email, password, repeatPassword);
-        if (!message.isEmpty()) {
-            return message;
+    public String registerUser(Activity activity, String countryName, String firstName, String lastName, String dobStr) {
+        Country country = dictionaryDataService.getByName(activity, countryDao, countryName);
+        if(country == null){
+            return activity.getString(R.string.invalid_country);
         }
+
         try {
-            Pair<RegisterNewUserReply, String> registerResult = remoteRegistrationService.registerUsername(
-                    activity, email, password
+            Globals.getDTF().parse(dobStr);
+        } catch (ParseException ignored) {
+            return activity.getString(R.string.invalid_dob);
+        }
+
+        try {
+            Pair<JsonBindingResultModel, String> registerResult = remoteRegistrationService.checkDiverRegistration(
+                    activity, country.getCode(), firstName, lastName, dobStr
             );
-            RegisterNewUserReply mainResult = registerResult.first;
-            if (mainResult == null) {
-                return ErrorCodeLocalizer.getLocalMessage(activity, registerResult.second, false);
+            if(registerResult.first ==null){
+                return ErrorCodeLocalizer.getLocalMessage(
+                        activity, registerResult.second, false
+                );
             }
-            Long userId = mainResult.getId();
-            if (userId == null) {
-                return registerResult.second;
-            } else {
-                Diver newUser = new Diver();
-                newUser.setId(userId);
-                newUser.setEmail(email);
-                newUser.setPassword(password);
-                DataBaseHolder dataBaseHolder = new DataBaseHolder(activity);
-                SQLiteDatabase writableDatabase = dataBaseHolder.getWritableDatabase(Globals.MOBILE_DB_PASS);
-                try {
-                    userDao.save(writableDatabase, newUser);
-                    return "";
-                } finally {
-                    writableDatabase.close();
+            if(registerResult.first.getSuccess()){
+                return "";
+            }
+            Map<String, String> fieldErrors = registerResult.first.getFieldErrors();
+            if(fieldErrors.isEmpty()){
+                List<String> errors = registerResult.first.getErrors();
+                if(errors.isEmpty()){
+                    return activity.getString(R.string.error_connecting_to_server);
                 }
+                return ErrorCodeLocalizer.getLocalMessage(
+                        activity, errors.get(0), false
+                );
             }
+
+            //todo better impl
+            Map.Entry<String, String> someError = fieldErrors.entrySet().iterator().next();
+            return someError.getKey() + ": " + ErrorCodeLocalizer.getLocalMessage(
+                    activity, someError.getValue(), false
+            );
         } catch (Exception e) {
             Log.e(getClass().getName(), e.getMessage(), e);
             return activity.getString(R.string.error_connecting_to_server);
@@ -144,24 +162,6 @@ public class RegistrationServiceImpl implements RegistrationService, Initializin
             }
         }
 
-        return "";
-    }
-
-    private String validateRegisterUser(Activity activity, String username, String password, String repeatPassword) {
-
-        if (!repeatPassword.equals(password)) {
-            return activity.getString(R.string.password_mismatch_error);
-        }
-
-        try {
-            User user = userService.getByEmail(activity, username);
-            if (user != null) {
-                return activity.getString(R.string.user_already_exists);
-            }
-        } catch (Exception e) {
-            Log.e(RegistrationServiceImpl.class.getName(), e.getMessage(), e);
-            return activity.getString(R.string.fatal_error);
-        }
         return "";
     }
 }

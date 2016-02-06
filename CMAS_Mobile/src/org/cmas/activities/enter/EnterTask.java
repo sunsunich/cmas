@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Pair;
 import org.cmas.BaseBeanContainer;
 import org.cmas.R;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.service.LoginService;
 import org.cmas.service.NavigationService;
 import org.cmas.util.DialogUtils;
@@ -41,7 +41,7 @@ public abstract class EnterTask {
                 String message = prepareEnterTask();
                 if (message.isEmpty()) {
                     listener.onPublishProgress(activity.getString(R.string.authorization_attempt));
-                    Pair<User, String> loginResult = loginService.loginUser(activity, username, password);
+                    Pair<Diver, String> loginResult = loginService.loginUser(activity, username, password);
                     if (loginResult.first == null) {
                         messages.add(loginResult.second);
                         return null;

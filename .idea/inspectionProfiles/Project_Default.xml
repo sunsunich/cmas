@@ -782,6 +782,7 @@
           <option value="MethodOnlyUsedFromInnerClass" />
           <option value="ConstantDeclaredInInterface" />
           <option value="ObjectAllocationInLoop" />
+          <option value="OverlyStrongTypeCast" />
         </list>
       </option>
     </inspection_tool>

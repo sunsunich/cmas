@@ -139,17 +139,23 @@
 
     <bean id="captchaService" class="org.cmas.presentation.service.CaptchaServiceImpl"/>
 
-    <bean id="FathleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
+    <bean id="athleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
         <property name="entityClass" value="org.cmas.entities.sport.Athlete"/>
         <property name="entityDao" ref="athleteDao"/>
         <property name="validator" ref="validator"/>
     </bean>
 
-    <bean id="sportsFederationService" class="org.cmas.presentation.service.sports.SportsFederationServiceImpl"/>
+    <bean id="sportsFederationService" class="org.cmas.presentation.service.sports.NationalFederationServiceImpl"/>
 
     <bean id="amateurService" class="org.cmas.presentation.service.user.UserServiceImpl">
         <property name="entityClass" value="org.cmas.entities.amateur.Amateur"/>
         <property name="entityDao" ref="amateurDao"/>
+        <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="diverService" class="org.cmas.presentation.service.user.UserServiceImpl">
+        <property name="entityClass" value="org.cmas.entities.diver.Diver"/>
+        <property name="entityDao" ref="diverDao"/>
         <property name="validator" ref="validator"/>
     </bean>
 

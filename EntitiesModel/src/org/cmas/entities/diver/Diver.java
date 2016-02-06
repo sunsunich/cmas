@@ -1,5 +1,6 @@
 package org.cmas.entities.diver;
 
+import com.google.myjson.annotations.Expose;
 import org.cmas.entities.CardUser;
 import org.cmas.entities.logbook.LogbookEntry;
 
@@ -22,10 +23,12 @@ public class Diver extends CardUser {
 
     private static final long serialVersionUID = -6873304958863096818L;
 
+    @Expose
     @Column
     @Enumerated(EnumType.STRING)
     private DiverLevel diverLevel;
 
+    @Expose
     @Column
     @Enumerated(EnumType.STRING)
     private DiverType diverType;

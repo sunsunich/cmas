@@ -2,11 +2,11 @@ package org.cmas.service;
 
 import android.content.Context;
 import android.util.Pair;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 
 public interface LoginService {
 
-    Pair<User, String> loginUser(Context context, String username, String password);
+    Pair<Diver, String> loginUser(Context context, String email, String password);
 
     void logout(Context context, String username);
 

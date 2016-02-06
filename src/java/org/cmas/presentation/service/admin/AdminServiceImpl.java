@@ -13,6 +13,7 @@ import org.cmas.presentation.model.admin.PasswordChangeFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.presentation.service.user.AthleteService;
 import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.http.BadRequestException;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
 	@Qualifier("athleteService")
-	private UserService<Athlete> athleteService;
+	private AthleteService athleteService;
 
     @Autowired
     @Qualifier("amateurService")

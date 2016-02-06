@@ -7,7 +7,7 @@ import org.cmas.entities.sport.SportsFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.PersonalCardTypeDao;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.service.sports.SportsFederationService;
+import org.cmas.presentation.service.sports.NationalFederationService;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,7 +21,7 @@ import java.security.SecureRandom;
 public class AthleteServiceImpl extends UserServiceImpl<Athlete> implements AthleteService {
 
     @Autowired
-    private SportsFederationService sportsFederationService;
+    private NationalFederationService nationalFederationService;
 
     @Autowired
     private PersonalCardDao personalCardDao;
@@ -38,7 +38,7 @@ public class AthleteServiceImpl extends UserServiceImpl<Athlete> implements Athl
         String lastName = registration.getLastName();
         athlete.setLastName(lastName);
         SportsFederation sportsmanFederation
-                = sportsFederationService.getSportsmanFederationBySportsmanData(
+                = nationalFederationService.getSportsmanFederationBySportsmanData(
                 firstName, lastName, athlete.getCountry()
         );
         athlete.setFederation(sportsmanFederation);

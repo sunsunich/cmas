@@ -6,7 +6,7 @@
           android:installLocation="preferExternal"
         >
 
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="22"/>
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="19"/>
 
     <permission android:name="org.cmas.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
     <uses-permission android:name="org.cmas.permission.C2D_MESSAGE"/>

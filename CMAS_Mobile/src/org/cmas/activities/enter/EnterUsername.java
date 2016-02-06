@@ -54,18 +54,18 @@ public class EnterUsername extends BaseEnterView {
 
     public void onClickEnter() {
 
-        final String username = ((TextView) findViewById(R.id.username_input)).getText().toString();
+        String username = ((TextView) findViewById(R.id.username_input)).getText().toString();
         if (!username.matches(Globals.EMAIL_REGEX)) {
             reportError(getString(R.string.email_error));
             return;
         }
-        final String password = ((TextView) findViewById(R.id.password_input)).getText().toString();
+        String password = ((TextView) findViewById(R.id.password_input)).getText().toString();
         if (StringUtil.isTrimmedEmpty(password)) {
             reportError(getString(R.string.password_empty_error));
             return;
         }
 
-        final FragmentActivity activity = this;
+        FragmentActivity activity = this;
         EnterTask enterTask = new EnterTask(
                 "loginUser", username, password, activity
         ) {

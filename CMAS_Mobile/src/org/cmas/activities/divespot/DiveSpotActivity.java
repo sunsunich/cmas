@@ -176,16 +176,15 @@ public class DiveSpotActivity extends SecureActivity
         boolean isNew = diveSpot == null;
         final EditText spotNameEditText = (EditText) dialog.findViewById(R.id.spot_name);
         TextView spotEditTitle = (TextView) dialog.findViewById(R.id.spot_edit_title);
-        if(isNew){
+        if (isNew) {
             spotEditTitle.setText(getResources().getText(R.string.create_new_diving_spot));
-        }
-        else {
+        } else {
             spotEditTitle.setText(getResources().getText(R.string.edit_diving_spot));
             spotNameEditText.setText(diveSpot.getName());
         }
 
         Button chooseBtn = (Button) dialog.findViewById(R.id.bnt_choose);
-        if(isChoosing) {
+        if (isChoosing) {
             chooseBtn.setVisibility(View.VISIBLE);
             chooseBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -195,15 +194,14 @@ public class DiveSpotActivity extends SecureActivity
                         setResult(RESULT_CANCELED);
                     } else {
                         setResult(RESULT_OK,
-                                new Intent().putExtra("diveSpotId", updateDiveSpot.getId())
+                                  new Intent().putExtra("diveSpotId", updateDiveSpot.getId())
                         );
                     }
                     dialog.dismiss();
                     finish();
                 }
             });
-        }
-        else{
+        } else {
             chooseBtn.setVisibility(View.GONE);
         }
 
@@ -249,7 +247,7 @@ public class DiveSpotActivity extends SecureActivity
         diveSpotService.addDiveSpot(this, diveSpot, isNew);
 
         marker.setTitle(spotName);
-        ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
         return diveSpot;
     }
 
@@ -258,7 +256,7 @@ public class DiveSpotActivity extends SecureActivity
         if (diveSpot != null) {
             diveSpotService.deleteDiveSpot(this, diveSpot);
         }
-        ((BaseAdapter)listView.getAdapter()).notifyDataSetChanged();
+        ((BaseAdapter) listView.getAdapter()).notifyDataSetChanged();
         marker.remove();
     }
 
@@ -342,16 +340,17 @@ public class DiveSpotActivity extends SecureActivity
         Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
         Location location = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
-
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17.0F);
-        map.animateCamera(cameraUpdate);
+        if (location != null) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17.0F);
+            map.animateCamera(cameraUpdate);
+        }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Toast.makeText(this, "Disconnected. Please re-connect.",
-                Toast.LENGTH_SHORT).show();
+                       Toast.LENGTH_SHORT).show();
     }
 
     /*
@@ -381,7 +380,8 @@ public class DiveSpotActivity extends SecureActivity
                 Log.e(e.getMessage(), getClass().getName(), e);
             }
         } else {
-            Toast.makeText(getApplicationContext(), "Sorry. Location services not available to you", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Sorry. Location services not available to you", Toast.LENGTH_LONG)
+                 .show();
         }
     }
 

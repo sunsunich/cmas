@@ -6,6 +6,9 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.cmas.dao.GeneralDaoImpl;
 import org.cmas.entities.DictionaryEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class DictionaryDataDaoImpl<T extends DictionaryEntity> extends GeneralDaoImpl<T>
         implements DictionaryDataDao<T> {
 
@@ -15,10 +18,10 @@ public abstract class DictionaryDataDaoImpl<T extends DictionaryEntity> extends 
     // Database creation SQL statement
     private static final String CREATE_TABLE_QUERY =
             " ( "
-                    + COLUMN_ID + " integer primary key, "
-                    + COLUMN_VERSION + " integer not null, "
-                    + COLUMN_DELETED + " integer not null default 0, "
-                    + COLUMN_NAME + " text not null ";
+            + COLUMN_ID + " integer primary key, "
+            + COLUMN_VERSION + " integer not null, "
+            + COLUMN_DELETED + " integer not null default 0, "
+            + COLUMN_NAME + " text not null ";
 
     private static final String[] ALL_COLUMNS = {
             COLUMN_ID, COLUMN_VERSION, COLUMN_DELETED, COLUMN_NAME
@@ -41,9 +44,9 @@ public abstract class DictionaryDataDaoImpl<T extends DictionaryEntity> extends 
         StringBuilder stringBuilder = new StringBuilder(tableAlias).append('.').append(allColumns[0]);
         for (int i = 1; i < allColumns.length; i++) {
             stringBuilder.append(',')
-                    .append(tableAlias)
-                    .append('.')
-                    .append(allColumns[i]);
+                         .append(tableAlias)
+                         .append('.')
+                         .append(allColumns[i]);
         }
 
         return stringBuilder.toString();
@@ -82,16 +85,61 @@ public abstract class DictionaryDataDaoImpl<T extends DictionaryEntity> extends 
     public long getMaxVersion(SQLiteDatabase database) {
         String getMaxVersionQuery =
                 "select max(" + COLUMN_VERSION + ") from " + getTableName();
-        Cursor cursor = database.rawQuery(
+        try (Cursor cursor = database.rawQuery(
                 getMaxVersionQuery, null
-        );
-        try {
+        )) {
             if (cursor.moveToFirst()) {
                 return cursor.getLong(0);
             }
             return 0L;
-        } finally {
-            cursor.close();
+        }
+    }
+
+    @Override
+    public List<T> getAll(SQLiteDatabase database, long version) {
+        String alias = getTableAlias();
+        String getAllQuery =
+                "select distinct " + getAllColumnsStr()
+                + " from " + getTableName() + " as " + alias
+                + " where " + alias + '.' + COLUMN_VERSION + " > ?"
+                + " order by " + COLUMN_NAME + " asc ";
+        try (Cursor cursor = database.rawQuery(
+                getAllQuery,
+                new String[]{
+                        String.valueOf(version)
+                }
+
+        )) {
+            List<T> result = new ArrayList<>(cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    T entity = cursorToEntity(cursor, 0);
+                    result.add(entity);
+                } while (cursor.moveToNext());
+            }
+
+            return result;
+        }
+    }
+
+    @Override
+    public T getByName(SQLiteDatabase database, String name) {
+        String alias = getTableAlias();
+        String getAllQuery =
+                "select distinct " + getAllColumnsStr()
+                + " from " + getTableName() + " as " + alias
+                + " where " + alias + '.' + COLUMN_NAME + " = ?";
+        try (Cursor cursor = database.rawQuery(
+                getAllQuery,
+                new String[]{
+                        name
+                }
+
+        )) {
+            if (cursor.moveToFirst()) {
+                return cursorToEntity(cursor, 0);
+            }
+            return null;
         }
     }
 

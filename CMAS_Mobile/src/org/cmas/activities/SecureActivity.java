@@ -20,8 +20,8 @@ import org.cmas.Settings;
 import org.cmas.SettingsService;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.service.DiverService;
 import org.cmas.service.LoginService;
-import org.cmas.service.UserService;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.ProgressTask;
 import org.cmas.util.StringUtil;
@@ -70,7 +70,7 @@ public abstract class SecureActivity extends BaseActivity {
     }
 
     protected final SettingsService settingsService = beanContainer.getSettingsService();
-    protected final UserService userService = beanContainer.getUserService();
+    protected final DiverService diverService = beanContainer.getDiverService();
     protected final LoginService loginService = beanContainer.getLoginService();
 
     protected String currentUsername;
@@ -138,7 +138,7 @@ public abstract class SecureActivity extends BaseActivity {
             openLoggedOffActivity();
         } else {
             try {
-                currentUser = userService.getByEmail(this, currentUsername);
+                currentUser = diverService.getByEmail(this, currentUsername);
                 if(currentUser == null){
                     logout();
                     return;

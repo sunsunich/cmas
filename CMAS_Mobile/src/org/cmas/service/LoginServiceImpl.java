@@ -9,7 +9,7 @@ import org.cmas.InitializingBean;
 import org.cmas.R;
 import org.cmas.Settings;
 import org.cmas.SettingsService;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.remote.ErrorCodes;
 import org.cmas.remote.LoginData;
 import org.cmas.remote.RemoteRegistrationService;
@@ -19,34 +19,34 @@ import org.cmas.util.android.SecurePreferences;
 
 public class LoginServiceImpl implements LoginService, InitializingBean {
 
-    private UserService userService;
+    private DiverService diverService;
     private RemoteRegistrationService remoteRegistrationService;
     private SettingsService settingsService;
 
     @Override
     public void initialize() {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
-        userService = beanContainer.getUserService();
+        diverService = beanContainer.getDiverService();
         remoteRegistrationService = beanContainer.getRemoteRegistrationService();
         settingsService = beanContainer.getSettingsService();
     }
 
     @Override
-    public Pair<User, String> loginUser(Context context, String email, String password) {
-        User localUser;
+    public Pair<Diver, String> loginUser(Context context, String email, String password) {
+        Diver localDiver;
         try {
-            localUser = userService.getByEmail(context, email);
+            localDiver = diverService.getByEmail(context, email);
         } catch (Exception e) {
             Log.e(RegistrationServiceImpl.class.getName(), e.getMessage(), e);
-            localUser = null;
+            localDiver = null;
         }
-        boolean isNewUser = localUser == null;
+        boolean isNewDiver = localDiver == null;
 
         SharedPreferences sharedPreferences = new SecurePreferences(context);
         Settings settings = settingsService.getSettings(sharedPreferences);
 
         try {
-            Pair<User, String> loginResult = remoteRegistrationService.loginUsername(
+            Pair<Diver, String> loginResult = remoteRegistrationService.login(
                     context,
                     new LoginData(
                             email,
@@ -55,50 +55,50 @@ public class LoginServiceImpl implements LoginService, InitializingBean {
                             settings.getGcmRegistrationId()
                     )
             );
-            User remoteUser = loginResult.first;
+            Diver remoteDiver = loginResult.first;
             String errorMessageCode = loginResult.second;
-            if (remoteUser == null) {
-                if (isNewUser) {
-                    return new Pair<User, String>(
+            if (remoteDiver == null) {
+                if (isNewDiver) {
+                    return new Pair<>(
                             null, ErrorCodeLocalizer.getLocalMessage(context, errorMessageCode, false)
                     );
                 } else {
                     if (ErrorCodes.WRONG_PASSWORD.equals(errorMessageCode)) {
-                        return new Pair<User, String>(
+                        return new Pair<>(
                                 null, ErrorCodeLocalizer.getLocalMessage(context, errorMessageCode, false)
                         );
                     }
                     saveCredentials(context, email, password);
-                    return new Pair<User, String>(localUser, "");
+                    return new Pair<>(localDiver, "");
                 }
 
             } else {
-                long userId = remoteUser.getId();
-                localUser = userService.getById(context, userId);
-                isNewUser = localUser == null;
+                long userId = remoteDiver.getId();
+                localDiver = diverService.getById(context, userId);
+                isNewDiver = localDiver == null;
 
-                remoteUser.setEmail(email);
+                remoteDiver.setEmail(email);
                 //TODO md5 password
-                remoteUser.setPassword(password);
-                userService.persistUser(context, remoteUser, isNewUser);
+                remoteDiver.setPassword(password);
+                diverService.persist(context, remoteDiver, isNewDiver);
 
-                User user = userService.getByEmail(context, email);
+                Diver diver = diverService.getByEmail(context, email);
                 saveCredentials(context, email, password);
-                return new Pair<User, String>(user, "");
+                return new Pair<>(remoteDiver, "");
             }
         } catch (Exception e) {
             Log.e(getClass().getName(), e.getMessage(), e);
             //use local user if connection failed
-            if (isNewUser) {
-                return new Pair<User, String>(
+            if (isNewDiver) {
+                return new Pair<>(
                         null, context.getString(R.string.error_connecting_to_server)
                 );
             } else {
-                if (localUser.getPassword().equals(password)) {
+                if (localDiver.getPassword().equals(password)) {
                     saveCredentials(context, email, password);
-                    return new Pair<User, String>(localUser, "");
+                    return new Pair<>(localDiver, "");
                 } else {
-                    return new Pair<User, String>(
+                    return new Pair<>(
                             null, context.getString(R.string.wrong_password)
                     );
                 }
@@ -118,14 +118,14 @@ public class LoginServiceImpl implements LoginService, InitializingBean {
             throw new ReLoginException("no credentials saved for user");
         }
 
-        User localUser;
+        Diver localDiver;
         try {
-            localUser = userService.getByEmail(context, email);
+            localDiver = diverService.getByEmail(context, email);
         } catch (Exception e) {
             Log.e(RegistrationServiceImpl.class.getName(), e.getMessage(), e);
-            localUser = null;
+            localDiver = null;
         }
-        boolean isNewUser = localUser == null;
+        boolean isNewDiver = localDiver == null;
         try {
             LoginData loginData = new LoginData(
                     email,
@@ -134,9 +134,9 @@ public class LoginServiceImpl implements LoginService, InitializingBean {
                     settings.getGcmRegistrationId()
             );
             int attemptCnt = 0;
-            Pair<User, String> loginResult;
+            Pair<Diver, String> loginResult;
             do {
-                loginResult = remoteRegistrationService.loginUsername(
+                loginResult = remoteRegistrationService.login(
                         context,
                         loginData
                 );
@@ -147,12 +147,12 @@ public class LoginServiceImpl implements LoginService, InitializingBean {
                 throw new ReLoginException("cannot relogin user, email=" + email + ", " +
                         "max amount of attempts reached ");
             } else {
-                User remoteUser = loginResult.first;
-                if (isNewUser) {
-                    remoteUser.setEmail(email);
+                Diver remoteDiver = loginResult.first;
+                if (isNewDiver) {
+                    remoteDiver.setEmail(email);
                     //TODO md5 password
-                    remoteUser.setPassword(password);
-                    userService.persistUser(context, remoteUser, true);
+                    remoteDiver.setPassword(password);
+                    diverService.persist(context, remoteDiver, true);
                 }
             }
         } catch (Exception e) {
