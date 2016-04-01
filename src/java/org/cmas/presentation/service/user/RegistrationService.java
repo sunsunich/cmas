@@ -1,6 +1,8 @@
 package org.cmas.presentation.service.user;
 
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public interface RegistrationService {
 
-    void validate(Registration formObject, BindingResult errors);
+    void validate(DiverRegistrationFormObject formObject, BindingResult errors);
 
     void validateEmail(Registration formObject, Errors errors);
 
@@ -24,7 +26,7 @@ public interface RegistrationService {
     List<Registration> getReadyToRegister();
 
     @Nullable
-    Registration add(Registration formObject, BindingResult result);
+    Diver setupDiver(DiverRegistrationFormObject formObject);
 
     void delete(long id);
 

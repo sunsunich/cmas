@@ -7,6 +7,8 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.springframework.validation.Errors;
 
+import java.util.Locale;
+
 
 public class DiverRegistrationFormObject implements Validatable {
 
@@ -25,6 +27,9 @@ public class DiverRegistrationFormObject implements Validatable {
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     @NotEmpty(message = "validation.emptyField")
     private String dob;
+
+    //локаль с которрой регился
+    private Locale locale;
 
     @Override
     public void validate(Errors errors) {
@@ -61,5 +66,13 @@ public class DiverRegistrationFormObject implements Validatable {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

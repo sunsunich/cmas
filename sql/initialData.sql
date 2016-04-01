@@ -203,6 +203,76 @@ VALUES
 update  `cmas`.`divers` set primaryPersonalCard_id = 2 WHERE id = 2;
 
 
+INSERT INTO `cmas`.`divers`
+(`id`,
+ `dateReg`,
+ `dob`,
+ `email`,
+ `enabled`,
+ `firstName`,
+ `last_action`,
+ `lastName`,
+ `locale`,
+ `lostPasswdCode`,
+ `md5newMail`,
+ `mobileLockCode`,
+ `newMail`,
+ `password`,
+ `picPath`,
+ `role`,
+ `diverLevel`,
+ `diverType`,
+ `country_id`,
+ `userBalance_id`,
+ `federation_id`,
+ `primaryPersonalCard_id`,
+ `hasPayed`
+)
+VALUES
+ (3,
+  NOW(),
+  STR_TO_DATE("06/02/2016", '%d/%m/%Y'),
+  "john@gmail.com",
+  true,
+  "John",
+  NOW(),
+  "Smith",
+  "en",
+  null,
+  null,
+  null,
+  null,
+  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  null,
+  "ROLE_DIVER",
+  "TWO_STAR",
+  "DIVER",
+  6,
+  NULL ,
+  3,
+  null,
+  false
+ );
+
+INSERT INTO `cmas`.`personal_cards`
+(`id`,
+ `number`,
+ `athlete_id`,
+ `diver_id`,
+ `personalCardType_id`)
+VALUES
+ (3,
+  "5510123456789003",
+  null,
+  3,
+  null
+ );
+
+update  `cmas`.`divers` set primaryPersonalCard_id = 3 WHERE id = 3;
+
+
+
+
 
 
 

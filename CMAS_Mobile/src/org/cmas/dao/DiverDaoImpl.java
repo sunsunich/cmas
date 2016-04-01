@@ -15,18 +15,21 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     private static final String COLUMN_TYPE = "type";
     private static final String COLUMN_LEVEL = "level";
     public static final String COLUMN_CARD_NUMBER = "card_number";
+    public static final String COLUMN_HAS_PAYED = "has_payed";
 
 
     private static final String CREATE_TABLE_ENDING_QUERY =
             ", " + COLUMN_TYPE + " text, "
             + COLUMN_LEVEL + " text, "
-            + COLUMN_CARD_NUMBER + " text"
+            + COLUMN_CARD_NUMBER + " text,"
+            + COLUMN_HAS_PAYED + " integer not null default 0"
             + ");";
 
     private static final String[] ADDITIONAL_COLUMNS = {
             COLUMN_TYPE,
             COLUMN_LEVEL,
-            COLUMN_CARD_NUMBER
+            COLUMN_CARD_NUMBER,
+            COLUMN_HAS_PAYED
     };
 
 
@@ -64,6 +67,8 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         entity.setPrimaryPersonalCard(
                 primaryPersonalCard
         );
+        i++;
+        entity.setHasPayed(cursor.getInt(i) != 0);
         return entity;
     }
 
@@ -73,6 +78,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         values.put(COLUMN_TYPE, entity.getDiverType().name());
         values.put(COLUMN_LEVEL, entity.getDiverLevel().name());
         values.put(COLUMN_CARD_NUMBER, entity.getPrimaryPersonalCard().getNumber());
+        values.put(COLUMN_HAS_PAYED, entity.isHasPayed());
         return values;
     }
 

@@ -70,7 +70,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
             , Type resultType
     )
             throws Exception {
-        return basicGetRequestSend(context, url, params, resultType, Globals.DIRECTIVE_FULL_DATE_FORMAT);
+        return basicGetRequestSend(context, url, params, resultType, Globals.DTF);
     }
 
     protected <T> Pair<Pair<T, String>, Map<String, String>> basicGetRequestSend(
@@ -90,7 +90,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
             , Type resultType
     )
             throws Exception {
-        return basicPostRequestSend(context, url, params, resultType, Globals.DIRECTIVE_FULL_DATE_FORMAT);
+        return basicPostRequestSend(context, url, params, resultType, Globals.DTF);
     }
 
     protected <T> Pair<Pair<T, String>, Map<String, String>> basicPostRequestSend(
@@ -180,7 +180,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
     public static void main(String[] args) {
 //        try {
 //            Gson gson = new GsonBuilder()
-//                    .setDateFormat(Globals.DIRECTIVE_FULL_DATE_FORMAT)
+//                    .setDateFormat(Globals.DTF)
 //                    .create();
 //            Type resultType = new TypeToken<List<ProfileDisplayModel>>() {
 //            }.getType();

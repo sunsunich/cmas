@@ -1,28 +1,30 @@
 package org.cmas.presentation.service.user;
 
+import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Role;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
-import org.cmas.util.text.StringUtil;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
-import java.util.Date;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -42,35 +44,52 @@ public class RegistrationServiceImpl implements RegistrationService {
     private Md5PasswordEncoder passwordEncoder;
 
     @Autowired
+    private PasswordService passwordService;
+
+    @Autowired
     private AllUsersService allUsersService;
 
     @Autowired
     private CountryDao countryDao;
 
     @Autowired
+    private DiverDao diverDao;
+
+    @Autowired
     private NationalFederationService federationService;
 
+    @Autowired
+    private PersonalCardService personalCardService;
+
     @Override
-    public void validate(Registration formObject, BindingResult errors) {
+    public void validate(DiverRegistrationFormObject formObject, BindingResult errors) {
         validator.validate(formObject, errors);
-        String countryCode = formObject.getCountry();
-        if (!StringUtil.isEmpty(countryCode)) {
-            Country country = countryDao.getByCode(countryCode);
-            if (country == null) {
-                errors.rejectValue("country", "validation.incorrectField");
-            } else {
-                if (!errors.hasFieldErrors("role")) {
-                    validateEmail(formObject, errors);
-                    if(Role.ROLE_ATHLETE.name().equals(formObject.getRole())) {
-                        SportsFederation sportsFederation = federationService.getSportsmanFederationBySportsmanData(
-                                formObject.getFirstName(), formObject.getLastName(), country
-                        );
-                        if (sportsFederation == null) {
-                            errors.reject("validation.noPersonInFederation");
-                        }
-                    }
-                }
+        if (errors.hasErrors()) {
+            return;
+        }
+        Country country = countryDao.getByCode(formObject.getCountry());
+        if (country == null) {
+            errors.rejectValue("country", "validation.incorrectField");
+            return;
+        }
+        try {
+            Diver diver = federationService.getDiver(
+                    formObject.getFirstName(),
+                    formObject.getLastName(),
+                    Globals.getDTF().parse(formObject.getDob()),
+                    country
+            );
+
+            if (diver == null) {
+                errors.reject("validation.noPersonInFederation");
+                return;
             }
+            if (diver.isHasPayed()) {
+                errors.reject("validation.diverAlreadyRegistered");
+            }
+
+        } catch (ParseException ignored) {
+            errors.rejectValue("dob", "validation.incorrectField");
         }
     }
 
@@ -98,39 +117,39 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
     }
 
-    /**
-     * регистрирует клиента из формы регистрации с морды.
-     *
-     * @param formObject - форма регистрации
-     * @return регистрацию
-     */
+    @Nullable
     @Override
     @Transactional
-    public Registration add(Registration formObject, BindingResult result) {
-        Registration entity = new Registration(new Date());
-        entity.setEmail(formObject.getEmail());
-        entity.setCountry(formObject.getCountry());
-        entity.setRole(formObject.getRole());
-        entity.setFirstName(formObject.getFirstName());
-        entity.setLastName(formObject.getLastName());
-        entity.setLocale(LocaleContextHolder.getLocale());
-
-        String realPassword = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
-        entity.setPassword(realPassword);
-        // это секретный код.
-        entity.setMd5(passwordEncoder.encodePassword(formObject.getPassword() + formObject.getEmail(), UserDetails.SALT));
-        entity.setId(
-                (Long) registrationDao.save(entity)
-        );
-
+    public Diver setupDiver(DiverRegistrationFormObject formObject) {
         Country country = countryDao.getByCode(formObject.getCountry());
         try {
-            mailer.confirmRegistrator(entity, country);
-        } catch (Exception e) {
-            log.error("error send confirm email for new registration " + entity.getNullableId(), e);
-        }
+            Diver diver = federationService.getDiver(
+                    formObject.getFirstName(),
+                    formObject.getLastName(),
+                    Globals.getDTF().parse(formObject.getDob()),
+                    country
+            );
+            String generatedPassword = passwordService.generatePassword();
+            String newPasswd = passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT);
+            diver.setGeneratedPassword(generatedPassword);
+            diver.setPassword(newPasswd);
+            diver.setLocale(formObject.getLocale());
+            personalCardService.generatePrimaryCard(
+                    diver, diverDao
+            );
+            diverDao.updateModel(diver);
 
-        return entity;
+            try {
+                mailer.sendDiverPassword(diver);
+            } catch (Exception e) {
+                log.error("error send setup email for diver " + diver.getId(), e);
+                return null;
+            }
+
+            return diver;
+        } catch (ParseException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

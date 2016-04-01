@@ -1,16 +1,11 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.Globals;
-import org.cmas.entities.Country;
 import org.cmas.entities.DeviceType;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.i18n.LocaleResolverImpl;
 import org.cmas.json.SimpleGsonResponse;
-import org.cmas.presentation.dao.CountryDao;
-import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.DeviceDao;
-import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Device;
 import org.cmas.presentation.entities.user.Registration;
@@ -20,12 +15,9 @@ import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
-import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.service.user.AllUsersService;
-import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.service.user.PasswordStrength;
 import org.cmas.presentation.service.user.RegistrationService;
-import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
@@ -47,24 +39,17 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
 
 /**
  */
+@SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class RegistrationController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    protected AthleteDao athleteDao;
-    @Autowired
-    protected AmateurDao amateurDao;
-    @Autowired
     private AdminService adminService;
-
-    @Autowired
-    private CountryDao countryDao;
 
     @Autowired
     private DeviceDao deviceDao;
@@ -78,16 +63,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @Autowired
-    private NationalFederationService federationService;
-
-    @Autowired
-    private PasswordService passwordService;
-
-    @Autowired
     private DictionaryDataService dictionaryDataService;
-
-    @Autowired
-    private HibernateSpringValidator validator;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -99,15 +75,11 @@ public class RegistrationController {
     private PasswordEncoder passwordEncoder;
 
     /**
-     * @param formObject
-     * @param result
-     * @param model
-     * @return
+     *
      */
-    @SuppressWarnings({"UnusedDeclaration"})
-    @RequestMapping("/registration.html")
-    public ModelAndView registerUser(@ModelAttribute("command") Registration formObject, BindingResult result, Model model) {
-        model.addAttribute("command", new Registration());
+    @RequestMapping("/diver-registration.html")
+    public ModelAndView registerDiver(@ModelAttribute("command") Registration formObject, BindingResult result, Model model) {
+        model.addAttribute("command", new DiverRegistrationFormObject());
         return buidAddRegistrationForm(model, PasswordStrength.NONE);
     }
 
@@ -125,99 +97,25 @@ public class RegistrationController {
     /**
      * добавляем в базу регистрацию.
      *
-     * @param formObject
-     * @param result
-     * @return
      */
-    @RequestMapping("/register-user-submit.html")
-    public View registrationAdd(
-            @ModelAttribute("command") Registration formObject
+    @RequestMapping("/diver-registration-submit.html")
+    public View registrationDiverAdd(
+            @ModelAttribute("command") DiverRegistrationFormObject formObject
             , BindingResult result
     ) {
-        //    PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
         registrationService.validate(formObject, result);
-        if (formObject.isSkipFederationCheck() && result.hasFieldErrors()
-            || !formObject.isSkipFederationCheck() && result.hasErrors()) {
+        if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(
                     new JsonBindingResult(result)
             );
         } else {  // submit form
             formObject.setLocale(localeResolver.getCurrentLocale());
-            registrationService.add(formObject, result);
+            Diver diver = registrationService.setupDiver(formObject);
+            if(diver == null){
+                return gsonViewFactory.createErrorGsonView("error.sending.email");
+            }
             return gsonViewFactory.createSuccessGsonView();
         }
-    }
-
-
-    @RequestMapping("/checkDiverRegistration.html")
-    public View checkDiverRegistration(
-            @ModelAttribute("command") DiverRegistrationFormObject formObject,
-            BindingResult result
-    ) {
-        validator.validate(formObject, result);
-        Country country = countryDao.getByCode(formObject.getCountry());
-        if (country == null) {
-            result.rejectValue("country", "validation.incorrectField");
-        }
-        if (result.hasFieldErrors()
-            || result.hasErrors()) {
-            return gsonViewFactory.createGsonView(
-                    new JsonBindingResult(result)
-            );
-        }
-
-        try {
-            Diver diver = federationService.getDiver(
-                    formObject.getFirstName(),
-                    formObject.getLastName(),
-                    Globals.getDTF().parse(formObject.getDob()),
-                    country
-            );
-            return diver == null ? gsonViewFactory.createErrorGsonView(ErrorCodes.NO_SUCH_USER) :
-                    gsonViewFactory.createSuccessGsonView();
-        } catch (ParseException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    /**
-     * добавленную в базу регистрацию превращаем в юзера.
-     *
-     * @param request
-     * @param formObject
-     * @param result
-     * @return
-     */
-    @RequestMapping("/regConfirm.html")
-    public ModelAndView userAddConfirm(
-            HttpServletRequest request
-            , @ModelAttribute RegistrationConfirmFormObject formObject
-            , BindingResult result
-    ) {
-        registrationService.validateConfirm(formObject, result);
-        if (!result.hasErrors()) {
-            BackendUser user = adminService.processConfirmRegistration(formObject, HttpUtil.getIP(request));
-            SpringRole springRole = null;
-            String redirectUrl = null;
-            switch (user.getUser().getRole()) {
-                case ROLE_AMATEUR:
-                    springRole = SpringRole.ROLE_AMATEUR;
-                    redirectUrl = "redirect:/secure/index.html";
-                    break;
-                case ROLE_ATHLETE:
-                    springRole = SpringRole.ROLE_ATHLETE;
-                    redirectUrl = "redirect:/secure/index.html";
-                    break;
-                case ROLE_ADMIN:
-                    break;
-            }
-            if (springRole == null) {
-                throw new IllegalStateException();
-            }
-            authenticationService.loginAs(user, new SpringRole[]{springRole});
-            return new ModelAndView(redirectUrl, null);
-        }
-        return new ModelAndView("redirect:/index.html", null);
     }
 
     @RequestMapping("/loginUser.html")
@@ -313,6 +211,42 @@ public class RegistrationController {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView(ErrorCodes.ERROR_UNREGISTERING_DEVICE);
         }
+    }
+
+    /**
+     * добавленную в базу регистрацию превращаем в юзера.
+     *
+     */
+    @RequestMapping("/regConfirm.html")
+    public ModelAndView userAddConfirm(
+            HttpServletRequest request
+            , @ModelAttribute RegistrationConfirmFormObject formObject
+            , BindingResult result
+    ) {
+        registrationService.validateConfirm(formObject, result);
+        if (!result.hasErrors()) {
+            BackendUser user = adminService.processConfirmRegistration(formObject, HttpUtil.getIP(request));
+            SpringRole springRole = null;
+            String redirectUrl = null;
+            switch (user.getUser().getRole()) {
+                case ROLE_AMATEUR:
+                    springRole = SpringRole.ROLE_AMATEUR;
+                    redirectUrl = "redirect:/secure/index.html";
+                    break;
+                case ROLE_ATHLETE:
+                    springRole = SpringRole.ROLE_ATHLETE;
+                    redirectUrl = "redirect:/secure/index.html";
+                    break;
+                case ROLE_ADMIN:
+                    break;
+            }
+            if (springRole == null) {
+                throw new IllegalStateException();
+            }
+            authenticationService.loginAs(user, new SpringRole[]{springRole});
+            return new ModelAndView(redirectUrl, null);
+        }
+        return new ModelAndView("redirect:/index.html", null);
     }
 
     /**

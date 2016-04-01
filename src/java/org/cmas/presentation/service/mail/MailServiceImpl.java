@@ -3,6 +3,7 @@ package org.cmas.presentation.service.mail;
 import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -55,6 +56,20 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         String text = textRenderer.renderText("lostPasswd.ftl", locale, new ModelAttr("user", user));
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(user);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendDiverPassword(Diver diver) {
+        Locale locale = diver.getLocale();
+        String siteName = addresses.getSiteName(locale);
+        String subj = subjects.renderText("SetupPasswd", locale, siteName);
+        String text = textRenderer.renderText("setupPasswd.ftl", locale,
+                                              new ModelAttr("diver", diver),
+                                              new ModelAttr("siteName", siteName)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 

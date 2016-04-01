@@ -1,46 +1,49 @@
 var login_controller = {
 
-    init: function() {
+    init: function () {
         this.setListeners();
     },
 
-    setListeners: function() {
+    setListeners: function () {
         var self = this;
-        $('#loginForm').click(function() {
+        $('#loginSubmit').click(function () {
             self.sendLogin();
             return false;
         });
-        $('#txbPassword').keydown(function (e) {
+        $('#passField').keydown(function (e) {
             if (e.which == 13) {
                 self.sendLogin();
                 return false;
             }
             return true;
         });
+        $('#regLink').click(function (e) {
+            window.location = "/diver-registration.html";
+        });
     },
 
     sendLogin: function () {
-        $("#errorMessage1").empty();
-        var username = $('#txbLogin').val();
-        var password = $('#txbPassword').val();
+        $("#error").hide();
+        var username = $('#loginField').val();
+        var password = $('#passField').val();
         var rememberMe = '';
-        //if ($('#rememberLogin').prop("checked")) {
-        //    rememberMe = 'on';
-        //}
+        if ($('#rememberLogin').prop("checked")) {
+            rememberMe = 'on';
+        }
         login_model.login(
-                username
-                , password
-                , rememberMe
-                , function(json) {
-                    window.location = json.redirectUrl;
-                }
-                , function(message) {
-                    $("#errorMessage1").html("Invalid ID or password, login failed!");
-                });
+            username
+            , password
+            , rememberMe
+            , function (json) {
+                window.location = json.redirectUrl;
+            }
+            , function (message) {
+                $("#error").show();
+            });
         // this.overlay.hide();
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     login_controller.init();
 });

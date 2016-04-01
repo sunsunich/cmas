@@ -3,7 +3,7 @@
     <string name="loading_libraries_complete">Loading libraries complete</string>
     <string name="loading_libraries">Loading libraries</string>
     <string name="proceed_to_payment">Proceed to payment</string>
-    <string name="card_purchase_text">In order to proceed you are required to purchase CMAS Diver Card</string>
+    <string name="card_purchase_text">In order to proceed you are required to purchase CMAS Diver Electronic Card</string>
     <string name="first_login_payment">First login payment</string>
     <string name="diving_spots">Diving spots</string>
 </resources>

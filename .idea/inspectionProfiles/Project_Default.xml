@@ -137,7 +137,7 @@
     <inspection_tool class="ClassCoupling" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_includeJavaClasses" value="false" />
       <option name="m_includeLibraryClasses" value="false" />
-      <option name="m_limit" value="15" />
+      <option name="m_limit" value="28" />
     </inspection_tool>
     <inspection_tool class="ClassEscapesItsScope" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClassIndependentOfModule" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -264,7 +264,7 @@
     </inspection_tool>
     <inspection_tool class="EnumeratedClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_regex" value="[A-Z][A-Za-z\d]*" />
-      <option name="m_minLength" value="8" />
+      <option name="m_minLength" value="3" />
       <option name="m_maxLength" value="64" />
     </inspection_tool>
     <inspection_tool class="EnumeratedConstantNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
@@ -783,6 +783,8 @@
           <option value="ConstantDeclaredInInterface" />
           <option value="ObjectAllocationInLoop" />
           <option value="OverlyStrongTypeCast" />
+          <option value="HardcodedFileSeparator" />
+          <option value="StringConcatenationMissingWhitespace" />
         </list>
       </option>
     </inspection_tool>

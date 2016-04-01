@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import org.cmas.BaseBeanContainer;
 import org.cmas.R;
 
 /**
@@ -41,6 +42,11 @@ public class FirstPaymentScreen extends SecureFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if(currentUser.isHasPayed()){
+            replaceCurrentMainFragment(getId(), MainScreen.newInstance(null), true);
+            return;
+        }
+
         ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -53,6 +59,10 @@ public class FirstPaymentScreen extends SecureFragment {
         buttonProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentUser.setHasPayed(true);
+                BaseBeanContainer.getInstance().getDiverService().persist(
+                        getActivity(), currentUser, false
+                );
                 replaceCurrentMainFragment(getId(), MainScreen.newInstance(null), true);
             }
         });

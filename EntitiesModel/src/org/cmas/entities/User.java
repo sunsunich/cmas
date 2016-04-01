@@ -67,6 +67,8 @@ public abstract class User implements Serializable, HasId {
 
     protected String password;
 
+    protected String generatedPassword;
+
     protected String mobileLockCode;
 
     @Expose
@@ -172,6 +174,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGeneratedPassword() {
+        return generatedPassword;
+    }
+
+    public void setGeneratedPassword(String generatedPassword) {
+        this.generatedPassword = generatedPassword;
     }
 
     public String getFirstName() {

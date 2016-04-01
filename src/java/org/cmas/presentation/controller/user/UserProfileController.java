@@ -29,6 +29,7 @@ import java.util.Map;
 /**
 
  */
+@SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class UserProfileController {
 
@@ -73,7 +74,7 @@ public class UserProfileController {
 		}
     }
 
-    @RequestMapping(value = "/secure/profile/getUser.html")
+    @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(
 		    @RequestParam(required = false) Boolean isSuccess,
 			Model model) {
@@ -132,7 +133,7 @@ public class UserProfileController {
 		}
     }
 
-	private ModelAndView buidPassChangeForm(Model model, BackendUser user, PasswordStrength passwordStrength) {
+	private static ModelAndView buidPassChangeForm(Model model, BackendUser user, PasswordStrength passwordStrength) {
 		model.addAttribute("passwordStrength", passwordStrength.name());
 		return new ModelAndView("secure/passwdForm");
 	}
@@ -140,7 +141,7 @@ public class UserProfileController {
     /*
      * Форма по редактированию e-mail`а пользователя
      */
-    @RequestMapping(value = "/secure/editEmail.html")
+    @RequestMapping("/secure/editEmail.html")
     public ModelAndView loadUserEmail(Model model) {
         BackendUser user = authenticationService.getCurrentUser();
         if (user == null) {

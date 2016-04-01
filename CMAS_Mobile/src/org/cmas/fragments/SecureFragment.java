@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import org.cmas.Settings;
 import org.cmas.SettingsService;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.service.DiverService;
 import org.cmas.service.LoginService;
 import org.cmas.util.DialogUtils;
@@ -26,7 +26,7 @@ public abstract class SecureFragment extends BaseFragment {
     protected final LoginService loginService = beanContainer.getLoginService();
 
     protected String currentUsername;
-    protected User currentUser;
+    protected Diver currentUser;
 
     protected SecureFragment(boolean storeState) {
         super(storeState);
@@ -65,6 +65,7 @@ public abstract class SecureFragment extends BaseFragment {
     }
 
     protected void loaderLogout() {
+        isStoreState = false;
         final FragmentActivity activity = getActivity();
         DialogUtils.showLoaderDialog(getFragmentManager(), new ProgressTask<String>() {
             @Override

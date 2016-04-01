@@ -10,7 +10,12 @@ import org.hibernate.validator.NotEmpty;
 import org.springframework.validation.Errors;
 
 import javax.mail.internet.InternetAddress;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Locale;
@@ -42,6 +47,9 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     private String firstName;
 
+    @Column(nullable = false)
+    private Date dob;
+
     @Column
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     private String lastName;
@@ -63,9 +71,6 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Column(nullable = false)
     private Locale locale;
 
-    @Transient
-    private boolean isSkipFederationCheck;
-
     public Registration() {
     }
 
@@ -76,14 +81,6 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Override
     public void validate(Errors errors) {
         ValidatorUtils.validateEnum(errors, role, Role.class, "role", "validation.incorrectField");
-    }
-
-    public boolean isSkipFederationCheck() {
-        return isSkipFederationCheck;
-    }
-
-    public void setIsSkipFederationCheck(boolean isSkipFederationCheck) {
-        this.isSkipFederationCheck = isSkipFederationCheck;
     }
 
     @Override
@@ -103,6 +100,14 @@ public class Registration implements InternetAddressOwner, Validatable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public String getFirstName() {

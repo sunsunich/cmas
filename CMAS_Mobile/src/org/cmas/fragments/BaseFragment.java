@@ -38,7 +38,7 @@ public abstract class BaseFragment extends Fragment {
     protected final BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
     protected final NavigationService navigationService = beanContainer.getNavigationService();
 
-    private boolean isStoreState;
+    protected boolean isStoreState;
 
     protected BaseFragment(boolean storeState) {
         isStoreState = storeState;

@@ -2,6 +2,7 @@ package org.cmas.entities.diver;
 
 import com.google.myjson.annotations.Expose;
 import org.cmas.entities.CardUser;
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.logbook.LogbookEntry;
 
 import javax.persistence.Column;
@@ -36,6 +37,13 @@ public class Diver extends CardUser {
     @OneToMany(mappedBy = "diver")
     private List<LogbookEntry> logbookEntries;
 
+    @OneToMany(mappedBy = "diver")
+    private List<PersonalCard> secondaryPersonalCards;
+
+    @Expose
+    @Column
+    private boolean hasPayed;
+
     public Diver() {
     }
 
@@ -65,5 +73,21 @@ public class Diver extends CardUser {
 
     public void setDiverType(DiverType diverType) {
         this.diverType = diverType;
+    }
+
+    public boolean isHasPayed() {
+        return hasPayed;
+    }
+
+    public void setHasPayed(boolean hasPayed) {
+        this.hasPayed = hasPayed;
+    }
+
+    public List<PersonalCard> getSecondaryPersonalCards() {
+        return secondaryPersonalCards;
+    }
+
+    public void setSecondaryPersonalCards(List<PersonalCard> secondaryPersonalCards) {
+        this.secondaryPersonalCards = secondaryPersonalCards;
     }
 }
