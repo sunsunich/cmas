@@ -11,7 +11,7 @@ var registration_controller = {
                 return false;
             });
             $("#oplCountries").select2({
-                placeholder: '<img class="country-input-ico">Country',
+                placeholder: '<img class="country-input-ico">'+ labels["cmas.face.registration.form.label.country"],
                 escapeMarkup: function (m) {
                     return m;
                 },
