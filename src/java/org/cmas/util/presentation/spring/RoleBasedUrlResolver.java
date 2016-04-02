@@ -17,6 +17,11 @@ public class RoleBasedUrlResolver implements TargetUrlResolver {
     public String determineTargetUrl(
             SavedRequest savedRequest, HttpServletRequest currentRequest, Authentication auth
     ) {
+        if (authenticationService.isGranted(auth, SpringRole.ROLE_DIVER)
+            || authenticationService.isGranted(auth, SpringRole.ROLE_DIVER_INSTRUCTOR)
+                ) {
+            return "/login.html?redirectUrl=/secure/index.html";
+        }
         if (authenticationService.isGranted(auth, SpringRole.ROLE_AMATEUR)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }

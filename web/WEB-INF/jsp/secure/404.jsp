@@ -4,8 +4,6 @@
 
 
 <my:basePage title="404" indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css"
         >
     
      <div id="navFaq" class="navigation">   <!-- Navigation menu -->

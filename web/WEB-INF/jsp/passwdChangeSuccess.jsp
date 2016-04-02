@@ -5,8 +5,6 @@
 <jsp:useBean id="passwordStrength" scope="request" type="java.lang.String"/>
 
 <my:basePage title="ИЗМЕНЕНИЕ ПАРОЛЯ" indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css,/c/setting.css"
         >
 
     <!-- end of Navigation menu -->

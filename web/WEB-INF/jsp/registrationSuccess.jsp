@@ -6,8 +6,6 @@
 <jsp:useBean id="passwordStrength" scope="request" type="java.lang.String"/>
 
 <my:basePage title="РЕГИСТРАЦИЯ" indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css,/c/registration.css"
         >
 
 

@@ -8,7 +8,6 @@ import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.user.DeviceDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Device;
-import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
@@ -16,7 +15,6 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.AllUsersService;
-import org.cmas.presentation.service.user.PasswordStrength;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.remote.ErrorCodes;
 import org.cmas.util.http.BadRequestException;
@@ -78,16 +76,10 @@ public class RegistrationController {
      *
      */
     @RequestMapping("/diver-registration.html")
-    public ModelAndView registerDiver(@ModelAttribute("command") Registration formObject, BindingResult result, Model model) {
+    public ModelAndView registerDiver(Model model) {
         model.addAttribute("command", new DiverRegistrationFormObject());
-        return buidAddRegistrationForm(model, PasswordStrength.NONE);
-    }
-
-    private ModelAndView buidAddRegistrationForm(Model model, PasswordStrength passwordStrength) {
-        model.addAttribute("passwordStrength", passwordStrength.name());
         try {
             model.addAttribute("countries", dictionaryDataService.getCountries(0L));
-            model.addAttribute("roles", dictionaryDataService.getRoles(0L));
         } catch (Exception e) {
             throw new BadRequestException(e);
         }

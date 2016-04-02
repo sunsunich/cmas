@@ -7,20 +7,20 @@
         >
 
     <div class="content" id="Content">
-        <div class="login-form-logo">
+        <div class="form-logo">
             <img src="${pageContext.request.contextPath}/i/logo.png">
         </div>
         <form id="loginForm" action="">
             <div class="login-block">
                 <div class="form-row">
-                    <img src="${pageContext.request.contextPath}/i/mail_ico.png" class="email-input-ico">
-                    <input id="loginField" type="text" class="email-input"
+                    <img class="email-input-ico">
+                    <input id="loginField" type="text"
                            placeholder="<s:message code="cmas.face.login.form.label.login"/>"/>
 
                 </div>
                 <div class="form-row">
-                    <img src="${pageContext.request.contextPath}/i/password_ico.png" class="pass-input-ico">
-                    <input id="passField" type="password" class="pass-input"
+                    <img class="pass-input-ico">
+                    <input id="passField" type="password"
                            placeholder="<s:message code="cmas.face.login.form.label.password"/>"/>
                 </div>
                 <div class="row-checkbox">
@@ -33,10 +33,10 @@
             <div class="error" style="display: none" id="error">
                 <s:message code="cmas.face.login.form.errorMessage"/>
             </div>
-            <button class="form-button" id="loginSubmit">
+            <button class="form-button enter-button" id="loginSubmit">
                 <s:message code="cmas.face.login.form.submitText"/>
             </button>
-            <button class="form-button" id="regLink">
+            <button class="form-button reg-button" id="regLink">
                 <s:message code="cmas.face.login.form.link.reg"/>
             </button>
             <div class="pass_link">

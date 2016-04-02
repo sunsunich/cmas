@@ -10,6 +10,9 @@ var registration_controller = {
             self.register(false);
             return false;
         });
+        $("#oplCountries").select2({
+            placeholder: "Country"
+        });
     },
 
     register: function (isSkipFederationCheck) {
@@ -46,30 +49,8 @@ var registration_controller = {
         var result = {};
         result.fieldErrors = {};
         result.errors = {};
-        if (isStringTrimmedEmpty(regForm.email)) {
-            result.fieldErrors["email"] = 'validation.emailEmpty';
-        } else {
-            if (!regForm.email.match(/^.+@.+\..+$/i)) {
-                result.fieldErrors["email"] = 'validation.emailValid';
-            }
-        }
-        if (isStringTrimmedEmpty(regForm.password)) {
-            result.fieldErrors["password"] = 'validation.passwordEmpty';
-        }
-        if (isStringTrimmedEmpty(regForm.passwordRepeat)) {
-            result.fieldErrors["passwordRepeat"] = 'validation.checkPasswordEmpty';
-        }
         if (isStringTrimmedEmpty(regForm.country)) {
             result.fieldErrors["country"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(regForm.role)) {
-            result.fieldErrors["role"] = 'validation.emptyField';
-        }
-
-        if (!isStringTrimmedEmpty(regForm.password) && !isStringTrimmedEmpty(regForm.passwordRepeat)) {
-            if (regForm.password != regForm.passwordRepeat) {
-                result.fieldErrors["passwordRepeat"] = 'validation.passwordMismatch';
-            }
         }
 
         result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);

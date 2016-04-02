@@ -17,8 +17,9 @@ var login_controller = {
             }
             return true;
         });
-        $('#regLink').click(function (e) {
-            window.location = "/diver-registration.html";
+        $('#regLink').click(function () {
+            window.location.href = "/diver-registration.html";
+            return false;
         });
     },
 
@@ -35,7 +36,7 @@ var login_controller = {
             , password
             , rememberMe
             , function (json) {
-                window.location = json.redirectUrl;
+                window.location.href = json.redirectUrl;
             }
             , function (message) {
                 $("#error").show();

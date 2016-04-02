@@ -62,8 +62,7 @@
     </script>
 
     <script type="text/javascript" src="js/lib/json.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.ba-hashchange.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js"></script>
     <script type="text/javascript" src="js/lib/ejs_production.js"></script>
 
     <script type="text/javascript" src="js/util.js"></script>

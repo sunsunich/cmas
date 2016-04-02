@@ -4,7 +4,7 @@ var registration_model = {
         loader_controller.startwait();
         $.ajax({
             type: "POST",
-            url: "/register-user-submit.html",
+            url: "/diver-registration-submit.html",
             dataType: "json",
             data: regForm,
             success: function(json){

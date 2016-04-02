@@ -8,8 +8,6 @@
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:basePage title="ВОССТАНОВЛЕНИЕ ПАРОЛЯ" indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css,/c/registration.css"
         >
 
 

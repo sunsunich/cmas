@@ -2,9 +2,8 @@ package org.cmas.presentation.service;
 
 import org.cmas.entities.User;
 import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
-import org.cmas.presentation.dao.user.AmateurDao;
-import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.util.presentation.CommonAuthentificationServiceImpl;
@@ -13,21 +12,17 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.Authentication;
+import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl<BackendUser>
         implements AuthenticationService {
-
-    @Autowired
-    private AthleteDao athleteDao;
-
-    @Autowired
-    private AmateurDao amateurDao;
 
     @Autowired
     private AllUsersService allUsersService;
@@ -39,9 +34,9 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         if (details == null) {
             return null;
         } else {
-            Athlete athlete = athleteDao.getByEmail(details.getUsername());
+            Athlete athlete = (Athlete) allUsersService.getByEmail(details.getUsername());
             if (athlete != null) {
-                return new BackendUser<Athlete>(athlete);
+                return new BackendUser<>(athlete);
             } else {
                 return null;
             }
@@ -55,17 +50,27 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         if (details == null) {
             return null;
         } else {
-            if (Arrays.asList(details.getAuthorities()).contains(SpringRole.ROLE_ATHLETE.getAuthority())) {
-                Athlete athlete = athleteDao.getByEmail(details.getUsername());
+            List<GrantedAuthority> authorities = Arrays.asList(details.getAuthorities());
+            if (authorities.contains(SpringRole.ROLE_DIVER.getAuthority())
+                || authorities.contains(SpringRole.ROLE_DIVER_INSTRUCTOR.getAuthority())
+                    ) {
+                Diver diver = (Diver) allUsersService.getByEmail(details.getUsername());
+                if (diver != null) {
+                    return new BackendUser<>(diver);
+                } else {
+                    return null;
+                }
+            } else if (authorities.contains(SpringRole.ROLE_ATHLETE.getAuthority())) {
+                Athlete athlete = (Athlete) allUsersService.getByEmail(details.getUsername());
                 if (athlete != null) {
-                    return new BackendUser<Athlete>(athlete);
+                    return new BackendUser<>(athlete);
                 } else {
                     return null;
                 }
             } else {
-                Amateur amateur = amateurDao.getByEmail(details.getUsername());
+                Amateur amateur = (Amateur) allUsersService.getByEmail(details.getUsername());
                 if (amateur != null) {
-                    return new BackendUser<Amateur>(amateur);
+                    return new BackendUser<>(amateur);
                 } else {
                     return null;
                 }
@@ -87,17 +92,16 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
     @Transactional
     @Override
     @Nullable
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String userName) throws DataAccessException {
         User user = allUsersService.getByEmail(userName);
         if (user == null) {
             throw new UsernameNotFoundException("No user with name: " + userName);
         }
-        BackendUser backendUser = new BackendUser(user);
 
 //		GrantedAuthority[] roles = SpringRole.getAuthorities(new SpringRole[]{user.getRole()});
 //            return new org.springframework.security.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(),
 //                    true, true, true, roles);
-        return backendUser;
+        return new BackendUser(user);
     }
 
     @Override

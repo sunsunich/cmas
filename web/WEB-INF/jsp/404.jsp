@@ -4,8 +4,6 @@
 
 
 <my:basePage title="404 ERROR" indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css"
              doNotDoAuth="true"
         >
     

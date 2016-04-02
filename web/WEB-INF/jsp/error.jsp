@@ -3,8 +3,6 @@
 
 
 <my:basePage title="ОШИБКА " indexpage="false"
-             customScripts="/js/scroll.js"
-             customCSSFiles="/c/main.css"
              doNotDoAuth="true"
         >
     <!-- end of Navigation menu -->
