@@ -40,6 +40,10 @@
     <link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico"/>
     <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/select2.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/print.css" media="print"/>
     <meta name="google-site-verification" content="Xaw1kGm7_ZeykPyMuWwVpY8t9_tOTAkWEaKu6aOv6i0"/>
     <meta name="creator" content="dotindot">
@@ -63,13 +67,15 @@
 
     <script type="text/javascript" src="js/lib/json.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/lib/ejs_production.js"></script>
+    <script type="text/javascript" src="js/lib/select2.full.min.js"></script>
 
     <script type="text/javascript" src="js/util.js"></script>
 
     <script type="text/javascript" src="js/controller/cookie_controller.js"></script>
     <script type="text/javascript" src="js/controller/loader_controller.js"></script>
-    <script type="text/javascript" src="js/model/error_codes.js"></script>
+    <script type="text/javascript" src="js/i18n/error_codes.js"></script>
 
     <c:forEach items="${customCSSFiles}" var="customCSSFile">
         <link type="text/css" rel="stylesheet" href="${customCSSFile}"/>
@@ -80,7 +86,7 @@
     </c:forEach>
 
 </head>
-<body id="body"  background="/i/background.png">
+<body id="body" background="/i/background.png">
 
 <c:if test="${doNotDoAuth == null || !doNotDoAuth}">
     <my:authorize/>

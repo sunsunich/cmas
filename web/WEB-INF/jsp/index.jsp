@@ -39,12 +39,12 @@
             <button class="form-button reg-button" id="regLink">
                 <s:message code="cmas.face.login.form.link.reg"/>
             </button>
-            <div class="pass_link">
-                <a class="link" href="${pageContext.request.contextPath}/lostPasswdForm.html">
-                    <s:message code="cmas.face.login.form.link.lostPasswd"/>
-                </a>
-            </div>
         </form>
+        <div class="pass_link">
+            <a class="link" href="${pageContext.request.contextPath}/lostPasswdForm.html">
+                <s:message code="cmas.face.login.form.link.lostPasswd"/>
+            </a>
+        </div>
     </div>
 
 </my:basePage>
