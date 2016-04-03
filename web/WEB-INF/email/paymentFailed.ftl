@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Неуспешное поступление денег на счет cmas.org">
+<@mailer.mail title="Неуспешное поступление денег на счет cmasdata.org">
 
 <p style="color: #3a3a3a; font-size: 18px;">
     

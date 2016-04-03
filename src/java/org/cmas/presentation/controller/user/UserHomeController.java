@@ -1,11 +1,15 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;
+import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.text.StringUtil;
@@ -36,22 +40,65 @@ public class UserHomeController {
     @Autowired
     private BillingService billingService;
 
+    @Autowired
+    private RegistrationService registrationService;
+
+    @Autowired
+    private DiverDao diverDao;
+
     @ModelAttribute("user")
-    public BackendUser getUser() {
-        BackendUser user = authenticationService.getCurrentUser();
+    public BackendUser<? extends User> getUser() {
+        BackendUser<? extends User> user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
         return user;
     }
 
+    @ModelAttribute("diver")
+    public Diver getCurrentDiver() {
+        BackendUser<? extends User> user = getUser();
+        Role role = user.getUser().getRole();
+        Diver diver = null;
+        if (role == Role.ROLE_DIVER_INSTRUCTOR || role == Role.ROLE_DIVER) {
+            diver = (Diver) user.getUser();
+        }
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        return diver;
+    }
+
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() throws IOException {
-//        ModelMap mm = new ModelMap();
-//        mm.addAttribute("isError", false);
-//        return new ModelAndView("secure/index", mm);
+        Diver diver = getCurrentDiver();
+        if (diver.isHasPayed()) {
+            return new ModelAndView("redirect:/secure/profile/getUser.html");
+        } else {
+            return new ModelAndView("redirect:/secure/welcome.html");
+        }
+    }
+
+    @RequestMapping(value = "/secure/welcome.html", method = RequestMethod.GET)
+    public ModelAndView showWelcome() throws IOException {
+        Diver diver = getCurrentDiver();
+        boolean isFree = registrationService.isFreeRegistration(diver);
+        if (isFree) {
+            diver.setHasPayed(true);
+            diverDao.updateModel(diver);
+        }
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("isFree", isFree);
+        return new ModelAndView("/secure/welcome", mm);
+    }
+
+    @RequestMapping(value = "/secure/welcome-continue.html", method = RequestMethod.GET)
+    public ModelAndView continueWelcome() throws IOException {
+        Diver diver = getCurrentDiver();
+        registrationService.createDiverPrimaryCard(diver);
         return new ModelAndView("redirect:/secure/profile/getUser.html");
     }
+
 
     @RequestMapping("/secure/pay.html")
     @Transactional
@@ -64,7 +111,7 @@ public class UserHomeController {
             throw new BadRequestException();
         }
         if (StringUtil.isEmpty(fo.getAmount()) ||
-                StringUtil.isEmpty(fo.getPaymentType())) {//|| StringUtil.isEmpty(fo.getCurrencyType())) {
+            StringUtil.isEmpty(fo.getPaymentType())) {//|| StringUtil.isEmpty(fo.getCurrencyType())) {
             return new ModelAndView("/secure/pay", mm);
         }
 

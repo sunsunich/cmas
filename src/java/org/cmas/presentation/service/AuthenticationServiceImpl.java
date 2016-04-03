@@ -110,4 +110,12 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
         return currentAuthentication != null && isGranted(currentAuthentication, SpringRole.ROLE_ADMIN);
     }
 
+    @Override
+    public boolean isDiver() {
+        Authentication currentAuthentication = getCurrentAuthentication();
+        return currentAuthentication != null &&
+               (isGranted(currentAuthentication, SpringRole.ROLE_DIVER) ||
+                isGranted(currentAuthentication, SpringRole.ROLE_DIVER_INSTRUCTOR));
+    }
+
 }

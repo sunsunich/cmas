@@ -14,4 +14,6 @@ import java.util.Date;
 public interface DiverDao extends UserDao<Diver> {
 
     Diver searchDiver(SportsFederation federation, String firstName, String lastName, Date dob);
+
+    int getFullyRegisteredDiverCnt();
 }

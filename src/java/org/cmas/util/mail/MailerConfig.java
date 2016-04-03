@@ -26,7 +26,6 @@ public class MailerConfig implements InitializingBean, AddressConfig {
     private String hostName;
 
 
-
     @Override
     public void afterPropertiesSet() throws Exception {
         //subjects = new Subjects(localeConfiguration.getSiteName(null), msgSource);  //// !!!
@@ -102,6 +101,11 @@ public class MailerConfig implements InitializingBean, AddressConfig {
 
     @Override
     public String getSiteName(Locale locale) {
+        return hostName;
+    }
+
+    @Override
+    public String getSiteWebAddress(Locale locale) {
         return "http://" + hostName;
     }
 

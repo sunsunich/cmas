@@ -9,4 +9,6 @@ public interface AuthenticationService extends CommonAuthentificationService<Bac
 
     boolean isAdmin();
 
+    boolean isDiver();
+
 }

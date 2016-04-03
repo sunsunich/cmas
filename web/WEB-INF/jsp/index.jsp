@@ -2,7 +2,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-<my:basePage title="World Underwater Federation - Quality in diving" indexpage="true"
+<my:basePage title="cmas.face.index.header" indexpage="true"
              customScripts="/js/model/login_model.js,/js/controller/login_controller.js"
         >
 
@@ -16,7 +16,6 @@
                     <img class="email-input-ico">
                     <input id="loginField" type="text"
                            placeholder="<s:message code="cmas.face.login.form.label.login"/>"/>
-
                 </div>
                 <div class="form-row">
                     <img class="pass-input-ico">

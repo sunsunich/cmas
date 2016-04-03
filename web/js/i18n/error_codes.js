@@ -20,7 +20,8 @@ var error_codes = {
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
 
-    "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country",
+    "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country. Please contact your sports federation",
+    "validation.diverAlreadyRegistered" : "You have already registered at Cmas Data",
 
     "validation.incorrectLocale": "locale is incorrect",
     "validation.termsNotAggreed": "You did not confirm that you have accepted terms and conditions",
@@ -28,5 +29,7 @@ var error_codes = {
     "validation.internal.email": "internal email server error",
     "validation.internal": "internal server error",
 
-    "typeMismatch.java.lang.Long": "incorrect number"
+    "typeMismatch.java.lang.Long": "incorrect number",
+
+    "error.sending.email" : "Error while sending you email with your password. Please try again later."
 };

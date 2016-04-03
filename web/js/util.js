@@ -14,5 +14,5 @@ function get_url_param_value(name){
 }
 
 function isStringTrimmedEmpty(str) {
-    return (str.length === 0 || !str.trim());
+    return !str || (str.length === 0 || !str.trim());
 }

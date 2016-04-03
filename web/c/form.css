@@ -1,0 +1,158 @@
+
+.form-logo {
+    margin-bottom: 25px;
+    margin-left: 25%;
+}
+
+.form-row {
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.form-row input,
+.select2-selection {
+    width: 100%;
+    height: 100% !important;
+    padding-top: 18px;
+    padding-bottom: 6px;
+    padding-left: 42px;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: rgba(235, 243, 245, 0.8) !important;
+}
+
+.select2-selection__rendered,
+.select2-selection__placeholder {
+    font-size: 16px;
+    color: #53788b !important;
+    padding: 0 !important;
+    line-height: normal !important;
+}
+
+.select2-selection__rendered {
+    color: black !important;
+}
+
+.select2-selection--multiple:focus,
+.select2-selection--single:focus {
+    outline: none !important;
+}
+
+.select2-selection__arrow {
+    background: url("/i/arrow_ico.png") no-repeat center;
+    top: 10px !important;
+    right: 8px !important;
+}
+
+.select2-selection__arrow b {
+    display: none !important;
+}
+
+.form-row input::-webkit-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input::-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:-ms-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:focus::-webkit-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:focus::-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:focus:-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row input:focus:-ms-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row img {
+    height: 20px;
+    position: absolute;
+}
+
+.email-input-ico {
+    content: url("/i/mail_ico.png");
+    top: 12px;
+    left: 10px;
+}
+
+.pass-input-ico {
+    content: url("/i/password_ico.png");
+    top: 12px;
+    left: 14px;
+}
+
+.name-input-ico {
+    content: url("/i/name_ico.png");
+    top: 12px;
+    left: 14px;
+}
+
+.calendar-input-ico {
+    content: url("/i/calendar_ico.png");
+    top: 12px;
+    left: 14px;
+}
+
+.country-input-ico {
+    content: url("/i/country_ico.png");
+    top: 14px;
+    left: 14px;
+}
+
+.row-checkbox {
+    margin-bottom: 15px;
+}
+
+.row-checkbox span {
+    color: #FFFFFF;
+}
+
+.ui-dialog-titlebar-close {
+    visibility: hidden;
+}
+
+.ui-button:focus {
+    outline: none !important;
+}

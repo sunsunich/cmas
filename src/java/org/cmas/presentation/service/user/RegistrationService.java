@@ -19,6 +19,10 @@ public interface RegistrationService {
 
     void validateConfirm(RegistrationConfirmFormObject formObject, BindingResult errors);
 
+    void createDiverPrimaryCard(Diver diver);
+
+    boolean isFreeRegistration(Diver diver);
+
     /**
      * @return список желающих регистрироваться
      */

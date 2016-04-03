@@ -3,11 +3,11 @@ package org.cmas.util.mail;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.cmas.i18n.LocaleResolverImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailPreparationException;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.cmas.i18n.LocaleResolverImpl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class FreemarkerRenderer implements TemplateRenderer<ModelAttr> {
     private Map<String, Object> createCommonLocalizedModel(Locale locale) {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("siteAddress", mailerConfig.getSiteAddress());
-        model.put("context_path", mailerConfig.getSiteName(locale));
+        model.put("context_path", mailerConfig.getSiteWebAddress(locale));
         model.put("siteName", mailerConfig.getSiteName(locale));
         return model;
     }

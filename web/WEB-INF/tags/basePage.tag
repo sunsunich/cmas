@@ -22,7 +22,7 @@
     <base href="${fn:substring(url, 0, fn:length(url) - fn:length(pageContext.request.requestURI))}${pageContext.request.contextPath}/"/>
 
     <meta charset="utf-8"/>
-    <title>${title}</title>
+    <title><s:message code="${title}"/></title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <meta name="description"
           content="In addition to organizing international underwater sport events it is at the forefront of technical and scientific research and development. It can be associated with elaborating one of the oldest and most extensive dive training system."/>
@@ -40,6 +40,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico"/>
     <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/form.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/buttons.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/select2.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css" media="all"/>
@@ -61,7 +63,7 @@
     <![endif]-->
     <script type="text/javascript">
         function PrintMail(argName) {
-            document.write('<A href="mailto:' + argName + '@cmas.org">' + argName + '@cmas.org</A>');
+            document.write('<A href="mailto:' + argName + '@cmasdata.org">' + argName + '@cmasdata.org</A>');
         }
     </script>
 

@@ -88,7 +88,6 @@ public class RegistrationController {
 
     /**
      * добавляем в базу регистрацию.
-     *
      */
     @RequestMapping("/diver-registration-submit.html")
     public View registrationDiverAdd(
@@ -97,14 +96,13 @@ public class RegistrationController {
     ) {
         registrationService.validate(formObject, result);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(
-                    new JsonBindingResult(result)
-            );
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {  // submit form
             formObject.setLocale(localeResolver.getCurrentLocale());
             Diver diver = registrationService.setupDiver(formObject);
-            if(diver == null){
-                return gsonViewFactory.createErrorGsonView("error.sending.email");
+            if (diver == null) {
+                result.reject("error.sending.email");
+                return gsonViewFactory.createGsonView(new JsonBindingResult(result));
             }
             return gsonViewFactory.createSuccessGsonView();
         }
@@ -132,7 +130,7 @@ public class RegistrationController {
         authenticationService.loginAs(new BackendUser(user),
                                       new SpringRole[]{SpringRole.fromRole(user.getRole())}
         );
-        if(user instanceof Diver){
+        if (user instanceof Diver) {
             Diver diver = (Diver) user;
             return gsonViewFactory.createGsonView(diver);
         }
@@ -207,7 +205,6 @@ public class RegistrationController {
 
     /**
      * добавленную в базу регистрацию превращаем в юзера.
-     *
      */
     @RequestMapping("/regConfirm.html")
     public ModelAndView userAddConfirm(

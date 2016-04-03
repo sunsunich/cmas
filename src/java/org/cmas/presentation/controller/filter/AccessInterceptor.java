@@ -1,6 +1,7 @@
 package org.cmas.presentation.controller.filter;
 
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -8,6 +9,7 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +36,17 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     /**
      * урлы-исключения, к которым не применяются проверки значений параметров.
      */
-    protected List<String> exceptions = new ArrayList<String>();
+    protected List<String> exceptions = new ArrayList<>();
+    protected List<String> freePages = new ArrayList<>();
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object controllerObj) throws Exception {
         // общая проверка параметров висит только на /secure/ части сайта.
-        if(authenticationService.isAdmin()){
+        if (authenticationService.isAdmin()) {
             return true;
         }
 
-        boolean forbidden =  req.getRequestURI().startsWith("/secure/") &&
+        boolean forbidden = req.getRequestURI().startsWith("/secure/") &&
                             !commonValidation(req);
         if (forbidden) {
             res.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -61,6 +64,14 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
      * @return false, если пользователя не пускаем
      */
     private boolean commonValidation(HttpServletRequest req) {
+        if (freePages.contains(req.getRequestURI())) {
+            return true;
+        }
+
+        if (!checkDiverPayed()) {
+            return false;
+        }
+
         if (exceptions.contains(req.getRequestURI())) {
             return true;
         }
@@ -78,14 +89,26 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
      */
     private boolean containsId(HttpServletRequest req) {
         for (String param : PARAMS) {
-            if (req.getParameter(param) != null){
+            if (req.getParameter(param) != null) {
                 return true;
             }
         }
         return false;
     }
 
-  
+    private boolean checkDiverPayed() {
+        if (!authenticationService.isDiver()) {
+            return true;
+        }
+        BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
+        if (((Diver) currentUser.getUser()).isHasPayed()) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * если в запросе есть параметр invoiceId, проверяем, что invoice с таким id принадлежит залогиненному пользователю
      */
@@ -109,9 +132,14 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return exceptions;
     }
 
-   
 
+    @Required
     public void setExceptions(List<String> exceptions) {
         this.exceptions = exceptions;
+    }
+
+    @Required
+    public void setFreePages(List<String> freePages) {
+        this.freePages = freePages;
     }
 }

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -60,6 +61,8 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private PersonalCardService personalCardService;
+
+    private int freeDiversRegistrationsAmount;
 
     @Override
     public void validate(DiverRegistrationFormObject formObject, BindingResult errors) {
@@ -134,9 +137,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             diver.setGeneratedPassword(generatedPassword);
             diver.setPassword(newPasswd);
             diver.setLocale(formObject.getLocale());
-            personalCardService.generatePrimaryCard(
-                    diver, diverDao
-            );
+
             diverDao.updateModel(diver);
 
             try {
@@ -150,6 +151,18 @@ public class RegistrationServiceImpl implements RegistrationService {
         } catch (ParseException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    @Override
+    public void createDiverPrimaryCard(Diver diver) {
+        personalCardService.generatePrimaryCard(
+                diver, diverDao
+        );
+    }
+
+    @Override
+    public boolean isFreeRegistration(Diver diver){
+        return diverDao.getFullyRegisteredDiverCnt() <= freeDiversRegistrationsAmount;
     }
 
     /**
@@ -173,5 +186,10 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (reg != null) {
             registrationDao.deleteModel(reg);
         }
+    }
+
+    @Required
+    public void setFreeDiversRegistrationsAmount(int freeDiversRegistrationsAmount) {
+        this.freeDiversRegistrationsAmount = freeDiversRegistrationsAmount;
     }
 }

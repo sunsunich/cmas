@@ -89,7 +89,7 @@
     </bean>
 
     <bean id="mailer" class="org.cmas.util.mail.MailerConfig">
-        <property name="questionFormEmail" value="no-reply@cmas.org"/>
+        <property name="questionFormEmail" value="no-reply@cmasdata.org"/>
     </bean>
 
     <bean id="mailerService" class="org.cmas.presentation.service.mail.MailServiceImpl">
