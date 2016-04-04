@@ -14,12 +14,12 @@ import java.util.Locale;
  */
 public class LocaleResolverImpl implements CustomLocaleResolver {
 
-	static final Locale ca = new Locale("ru");
+	static final Locale EN = new Locale("en");
 
 
     @Override
 	public Locale resolveLocale(HttpServletRequest httpServletRequest) {
-		return ca;
+		return EN;
 	}
 
 	@Override
@@ -29,12 +29,12 @@ public class LocaleResolverImpl implements CustomLocaleResolver {
 
 	@Override
     public Locale getDefaultLocale() {
-		return ca;
+		return EN;
 	}
 
 	@Override
     public Locale getCurrentLocale() {
-		return ca;
+		return EN;
 	}
 
     @Override
@@ -71,7 +71,7 @@ public class LocaleResolverImpl implements CustomLocaleResolver {
 		}
 		result.add(current.getLanguage());
 		//default locale
-		Locale defaultLocale = ca;
+		Locale defaultLocale = EN;
 		if (!StringUtil.isEmpty(defaultLocale.getCountry())) {
 			String name = defaultLocale.getLanguage() + "_" + defaultLocale.getCountry();
 			if (!result.contains(name)) {

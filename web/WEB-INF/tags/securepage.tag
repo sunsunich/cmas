@@ -4,14 +4,27 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ attribute name="title" required="true" %>
-<%@ attribute name="lightHeader" required="false" %>
+<%@ attribute name="hideMenu" required="false" %>
 
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
-<my:basePage title="${title}" indexpage="false" doNotDoAuth="true">
+<my:basePage title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css">
 
-    <a href="logout.html" title="Logout">Logout</a>
-
+    <c:if test="${!hideMenu}">
+        <div id="cssmenu">
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/logout.html"><i class="menu-ico menu-ico-logout"></i> Sign out</a></li>
+                <li class="has-sub"><a style="pointer-events: none;" href="#"><i class="menu-ico menu-ico-menu"></i> Menu</a>
+                    <ul>
+                        <li><a href="#"><i class="menu-ico menu-ico-my-account"></i> My Account</a></li>
+                        <li><a href="#"><i class="menu-ico menu-ico-logbook"></i> Logbook</a></li>
+                        <li><a href="#"><i class="menu-ico menu-ico-diving-spots"></i> Diving spots</a></li>
+                        <li><a href="#"><i class="menu-ico menu-ico-my-cards"></i> My cards</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </c:if>
     <jsp:doBody/>
 
 </my:basePage>

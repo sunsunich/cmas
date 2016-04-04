@@ -6,7 +6,7 @@
 
 <jsp:useBean id="isFree" scope="request" type="java.lang.Boolean"/>
 
-<my:securepage title="cmas.face.index.header">
+<my:securepage title="cmas.face.index.header" hideMenu="true">
 
     <div class="content" id="Content">
     <div class="form-logo">
