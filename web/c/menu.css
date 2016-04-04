@@ -122,8 +122,7 @@
 }
 
 #cssmenu ul ul li:hover > a {
-    background: #666666;
-    color: #e8e8e8;
+    background: #d5d5d5;
 }
 
 #cssmenu ul ul li:last-child > a {
@@ -208,16 +207,41 @@
     right: auto;
 }
 
+#cssmenu span{
+    padding-left: 28px;
+}
+
 .menu-ico {
     display: inline-block;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale
-    width: 1.28571429em;
-    text-align: center
+    height: 20px;
+    position: absolute;
+    top: 12px;
 }
 
 .menu-ico-logout {
-    /*content: url("/i/back_ico.png");*/
+    content: url("/i/logout.png");
+}
+
+.menu-ico-menu {
+    content: url("/i/menu_ico.png");
+}
+
+.menu-ico-my-account {
+    top: 16px;
+    content: url("/i/account.png");
+}
+
+.menu-ico-logbook {
+    top: 16px;
+    content: url("/i/log.png");
+}
+
+.menu-ico-diving-spots {
+    top: 16px;
+    content: url("/i/spot.png");
+}
+
+.menu-ico-my-cards {
+    top: 16px;
+    content: url("/i/cards.png");
 }

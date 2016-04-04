@@ -13,13 +13,24 @@
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>
-                <li><a href="${pageContext.request.contextPath}/logout.html"><i class="menu-ico menu-ico-logout"></i> Sign out</a></li>
-                <li class="has-sub"><a style="pointer-events: none;" href="#"><i class="menu-ico menu-ico-menu"></i> Menu</a>
+                <li><a href="${pageContext.request.contextPath}/logout.html">
+                    <i class="menu-ico menu-ico-logout"></i><span>Sign out</span></a>
+                </li>
+                <li class="has-sub"><a style="pointer-events: none;" href="#">
+                    <i class="menu-ico menu-ico-menu"></i><span>Menu</span></a>
                     <ul>
-                        <li><a href="#"><i class="menu-ico menu-ico-my-account"></i> My Account</a></li>
-                        <li><a href="#"><i class="menu-ico menu-ico-logbook"></i> Logbook</a></li>
-                        <li><a href="#"><i class="menu-ico menu-ico-diving-spots"></i> Diving spots</a></li>
-                        <li><a href="#"><i class="menu-ico menu-ico-my-cards"></i> My cards</a></li>
+                        <li><a href="#">
+                            <i class="menu-ico menu-ico-my-account"></i><span>My Account</span></a>
+                        </li>
+                        <li><a href="#">
+                            <i class="menu-ico menu-ico-logbook"></i><span>Logbook</span></a>
+                        </li>
+                        <li><a href="#">
+                            <i class="menu-ico menu-ico-diving-spots"></i><span>Diving spots</span></a>
+                        </li>
+                        <li><a href="#">
+                            <i class="menu-ico menu-ico-my-cards"></i><span>My cards</span></a>
+                        </li>
                     </ul>
                 </li>
             </ul>
