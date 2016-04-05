@@ -78,7 +78,6 @@
     <script type="text/javascript" src="js/controller/cookie_controller.js"></script>
     <script type="text/javascript" src="js/controller/loader_controller.js"></script>
     <script type="text/javascript" src="js/i18n/error_codes.js"></script>
-    <script type="text/javascript" src="js/i18n/labels.js"></script>
 
     <c:forEach items="${customCSSFiles}" var="customCSSFile">
         <link type="text/css" rel="stylesheet" href="${customCSSFile}"/>

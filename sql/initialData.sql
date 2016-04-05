@@ -130,7 +130,7 @@ INSERT into countries (id, deleted, name, code, version) values (128, false, 'Zi
 INSERT into countries (id, deleted, name, code, version) values (129, false, 'Republic of China', 'TWN', 1);
 INSERT into countries (id, deleted, name, code, version) values (130, false, 'North Cyprus', 'NCYP', 1);
 
-INSERT into sports_federations (id, deleted, name, version, country_id) values (1, false, 'TestRussia', 1, 102);
+INSERT into sports_federations (id, deleted, name, version, country_id) values (1, false, 'Russia', 1, 102);
 INSERT into sports_federations (id, deleted, name, version, country_id) values (2, false, 'Italy', 1, 60);
 INSERT into sports_federations (id, deleted, name, version, country_id) values (3, false, 'Germany', 1, 6);
 INSERT into sports_federations (id, deleted, name, version, country_id) values (4, false, 'France', 1, 46);
@@ -161,12 +161,13 @@ INSERT INTO `cmas`.`divers`
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`)
+ `primaryPersonalCard_id`,
+ `hasPayed`)
 VALUES
   (2,
    NOW(),
-   STR_TO_DATE("06/02/2016", '%d/%m/%Y'),
-   "mario@gmail.com",
+   STR_TO_DATE("06/02/1996", '%d/%m/%Y'),
+   "a1@mailinator.com",
    true,
    "Mario",
    NOW(),
@@ -184,7 +185,8 @@ VALUES
    60,
    NULL ,
    2,
-   null);
+   null,
+  false);
 
 INSERT INTO `cmas`.`personal_cards`
 (`id`,
@@ -231,8 +233,8 @@ INSERT INTO `cmas`.`divers`
 VALUES
  (3,
   NOW(),
-  STR_TO_DATE("06/02/2016", '%d/%m/%Y'),
-  "john@gmail.com",
+  STR_TO_DATE("06/02/1996", '%d/%m/%Y'),
+  "a2@mailinator.com",
   true,
   "John",
   NOW(),

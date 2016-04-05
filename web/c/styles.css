@@ -8,7 +8,7 @@ body {
     background-size: cover;
 }
 
-span, div, a, input, button {
+span, div, a, input, button, p {
     font-family: MyriadPro-SemiCn, serif !important;
 }
 
@@ -20,7 +20,7 @@ input, span {
     border: none !important;
 }
 
-input {
+input, p {
     color: black !important;
     font-size: 16px;
 }
@@ -68,6 +68,40 @@ input {
 
 .error {
     padding-left: 15px;
-    color: red;
+    color: #ffcc00;
     margin-bottom: 15px;
+}
+
+.dialog {
+    border-radius: 6px;
+    background: #f8f8f8;
+    height: auto;
+    margin: 0 auto;
+    position: relative;
+    top: 122px;
+    width: 335px;
+    z-index: 1000;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+#dialogClose {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.dialog-title {
+    text-align: center;
+    padding-top: 25px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.dialog-content {
+    text-align: center;
+    padding-bottom: 25px;
+    padding-left: 16px;
+    padding-right: 16px;
 }

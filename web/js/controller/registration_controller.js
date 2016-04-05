@@ -26,27 +26,11 @@ var registration_controller = {
                 dateFormat: 'dd/mm/yy'
             }
         );
-        $("#dialog").dialog({
-            draggable: false,
-            resizable: false,
-            autoOpen: false,
-
-            title: labels["cmas.face.registration.success.title"],
-            close: function (event, ui) {
-                $('#oplCountries').select2("val", "");
-                $('#firstNameField').val('');
-                $('#lastNameField').val('');
-                $('#dobField').val('');
-            },
-
-            buttons: [
-                {
-                    text: "OK",
-                    click: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            ]
+        $("#dialogClose").click(function () {
+            self.hideRegistrationOk();
+        });
+        $("#dialogOk").click(function () {
+            self.hideRegistrationOk();
         });
     },
 
@@ -140,8 +124,18 @@ var registration_controller = {
     },
 
     showRegistrationOk: function () {
-        $('#dialogContent').html(labels["cmas.face.registration.success.text"]);
-        $("#dialog").dialog("open");
+        $("#dialog").show();
+    },
+
+    hideRegistrationOk: function () {
+        $('#oplCountries').select2("val", "");
+        $('#firstNameField').val('');
+        $('#lastNameField').val('');
+        $('#dobField').val('');
+        $("#dialog").hide();
+        setTimeout(function () {
+            window.location = "/";
+        }, 2000);
     }
 };
 

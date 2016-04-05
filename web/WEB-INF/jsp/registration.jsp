@@ -10,10 +10,15 @@
 <my:basePage title="cmas.face.index.header" indexpage="false"
              customScripts="js/model/registration_model.js,js/controller/registration_controller.js"
         >
+    <script>
+        var labels = {
+            "cmas.face.registration.form.label.country": '<s:message code="cmas.face.registration.form.label.country"/>'
+        }
+    </script>
 
     <div class="content" id="Content">
         <div class="form-logo">
-            <a href="/">
+            <a href="${pageContext.request.contextPath}/">
                 <img src="${pageContext.request.contextPath}/i/logo.png">
             </a>
         </div>
@@ -61,9 +66,17 @@
         </div>
     </div>
 
-    <div id="dialog">
-        <p id="dialogContent"></p>
-
+    <div id="dialog" class="dialog" style="display: none">
+        <img id="dialogClose" src="${pageContext.request.contextPath}/i/close.png"/>
+        <p class="dialog-title"> <s:message code="cmas.face.registration.success.title"/></p>
+        <p class="dialog-content" id="dialogContent">
+            <s:message code="cmas.face.registration.success.text1"/>
+            <br/>
+            <s:message code="cmas.face.registration.success.text2"/>
+        </p>
+        <button class="form-button enter-button" id="dialogOk">
+            <s:message code="cmas.face.registration.success.continue"/>
+        </button>
     </div>
 
 </my:basePage>
