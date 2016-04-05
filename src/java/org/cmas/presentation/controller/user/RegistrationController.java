@@ -101,7 +101,7 @@ public class RegistrationController {
             formObject.setLocale(localeResolver.getCurrentLocale());
             Diver diver = registrationService.setupDiver(formObject);
             if (diver == null) {
-                result.reject("error.sending.email");
+                result.reject("error.sending.registration.email");
                 return gsonViewFactory.createGsonView(new JsonBindingResult(result));
             }
             return gsonViewFactory.createSuccessGsonView();

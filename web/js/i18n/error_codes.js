@@ -9,9 +9,6 @@ var error_codes = {
     "validation.oldPasswordRejected": "old password is incorrect",
     "validation.passwordRejected": "password is incorrect",
 
-    "validation.positiveNumber": "the number entered must be positive",
-    "validation.incorrectDateRanges": "date ranges are incorrect",
-
     "validation.emailValid": "email is invalid",
     "validation.incorrectNumber": "the number is incorrect",
     "validation.emptyField": "field is empty",
@@ -23,13 +20,10 @@ var error_codes = {
     "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country. Please contact your sports federation",
     "validation.diverAlreadyRegistered" : "You have already registered at Cmas Data",
 
-    "validation.incorrectLocale": "locale is incorrect",
-    "validation.termsNotAggreed": "You did not confirm that you have accepted terms and conditions",
-
     "validation.internal.email": "internal email server error",
     "validation.internal": "internal server error",
 
     "typeMismatch.java.lang.Long": "incorrect number",
 
-    "error.sending.email" : "Error while sending you email with your password. Please try again later."
+    "error.sending.registration.email" : "Error while sending you email with your password. Please try again later."
 };

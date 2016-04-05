@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.Cookie;
@@ -41,7 +42,7 @@ public class LoginController {
 
 
     @RequestMapping(value = "/login-redirect.html",method = RequestMethod.GET)
-    public String loginRedirect(ModelMap model, HttpSession sess, HttpServletRequest request, HttpServletResponse response,
+    public ModelAndView loginRedirect(ModelMap model, HttpSession sess, HttpServletRequest request, HttpServletResponse response,
                             @RequestParam(required = false, value = "login_error") Boolean hasError) {
         if (hasError != null && hasError) {
             Throwable thread = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
@@ -58,11 +59,11 @@ public class LoginController {
                 , ""
                 , 0);
         response.addCookie(cookie);
-        return "login";
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showLogin(ModelMap model, HttpSession sess,
+    public ModelAndView showLogin(ModelMap model, HttpSession sess,
                             @RequestParam(required = false, value = "login_error") Boolean hasError) {
         if (hasError != null && hasError) {
             Throwable thread = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
@@ -74,7 +75,7 @@ public class LoginController {
                 model.addAttribute("lastLogin", obj);
             }
         }
-        return "login";
+        return new ModelAndView("redirect:/");
     }
 
     /*

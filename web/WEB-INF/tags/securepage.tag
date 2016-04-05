@@ -9,27 +9,44 @@
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:basePage title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css">
-
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>
-                <li><a href="${pageContext.request.contextPath}/logout.html">
-                    <i class="menu-ico menu-ico-logout"></i><span>Sign out</span></a>
+                <li>
+                    <a href="${pageContext.request.contextPath}/logout.html">
+                        <i class="menu-ico menu-ico-logout"></i>
+                        <span><s:message code="cmas.face.client.exit"/></span>
+                    </a>
                 </li>
-                <li class="has-sub"><a style="pointer-events: none;" href="#">
-                    <i class="menu-ico menu-ico-menu"></i><span>Menu</span></a>
+                <li class="has-sub">
+                    <a style="pointer-events: none;" href="#">
+                        <i class="menu-ico menu-ico-menu"></i>
+                        <span><s:message code="cmas.face.client.menu"/></span>
+                    </a>
                     <ul>
-                        <li><a href="#">
-                            <i class="menu-ico menu-ico-my-account"></i><span>My Account</span></a>
+                        <li>
+                            <a href="#">
+                                <i class="menu-ico menu-ico-my-account"></i>
+                                <span><s:message code="cmas.face.client.menu.personalData"/></span>
+                            </a>
                         </li>
-                        <li><a href="#">
-                            <i class="menu-ico menu-ico-logbook"></i><span>Logbook</span></a>
+                        <li>
+                            <a href="#">
+                                <i class="menu-ico menu-ico-logbook"></i>
+                                <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                            </a>
                         </li>
-                        <li><a href="#">
-                            <i class="menu-ico menu-ico-diving-spots"></i><span>Diving spots</span></a>
+                        <li>
+                            <a href="#">
+                                <i class="menu-ico menu-ico-diving-spots"></i>
+                                <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
+                            </a>
                         </li>
-                        <li><a href="#">
-                            <i class="menu-ico menu-ico-my-cards"></i><span>My cards</span></a>
+                        <li>
+                            <a href="#">
+                                <i class="menu-ico menu-ico-my-cards"></i>
+                                <span><s:message code="cmas.face.client.menu.myCards"/></span>
+                            </a>
                         </li>
                     </ul>
                 </li>
