@@ -8,7 +8,6 @@ import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.UserService;
-import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
@@ -38,9 +37,6 @@ public class UserProfileController {
     @Autowired
     @Qualifier("diverService")
     private UserService<Diver> userService;
-
-    @Autowired
-    private HibernateSpringValidator validator;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;

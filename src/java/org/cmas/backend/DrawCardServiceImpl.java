@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
@@ -50,15 +51,20 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings("OverlyLongMethod")
     @Override
-    public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
+    public synchronized BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
         BufferedImage initImage = ImageIO.read(getClass().getResourceAsStream("cmas_card.png"));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
         BufferedImage finalImage = new BufferedImage(
                 width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = finalImage.createGraphics();
+        g2d.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(
+                RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.drawImage(initImage, 0, 0, null);
-
         g2d.setPaint(Color.BLACK);
         g2d.setFont(new Font("Serif", Font.BOLD, CARD_NUMBER_FONT_SIZE));
 
@@ -90,7 +96,6 @@ public class DrawCardServiceImpl implements DrawCardService {
 
         g2d.setPaint(new Color(0x25456c));
         g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
-
         float x = NAME_X * (float) width;
         Diver diver = card.getDiver();
         drawWithRightAlign(g2d, diver.getFirstName(), x, FIRST_NAME_Y * (float) height);
