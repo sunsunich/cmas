@@ -2,6 +2,7 @@ package org.cmas.backend;
 
 
 import com.google.zxing.WriterException;
+import com.mortennobel.imagescaling.ResampleOp;
 import org.cmas.MockUtil;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
@@ -12,8 +13,8 @@ import javax.imageio.ImageIO;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ import java.io.IOException;
  *
  * @author Alexander Petukhov
  */
-public class DrawCardServiceImpl implements DrawCardService{
+public class DrawCardServiceImpl implements DrawCardService {
 
     private static final float QR_SCALE_FACTOR = 136.0f / 640.0f;
     private static final float QR_X = 480.0f / 640.0f;
@@ -139,22 +140,10 @@ public class DrawCardServiceImpl implements DrawCardService{
     @SuppressWarnings("NumericCastThatLosesPrecision")
     private static void drawStar(int width, int height, Graphics2D g2d, BufferedImage starImage, int x) {
         int starSize = (int) ((float) width * STAR_SCALE_FACTOR);
-//        int w = starImage.getWidth();
-//        int h = starImage.getHeight();
-//        BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-//        AffineTransform at = new AffineTransform();
-//        at.scale((double) starSize / (double) w, (double) starSize / (double) w);
-//        BufferedImageOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC);
-//        after = scaleOp.filter(starImage, after);
-//        g2d.drawImage(after,
-//                      x, (int) (STAR_Y * (float) height),
-//                      null);
-        //todo proper scaling
-        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-        g2d.drawImage(starImage,
-                      x, (int) (STAR_Y * (float) height),
-                      starSize, starSize,
-                      null);
+        BufferedImage after = new BufferedImage(starSize, starSize, BufferedImage.TYPE_INT_ARGB);
+        BufferedImageOp resampleOp = new ResampleOp(starSize, starSize);
+        resampleOp.filter(starImage, after);
+        g2d.drawImage(after, x, (int) (STAR_Y * (float) height), null);
     }
 
     private static void drawWithRightAlign(Graphics2D g2d, String text, float x, float y) {
