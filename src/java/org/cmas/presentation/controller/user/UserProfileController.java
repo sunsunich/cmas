@@ -3,18 +3,18 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
-import org.cmas.presentation.service.user.AthleteService;
+import org.cmas.presentation.service.user.UserService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +36,8 @@ public class UserProfileController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    private AthleteService userService;
+    @Qualifier("diverService")
+    private UserService<Diver> userService;
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -68,9 +69,14 @@ public class UserProfileController {
     }
 
     @RequestMapping("/secure/profile/getUser.html")
-    public ModelAndView getUser(
-            Model model) {
+    public ModelAndView getUser(Model model) {
         return new ModelAndView("/secure/userInfo");
+    }
+
+    @RequestMapping("/secure/profile/getUserCard.html")
+    public View getUserCard(Model model) {
+        //todo implement
+        return gsonViewFactory.createSuccessGsonView();
     }
 
     /*
@@ -86,7 +92,7 @@ public class UserProfileController {
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changePassword((Athlete) user.getUser(), formObject, result, HttpUtil.getIP(request));
+        userService.changePassword((Diver) user.getUser(), formObject, result, HttpUtil.getIP(request));
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {
@@ -101,7 +107,23 @@ public class UserProfileController {
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changeEmail((Athlete) user.getUser(), formObject, result);
+        userService.changeEmail((Diver) user.getUser(), formObject, result);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        } else {
+            return gsonViewFactory.createSuccessGsonView();
+        }
+    }
+
+    //todo implement
+    @RequestMapping("/secure/processEditUserpic.html")
+    public View userEditUserpic(@ModelAttribute("command") EmailEditFormObject formObject,
+                              BindingResult result, Model mm) {
+        BackendUser<? extends User> user = authenticationService.getCurrentUser();
+        if (user == null) {
+            throw new BadRequestException();
+        }
+        userService.changeEmail((Diver) user.getUser(), formObject, result);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {

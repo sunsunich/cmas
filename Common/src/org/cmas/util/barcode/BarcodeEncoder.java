@@ -36,8 +36,10 @@ public final class BarcodeEncoder {
     private static final int WHITE = 0xFFFFFFFF;
     private static final int BLACK = 0xFF000000;
 
+    private BarcodeEncoder() {
+    }
 
-    public static Pixels createQRCode(String number, int imgWidth, int imgHeight) throws Exception {
+    public static Pixels createQRCode(String number, int imgWidth, int imgHeight) throws WriterException {
         return encodeAsBitmap(number, BarcodeFormat.QR_CODE, imgWidth, imgHeight);
     }
 

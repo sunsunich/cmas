@@ -10,14 +10,14 @@
     <c:set var="id" value="dialog"/>
 </c:if>
 
-<div id="${id}" class="dialog">
+<div id="${id}" class="dialog" style="display: none">
     <img id="${id}Close" src="${pageContext.request.contextPath}/i/close.png" class="dialogClose"/>
 
     <p class="dialog-title" id="${id}Title"><s:message code="${title}"/></p>
 
-    <p class="dialog-content" id="${id}Content">
+    <div class="dialog-content" id="${id}Content">
         <jsp:doBody/>
-    </p>
+    </div>
 
     <div class="button-container">
         <button class="form-button enter-button" id="${id}Ok">

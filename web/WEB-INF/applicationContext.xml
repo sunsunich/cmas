@@ -162,6 +162,9 @@
     <bean id="personalCardService" class="org.cmas.presentation.service.user.PersonalCardServiceImpl">
     </bean>
 
+    <bean id="drawCardService" class="org.cmas.backend.DrawCardServiceImpl">
+    </bean>
+
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
     </bean>
 

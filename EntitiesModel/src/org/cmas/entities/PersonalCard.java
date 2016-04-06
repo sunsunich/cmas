@@ -3,10 +3,13 @@ package org.cmas.entities;
 import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.sport.Athlete;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,6 +41,14 @@ public class PersonalCard implements Serializable{
 
     @ManyToOne
     private Diver diver;
+
+//    @Column
+//    private byte[] image;
+
+    @Expose
+    @Column
+    @Enumerated(EnumType.STRING)
+    private DiverLevel diverLevel;
 
     @Expose
     @ManyToOne
@@ -82,4 +93,20 @@ public class PersonalCard implements Serializable{
     public void setDiver(Diver diver) {
         this.diver = diver;
     }
+
+    public DiverLevel getDiverLevel() {
+        return diverLevel;
+    }
+
+    public void setDiverLevel(DiverLevel diverLevel) {
+        this.diverLevel = diverLevel;
+    }
+
+//    public byte[] getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(byte[] image) {
+//        this.image = image;
+//    }
 }

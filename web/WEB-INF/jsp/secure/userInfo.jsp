@@ -16,9 +16,9 @@
         </div>
         <div class="panel">
             <div class="userpic-selection">
-                <a href="#" class="link">
-                    <img src="${pageContext.request.contextPath}/i/no_img.png" class="userpic-selection-left"/>
-                    <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
+                <img src="${pageContext.request.contextPath}/i/no_img.png" class="userpic-selection-left"/>
+                <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
+                <a href="#" class="link" style="pointer-events: none;">
                     <s:message code="cmas.face.client.profile.selectUserpic"/>
                 </a>
             </div>
@@ -39,33 +39,59 @@
         </div>
         <div class="panel">
             <div class="button-container">
-                <button class="form-button enter-button" id="changeEmail">
+                <button class="form-button enter-button" id="changeEmailButton">
                     <s:message code="cmas.face.changeEmail.form.page.title"/>
                 </button>
-                <button class="form-button enter-button" id="changePassword">
+                <button class="form-button enter-button" id="changePasswordButton">
                     <s:message code="cmas.face.changePasswd.form.page.title"/>
                 </button>
             </div>
         </div>
     </div>
 
-    <%--<my:dialog id="selectUserpic"--%>
-               <%--title="cmas.face.client.profile.selectUserpic"--%>
-               <%--buttonText="cmas.face.client.profile.dialog.submitText">--%>
+    <my:dialog id="selectUserpic"
+               title="cmas.face.client.profile.selectUserpic"
+               buttonText="cmas.face.client.profile.dialog.submitText">
 
-    <%--</my:dialog>--%>
+    </my:dialog>
 
     <my:dialog id="changePassword"
                title="cmas.face.changePasswd.form.page.title"
                buttonText="cmas.face.client.profile.dialog.password.submitText">
-
+        <div id="changePasswordForm">
+            <div class="dialog-form-row">
+                <input id="oldPassword" type="password"
+                       placeholder="<s:message code="cmas.face.changePasswd.form.label.oldPassword"/>"/>
+            </div>
+            <div class="error" id="error_oldPassword"></div>
+            <div class="dialog-form-row">
+                <input id="password" type="password"
+                       placeholder="<s:message code="cmas.face.changePasswd.form.label.password"/>"/>
+            </div>
+            <div class="error" id="error_password"></div>
+            <div class="dialog-form-row">
+                <input id="checkPassword" type="password"
+                       placeholder="<s:message code="cmas.face.changePasswd.form.label.checkPassword"/>"/>
+            </div>
+            <div class="error" id="error_checkPassword"></div>
+            <div class="error" style="display: none" id="error">
+            </div>
+        </div>
+        <div id="changePasswordSuccessMessage">
+            <div class="dialog-form-row"><s:message code="cmas.face.changePasswd.success.message"/></div>
+            <div class="button-container">
+                <button class="form-button enter-button" id="changePasswordFinishedOk">
+                    <s:message code="cmas.face.dialog.ok"/>
+                </button>
+            </div>
+        </div>
     </my:dialog>
 
-    <%--<my:dialog id="changeEmail"--%>
-               <%--title="cmas.face.changeEmail.form.page.title"--%>
-               <%--buttonText="cmas.face.client.profile.dialog.email.submitText">--%>
+    <my:dialog id="changeEmail"
+               title="cmas.face.changeEmail.form.page.title"
+               buttonText="cmas.face.client.profile.dialog.email.submitText">
 
-    <%--</my:dialog>--%>
+    </my:dialog>
 
 </my:securepage>
 

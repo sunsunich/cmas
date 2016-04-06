@@ -100,9 +100,7 @@ var registration_controller = {
                     }
                 }
             }
-            if ((formErrors.fieldErrors == null
-                || formErrors.fieldErrors.length == null
-                || formErrors.fieldErrors.length == 0)
+            if (jQuery.isEmptyObject(formErrors.fieldErrors)
                 && formErrors.errors && formErrors.errors.length > 0) {
                 var message = '';
                 for (var error in formErrors.errors) {

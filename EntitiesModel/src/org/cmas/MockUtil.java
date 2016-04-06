@@ -1,9 +1,7 @@
-package org.cmas.remote;
+package org.cmas;
 
-import android.util.Pair;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
-import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
@@ -39,6 +37,8 @@ public final class MockUtil {
         SportsFederation federation = getSportsFederation();
         PersonalCard card = new PersonalCard();
         card.setNumber("5510123456789001");
+        card.setDiverLevel(instructor.getDiverLevel());
+        card.setDiver(instructor);
         instructor.setFederation(federation);
         instructor.setPrimaryPersonalCard(card);
 
@@ -48,17 +48,21 @@ public final class MockUtil {
     private MockUtil() {
     }
 
-    public static Pair<User, String> loginMockDiver(String email, String password) {
-        User diver = users.get(email);
-        if (diver == null) {
-            return new Pair<>(null, ErrorCodes.NO_SUCH_USER);
-        }
-        if (diver.getPassword().equals(password)) {
-            return new Pair<>(diver, "");
-        } else {
-            return new Pair<>(null, ErrorCodes.WRONG_PASSWORD);
-        }
+    public static Diver getDiver(){
+        return users.values().iterator().next();
     }
+
+//    public static Pair<User, String> loginMockDiver(String email, String password) {
+//        User diver = users.get(email);
+//        if (diver == null) {
+//            return new Pair<>(null, ErrorCodes.NO_SUCH_USER);
+//        }
+//        if (diver.getPassword().equals(password)) {
+//            return new Pair<>(diver, "");
+//        } else {
+//            return new Pair<>(null, ErrorCodes.WRONG_PASSWORD);
+//        }
+//    }
 
     public static List<Diver> searchUsers(String query, DiverType diverType) {
         String lowerCaseQuery = query.toLowerCase();

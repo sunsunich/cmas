@@ -1,9 +1,9 @@
 package org.cmas.service.social;
 
 import android.content.Context;
+import org.cmas.MockUtil;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.remote.MockUtil;
 
 import java.util.List;
 

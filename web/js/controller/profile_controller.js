@@ -6,68 +6,66 @@ var profile_controller = {
 
     setListeners: function () {
         var self = this;
-        $('#regSubmit').click(function () {
-            self.register();
-            return false;
+        $('#changePasswordButton').click(function () {
+            $('#changePasswordSuccessMessage').hide();
+            $("#changePasswordForm").show();
+            $("#changePasswordOk").show();
+            $('#changePassword').show();
         });
-        $("#dialogClose").click(function () {
-            self.hideRegistrationOk();
+        $("#changePasswordOk").click(function () {
+            self.changePassword();
         });
-        $("#dialogOk").click(function () {
-            self.hideRegistrationOk();
+        $("#changePasswordClose").click(function () {
+            $('#changePassword').hide();
         });
+        $("#changePasswordFinishedOk").click(function () {
+            $('#changePassword').hide();
+        });
+
     },
 
-    formatCountry: function (state) {
-        if (!state.id) {
-            return state.text;
-        }
-        return $(
-            '<span><img class="country-input-ico">' + state.text + '</span>'
-        );
-    },
-
-    register: function () {
-        var regForm = {
-            country: $('#oplCountries').val(),
-            firstName: $('#firstNameField').val(),
-            lastName: $('#lastNameField').val(),
-            dob: $('#dobField').val()
+    changePassword: function () {
+        var changePasswordForm = {
+            oldPassword: $('#oldPassword').val(),
+            password: $('#password').val(),
+            checkPassword: $('#checkPassword').val()
         };
 
-        this.cleanErrors();
-        var formErrors = this.validateRegForm(regForm);
+        this.cleanChangePasswordErrors();
+        var formErrors = this.validateChangePasswordForm(changePasswordForm);
         if (formErrors.success) {
             var self = this;
-            registration_model.register(
-                regForm
+            profile_model.changePassword(
+                changePasswordForm
                 , function (/*json*/) {
-                    self.showRegistrationOk(regForm.email);
+                    self.changePasswordOk();
                 }
                 , function (json) {
-                    self.showErrors(json);
+                    self.showChangePasswordErrors(json);
                 });
         }
         else {
-            this.showErrors(formErrors);
+            this.showChangePasswordErrors(formErrors);
         }
     },
 
-    validateRegForm: function (regForm) {
+    validateChangePasswordForm: function (form) {
         var result = {};
         result.fieldErrors = {};
-        result.errors = {};
-        if (isStringTrimmedEmpty(regForm.country)) {
-            result.fieldErrors["country"] = 'validation.emptyField';
+        result.errors = [];
+        if (isStringTrimmedEmpty(form.oldPassword)) {
+            result.fieldErrors["oldPassword"] = 'validation.passwordEmpty';
         }
-        if (isStringTrimmedEmpty(regForm.firstName)) {
-            result.fieldErrors["firstName"] = 'validation.emptyField';
+        if (isStringTrimmedEmpty(form.password)) {
+            result.fieldErrors["password"] = 'validation.passwordEmpty';
         }
-        if (isStringTrimmedEmpty(regForm.lastName)) {
-            result.fieldErrors["lastName"] = 'validation.emptyField';
+        if (isStringTrimmedEmpty(form.checkPassword)) {
+            result.fieldErrors["checkPassword"] = 'validation.checkPasswordEmpty';
         }
-        if (isStringTrimmedEmpty(regForm.dob)) {
-            result.fieldErrors["dob"] = 'validation.emptyField';
+        if (jQuery.isEmptyObject(result.fieldErrors)) {
+            if(form.password != form.checkPassword){
+                result.errors[0] = 'validation.passwordMismatch';
+            }
         }
 
         result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
@@ -75,7 +73,7 @@ var profile_controller = {
         return result;
     },
 
-    showErrors: function (formErrors) {
+    showChangePasswordErrors: function (formErrors) {
         if (!formErrors.success) {
             if (formErrors.fieldErrors) {
                 for (var fieldError in formErrors.fieldErrors) {
@@ -84,9 +82,7 @@ var profile_controller = {
                     }
                 }
             }
-            if ((formErrors.fieldErrors == null
-                || formErrors.fieldErrors.length == null
-                || formErrors.fieldErrors.length == 0)
+            if (jQuery.isEmptyObject(formErrors.fieldErrors)
                 && formErrors.errors && formErrors.errors.length > 0) {
                 var message = '';
                 for (var error in formErrors.errors) {
@@ -99,27 +95,21 @@ var profile_controller = {
         }
     },
 
-    cleanErrors: function () {
+
+    cleanChangePasswordErrors: function () {
         $("#error").empty().hide();
-        $('#error_country').empty();
-        $('#error_firstName').empty();
-        $('#error_lastName').empty();
-        $('#error_dob').empty();
+        $('#error_oldPassword').empty();
+        $('#error_password').empty();
+        $('#error_checkPassword').empty();
     },
 
-    showRegistrationOk: function () {
-        $("#dialog").show();
-    },
-
-    hideRegistrationOk: function () {
-        $('#oplCountries').select2("val", "");
-        $('#firstNameField').val('');
-        $('#lastNameField').val('');
-        $('#dobField').val('');
-        $("#dialog").hide();
-        setTimeout(function () {
-            window.location = "/";
-        }, 2000);
+    changePasswordOk: function () {
+        $('#oldPassword').val('');
+        $('#password').val('');
+        $('#checkPassword').val('');
+        $("#changePasswordForm").hide();
+        $("#changePasswordOk").hide();
+        $("#changePasswordSuccessMessage").show();
     }
 };
 
