@@ -32,7 +32,7 @@
             <div class="error" style="display: none" id="error">
                 <s:message code="cmas.face.login.form.errorMessage"/>
             </div>
-            <div class="form-button-container">
+            <div class="button-container">
                 <button class="form-button enter-button" id="loginSubmit">
                     <s:message code="cmas.face.login.form.submitText"/>
                 </button>

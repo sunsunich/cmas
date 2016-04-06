@@ -44,7 +44,7 @@
             <c:if test="${captchaError}">
                 <div class="error"><s:message code="cmas.face.captcha.incorrect"/></div>
             </c:if>
-            <div class="form-button-container">
+            <div class="button-container">
                 <button class="form-button enter-button" id="regSubmit">
                     <s:message code="cmas.face.lostPasswd.confirm"/>
                 </button>

@@ -5,10 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="hideMenu" required="false" %>
+<%@ attribute name="customScripts" required="false" %>
 
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
-<my:basePage title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css">
+<my:basePage title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>

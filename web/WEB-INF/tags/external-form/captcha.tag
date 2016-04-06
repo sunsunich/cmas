@@ -5,8 +5,8 @@
 <script type="text/javascript">
         var RecaptchaOptions = {
                 
-                lang : 'ru', // Unavailable while writing this code (just for audio challenge)
-                theme : 'clean' // Make sure there is no trailing ',' at the end of the RecaptchaOptions dictionary
+                lang : 'en', // Unavailable while writing this code (just for audio challenge)
+                theme : 'white' // Make sure there is no trailing ',' at the end of the RecaptchaOptions dictionary
         };
 </script>
 <script type="text/javascript"

@@ -55,7 +55,7 @@
             </div>
             <div class="error" style="display: none" id="error">
             </div>
-            <div class="form-button-container">
+            <div class="button-container">
                 <button class="form-button reg-button" id="regSubmit">
                     <s:message code="cmas.face.login.form.link.reg"/>
                 </button>

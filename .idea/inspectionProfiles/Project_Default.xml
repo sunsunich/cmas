@@ -785,6 +785,7 @@
           <option value="OverlyStrongTypeCast" />
           <option value="HardcodedFileSeparator" />
           <option value="StringConcatenationMissingWhitespace" />
+          <option value="MethodWithMoreThanThreeNegations" />
         </list>
       </option>
     </inspection_tool>

@@ -102,7 +102,6 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
         validator.validate(formObject, errors);
         if (!errors.hasErrors()) {
             checkUserPassword(user.getPassword(), formObject.getOldPassword(), "oldPassword", "validation.oldPasswordRejected", errors);
-
         }
         if (!errors.hasErrors()) {
             String newPasswd = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);

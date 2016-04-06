@@ -1,17 +1,17 @@
 package org.cmas.util.json;
 
 import org.cmas.json.JsonBindingResultModel;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
 public class JsonBindingResult extends JsonBindingResultModel {
 
-    public JsonBindingResult(BindingResult bindingResult) {
+    public JsonBindingResult(Errors bindingResult) {
         this(bindingResult, true);
     }
 
-    public JsonBindingResult(BindingResult bindingResult, boolean isUseCodes) {
+    public JsonBindingResult(Errors bindingResult, boolean isUseCodes) {
         if (bindingResult.hasErrors()) {
             for (Object error : bindingResult.getFieldErrors()) {
                 FieldError fieldError = (FieldError) error;

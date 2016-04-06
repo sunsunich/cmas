@@ -88,7 +88,7 @@ input, p {
     -o-border-radius: 6px;
 }
 
-#dialogClose {
+.dialogClose {
     position: absolute;
     right: 10px;
     top: 10px;

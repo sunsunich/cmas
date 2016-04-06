@@ -16,10 +16,6 @@
     position: relative;
 }
 
-.form-button-container {
- text-align: center;
-}
-
 .form-row input,
 .select2-selection {
     width: 100%;
@@ -166,4 +162,8 @@
 
 .ui-button:focus {
     outline: none !important;
+}
+
+.capcha-block {
+    margin-bottom: 15px;
 }

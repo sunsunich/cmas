@@ -6,7 +6,9 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
-<my:securepage title="cmas.face.index.header">
+<my:securepage title="cmas.face.index.header"
+               customScripts="js/model/profile_model.js,js/controller/profile_controller.js"
+        >
 
     <div class="content">
         <div class="tabs">
@@ -36,7 +38,7 @@
             </div>
         </div>
         <div class="panel">
-            <div class="form-button-container">
+            <div class="button-container">
                 <button class="form-button enter-button" id="changeEmail">
                     <s:message code="cmas.face.changeEmail.form.page.title"/>
                 </button>
@@ -47,7 +49,24 @@
         </div>
     </div>
 
-    <my:dialog/>
+    <%--<my:dialog id="selectUserpic"--%>
+               <%--title="cmas.face.client.profile.selectUserpic"--%>
+               <%--buttonText="cmas.face.client.profile.dialog.submitText">--%>
+
+    <%--</my:dialog>--%>
+
+    <my:dialog id="changePassword"
+               title="cmas.face.changePasswd.form.page.title"
+               buttonText="cmas.face.client.profile.dialog.password.submitText">
+
+    </my:dialog>
+
+    <%--<my:dialog id="changeEmail"--%>
+               <%--title="cmas.face.changeEmail.form.page.title"--%>
+               <%--buttonText="cmas.face.client.profile.dialog.email.submitText">--%>
+
+    <%--</my:dialog>--%>
+
 </my:securepage>
 
 
