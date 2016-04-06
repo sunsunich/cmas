@@ -5,44 +5,55 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-
+<jsp:useBean id="command" scope="request" type=" org.cmas.presentation.model.recovery.LostPasswordFormObject"/>
 <jsp:useBean id="captchaError" scope="request" type="java.lang.Boolean"/>
 <jsp:useBean id="reCaptchaPublicKey" scope="request" type="java.lang.String"/>
 
-
-<my:basePage title="ВОССТАНОВЛЕНИЕ ПАРОЛЯ " indexpage="false">
-
-                   <!-- end of Navigation menu -->
-
-    <div class="setting-block">
-
-        <div class="setting_rules">Введите ваш e-mail, контрольный текст в форме и вам будет отправлено письмо с
-            дальнейшими указаниями
+<my:basePage title="cmas.face.lostPasswd.title" indexpage="false">
+    <div class="content" id="Content">
+        <div class="form-logo">
+            <a href="${pageContext.request.contextPath}/">
+                <img src="${pageContext.request.contextPath}/i/logo.png">
+            </a>
         </div>
-
-
-        <form:form htmlEscape="true"
-                   action="/lostPasswd.html"
-                   method="POST"
-                   id="">
-
-            <ef:input label="E-mail:*" path="email"/>
-
-
-            <div id="" class="capcha-block">
-
-
-                <ef:captcha reCaptchaPublicKey="${reCaptchaPublicKey}"/>
-
-                <c:if test="${captchaError}">
-                    <span class="error correct">Буквы не соответствуют</span>
-                </c:if>
-		<input class="setting_agree" type="submit" value="Подтвердить"/>
+        <div class="form-description">
+            <s:message code="cmas.face.lostPasswd.description"/>
+        </div>
+        <form:form id="lostPasswdForm"
+                   action="${pageContext.request.contextPath}/lostPasswd.html"
+                   method="POST">
+            <div class="block">
+                <div class="form-row">
+                    <img class="email-input-ico">
+                    <input id="email" type="text" name="email"
+                           placeholder="<s:message code="cmas.face.login.form.label.login"/>"
+                           value="${command.email}"
+                            />
+                </div>
+                <div class="error" id="error_email">
+                    <s:bind path="email">
+                        <c:if test="${status.error}">
+                            <form:errors path="email" htmlEscape="true"/>
+                        </c:if>
+                    </s:bind>
+                </div>
             </div>
-            
-        </form:form>        
+            <div id="" class="capcha-block">
+                <ef:captcha reCaptchaPublicKey="${reCaptchaPublicKey}"/>
+            </div>
+            <c:if test="${captchaError}">
+                <div class="error"><s:message code="cmas.face.captcha.incorrect"/></div>
+            </c:if>
+            <div class="form-button-container">
+                <button class="form-button enter-button" id="regSubmit">
+                    <s:message code="cmas.face.lostPasswd.confirm"/>
+                </button>
+            </div>
+        </form:form>
+        <div class="pass_link">
+            <a class="link" href="${pageContext.request.contextPath}/">
+                <s:message code="cmas.face.registration.form.link.login"/>
+            </a>
+        </div>
     </div>
-    <!-- end of Content -->
-
-
 </my:basePage>

@@ -1,18 +1,5 @@
-package org.cmas.service;
+package org.cmas.backend;
 
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import org.cmas.R;
-import org.cmas.entities.diver.Diver;
-import org.cmas.util.BarcodeEncoder;
 
 /**
  * Created on Dec 14, 2015
@@ -48,9 +35,9 @@ public class DrawCardService {
     private static final float STAR_X_2 = 340.0f / 640.0f;
     private static final float STAR_X_3 = 400.0f / 640.0f;
 
-
+/*
     @SuppressWarnings("OverlyBroadThrowsClause")
-    public static Drawable drawUserCard(Context context, Diver diver) throws Exception {
+    public static Drawable drawDiverPrimaryCard(Diver diver) throws Exception {
         Resources resources = context.getResources();
         Drawable backgroundImage = resources.getDrawable(R.drawable.cmas_card);
         //        getDrawableForDensity(
@@ -197,4 +184,5 @@ public class DrawCardService {
         return new LayerDrawable(
                 new Drawable[]{backgroundImage, new BitmapDrawable(canvasBitmap)});
     }
+    */
 }

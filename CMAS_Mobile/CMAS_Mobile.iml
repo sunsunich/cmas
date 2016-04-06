@@ -27,7 +27,6 @@
         <jarDirectory url="file://$MODULE_DIR$/libs" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="BarcodeUtils" exported="" />
     <orderEntry type="module" module-name="EntitiesModel" exported="" />
     <orderEntry type="module" module-name="SlidingMenu" exported="" />
     <orderEntry type="module" module-name="UndoBar" exported="" />

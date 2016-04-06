@@ -1,6 +1,8 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.EmailEditFormObject;
@@ -52,6 +54,20 @@ public class UserProfileController {
             throw new BadRequestException();
         }
         return user;
+    }
+
+    @ModelAttribute("diver")
+    public Diver getCurrentDiver() {
+        BackendUser<? extends User> user = getUser();
+        Role role = user.getUser().getRole();
+        Diver diver = null;
+        if (role == Role.ROLE_DIVER_INSTRUCTOR || role == Role.ROLE_DIVER) {
+            diver = (Diver) user.getUser();
+        }
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        return diver;
     }
 
     @RequestMapping("/secure/profile/processEditUser.html")

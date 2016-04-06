@@ -48,7 +48,7 @@ public class RecoveryController {
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
     @Autowired
-	@Qualifier(value = "lostPasswdValidator")
+    @Qualifier("lostPasswdValidator")
     private LostPasswordValidator passwordValidator;
     @Autowired
     private HibernateSpringValidator validator;

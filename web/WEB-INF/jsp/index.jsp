@@ -32,12 +32,14 @@
             <div class="error" style="display: none" id="error">
                 <s:message code="cmas.face.login.form.errorMessage"/>
             </div>
-            <button class="form-button enter-button" id="loginSubmit">
-                <s:message code="cmas.face.login.form.submitText"/>
-            </button>
-            <button class="form-button reg-button" id="regLink">
-                <s:message code="cmas.face.login.form.link.reg"/>
-            </button>
+            <div class="form-button-container">
+                <button class="form-button enter-button" id="loginSubmit">
+                    <s:message code="cmas.face.login.form.submitText"/>
+                </button>
+                <button class="form-button reg-button" id="regLink">
+                    <s:message code="cmas.face.login.form.link.reg"/>
+                </button>
+            </div>
         </form>
         <div class="pass_link">
             <a class="link" href="${pageContext.request.contextPath}/lostPasswdForm.html">

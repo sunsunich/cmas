@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package cz.atria.barcode.encode;
+package org.cmas.util.barcode;
 
-import android.graphics.Bitmap;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -38,11 +37,11 @@ public final class BarcodeEncoder {
     private static final int BLACK = 0xFF000000;
 
 
-    public static Bitmap createQRCode(String number, int imgWidth, int imgHeight) throws Exception {
+    public static Pixels createQRCode(String number, int imgWidth, int imgHeight) throws Exception {
         return encodeAsBitmap(number, BarcodeFormat.QR_CODE, imgWidth, imgHeight);
     }
 
-    public static Bitmap encodeAsBitmap(String contents, BarcodeFormat format, int desiredWidth, int desiredHeight)
+    public static Pixels encodeAsBitmap(String contents, BarcodeFormat format, int desiredWidth, int desiredHeight)
             throws WriterException {
         Hashtable<EncodeHintType, Object> hints = null;
         String encoding = guessAppropriateEncoding(contents);
@@ -62,16 +61,13 @@ public final class BarcodeEncoder {
                 pixels[offset + x] = result.get(x, y) ? BLACK : WHITE;
             }
         }
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-        return bitmap;
+        return new Pixels(width, height, pixels);
     }
 
     private static String guessAppropriateEncoding(CharSequence contents) {
         // Very crude at the moment
         for (int i = 0; i < contents.length(); i++) {
-            if (contents.charAt(i) > 0xFF) {
+            if ((int) contents.charAt(i) > 0xFF) {
                 return "UTF-8";
             }
         }

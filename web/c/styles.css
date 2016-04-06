@@ -26,7 +26,7 @@ input, p {
 }
 
 .content {
-    margin-top: 30px;
+    margin-top: 50px;
     margin-bottom: 30px;
     position: absolute;
     top: 20%;
@@ -40,7 +40,7 @@ input, p {
     margin-top: 10px;
     text-align: center;
     font-size: 26px;
-    color: #FFFFFF;
+    color: #f8f8f8;
 }
 
 .welcome-header {
@@ -52,7 +52,7 @@ input, p {
 .welcome-text {
     margin-bottom: 30px;
     text-align: center;
-    color: #FFFFFF;
+    color: #f8f8f8;
     font-size: 16px;
 }
 
@@ -107,4 +107,36 @@ input, p {
     padding-bottom: 25px;
     padding-left: 16px;
     padding-right: 16px;
+}
+
+.panel {
+    margin-top: 10px;
+    padding: 20px;
+    border-radius: 6px;
+    background: rgba(0, 102, 145, 0.55);
+    height: auto;
+    width: 335px;
+}
+
+.panel-row {
+    margin-top: 25px;
+}
+
+.panel span,
+.panel a,
+.panel label {
+    font-size: 26px;
+}
+
+.panel span {
+    color: #f8f8f8;
+}
+
+.panel label {
+    color: #99b5c3;
+}
+
+/*todo think of this one*/
+.userpic-selection {
+    vertical-align: central;
 }

@@ -55,9 +55,11 @@
             </div>
             <div class="error" style="display: none" id="error">
             </div>
-            <button class="form-button reg-button" id="regSubmit">
-                <s:message code="cmas.face.login.form.link.reg"/>
-            </button>
+            <div class="form-button-container">
+                <button class="form-button reg-button" id="regSubmit">
+                    <s:message code="cmas.face.login.form.link.reg"/>
+                </button>
+            </div>
         </form>
         <div class="pass_link">
             <a class="link" href="${pageContext.request.contextPath}/">
@@ -66,17 +68,11 @@
         </div>
     </div>
 
-    <div id="dialog" class="dialog" style="display: none">
-        <img id="dialogClose" src="${pageContext.request.contextPath}/i/close.png"/>
-        <p class="dialog-title"> <s:message code="cmas.face.registration.success.title"/></p>
-        <p class="dialog-content" id="dialogContent">
-            <s:message code="cmas.face.registration.success.text1"/>
-            <br/>
-            <s:message code="cmas.face.registration.success.text2"/>
-        </p>
-        <button class="form-button enter-button" id="dialogOk">
-            <s:message code="cmas.face.registration.success.continue"/>
-        </button>
-    </div>
+    <my:dialog title="cmas.face.registration.success.title"
+               buttonText="cmas.face.registration.success.continue">
+        <s:message code="cmas.face.registration.success.text1"/>
+        <br/>
+        <s:message code="cmas.face.registration.success.text2"/>
+    </my:dialog>
 
 </my:basePage>
