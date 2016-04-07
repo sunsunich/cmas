@@ -10,6 +10,10 @@
                customScripts="js/model/profile_model.js,js/controller/profile_controller.js"
         >
 
+    <script type="application/javascript">
+        var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
+    </script>
+
     <div class="content">
         <div class="tabs">
 
@@ -32,7 +36,19 @@
             </div>
         </div>
         <div class="panel">
-            <div></div>
+            <div class="button-container" id="noCard">
+                <div>
+                <span>
+                    <s:message code="cmas.face.client.profile.noCard"/>
+                </span>
+                </div>
+                <button class="form-button reg-button" id="cardReload">
+                    <s:message code="cmas.face.client.profile.cardReload"/>
+                </button>
+            </div>
+            <div class="button-container" id="card">
+                <img id="cardImg" width="90%"/>
+            </div>
             <div class="pass_link">
                 <a class="link" href="#"><s:message code="cmas.face.client.profile.showAllCards"/></a>
             </div>

@@ -786,6 +786,7 @@
           <option value="StringConcatenationMissingWhitespace" />
           <option value="MethodWithMoreThanThreeNegations" />
           <option value="OverlyLongMethod" />
+          <option value="ParameterHidesMemberVariable" />
         </list>
       </option>
     </inspection_tool>

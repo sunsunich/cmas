@@ -12,4 +12,6 @@ import org.cmas.util.dao.HibernateDao;
 public interface PersonalCardService {
 
     <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao);
+
+    PersonalCard generateAndSaveCardImage(long personalCardId);
 }

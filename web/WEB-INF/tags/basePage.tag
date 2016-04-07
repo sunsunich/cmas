@@ -39,6 +39,7 @@
     <meta property="og:image" content="php_images/jutland_2016_banner_v3-450x150.jpg"/>
     <link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico"/>
     <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="c/loader.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/form.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/buttons.css" media="all"/>
@@ -88,7 +89,7 @@
     </c:forEach>
 
 </head>
-<body id="body" background="/i/background.png">
+<body id="body" background="${pageContext.request.contextPath}/i/background.png">
 
 <c:if test="${doNotDoAuth == null || !doNotDoAuth}">
     <my:authorize/>
@@ -107,7 +108,7 @@
 
 
     <div id="">           <!-- Content -->
-        <!--<div id="loading" class="loader" title="Подождите..."></div>-->
+        <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
 
     </div>

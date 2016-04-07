@@ -24,7 +24,7 @@ public final class FontUtils {
     private FontUtils() {
     }
 
-    public static Font getFont(String name, InputStream is) {
+    public static synchronized Font getFont(String name, InputStream is) {
         if (name == null) {
             return SERIF_FONT;
         }

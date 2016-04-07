@@ -9,12 +9,18 @@ import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.PersonalCardTypeDao;
 import org.cmas.util.dao.HibernateDao;
+import org.cmas.util.dao.RunInHibernate;
+import org.cmas.util.schedule.Scheduler;
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.security.SecureRandom;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created on Mar 21, 2016
@@ -34,9 +40,15 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Autowired
     private DrawCardService drawCardService;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Autowired
+    private Scheduler scheduler;
+
     @Override
     public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao) {
-        PersonalCard personalCard = new PersonalCard();
+        final PersonalCard personalCard = new PersonalCard();
         personalCard.setPersonalCardType(personalCardTypeDao.getPrimaryCardType());
         saveAndSetCardNumber(personalCard);
         switch (cardUser.getRole()) {
@@ -49,13 +61,17 @@ public class PersonalCardServiceImpl implements PersonalCardService {
                 Diver diver = (Diver) cardUser;
                 personalCard.setDiver(diver);
                 personalCard.setDiverLevel(diver.getDiverLevel());
-                try {
-                    BufferedImage image = drawCardService.drawDiverCard(personalCard);
-//                    image.getData().getDataBuffer().
-                    //todo set and save image
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                }
+                scheduler.schedule(new Runnable() {
+                    @Override
+                    public void run() {
+                        new RunInHibernate(sessionFactory) {
+                            @Override
+                            protected void runTaskInHibernate() {
+                                generateAndSaveCardImage(personalCard.getId());
+                            }
+                        }.runTaskInHibernate();
+                    }
+                }, 0L, TimeUnit.MILLISECONDS);
                 break;
             case ROLE_AMATEUR:
                 //fall through
@@ -65,6 +81,26 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         personalCardDao.updateModel(personalCard);
         cardUser.setPrimaryPersonalCard(personalCard);
         entityDao.updateModel(cardUser);
+        return personalCard;
+    }
+
+    @Override
+    public PersonalCard generateAndSaveCardImage(long personalCardId) {
+        PersonalCard personalCard = personalCardDao.getById(personalCardId);
+        try {
+            //todo better synchronization
+            BufferedImage image = drawCardService.drawDiverCard(personalCard);
+            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+                ImageIO.write(image, "png", baos);
+                baos.flush();
+                byte[] imageInByte = baos.toByteArray();
+                personalCard.setImage(imageInByte);
+                personalCardDao.updateModel(personalCard);
+            }
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
         return personalCard;
     }
 

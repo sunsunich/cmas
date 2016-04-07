@@ -1,8 +1,10 @@
 package org.cmas.presentation.controller.filter;
 
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.billing.InvoiceDao;
+import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
@@ -21,15 +23,18 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     public static final String INVOICE_ID = "invoiceId";
     public static final String ORDER_ID = "orderId";
+    public static final String CARD_ID = "cardId";
 
     private static final String[] PARAMS = {
-            INVOICE_ID, ORDER_ID
+            INVOICE_ID, ORDER_ID, CARD_ID
     };
 
     @Autowired
     protected AuthenticationService authenticationService;
     @Autowired
     private InvoiceDao invoiceDao;
+    @Autowired
+    private PersonalCardDao personalCardDao;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -78,7 +83,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         if (!containsId(req)) {
             return false;
         }
-        return checkInvoice(req);
+        return checkInvoice(req) && checkCard(req);
     }
 
     /**
@@ -114,7 +119,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
      */
     private boolean checkInvoice(HttpServletRequest req) {
         String invoiceIdStr = req.getParameter(INVOICE_ID);
-        if (invoiceIdStr != null && invoiceIdStr.length() > 0) {
+        if (invoiceIdStr != null && !invoiceIdStr.isEmpty()) {
             Long invoiceId;
             try {
                 invoiceId = Long.valueOf(invoiceIdStr);
@@ -128,8 +133,32 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    public List<String> getExceptions() {
-        return exceptions;
+    private boolean checkCard(HttpServletRequest req) {
+        String cardIdStr = req.getParameter(CARD_ID);
+        if (cardIdStr != null && !cardIdStr.isEmpty()) {
+            Long cardId;
+            try {
+                cardId = Long.valueOf(cardIdStr);
+            } catch (Exception ignored) {
+                return false;
+            }
+            PersonalCard personalCard = personalCardDao.getById(cardId);
+            BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
+            User user = currentUser.getUser();
+            switch (user.getRole()) {
+                case ROLE_AMATEUR:
+                    return false;
+                case ROLE_ATHLETE:
+                    return personalCard.getAthlete().equals(user);
+                case ROLE_DIVER:
+                case ROLE_DIVER_INSTRUCTOR:
+                    return personalCard.getDiver().equals(user);
+                case ROLE_ADMIN:
+                    return false;
+            }
+
+        }
+        return true;
     }
 
 

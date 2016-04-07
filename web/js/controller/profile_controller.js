@@ -21,7 +21,26 @@ var profile_controller = {
         $("#changePasswordFinishedOk").click(function () {
             $('#changePassword').hide();
         });
+        $("#cardReload").click(function () {
+            self.loadPrimaryCard();
+        });
 
+        self.loadPrimaryCard();
+    },
+
+    loadPrimaryCard: function () {
+        var self = this;
+        profile_model.loadCard(
+            cmas_primaryCardId
+            , function (json) {
+                $('#noCard').hide();
+                $('#cardImg').attr("src", "data:image/png;base64," + json.base64);
+                $('#card').show();
+            }
+            , function () {
+                $('#noCard').show();
+                $('#card').hide();
+            });
     },
 
     changePassword: function () {
@@ -63,7 +82,7 @@ var profile_controller = {
             result.fieldErrors["checkPassword"] = 'validation.checkPasswordEmpty';
         }
         if (jQuery.isEmptyObject(result.fieldErrors)) {
-            if(form.password != form.checkPassword){
+            if (form.password != form.checkPassword) {
                 result.errors[0] = 'validation.passwordMismatch';
             }
         }

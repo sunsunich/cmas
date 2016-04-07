@@ -73,6 +73,9 @@ public class UserHomeController {
     public ModelAndView showIndex() throws IOException {
         Diver diver = getCurrentDiver();
         if (diver.isHasPayed()) {
+            if (diver.getPrimaryPersonalCard() == null) {
+                registrationService.createDiverPrimaryCard(diver);
+            }
             return new ModelAndView("redirect:/secure/profile/getUser.html");
         } else {
             return new ModelAndView("redirect:/secure/welcome.html");

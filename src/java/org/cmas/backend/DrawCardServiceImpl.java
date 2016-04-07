@@ -38,7 +38,8 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float CARD_NUMBER_X_4 = 440.0f / 640.0f;
 
     private static final int NAME_FONT_SIZE = 22;
-    private static final float NAME_X = 468.0f / 640.0f;
+    private static final float NAME_LEFT_X = 80.0f / 640.0f;
+    private static final float NAME_RIGHT_X = 468.0f / 640.0f;
     private static final float FIRST_NAME_Y = 90.0f / 414.0f;
     private static final float LAST_NAME_Y = 115.0f / 414.0f;
     private static final float DIVER_TYPE_Y = 140.0f / 414.0f;
@@ -96,10 +97,11 @@ public class DrawCardServiceImpl implements DrawCardService {
 
         g2d.setPaint(new Color(0x25456c));
         g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
-        float x = NAME_X * (float) width;
+        float leftX = NAME_LEFT_X * (float) width;
+        float rightX = NAME_RIGHT_X * (float) width;
         Diver diver = card.getDiver();
-        drawWithRightAlign(g2d, diver.getFirstName(), x, FIRST_NAME_Y * (float) height);
-        drawWithRightAlign(g2d, diver.getLastName(), x, LAST_NAME_Y * (float) height);
+        drawWithCenterAlign(g2d, diver.getFirstName(), leftX, rightX, FIRST_NAME_Y * (float) height);
+        drawWithCenterAlign(g2d, diver.getLastName(), leftX, rightX, LAST_NAME_Y * (float) height);
         String diverTypeStr = "";
         switch (diver.getDiverType()) {
             case DIVER:
@@ -109,7 +111,7 @@ public class DrawCardServiceImpl implements DrawCardService {
                 diverTypeStr = "INSTRUCTOR";
                 break;
         }
-        drawWithRightAlign(g2d, diverTypeStr, x, DIVER_TYPE_Y * (float) height);
+        drawWithCenterAlign(g2d, diverTypeStr, leftX, rightX, DIVER_TYPE_Y * (float) height);
         @SuppressWarnings("NumericCastThatLosesPrecision")
         int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
         Pixels qrCode = BarcodeEncoder.createQRCode(
@@ -151,9 +153,9 @@ public class DrawCardServiceImpl implements DrawCardService {
         g2d.drawImage(after, x, (int) (STAR_Y * (float) height), null);
     }
 
-    private static void drawWithRightAlign(Graphics2D g2d, String text, float x, float y) {
+    private static void drawWithCenterAlign(Graphics2D g2d, String text, float leftX, float rightX, float y) {
         int actualWidth = g2d.getFontMetrics().stringWidth(text);
-        float finalX = x - (float) actualWidth;
+        float finalX = (leftX + rightX) / 2.0f - (float) actualWidth / 2.0f;
         g2d.drawString(text, finalX, y);
     }
 

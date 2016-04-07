@@ -37,22 +37,24 @@
         </c:choose>
     </div>
 
-    <c:choose>
-        <c:when test="${isFree}">
-            <a href="">
-                <button class="form-button enter-button">
-                    <s:message code="cmas.face.welcome.free.button"/>
-                </button>
-            </a>
-        </c:when>
-        <c:otherwise>
-            <a href="">
-                <button class="form-button enter-button">
-                    <s:message code="cmas.face.welcome.payment.button"/>
-                </button>
-            </a>
-        </c:otherwise>
-    </c:choose>
+    <div class="button-container">
+        <c:choose>
+            <c:when test="${isFree}">
+                <a href="${pageContext.request.contextPath}/secure/welcome-continue.html">
+                    <button class="form-button enter-button">
+                        <s:message code="cmas.face.welcome.free.button"/>
+                    </button>
+                </a>
+            </c:when>
+            <c:otherwise>
+                <a href="">
+                    <button class="form-button enter-button">
+                        <s:message code="cmas.face.welcome.payment.button"/>
+                    </button>
+                </a>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
 </my:securepage>
 

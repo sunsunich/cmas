@@ -1,5 +1,29 @@
 var profile_model = {
 
+    loadCard: function (cardId, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/profile/getCardImage.html",
+            dataType: "json",
+            data: {
+                cardId: cardId
+            },
+            success: function (json) {
+                if (json.success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
     changePassword: function (form, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({

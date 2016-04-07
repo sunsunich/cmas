@@ -2,9 +2,9 @@
     background: url("/i/loader.gif") no-repeat scroll 0 0 transparent;
     display: none;
     height: 100px;
-    margin: 0 auto 0;
-    position: relative;
-    top: 20%;
+    /*margin: 0 auto 0;*/
+    position: absolute;
+    top: 50%;
     width: 100px;
     z-index: 999;
 }

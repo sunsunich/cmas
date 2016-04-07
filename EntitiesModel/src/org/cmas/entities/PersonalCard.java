@@ -6,13 +6,16 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.sport.Athlete;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -42,8 +45,10 @@ public class PersonalCard implements Serializable{
     @ManyToOne
     private Diver diver;
 
-//    @Column
-//    private byte[] image;
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
+    private byte[] image;
 
     @Expose
     @Column
@@ -102,11 +107,11 @@ public class PersonalCard implements Serializable{
         this.diverLevel = diverLevel;
     }
 
-//    public byte[] getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(byte[] image) {
-//        this.image = image;
-//    }
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

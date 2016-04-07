@@ -28,10 +28,9 @@ input, p {
 .content {
     margin-top: 50px;
     margin-bottom: 30px;
-    position: absolute;
-    top: 20%;
+    position: relative;
     left: 50%;
-    transform: translate(-50%, -20%);
+    transform: translate(-50%, 0%);
     width: 362px;
 }
 
@@ -79,8 +78,10 @@ input, p {
     background: #f8f8f8;
     height: auto;
     margin: 0 auto;
-    position: relative;
-    top: 122px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 335px;
     z-index: 1000;
     -webkit-border-radius: 6px;
@@ -125,7 +126,7 @@ input, p {
 .panel span,
 .panel a,
 .panel label {
-    font-size: 26px;
+    font-size: 20px;
 }
 
 .panel span {
