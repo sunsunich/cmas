@@ -7,7 +7,6 @@ import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.presentation.service.user.PasswordService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.recovery.LostPasswordValidator;
 import org.cmas.util.http.BadRequestException;
@@ -54,8 +53,6 @@ public class RecoveryController {
     private HibernateSpringValidator validator;
 	@Autowired
 	private CaptchaService captchaService;
-	@Autowired
-    private PasswordService passwordService;
     @Autowired
     private GsonViewFactory gsonViewFactory;
 
