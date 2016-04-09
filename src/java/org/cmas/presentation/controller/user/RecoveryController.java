@@ -1,17 +1,18 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.entities.sport.Athlete;
-import org.cmas.presentation.dao.user.sport.AthleteDao;
+import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.model.recovery.LostPasswordFormObject;
 import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.PasswordService;
-import org.cmas.presentation.service.user.PasswordStrength;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.recovery.LostPasswordValidator;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
+import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,14 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  */
@@ -44,7 +44,7 @@ public class RecoveryController {
     private MailService mailer;
 
     @Autowired
-    protected AthleteDao userDao;
+    protected DiverDao userDao;
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
     @Autowired
@@ -56,6 +56,8 @@ public class RecoveryController {
 	private CaptchaService captchaService;
 	@Autowired
     private PasswordService passwordService;
+    @Autowired
+    private GsonViewFactory gsonViewFactory;
 
     private final SecureRandom rnd = new SecureRandom();
 
@@ -85,7 +87,7 @@ public class RecoveryController {
 		} else {
             String email = StringUtil.trim(formObject.getEmail());
 			@SuppressWarnings({"ConstantConditions"})
-            Athlete user = userDao.getByEmail(email);
+            Diver user = userDao.getByEmail(email);
 			// генерим код для смены пароля
 			long rndNum = rnd.nextLong();
 			String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
@@ -98,49 +100,39 @@ public class RecoveryController {
 	}
 
     @RequestMapping(value = "/toChangePasswd.html", method = RequestMethod.GET)
-    public String prepareRegData(@RequestParam("code") final String code, Model mm) {
-        Athlete user = userDao.getBylostPasswdCode(code);
+    public String prepareRegData(@RequestParam("code") final String code, Model model) {
+        Diver user = userDao.getBylostPasswdCode(code);
         if (user == null) {
             return "redirect:/lostPasswdForm.html";
         }
 		PasswordChangeFormObject formObject = new PasswordChangeFormObject();
 		formObject.setCode(code);
-		mm.addAttribute("command", formObject);
-		return buildChangePasswordForm(mm, PasswordStrength.NONE);
+		model.addAttribute("command", formObject);
+        return "changePasswdForm";
     }
-
-	private String buildChangePasswordForm(Model model, PasswordStrength passwordStrength) {
-		model.addAttribute("passwordStrength", passwordStrength.name());
-		return "changePasswdForm";
-	}
 
 	@RequestMapping(value = "/changePasswd.html", method = RequestMethod.POST)
     @Transactional
-    public ModelAndView changePassword(@ModelAttribute("command") PasswordChangeFormObject formObject,
+    public View changePassword(@ModelAttribute("command") PasswordChangeFormObject formObject,
                          BindingResult result, Model mm) throws AddressException {
         
         String code = formObject.getCode();
         if (StringUtil.isEmpty(code)) {
             throw new BadRequestException();
         }               
-        Athlete account = userDao.getBylostPasswdCode(code);
-        if (account == null) {
-            return new ModelAndView("redirect:/lostPasswdForm.html");
+        Diver diver = userDao.getBylostPasswdCode(code);
+        if (diver == null) {
+            throw new BadRequestException();
         }
-		PasswordStrength passwordStrength = passwordService.measurePasswordStrength(formObject.getPassword());
         validator.validate(formObject, result);
         if (result.hasErrors()) { // show form view.
-			return new ModelAndView(buildChangePasswordForm(mm, passwordStrength));
+			return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }  else {
-            account.setLostPasswdCode(null);
+            diver.setLostPasswdCode(null);
             String newPasswd = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
-            account.setPassword(newPasswd);
-            userDao.updateModel(account);
-
-			Map<String, Object> modelMap = new HashMap<String, Object>();
-			modelMap.put("passwordStrength", passwordStrength.name());
-			return new ModelAndView("passwdChangeSuccess", modelMap);
+            diver.setPassword(newPasswd);
+            userDao.updateModel(diver);
+			return gsonViewFactory.createSuccessGsonView();
         }
-
     }
 }

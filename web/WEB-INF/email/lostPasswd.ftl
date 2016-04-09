@@ -1,11 +1,15 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Восстановление пароля">
-<p style="color: #3a3a3a; font-size: 18px;">Здравствуйте, ${user.username}!</p>
-<p style="font-size: 14px;">    
-    Для изменения пароля проследуйте по ссылке:<br>
-    <@mailer.href url="${context_path}/toChangePasswd.html?code=${user.lostPasswdCode}"/>
-    <br>
-    Если указанная ссылка не работает, то скопируйте ее и запустите в строке браузера.
+<@mailer.mail title="Password recovery">
+<p>Dear ${user.firstName} ${user.lastName},</p>
+<p>
+    To change your password please follow the link:<br />
+    <br />
+    <@mailer.href url="${context_path}/toChangePasswd.html?code=${user.lostPasswdCode}"/><br />
+    <br />
+    If the link does not open, copy it to the browser command line.<br />
+    <br />
+    Sincerely yours, <br />
+    CMAS <br />
 </p>
 </@mailer.mail>        
 

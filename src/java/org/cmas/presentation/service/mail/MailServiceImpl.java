@@ -51,7 +51,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
     @Override
     public void sendLostPasswd(User user) {
-        Locale locale = localeResolver.getDefaultLocale();
+        Locale locale = user.getLocale();
         String subj = subjects.renderText("LostPasswd", locale, addresses.getSiteName(locale));
         String text = textRenderer.renderText("lostPasswd.ftl", locale, new ModelAttr("user", user));
         InternetAddress from = getSiteReplyAddress(locale);
