@@ -787,6 +787,7 @@
           <option value="MethodWithMoreThanThreeNegations" />
           <option value="OverlyLongMethod" />
           <option value="ParameterHidesMemberVariable" />
+          <option value="ConstantConditions" />
         </list>
       </option>
     </inspection_tool>

@@ -237,41 +237,4 @@ public class RegistrationController {
         }
         return new ModelAndView("redirect:/index.html", null);
     }
-
-    /**
-     * Подтверждение пользователем смены e-mail`а
-     * @param request
-     * @param sec
-     * @param mm
-     * @return
-     */
-//	@RequestMapping("/changeEmail.html")
-//	@Transactional
-//	public String changeEmailComplete(HttpServletRequest request, @RequestParam("sec") final String sec, Model mm) {
-//		if (sec == null) {
-//			throw new IllegalArgumentException();
-//		}
-//		BackendUser user = userDao.getUserChangedEmail(sec);
-//		if (user == null) {
-//			throw new BadRequestException();
-//		}
-//		mm.addAttribute("user", user);
-//		String newMail = user.getNewMail();
-//		if (newMail == null) {
-//			throw new BadRequestException();
-//		}
-//		if (userService.isEmailUnique(user, newMail)) {
-//            userEventDao.save(new UserEvent(UserEventType.EMAIL_CHANGE, user, HttpUtil.getIP(request), user.getEmail()));
-//			user.setEmail(newMail);
-//			user.setNewMail(null);
-//			user.setMd5newMail(null);
-//			userDao.updateModel(user);
-//            authenticationService.loginAs(user, new SpringRole[]{SpringRole.ROLE_AMATEUR});
-//			//email changed successfully
-//			return "changeEmail";
-//		} else {
-//			//email change failed
-//			return "changeEmailFailed";
-//		}
-//	}
 }

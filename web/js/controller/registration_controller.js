@@ -61,11 +61,11 @@ var registration_controller = {
                     self.showRegistrationOk(regForm.email);
                 }
                 , function (json) {
-                    self.showErrors(json);
+                    validation_controller.showErrors('reg', json);
                 });
         }
         else {
-            this.showErrors(formErrors);
+            validation_controller.showErrors('reg', formErrors);
         }
     },
 
@@ -91,34 +91,12 @@ var registration_controller = {
         return result;
     },
 
-    showErrors: function (formErrors) {
-        if (!formErrors.success) {
-            if (formErrors.fieldErrors) {
-                for (var fieldError in formErrors.fieldErrors) {
-                    if (formErrors.fieldErrors.hasOwnProperty(fieldError)) {
-                        $('#error_' + fieldError).html(error_codes[formErrors.fieldErrors[fieldError]]);
-                    }
-                }
-            }
-            if (jQuery.isEmptyObject(formErrors.fieldErrors)
-                && formErrors.errors && formErrors.errors.length > 0) {
-                var message = '';
-                for (var error in formErrors.errors) {
-                    if (formErrors.errors.hasOwnProperty(error)) {
-                        message += error_codes[formErrors.errors[error]];
-                    }
-                }
-                $('#error').html(message).show();
-            }
-        }
-    },
-
     cleanErrors: function () {
-        $("#error").empty().hide();
-        $('#error_country').empty();
-        $('#error_firstName').empty();
-        $('#error_lastName').empty();
-        $('#error_dob').empty();
+        $("#reg_error").empty().hide();
+        $('#reg_error_country').empty();
+        $('#reg_error_firstName').empty();
+        $('#reg_error_lastName').empty();
+        $('#reg_error_dob').empty();
     },
 
     showRegistrationOk: function () {

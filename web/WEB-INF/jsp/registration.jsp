@@ -32,28 +32,28 @@
                         </c:forEach>
                     </select>
                 </div>
-                <div class="error" id="error_country"></div>
+                <div class="error" id="reg_error_country"></div>
                 <div class="form-row">
                     <img class="name-input-ico">
                     <input id="firstNameField" type="text"
                            placeholder="<s:message code="cmas.face.registration.form.label.firstName"/>"/>
                 </div>
-                <div class="error" id="error_firstName"></div>
+                <div class="error" id="reg_error_firstName"></div>
                 <div class="form-row">
                     <img class="name-input-ico">
                     <input id="lastNameField" type="text"
                            placeholder="<s:message code="cmas.face.registration.form.label.lastName"/>"/>
 
                 </div>
-                <div class="error" id="error_lastName"></div>
+                <div class="error" id="reg_error_lastName"></div>
                 <div class="form-row">
                     <img class="calendar-input-ico">
                     <input id="dobField" type="text"
                            placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"/>
                 </div>
-                <div class="error" id="error_dob"></div>
+                <div class="error" id="reg_error_dob"></div>
             </div>
-            <div class="error" style="display: none" id="error">
+            <div class="error" style="display: none" id="reg_error">
             </div>
             <div class="button-container">
                 <button class="form-button reg-button" id="regSubmit">

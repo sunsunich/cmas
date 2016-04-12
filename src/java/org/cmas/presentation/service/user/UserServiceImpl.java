@@ -145,7 +145,7 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
             String nowPassword = user.getPassword();
             String passFromFO = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
             if (!passFromFO.equals(nowPassword)) {
-                errors.rejectValue("password", "validation.passwordIncorrect");
+                errors.rejectValue("password", "validation.passwordRejected");
             }
         }
         String email = formObject.getEmail();

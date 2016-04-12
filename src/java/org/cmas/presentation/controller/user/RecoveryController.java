@@ -1,17 +1,25 @@
 package org.cmas.presentation.controller.user;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.dao.user.UserEventDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.entities.user.BackendUser;
+import org.cmas.presentation.entities.user.UserEvent;
+import org.cmas.presentation.entities.user.UserEventType;
 import org.cmas.presentation.model.recovery.LostPasswordFormObject;
 import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserDetails;
+import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.recovery.LostPasswordValidator;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
+import org.cmas.util.presentation.SpringRole;
 import org.cmas.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,17 +41,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
-/**
- */
-
+@SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class RecoveryController {
 
     @Autowired
     private MailService mailer;
-
     @Autowired
-    protected DiverDao userDao;
+    protected DiverDao diverDao;
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
     @Autowired
@@ -51,85 +56,128 @@ public class RecoveryController {
     private LostPasswordValidator passwordValidator;
     @Autowired
     private HibernateSpringValidator validator;
-	@Autowired
-	private CaptchaService captchaService;
+    @Autowired
+    private CaptchaService captchaService;
     @Autowired
     private GsonViewFactory gsonViewFactory;
+    @Autowired
+    private AllUsersService allUsersService;
+    @Autowired
+    private UserEventDao userEventDao;
+    @Autowired
+    private AuthenticationService authenticationService;
 
     private final SecureRandom rnd = new SecureRandom();
 
     public static final String SALT = "Wfdf$%@T#@c)(";
 
-	@RequestMapping(value = "/lostPasswdForm.html", method = RequestMethod.GET)
-	public ModelAndView setupLostPasswdInitial(Model model) {
-		LostPasswordFormObject formObject = new LostPasswordFormObject();
-		model.addAttribute("command", formObject);
-		return buildLostPasswordForm(model, true);
-	}
+    @RequestMapping(value = "/lostPasswdForm.html", method = RequestMethod.GET)
+    public ModelAndView setupLostPasswdInitial(Model model) {
+        LostPasswordFormObject formObject = new LostPasswordFormObject();
+        model.addAttribute("command", formObject);
+        return buildLostPasswordForm(model, true);
+    }
 
-	private ModelAndView buildLostPasswordForm(Model model, boolean isCaptchaCorrect) {
-		model.addAttribute("captchaError", !isCaptchaCorrect);
+    private ModelAndView buildLostPasswordForm(Model model, boolean isCaptchaCorrect) {
+        model.addAttribute("captchaError", !isCaptchaCorrect);
         model.addAttribute("reCaptchaPublicKey", captchaService.getReCaptchaPublicKey());
-		return new ModelAndView("lostPasswdForm");
-	}
+        return new ModelAndView("lostPasswdForm");
+    }
 
-	@RequestMapping(value = "/lostPasswd.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/lostPasswd.html", method = RequestMethod.POST)
     @Transactional
     public ModelAndView submitLostPasswd(HttpServletRequest servletRequest, HttpServletResponse servletResponse, @ModelAttribute("command") LostPasswordFormObject formObject,
-                         BindingResult result, Model model) throws AddressException, UnsupportedEncodingException {
+                                         BindingResult result, Model model) throws AddressException, UnsupportedEncodingException {
         passwordValidator.validate(formObject, result);
-		boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
-		if (result.hasErrors() || !isCaptchaCorrect) {
-			return buildLostPasswordForm(model, isCaptchaCorrect);
-		} else {
+        boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
+        if (result.hasErrors() || !isCaptchaCorrect) {
+            return buildLostPasswordForm(model, isCaptchaCorrect);
+        } else {
             String email = StringUtil.trim(formObject.getEmail());
-			@SuppressWarnings({"ConstantConditions"})
-            Diver user = userDao.getByEmail(email);
-			// генерим код для смены пароля
-			long rndNum = rnd.nextLong();
-			String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
-			user.setLostPasswdCode(checkCode);
-			userDao.updateModel(user);
-			mailer.sendLostPasswd(user);
-			model.addAttribute("user", user);
-			return new ModelAndView("lostPasswdSuccess");
-		}
-	}
+            Diver user = diverDao.getByEmail(email);
+            // генерим код для смены пароля
+            long rndNum = rnd.nextLong();
+            String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
+            user.setLostPasswdCode(checkCode);
+            diverDao.updateModel(user);
+            mailer.sendLostPasswd(user);
+            model.addAttribute("user", user);
+            return new ModelAndView("lostPasswdSuccess");
+        }
+    }
 
     @RequestMapping(value = "/toChangePasswd.html", method = RequestMethod.GET)
-    public String prepareRegData(@RequestParam("code") final String code, Model model) {
-        Diver user = userDao.getBylostPasswdCode(code);
+    public String prepareRegData(@RequestParam("code") String code, Model model) {
+        Diver user = diverDao.getBylostPasswdCode(code);
         if (user == null) {
             return "redirect:/lostPasswdForm.html";
         }
-		PasswordChangeFormObject formObject = new PasswordChangeFormObject();
-		formObject.setCode(code);
-		model.addAttribute("command", formObject);
+        PasswordChangeFormObject formObject = new PasswordChangeFormObject();
+        formObject.setCode(code);
+        model.addAttribute("command", formObject);
         return "changePasswdForm";
     }
 
-	@RequestMapping(value = "/changePasswd.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/changePasswd.html", method = RequestMethod.POST)
     @Transactional
     public View changePassword(@ModelAttribute("command") PasswordChangeFormObject formObject,
-                         BindingResult result, Model mm) throws AddressException {
-        
+                               BindingResult result, Model mm) throws AddressException {
+
         String code = formObject.getCode();
         if (StringUtil.isEmpty(code)) {
             throw new BadRequestException();
-        }               
-        Diver diver = userDao.getBylostPasswdCode(code);
+        }
+        Diver diver = diverDao.getBylostPasswdCode(code);
         if (diver == null) {
             throw new BadRequestException();
         }
         validator.validate(formObject, result);
         if (result.hasErrors()) { // show form view.
-			return gsonViewFactory.createGsonView(new JsonBindingResult(result));
-        }  else {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        } else {
             diver.setLostPasswdCode(null);
             String newPasswd = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
             diver.setPassword(newPasswd);
-            userDao.updateModel(diver);
-			return gsonViewFactory.createSuccessGsonView();
+            diverDao.updateModel(diver);
+            return gsonViewFactory.createSuccessGsonView();
+        }
+    }
+
+    /**
+     * Подтверждение пользователем смены e-mail`а
+     *
+     */
+    @RequestMapping("/changeEmail.html")
+    @Transactional
+    public String changeEmailComplete(HttpServletRequest request, @RequestParam("sec") String sec, Model mm) {
+        if (sec == null) {
+            throw new IllegalArgumentException();
+        }
+        Diver diver = diverDao.getUserChangedEmail(sec);
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        mm.addAttribute("diver", diver);
+        String newMail = diver.getNewMail();
+        if (newMail == null) {
+            throw new BadRequestException();
+        }
+        if (allUsersService.isEmailUnique(diver.getRole(), diver.getId(), newMail)) {
+            userEventDao.save(new UserEvent(UserEventType.EMAIL_CHANGE,
+                                            HttpUtil.getIP(request),
+                                            diver.getEmail(), diver)
+            );
+            diver.setEmail(newMail);
+            diver.setNewMail(null);
+            diver.setMd5newMail(null);
+            diverDao.updateModel(diver);
+            authenticationService.loginAs(new BackendUser<>(diver),
+                                          new SpringRole[]{SpringRole.fromRole(diver.getRole())});
+            //email changed successfully
+            return "changeEmail";
+        } else {
+            //email change failed
+            return "changeEmailFailed";
         }
     }
 }

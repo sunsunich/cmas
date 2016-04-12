@@ -50,7 +50,7 @@
     <my:dialog id="changePassword"
                title="cmas.face.changePasswd.form.page.title"
                buttonText="cmas.face.dialog.ok">
-        <div class="dialog-form-row"><s:message code="cmas.face.changePasswd.success.message"/></div>
+        <div class="dialog-form-row"><s:message code="cmas.face.recoveredPasswd.success.message"/></div>
     </my:dialog>
 
 </my:basePage>
