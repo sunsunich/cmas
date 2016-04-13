@@ -66,14 +66,38 @@ var profile_model = {
         });
     },
 
+    loadUserpic: function (successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "GET",
+            url: "/secure/profile/getUserpic.html",
+            dataType: "json",
+            data: {},
+            success: function (json) {
+                if (json.success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function (e) {
+            }
+        });
+    },
+
     changeUserpic: function (form, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
             type: "POST",
             url: "/secure/processEditUserpic.html",
-            dataType: "json",
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
             data: form,
-            success: function (json) {
+            success: function (jsonStr) {
+                var json =JSON.parse(jsonStr);
                 if (json.success) {
                     successHandler(json);
                 } else {
@@ -85,5 +109,5 @@ var profile_model = {
                 window.location.reload();
             }
         });
-    },
+    }
 };

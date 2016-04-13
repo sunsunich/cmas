@@ -9,7 +9,6 @@
 <my:securepage title="cmas.face.index.header"
                customScripts="js/model/profile_model.js,js/controller/profile_controller.js"
         >
-
     <script type="application/javascript">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
@@ -19,12 +18,15 @@
 
         </div>
         <div class="panel">
-            <div class="userpic-selection">
-                <img src="${pageContext.request.contextPath}/i/no_img.png" class="userpic-selection-left"/>
-                <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
-                <a href="#" class="link" style="pointer-events: none;">
-                    <s:message code="cmas.face.client.profile.selectUserpic"/>
-                </a>
+            <div class="userpic-selection" id="userpicSelectButton">
+                <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png" class="userpicPreview userpic-selection-left"/>
+
+                <div class="userpic-selection-right">
+                    <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
+                    <a href="#" class="link" style="pointer-events: none">
+                        <s:message code="cmas.face.client.profile.selectUserpic"/>
+                    </a>
+                </div>
             </div>
             <div class="panel-row">
                 <span>${diver.firstName} ${diver.lastName}</span>
@@ -68,7 +70,23 @@
     <my:dialog id="selectUserpic"
                title="cmas.face.client.profile.selectUserpic"
                buttonText="cmas.face.client.profile.dialog.submitText">
-
+        <div class="dialog-form-row">
+            <input name="userpicFileInput" type="file" accept="image/*" id="userpicFileInput">
+            <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png"/>
+        </div>
+        <div class="error" id="selectUserpic_error_file"></div>
+        <div class="dialog-form-row" id="cameraSelect">
+            <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png"/>
+            <label>
+                <s:message code="cmas.face.client.profile.selectUserpic.camera"/>
+            </label>
+        </div>
+        <div class="dialog-form-row" id="fileFromDiscSelect">
+            <img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png"/>
+            <label>
+                <s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>
+            </label>
+        </div>
     </my:dialog>
 
     <my:dialog id="changePassword"

@@ -3,6 +3,10 @@
     src: url(/fonts/MyriadPro-SemiCn.otf);
 }
 
+header, section, footer, aside, nav, main, article, figure {
+    display: block;
+}
+
 body {
     background: #0d3b50 url("/i/background.png") no-repeat center top;
     background-size: cover;
@@ -137,7 +141,36 @@ input, p {
     color: #99b5c3;
 }
 
-/*todo think of this one*/
-.userpic-selection {
-    vertical-align: central;
+.userpicPreview{
+    max-height: 110px;
+    max-width: 110px;
 }
+
+.userpic-selection {
+    position: relative;
+}
+
+.userpic-selection-left {
+
+}
+
+.userpic-selection-right {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -50%);
+    width: 100%;
+}
+
+.userpic-selection-right img {
+    position: relative;
+    padding-left: 120px;
+    top: 5px;
+}
+
+.userpic-selection-right a {
+    position: relative;
+    padding-left: 10px;
+    white-space: nowrap
+}
+
+

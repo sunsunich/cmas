@@ -20,6 +20,9 @@ var error_codes = {
     "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country. Please contact your sports federation",
     "validation.diverAlreadyRegistered" : "You have already registered at Cmas Data",
 
+    "validation.imageFormat": "Uploaded image has incorrect file format",
+    "validation.imageSize": "Uploaded image is too big. Maximum image size is 100KB",
+
     "validation.internal.email": "internal email server error",
     "validation.internal": "internal server error",
 

@@ -53,14 +53,8 @@
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
-    <!--[if lt IE 7]>
-    <link rel="stylesheet" type="text/css" href="c/ie6.css" media="screen"/>
-    <![endif]-->
-    <!--[if lte IE 7]>
-    <link rel="stylesheet" type="text/css" href="c/ie6-7.css" media="screen"/>
-    <![endif]-->
     <!--[if lt IE 9]>
-    <link rel="stylesheet" type="text/css" href="c/ie8.css" media="screen"/>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <script type="text/javascript">
         function PrintMail(argName) {

@@ -2,11 +2,15 @@ package org.cmas.entities;
 
 
 import com.google.myjson.annotations.Expose;
+import org.cmas.Globals;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
@@ -89,7 +93,10 @@ public abstract class User implements Serializable, HasId {
     @Column(nullable = true)
     protected Date dob;
 
-    protected String picPath;
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
+    private byte[] userpic;
 
     //end set by user from mobile
 
@@ -150,6 +157,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setUserTypeId(long userTypeId) {
         this.userTypeId = userTypeId;
+    }
+
+    public byte[] getUserpic() {
+        return userpic;
+    }
+
+    public void setUserpic(byte[] userpic) {
+        this.userpic = userpic;
     }
 
     public String getEmail() {
@@ -214,14 +229,6 @@ public abstract class User implements Serializable, HasId {
 
     public void setDob(Date dob) {
         this.dob = dob;
-    }
-
-    public String getPicPath() {
-        return picPath;
-    }
-
-    public void setPicPath(String picPath) {
-        this.picPath = picPath;
     }
 
     public Date getDateReg() {

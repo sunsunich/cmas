@@ -37,8 +37,10 @@
                 <value>/secure/pageErrorLoad.html</value>
 
                 <value>/secure/profile/getUser.html</value>
+                <value>/secure/profile/getUserpic.html</value>
                 <value>/secure/processEditPasswd.html</value>
                 <value>/secure/processEditEmail.html</value>
+                <value>/secure/processEditUserpic.html</value>
 
                 <value>/secure/billing/interkassa/accept.html</value>
             </list>
@@ -85,7 +87,8 @@
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--one of the properties available; the maximum file size in bytes -->
-        <property name="maxUploadSize" value="100000000"/>
+        <property name="maxUploadSize" value="150000"/>
+        <property name="maxInMemorySize" value="150000" />
     </bean>
 
     <bean id="errorHandler" class="org.cmas.util.presentation.spring.CustomExceptionResolver">
