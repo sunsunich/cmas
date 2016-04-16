@@ -16,6 +16,7 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.Base64Coder;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
@@ -35,7 +36,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
@@ -164,8 +168,8 @@ public class UserProfileController {
 
     private static final long MAX_IMAGE_SIZE = 100L * 1024L * 1024L;
 
-    @RequestMapping(value = "/secure/processEditUserpic.html", method = RequestMethod.POST)
-    public View userEditUserpic(@ModelAttribute FileUploadBean fileBean) {
+    @RequestMapping(value = "/secure/uploadFileUserpic.html", method = RequestMethod.POST)
+    public View userEditUserpicFile(@ModelAttribute FileUploadBean fileBean) {
         MultipartFile file = fileBean.getFile();
         if (file == null) {
             return gsonViewFactory.createErrorGsonView("validation.emptyField");
@@ -174,7 +178,7 @@ public class UserProfileController {
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
         if (file.getSize() > MAX_IMAGE_SIZE) {
-            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
+            return gsonViewFactory.createErrorGsonView("validation.imageSize");
         }
         Diver user = getCurrentDiver();
         if (user == null) {
@@ -188,5 +192,34 @@ public class UserProfileController {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
+    }
+
+    @RequestMapping(value = "/secure/processEditUserpic.html", method = RequestMethod.POST)
+    public View userEditUserpic(@RequestParam String imageBase64Bytes) {
+        if (StringUtil.isTrimmedEmpty(imageBase64Bytes)) {
+            return gsonViewFactory.createErrorGsonView("validation.emptyField");
+        }
+        byte[] imageBytes;
+        try {
+            imageBytes = Base64Coder.decode(imageBase64Bytes);
+            if ((long) imageBytes.length > MAX_IMAGE_SIZE) {
+                return gsonViewFactory.createErrorGsonView("validation.imageSize");
+            }
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
+            if (image == null) {
+                return gsonViewFactory.createErrorGsonView("validation.imageFormat");
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
+        }
+        Diver user = getCurrentDiver();
+        if (user == null) {
+            throw new BadRequestException();
+        }
+
+        user.setUserpic(imageBytes);
+        diverDao.updateModel(user);
+        return gsonViewFactory.createSuccessGsonView();
     }
 }

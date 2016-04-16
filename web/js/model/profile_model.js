@@ -1,5 +1,7 @@
 var profile_model = {
 
+    isFileUpload: true,
+
     loadCard: function (cardId, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
@@ -86,18 +88,41 @@ var profile_model = {
         });
     },
 
-    changeUserpic: function (form, successHandler, errorHandler) {
+    uploadFileUserpic: function (form, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
             type: "POST",
-            url: "/secure/processEditUserpic.html",
+            url: "/secure/uploadFileUserpic.html",
             cache: false,
             contentType: false,
             enctype: 'multipart/form-data',
             processData: false,
             data: form,
             success: function (jsonStr) {
-                var json =JSON.parse(jsonStr);
+                var json = JSON.parse(jsonStr);
+                if (json.success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                window.location.reload();
+            }
+        });
+    },
+
+    changeUserpic: function (imageBase64Bytes, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "POST",
+            url: "/secure/processEditUserpic.html",
+            dataType: "json",
+            data: {
+                imageBase64Bytes : imageBase64Bytes
+            },
+            success: function (json) {
                 if (json.success) {
                     successHandler(json);
                 } else {

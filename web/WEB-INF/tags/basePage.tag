@@ -62,6 +62,7 @@
         }
     </script>
 
+    <script type="text/javascript" src="js/lib/modernizr-custom.js"></script>
     <script type="text/javascript" src="js/lib/json.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>

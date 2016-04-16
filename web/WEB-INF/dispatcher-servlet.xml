@@ -41,6 +41,7 @@
                 <value>/secure/processEditPasswd.html</value>
                 <value>/secure/processEditEmail.html</value>
                 <value>/secure/processEditUserpic.html</value>
+                <value>/secure/uploadFileUserpic.html</value>
 
                 <value>/secure/billing/interkassa/accept.html</value>
             </list>

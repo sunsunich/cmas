@@ -7,7 +7,7 @@
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/controller/profile_controller.js"
+               customScripts="js/model/profile_model.js,js/controller/profile_controller.js,js/controller/userpic_controller.js"
         >
     <script type="application/javascript">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
@@ -19,7 +19,8 @@
         </div>
         <div class="panel">
             <div class="userpic-selection" id="userpicSelectButton">
-                <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png" class="userpicPreview userpic-selection-left"/>
+                <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png"
+                     class="userpicPreview userpic-selection-left"/>
 
                 <div class="userpic-selection-right">
                     <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
@@ -71,7 +72,7 @@
                title="cmas.face.client.profile.selectUserpic"
                buttonText="cmas.face.client.profile.dialog.submitText">
         <div class="dialog-form-row">
-            <input name="userpicFileInput" type="file" accept="image/*" id="userpicFileInput">
+            <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*" >
             <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png"/>
         </div>
         <div class="error" id="selectUserpic_error_file"></div>
@@ -86,6 +87,23 @@
             <label>
                 <s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>
             </label>
+        </div>
+    </my:dialog>
+
+    <my:dialog id="cameraPreview"
+               title="cmas.face.client.profile.selectUserpic.camera.preview.title"
+               buttonText="cmas.face.dialog.ok">
+        <video autoplay id="cameraPreviewWindow">
+        </video>
+        <img id="cameraPreviewImg" src="">
+        <canvas style="display:none;"></canvas>
+        <div class="button-container">
+            <button class="form-button enter-button" id="takePicture">
+                <s:message code="cmas.face.client.profile.selectUserpic.camera.preview.takePicture"/>
+            </button>
+            <button class="form-button enter-button" id="takePictureAgain">
+                <s:message code="cmas.face.client.profile.selectUserpic.camera.preview.takePictureAgain"/>
+            </button>
         </div>
     </my:dialog>
 
