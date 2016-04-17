@@ -7,6 +7,10 @@ var profile_controller = {
     setListeners: function () {
         var self = this;
 
+        $('.userpic-selection-right a').click(function(event){
+            event.preventDefault();
+        });
+
         $('#changePasswordButton').click(function () {
             $('#changePasswordSuccessMessage').hide();
             $("#changePasswordForm").show();

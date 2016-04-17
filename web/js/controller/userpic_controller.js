@@ -13,6 +13,10 @@ var userpic_controller = {
             $("#cameraSelect").hide();
         }
 
+        $('.dialog-form-row a').click(function(event){
+            event.preventDefault();
+        });
+
         var self = this;
         $('#userpicSelectButton').click(function () {
             self.resetUserPicChooser();
@@ -101,6 +105,9 @@ var userpic_controller = {
             },
             function (e) {
                 console.log('getUserMedia() error', e);
+                $('#cameraPreview').hide();
+                $("#cameraSelect").hide();
+                $('#selectUserpic').show();
             });
 
         $('#selectUserpic').hide();

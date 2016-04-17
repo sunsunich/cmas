@@ -17,10 +17,11 @@
     position: relative;
 }
 
-.dialog-form-row label{
-    color: #999999;
+.dialog-form-row a {
+    color: #04c8ff;
     padding-left: 5px;
     font-size: 26px;
+    text-decoration: underline;
 }
 
 .form-row input,

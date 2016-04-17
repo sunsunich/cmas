@@ -24,7 +24,7 @@
 
                 <div class="userpic-selection-right">
                     <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
-                    <a href="#" class="link" style="pointer-events: none">
+                    <a href="#" class="link">
                         <s:message code="cmas.face.client.profile.selectUserpic"/>
                     </a>
                 </div>
@@ -78,15 +78,15 @@
         <div class="error" id="selectUserpic_error_file"></div>
         <div class="dialog-form-row" id="cameraSelect">
             <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png"/>
-            <label>
+            <a href="#">
                 <s:message code="cmas.face.client.profile.selectUserpic.camera"/>
-            </label>
+            </a>
         </div>
         <div class="dialog-form-row" id="fileFromDiscSelect">
             <img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png"/>
-            <label>
+            <a href="#">
                 <s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>
-            </label>
+            </a>
         </div>
     </my:dialog>
 
