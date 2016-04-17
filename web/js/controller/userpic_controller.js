@@ -4,16 +4,19 @@ var userpic_controller = {
         this.setListeners();
     },
 
+    isCameraSupported: true,
+
     setListeners: function () {
-        if (!(Modernizr.canvas &&
+        this.isCameraSupported = Modernizr.canvas &&
             Modernizr.video &&
             Modernizr.todataurlpng &&
             Modernizr.getusermedia
-        )) {
+        ;
+        if (!this.isCameraSupported) {
             $("#cameraSelect").hide();
         }
 
-        $('.dialog-form-row a').click(function(event){
+        $('.dialog-form-row a').click(function (event) {
             event.preventDefault();
         });
 
@@ -102,21 +105,24 @@ var userpic_controller = {
             function (stream) {
                 self.stream = stream;
                 video.src = window.URL.createObjectURL(stream);
+                self.isCameraSupported = true;
             },
             function (e) {
                 console.log('getUserMedia() error', e);
-                $('#cameraPreview').hide();
-                $("#cameraSelect").hide();
-                $('#selectUserpic').show();
+                self.isCameraSupported = false;
             });
-
-        $('#selectUserpic').hide();
-        $('#cameraPreviewOk').hide();
-        $('#takePictureAgain').hide();
-        $('#cameraPreviewImg').hide();
-        $('#takePicture').show();
-        $("video").show();
-        $('#cameraPreview').show();
+        if (this.isCameraSupported) {
+            $('#selectUserpic').hide();
+            $('#cameraPreviewOk').hide();
+            $('#takePictureAgain').hide();
+            $('#cameraPreviewImg').hide();
+            $('#takePicture').show();
+            $("video").show();
+            $('#cameraPreview').show();
+        }
+        else {
+            $("#cameraSelect").hide();
+        }
     },
 
     hideCameraPreview: function () {
