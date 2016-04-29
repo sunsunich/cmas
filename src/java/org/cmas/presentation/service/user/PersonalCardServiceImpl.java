@@ -4,10 +4,10 @@ import org.cmas.Globals;
 import org.cmas.backend.DrawCardService;
 import org.cmas.entities.CardUser;
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
-import org.cmas.presentation.dao.user.PersonalCardTypeDao;
 import org.cmas.util.dao.HibernateDao;
 import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
@@ -35,9 +35,6 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     private PersonalCardDao personalCardDao;
 
     @Autowired
-    private PersonalCardTypeDao personalCardTypeDao;
-
-    @Autowired
     private DrawCardService drawCardService;
 
     @Autowired
@@ -49,7 +46,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Override
     public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao) {
         final PersonalCard personalCard = new PersonalCard();
-        personalCard.setPersonalCardType(personalCardTypeDao.getPrimaryCardType());
+        personalCard.setPersonalCardType(PersonalCardType.PRIMARY);
         saveAndSetCardNumber(personalCard);
         switch (cardUser.getRole()) {
             case ROLE_ATHLETE:

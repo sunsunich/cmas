@@ -1,6 +1,6 @@
 package org.cmas.util;
 
-public class StringUtil {
+public final class StringUtil {
 
     private StringUtil() {
 

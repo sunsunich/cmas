@@ -92,10 +92,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="personalCardTypeDao" class="org.cmas.presentation.dao.user.PersonalCardTypeDaoImpl">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
-
     <bean id="sportsFederationDao" class="org.cmas.presentation.dao.user.sport.SportsFederationDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

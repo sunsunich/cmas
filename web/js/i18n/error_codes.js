@@ -17,7 +17,7 @@ var error_codes = {
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
 
-    "validation.noPersonInFederation": "Cannot find a person with given name in federation of given country. Please contact your sports federation",
+    "validation.noPersonInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.diverAlreadyRegistered" : "You have already registered at Cmas Data",
 
     "validation.imageFormat": "Uploaded image has incorrect file format",

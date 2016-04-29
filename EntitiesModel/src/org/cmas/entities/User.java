@@ -14,7 +14,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
@@ -100,17 +99,38 @@ public abstract class User implements Serializable, HasId {
 
     //end set by user from mobile
 
-    //used only on mob device
-    @Expose
-    @Transient
-    protected long userTypeId;
-    //end used only on mob device
-
     public User() {
     }
 
     public User(long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+               "email='" + email + '\'' +
+               ", firstName='" + firstName + '\'' +
+               ", lastName='" + lastName + '\'' +
+               ", dob=" + dob +
+               '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     public Locale getLocale() {
@@ -130,33 +150,12 @@ public abstract class User implements Serializable, HasId {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
-    }
-
-    @Override
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public long getUserTypeId() {
-        return userTypeId;
-    }
-
-    public void setUserTypeId(long userTypeId) {
-        this.userTypeId = userTypeId;
     }
 
     public byte[] getUserpic() {

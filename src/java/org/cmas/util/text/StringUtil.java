@@ -56,8 +56,8 @@ public final class StringUtil {
         return str == null || "".equals(str);
     }
 
-    public static boolean isTrimmedEmpty(@Nullable String str) {
-        return str == null || "".equals(str.trim());
+    public static boolean isTrimmedEmpty(@Nullable String s) {
+        return s == null || s.trim().isEmpty();
     }
 
     /**

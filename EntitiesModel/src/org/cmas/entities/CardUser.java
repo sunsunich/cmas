@@ -24,7 +24,6 @@ public abstract class CardUser extends User {
         super(id);
     }
 
-
     @Expose
     @OneToOne
     private PersonalCard primaryPersonalCard;

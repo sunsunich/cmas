@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -39,6 +40,9 @@ public class Diver extends CardUser {
 
     @OneToMany(mappedBy = "diver")
     private List<PersonalCard> secondaryPersonalCards;
+
+    @ManyToOne
+    private Diver instructor;
 
     @Expose
     @Column
@@ -89,5 +93,32 @@ public class Diver extends CardUser {
 
     public void setSecondaryPersonalCards(List<PersonalCard> secondaryPersonalCards) {
         this.secondaryPersonalCards = secondaryPersonalCards;
+    }
+
+    public Diver getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Diver instructor) {
+        this.instructor = instructor;
+    }
+
+    @SuppressWarnings("MagicCharacter")
+    @Override
+    public String toString() {
+        StringBuilder cardStr = new StringBuilder();
+        cardStr.append('[');
+        if (secondaryPersonalCards != null) {
+            for (PersonalCard card : secondaryPersonalCards) {
+                cardStr.append(card).append(';');
+            }
+        }
+        cardStr.append(']');
+        return "Diver{" +
+               "instructor=" + instructor +
+               ", diverLevel=" + diverLevel +
+               ", diverType=" + diverType +
+               ", secondaryPersonalCards=" + cardStr +
+               "} " + super.toString();
     }
 }

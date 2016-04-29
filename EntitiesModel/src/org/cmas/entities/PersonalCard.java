@@ -27,7 +27,7 @@ import java.io.Serializable;
  */
 @Table
 @Entity(name = "personal_cards")
-public class PersonalCard implements Serializable{
+public class PersonalCard implements Serializable {
 
     private static final long serialVersionUID = -656720490110835588L;
     @Id
@@ -56,8 +56,31 @@ public class PersonalCard implements Serializable{
     private DiverLevel diverLevel;
 
     @Expose
-    @ManyToOne
+    @Column
+    @Enumerated(EnumType.STRING)
     private PersonalCardType personalCardType;
+
+    @Expose
+    @Column
+    private String federationName;
+
+    @Override
+    public String toString() {
+        return "PersonalCard{" +
+               "number='" + number + '\'' +
+               ", diverLevel=" + diverLevel +
+               ", personalCardType=" + personalCardType +
+               ", federationName='" + federationName + '\'' +
+               '}';
+    }
+
+    public String getFederationName() {
+        return federationName;
+    }
+
+    public void setFederationName(String federationName) {
+        this.federationName = federationName;
+    }
 
     public PersonalCardType getPersonalCardType() {
         return personalCardType;
