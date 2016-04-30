@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.Country;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.DictionaryDataDao;
 
 /**
@@ -9,9 +9,9 @@ import org.cmas.presentation.dao.DictionaryDataDao;
  *
  * @author Alexander Petukhov
  */
-public interface SportsFederationDao extends DictionaryDataDao<SportsFederation> {
+public interface SportsFederationDao extends DictionaryDataDao<NationalFederation> {
 
-    SportsFederation getFederationForSportsman(String firstName, String lastName, Country country);
+    NationalFederation getFederationForSportsman(String firstName, String lastName, Country country);
 
-    SportsFederation getByCountry(Country country);
+    NationalFederation getByCountry(Country country);
 }

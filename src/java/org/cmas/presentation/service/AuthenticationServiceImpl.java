@@ -6,7 +6,7 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.user.AllUsersService;
-import org.cmas.util.presentation.CommonAuthentificationServiceImpl;
+import org.cmas.util.presentation.CommonAuthenticationServiceImpl;
 import org.cmas.util.presentation.SpringRole;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl<BackendUser>
+public class AuthenticationServiceImpl extends CommonAuthenticationServiceImpl<BackendUser>
         implements AuthenticationService {
 
     @Autowired
@@ -37,6 +37,22 @@ public class AuthenticationServiceImpl extends CommonAuthentificationServiceImpl
             Athlete athlete = (Athlete) allUsersService.getByEmail(details.getUsername());
             if (athlete != null) {
                 return new BackendUser<>(athlete);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public BackendUser<Diver> getCurrentDiver() {
+        UserDetails details = getUserDetails();
+        if (details == null) {
+            return null;
+        } else {
+            Diver diver = (Diver) allUsersService.getByEmail(details.getUsername());
+            if (diver != null) {
+                return new BackendUser<>(diver);
             } else {
                 return null;
             }

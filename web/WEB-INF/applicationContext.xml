@@ -153,7 +153,7 @@
         <property name="validator" ref="validator"/>
     </bean>
 
-    <bean id="diverService" class="org.cmas.presentation.service.user.UserServiceImpl">
+    <bean id="diverService" class="org.cmas.presentation.service.user.DiverServiceImpl">
         <property name="entityClass" value="org.cmas.entities.diver.Diver"/>
         <property name="entityDao" ref="diverDao"/>
         <property name="validator" ref="validator"/>
@@ -163,6 +163,9 @@
     </bean>
 
     <bean id="drawCardService" class="org.cmas.backend.DrawCardServiceImpl">
+    </bean>
+
+    <bean id="rusDiverXlsParser" class="org.cmas.backend.xls.RusDiverXlsParserImpl">
     </bean>
 
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">

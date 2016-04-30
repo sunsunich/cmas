@@ -13,5 +13,5 @@ class DiverTypeLevel {
     DiverType diverType;
     DiverLevel diverLevel;
     PersonalCardType personalCardType;
-    String fedarationCardName;
+    String federationCardName;
 }

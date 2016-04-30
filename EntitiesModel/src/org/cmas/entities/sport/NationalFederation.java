@@ -16,9 +16,10 @@ import java.util.List;
  * @author Alexander Petukhov
  */
 @Entity
-@Table(name = "sports_federations")
-public class SportsFederation extends DictionaryEntity {
+@Table(name = "national_federations")
+public class NationalFederation extends DictionaryEntity {
 
+    private static final long serialVersionUID = -1462190485394499814L;
     @ManyToOne
     private Country country;
 

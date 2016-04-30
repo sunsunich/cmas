@@ -13,8 +13,8 @@ import org.cmas.presentation.model.ImageDTO;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
-import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
@@ -24,7 +24,6 @@ import org.cmas.util.text.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,8 +54,7 @@ public class UserProfileController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    @Qualifier("diverService")
-    private UserService<Diver> userService;
+    private DiverService userService;
 
     @Autowired
     private DiverDao diverDao;

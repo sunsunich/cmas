@@ -4,4 +4,6 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.util.dao.HibernateDao;
 
 public interface PersonalCardDao extends HibernateDao<PersonalCard>{
+
+    PersonalCard getByNumber(String cardNumber);
 }

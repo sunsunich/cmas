@@ -36,13 +36,13 @@ public abstract class User implements Serializable, HasId {
     //служебные данные
 
     // Дата регистрации
-    @Column(nullable = false)
+    @Column
     protected Date dateReg;
 
     @Column
     protected boolean enabled;
 
-    @Column(name = "last_action")
+    @Column
     protected Date lastAction;
 
     @Column
@@ -99,10 +99,12 @@ public abstract class User implements Serializable, HasId {
 
     //end set by user from mobile
 
-    public User() {
+    protected User() {
+        enabled = true;
     }
 
-    public User(long id) {
+    protected User(long id) {
+        this();
         this.id = id;
     }
 

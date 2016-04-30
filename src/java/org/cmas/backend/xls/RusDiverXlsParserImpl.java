@@ -14,6 +14,8 @@ import org.cmas.util.text.StringUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,7 +32,7 @@ import java.util.Map;
 public class RusDiverXlsParserImpl implements DiverXlsParser {
 
     @Override
-    public Collection<Diver> getDivers(File file) throws Exception {
+    public Collection<Diver> getDivers(InputStream file) throws Exception {
         try (Workbook wb = WorkbookFactory.create(file)) {
             Map<String, Diver> divers = new HashMap<>();
             for (int i = 0; i < wb.getNumberOfSheets(); i++) {
@@ -50,7 +52,7 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
                     PersonalCard card = diver.getSecondaryPersonalCards().get(0);
                     card.setDiverLevel(diverTypeLevel.diverLevel);
                     card.setPersonalCardType(diverTypeLevel.personalCardType);
-                    card.setFederationName(diverTypeLevel.fedarationCardName);
+                    card.setFederationName(diverTypeLevel.federationCardName);
 
                     Diver existingDiver = divers.get(diver.getEmail());
                     if (existingDiver == null) {
@@ -74,6 +76,11 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             }
             return divers.values();
         }
+    }
+
+    @Override
+    public Collection<Diver> getDivers(File file) throws Exception {
+        return getDivers(new FileInputStream(file));
     }
 
     @Nullable
@@ -103,6 +110,9 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             PersonalCard instructorCard = new PersonalCard();
             instructorCard.setPersonalCardType(PersonalCardType.NATIONAL);
             instructorCard.setNumber(instructorCardNumber);
+            List<PersonalCard> secondaryCards = new ArrayList<>(1);
+            secondaryCards.add(instructorCard);
+            instructor.setSecondaryPersonalCards(secondaryCards);
             diver.setInstructor(instructor);
         }
 
@@ -143,7 +153,7 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
         Cell sheetHeaderCell = sheet.getRow(0).getCell(0);
         String header = sheetHeaderCell.getRichStringCellValue().getString().toUpperCase(Locale.ENGLISH);
         if (!StringUtil.isTrimmedEmpty(header)) {
-            diverTypeLevel.fedarationCardName = header;
+            diverTypeLevel.federationCardName = header;
             if (header.contains("NITROX")) {
                 diverTypeLevel.personalCardType = PersonalCardType.NITROX;
             } else if (header.contains("ICE")) {

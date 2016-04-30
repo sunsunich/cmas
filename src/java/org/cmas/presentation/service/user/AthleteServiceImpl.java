@@ -1,7 +1,7 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.sport.Athlete;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.service.sports.NationalFederationService;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +28,7 @@ public class AthleteServiceImpl extends UserServiceImpl<Athlete> implements Athl
         athlete.setFirstName(firstName);
         String lastName = registration.getLastName();
         athlete.setLastName(lastName);
-        SportsFederation sportsmanFederation
+        NationalFederation sportsmanFederation
                 = nationalFederationService.getSportsmanFederationBySportsmanData(
                 firstName, lastName, athlete.getCountry()
         );

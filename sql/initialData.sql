@@ -129,13 +129,13 @@ INSERT into countries (id, deleted, name, code, version) values (128, false, 'Zi
 INSERT into countries (id, deleted, name, code, version) values (129, false, 'Republic of China', 'TWN', 1);
 INSERT into countries (id, deleted, name, code, version) values (130, false, 'North Cyprus', 'NCYP', 1);
 
-INSERT into sports_federations (id, deleted, name, version, country_id) values (1, false, 'Russia', 1, 102);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (2, false, 'Italy', 1, 60);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (3, false, 'Germany', 1, 6);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (4, false, 'France', 1, 46);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (5, false, 'Turkey', 1, 121);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (6, false, 'South Korea', 1, 32);
-INSERT into sports_federations (id, deleted, name, version, country_id) values (7, false, 'Belgium', 1, 17);
+INSERT into national_federations (id, deleted, name, version, country_id) values (1, false, 'Russia', 1, 102);
+INSERT into national_federations (id, deleted, name, version, country_id) values (2, false, 'Italy', 1, 60);
+INSERT into national_federations (id, deleted, name, version, country_id) values (3, false, 'Germany', 1, 6);
+INSERT into national_federations (id, deleted, name, version, country_id) values (4, false, 'France', 1, 46);
+INSERT into national_federations (id, deleted, name, version, country_id) values (5, false, 'Turkey', 1, 121);
+INSERT into national_federations (id, deleted, name, version, country_id) values (6, false, 'South Korea', 1, 32);
+INSERT into national_federations (id, deleted, name, version, country_id) values (7, false, 'Belgium', 1, 17);
 
 
 INSERT INTO `cmas`.`divers`
@@ -145,7 +145,7 @@ INSERT INTO `cmas`.`divers`
  `email`,
  `enabled`,
  `firstName`,
- `last_action`,
+ `lastAction`,
  `lastName`,
  `locale`,
  `lostPasswdCode`,
@@ -153,7 +153,6 @@ INSERT INTO `cmas`.`divers`
  `mobileLockCode`,
  `newMail`,
  `password`,
- `picPath`,
  `role`,
  `diverLevel`,
  `diverType`,
@@ -164,7 +163,7 @@ INSERT INTO `cmas`.`divers`
  `hasPayed`)
 VALUES
   (2,
-   NOW(),
+   null,
    STR_TO_DATE("06/02/1996", '%d/%m/%Y'),
    "a1@mailinator.com",
    true,
@@ -177,7 +176,6 @@ VALUES
    null,
    null,
    "7bf51a9e2c99cd3e6d77894914c3a44d",
-   null,
    "ROLE_DIVER",
    "ONE_STAR",
    "DIVER",
@@ -187,22 +185,6 @@ VALUES
    null,
   false);
 
-INSERT INTO `cmas`.`personal_cards`
-(`id`,
- `number`,
- `athlete_id`,
- `diver_id`,
- `personalCardType_id`)
-VALUES
-  (2,
-   "5510123456789002",
-   null,
-   2,
-   null
-  );
-
-update  `cmas`.`divers` set primaryPersonalCard_id = 2 WHERE id = 2;
-
 
 INSERT INTO `cmas`.`divers`
 (`id`,
@@ -211,7 +193,7 @@ INSERT INTO `cmas`.`divers`
  `email`,
  `enabled`,
  `firstName`,
- `last_action`,
+ `lastAction`,
  `lastName`,
  `locale`,
  `lostPasswdCode`,
@@ -219,7 +201,6 @@ INSERT INTO `cmas`.`divers`
  `mobileLockCode`,
  `newMail`,
  `password`,
- `picPath`,
  `role`,
  `diverLevel`,
  `diverType`,
@@ -231,7 +212,7 @@ INSERT INTO `cmas`.`divers`
 )
 VALUES
  (3,
-  NOW(),
+  null,
   STR_TO_DATE("06/02/1996", '%d/%m/%Y'),
   "a2@mailinator.com",
   true,
@@ -244,7 +225,6 @@ VALUES
   null,
   null,
   "7bf51a9e2c99cd3e6d77894914c3a44d",
-  null,
   "ROLE_DIVER",
   "TWO_STAR",
   "DIVER",
@@ -255,21 +235,55 @@ VALUES
   false
  );
 
-INSERT INTO `cmas`.`personal_cards`
+INSERT INTO `cmas`.`divers`
 (`id`,
- `number`,
- `athlete_id`,
- `diver_id`,
- `personalCardType_id`)
+ `dateReg`,
+ `dob`,
+ `email`,
+ `enabled`,
+ `firstName`,
+ `lastAction`,
+ `lastName`,
+ `locale`,
+ `lostPasswdCode`,
+ `md5newMail`,
+ `mobileLockCode`,
+ `newMail`,
+ `password`,
+ `role`,
+ `diverLevel`,
+ `diverType`,
+ `country_id`,
+ `userBalance_id`,
+ `federation_id`,
+ `primaryPersonalCard_id`,
+ `hasPayed`
+)
 VALUES
- (3,
-  "5510123456789003",
+ (4,
   null,
-  3,
-  null
+  null,
+  "rufservis@inbox.ru",
+  true,
+  "Ekaterina",
+  NOW(),
+  "",
+  "ru",
+  null,
+  null,
+  null,
+  null,
+  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  "ROLE_FEDERATION_ADMIN",
+  null,
+  null,
+  102,
+  NULL ,
+  1,
+  null,
+  false
  );
 
-update  `cmas`.`divers` set primaryPersonalCard_id = 3 WHERE id = 3;
 
 
 

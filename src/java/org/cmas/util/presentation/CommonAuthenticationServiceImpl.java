@@ -11,7 +11,7 @@ import org.springframework.security.userdetails.UserDetails;
 
 import java.util.Arrays;
 
-public abstract class CommonAuthentificationServiceImpl<T extends UserDetails> implements CommonAuthentificationService<T>{
+public abstract class CommonAuthenticationServiceImpl<T extends UserDetails> implements CommonAuthenticationService<T> {
 
     @Override
     public void loginAs(T user, SpringRole[] roles) {

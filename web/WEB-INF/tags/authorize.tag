@@ -13,6 +13,13 @@
     </script>
 </authz:authorize>
 
+<authz:authorize ifAnyGranted="ROLE_FEDERATION_ADMIN">
+    <script type="text/javascript">
+        cookie_controller.addAuthCookie();
+        window.location = '/fed/index.html';
+    </script>
+</authz:authorize>
+
 <authz:authorize ifAnyGranted="ROLE_ADMIN">
     <script type="text/javascript">
         cookie_controller.addAuthCookie();

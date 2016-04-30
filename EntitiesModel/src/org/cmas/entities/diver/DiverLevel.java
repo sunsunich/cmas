@@ -6,5 +6,9 @@ package org.cmas.entities.diver;
  * @author Alexander Petukhov
  */
 public enum DiverLevel {
-    ONE_STAR, TWO_STAR, THREE_STAR
+    ONE_STAR, TWO_STAR, THREE_STAR;
+
+    public String getName(){
+        return name();
+    }
 }

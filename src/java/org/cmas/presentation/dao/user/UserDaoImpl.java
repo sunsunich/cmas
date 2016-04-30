@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,9 +32,9 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         Order order = getOrder(sort, dir);
         //noinspection unchecked
         return crit.addOrder(order).setFirstResult(form.getOffset())
-                .setMaxResults(form.getLimit()).setCacheable(true).list();
+                   .setMaxResults(form.getLimit()).setCacheable(true).list();
     }
-	                          
+
     @Transactional
     @Override
     public boolean isEmailUnique(String email, Long id) {
@@ -45,14 +47,32 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         return isEmailUnique(email, null);
     }
 
+    @Override
+    public Serializable save(@NotNull T model) {
+        model.setLastAction(new Date());
+        return super.save(model);
+    }
+
+    @Override
+    public void saveModel(@NotNull T model) {
+        model.setLastAction(new Date());
+        super.saveModel(model);
+    }
+
+    @Override
+    public void updateModel(@NotNull T model) {
+        model.setLastAction(new Date());
+        super.updateModel(model);
+    }
+
     @Transactional
     @Override
     public T getBylostPasswdCode(@NotNull String lostPasswdCode) {
         Criteria crit = createCriteria();
         //noinspection unchecked
         return (T) crit.add(Restrictions.eq("lostPasswdCode", lostPasswdCode))
-                .add(Restrictions.eq("enabled", Boolean.TRUE))
-                .setCacheable(true).uniqueResult();
+                       .add(Restrictions.eq("enabled", Boolean.TRUE))
+                       .setCacheable(true).uniqueResult();
     }
 
     @Transactional
@@ -61,8 +81,8 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         Criteria crit = createCriteria();
         //noinspection unchecked
         return (T) crit.add(Restrictions.eq("email", email))
-                .add(Restrictions.eq("enabled", Boolean.TRUE))
-                .setCacheable(true).uniqueResult();
+                       .add(Restrictions.eq("enabled", Boolean.TRUE))
+                       .setCacheable(true).uniqueResult();
     }
 
     @Override
@@ -81,11 +101,19 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         return (Integer) crit.uniqueResult();
     }
 
-    private Criteria makeSearchRequest(UserSearchFormObject form) {
-        Criteria crit = createCriteria().add(Restrictions.eq("enabled", true)); 
+    protected Criteria makeSearchRequest(UserSearchFormObject form) {
+        Criteria crit = createCriteria().add(Restrictions.eq("enabled", true));
         String email = form.getEmail();
         if (!StringUtil.isEmpty(email)) {
             crit.add(Restrictions.like("email", email.trim(), MatchMode.START));
+        }
+        String firstName = form.getFirstName();
+        if (!StringUtil.isEmpty(firstName)) {
+            crit.add(Restrictions.like("firstName", firstName.trim(), MatchMode.START));
+        }
+        String lastName = form.getLastName();
+        if (!StringUtil.isEmpty(lastName)) {
+            crit.add(Restrictions.like("lastName", lastName.trim(), MatchMode.START));
         }
         return crit;
     }

@@ -5,7 +5,7 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.sport.NationalFederation;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +34,7 @@ public final class MockUtil {
         instructor.setDiverLevel(DiverLevel.THREE_STAR);
         instructor.setDiverType(DiverType.INSTRUCTOR);
 
-        SportsFederation federation = getSportsFederation();
+        NationalFederation federation = getSportsFederation();
         PersonalCard card = new PersonalCard();
         card.setNumber("5510123456789001");
         card.setDiverLevel(instructor.getDiverLevel());
@@ -82,8 +82,8 @@ public final class MockUtil {
         return new Country("us");
     }
 
-    private static SportsFederation getSportsFederation() {
-        SportsFederation federation = new SportsFederation();
+    private static NationalFederation getSportsFederation() {
+        NationalFederation federation = new NationalFederation();
         federation.setName("THE UNDERWATER SOCIETY OF AMERICA");
         return federation;
     }

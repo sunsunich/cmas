@@ -71,7 +71,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
                 }, 0L, TimeUnit.MILLISECONDS);
                 break;
             case ROLE_AMATEUR:
-                //fall through
+            case ROLE_FEDERATION_ADMIN:
             case ROLE_ADMIN:
                 throw new IllegalStateException();
         }

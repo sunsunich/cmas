@@ -153,6 +153,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                 case ROLE_DIVER:
                 case ROLE_DIVER_INSTRUCTOR:
                     return personalCard.getDiver().equals(user);
+                case ROLE_FEDERATION_ADMIN:
                 case ROLE_ADMIN:
                     return false;
             }

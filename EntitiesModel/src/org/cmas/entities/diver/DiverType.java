@@ -7,5 +7,9 @@ package org.cmas.entities.diver;
  */
 public enum DiverType {
 
-    DIVER, INSTRUCTOR
+    DIVER, INSTRUCTOR;
+
+    public String getName(){
+        return name();
+    }
 }

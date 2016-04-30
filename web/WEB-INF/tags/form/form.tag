@@ -8,11 +8,12 @@
 <%@ attribute name="commandName" required="false" %>
 <%@ attribute name="noRequiredText" required="false" %>
 <%@ attribute name="id" required="false" %>
+<%@ attribute name="enctype" required="false" %>
 <c:set var="command">${(not empty commandName)?(commandName):('command')}</c:set>
 <c:if test="${empty method}">
     <c:set var="method" value="POST"/>
 </c:if>
-<form:form htmlEscape="true" action="${action}" commandName="${command}" method="${method}" cssClass="b-form" id="${id}">
+<form:form htmlEscape="true" action="${action}" commandName="${command}" method="${method}" cssClass="b-form" id="${id}" enctype="${enctype}">
     <spring:hasBindErrors name="${command}">
         <ul>
            <c:forEach items="${errors.globalErrors}" var="error">

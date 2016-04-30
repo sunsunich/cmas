@@ -3,6 +3,7 @@ package org.cmas.backend.xls;
 import org.cmas.entities.diver.Diver;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Collection;
 
 /**
@@ -11,6 +12,8 @@ import java.util.Collection;
  * @author Alexander Petukhov
  */
 public interface DiverXlsParser {
+
+    Collection<Diver> getDivers(InputStream file) throws Exception;
 
     Collection<Diver> getDivers(File file) throws Exception;
 }

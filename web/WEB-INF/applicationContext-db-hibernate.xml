@@ -21,7 +21,7 @@
                 <value>org.cmas.entities.UserBalance</value>
 
                 <value>org.cmas.entities.sport.Athlete</value>
-                <value>org.cmas.entities.sport.SportsFederation</value>
+                <value>org.cmas.entities.sport.NationalFederation</value>
                 <value>org.cmas.entities.PersonalCard</value>
                 <value>org.cmas.entities.PersonalCardType</value>
 

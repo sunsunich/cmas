@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
 
@@ -74,6 +75,7 @@ public class UserHomeController {
         Diver diver = getCurrentDiver();
         if (diver.isHasPayed()) {
             if (diver.getPrimaryPersonalCard() == null) {
+                diver.setDateReg(new Date());
                 registrationService.createDiverPrimaryCard(diver);
             }
             return new ModelAndView("redirect:/secure/profile/getUser.html");

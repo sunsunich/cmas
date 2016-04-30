@@ -268,7 +268,7 @@
     </inspection_tool>
     <inspection_tool class="EnumeratedConstantNamingConvention" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_regex" value="[A-Z][A-Z_\d]*" />
-      <option name="m_minLength" value="5" />
+      <option name="m_minLength" value="3" />
       <option name="m_maxLength" value="32" />
     </inspection_tool>
     <inspection_tool class="EnumerationCanBeIteration" enabled="true" level="WARNING" enabled_by_default="true" />
@@ -783,6 +783,10 @@
           <option value="OverlyLongMethod" />
           <option value="ParameterHidesMemberVariable" />
           <option value="ConstantConditions" />
+          <option value="EnumeratedConstantNamingConvention" />
+          <option value="InnerClassFieldHidesOuterClassField" />
+          <option value="CallToStringEquals" />
+          <option value="CallToStringEqualsIgnoreCase" />
         </list>
       </option>
     </inspection_tool>

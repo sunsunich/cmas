@@ -1,6 +1,6 @@
 package org.cmas.util.presentation.spring;
 
-import org.cmas.util.presentation.CommonAuthentificationService;
+import org.cmas.util.presentation.CommonAuthenticationService;
 import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.Authentication;
@@ -11,24 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RoleBasedUrlResolver implements TargetUrlResolver {
 
-    private CommonAuthentificationService authenticationService;
+    private CommonAuthenticationService authenticationService;
 
+    @SuppressWarnings("HardcodedFileSeparator")
     @Override
     public String determineTargetUrl(
-            SavedRequest savedRequest, HttpServletRequest currentRequest, Authentication auth
+            SavedRequest savedRequest, HttpServletRequest httpServletRequest, Authentication authentication
     ) {
-        if (authenticationService.isGranted(auth, SpringRole.ROLE_DIVER)
-            || authenticationService.isGranted(auth, SpringRole.ROLE_DIVER_INSTRUCTOR)
+        if (authenticationService.isGranted(authentication, SpringRole.ROLE_DIVER)
+            || authenticationService.isGranted(authentication, SpringRole.ROLE_DIVER_INSTRUCTOR)
                 ) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
-        if (authenticationService.isGranted(auth, SpringRole.ROLE_AMATEUR)) {
+        if (authenticationService.isGranted(authentication, SpringRole.ROLE_AMATEUR)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
-        if (authenticationService.isGranted(auth, SpringRole.ROLE_ATHLETE)) {
+        if (authenticationService.isGranted(authentication, SpringRole.ROLE_ATHLETE)) {
             return "/login.html?redirectUrl=/secure/index.html";
         }
-        if (authenticationService.isGranted(auth, SpringRole.ROLE_ADMIN)) {
+        if (authenticationService.isGranted(authentication, SpringRole.ROLE_FEDERATION_ADMIN)) {
+            return "/login.html?redirectUrl=/fed/index.html";
+        }
+        if (authenticationService.isGranted(authentication, SpringRole.ROLE_ADMIN)) {
             return "/login.html?redirectUrl=/admin/index.html";
         }
         return "/index.html";
@@ -36,7 +40,7 @@ public class RoleBasedUrlResolver implements TargetUrlResolver {
 
 
     @Required
-    public void setAuthenticationService(CommonAuthentificationService authenticationService) {
+    public void setAuthenticationService(CommonAuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }
 }

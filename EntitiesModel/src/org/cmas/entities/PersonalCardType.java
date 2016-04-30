@@ -6,5 +6,9 @@ package org.cmas.entities;
  * @author Alexander Petukhov
  */
 public enum PersonalCardType {
-    PRIMARY, NATIONAL, NITROX, DRY_SUIT, APNOEA, ICE_DIVING, SIDE_MOUNT, CAVE, TRIMIX, EXTENDED_RANGE,
+    PRIMARY, NATIONAL, NITROX, DRY_SUIT, APNOEA, ICE_DIVING, SIDE_MOUNT, CAVE, TRIMIX, EXTENDED_RANGE;
+
+    public String getName(){
+        return name();
+    }
 }

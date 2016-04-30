@@ -1,7 +1,7 @@
 package org.cmas.entities;
 
 import com.google.myjson.annotations.Expose;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.sport.NationalFederation;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -30,7 +30,7 @@ public abstract class CardUser extends User {
 
     @Expose
     @ManyToOne
-    private SportsFederation federation;
+    private NationalFederation federation;
 
     public PersonalCard getPrimaryPersonalCard() {
         return primaryPersonalCard;
@@ -40,11 +40,11 @@ public abstract class CardUser extends User {
         this.primaryPersonalCard = primaryPersonalCard;
     }
 
-    public SportsFederation getFederation() {
+    public NationalFederation getFederation() {
         return federation;
     }
 
-    public void setFederation(SportsFederation federation) {
+    public void setFederation(NationalFederation federation) {
         this.federation = federation;
     }
 

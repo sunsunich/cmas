@@ -9,6 +9,7 @@ public enum SpringRole {
     ROLE_ATHLETE(Role.ROLE_ATHLETE),
     ROLE_DIVER(Role.ROLE_DIVER),
     ROLE_DIVER_INSTRUCTOR(Role.ROLE_DIVER_INSTRUCTOR),
+    ROLE_FEDERATION_ADMIN(Role.ROLE_FEDERATION_ADMIN),
     ROLE_ADMIN(Role.ROLE_ADMIN);
 
     private final GrantedAuthority authority;
@@ -41,6 +42,8 @@ public enum SpringRole {
                 return ROLE_DIVER;
             case ROLE_DIVER_INSTRUCTOR:
                 return ROLE_DIVER_INSTRUCTOR;
+            case ROLE_FEDERATION_ADMIN:
+                return ROLE_FEDERATION_ADMIN;
             case ROLE_ADMIN:
                 return ROLE_ADMIN;
             default:

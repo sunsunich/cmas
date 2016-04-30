@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.Country;
-import org.cmas.entities.sport.SportsFederation;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.DictionaryDataDaoImpl;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -11,11 +11,11 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author Alexander Petukhov
  */
-public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<SportsFederation> implements SportsFederationDao{
+public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<NationalFederation> implements SportsFederationDao{
 
     @Override
-    public SportsFederation getFederationForSportsman(String firstName, String lastName, Country country) {
-        String hql = "select sf from org.cmas.presentation.dao.user.sport.SportsFederation" +
+    public NationalFederation getFederationForSportsman(String firstName, String lastName, Country country) {
+        String hql = "select sf from org.cmas.presentation.dao.user.sport.NationalFederation" +
                      " inner join sf.athleteList a" +
                      " where a.firstName = :firstName and a.lastName = :lastName and a.country.id = :countryId"
                 ;
@@ -23,11 +23,11 @@ public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<SportsFederat
         query.setString("firstName", firstName);
         query.setString("lastName", lastName);
         query.setLong("countryId", country.getId());
-        return (SportsFederation)query.uniqueResult();
+        return (NationalFederation)query.uniqueResult();
     }
 
     @Override
-    public SportsFederation getByCountry(Country country) {
-        return (SportsFederation)createCriteria().add(Restrictions.eq("country", country)).uniqueResult();
+    public NationalFederation getByCountry(Country country) {
+        return (NationalFederation)createCriteria().add(Restrictions.eq("country", country)).uniqueResult();
     }
 }

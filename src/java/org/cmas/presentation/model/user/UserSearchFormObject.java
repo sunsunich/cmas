@@ -4,15 +4,19 @@ import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.SortPaginatorImpl;
 
 
-@SuppressWarnings({"InnerClassFieldHidesOuterClassField"})
+@SuppressWarnings("InnerClassFieldHidesOuterClassField")
 public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject.UserReportColumnNames> {
 
-    @SuppressWarnings({"EnumeratedConstantNamingConvention"})
+    @SuppressWarnings("EnumeratedConstantNamingConvention")
     public enum UserReportColumnNames implements ColumnName {
           email("email")
-        , dateReg("dateReg");
+        , dateReg("dateReg")
+        , lastAction("lastAction")
+        , firstName("firstName")
+        , lastName("lastName")
+        ;
 
-        private String name;
+        private final String name;
 
         UserReportColumnNames(String name){
             this.name = name;
@@ -22,16 +26,14 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
         public String getName() {
             return name;
         }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 
     // условие отбора
     private String email;
+    private String firstName;
+    private String lastName;
+    private String countryCode;
     private String userRole;
-
 
     public UserSearchFormObject() {
         super(UserReportColumnNames.email);       
@@ -56,5 +58,29 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }
