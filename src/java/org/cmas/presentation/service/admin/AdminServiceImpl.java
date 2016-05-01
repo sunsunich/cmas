@@ -117,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
 
         Long id = (Long) diverDao.save(newDiver);
         newDiver.setEmail(id + "@mailinator.com");
-        newDiver.setFirstName(diver.getFirstName() + id);
+        newDiver.setFirstName(diver.getFirstName() + "Bot");
 
         for (PersonalCard card : diver.getSecondaryPersonalCards()) {
             PersonalCard newCard = new PersonalCard();
