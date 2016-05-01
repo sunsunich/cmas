@@ -13,31 +13,18 @@ public class RoleBasedUrlResolver implements TargetUrlResolver {
 
     private CommonAuthenticationService authenticationService;
 
-    @SuppressWarnings("HardcodedFileSeparator")
+    @SuppressWarnings({"HardcodedFileSeparator", "StringConcatenation"})
     @Override
     public String determineTargetUrl(
             SavedRequest savedRequest, HttpServletRequest httpServletRequest, Authentication authentication
     ) {
-        if (authenticationService.isGranted(authentication, SpringRole.ROLE_DIVER)
-            || authenticationService.isGranted(authentication, SpringRole.ROLE_DIVER_INSTRUCTOR)
-                ) {
-            return "/login.html?redirectUrl=/secure/index.html";
-        }
-        if (authenticationService.isGranted(authentication, SpringRole.ROLE_AMATEUR)) {
-            return "/login.html?redirectUrl=/secure/index.html";
-        }
-        if (authenticationService.isGranted(authentication, SpringRole.ROLE_ATHLETE)) {
-            return "/login.html?redirectUrl=/secure/index.html";
-        }
-        if (authenticationService.isGranted(authentication, SpringRole.ROLE_FEDERATION_ADMIN)) {
-            return "/login.html?redirectUrl=/fed/index.html";
-        }
-        if (authenticationService.isGranted(authentication, SpringRole.ROLE_ADMIN)) {
-            return "/login.html?redirectUrl=/admin/index.html";
+        for (SpringRole springRole : SpringRole.values()) {
+            if (authenticationService.isGranted(authentication, springRole)) {
+                return "/login.html?redirectUrl=" + springRole.getIndexUrl();
+            }
         }
         return "/index.html";
     }
-
 
     @Required
     public void setAuthenticationService(CommonAuthenticationService authenticationService) {

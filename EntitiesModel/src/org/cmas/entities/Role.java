@@ -4,7 +4,6 @@ public enum Role {
     ROLE_AMATEUR("ROLE_AMATEUR", "amateur"),
     ROLE_ATHLETE("ROLE_ATHLETE", "professional athlete"),
     ROLE_DIVER("ROLE_DIVER", "diver"),
-    ROLE_DIVER_INSTRUCTOR("ROLE_DIVER_INSTRUCTOR", "diver instructor"),
     ROLE_FEDERATION_ADMIN("ROLE_FEDERATION_ADMIN", "federation admin"),
     ROLE_ADMIN("ROLE_ADMIN", "admin");
 

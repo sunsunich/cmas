@@ -53,8 +53,6 @@ public class PersonalCardServiceImpl implements PersonalCardService {
                 personalCard.setAthlete((Athlete) cardUser);
                 break;
             case ROLE_DIVER:
-                //fall through
-            case ROLE_DIVER_INSTRUCTOR:
                 Diver diver = (Diver) cardUser;
                 personalCard.setDiver(diver);
                 personalCard.setDiverLevel(diver.getDiverLevel());

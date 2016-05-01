@@ -5,21 +5,27 @@ import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 
 public enum SpringRole {
-    ROLE_AMATEUR(Role.ROLE_AMATEUR),
-    ROLE_ATHLETE(Role.ROLE_ATHLETE),
-    ROLE_DIVER(Role.ROLE_DIVER),
-    ROLE_DIVER_INSTRUCTOR(Role.ROLE_DIVER_INSTRUCTOR),
-    ROLE_FEDERATION_ADMIN(Role.ROLE_FEDERATION_ADMIN),
-    ROLE_ADMIN(Role.ROLE_ADMIN);
+    ROLE_AMATEUR(Role.ROLE_AMATEUR, "/secure/index.html"),
+    ROLE_ATHLETE(Role.ROLE_ATHLETE, "/secure/index.html"),
+    ROLE_DIVER(Role.ROLE_DIVER, "/secure/index.html"),
+    ROLE_FEDERATION_ADMIN(Role.ROLE_FEDERATION_ADMIN, "/fed/index.html"),
+    ROLE_ADMIN(Role.ROLE_ADMIN, "/admin/index.html");
 
     private final GrantedAuthority authority;
 
-    SpringRole(Role role) {
+    private final String indexUrl;
+
+    SpringRole(Role role, String indexUrl) {
         authority = new GrantedAuthorityImpl(role.name());
+        this.indexUrl = indexUrl;
     }
 
     public GrantedAuthority getAuthority() {
         return authority;
+    }
+
+    public String getIndexUrl() {
+        return indexUrl;
     }
 
     public static GrantedAuthority[] getAuthorities(SpringRole[] roles) {
@@ -40,8 +46,6 @@ public enum SpringRole {
                 return ROLE_ATHLETE;
             case ROLE_DIVER:
                 return ROLE_DIVER;
-            case ROLE_DIVER_INSTRUCTOR:
-                return ROLE_DIVER_INSTRUCTOR;
             case ROLE_FEDERATION_ADMIN:
                 return ROLE_FEDERATION_ADMIN;
             case ROLE_ADMIN:

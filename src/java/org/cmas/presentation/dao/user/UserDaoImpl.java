@@ -1,5 +1,6 @@
 package org.cmas.presentation.dao.user;
 
+import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
@@ -114,6 +115,10 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         String lastName = form.getLastName();
         if (!StringUtil.isEmpty(lastName)) {
             crit.add(Restrictions.like("lastName", lastName.trim(), MatchMode.START));
+        }
+        String userRole = form.getUserRole();
+        if (!StringUtil.isEmpty(userRole)) {
+            crit.add(Restrictions.eq("role", Role.valueOf(userRole)));
         }
         return crit;
     }

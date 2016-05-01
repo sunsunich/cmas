@@ -1,24 +1,23 @@
 package org.cmas.presentation.model.user;
 
+import org.cmas.entities.Role;
 import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.SortPaginatorImpl;
+import org.cmas.presentation.validator.Validatable;
+import org.cmas.presentation.validator.ValidatorUtils;
+import org.springframework.validation.Errors;
 
 
 @SuppressWarnings("InnerClassFieldHidesOuterClassField")
-public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject.UserReportColumnNames> {
+public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject.UserReportColumnNames> implements Validatable {
 
     @SuppressWarnings("EnumeratedConstantNamingConvention")
     public enum UserReportColumnNames implements ColumnName {
-          email("email")
-        , dateReg("dateReg")
-        , lastAction("lastAction")
-        , firstName("firstName")
-        , lastName("lastName")
-        ;
+        email("email"), dateReg("dateReg"), lastAction("lastAction"), firstName("firstName"), lastName("lastName");
 
         private final String name;
 
-        UserReportColumnNames(String name){
+        UserReportColumnNames(String name) {
             this.name = name;
         }
 
@@ -36,13 +35,18 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     private String userRole;
 
     public UserSearchFormObject() {
-        super(UserReportColumnNames.email);       
+        super(UserReportColumnNames.email);
+    }
+
+    @Override
+    public void validate(Errors errors) {
+        ValidatorUtils.validateEnum(errors, userRole, Role.class, "userRole", "validation.incorrectField");
     }
 
     @Override
     protected Class<UserReportColumnNames> getEnumClass() {
         return UserReportColumnNames.class;
-    }  
+    }
 
     public String getEmail() {
         return email;

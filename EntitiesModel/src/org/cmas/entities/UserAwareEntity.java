@@ -41,11 +41,11 @@ public class UserAwareEntity {
     @SuppressWarnings("CallToSimpleSetterFromWithinClass")
     public final <T extends User> void setUser(T user) {
         switch (user.getRole()) {
-            case ROLE_DIVER:
-                break;
-            case ROLE_DIVER_INSTRUCTOR:
-                break;
+            case ROLE_FEDERATION_ADMIN:
             case ROLE_ADMIN:
+            case ROLE_DIVER:
+                setDiver((Diver)user);
+                break;
             case ROLE_AMATEUR:
                 setAmateur((Amateur) user);
                 break;

@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.fedadmin;
 
+import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -53,6 +54,7 @@ public class FederationAdminController {
             throw new BadRequestException();
         }
         model.setCountryCode(currentFedAdmin.getUser().getFederation().getCountry().getCode());
+        model.setUserRole(Role.ROLE_DIVER.name());
         model.setLimit(MAX_PAGE_ITEMS);
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", model);
@@ -65,7 +67,7 @@ public class FederationAdminController {
 
     @SuppressWarnings("CallToStringEquals")
     @RequestMapping(value = "/fed/uploadUsers.html", method = RequestMethod.POST)
-    public ModelAndView uploadUsers(@ModelAttribute("xlsFileFormObject") FileUploadBean fileBean, Errors result){
+    public ModelAndView uploadUsers(@ModelAttribute("xlsFileFormObject") FileUploadBean fileBean, Errors result) {
         BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
         if (currentFedAdmin == null) {
             throw new BadRequestException();
@@ -79,14 +81,13 @@ public class FederationAdminController {
         }
         String contentType = file.getContentType();
         if (!"application/vnd.ms-excel".equals(contentType)
-            && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" .equals(contentType)) {
+            && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
             result.rejectValue("file", "validation.xlsFileFormat");
             return showIndexPage(command, fileBean);
         }
         try {
             diverService.uploadDivers(currentFedAdmin.getUser().getFederation(), file.getInputStream());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             result.rejectValue("file", "validation.xlsFileFormat");
             return showIndexPage(command, fileBean);

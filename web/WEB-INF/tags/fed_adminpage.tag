@@ -35,10 +35,6 @@
             <td><a href="/logout.html">Sign out</a>&nbsp;&nbsp;&nbsp;</td>
             <td><a href="/fed/index.html">Users</a></td>
         </tr>
-        <%--<tr>--%>
-            <%--<td><a href="/admin/listPartner.html">Партнеры</a></td>--%>
-            <%--<td colspan="10">&nbsp;&nbsp;&nbsp;</td>--%>
-        <%--</tr>--%>
     </table>
 
 

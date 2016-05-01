@@ -8,14 +8,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-    
+
     <title>Administration</title>
 
     <script type="text/javascript" src="/js/util.js"></script>
-    
+
 </head>
 <body>
-    <div id="Wrapper" class="wrapper">       <!-- Wrapper -->
+<div id="Wrapper" class="wrapper">       <!-- Wrapper -->
 
     <!-- END HEADER -->
 
@@ -30,25 +30,19 @@
 
     <div id="" class="content">           <!-- Content -->
         <div class="content-body">
-    <table>
-        <tr>
-            <td><a href="/admin/index.html">Пользователи</a>&nbsp;&nbsp;&nbsp;</td>
-            <td><a href="/admin/registration/readyToCreate.html">Юзеры&nbsp;для&nbsp;регистрации</a>&nbsp;&nbsp;&nbsp;</td>       
-
-            <td width="100%"></td>
-            <td><a href="/logout.html">Выйти</a>
-        </tr>
-        <%--<tr>--%>
-            <%--<td><a href="/admin/listPartner.html">Партнеры</a></td>--%>
-            <%--<td colspan="10">&nbsp;&nbsp;&nbsp;</td>--%>
-        <%--</tr>--%>
-    </table>
+            <table>
+                <tr>
+                    <td><a href="/logout.html">Sign out</a>&nbsp;&nbsp;&nbsp;</td>
+                    <td><a href="/admin/index.html">Users</a></td>
+                </tr>
+            </table>
 
 
-<jsp:doBody/>
+            <jsp:doBody/>
+        </div>
     </div>
-    </div> <!-- end of Content -->
-    </div>
+    <!-- end of Content -->
+</div>
 <!-- end of Wrapper -->
 
 <div id="Footer" class="footer_wrapper">            <!-- Footer -->
@@ -58,10 +52,6 @@
         </div>
     </div>
 </div>
-    
-    
-
-
 
 
 </body>

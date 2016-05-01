@@ -61,7 +61,7 @@ public class UserHomeController {
         BackendUser<? extends User> user = getUser();
         Role role = user.getUser().getRole();
         Diver diver = null;
-        if (role == Role.ROLE_DIVER_INSTRUCTOR || role == Role.ROLE_DIVER) {
+        if (role == Role.ROLE_DIVER) {
             diver = (Diver) user.getUser();
         }
         if (diver == null) {

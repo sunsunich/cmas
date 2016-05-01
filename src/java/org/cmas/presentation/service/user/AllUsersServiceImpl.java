@@ -38,8 +38,6 @@ public class AllUsersServiceImpl implements AllUsersService {
             case ROLE_ADMIN:
                 //fall through
             case ROLE_DIVER:
-                //fall through
-            case ROLE_DIVER_INSTRUCTOR:
                 isEmailUnique = diverDao.isEmailUnique(email, userId)
                                 || diverDao.isEmailUnique(email)
                 ;

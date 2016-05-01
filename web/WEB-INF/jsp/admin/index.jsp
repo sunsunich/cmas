@@ -5,13 +5,23 @@
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib uri="http://jsptags.com/tags/navigation/pager" prefix="pg" %>
 
-<my:adminpage title="Пользователи системы">
-    <h2>Пользователи системы</h2>
+<jsp:useBean id="roles" scope="request" type="org.cmas.entities.Role[]"/>
+<jsp:useBean id="countries" scope="request" type="org.cmas.entities.Country[]"/>
 
-    <ff:form submitText="Найти" action="/admin/index.html" method="GET">
+<jsp:useBean id="users" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
+<jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
+
+<my:adminpage title="Users of CMAS Data">
+    <h2>Users of CMAS Data</h2>
+
+    <ff:form submitText="Find" action="/admin/index.html" method="GET" noRequiredText="true">
 
         <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
-        <ff:input path="shopName" label="Имя магазина" maxLen="250" required="false"/>
+        <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
+        <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
+        <ff:select path="userRole" label="User type" options="${roles}" itemValue="name" itemLabel="label"/>
+        <ff:select path="countryCode" label="Country" options="${countries}" itemValue="code" itemLabel="name"/>
         <input type="hidden" name="sort" value="${command.sort}"/>
         <input type="hidden" name="dir" value="${command.dir}"/>
     </ff:form>
@@ -27,47 +37,95 @@
                 <c:set var="url" value="${url}email=${command.email}&"/>
                 <c:set var="urlEmpty" value="false"/>
             </c:if>
-            <c:if test="${!empty command.shopName}">
-                <c:set var="url" value="${url}shopName=${command.shopName}&"/>
+            <c:if test="${!empty command.firstName}">
+                <c:set var="url" value="${url}firstName=${command.firstName}&"/>
+                <c:set var="urlEmpty" value="false"/>
+            </c:if>
+            <c:if test="${!empty command.lastName}">
+                <c:set var="url" value="${url}lastName=${command.lastName}&"/>
                 <c:set var="urlEmpty" value="false"/>
             </c:if>
             <table border="0" cellpadding="4" cellspacing="2">
                 <tr class="infoHeader">
-                    
-                    <th><my:sort url="${url}" title="Имя магазина" dir="${command.dir}" columnNumber="${command.sort}"
-                                 sortColumn="shopName"/></th>
                     <th><my:sort url="${url}" title="E-mail" dir="${command.dir}" columnNumber="${command.sort}"
-                                 sortColumn="email"/></th>
-
-                    <th><my:sort url="${url}" title="Дата регистрации" dir="${command.dir}"
-                                 columnNumber="${command.sort}" sortColumn="dateReg"/></th>
-                    <th align="center">Действия</th>
+                                 sortColumn="email"/>
+                    </th>
+                    <th><my:sort url="${url}" title="First name" dir="${command.dir}" columnNumber="${command.sort}"
+                                 sortColumn="firstName"/>
+                    </th>
+                    <th><my:sort url="${url}" title="Last name" dir="${command.dir}" columnNumber="${command.sort}"
+                                 sortColumn="lastName"/>
+                    </th>
+                    <th>Date of birth</th>
+                    <th>Instructor or Diver</th>
+                    <th>Diver Level</th>
+                    <th>CMAS card number</th>
+                    <th>Certificates</th>
+                    <th><my:sort url="${url}" title="Registration date" dir="${command.dir}"
+                                 columnNumber="${command.sort}" sortColumn="dateReg"/>
+                    </th>
+                    <th><my:sort url="${url}" title="Last profile edit" dir="${command.dir}"
+                                 columnNumber="${command.sort}" sortColumn="lastAction"/>
+                    </th>
+                    <th align="center">Actions</th>
                 </tr>
                 <c:forEach items="${users}" var="user" varStatus="st">
                     <tr class="info" <c:if test="${!user.enabled}"> style="color:#999999"</c:if>>
-                        <td>
-                            <a onclick="return confirm('Вы действительно хотите переключиться на данного пользователя?');"
-                               href="/admin/toUser.html?userId=${user.nullableId}">${user.shopName}</a><br/>
                         <td><a href="mailto:${user.email}">${user.email}</a></td>
-
+                        <td>${user.firstName}</td>
+                        <td>${user.lastName}</td>
+                        <td><fmt:formatDate value="${user.dob}" pattern="dd.MM.yyyy"/></td>
+                        <td>${user.diverType.name}</td>
+                        <td>${user.diverLevel.name}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${user.primaryPersonalCard == null}">
+                                    Not registered at CMAS Data
+                                </c:when>
+                                <c:otherwise>
+                                    ${user.primaryPersonalCard.number}
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:forEach var="card" items="${user.secondaryPersonalCards}">
+                                <c:choose>
+                                    <c:when test="${card.personalCardType.name == 'NATIONAL'}">
+                                        <c:if test="${card.diverLevel != null}">${card.diverLevel.name}</c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        ${card.personalCardType.name}
+                                    </c:otherwise>
+                                </c:choose>
+                                <br/>
+                            </c:forEach>
+                        </td>
                         <td>
                             <fmt:formatDate value="${user.dateReg}" pattern="dd.MM.yyyy HH:mm"/>
                         </td>
-                            <%--<td>--%>
-                            <%--<fmt:formatDate value="${user.lastLoggedTime}" pattern="dd.MM.yyyy HH:mm"/>--%>
-                            <%--</td>--%>
+                        <td>
+                            <fmt:formatDate value="${user.lastAction}" pattern="dd.MM.yyyy HH:mm"/>
+                        </td>
                         <td nowrap>
-                            <my:info url="/admin/userInfo.html?userId=${user.nullableId}" alt="Информация о клиенте"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <my:edit url="/admin/loadUser.html?userId=${user.nullableId}" alt="Редактировать"/>&nbsp;
-                            <my:passwd url="/admin/passwdForm.html?userId=${user.nullableId}"/>&nbsp;
-                            <my:delete url="/admin/deleteUser.html?userId=${user.nullableId}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <c:if test="${user.role == 'ROLE_FEDERATION_ADMIN' || user.primaryPersonalCard != null }">
+                                <a href="/admin/toUser.html?userId=${user.id}&userRole=${user.role.name}">Login as
+                                    User</a><br/>
+                            </c:if>
+                            <c:if test="${user.role == 'ROLE_DIVER'}">
+                                <a href="/admin/cloneUser.html?userId=${user.id}&userRole=${user.role.name}">Clone
+                                    user</a>
+                            </c:if>
+                                <%--<my:info url="/admin/userInfo.html?userId=${user.id}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
+                                <%--<my:edit url="/admin/loadUser.html?userId=${user.id}"/>&nbsp;--%>
+                                <%--<my:passwd url="/admin/passwdForm.html?userId=${user.id}"/>&nbsp;--%>
+                                <%--<my:delete url="/admin/deleteUser.html?userId=${user.id}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                         </td>
                     </tr>
                 </c:forEach>
             </table>
         </c:when>
         <c:otherwise>
-            Ничего не найдено.
+            No users found.
         </c:otherwise>
     </c:choose>
     <br><br>
@@ -84,10 +142,11 @@
               export="currentPageNumber=pageNumber,offSet=pageOffset">
         <pg:param name="sort"/>
         <pg:param name="email"/>
-        <pg:param name="shopName"/>
+        <pg:param name="firstName"/>
+        <pg:param name="lastName"/>
         <pg:param name="dir"/>
         <pg:index>
-            <font face=Helvetica size="-1">Найдено записей (${count}):
+            <font face=Helvetica size="-1">Users found (${count}):
                 <pg:prev>&nbsp;<a href="${pageUrl}">[&lt;&lt;]</a></pg:prev>
                 <pg:pages>
                     <c:if test="${pageNumber < 10}">

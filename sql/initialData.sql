@@ -284,6 +284,56 @@ VALUES
   false
  );
 
+INSERT INTO `cmas`.`divers`
+(`id`,
+ `dateReg`,
+ `dob`,
+ `email`,
+ `enabled`,
+ `firstName`,
+ `lastAction`,
+ `lastName`,
+ `locale`,
+ `lostPasswdCode`,
+ `md5newMail`,
+ `mobileLockCode`,
+ `newMail`,
+ `password`,
+ `role`,
+ `diverLevel`,
+ `diverType`,
+ `country_id`,
+ `userBalance_id`,
+ `federation_id`,
+ `primaryPersonalCard_id`,
+ `hasPayed`
+)
+VALUES
+ (5,
+  null,
+  null,
+  "ale.petuhov@gmail.com",
+  true,
+  "Alexander",
+  NOW(),
+  "Petuhov",
+  "ru",
+  null,
+  null,
+  null,
+  null,
+  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  "ROLE_ADMIN",
+  null,
+  null,
+  102,
+  NULL ,
+  1,
+  null,
+  false
+ );
+
+
 
 
 

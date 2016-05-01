@@ -10,10 +10,10 @@
 <c:if test="${sortColumn == columnNumber}">
     <c:choose>
         <c:when test='${dir}'>
-            <img src="/i/icon/sort_up.gif"/>
+            <img src="/i/sort_up.gif"/>
         </c:when>
         <c:otherwise>
-            <span class="sign icn-sort" alt="${alt}" title="${alt}"></span>
+            <img src="/i/sort_down.gif"/>
         </c:otherwise>
     </c:choose>
 </c:if>

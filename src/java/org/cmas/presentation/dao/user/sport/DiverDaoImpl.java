@@ -1,6 +1,5 @@
 package org.cmas.presentation.dao.user.sport;
 
-import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
@@ -32,7 +31,6 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria criteria = super.makeSearchRequest(form);
-        criteria.add(Restrictions.in("role", new Role[]{Role.ROLE_DIVER, Role.ROLE_DIVER_INSTRUCTOR}));
         String country = form.getCountryCode();
         if (!StringUtil.isTrimmedEmpty(country)) {
             criteria.createAlias("federation", "fed")

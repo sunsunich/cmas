@@ -16,6 +16,8 @@ public class Country extends DictionaryEntity {
 
     private static final long serialVersionUID = 3857192785221652490L;
 
+    public static final Country EMPTY_COUNTRY = new Country();
+
     public Country() {
     }
 
