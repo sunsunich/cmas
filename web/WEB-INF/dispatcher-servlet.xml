@@ -43,6 +43,8 @@
                 <value>/secure/processEditUserpic.html</value>
                 <value>/secure/uploadFileUserpic.html</value>
 
+                <value>/secure/cards.html</value>
+
                 <value>/secure/billing/interkassa/accept.html</value>
             </list>
         </property>

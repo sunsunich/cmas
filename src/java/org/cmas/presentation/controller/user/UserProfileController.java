@@ -96,6 +96,11 @@ public class UserProfileController {
         return new ModelAndView("/secure/userInfo");
     }
 
+    @RequestMapping("/secure/cards.html")
+    public ModelAndView getCards(Model model) {
+        return new ModelAndView("/secure/cards");
+    }
+
     @RequestMapping("/secure/profile/getCardImage.html")
     public View getUserCard(@RequestParam(AccessInterceptor.CARD_ID) long cardId) throws IOException {
 

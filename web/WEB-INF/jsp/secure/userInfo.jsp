@@ -53,7 +53,7 @@
                 <img id="cardImg" width="90%"/>
             </div>
             <div class="pass_link">
-                <a class="link" href="#"><s:message code="cmas.face.client.profile.showAllCards"/></a>
+                <a class="link" href="/secure/cards.html"><s:message code="cmas.face.client.profile.showAllCards"/></a>
             </div>
         </div>
         <div class="panel">

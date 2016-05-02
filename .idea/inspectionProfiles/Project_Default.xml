@@ -787,6 +787,7 @@
           <option value="InnerClassFieldHidesOuterClassField" />
           <option value="CallToStringEquals" />
           <option value="CallToStringEqualsIgnoreCase" />
+          <option value="MagicNumber" />
         </list>
       </option>
     </inspection_tool>

@@ -38,6 +38,11 @@ input, p {
     width: 362px;
 }
 
+.content-card{
+    padding-bottom: 20px;
+    width: 100%;;
+}
+
 .header,
 .welcome-header {
     margin-top: 10px;
@@ -73,7 +78,7 @@ input, p {
 
 .error {
     padding-left: 15px;
-    color: #ffcc00;
+    color: #ff5050;
     margin-bottom: 15px;
 }
 
@@ -141,7 +146,7 @@ input, p {
     color: #99b5c3;
 }
 
-.userpicPreview{
+.userpicPreview {
     max-height: 110px;
     max-width: 110px;
 }

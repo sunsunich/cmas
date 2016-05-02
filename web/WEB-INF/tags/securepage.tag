@@ -26,7 +26,7 @@
                     </a>
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="/secure/profile/getUser.html">
                                 <i class="menu-ico menu-ico-my-account"></i>
                                 <span><s:message code="cmas.face.client.menu.personalData"/></span>
                             </a>
@@ -44,7 +44,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/secure/cards.html">
                                 <i class="menu-ico menu-ico-my-cards"></i>
                                 <span><s:message code="cmas.face.client.menu.myCards"/></span>
                             </a>
