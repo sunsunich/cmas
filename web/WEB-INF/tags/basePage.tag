@@ -14,6 +14,11 @@
 <%@ attribute name="customScripts" required="false" %>
 <%@ attribute name="customCSSFiles" required="false" %>
 <%@ attribute name="doNotDoAuth" required="false" %>
+<%@ attribute name="bodyId" required="false" %>
+
+<c:if test="${empty bodyId}">
+    <c:set var="bodyId" value="body"/>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="en" class="english">
@@ -85,7 +90,7 @@
     </c:forEach>
 
 </head>
-<body id="body" background="${pageContext.request.contextPath}/i/background.png">
+<body id="${bodyId}">
 
 <c:if test="${doNotDoAuth == null || !doNotDoAuth}">
     <my:authorize/>

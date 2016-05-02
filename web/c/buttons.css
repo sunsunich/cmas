@@ -2,7 +2,7 @@
     text-align: center;
 }
 
-.form-button {
+.form-button, .userInfo-button {
     margin-bottom: 25px;
     width: 60%;
     font-size: 26px;
@@ -20,6 +20,13 @@
     text-decoration: none;
     display: inline-block;
     text-shadow: 0px 0px 0 rgba(0, 0, 0, 0.3);
+}
+
+.userInfo-button{
+    width: 40%;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 0;
 }
 
 .enter-button {

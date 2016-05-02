@@ -39,6 +39,9 @@
                 <button class="form-button reg-button" id="regLink">
                     <s:message code="cmas.face.login.form.link.reg"/>
                 </button>
+                <button class="form-button reg-button" id="verifyLink">
+                    <s:message code="cmas.face.login.form.link.verify"/>
+                </button>
             </div>
         </form>
         <div class="pass_link">

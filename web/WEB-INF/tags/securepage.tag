@@ -9,7 +9,7 @@
 
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
-<my:basePage title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
+<my:basePage bodyId="secureBody" title="${title}" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>

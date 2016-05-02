@@ -138,7 +138,7 @@ INSERT into national_federations (id, deleted, name, version, country_id) values
 INSERT into national_federations (id, deleted, name, version, country_id) values (7, false, 'Belgium', 1, 17);
 
 
-INSERT INTO `cmas`.`divers`
+INSERT INTO divers
 (`id`,
  `dateReg`,
  `dob`,
@@ -175,7 +175,7 @@ VALUES
    null,
    null,
    null,
-   "7bf51a9e2c99cd3e6d77894914c3a44d",
+   "36b1f45f0a95d1624734220892f0e7a9",
    "ROLE_DIVER",
    "ONE_STAR",
    "DIVER",
@@ -186,7 +186,7 @@ VALUES
   false);
 
 
-INSERT INTO `cmas`.`divers`
+INSERT INTO divers
 (`id`,
  `dateReg`,
  `dob`,
@@ -224,7 +224,7 @@ VALUES
   null,
   null,
   null,
-  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  "36b1f45f0a95d1624734220892f0e7a9",
   "ROLE_DIVER",
   "TWO_STAR",
   "DIVER",
@@ -235,7 +235,7 @@ VALUES
   false
  );
 
-INSERT INTO `cmas`.`divers`
+INSERT INTO divers
 (`id`,
  `dateReg`,
  `dob`,
@@ -273,7 +273,7 @@ VALUES
   null,
   null,
   null,
-  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  "36b1f45f0a95d1624734220892f0e7a9",
   "ROLE_FEDERATION_ADMIN",
   null,
   null,
@@ -284,7 +284,7 @@ VALUES
   false
  );
 
-INSERT INTO `cmas`.`divers`
+INSERT INTO divers
 (`id`,
  `dateReg`,
  `dob`,
@@ -322,7 +322,7 @@ VALUES
   null,
   null,
   null,
-  "7bf51a9e2c99cd3e6d77894914c3a44d",
+  "36b1f45f0a95d1624734220892f0e7a9",
   "ROLE_ADMIN",
   null,
   null,

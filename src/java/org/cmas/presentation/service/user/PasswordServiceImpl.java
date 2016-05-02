@@ -191,12 +191,8 @@ public class PasswordServiceImpl implements PasswordService {
 					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
-					  .append(genRandomLowLetter())
-					  .append(genRandomNumber())
-					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
+					  .append(genRandomLowLetter())
 					;
 				break;
 			case 1: sb.append(genRandomUpLetter())
@@ -205,104 +201,68 @@ public class PasswordServiceImpl implements PasswordService {
 					  .append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
 					  .append(genRandomUpLetter())
-					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
 					;
 				break;
 			case 2: sb.append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
+					  .append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
 					  .append(genRandomNumber())
 					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
-					  .append(genRandomLowLetter())
-					  .append(genRandomUpLetter())
-					  .append(genRandomNumber())
 					;
 				break;
 			case 3: sb.append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
+					  .append(genRandomUpLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
-					  .append(genRandomUpLetter())
-					  .append(genRandomLowLetter())
-					  .append(genRandomNumber())
 					;
 				break;
 			case 4: sb.append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomNumber())
-
-					  .append(genRandomLowLetter())
-					  .append(genRandomNumber())
-					  .append(genRandomLowLetter())
-
-					  .append(genRandomOtherChar())
 					  .append(genRandomLowLetter())
 					  .append(genRandomNumber())
 					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
+					  .append(genRandomLowLetter())
 					;
 				break;
 			case 5: sb.append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
 					  .append(genRandomNumber())
-
 					  .append(genRandomUpLetter())
 					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-
-					  .append(genRandomOtherChar())
 					  .append(genRandomUpLetter())
-					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
 					;
 				break;
 			case 6: sb.append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
-
-					  .append(genRandomLowLetter())
-					  .append(genRandomNumber())
-					  .append(genRandomLowLetter())
-
-					  .append(genRandomNumber())
-					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
-					  .append(genRandomLowLetter())
 					  .append(genRandomUpLetter())
+					  .append(genRandomLowLetter())
 					  .append(genRandomNumber())
+					  .append(genRandomLowLetter())
+					  .append(genRandomNumber())
+					  .append(genRandomLowLetter())
 					;
 				break;
 			case 7: sb.append(genRandomUpLetter())
 					  .append(genRandomLowLetter())
-					  .append(genRandomOtherChar())
-
+					  .append(genRandomUpLetter())
 					  .append(genRandomUpLetter())
 					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-
 					  .append(genRandomNumber())
 					  .append(genRandomUpLetter())
-					  .append(genRandomOtherChar())
-					  .append(genRandomUpLetter())
-					  .append(genRandomLowLetter())
-					  .append(genRandomNumber())
 					;
 				break;
 			default: throw new IllegalStateException("random generation error");

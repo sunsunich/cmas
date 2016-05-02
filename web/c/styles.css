@@ -8,7 +8,12 @@ header, section, footer, aside, nav, main, article, figure {
 }
 
 body {
-    background: #0d3b50 url("/i/background.png") no-repeat center top;
+    background: #0d3b50 url("/i/bg.png") no-repeat center top;
+    background-size: cover;
+}
+
+#secureBody {
+    background: #0d3b50 url("/i/bg0.png") no-repeat center top;
     background-size: cover;
 }
 
@@ -38,7 +43,7 @@ input, p {
     width: 362px;
 }
 
-.content-card{
+.content-card {
     padding-bottom: 20px;
     width: 100%;;
 }

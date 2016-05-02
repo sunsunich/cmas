@@ -58,10 +58,10 @@
         </div>
         <div class="panel">
             <div class="button-container">
-                <button class="form-button enter-button" id="changeEmailButton">
+                <button class="userInfo-button reg-button" id="changeEmailButton">
                     <s:message code="cmas.face.changeEmail.form.page.title"/>
                 </button>
-                <button class="form-button enter-button" id="changePasswordButton">
+                <button class="userInfo-button reg-button" id="changePasswordButton">
                     <s:message code="cmas.face.changePasswd.form.page.title"/>
                 </button>
             </div>
