@@ -7,7 +7,7 @@
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/controller/profile_controller.js,js/controller/userpic_controller.js"
+               customScripts="js/model/profile_model.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
@@ -15,55 +15,84 @@
 
     <div class="content">
         <div class="tabs">
-
+            <span id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
+            <span id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
         </div>
-        <div class="panel">
-            <div class="userpic-selection" id="userpicSelectButton">
-                <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png"
-                     class="userpicPreview userpic-selection-left"/>
+        <div id="privateSettings">
+            <div class="panel">
+                <div class="userpic-selection" id="userpicSelectButton">
+                    <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png"
+                         class="userpicPreview userpic-selection-left"/>
 
-                <div class="userpic-selection-right">
-                    <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
-                    <a href="#" class="link">
-                        <s:message code="cmas.face.client.profile.selectUserpic"/>
-                    </a>
+                    <div class="userpic-selection-right">
+                        <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
+                        <a href="#" class="link">
+                            <s:message code="cmas.face.client.profile.selectUserpic"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-row">
+                    <span>${diver.firstName} ${diver.lastName}</span>
+                </div>
+
+                <div class="panel-row">
+                    <label><s:message code="cmas.face.client.profile.form.label.dob"/>&nbsp;</label>
+                    <span><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></span>
                 </div>
             </div>
-            <div class="panel-row">
-                <span>${diver.firstName} ${diver.lastName}</span>
-            </div>
-
-            <div class="panel-row">
-                <label><s:message code="cmas.face.client.profile.form.label.dob"/>&nbsp;</label>
-                <span><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></span>
-            </div>
-        </div>
-        <div class="panel">
-            <div class="button-container" id="noCard">
-                <div>
+            <div class="panel">
+                <div class="button-container" id="noCard">
+                    <div>
                 <span>
                     <s:message code="cmas.face.client.profile.noCard"/>
                 </span>
+                    </div>
+                    <button class="form-button reg-button" id="cardReload">
+                        <s:message code="cmas.face.client.profile.cardReload"/>
+                    </button>
                 </div>
-                <button class="form-button reg-button" id="cardReload">
-                    <s:message code="cmas.face.client.profile.cardReload"/>
-                </button>
+                <div class="button-container" id="card">
+                    <img id="cardImg" width="90%"/>
+                </div>
+                <div class="pass_link">
+                    <a class="link" href="${pageContext.request.contextPath}/secure/cards.html"><s:message
+                            code="cmas.face.client.profile.showAllCards"/></a>
+                </div>
             </div>
-            <div class="button-container" id="card">
-                <img id="cardImg" width="90%"/>
-            </div>
-            <div class="pass_link">
-                <a class="link" href="/secure/cards.html"><s:message code="cmas.face.client.profile.showAllCards"/></a>
+            <div class="panel">
+                <div class="button-container">
+                    <button class="userInfo-button reg-button" id="changeEmailButton">
+                        <s:message code="cmas.face.changeEmail.form.page.title"/>
+                    </button>
+                    <button class="userInfo-button reg-button" id="changePasswordButton">
+                        <s:message code="cmas.face.changePasswd.form.page.title"/>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="panel">
-            <div class="button-container">
-                <button class="userInfo-button reg-button" id="changeEmailButton">
-                    <s:message code="cmas.face.changeEmail.form.page.title"/>
-                </button>
-                <button class="userInfo-button reg-button" id="changePasswordButton">
-                    <s:message code="cmas.face.changePasswd.form.page.title"/>
-                </button>
+        <div id="socialSettings" style="display: none">
+            <div class="panel">
+                <div class="panel-row">
+                </div>
+
+                <div class="panel-row">
+                </div>
+
+                <div class="button-container">
+                    <button class="userInfo-button reg-button" id="addMemberButton">
+                        <s:message code="cmas.face.client.social.addMember"/>
+                    </button>
+                </div>
+            </div>
+            <div class="panel">
+
+            </div>
+            <div class="panel">
+                <div class="button-container">
+                    <button class="userInfo-button reg-button" id="addCountryButton">
+                        <s:message code="cmas.face.client.social.addCountry"/>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +101,7 @@
                title="cmas.face.client.profile.selectUserpic"
                buttonText="cmas.face.client.profile.dialog.submitText">
         <div class="dialog-form-row">
-            <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*" >
+            <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
             <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png"/>
         </div>
         <div class="error" id="selectUserpic_error_file"></div>

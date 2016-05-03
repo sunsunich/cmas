@@ -7,7 +7,20 @@ var profile_controller = {
     setListeners: function () {
         var self = this;
 
-        $('.userpic-selection-right a').click(function(event){
+        $('#privateTab').click(function () {
+            $('#socialTab').addClass('inactive');
+            $('#privateTab').removeClass('inactive');
+            $('#socialSettings').hide();
+            $('#privateSettings').show();
+        });
+        $('#socialTab').click(function () {
+            $('#privateTab').addClass('inactive');
+            $('#socialTab').removeClass('inactive');
+            $('#privateSettings').hide();
+            $('#socialSettings').show();
+        });
+
+        $('.userpic-selection-right a').click(function (event) {
             event.preventDefault();
         });
 

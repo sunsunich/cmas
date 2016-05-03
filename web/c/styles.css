@@ -124,6 +124,21 @@ input, p {
     padding-right: 16px;
 }
 
+#privateTab, #socialTab {
+    font-size: 26px;
+    font-weight: bold;
+    color: #f8f8f8;
+    margin-left: 5%;
+}
+
+#socialTab {
+    margin-left: 50%;
+}
+
+#privateTab.inactive, #socialTab.inactive {
+    color: #99b5c3;
+}
+
 .panel {
     margin-top: 10px;
     padding: 20px;

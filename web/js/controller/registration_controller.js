@@ -14,7 +14,7 @@ var registration_controller = {
             {
                 changeYear: true,
                 changeMonth: true,
-                yearRange: '-70:-10',
+                yearRange: '-100:-10',
                 defaultDate: "-20y",
                 dateFormat: 'dd/mm/yy'
             }

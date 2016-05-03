@@ -4,6 +4,7 @@ import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
 
 import javax.persistence.Basic;
@@ -53,6 +54,11 @@ public class PersonalCard implements Serializable {
     @Expose
     @Column
     @Enumerated(EnumType.STRING)
+    private DiverType diverType;
+
+    @Expose
+    @Column
+    @Enumerated(EnumType.STRING)
     private DiverLevel diverLevel;
 
     @Expose
@@ -72,6 +78,14 @@ public class PersonalCard implements Serializable {
                ", personalCardType=" + personalCardType +
                ", federationName='" + federationName + '\'' +
                '}';
+    }
+
+    public DiverType getDiverType() {
+        return diverType;
+    }
+
+    public void setDiverType(DiverType diverType) {
+        this.diverType = diverType;
     }
 
     public String getFederationName() {
