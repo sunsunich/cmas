@@ -3,6 +3,7 @@
 <%@ attribute name="label" required="true" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="ef" tagdir="/WEB-INF/tags/external-form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ attribute name="options" required="false" type="java.lang.Object[]" %>
 <%@ attribute name="itemLabel" required="false" %>

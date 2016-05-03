@@ -28,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,7 +88,7 @@ public class RecoveryController {
     @RequestMapping(value = "/lostPasswd.html", method = RequestMethod.POST)
     @Transactional
     public ModelAndView submitLostPasswd(HttpServletRequest servletRequest, HttpServletResponse servletResponse, @ModelAttribute("command") LostPasswordFormObject formObject,
-                                         BindingResult result, Model model) throws AddressException, UnsupportedEncodingException {
+                                         Errors result, Model model) throws AddressException, UnsupportedEncodingException {
         passwordValidator.validate(formObject, result);
         boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
         if (result.hasErrors() || !isCaptchaCorrect) {

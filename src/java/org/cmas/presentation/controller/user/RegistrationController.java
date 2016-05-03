@@ -6,17 +6,22 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.i18n.LocaleResolverImpl;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.user.DeviceDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Device;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
+import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
@@ -30,13 +35,17 @@ import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  */
@@ -71,6 +80,56 @@ public class RegistrationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CaptchaService captchaService;
+    @Autowired
+    private HibernateSpringValidator validator;
+    @Autowired
+    private DiverDao diverDao;
+
+    @RequestMapping("/diver-verification.html")
+    public ModelAndView verifyDiver(Model model) {
+        model.addAttribute("command", new DiverVerificationFormObject());
+        return buildDiverVerificationForm(model, true, true);
+    }
+
+    private ModelAndView buildDiverVerificationForm(Model model, boolean isCaptchaCorrect, boolean hasUsers) {
+        try {
+            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
+        model.addAttribute("captchaError", !isCaptchaCorrect);
+        model.addAttribute("reCaptchaPublicKey", captchaService.getReCaptchaPublicKey());
+        model.addAttribute("hasUsers", hasUsers);
+        return new ModelAndView("diverVerification");
+    }
+
+    @RequestMapping(value = "/diver-verification-submit.html", method = RequestMethod.POST)
+    public ModelAndView diverVerificationSubmit(
+            HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+            @ModelAttribute("command") DiverVerificationFormObject formObject,
+            Errors result, Model model
+    ) {
+        validator.validate(formObject, result);
+        boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
+        if (result.hasErrors() || !isCaptchaCorrect) {
+            return buildDiverVerificationForm(model, isCaptchaCorrect, true);
+        } else {  // submit form
+            List<Diver> divers = diverDao.searchForVerification(formObject);
+            if (divers.isEmpty()) {
+                return buildDiverVerificationForm(model, true, false);
+            }
+            for (Diver diver : divers) {
+                byte[] userpic = diver.getUserpic();
+                if (userpic != null) {
+                    diver.setUserpicBase64(Base64Coder.encodeString(userpic));
+                }
+            }
+            model.addAttribute("divers", divers);
+            return new ModelAndView("diversList");
+        }
+    }
 
     /**
      *
@@ -86,9 +145,6 @@ public class RegistrationController {
         return new ModelAndView("registration");
     }
 
-    /**
-     * добавляем в базу регистрацию.
-     */
     @RequestMapping("/diver-registration-submit.html")
     public View registrationDiverAdd(
             @ModelAttribute("command") DiverRegistrationFormObject formObject

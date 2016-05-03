@@ -10,13 +10,6 @@ var registration_controller = {
             self.register();
             return false;
         });
-        $("#oplCountries").select2({
-            placeholder: '<img class="country-input-ico">' + labels["cmas.face.registration.form.label.country"],
-            escapeMarkup: function (m) {
-                return m;
-            },
-            templateSelection: self.formatCountry
-        });
         $("#dobField").datepicker(
             {
                 changeYear: true,
@@ -34,18 +27,9 @@ var registration_controller = {
         });
     },
 
-    formatCountry: function (state) {
-        if (!state.id) {
-            return state.text;
-        }
-        return $(
-            '<span><img class="country-input-ico">' + state.text + '</span>'
-        );
-    },
-
     register: function () {
         var regForm = {
-            country: $('#oplCountries').val(),
+            country: $('#country').val(),
             firstName: $('#firstNameField').val(),
             lastName: $('#lastNameField').val(),
             dob: $('#dobField').val()
@@ -104,7 +88,7 @@ var registration_controller = {
     },
 
     hideRegistrationOk: function () {
-        $('#oplCountries').select2("val", "");
+        $('#country').select2("val", "");
         $('#firstNameField').val('');
         $('#lastNameField').val('');
         $('#dobField').val('');

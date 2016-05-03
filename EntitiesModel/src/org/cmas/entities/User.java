@@ -14,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
@@ -97,6 +98,10 @@ public abstract class User implements Serializable, HasId {
     @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
     private byte[] userpic;
 
+    @Expose
+    @Transient
+    private String userpicBase64;
+
     //end set by user from mobile
 
     protected User() {
@@ -149,6 +154,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setUserBalance(UserBalance userBalance) {
         this.userBalance = userBalance;
+    }
+
+    public String getUserpicBase64() {
+        return userpicBase64;
+    }
+
+    public void setUserpicBase64(String userpicBase64) {
+        this.userpicBase64 = userpicBase64;
     }
 
     @Override

@@ -137,13 +137,13 @@ input, p {
     margin-top: 25px;
 }
 
-.panel span,
 .panel a,
 .panel label {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .panel span {
+    font-size: 20px;
     color: #f8f8f8;
 }
 
@@ -181,6 +181,12 @@ input, p {
     position: relative;
     padding-left: 10px;
     white-space: nowrap
+}
+
+.star {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
 }
 
 

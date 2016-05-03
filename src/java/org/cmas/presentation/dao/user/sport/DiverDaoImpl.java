@@ -3,6 +3,7 @@ package org.cmas.presentation.dao.user.sport;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
+import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.text.StringUtil;
 import org.hibernate.Criteria;
@@ -10,12 +11,14 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on Feb 05, 2016
  *
  * @author Alexander Petukhov
  */
+@SuppressWarnings("unchecked")
 public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
     @Override
@@ -52,5 +55,15 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String hql = "select d from org.cmas.entities.diver.Diver d"
                      + " inner join d.secondaryPersonalCards c where c.number = :number";
         return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
+    }
+
+    @Override
+    public List<Diver> searchForVerification(DiverVerificationFormObject formObject) {
+        return (List<Diver>) createCriteria()
+                .add(Restrictions.eq("lastName", formObject.getLastName()))
+                .createAlias("federation", "fed")
+                .createAlias("fed.country", "country")
+                .add(Restrictions.eq("country.code", formObject.getCountry().trim()))
+                .list();
     }
 }

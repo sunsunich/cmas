@@ -8,7 +8,7 @@
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 <my:basePage title="cmas.face.index.header" indexpage="false"
-             customScripts="js/model/registration_model.js,js/controller/registration_controller.js"
+             customScripts="js/model/registration_model.js,js/controller/country_controller.js,js/controller/registration_controller.js"
         >
     <script>
         var labels = {
@@ -25,7 +25,7 @@
         <form id="regForm" action="">
             <div class="reg-block">
                 <div class="form-row">
-                    <select name="oplCountries" id="oplCountries" style="width: 100%" size=1 onChange="">
+                    <select name="country" id="country" style="width: 100%" size=1 onChange="">
                         <option value=''><s:message code="cmas.face.registration.form.label.country"/></option>
                         <c:forEach items="${countries}" var="country">
                             <option value='${country.code}'>${country.name}</option>

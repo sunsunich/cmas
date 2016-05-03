@@ -21,6 +21,10 @@ var login_controller = {
             window.location.href = "/diver-registration.html";
             return false;
         });
+        $('#verifyLink').click(function () {
+            window.location.href = "/diver-verification.html";
+            return false;
+        });
     },
 
     sendLogin: function () {
