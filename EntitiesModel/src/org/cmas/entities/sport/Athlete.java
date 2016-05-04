@@ -19,7 +19,7 @@ public class Athlete extends CardUser {
 
 
     @OneToMany(mappedBy = "athlete")
-    private List<PersonalCard> secondaryPersonalCards;
+    private List<PersonalCard> cards;
 
     public Athlete() {
     }
@@ -28,11 +28,11 @@ public class Athlete extends CardUser {
         super(id);
     }
 
-    public List<PersonalCard> getSecondaryPersonalCards() {
-        return secondaryPersonalCards;
+    public List<PersonalCard> getCards() {
+        return cards;
     }
 
-    public void setSecondaryPersonalCards(List<PersonalCard> secondaryPersonalCards) {
-        this.secondaryPersonalCards = secondaryPersonalCards;
+    public void setCards(List<PersonalCard> cards) {
+        this.cards = cards;
     }
 }

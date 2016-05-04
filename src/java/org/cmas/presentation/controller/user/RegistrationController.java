@@ -123,7 +123,7 @@ public class RegistrationController {
             for (Diver diver : divers) {
                 byte[] userpic = diver.getUserpic();
                 if (userpic != null) {
-                    diver.setUserpicBase64(Base64Coder.encodeString(userpic));
+                    diver.setPhoto(Base64Coder.encodeString(userpic));
                 }
             }
             model.addAttribute("divers", divers);

@@ -37,8 +37,8 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             Map<String, Diver> divers = new HashMap<>();
             for (int i = 0; i < wb.getNumberOfSheets(); i++) {
                 Sheet sheet = wb.getSheetAt(i);
-                DiverTypeLevel diverTypeLevel = evalDiverTypeLevel(sheet);
-                if (diverTypeLevel == null) {
+                PersonalCard globalCard = evalDiverTypeLevel(sheet);
+                if (globalCard == null) {
                     continue;
                 }
                 for (int r = 1; r < sheet.getPhysicalNumberOfRows(); r++) {
@@ -47,19 +47,20 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
                     if (diver == null) {
                         continue;
                     }
-                    diver.setDiverType(diverTypeLevel.diverType);
-                    diver.setDiverLevel(diverTypeLevel.diverLevel);
-                    PersonalCard card = diver.getSecondaryPersonalCards().get(0);
-                    card.setDiverLevel(diverTypeLevel.diverLevel);
-                    card.setPersonalCardType(diverTypeLevel.personalCardType);
-                    card.setFederationName(diverTypeLevel.federationCardName);
+                    diver.setDiverType(globalCard.getDiverType());
+                    diver.setDiverLevel(globalCard.getDiverLevel());
+                    PersonalCard card = diver.getCards().get(0);
+                    card.setDiverType(globalCard.getDiverType());
+                    card.setDiverLevel(globalCard.getDiverLevel());
+                    card.setCardType(globalCard.getCardType());
+                    card.setFederationName(globalCard.getFederationName());
 
                     Diver existingDiver = divers.get(diver.getEmail());
                     if (existingDiver == null) {
                         divers.put(diver.getEmail(), diver);
                     } else {
-                        List<PersonalCard> secondaryPersonalCards = existingDiver.getSecondaryPersonalCards();
-                        secondaryPersonalCards.add(card);
+                        List<PersonalCard> existingDiverCards = existingDiver.getCards();
+                        existingDiverCards.add(card);
                         if (diver.getDiverType() == DiverType.INSTRUCTOR) {
                             existingDiver.setDiverType(DiverType.INSTRUCTOR);
                         }
@@ -108,74 +109,129 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             Diver instructor = new Diver();
             instructor.setDiverType(DiverType.INSTRUCTOR);
             PersonalCard instructorCard = new PersonalCard();
-            instructorCard.setPersonalCardType(PersonalCardType.NATIONAL);
+            instructorCard.setCardType(PersonalCardType.NATIONAL);
+            instructorCard.setDiverType(DiverType.INSTRUCTOR);
             instructorCard.setNumber(instructorCardNumber);
-            List<PersonalCard> secondaryCards = new ArrayList<>(1);
-            secondaryCards.add(instructorCard);
-            instructor.setSecondaryPersonalCards(secondaryCards);
+            List<PersonalCard> cards = new ArrayList<>(1);
+            cards.add(instructorCard);
+            instructor.setCards(cards);
             diver.setInstructor(instructor);
         }
 
         PersonalCard card = new PersonalCard();
         card.setNumber(row.getCell(5).getStringCellValue());
-        List<PersonalCard> secondaryCards = new ArrayList<>();
-        secondaryCards.add(card);
-        diver.setSecondaryPersonalCards(secondaryCards);
+        List<PersonalCard> cards = new ArrayList<>();
+        cards.add(card);
+        diver.setCards(cards);
         return diver;
     }
 
     @Nullable
-    private static DiverTypeLevel evalDiverTypeLevel(Sheet sheet) {
+    private static PersonalCard evalDiverTypeLevel(Sheet sheet) {
         String sheetName = sheet.getSheetName();
         if (StringUtil.isTrimmedEmpty(sheetName)) {
             return null;
         }
-        DiverTypeLevel diverTypeLevel = new DiverTypeLevel();
+        PersonalCard card = new PersonalCard();
         char firstChar = sheetName.charAt(0);
         if (firstChar == 'I' || firstChar == 'i' || firstChar == 'И' || firstChar == 'и') {
-            diverTypeLevel.diverType = DiverType.INSTRUCTOR;
+            card.setDiverType(DiverType.INSTRUCTOR);
         } else {
-            diverTypeLevel.diverType = DiverType.DIVER;
+            card.setDiverType(DiverType.DIVER);
         }
         char lastChar = sheetName.charAt(sheetName.length() - 1);
         switch (lastChar) {
             case '1':
-                diverTypeLevel.diverLevel = DiverLevel.ONE_STAR;
+                card.setDiverLevel(DiverLevel.ONE_STAR);
                 break;
             case '2':
-                diverTypeLevel.diverLevel = DiverLevel.TWO_STAR;
+                card.setDiverLevel(DiverLevel.TWO_STAR);
                 break;
             case '3':
-                diverTypeLevel.diverLevel = DiverLevel.THREE_STAR;
+                card.setDiverLevel(DiverLevel.THREE_STAR);
                 break;
         }
-
         Cell sheetHeaderCell = sheet.getRow(0).getCell(0);
         String header = sheetHeaderCell.getRichStringCellValue().getString().toUpperCase(Locale.ENGLISH);
         if (!StringUtil.isTrimmedEmpty(header)) {
-            diverTypeLevel.federationCardName = header;
-            if (header.contains("NITROX")) {
-                diverTypeLevel.personalCardType = PersonalCardType.NITROX;
-            } else if (header.contains("ICE")) {
-                diverTypeLevel.personalCardType = PersonalCardType.ICE_DIVING;
-            } else if (header.contains("DRY")) {
-                diverTypeLevel.personalCardType = PersonalCardType.DRY_SUIT;
-            } else if (header.contains("SIDE")) {
-                diverTypeLevel.personalCardType = PersonalCardType.SIDE_MOUNT;
-            } else if (header.contains("CAVE")) {
-                diverTypeLevel.personalCardType = PersonalCardType.CAVE;
+            card.setFederationName(header);
+            if (header.contains("CHILDREN")) {
+                card.setCardType(PersonalCardType.CHILDREN_DIVING);
+            } else if (header.contains("ALTITUDE")) {
+                card.setCardType(PersonalCardType.ALTITUDE_DIVER);
+            } else if (header.contains("COMPRESSOR")) {
+                card.setCardType(PersonalCardType.COMPRESSOR_OPERATOR);
+            } else if (header.contains("DISABLED")) {
+                card.setCardType(PersonalCardType.DISABLED_DIVING);
+            } else if (header.contains("DRIFT")) {
+                card.setCardType(PersonalCardType.DRIFT_DIVING);
+            } else if (header.contains("GYMSWIMMING")) {
+                card.setCardType(PersonalCardType.GYMSWIMMING);
+            } else if (header.contains("HYDROBIKE")) {
+                card.setCardType(PersonalCardType.HYDROBIKE);
+            } else if (header.contains("INTRO")) {
+                card.setCardType(PersonalCardType.INTRO_TO_SCUBA);
+            } else if (header.contains("NAVIGATION")) {
+                card.setCardType(PersonalCardType.NAVIGATION);
+            } else if (header.contains("NIGHT")) {
+                card.setCardType(PersonalCardType.NIGHT);
+            } else if (header.contains("PHOTO")) {
+                card.setCardType(PersonalCardType.PHOTO);
+            } else if (header.contains("RESCUE") && header.contains("SELF")) {
+                card.setCardType(PersonalCardType.SELF_RESCUE);
+            } else if (header.contains("RESCUE")) {
+                card.setCardType(PersonalCardType.RESCUE);
+            } else if (header.contains("SCOOTER")) {
+                card.setCardType(PersonalCardType.SCOOTER);
+            } else if (header.contains("SKILLS")) {
+                card.setCardType(PersonalCardType.SKILLS);
+            } else if (header.contains("SNORKEL")) {
+                card.setCardType(PersonalCardType.SNORKEL);
+            } else if (header.contains("WRECK")) {
+                card.setCardType(PersonalCardType.WRECK);
+            } else if (header.contains("SCIENTIFIC")) {
+                card.setCardType(PersonalCardType.SCIENTIFIC);
+            } else if (header.contains("ARCHAEOLOGY")) {
+                card.setCardType(PersonalCardType.UNDERWATER_ARCHAEOLOGY);
+            } else if (header.contains("GEOLOGY")) {
+                card.setCardType(PersonalCardType.UNDERWATER_GEOLOGY);
+            } else if (header.contains("BIOLOGY") && header.contains("FRESHWATER")) {
+                card.setCardType(PersonalCardType.FRESHWATER_BIOLOGY);
+            } else if (header.contains("BIOLOGY") && header.contains("MARINE")) {
+                card.setCardType(PersonalCardType.MARINE_BIOLOGY);
+            } else if (header.contains("OCEAN") && header.contains("DISCOVERY")) {
+                card.setCardType(PersonalCardType.OCEAN_DISCOVERY);
+            } else if (header.contains("HERITAGE") && header.contains("DISCOVERY")) {
+                card.setCardType(PersonalCardType.HERITAGE_DISCOVERY);
+            } else if (header.contains("REBREATHER")) {
+                card.setCardType(PersonalCardType.REBREATHER);
+            } else if (header.contains("OXYGEN")) {
+                card.setCardType(PersonalCardType.OXYGEN_ADMINISTATOR);
+            } else if (header.contains("TRIMIX") && header.contains("GASBLENDER")) {
+                card.setCardType(PersonalCardType.TRIMIX_GASBLENDER);
             } else if (header.contains("TRIMIX")) {
-                diverTypeLevel.personalCardType = PersonalCardType.TRIMIX;
+                card.setCardType(PersonalCardType.TRIMIX);
+            } else if (header.contains("NITROX") && header.contains("GASBLENDER")) {
+                card.setCardType(PersonalCardType.NITROX_GASBLENDER);
+            } else if (header.contains("NITROX")) {
+                card.setCardType(PersonalCardType.NITROX);
+            } else if (header.contains("ICE")) {
+                card.setCardType(PersonalCardType.ICE_DIVING);
+            } else if (header.contains("DRY")) {
+                card.setCardType(PersonalCardType.DRY_SUIT);
+            } else if (header.contains("SIDE")) {
+                card.setCardType(PersonalCardType.SIDE_MOUNT);
+            } else if (header.contains("CAVE")) {
+                card.setCardType(PersonalCardType.CAVE);
             } else if (header.contains("RANGE")) {
-                diverTypeLevel.personalCardType = PersonalCardType.EXTENDED_RANGE;
+                card.setCardType(PersonalCardType.EXTENDED_RANGE);
             } else if (header.contains("APNOEA")) {
-                diverTypeLevel.personalCardType = PersonalCardType.APNOEA;
+                card.setCardType(PersonalCardType.APNOEA);
             }
         }
-        if (diverTypeLevel.personalCardType == null) {
-            diverTypeLevel.personalCardType = PersonalCardType.NATIONAL;
+        if (card.getCardType() == null) {
+            card.setCardType(PersonalCardType.NATIONAL);
         }
-
-        return diverTypeLevel;
+        return card;
     }
 }

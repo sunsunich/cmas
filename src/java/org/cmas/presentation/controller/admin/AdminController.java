@@ -1,9 +1,11 @@
 package org.cmas.presentation.controller.admin;
 
 import org.cmas.entities.Country;
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.UserDao;
@@ -16,6 +18,7 @@ import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
@@ -55,6 +58,8 @@ public class AdminController {
     protected AmateurDao amateurDao;
     @Autowired
     private DiverDao diverDao;
+    @Autowired
+    private DiverService diverService;
 
     @Autowired
     private CountryDao countryDao;
@@ -74,6 +79,11 @@ public class AdminController {
     @ModelAttribute("roles")
     public Role[] getRoles() {
         return new Role[]{Role.ROLE_DIVER, Role.ROLE_FEDERATION_ADMIN};
+    }
+
+    @ModelAttribute("diverTypes")
+    public DiverType[] getDiverTypes() {
+        return DiverType.values();
     }
 
     private <T extends User> UserDao<T> getDao(Role role) {
@@ -107,6 +117,13 @@ public class AdminController {
             dao = getDao(Role.valueOf(userRole));
         }
         List<? extends User> users = dao.searchUsers(model);
+        if (dao instanceof DiverDao) {
+            for (User user : users) {
+                Diver diver = (Diver) user;
+                List<PersonalCard> cardsToShow = diverService.getCardsToShow(diver);
+                diver.setCards(cardsToShow);
+            }
+        }
         int count = dao.getMaxCountSearchUsers(model);
         return getIndexPage(model, users, count);
     }
@@ -114,7 +131,6 @@ public class AdminController {
     private ModelAndView getIndexPage(@ModelAttribute UserSearchFormObject model, List<? extends User> users, int count) {
         ModelMap mm = new ModelMap();
         List<Country> countries = countryDao.getAll();
-        countries.add(0, Country.EMPTY_COUNTRY);
         mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
         mm.addAttribute("command", model);
         mm.addAttribute("users", users);

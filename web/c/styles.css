@@ -127,8 +127,9 @@ input, p {
 #privateTab, #socialTab {
     font-size: 26px;
     font-weight: bold;
-    color: #f8f8f8;
+    color: #99b5c3;
     margin-left: 5%;
+    text-decoration: underline;
 }
 
 #socialTab {
@@ -136,7 +137,7 @@ input, p {
 }
 
 #privateTab.inactive, #socialTab.inactive {
-    color: #99b5c3;
+    color: #f8f8f8;
 }
 
 .panel {

@@ -1,8 +1,10 @@
 package org.cmas.presentation.controller.fedadmin;
 
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
@@ -43,6 +45,11 @@ public class FederationAdminController {
     @Autowired
     private DiverService diverService;
 
+    @ModelAttribute("diverTypes")
+    public DiverType[] getDiverTypes() {
+        return DiverType.values();
+    }
+
     @RequestMapping("/fed/index.html")
     public ModelAndView welcomePage(@ModelAttribute UserSearchFormObject model, @ModelAttribute("xlsFileFormObject") FileUploadBean fileBean) {
         return showIndexPage(model, fileBean);
@@ -60,6 +67,10 @@ public class FederationAdminController {
         mm.addAttribute("command", model);
         mm.addAttribute("xlsFileFormObject", fileBean);
         List<Diver> users = diverDao.searchUsers(model);
+        for (Diver user : users) {
+            List<PersonalCard> cardsToShow = diverService.getCardsToShow(user);
+            user.setCards(cardsToShow);
+        }
         mm.addAttribute("users", users);
         mm.addAttribute("count", diverDao.getMaxCountSearchUsers(model));
         return new ModelAndView("fed/index", mm);

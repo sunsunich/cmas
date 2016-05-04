@@ -5,6 +5,7 @@
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib uri="http://jsptags.com/tags/navigation/pager" prefix="pg" %>
 
+<jsp:useBean id="diverTypes" scope="request" type="org.cmas.entities.diver.DiverType[]"/>
 <jsp:useBean id="users" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
@@ -18,10 +19,10 @@
     </ff:form>
 
     <ff:form submitText="Find" action="/fed/index.html" method="GET" noRequiredText="true">
-
         <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
         <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
         <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
+        <ff:select path="diverType" label="Diver type" options="${diverTypes}" itemValue="name" itemLabel="name"/>
         <input type="hidden" name="sort" value="${command.sort}"/>
         <input type="hidden" name="dir" value="${command.dir}"/>
     </ff:form>
@@ -70,7 +71,7 @@
                 </tr>
                 <c:forEach items="${users}" var="user" varStatus="st">
                     <tr class="info" <c:if test="${!user.enabled}"> style="color:#999999"</c:if>>
-                        <td><a href="mailto:${user.email}">${user.email}</a></td>
+                        <td class="email"><a href="mailto:${user.email}">${user.email}</a></td>
                         <td>${user.firstName}</td>
                         <td>${user.lastName}</td>
                         <td><fmt:formatDate value="${user.dob}" pattern="dd.MM.yyyy"/></td>
@@ -87,15 +88,8 @@
                             </c:choose>
                         </td>
                         <td>
-                            <c:forEach var="card" items="${user.secondaryPersonalCards}">
-                                <c:choose>
-                                    <c:when test="${card.personalCardType.name == 'NATIONAL'}">
-                                        <c:if test="${card.diverLevel != null}">${card.diverLevel.name}</c:if>
-                                    </c:when>
-                                    <c:otherwise>
-                                        ${card.personalCardType.name}
-                                    </c:otherwise>
-                                </c:choose>
+                            <c:forEach var="card" items="${user.cards}">
+                                <div>${card.printName}</div>
                                 <br/>
                             </c:forEach>
                         </td>

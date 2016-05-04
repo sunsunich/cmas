@@ -4,6 +4,8 @@ package org.cmas.backend;
 import com.google.zxing.WriterException;
 import com.mortennobel.imagescaling.ResampleOp;
 import org.cmas.MockUtil;
+import org.cmas.entities.CardPrintInfo;
+import org.cmas.entities.CardPrintUtil;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
@@ -49,28 +51,10 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float STAR_Y = 140.0f / 414.0f;
     private static final float STAR_X_SPACE = 10.0f / 640.0f;
 
-    @SuppressWarnings({"OverlyLongMethod", "MagicNumber"})
+    @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
     public synchronized BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
-        String fileName = "cmas_card.png";
-        switch (card.getPersonalCardType()) {
-            case PRIMARY:
-            case NATIONAL:
-                fileName = "cmas_card.png";
-                break;
-            case NITROX:
-                fileName = "cmas_card_yellow.png";
-                break;
-            case DRY_SUIT:
-            case APNOEA:
-            case ICE_DIVING:
-            case SIDE_MOUNT:
-            case CAVE:
-            case TRIMIX:
-            case EXTENDED_RANGE:
-                fileName = "cmas_card_gray.png";
-                break;
-        }
+        String fileName = getFileName(card);
         BufferedImage initImage = ImageIO.read(getClass().getResourceAsStream(fileName));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
@@ -85,27 +69,17 @@ public class DrawCardServiceImpl implements DrawCardService {
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.drawImage(initImage, 0, 0, null);
 
-        String cardNumber = card.getNumber();
-        if (card.getPersonalCardType() == PersonalCardType.PRIMARY) {
-            @SuppressWarnings("NumericCastThatLosesPrecision")
-            int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
-            Pixels qrCode = BarcodeEncoder.createQRCode(
-                    cardNumber, qrSize, qrSize
-            );
-            BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
-            qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
-            //noinspection NumericCastThatLosesPrecision
-            g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
-        }
-
-        g2d.setPaint(Color.BLACK);
-        g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
+        Diver diver = card.getDiver();
+        String cardNumber = diver.getPrimaryPersonalCard().getNumber();
+        if (card.getCardType() == PersonalCardType.PRIMARY) {
+            g2d.setPaint(Color.BLACK);
+            g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
 //        String cardNumber1 = cardNumber.substring(0, 4);
-        g2d.drawString(
-                cardNumber,
-                CARD_NUMBER_X_1 * (float) width,
-                CARD_NUMBER_Y * (float) height
-        );
+            g2d.drawString(
+                    cardNumber,
+                    CARD_NUMBER_X_1 * (float) width,
+                    CARD_NUMBER_Y * (float) height
+            );
 //        String cardNumber2 = cardNumber.substring(4, 8);
 //        g2d.drawString(
 //                cardNumber2,
@@ -124,12 +98,22 @@ public class DrawCardServiceImpl implements DrawCardService {
 //                CARD_NUMBER_X_4 * (float) width,
 //                CARD_NUMBER_Y * (float) height
 //        );
+        }
+
+        @SuppressWarnings("NumericCastThatLosesPrecision")
+        int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
+        Pixels qrCode = BarcodeEncoder.createQRCode(
+                cardNumber, qrSize, qrSize
+        );
+        BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
+        qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
+        //noinspection NumericCastThatLosesPrecision
+        g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
 
         g2d.setPaint(new Color(0x25456c));
         g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
         float leftX = NAME_LEFT_X * (float) width;
         float rightX = NAME_RIGHT_X * (float) width;
-        Diver diver = card.getDiver();
         String firstName = diver.getFirstName();
         String lastName = diver.getLastName();
         String fullName = firstName + ' ' + lastName;
@@ -140,47 +124,10 @@ public class DrawCardServiceImpl implements DrawCardService {
         } else {
             drawWithCenterAlign(g2d, fullName, leftX, rightX, FIRST_NAME_Y * (float) height);
         }
-        String diverTypeStr = "";
-        switch (card.getPersonalCardType()){
-            case PRIMARY:
-            case NATIONAL:
-                switch (diver.getDiverType()) {
-                    case DIVER:
-                        diverTypeStr = "DIVER";
-                        break;
-                    case INSTRUCTOR:
-                        diverTypeStr = "INSTRUCTOR";
-                        break;
-                }
-                break;
-            case NITROX:
-                diverTypeStr += "NITROX";
-                break;
-            case DRY_SUIT:
-                diverTypeStr += "DRY SUIT";
-                break;
-            case APNOEA:
-                diverTypeStr += "APNOEA";
-                break;
-            case ICE_DIVING:
-                diverTypeStr += "ICE DIVING";
-                break;
-            case SIDE_MOUNT:
-                diverTypeStr += "SIDE MOUNT";
-                break;
-            case CAVE:
-                diverTypeStr += "CAVE";
-                break;
-            case TRIMIX:
-                diverTypeStr += "TRIMIX";
-                break;
-            case EXTENDED_RANGE:
-                diverTypeStr += "EXTENDED RANGE";
-                break;
-        }
-        drawWithCenterAlign(g2d, diverTypeStr, leftX, rightX, DIVER_TYPE_Y * (float) height);
+        CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(card);
+        drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y * (float) height);
 
-        if (card.getDiverLevel() != null) {
+        if (cardPrintInfo.drawStars) {
             float fullStarWidth;
             float startPoint;
             float starSize = (float) width * STAR_SCALE_FACTOR;
@@ -205,10 +152,71 @@ public class DrawCardServiceImpl implements DrawCardService {
                     drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
                     drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
                     break;
+                case FOUR_STAR:
+                    fullStarWidth = starSize * 4.0f + 2.0f * starSpace;
+                    startPoint = middlePoint - fullStarWidth / 2.0f;
+                    drawStar(starSize, height, g2d, starImage, startPoint);
+                    drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
+                    drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
+                    drawStar(starSize, height, g2d, starImage, startPoint + 3.0f * starSize + 3.0f * starSpace);
+                    break;
             }
         }
         g2d.dispose();
         return finalImage;
+    }
+
+    private static String getFileName(PersonalCard card) {
+        String fileName = "cmas_card.png";
+        switch (card.getCardType()) {
+            case CHILDREN_DIVING:
+            case PRIMARY:
+            case NATIONAL:
+                fileName = "cmas_card.png";
+                break;
+            case EXTENDED_RANGE:
+            case TRIMIX:
+            case TRIMIX_GASBLENDER:
+            case OXYGEN_ADMINISTATOR:
+            case REBREATHER:
+            case NITROX:
+            case NITROX_GASBLENDER:
+                fileName = "cmas_card_yellow.png";
+                break;
+            case DRY_SUIT:
+            case APNOEA:
+            case ICE_DIVING:
+            case SIDE_MOUNT:
+            case CAVE:
+            case ALTITUDE_DIVER:
+            case COMPRESSOR_OPERATOR:
+            case DISABLED_DIVING:
+            case DRIFT_DIVING:
+            case GYMSWIMMING:
+            case HYDROBIKE:
+            case INTRO_TO_SCUBA:
+            case NAVIGATION:
+            case NIGHT:
+            case PHOTO:
+            case RESCUE:
+            case SCOOTER:
+            case SELF_RESCUE:
+            case SKILLS:
+            case SNORKEL:
+            case WRECK:
+                fileName = "cmas_card_gray.png";
+                break;
+            case SCIENTIFIC:
+            case UNDERWATER_ARCHAEOLOGY:
+            case UNDERWATER_GEOLOGY:
+            case FRESHWATER_BIOLOGY:
+            case OCEAN_DISCOVERY:
+            case MARINE_BIOLOGY:
+            case HERITAGE_DISCOVERY:
+                fileName = "cmas_card_green.png";
+                break;
+        }
+        return fileName;
     }
 
     @SuppressWarnings("NumericCastThatLosesPrecision")

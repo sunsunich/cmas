@@ -788,6 +788,7 @@
           <option value="CallToStringEquals" />
           <option value="CallToStringEqualsIgnoreCase" />
           <option value="MagicNumber" />
+          <option value="NestedSwitchStatement" />
         </list>
       </option>
     </inspection_tool>

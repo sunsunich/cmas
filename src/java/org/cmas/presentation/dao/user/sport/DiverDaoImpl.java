@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
@@ -34,6 +35,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria criteria = super.makeSearchRequest(form);
+        String diverType = form.getDiverType();
+        if (!StringUtil.isEmpty(diverType)) {
+            criteria.add(Restrictions.eq("diverType", DiverType.valueOf(diverType)));
+        }
         String country = form.getCountryCode();
         if (!StringUtil.isTrimmedEmpty(country)) {
             criteria.createAlias("federation", "fed")
@@ -51,9 +56,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
-    public Diver getDiverBySecondaryCardNumber(String cardNumber) {
+    public Diver getDiverByCardNumber(String cardNumber) {
         String hql = "select d from org.cmas.entities.diver.Diver d"
-                     + " inner join d.secondaryPersonalCards c where c.number = :number";
+                     + " inner join d.cards c where c.number = :number";
         return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
     }
 

@@ -1,6 +1,7 @@
 package org.cmas.presentation.model.user;
 
 import org.cmas.entities.Role;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.SortPaginatorImpl;
 import org.cmas.presentation.validator.Validatable;
@@ -33,6 +34,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     private String lastName;
     private String countryCode;
     private String userRole;
+    private String diverType;
 
     public UserSearchFormObject() {
         super(UserReportColumnNames.email);
@@ -41,11 +43,20 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     @Override
     public void validate(Errors errors) {
         ValidatorUtils.validateEnum(errors, userRole, Role.class, "userRole", "validation.incorrectField");
+        ValidatorUtils.validateEnum(errors, diverType, DiverType.class, "diverType", "validation.incorrectField");
     }
 
     @Override
     protected Class<UserReportColumnNames> getEnumClass() {
         return UserReportColumnNames.class;
+    }
+
+    public String getDiverType() {
+        return diverType;
+    }
+
+    public void setDiverType(String diverType) {
+        this.diverType = diverType;
     }
 
     public String getEmail() {

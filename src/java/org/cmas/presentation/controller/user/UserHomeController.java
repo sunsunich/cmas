@@ -91,6 +91,7 @@ public class UserHomeController {
         if (isFree) {
             diver.setHasPayed(true);
             diverDao.updateModel(diver);
+            return new ModelAndView("redirect:/secure/welcome-continue.html");
         }
         ModelMap mm = new ModelMap();
         mm.addAttribute("isFree", isFree);

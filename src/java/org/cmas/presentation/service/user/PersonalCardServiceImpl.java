@@ -46,7 +46,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Override
     public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao) {
         final PersonalCard personalCard = new PersonalCard();
-        personalCard.setPersonalCardType(PersonalCardType.PRIMARY);
+        personalCard.setCardType(PersonalCardType.PRIMARY);
         saveAndSetCardNumber(personalCard);
         switch (cardUser.getRole()) {
             case ROLE_ATHLETE:
@@ -56,6 +56,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
                 Diver diver = (Diver) cardUser;
                 personalCard.setDiver(diver);
                 personalCard.setDiverLevel(diver.getDiverLevel());
+                personalCard.setDiverType(diver.getDiverType());
                 scheduler.schedule(new Runnable() {
                     @Override
                     public void run() {

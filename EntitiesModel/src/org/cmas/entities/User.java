@@ -100,7 +100,7 @@ public abstract class User implements Serializable, HasId {
 
     @Expose
     @Transient
-    private String userpicBase64;
+    private String photo;
 
     //end set by user from mobile
 
@@ -156,12 +156,12 @@ public abstract class User implements Serializable, HasId {
         this.userBalance = userBalance;
     }
 
-    public String getUserpicBase64() {
-        return userpicBase64;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setUserpicBase64(String userpicBase64) {
-        this.userpicBase64 = userpicBase64;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Override

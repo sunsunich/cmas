@@ -3,17 +3,15 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
+<jsp:useBean id="cards" scope="request" type="java.util.List<org.cmas.entities.PersonalCard>"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/controller/profile_controller.js,js/controller/cards_controller.js"
+               customScripts="js/model/profile_model.js,js/controller/cards_controller.js"
         >
     <script type="application/javascript">
-        var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
-        var cmas_secondaryCardIds = [];
-        <c:forEach items="${diver.secondaryPersonalCards}" var="card" varStatus="st">
-        cmas_secondaryCardIds[${st.count - 1}] = "${card.id}";
+        var cmas_cardIds = [];
+        <c:forEach items="${cards}" var="card" varStatus="st">
+        cmas_cardIds[${st.count - 1}] = "${card.id}";
         </c:forEach>
     </script>
 

@@ -1,0 +1,8 @@
+.info td{
+    text-align: center;
+    vertical-align: top;
+}
+
+td.email {
+    text-align: left;
+}

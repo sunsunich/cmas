@@ -14,6 +14,7 @@
 
 <ff:row path="${path}" label="${label}">
     <form:select path="${path}" htmlEscape="true" cssErrorClass="errorInput" cssClass="blue">
+        <form:option value="" label="" />
         <c:if test="${not empty options}">
             <c:choose>
                 <c:when test="${empty itemValue}">

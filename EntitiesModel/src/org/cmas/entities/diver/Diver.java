@@ -39,7 +39,7 @@ public class Diver extends CardUser {
     private List<LogbookEntry> logbookEntries;
 
     @OneToMany(mappedBy = "diver")
-    private List<PersonalCard> secondaryPersonalCards;
+    private List<PersonalCard> cards;
 
     @ManyToOne
     private Diver instructor;
@@ -87,12 +87,12 @@ public class Diver extends CardUser {
         this.hasPayed = hasPayed;
     }
 
-    public List<PersonalCard> getSecondaryPersonalCards() {
-        return secondaryPersonalCards;
+    public List<PersonalCard> getCards() {
+        return cards;
     }
 
-    public void setSecondaryPersonalCards(List<PersonalCard> secondaryPersonalCards) {
-        this.secondaryPersonalCards = secondaryPersonalCards;
+    public void setCards(List<PersonalCard> cards) {
+        this.cards = cards;
     }
 
     public Diver getInstructor() {
@@ -108,8 +108,8 @@ public class Diver extends CardUser {
     public String toString() {
         StringBuilder cardStr = new StringBuilder();
         cardStr.append('[');
-        if (secondaryPersonalCards != null) {
-            for (PersonalCard card : secondaryPersonalCards) {
+        if (cards != null) {
+            for (PersonalCard card : cards) {
                 cardStr.append(card).append(';');
             }
         }
@@ -118,7 +118,7 @@ public class Diver extends CardUser {
                "instructor=" + instructor +
                ", diverLevel=" + diverLevel +
                ", diverType=" + diverType +
-               ", secondaryPersonalCards=" + cardStr +
+               ", cards=" + cardStr +
                "} " + super.toString();
     }
 }

@@ -17,11 +17,11 @@
                 <div class="userpic-selection">
                     <img id="userpic"
                             <c:choose>
-                                <c:when test="${diver.userpicBase64 == null}">
+                                <c:when test="${diver.photo == null}">
                                     src="${pageContext.request.contextPath}/i/no_img.png"
                                 </c:when>
                                 <c:otherwise>
-                                    src="data:image/png;base64,${diver.userpicBase64}"
+                                    src="data:image/png;base64,${diver.photo}"
                                 </c:otherwise>
                             </c:choose>
                          class="userpicPreview userpic-selection-left"/>

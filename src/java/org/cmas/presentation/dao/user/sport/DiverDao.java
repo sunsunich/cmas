@@ -19,7 +19,7 @@ public interface DiverDao extends UserDao<Diver> {
 
     int getFullyRegisteredDiverCnt();
 
-    Diver getDiverBySecondaryCardNumber(String cardNumber);
+    Diver getDiverByCardNumber(String cardNumber);
 
     List<Diver> searchForVerification(DiverVerificationFormObject formObject);
 }

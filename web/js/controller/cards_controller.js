@@ -3,10 +3,10 @@ var cards_controller = {
     init: function () {
         this.setListeners();
         // this.loadCard(cmas_primaryCardId);
-        for (var i = 0; i < cmas_secondaryCardIds.length; i++) {
-            if (cmas_secondaryCardIds[i] != cmas_primaryCardId) {
-                this.loadCard(cmas_secondaryCardIds[i]);
-            }
+        for (var i = 0; i < cmas_cardIds.length; i++) {
+          //  if (cmas_cardIds[i] != cmas_primaryCardId) {
+                this.loadCard(cmas_cardIds[i]);
+         //   }
         }
     },
 

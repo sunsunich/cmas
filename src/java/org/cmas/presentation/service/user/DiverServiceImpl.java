@@ -2,6 +2,7 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.backend.xls.DiverXlsParser;
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.diver.Diver;
@@ -15,9 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.EnumMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created on Apr 29, 2016
@@ -36,6 +41,28 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Autowired
     private PersonalCardDao personalCardDao;
 
+    @Override
+    public List<PersonalCard> getCardsToShow(Diver diver) {
+        List<PersonalCard> cards = diver.getCards();
+        Map<PersonalCardType, PersonalCard> result
+                = new EnumMap<>(PersonalCardType.class);
+        for (PersonalCard card : cards) {
+            PersonalCardType cardType = card.getCardType();
+            if (cardType == PersonalCardType.PRIMARY) {
+                continue;
+            }
+            PersonalCard existingCard = result.get(cardType);
+            if (existingCard == null) {
+                result.put(cardType, card);
+            } else {
+                if (existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                    result.put(cardType, card);
+                }
+            }
+        }
+        return new ArrayList<>(result.values());
+    }
+
     @SuppressWarnings("CallToStringEqualsIgnoreCase")
     @Override
     public void uploadDivers(NationalFederation federation, InputStream file) throws Exception {
@@ -49,18 +76,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             throw new UnsupportedOperationException("Federation not supported");
         }
         for (Diver diver : divers) {
-            Diver dbInstructor = null;
-            Diver instructor = diver.getInstructor();
-            if (instructor != null) {
-                dbInstructor = diverDao.getDiverBySecondaryCardNumber(
-                        instructor.getSecondaryPersonalCards().get(0).getNumber()
-                );
-            }
-            if (dbInstructor == null) {
-                diver.setInstructor(null);
-            } else {
-                diver.setInstructor(dbInstructor);
-            }
             String email = diver.getEmail();
             Diver dbDiver = diverDao.getByEmail(email);
             boolean isNew = dbDiver == null;
@@ -89,31 +104,32 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 dbDiver.setDob(dob);
             }
             DiverType diverType = diver.getDiverType();
-            if (diverType != null) {
+            if (diverType != null && dbDiver.getDiverType() != DiverType.INSTRUCTOR) {
                 dbDiver.setDiverType(diverType);
             }
             DiverLevel diverLevel = diver.getDiverLevel();
-            if (diverLevel != null) {
+            DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
+            if (diverLevel != null
+                && (dbDiverDiverLevel == null
+                    || dbDiverDiverLevel.ordinal() < diverLevel.ordinal())
+                    ) {
                 dbDiver.setDiverLevel(diverLevel);
             }
-            if (dbDiver.getInstructor() == null && diver.getInstructor() != null) {
-                dbDiver.setInstructor(diver.getInstructor());
-            }
-
             if (isNew) {
                 diverDao.save(dbDiver);
             } else {
                 diverDao.updateModel(dbDiver);
             }
-            for (PersonalCard card : diver.getSecondaryPersonalCards()) {
+            for (PersonalCard card : diver.getCards()) {
                 PersonalCard dbCard = personalCardDao.getByNumber(card.getNumber());
                 boolean isNewCard = dbCard == null;
                 if (isNewCard) {
                     dbCard = card;
                 } else {
                     dbCard.setFederationName(card.getFederationName());
-                    dbCard.setPersonalCardType(card.getPersonalCardType());
+                    dbCard.setCardType(card.getCardType());
                     dbCard.setDiverLevel(card.getDiverLevel());
+                    dbCard.setDiverType(card.getDiverType());
                 }
                 dbCard.setDiver(dbDiver);
                 if (isNewCard) {
@@ -121,6 +137,19 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 } else {
                     personalCardDao.updateModel(dbCard);
                 }
+            }
+        }
+        for (Diver diver : divers) {
+            Diver dbDiver = diverDao.getByEmail(diver.getEmail());
+            Diver dbInstructor = null;
+            Diver instructor = diver.getInstructor();
+            if (instructor != null) {
+                dbInstructor = diverDao.getDiverByCardNumber(
+                        instructor.getCards().get(0).getNumber()
+                );
+            }
+            if (dbDiver.getInstructor() == null && dbInstructor != null) {
+                dbDiver.setInstructor(dbInstructor);
             }
         }
     }

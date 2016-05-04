@@ -64,7 +64,7 @@ public class PersonalCard implements Serializable {
     @Expose
     @Column
     @Enumerated(EnumType.STRING)
-    private PersonalCardType personalCardType;
+    private PersonalCardType cardType;
 
     @Expose
     @Column
@@ -74,10 +74,18 @@ public class PersonalCard implements Serializable {
     public String toString() {
         return "PersonalCard{" +
                "number='" + number + '\'' +
+               ", diverType=" + diverType +
                ", diverLevel=" + diverLevel +
-               ", personalCardType=" + personalCardType +
+               ", cardType=" + cardType +
                ", federationName='" + federationName + '\'' +
                '}';
+    }
+
+    @SuppressWarnings("CallToSimpleGetterFromWithinClass")
+    public String getPrintName() {
+        CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(this);
+        DiverLevel dl = getDiverLevel() == null ? DiverLevel.ONE_STAR : getDiverLevel();
+        return cardPrintInfo.drawStars ? cardPrintInfo.printName + ' ' + dl.name() : cardPrintInfo.printName;
     }
 
     public DiverType getDiverType() {
@@ -96,12 +104,12 @@ public class PersonalCard implements Serializable {
         this.federationName = federationName;
     }
 
-    public PersonalCardType getPersonalCardType() {
-        return personalCardType;
+    public PersonalCardType getCardType() {
+        return cardType;
     }
 
-    public void setPersonalCardType(PersonalCardType personalCardType) {
-        this.personalCardType = personalCardType;
+    public void setCardType(PersonalCardType cardType) {
+        this.cardType = cardType;
     }
 
     public Athlete getAthlete() {

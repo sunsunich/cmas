@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 /**
 
@@ -54,7 +55,7 @@ public class UserProfileController {
     private AuthenticationService authenticationService;
 
     @Autowired
-    private DiverService userService;
+    private DiverService diverService;
 
     @Autowired
     private DiverDao diverDao;
@@ -98,6 +99,9 @@ public class UserProfileController {
 
     @RequestMapping("/secure/cards.html")
     public ModelAndView getCards(Model model) {
+        Diver diver = getCurrentDiver();
+        List<PersonalCard> cards = diverService.getCardsToShow(diver);
+        model.addAttribute("cards", cards);
         return new ModelAndView("/secure/cards");
     }
 
@@ -146,7 +150,7 @@ public class UserProfileController {
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changePassword((Diver) user.getUser(), formObject, result, HttpUtil.getIP(request));
+        diverService.changePassword((Diver) user.getUser(), formObject, result, HttpUtil.getIP(request));
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {
@@ -161,7 +165,7 @@ public class UserProfileController {
         if (user == null) {
             throw new BadRequestException();
         }
-        userService.changeEmail((Diver) user.getUser(), formObject, result);
+        diverService.changeEmail((Diver) user.getUser(), formObject, result);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {

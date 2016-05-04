@@ -119,13 +119,14 @@ public class AdminServiceImpl implements AdminService {
         newDiver.setEmail(id + "@mailinator.com");
         newDiver.setFirstName(diver.getFirstName() + "Bot");
 
-        for (PersonalCard card : diver.getSecondaryPersonalCards()) {
+        for (PersonalCard card : diver.getCards()) {
             PersonalCard newCard = new PersonalCard();
 
             newCard.setNumber(id + card.getNumber());
 
             newCard.setFederationName(card.getFederationName());
-            newCard.setPersonalCardType(card.getPersonalCardType());
+            newCard.setCardType(card.getCardType());
+            newCard.setDiverType(card.getDiverType());
             newCard.setDiverLevel(card.getDiverLevel());
             newCard.setDiver(newDiver);
             personalCardDao.save(newCard);
