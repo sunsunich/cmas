@@ -173,7 +173,7 @@ public class UserProfileController {
         }
     }
 
-    private static final long MAX_IMAGE_SIZE = 100L * 1024L * 1024L;
+    private static final long MAX_IMAGE_SIZE = 250L * 1024L * 1024L;
 
     @RequestMapping(value = "/secure/uploadFileUserpic.html", method = RequestMethod.POST)
     public View userEditUserpicFile(@ModelAttribute FileUploadBean fileBean) {

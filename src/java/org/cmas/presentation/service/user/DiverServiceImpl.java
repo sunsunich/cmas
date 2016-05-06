@@ -44,6 +44,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Override
     public List<PersonalCard> getCardsToShow(Diver diver) {
         List<PersonalCard> cards = diver.getCards();
+        if(cards == null || cards.isEmpty()){
+            return new ArrayList<>();
+        }
         Map<PersonalCardType, PersonalCard> result
                 = new EnumMap<>(PersonalCardType.class);
         for (PersonalCard card : cards) {

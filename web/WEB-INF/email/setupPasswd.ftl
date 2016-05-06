@@ -4,8 +4,8 @@
 <p>
     your ${siteName} account has been registered to your e-mail address with the following contents:<br />
     <br />
-    Email: ${diver.email} <br />
-    Password: ${diver.generatedPassword} <br />
+    Email: ${diver.email}<br />
+    Password: ${diver.generatedPassword}<br />
     <br />
     Please login here: <@mailer.href url="${context_path}"/> <br />
     <br />
