@@ -154,6 +154,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             if (dbDiver.getInstructor() == null && dbInstructor != null) {
                 dbDiver.setInstructor(dbInstructor);
             }
+            diverDao.save(dbDiver);
         }
     }
 }
