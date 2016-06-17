@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T>{
+public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
 
     @Transactional
     protected List<T> search(Criteria crit, SortPaginator form) {
@@ -27,20 +27,22 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T>{
         Order order = getOrder(sort, dir);
         //noinspection unchecked
         return crit.addOrder(order).setFirstResult(form.getOffset())
-                .setMaxResults(form.getLimit()).setCacheable(true).list();
+                   .setMaxResults(form.getLimit()).setCacheable(true).list();
     }
 
     @Transactional
     protected List<T> search(Criteria crit, Paginator form) {
         //noinspection unchecked
         return crit.setFirstResult(form.getOffset())
-                .setMaxResults(form.getLimit()).setCacheable(true).list();
+                   .setMaxResults(form.getLimit()).setCacheable(true).list();
     }
 
     @Transactional
     protected int getMaxCountSearch(Criteria crit) {
         crit.setProjection(Projections.rowCount()).setCacheable(true);
-        return (Integer) crit.uniqueResult();
+
+        Object result = crit.uniqueResult();
+        return result == null ? 0 : ((Number) result).intValue();
     }
 
     protected Order getOrder(String name, boolean dir) {
@@ -61,35 +63,35 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T>{
         }
     }
 
-     protected void addDateRangeToSearchCriteria(Criteria crit
-                                                , @Nullable String fromValue, @Nullable String toValue
-                                                , String columnName
-                                                , SimpleDateFormat simpleDateFormat
-     ) {
-         try {
-             if (!StringUtil.isTrimmedEmpty(fromValue)) {
-                 Date value = simpleDateFormat.parse(fromValue);
-                 crit.add(Restrictions.ge(columnName, value));
-             }
-             if (!StringUtil.isTrimmedEmpty(toValue)) {
-                 Date value = simpleDateFormat.parse(toValue);
-                 crit.add(Restrictions.le(columnName, value));
-             }
-         } catch (ParseException ignored) {
-         }
+    protected void addDateRangeToSearchCriteria(Criteria crit
+            , @Nullable String fromValue, @Nullable String toValue
+            , String columnName
+            , SimpleDateFormat simpleDateFormat
+    ) {
+        try {
+            if (!StringUtil.isTrimmedEmpty(fromValue)) {
+                Date value = simpleDateFormat.parse(fromValue);
+                crit.add(Restrictions.ge(columnName, value));
+            }
+            if (!StringUtil.isTrimmedEmpty(toValue)) {
+                Date value = simpleDateFormat.parse(toValue);
+                crit.add(Restrictions.le(columnName, value));
+            }
+        } catch (ParseException ignored) {
+        }
     }
 
     protected void addBooleanToHql(StringBuilder hql, boolean value, String property) {
-        if(value){
+        if (value) {
             hql.append(" or ")
                .append(property)
                .append("=true");
         }
     }
 
-    protected void addBooleanToJunction(Junction junction, boolean value, String property) {        
-        if(value){
-            junction.add(Restrictions.eq(property,true));
+    protected void addBooleanToJunction(Junction junction, boolean value, String property) {
+        if (value) {
+            junction.add(Restrictions.eq(property, true));
         }
     }
 }

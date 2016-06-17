@@ -1,1 +1,0 @@
-update cmas.personal_cards set personalCardType = 'PRIMARY'

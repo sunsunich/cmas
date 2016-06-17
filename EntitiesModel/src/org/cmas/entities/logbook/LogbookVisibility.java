@@ -6,5 +6,9 @@ package org.cmas.entities.logbook;
  * @author Alexander Petukhov
  */
 public enum LogbookVisibility {
-    PUBLIC, FRIENDS, PRIVATE
+    PUBLIC, FRIENDS, PRIVATE;
+
+    public String getName() {
+        return name();
+    }
 }

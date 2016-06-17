@@ -43,6 +43,20 @@
                 <value>/secure/processEditUserpic.html</value>
                 <value>/secure/uploadFileUserpic.html</value>
 
+                <value>/secure/social/getFriends.html</value>
+                <value>/secure/social/getFromRequests.html</value>
+                <value>/secure/social/getToRequests.html</value>
+                <value>/secure/social/searchNewFriends.html</value>
+                <value>/secure/social/sendFriendRequest.html</value>
+                <value>/secure/social/acceptFriendRequest.html</value>
+                <value>/secure/social/rejectFriendRequest.html</value>
+                <value>/secure/social/removeFriendRequest.html</value>
+                <value>/secure/social/removeFriend.html</value>
+                <value>/secure/social/addCountryToNews.html</value>
+                <value>/secure/social/removeCountryFromNews.html</value>
+                <value>/secure/social/setAddTeamToLogbook.html</value>
+                <value>/secure/social/setAddLocationCountryToNewsFeed.html</value>
+
                 <value>/secure/cards.html</value>
 
                 <value>/secure/billing/interkassa/accept.html</value>

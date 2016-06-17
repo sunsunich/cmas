@@ -9,17 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Constructor;
 import java.security.SecureRandom;
 
-public class IdGeneratingDaoImpl<T> extends HibernateDaoImpl<T> implements IdGeneratingDao<T>{
+public class IdGeneratingDaoImpl<T> extends HibernateDaoImpl<T> implements IdGeneratingDao<T> {
 
     protected final SecureRandom rnd = new SecureRandom();
 
     @Transactional
     @Override
     public boolean isIdUnique(long id) {
-        Criteria criteria = createCriteria().add(Restrictions.eq("id",id));
-        criteria.setProjection(Projections.count("id"));
-        Integer obj = (Integer) criteria.uniqueResult();
-        return obj == 0;
+        Criteria criteria = createCriteria().add(Restrictions.eq("id", id));
+        criteria.setProjection(Projections.rowCount());
+        Object result = criteria.uniqueResult();
+        return result != null && ((Number) result).intValue() > 0;
     }
 
     @Override

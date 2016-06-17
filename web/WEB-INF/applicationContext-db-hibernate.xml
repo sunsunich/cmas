@@ -32,6 +32,7 @@
                 <value>org.cmas.entities.diver.Diver</value>
                 <value>org.cmas.entities.divespot.DiveSpot</value>
                 <value>org.cmas.entities.logbook.LogbookEntry</value>
+                <value>org.cmas.entities.logbook.DiverFriendRequest</value>
 
                 <value>org.cmas.entities.Country</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
@@ -85,6 +86,10 @@
     </bean>
 
     <bean id="diverDao" class="org.cmas.presentation.dao.user.sport.DiverDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="diverFriendRequestDao" class="org.cmas.presentation.dao.logbook.DiverFriendRequestDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

@@ -11,6 +11,7 @@
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="lightHeader" required="false" %>
 <%@ attribute name="indexpage" required="false" %>
+<%@ attribute name="intrenal" required="false" %>
 <%@ attribute name="customScripts" required="false" %>
 <%@ attribute name="customCSSFiles" required="false" %>
 <%@ attribute name="doNotDoAuth" required="false" %>
@@ -18,6 +19,10 @@
 
 <c:if test="${empty bodyId}">
     <c:set var="bodyId" value="body"/>
+</c:if>
+
+<c:if test="${empty intrenal}">
+    <c:set var="intrenal" value="false"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -46,7 +51,15 @@
     <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
     <link rel="stylesheet" type="text/css" href="c/loader.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/form.css" media="all"/>
+    <c:choose>
+        <c:when test="${intrenal}">
+            <link rel="stylesheet" type="text/css" href="c/internal-form.css" media="all"/>
+        </c:when>
+        <c:otherwise>
+            <link rel="stylesheet" type="text/css" href="c/form.css" media="all"/>
+        </c:otherwise>
+    </c:choose>
+
     <link rel="stylesheet" type="text/css" href="c/buttons.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/select2.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
@@ -74,12 +87,15 @@
     <script type="text/javascript" src="js/lib/ejs_production.js"></script>
     <script type="text/javascript" src="js/lib/select2.full.min.js"></script>
 
+    <script type="text/javascript" src="js/i18n/error_codes.js"></script>
+    <script type="text/javascript" src="js/i18n/labels.js"></script>
+
     <script type="text/javascript" src="js/util.js"></script>
 
     <script type="text/javascript" src="js/controller/cookie_controller.js"></script>
     <script type="text/javascript" src="js/controller/loader_controller.js"></script>
-    <script type="text/javascript" src="js/i18n/error_codes.js"></script>
     <script type="text/javascript" src="js/controller/validation_controller.js"></script>
+    <script type="text/javascript" src="js/controller/error_dialog_controller.js"></script>
 
     <c:forEach items="${customCSSFiles}" var="customCSSFile">
         <link type="text/css" rel="stylesheet" href="${customCSSFile}"/>
@@ -111,7 +127,11 @@
     <div id="">           <!-- Content -->
         <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
-
+        <my:dialog id="errorDialog"
+                   title="cmas.face.error.title"
+                   buttonText="cmas.face.error.submitText">
+            <div id="errorDialogText"></div>
+        </my:dialog>
     </div>
     <!-- end of Content -->
 

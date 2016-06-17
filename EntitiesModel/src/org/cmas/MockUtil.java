@@ -1,5 +1,8 @@
 package org.cmas;
 
+import com.google.myjson.Gson;
+import com.google.myjson.GsonBuilder;
+import com.google.myjson.LongSerializationPolicy;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
@@ -86,6 +89,25 @@ public final class MockUtil {
         NationalFederation federation = new NationalFederation();
         federation.setName("THE UNDERWATER SOCIETY OF AMERICA");
         return federation;
+    }
+
+    public static void main(String[] args) {
+        Diver diver = new Diver();
+        diver.setId(7044166216760470125L);
+        Gson gson = new GsonBuilder()
+                .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat(Globals.DTF)
+                .create();
+        String json = gson.toJson(diver);
+        System.out.println(json);
+        Gson gson2 = new GsonBuilder()
+               // .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                .excludeFieldsWithoutExposeAnnotation()
+                .setDateFormat(Globals.DTF)
+                .create();
+        Diver fromJson = gson2.fromJson(json, Diver.class);
+        System.out.println(fromJson.getId());
     }
 
 }

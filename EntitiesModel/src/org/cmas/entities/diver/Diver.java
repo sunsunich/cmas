@@ -2,17 +2,24 @@ package org.cmas.entities.diver;
 
 import com.google.myjson.annotations.Expose;
 import org.cmas.entities.CardUser;
+import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.entities.logbook.LogbookVisibility;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created on Dec 04, 2015
@@ -35,24 +42,81 @@ public class Diver extends CardUser {
     @Enumerated(EnumType.STRING)
     private DiverType diverType;
 
-    @OneToMany(mappedBy = "diver")
+    @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
     private List<LogbookEntry> logbookEntries;
 
-    @OneToMany(mappedBy = "diver")
+    @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
     private List<PersonalCard> cards;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Diver instructor;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "diver_friends",
+            joinColumns = @JoinColumn(name = "diverId"),
+            inverseJoinColumns = @JoinColumn(name = "friendId")
+    )
+    private Set<Diver> friends;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "diver_friends",
+            joinColumns = @JoinColumn(name = "friendId"),
+            inverseJoinColumns = @JoinColumn(name = "diverId")
+    )
+    private Set<Diver> friendOf;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="diver_new_from_countries",
+            joinColumns=@JoinColumn(name="diverId"),
+            inverseJoinColumns=@JoinColumn(name="countryId")
+    )
+    private Set<Country> newsFromCountries;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private LogbookVisibility defaultVisibility;
 
     @Expose
     @Column
     private boolean hasPayed;
+
+    @Expose
+    @Column
+    private boolean isAddFriendsToLogbookEntries;
+
+    @Expose
+    @Column
+    private boolean isNewsFromCurrentLocation;
 
     public Diver() {
     }
 
     public Diver(long id) {
         super(id);
+    }
+
+    public boolean isAddFriendsToLogbookEntries() {
+        return isAddFriendsToLogbookEntries;
+    }
+
+    public void setIsAddFriendsToLogbookEntries(boolean isAddFriendsToLogbookEntries) {
+        this.isAddFriendsToLogbookEntries = isAddFriendsToLogbookEntries;
+    }
+
+    public boolean isNewsFromCurrentLocation() {
+        return isNewsFromCurrentLocation;
+    }
+
+    public void setIsNewsFromCurrentLocation(boolean isNewsFromCurrentLocation) {
+        this.isNewsFromCurrentLocation = isNewsFromCurrentLocation;
+    }
+
+    public LogbookVisibility getDefaultVisibility() {
+        return defaultVisibility;
+    }
+
+    public void setDefaultVisibility(LogbookVisibility defaultVisibility) {
+        this.defaultVisibility = defaultVisibility;
     }
 
     public List<LogbookEntry> getLogbookEntries() {
@@ -101,6 +165,30 @@ public class Diver extends CardUser {
 
     public void setInstructor(Diver instructor) {
         this.instructor = instructor;
+    }
+
+    public Set<Diver> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<Diver> friends) {
+        this.friends = friends;
+    }
+
+    public Set<Diver> getFriendOf() {
+        return friendOf;
+    }
+
+    public void setFriendOf(Set<Diver> friendOf) {
+        this.friendOf = friendOf;
+    }
+
+    public Set<Country> getNewsFromCountries() {
+        return newsFromCountries;
+    }
+
+    public void setNewsFromCountries(Set<Country> newsFromCountries) {
+        this.newsFromCountries = newsFromCountries;
     }
 
     @SuppressWarnings("MagicCharacter")

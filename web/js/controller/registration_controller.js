@@ -1,6 +1,7 @@
 var registration_controller = {
 
     init: function () {
+        country_controller.init();
         this.setListeners();
     },
 

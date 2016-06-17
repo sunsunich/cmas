@@ -5,13 +5,17 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
+import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.text.StringUtil;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -50,9 +54,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
     @Override
     public int getFullyRegisteredDiverCnt() {
-        return (Integer) createCriteria().add(Restrictions.isNotNull("primaryPersonalCard"))
-                                         .setProjection(Projections.count("id"))
-                                         .uniqueResult();
+        Object result = createCriteria().add(Restrictions.isNotNull("primaryPersonalCard"))
+                                        .setProjection(Projections.rowCount())
+                                        .uniqueResult();
+        return result == null ? 0 : ((Number) result).intValue();
     }
 
     @Override
@@ -62,13 +67,79 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
     }
 
-    @Override
-    public List<Diver> searchForVerification(DiverVerificationFormObject formObject) {
-        return (List<Diver>) createCriteria()
+    private Criteria createDiverSearchCriteria(DiverVerificationFormObject formObject) {
+        return createCriteria()
                 .add(Restrictions.eq("lastName", formObject.getLastName()))
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
-                .add(Restrictions.eq("country.code", formObject.getCountry().trim()))
+                .add(Restrictions.eq("country.code", formObject.getCountry().trim()));
+    }
+
+    @Override
+    public List<Diver> searchForVerification(DiverVerificationFormObject formObject) {
+        return (List<Diver>) createDiverSearchCriteria(formObject)
                 .list();
+    }
+
+    @Override
+    public List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject) {
+        String nameTemplate = formObject.getName().trim() + '%';
+        String hql = "select d from org.cmas.entities.diver.Diver d" +
+                     " inner join d.federation f inner join f.country c" +
+                     " left outer join d.friendOf f" +
+                     " where (d.lastName like :lastName or d.firstName like :firstName)" +
+                     " and d.diverType = :diverType and c.code = :country" +
+                     " and (f.id != :diverId or f.id is null)" +
+                     " and d.id != :diverId";
+
+        return createQuery(hql).setString("lastName", nameTemplate)
+                               .setString("firstName", nameTemplate)
+                               .setString("country", formObject.getCountry().trim())
+                               .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
+                               .setLong("diverId", diverId).list();
+    }
+
+    @Override
+    public List<Diver> getFriends(Diver diver) {
+        String sql = "select diverId, friendId from diver_friends where friendId = :diverId or diverId = :diverId";
+        long diverId = diver.getId();
+        List<Object[]> diverIdPairs = createSQLQuery(sql).setLong("diverId", diverId).list();
+        if (diverIdPairs.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Collection<Long> diverIds = new HashSet<>(diverIdPairs.size());
+        for (Object[] pair : diverIdPairs) {
+            long pairElem1 = ((Number) pair[0]).longValue();
+            long pairElem2 = ((Number) pair[1]).longValue();
+            if (pairElem1 == diverId) {
+                diverIds.add(pairElem2);
+            } else {
+                diverIds.add(pairElem1);
+            }
+        }
+        return createCriteria().add(Restrictions.in("id", diverIds)).list();
+    }
+
+    @Override
+    public boolean isFriend(Diver diver, Diver friend) {
+        String sql = "select count(*) from diver_friends where"
+                     + " friendId = :friendId and diverId = :diverId"
+                     + " or friendId = :diverId and diverId = :friendId";
+        Object result = createSQLQuery(sql)
+                .setLong("diverId", diver.getId())
+                .setLong("friendId", friend.getId())
+                .uniqueResult();
+        return result != null && ((Number) result).intValue() > 0;
+    }
+
+    @Override
+    public void removeFriend(Diver diver, Diver friend) {
+        String sql = "delete from diver_friends where"
+                     + " friendId = :friendId and diverId = :diverId"
+                     + " or friendId = :diverId and diverId = :friendId";
+        createSQLQuery(sql)
+                .setLong("diverId", diver.getId())
+                .setLong("friendId", friend.getId())
+                .executeUpdate();
     }
 }

@@ -2,6 +2,7 @@ package org.cmas.util.json.gson;
 
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
+import com.google.myjson.LongSerializationPolicy;
 import org.cmas.Globals;
 import org.cmas.json.SimpleGsonResponse;
 
@@ -16,6 +17,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     @Override
     public GsonView createGsonView(Object toSerialize) {
         Gson gson = new GsonBuilder()
+                .setLongSerializationPolicy(LongSerializationPolicy.STRING)
                     .excludeFieldsWithoutExposeAnnotation()
                     .setDateFormat(Globals.DTF)
                     .create();

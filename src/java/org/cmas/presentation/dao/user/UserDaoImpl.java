@@ -99,7 +99,8 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     public int getMaxCountSearchUsers(UserSearchFormObject form) {
         Criteria crit = makeSearchRequest(form);
         crit.setProjection(Projections.rowCount()).setCacheable(true);
-        return (Integer) crit.uniqueResult();
+        Object result = crit.uniqueResult();
+        return result == null ? 0 : ((Number) result).intValue();
     }
 
     protected Criteria makeSearchRequest(UserSearchFormObject form) {

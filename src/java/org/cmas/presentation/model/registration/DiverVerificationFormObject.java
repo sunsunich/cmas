@@ -5,7 +5,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
 
-public class DiverVerificationFormObject {
+public class DiverVerificationFormObject  {
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     @NotEmpty(message = "validation.emptyField")

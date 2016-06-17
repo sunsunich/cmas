@@ -6,14 +6,24 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
+<jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
+<jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>
+
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
+               customScripts="js/model/profile_model.js,js/model/social_model.js,js/controller/country_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
+        labels["cmas.face.client.social.friendRequest.accept"] = '<s:message code="cmas.face.client.social.friendRequest.accept"/>';
+        labels["cmas.face.client.social.friendRequest.reject"] = '<s:message code="cmas.face.client.social.friendRequest.reject"/>';
+        labels["cmas.face.findDiver.add"] = '<s:message code="cmas.face.findDiver.add"/>';
+        labels["PRIVATE"] = '<s:message code="cmas.face.client.social.logbook.private"/>';
+        labels["FRIENDS"] = '<s:message code="cmas.face.client.social.logbook.friends"/>';
+        labels["PUBLIC"] = '<s:message code="cmas.face.client.social.logbook.public"/>';
+        var logbookVisibility = "${diver.defaultVisibility}";
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
 
-    <div class="content">
+    <div class="content" id="mainContent">
         <div class="tabs">
             <span id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
             <span id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
@@ -32,18 +42,18 @@
                     </div>
                 </div>
                 <div class="panel-row">
-                    <span>${diver.firstName} ${diver.lastName}</span>
+                    <span class="panel-text">${diver.firstName} ${diver.lastName}</span>
                 </div>
 
                 <div class="panel-row">
                     <label><s:message code="cmas.face.client.profile.form.label.dob"/>&nbsp;</label>
-                    <span><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></span>
+                    <span class="panel-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></span>
                 </div>
             </div>
             <div class="panel">
                 <div class="button-container" id="noCard">
                     <div>
-                <span>
+                <span class="panel-text">
                     <s:message code="cmas.face.client.profile.noCard"/>
                 </span>
                     </div>
@@ -71,31 +81,148 @@
             </div>
         </div>
         <div id="socialSettings" style="display: none">
+            <div class="panel" style="display: none" id="toRequestsPanel">
+                <div class="header">
+                    <s:message code="cmas.face.client.social.friendRequestsTo.header"/>
+                </div>
+                <div id="toRequests">
+                </div>
+            </div>
+
             <div class="panel">
-                <div class="panel-row">
+                <div class="header">
+                    <s:message code="cmas.face.client.social.team.header"/>
                 </div>
 
-                <div class="panel-row">
+                <div id="friendsPanel">
+                    <div class="panel-row text" id="noFriendsText"><s:message
+                            code="cmas.face.client.social.team.empty"/></div>
                 </div>
 
-                <div class="button-container">
-                    <button class="userInfo-button reg-button" id="addMemberButton">
+                <div class="panel-row button-container">
+                    <button class="centerUserInfo-button reg-button" id="findDiverButton">
                         <s:message code="cmas.face.client.social.addMember"/>
                     </button>
                 </div>
-            </div>
-            <div class="panel">
 
+                <div class="panel-row">
+                    <input type="checkbox" id="addTeamToLogbook"
+                           <c:if test="${diver.addFriendsToLogbookEntries}">checked="checked"</c:if>
+                            />
+                    <span class="text"><s:message code="cmas.face.client.social.addToLogbook"/></span>
+                </div>
+            </div>
+
+            <div class="panel" style="display: none" id="fromRequestsPanel">
+                <div class="header">
+                    <s:message code="cmas.face.client.social.friendRequestsFrom.header"/>
+                </div>
+                <div class="panel-row" id="fromRequests">
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="header">
+                    <s:message code="cmas.face.client.social.logbook.settings.header"/>
+                </div>
+                <select name="visibilityType" id="visibilityType" style="width: 100%" size=1 onChange="">
+                    <c:forEach items="${visibilityTypes}" var="visibilityType">
+                        <option value='${visibilityType.name}'>labels['${visibilityType.name}']</option>
+                    </c:forEach>
+                </select>
             </div>
             <div class="panel">
-                <div class="button-container">
-                    <button class="userInfo-button reg-button" id="addCountryButton">
-                        <s:message code="cmas.face.client.social.addCountry"/>
-                    </button>
+                <div class="header">
+                    <s:message code="cmas.face.client.social.newsfeed.header"/>
+                </div>
+                <div class="panel-row">
+                    <input type="checkbox" id="addLocationCountryToNewsFeed"
+                           <c:if test="${diver.newsFromCurrentLocation}">checked="checked"</c:if>
+                            />
+                    <span class="text"><s:message code="cmas.face.client.social.newfeed.currentLocation"/></span>
+                </div>
+                <c:forEach items="${diver.newsFromCountries}" var="country">
+                    <div>
+                        <img id="${country.id}_remove" src="${pageContext.request.contextPath}/i/close.png"/>
+                        <span class="panel-text">${country.name}</span>
+                    </div>
+                </c:forEach>
+                <div class="panel-row">
+                    <div class="button-container">
+                        <button class="centerUserInfo-button reg-button" id="addCountryButton">
+                            <s:message code="cmas.face.client.social.addCountry"/>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="content" id="diversList" style="display: none">
+        <div id="diversListContent">
+
+        </div>
+        <div class="panel">
+            <div class="button-container">
+                <button class="form-button enter-button" id="newDiverSearch">
+                    <s:message code="cmas.face.diverList.submitText"/>
+                </button>
+            </div>
+        </div>
+    </div>
+    <my:dialog id="findDiver"
+               title="cmas.face.findDiver.form.page.title"
+               buttonText="cmas.face.findDiver.form.submitText">
+        <div id="findDiverForm">
+            <div class="horizontal-radio-group clearfix">
+                <div>
+                    <label for="findDiverTypeDiver">
+                        <input type="radio" name="findDiverType" id="findDiverTypeDiver" value="DIVER"/>
+                        Diver
+                    </label>
+                </div>
+                <div>
+                    <label for="findDiverTypeInstructor">
+                        <input type="radio" name="findDiverType" id="findDiverTypeInstructor" value="INSTRUCTOR"/>
+                        Instructor
+                    </label>
+                </div>
+            </div>
+            <div class="error" id="findDiver_error_diverType"></div>
+            <div class="dialog-form-row">
+                <select name="findDiverCountry" id="findDiverCountry" style="width: 100%" size=1 onChange="">
+                    <option value=''><s:message code="cmas.face.findDiver.form.label.country"/></option>
+                    <c:forEach items="${countries}" var="country">
+                        <option value='${country.code}'>${country.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="error" id="findDiver_error_country"></div>
+            <div class="dialog-form-row">
+                <input id="findDiverName" type="text"
+                       placeholder="<s:message code="cmas.face.findDiver.form.label.name"/>"/>
+            </div>
+            <div class="error" id="findDiver_error_name"></div>
+
+            <div class="error" style="display: none" id="findDiver_error">
+            </div>
+        </div>
+    </my:dialog>
+
+    <my:dialog id="noDiversFound"
+               title="cmas.face.diverList.title"
+               buttonText="cmas.face.diverList.submitText">
+        <div id="noDiversFoundText"><s:message code="cmas.face.diverList.noDivers"/></div>
+    </my:dialog>
+
+    <my:dialog id="friendRemove"
+               title="cmas.face.friendRemove.title"
+               buttonText="cmas.face.friendRemove.submitText">
+        <div id="noDiversFoundText">
+            <s:message code="cmas.face.friendRemove.question"/>
+            <span> <b id="removeDiverName"></b></span>
+        </div>
+    </my:dialog>
 
     <my:dialog id="selectUserpic"
                title="cmas.face.client.profile.selectUserpic"

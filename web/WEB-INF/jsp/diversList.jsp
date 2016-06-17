@@ -13,8 +13,8 @@
             </a>
         </div>
         <c:forEach items="${divers}" var="diver">
-            <div class="panel">
-                <div class="userpic-selection">
+            <div class="panel clearfix">
+                <div class="diverList-elem-left">
                     <img id="userpic"
                             <c:choose>
                                 <c:when test="${diver.photo == null}">
@@ -24,17 +24,13 @@
                                     src="data:image/png;base64,${diver.photo}"
                                 </c:otherwise>
                             </c:choose>
-                         class="userpicPreview userpic-selection-left"/>
-
-                    <div class="userpic-selection-right">
-
-                    </div>
+                            />
                 </div>
-                <div class="panel-row">
-                    <span>${diver.firstName} ${diver.lastName}</span>
-                </div>
-                <div class="panel-row">
-                    <span>${diver.diverType}</span>
+                <div class="diverList-elem-right">
+                    <p><span class="panel-text">${diver.firstName} ${diver.lastName}</span></p>
+
+                    <p><span class="panel-text">${diver.diverType}</span>
+                    </p>
                     <c:choose>
                         <c:when test="${diver.diverLevel == 'ONE_STAR'}">
                             <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
@@ -49,14 +45,12 @@
                             <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
                         </c:when>
                     </c:choose>
-                </div>
-                <div class="panel-row">
                     <c:choose>
                         <c:when test="${diver.primaryPersonalCard == null}">
-                            <span>Not registered at CMAS Data</span>
+                            <p><span class="panel-text">Not registered at CMAS Data</span></p>
                         </c:when>
                         <c:otherwise>
-                            <span>${diver.primaryPersonalCard.number}</span>
+                            <p><span class="panel-text">${diver.primaryPersonalCard.number}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>

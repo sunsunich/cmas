@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 
+@SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class DictionaryController {
 
@@ -21,18 +22,6 @@ public class DictionaryController {
 
     @Autowired
     private DictionaryDataService dictionaryDataService;
-
-    @RequestMapping("/getRoles.html")
-    public View getRoles(@RequestParam("maxVersion") long maxVersion) {
-        try {
-            return gsonViewFactory.createGsonView(
-                    dictionaryDataService.getRoles(maxVersion)
-            );
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return gsonViewFactory.createGsonView(ErrorCodes.ERROR);
-        }
-    }
 
     @RequestMapping("/getCountries.html")
     public View getCountries(@RequestParam("maxVersion") long maxVersion) {

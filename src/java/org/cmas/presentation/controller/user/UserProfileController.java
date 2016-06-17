@@ -4,6 +4,7 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -13,6 +14,7 @@ import org.cmas.presentation.model.ImageDTO;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.util.Base64Coder;
@@ -69,6 +71,9 @@ public class UserProfileController {
     @Autowired
     private GsonViewFactory gsonViewFactory;
 
+    @Autowired
+    private DictionaryDataService dictionaryDataService;
+
     @ModelAttribute("user")
     public BackendUser getUser() {
         BackendUser<? extends User> user = authenticationService.getCurrentUser();
@@ -94,6 +99,12 @@ public class UserProfileController {
 
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
+        try {
+            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
+        model.addAttribute("visibilityTypes", LogbookVisibility.values());
         return new ModelAndView("/secure/userInfo");
     }
 
@@ -107,7 +118,6 @@ public class UserProfileController {
 
     @RequestMapping("/secure/profile/getCardImage.html")
     public View getUserCard(@RequestParam(AccessInterceptor.CARD_ID) long cardId) throws IOException {
-
         PersonalCard personalCard = personalCardDao.getById(cardId);
         byte[] imageBytes = personalCard.getImage();
         if (imageBytes == null || imageBytes.length == 0) {

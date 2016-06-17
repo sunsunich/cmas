@@ -1,0 +1,13 @@
+<% var i = 0;
+for(i = 0;i < requests.length;i++) {
+    var fullName = requests[i].to.firstName + ' ' + requests[i].to.lastName;
+%>
+<div>
+    <img id="<%=requests[i].id %>_removeToRequest" src="/i/close_white.png"/>
+    <%if( requests[i].to.diverType == 'INSTRUCTOR') {%>
+    <a id="<%=requests[i].id %>_viewToRequest" class="panel-text"><%=fullName %><b>(Instructor)</b></a>
+    <% } else {%>
+    <a id="<%=requests[i].id %>_viewToRequest" class="panel-text"><%=fullName %></a>
+    <% } %>
+</div>
+<% } %>

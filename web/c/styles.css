@@ -158,7 +158,7 @@ input, p {
     font-size: 16px;
 }
 
-.panel span {
+.panel-text {
     font-size: 20px;
     color: #f8f8f8;
 }
@@ -203,6 +203,61 @@ input, p {
     width: 30px;
     height: 30px;
     margin-left: 5px;
+}
+
+.diverList-elem-right, .diverList-elem-left {
+    float: left;
+}
+
+.diverList-elem-right {
+    width: 55%;
+    padding-left: 10px;
+}
+
+.diverList-elem-right p {
+    display: block; /* or inline-block, at least its a block element */
+    width: 100%; /* or width is certain by parent element */
+    height: auto; /* height cannot be defined */
+    white-space: normal; /* Firefox 1.0-2.0 */
+    font-size: 1px;
+}
+
+.diverList-elem-right p span {
+    padding-bottom: 10px;
+}
+
+.friendListElemLeft, .friendListElemRight {
+    float: left;
+    position: relative;
+}
+
+.friendListElemLeft {
+    bottom: 3px;
+}
+
+.friendListElemRight {
+    left: 10px;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
 }
 
 
