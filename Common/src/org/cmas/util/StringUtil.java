@@ -7,7 +7,7 @@ public final class StringUtil {
     }
 
     public static boolean isTrimmedEmpty(String s) {
-        return s == null || s.trim().isEmpty();
+        return s == null || correctSpaceCharAndTrim(s).isEmpty();
     }
 
     public static String addProtocolIfNecessary(String url, String protocol) {
@@ -22,5 +22,37 @@ public final class StringUtil {
         System.arraycopy(array1, 0, newArray, 0, array1.length);
         System.arraycopy(array2, 0, newArray, array1.length, array2.length);
         return newArray;
+    }
+
+    /**
+     * Убирает пробелы до и после строки. При этом позволяет передавать null
+     *
+     * @param str source
+     * @return Trimmed string
+     */
+    public static String correctSpaceCharAndTrim(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.replace((char) 160, ' ').trim();
+    }
+
+    /**
+     * Сравнивает две строки с учетом NULL`ов
+     * @param str
+     * @param anStr
+     * @return
+     */
+    public static boolean equalsFull(String str, String anStr) {
+        if (str == null && anStr == null) {
+            return true;
+        }
+        if (str == null && anStr != null) {
+            return false;
+        }
+        if (str != null && anStr == null) {
+            return false;
+        }
+        return correctSpaceCharAndTrim(str).equals(correctSpaceCharAndTrim(anStr));
     }
 }

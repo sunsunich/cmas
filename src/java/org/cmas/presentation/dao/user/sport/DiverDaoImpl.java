@@ -7,7 +7,7 @@ import org.cmas.presentation.dao.user.UserDaoImpl;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -40,14 +40,14 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria criteria = super.makeSearchRequest(form);
         String diverType = form.getDiverType();
-        if (!StringUtil.isEmpty(diverType)) {
+        if (!StringUtil.isTrimmedEmpty(diverType)) {
             criteria.add(Restrictions.eq("diverType", DiverType.valueOf(diverType)));
         }
         String country = form.getCountryCode();
         if (!StringUtil.isTrimmedEmpty(country)) {
             criteria.createAlias("federation", "fed")
                     .createAlias("fed.country", "country")
-                    .add(Restrictions.eq("country.code", country.trim()));
+                    .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
         }
         return criteria;
     }
@@ -72,7 +72,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .add(Restrictions.eq("lastName", formObject.getLastName()))
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
-                .add(Restrictions.eq("country.code", formObject.getCountry().trim()));
+                .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())));
     }
 
     @Override
@@ -83,7 +83,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
     @Override
     public List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject) {
-        String nameTemplate = formObject.getName().trim() + '%';
+        String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
         String hql = "select d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
                      " left outer join d.friendOf f" +
@@ -94,7 +94,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
         return createQuery(hql).setString("lastName", nameTemplate)
                                .setString("firstName", nameTemplate)
-                               .setString("country", formObject.getCountry().trim())
+                               .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
                                .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
                                .setLong("diverId", diverId).list();
     }

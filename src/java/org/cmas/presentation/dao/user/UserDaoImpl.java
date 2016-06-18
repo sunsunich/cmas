@@ -3,8 +3,8 @@ package org.cmas.presentation.dao.user;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.presentation.model.user.UserSearchFormObject;
+import org.cmas.util.StringUtil;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
-import org.cmas.util.text.StringUtil;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -106,19 +106,21 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria crit = createCriteria().add(Restrictions.eq("enabled", true));
         String email = form.getEmail();
-        if (!StringUtil.isEmpty(email)) {
-            crit.add(Restrictions.like("email", email.trim(), MatchMode.START));
+        if (!StringUtil.isTrimmedEmpty(email)) {
+            crit.add(Restrictions.like("email", StringUtil.correctSpaceCharAndTrim(email),
+                                       MatchMode.START));
         }
         String firstName = form.getFirstName();
-        if (!StringUtil.isEmpty(firstName)) {
-            crit.add(Restrictions.like("firstName", firstName.trim(), MatchMode.START));
+        if (!StringUtil.isTrimmedEmpty(firstName)) {
+            crit.add(Restrictions.like("firstName", StringUtil.correctSpaceCharAndTrim(firstName),
+                                       MatchMode.START));
         }
         String lastName = form.getLastName();
-        if (!StringUtil.isEmpty(lastName)) {
-            crit.add(Restrictions.like("lastName", lastName.trim(), MatchMode.START));
+        if (!StringUtil.isTrimmedEmpty(lastName)) {
+            crit.add(Restrictions.like("lastName", StringUtil.correctSpaceCharAndTrim(lastName), MatchMode.START));
         }
         String userRole = form.getUserRole();
-        if (!StringUtil.isEmpty(userRole)) {
+        if (!StringUtil.isTrimmedEmpty(userRole)) {
             crit.add(Restrictions.eq("role", Role.valueOf(userRole)));
         }
         return crit;

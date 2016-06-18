@@ -17,8 +17,8 @@ public class RusDiverXlsParserImplTest {
     public void test() {
         RusDiverXlsParserImpl sut = new RusDiverXlsParserImpl();
         try {
-             Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/OneDiverDemo.xlsx"));
-         //   Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/BookRusDivers.xlsx"));
+         //    Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/OneDiverDemo.xlsx"));
+            Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/BookRusDivers.xlsx"));
             for (Diver diver : divers) {
                 System.out.println(diver);
             }

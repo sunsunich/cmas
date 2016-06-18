@@ -9,6 +9,7 @@ import org.cmas.R;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.UserDao;
 import org.cmas.entities.User;
+import org.cmas.util.StringUtil;
 
 public class CodeServiceImpl implements CodeService, InitializingBean {
 
@@ -26,7 +27,7 @@ public class CodeServiceImpl implements CodeService, InitializingBean {
         SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
         try {
             User user = userDao.getByEmail(readableDatabase, username);
-            if(user.getMobileLockCode().equals(code.trim())){
+            if(user.getMobileLockCode().equals(StringUtil.correctSpaceCharAndTrim(code))){
                 return "";
             }
             else {

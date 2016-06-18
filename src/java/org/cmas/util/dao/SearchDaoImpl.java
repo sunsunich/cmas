@@ -3,7 +3,7 @@ package org.cmas.util.dao;
 import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.Paginator;
 import org.cmas.presentation.model.SortPaginator;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Junction;
 import org.hibernate.criterion.MatchMode;
@@ -59,7 +59,7 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
     protected void addStringValueToSearchCriteria(Criteria crit, @Nullable String value, String columnName) {
         if (!StringUtil.isTrimmedEmpty(value)) {
             //noinspection ConstantConditions
-            crit.add(Restrictions.like(columnName, value.trim(), MatchMode.ANYWHERE));
+            crit.add(Restrictions.like(columnName, StringUtil.correctSpaceCharAndTrim(value), MatchMode.ANYWHERE));
         }
     }
 

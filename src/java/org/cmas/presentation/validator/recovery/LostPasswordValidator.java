@@ -2,7 +2,7 @@ package org.cmas.presentation.validator.recovery;
 
 import org.cmas.entities.User;
 import org.cmas.presentation.model.recovery.LostPasswordFormObject;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.validation.Errors;
 
@@ -18,7 +18,7 @@ public class LostPasswordValidator extends RecoveryValidator{
     public void validate(Object target, Errors result) {
         super.validate(target,result);
         LostPasswordFormObject formObject = (LostPasswordFormObject)target;
-        String email = StringUtil.trim(formObject.getEmail());
+        String email = StringUtil.correctSpaceCharAndTrim(formObject.getEmail());
         if (email != null) {
 			@Nullable
             User user = allUsersService.getByEmail(email);

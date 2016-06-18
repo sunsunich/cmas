@@ -15,12 +15,12 @@ import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.recovery.LostPasswordValidator;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
-import org.cmas.util.text.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
@@ -94,7 +94,7 @@ public class RecoveryController {
         if (result.hasErrors() || !isCaptchaCorrect) {
             return buildLostPasswordForm(model, isCaptchaCorrect);
         } else {
-            String email = StringUtil.trim(formObject.getEmail());
+            String email = StringUtil.correctSpaceCharAndTrim(formObject.getEmail());
             Diver user = diverDao.getByEmail(email);
             // генерим код для смены пароля
             long rndNum = rnd.nextLong();
@@ -125,7 +125,7 @@ public class RecoveryController {
                                BindingResult result, Model mm) throws AddressException {
 
         String code = formObject.getCode();
-        if (StringUtil.isEmpty(code)) {
+        if (StringUtil.isTrimmedEmpty(code)) {
             throw new BadRequestException();
         }
         Diver diver = diverDao.getBylostPasswdCode(code);

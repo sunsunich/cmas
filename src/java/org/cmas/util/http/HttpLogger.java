@@ -1,5 +1,6 @@
 package org.cmas.util.http;
 
+import org.cmas.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -167,7 +168,7 @@ public class HttpLogger {
 
                 if (null != line) {
 
-                    inputBuffer.append(line.trim());
+                    inputBuffer.append(StringUtil.correctSpaceCharAndTrim(line));
 
                 }
 
@@ -175,7 +176,7 @@ public class HttpLogger {
 
             reader.close();
 
-            return inputBuffer.toString().trim();
+            return StringUtil.correctSpaceCharAndTrim(inputBuffer.toString());
 
         }
 

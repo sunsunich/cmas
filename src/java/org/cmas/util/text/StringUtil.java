@@ -38,26 +38,12 @@ public final class StringUtil {
              {"с", "s"}, {"м", "m"},  {"и", "i"},  {"т", "t"},   {"ь", "'"},
              {"б", "b"}, {"ю", "yu"}};
 
-
-    /**
-     * Убирает пробелы до и после строки. При этом позволяет передавать null
-     * @param str source
-     * @return Trimmed string
-     */
-    @Nullable
-    public static String trim(@Nullable String str) {
-        if (str == null) {
-            return null;
-        }
-        return str.trim();
-    }
-
     public static boolean isEmpty(@Nullable String str) {
         return str == null || "".equals(str);
     }
 
     public static boolean isTrimmedEmpty(@Nullable String s) {
-        return s == null || s.trim().isEmpty();
+        return s == null || org.cmas.util.StringUtil.correctSpaceCharAndTrim(s).isEmpty();
     }
 
     /**
@@ -106,25 +92,6 @@ public final class StringUtil {
             }
         }
         return out.toString();
-    }
-
-    /**
-     * Сравнивает две строки с учетом NULL`ов
-     * @param str
-     * @param anStr
-     * @return
-     */
-    public static boolean equalsFull(String str, String anStr) {
-        if (str == null && anStr == null) {
-            return true;
-        }
-        if (str == null && anStr != null) {
-            return false;
-        }
-        if (str != null && anStr == null) {
-            return false;
-        }
-        return str.trim().equals(anStr.trim());
     }
 
     /**

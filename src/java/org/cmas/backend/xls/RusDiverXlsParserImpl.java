@@ -10,7 +10,7 @@ import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -90,11 +90,12 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             return null;
         }
         Diver diver = new Diver();
-        String[] firstNameAndLastName = row.getCell(0).getStringCellValue().split(" ");
+        String[] firstNameAndLastName = StringUtil.correctSpaceCharAndTrim(row.getCell(0).getStringCellValue())
+                                                  .split(" ");
         if (firstNameAndLastName.length < 2) {
             return null;
         }
-        String email = row.getCell(9).getStringCellValue();
+        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(9).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
         }
@@ -104,7 +105,7 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
         diver.setDob(row.getCell(4).getDateCellValue());
         diver.setEmail(email);
 
-        String instructorCardNumber = row.getCell(7).getStringCellValue();
+        String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(row.getCell(7).getStringCellValue());
         if (!StringUtil.isTrimmedEmpty(instructorCardNumber)) {
             Diver instructor = new Diver();
             instructor.setDiverType(DiverType.INSTRUCTOR);
@@ -119,7 +120,7 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
         }
 
         PersonalCard card = new PersonalCard();
-        card.setNumber(row.getCell(5).getStringCellValue());
+        card.setNumber(StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue()));
         List<PersonalCard> cards = new ArrayList<>();
         cards.add(card);
         diver.setCards(cards);
@@ -152,7 +153,8 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
                 break;
         }
         Cell sheetHeaderCell = sheet.getRow(0).getCell(0);
-        String header = sheetHeaderCell.getRichStringCellValue().getString().toUpperCase(Locale.ENGLISH);
+        String header = StringUtil.correctSpaceCharAndTrim(sheetHeaderCell.getStringCellValue())
+                                  .toUpperCase(Locale.ENGLISH);
         if (!StringUtil.isTrimmedEmpty(header)) {
             card.setFederationName(header);
             if (header.contains("CHILDREN")) {
