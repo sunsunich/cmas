@@ -6,6 +6,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
@@ -100,6 +101,7 @@ public class AdminServiceImpl implements AdminService {
         newDiver.setCountry(diver.getCountry());
         newDiver.setRole(Role.ROLE_DIVER);
         newDiver.setDateReg(diver.getDateReg());
+        newDiver.setDefaultVisibility(LogbookVisibility.FRIENDS);
 
         UserBalance userBalance = new UserBalance();
         userBalance.setBalance(diver.getUserBalance().getBalance());

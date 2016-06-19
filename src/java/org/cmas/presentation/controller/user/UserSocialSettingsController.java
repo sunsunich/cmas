@@ -3,6 +3,7 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
+import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.logbook.DiverFriendRequestDao;
@@ -207,6 +208,20 @@ public class UserSocialSettingsController {
     public View setAddTeamToLogbook(@RequestParam("addTeamToLogbook") boolean addTeamToLogbook) {
         Diver diver = getDiver();
         diver.setIsAddFriendsToLogbookEntries(addTeamToLogbook);
+        diverDao.save(diver);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
+    @RequestMapping("/secure/social/setDefaultLogbookVisibility.html")
+    public View setDefaultLogbookVisibility(@RequestParam("defaultVisibility") String defaultVisibility) {
+        LogbookVisibility visibility;
+        try {
+            visibility = LogbookVisibility.valueOf(defaultVisibility);
+        } catch (Exception ignored) {
+            return gsonViewFactory.createErrorGsonView("validation.incorrectField");
+        }
+        Diver diver = getDiver();
+        diver.setDefaultVisibility(visibility);
         diverDao.save(diver);
         return gsonViewFactory.createSuccessGsonView();
     }

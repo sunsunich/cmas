@@ -19,6 +19,10 @@
         labels["PRIVATE"] = '<s:message code="cmas.face.client.social.logbook.private"/>';
         labels["FRIENDS"] = '<s:message code="cmas.face.client.social.logbook.friends"/>';
         labels["PUBLIC"] = '<s:message code="cmas.face.client.social.logbook.public"/>';
+        var visibilityTypes = [];
+        <c:forEach items="${visibilityTypes}" var="visibilityType" varStatus="st">
+        visibilityTypes[${st.index}] = '${visibilityType.name}';
+        </c:forEach>
         var logbookVisibility = "${diver.defaultVisibility}";
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
@@ -127,9 +131,7 @@
                     <s:message code="cmas.face.client.social.logbook.settings.header"/>
                 </div>
                 <select name="visibilityType" id="visibilityType" style="width: 100%" size=1 onChange="">
-                    <c:forEach items="${visibilityTypes}" var="visibilityType">
-                        <option value='${visibilityType.name}'>labels['${visibilityType.name}']</option>
-                    </c:forEach>
+
                 </select>
             </div>
             <div class="panel">

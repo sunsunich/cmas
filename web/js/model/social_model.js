@@ -201,6 +201,29 @@ var social_model = {
         });
     },
 
+    setDefaultLogbookVisibility: function (defaultVisibility, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/social/setDefaultLogbookVisibility.html",
+            dataType: "json",
+            data: {"defaultVisibility": defaultVisibility},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
     addCountryToNews: function (countryCode, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({

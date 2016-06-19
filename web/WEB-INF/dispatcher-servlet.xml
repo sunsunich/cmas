@@ -53,6 +53,7 @@
                 <value>/secure/social/rejectFriendRequest.html</value>
                 <value>/secure/social/removeFriendRequest.html</value>
                 <value>/secure/social/removeFriend.html</value>
+                <value>/secure/social/setDefaultLogbookVisibility.html</value>
                 <value>/secure/social/addCountryToNews.html</value>
                 <value>/secure/social/removeCountryFromNews.html</value>
                 <value>/secure/social/setAddTeamToLogbook.html</value>
