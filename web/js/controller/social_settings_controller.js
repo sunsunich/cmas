@@ -178,6 +178,23 @@ var social_settings_controller = {
         $('#showDiverOk').click(function () {
             $('#showDiver').hide();
         });
+
+        $('#addTeamToLogbook').click(function () {
+            var checked = $(this).prop("checked");
+            social_model.setAddTeamToLogbook(
+                checked,
+                function (/*json*/) {
+                },
+                function (json) {
+                    if (json && json.hasOwnProperty("message")) {
+                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                    }
+                    else {
+                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                    }
+                }
+            );
+        });
     },
 
     findDiver: function () {

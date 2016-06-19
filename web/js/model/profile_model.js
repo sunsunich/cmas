@@ -1,7 +1,6 @@
 var profile_model = {
 
     isFileUpload: true,
-    currentTab: '',
 
     loadCard: function (cardId, successHandler, errorHandler) {
         loader_controller.startwait();
