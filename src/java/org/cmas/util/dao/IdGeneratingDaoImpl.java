@@ -19,7 +19,7 @@ public class IdGeneratingDaoImpl<T> extends HibernateDaoImpl<T> implements IdGen
         Criteria criteria = createCriteria().add(Restrictions.eq("id", id));
         criteria.setProjection(Projections.rowCount());
         Object result = criteria.uniqueResult();
-        return result != null && ((Number) result).intValue() > 0;
+        return result == null || ((Number) result).intValue() == 0;
     }
 
     @Override

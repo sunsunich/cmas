@@ -1,5 +1,9 @@
 var social_model = {
 
+    removeFriendId : 0,
+
+    removeFriendRequestId : 0,
+
     simpleGetRequest: function (url, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
@@ -32,6 +36,29 @@ var social_model = {
 
     getToRequests: function (successHandler, errorHandler) {
         this.simpleGetRequest("/secure/social/getToRequests.html", successHandler, errorHandler);
+    },
+
+    getDiver: function (diverId, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/getDiver.html",
+            dataType: "json",
+            data: {"diverId": diverId},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
     },
 
     searchNewFriends: function (form, successHandler, errorHandler) {
@@ -126,13 +153,38 @@ var social_model = {
         });
     },
 
-    removeFriend: function (diverId, successHandler, errorHandler) {
+    removeFriend: function (successHandler, errorHandler) {
+        var self = this;
         loader_controller.startwait();
         $.ajax({
             type: "Get",
             url: "/secure/social/removeFriend.html",
             dataType: "json",
-            data: {"diverId": diverId},
+            data: {"diverId": self.removeFriendId},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
+    removeFriendRequest: function (successHandler, errorHandler) {
+        var self = this;
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/social/removeFriendRequest.html",
+            dataType: "json",
+            data: {"friendRequestId": self.removeFriendRequestId},
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {

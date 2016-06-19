@@ -1,5 +1,7 @@
 package org.cmas.json;
 
+import com.google.myjson.annotations.Expose;
+
 /**
  * Created with IntelliJ IDEA.
  * User: sunsunich
@@ -8,8 +10,10 @@ package org.cmas.json;
  */
 public class SimpleGsonResponse {
 
+    @Expose
     private Boolean success;
 
+    @Expose
     private String message;
 
     public SimpleGsonResponse() {

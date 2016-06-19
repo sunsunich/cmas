@@ -1,4 +1,4 @@
-<% var i = 0;
+<% var i;
 for(i = 0;i < divers.length;i++) {
     var fullName = divers[i].firstName + ' ' + divers[i].lastName;
     var userpicSrc;
@@ -25,13 +25,11 @@ for(i = 0;i < divers.length;i++) {
 <div class="panel">
     <div class="clearfix">
         <div class="diverList-elem-left">
-            <img id="userpic" src="<%= userpicSrc %>"/>
+            <img id="userpic" src="<%=userpicSrc %>"/>
         </div>
         <div class="diverList-elem-right">
-            <p><span class="panel-text"><%= fullName %></span></p>
-
-            <p><span class="panel-text"><%= divers[i].diverType %></span>
-            </p>
+            <p><span class="panel-text"><%=fullName %></span></p>
+            <p><span class="panel-text"><%=divers[i].diverType %></span></p>
             <% var j;
             for(j = 0;j < starCnt;j++) {
             %>
@@ -41,21 +39,18 @@ for(i = 0;i < divers.length;i++) {
             %>
             <p><span class="panel-text">Not registered at CMAS Data</span></p>
             <% } else { %>
-            <p><span class="panel-text"><%= cardNumber %></span></p>
-
+            <p><span class="panel-text"><%=cardNumber %></span></p>
             <% } %>
         </div>
     </div>
     <% if(cardNumber != null){
     %>
     <div class="button-container">
-        <button class="userInfo-button enter-button" id="<%= divers[i].id %>_addFriend">
-            <%= labels["cmas.face.findDiver.add"] %>
+        <button class="userInfo-button enter-button" id="<%=divers[i].id %>_addFriend">
+            <%=labels["cmas.face.findDiver.add"] %>
         </button>
-        <span style="display: none" class="panel-text" id="<%= divers[i].id %>_addFriendNotification"></span>
+        <div style="display: none" class="panel-text" id="<%=divers[i].id %>_addFriendNotification"></div>
     </div>
     <% } %>
 </div>
-
-
 <% } %>

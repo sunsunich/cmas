@@ -97,6 +97,19 @@ public class UserProfileController {
         return diver;
     }
 
+    @RequestMapping("/secure/getDiver.html")
+    public View getDiver(@RequestParam("diverId") long diverId) throws IOException {
+        Diver diver = diverDao.getModel(diverId);
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        byte[] userpic = diver.getUserpic();
+        if (userpic != null) {
+            diver.setPhoto(Base64Coder.encodeString(userpic));
+        }
+        return gsonViewFactory.createGsonView(diver);
+    }
+
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
         try {

@@ -15,6 +15,8 @@ public interface DiverFriendRequestDao extends HibernateDao<DiverFriendRequest> 
 
     boolean hasDiverFriendRequest(Diver from, Diver to);
 
+    DiverFriendRequest getDiverFriendRequest(Diver from, Diver to);
+
     List<DiverFriendRequest> getRequestsFromDiver(Diver diver);
 
     List<DiverFriendRequest> getRequestsToDiver(Diver diver);

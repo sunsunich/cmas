@@ -36,6 +36,7 @@
 
                 <value>/secure/pageErrorLoad.html</value>
 
+                <value>/secure/getDiver.html</value>
                 <value>/secure/profile/getUser.html</value>
                 <value>/secure/profile/getUserpic.html</value>
                 <value>/secure/processEditPasswd.html</value>

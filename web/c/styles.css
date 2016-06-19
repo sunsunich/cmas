@@ -153,8 +153,8 @@ input, p {
     margin-top: 25px;
 }
 
-.panel a,
-.panel label {
+.panel-href,
+.panel-label {
     font-size: 16px;
 }
 
@@ -163,7 +163,7 @@ input, p {
     color: #f8f8f8;
 }
 
-.panel label {
+.panel-label {
     color: #99b5c3;
 }
 
@@ -199,6 +199,10 @@ input, p {
     white-space: nowrap
 }
 
+#userpic {
+    max-height: 110px;
+}
+
 .star {
     width: 30px;
     height: 30px;
@@ -224,6 +228,7 @@ input, p {
 
 .diverList-elem-right p span {
     padding-bottom: 10px;
+    font-size: 20px;
 }
 
 .friendListElemLeft, .friendListElemRight {
@@ -237,6 +242,16 @@ input, p {
 
 .friendListElemRight {
     left: 10px;
+}
+
+.friendListElem-href {
+    font-size: 20px;
+    color: #f8f8f8;
+}
+
+.friendListElemCenter {
+    text-align: center;
+    margin-bottom: 5px;
 }
 
 .clearfix:after {

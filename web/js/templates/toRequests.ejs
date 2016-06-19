@@ -1,13 +1,22 @@
 <% var i = 0;
 for(i = 0;i < requests.length;i++) {
-    var fullName = requests[i].to.firstName + ' ' + requests[i].to.lastName;
+    var fullName = requests[i].from.firstName + ' ' + requests[i].from.lastName;
 %>
-<div>
-    <img id="<%=requests[i].id %>_removeToRequest" src="/i/close_white.png"/>
-    <%if( requests[i].to.diverType == 'INSTRUCTOR') {%>
-    <a id="<%=requests[i].id %>_viewToRequest" class="panel-text"><%=fullName %><b>(Instructor)</b></a>
-    <% } else {%>
-    <a id="<%=requests[i].id %>_viewToRequest" class="panel-text"><%=fullName %></a>
-    <% } %>
+<div class="panel-row">
+    <div class="friendListElemCenter">
+        <% if(requests[i].from.diverType == 'INSTRUCTOR') { %>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].from.id %>_showFromDiver"><%= fullName %> <b>(Instructor)</b></a>
+        <% } else { %>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].from.id %>_showFromDiver"><%= fullName %></a>
+        <% } %>
+    </div>
+    <div class="button-container">
+        <button class="userInfo-button enter-button" id="<%= requests[i].id %>_acceptRequest">
+            <%= labels["cmas.face.client.social.friendRequest.accept"] %>
+        </button>
+        <button class="userInfo-button reg-button" id="<%= requests[i].id %>_rejectRequest">
+            <%= labels["cmas.face.client.social.friendRequest.reject"] %>
+        </button>
+    </div>
 </div>
 <% } %>

@@ -11,6 +11,7 @@ import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
+import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +68,18 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/searchNewFriends.html")
     public View searchNewFriends(@ModelAttribute("command") FindDiverFormObject formObject, Errors result) {
-        Diver diver = getDiver();
+        Diver currentDiver = getDiver();
         validator.validate(formObject, result);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(result);
         }
-        List<Diver> divers = diverDao.searchNotFriendDivers(diver.getId(), formObject);
+        List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
+        for (Diver diver : divers) {
+            byte[] userpic = diver.getUserpic();
+            if (userpic != null) {
+                diver.setPhoto(Base64Coder.encodeString(userpic));
+            }
+        }
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -89,8 +96,10 @@ public class UserSocialSettingsController {
         if (diverDao.isFriend(diver, friend)) {
             return gsonViewFactory.createErrorGsonView("validation.friendAlready");
         }
-        if (diverFriendRequestDao.hasDiverFriendRequest(friend, diver)) {
+        DiverFriendRequest reverseRequest = diverFriendRequestDao.getDiverFriendRequest(friend, diver);
+        if (reverseRequest != null) {
             addFriend(diver, friend);
+            diverFriendRequestDao.deleteModel(reverseRequest);
             //todo separate case
             return gsonViewFactory.createGsonView(new SimpleGsonResponse(true, "validation.friendRequestSentToYou"));
         }
@@ -99,13 +108,13 @@ public class UserSocialSettingsController {
         return gsonViewFactory.createSuccessGsonView();
     }
 
-    private FriendRequestValidationResult validateFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
+    private FriendRequestValidationResult validateFriendRequest(@RequestParam("friendRequestId") long friendRequestId, boolean isFromCurrentDiver) {
         Diver diver = getDiver();
         DiverFriendRequest friendRequest = diverFriendRequestDao.getModel(friendRequestId);
         if (friendRequest == null) {
             return new FriendRequestValidationResult("validation.friendRequestAlreadyProcessed", null);
         }
-        Diver from = friendRequest.getFrom();
+        Diver from = isFromCurrentDiver ? friendRequest.getFrom() : friendRequest.getTo();
         if (from.getId() != diver.getId()) {
             throw new BadRequestException();
         }
@@ -114,7 +123,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/acceptFriendRequest.html")
     public View acceptFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId);
+        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, false);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
@@ -125,6 +134,7 @@ public class UserSocialSettingsController {
         Diver from = friendRequest.getFrom();
         Diver to = friendRequest.getTo();
         addFriend(from, to);
+        diverFriendRequestDao.deleteModel(friendRequest);
         return gsonViewFactory.createSuccessGsonView();
     }
 
@@ -136,7 +146,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/rejectFriendRequest.html")
     public View rejectFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId);
+        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, false);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
@@ -148,7 +158,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/removeFriendRequest.html")
     public View removeFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId);
+        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, true);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }

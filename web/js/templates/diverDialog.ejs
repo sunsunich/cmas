@@ -1,0 +1,43 @@
+<%
+var fullName = diver.firstName + ' ' + diver.lastName;
+var userpicSrc;
+if (diver.photo == null) {
+    userpicSrc = '/i/no_img.png';
+} else {
+    userpicSrc = 'data:image/png;base64,' + diver.photo;
+}
+var starCnt = 0;
+if (diver.diverLevel == 'ONE_STAR') {
+    starCnt = 1;
+} else if (diver.diverLevel == 'TWO_STAR') {
+    starCnt = 2;
+} else if (diver.diverLevel == 'THREE_STAR') {
+    starCnt = 3;
+}
+var cardNumber;
+if (diver.primaryPersonalCard == null) {
+    cardNumber = null;
+} else {
+    cardNumber = diver.primaryPersonalCard.number;
+}
+%>
+<div class="clearfix">
+    <div class="diverList-elem-left">
+        <img id="userpic" src="<%=userpicSrc %>"/>
+    </div>
+    <div class="diverList-elem-right">
+        <p><span><%=fullName %></span></p>
+        <p><span><%=diver.diverType %></span></p>
+        <% var j;
+        for(j = 0;j < starCnt;j++) {
+        %>
+        <img class="star" src="/i/star.png"/>
+        <% } %>
+        <% if(cardNumber == null){
+        %>
+        <p>Not registered at CMAS Data</p>
+        <% } else { %>
+        <p><span><%=cardNumber %></span></p>
+        <% } %>
+    </div>
+</div>

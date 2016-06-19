@@ -27,6 +27,14 @@ public class DiverFriendRequestDaoImpl extends HibernateDaoImpl<DiverFriendReque
     }
 
     @Override
+    public DiverFriendRequest getDiverFriendRequest(Diver from, Diver to) {
+        return (DiverFriendRequest)createCriteria()
+                .add(Restrictions.eq("from", from))
+                .add(Restrictions.eq("to", to))
+                .uniqueResult();
+    }
+
+    @Override
     public List<DiverFriendRequest> getRequestsFromDiver(Diver diver) {
         return createCriteria()
                 .add(Restrictions.eq("from", diver))

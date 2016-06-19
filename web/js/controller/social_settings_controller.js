@@ -27,6 +27,10 @@ var social_settings_controller = {
                     );
                     var i;
                     for (i = 0; i < json.length; i++) {
+                        $('#' + json[i].id + '_showFriendDiver').click(function (e) {
+                            e.preventDefault();
+                            self.showDiver($(this)[0].id);
+                        });
                         $('#' + json[i].id + '_removeFriend').click(function () {
                             self.removeFriend($(this)[0].id);
                         });
@@ -51,12 +55,19 @@ var social_settings_controller = {
                     $('#toRequests').html(
                         new EJS({url: '/js/templates/toRequests.ejs'}).render({"requests": json})
                     );
-                    //var i;
-                    //for (i = 0; i < json.length; i++) {
-                    //    $('#' + json[i].id + '_removeFriend').click(function () {
-                    //        self.removeFriend($(this)[0].id);
-                    //    });
-                    //}
+                    var i;
+                    for (i = 0; i < json.length; i++) {
+                        $('#' + json[i].from.id + '_showFromDiver').click(function (e) {
+                            e.preventDefault();
+                            self.showDiver($(this)[0].id);
+                        });
+                        $('#' + json[i].id + '_acceptRequest').click(function () {
+                            self.acceptFriendRequest($(this)[0].id);
+                        });
+                        $('#' + json[i].id + '_rejectRequest').click(function () {
+                            self.rejectFriendRequest($(this)[0].id);
+                        });
+                    }
                 }
                 else {
                     $('#toRequestsPanel').hide();
@@ -73,6 +84,16 @@ var social_settings_controller = {
                     $('#fromRequests').html(
                         new EJS({url: '/js/templates/fromRequests.ejs'}).render({"requests": json})
                     );
+                    var i;
+                    for (i = 0; i < json.length; i++) {
+                        $('#' + json[i].to.id + '_showToDiver').click(function (e) {
+                            e.preventDefault();
+                            self.showDiver($(this)[0].id);
+                        });
+                        $('#' + json[i].id + '_removeFromRequest').click(function () {
+                            self.removeFriendRequest($(this)[0].id);
+                        });
+                    }
                 }
                 else {
                     $('#fromRequestsPanel').hide();
@@ -119,11 +140,48 @@ var social_settings_controller = {
             $('#friendRemove').hide();
         });
         $('#friendRemoveOk').click(function () {
-            $('#friendRequestResult').hide();
+            social_model.removeFriend(
+                function (/*json*/) {
+                    self.refreshFriends();
+                    $('#friendRemove').hide();
+                }
+                , function (json) {
+                    if (json && json.hasOwnProperty("message")) {
+                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                    }
+                    else {
+                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                    }
+                });
+        });
+        $('#friendRequestRemoveClose').click(function () {
+            $('#friendRequestRemove').hide();
+        });
+        $('#friendRequestRemoveOk').click(function () {
+            social_model.removeFriendRequest(
+                function (/*json*/) {
+                    self.refreshFriendRequests();
+                    $('#friendRequestRemove').hide();
+                }
+                , function (json) {
+                    if (json && json.hasOwnProperty("message")) {
+                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                    }
+                    else {
+                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                    }
+                });
+        });
+        $('#showDiverClose').click(function () {
+            $('#showDiver').hide();
+        });
+        $('#showDiverOk').click(function () {
+            $('#showDiver').hide();
         });
     },
 
     findDiver: function () {
+        var self = this;
         var findDiverForm = {
             diverType: $("input[name=findDiverType]:checked").val(),
             country: $('#findDiverCountry').val(),
@@ -133,7 +191,6 @@ var social_settings_controller = {
         this.cleanFindDiverErrors();
         var formErrors = this.validateFindDiverForm(findDiverForm);
         if (formErrors.success) {
-            var self = this;
             social_model.searchNewFriends(
                 findDiverForm
                 , function (json) {
@@ -183,6 +240,26 @@ var social_settings_controller = {
         $('#findDiver_error_name').empty();
     },
 
+    showDiver: function (elemId) {
+        var diverId = elemId.split('_')[0];
+        social_model.getDiver(
+            diverId
+            , function (json) {
+                $('#showDiverContent').html(
+                    new EJS({url: '/js/templates/diverDialog.ejs'}).render({"diver": json})
+                );
+                $('#showDiver').show();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
     showFoundDivers: function (divers) {
         var self = this;
         $('#findDiver').hide();
@@ -225,18 +302,50 @@ var social_settings_controller = {
             }
             , function (json) {
                 $('#' + diverId + '_addFriendNotification')
-                    .html(labels["cmas.face.friendRequest.success"] + ' ' + error_codes[json.message])
+                    .html(labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message])
                     .show();
             });
     },
 
     removeFriend: function (elemId) {
         var diverId = elemId.split('_')[0];
+        social_model.removeFriendId = diverId;
+        var diverName = $('#' + diverId + '_showFriendDiver').html();
+        $('#removeDiverName').html(diverName);
+        $('#friendRemove').show();
+    },
+
+    removeFriendRequest: function (elemId) {
+        social_model.removeFriendRequestId = elemId.split('_')[0];
+        $('#friendRequestRemove').show();
+    },
+
+    acceptFriendRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
         var self = this;
-        social_model.removeFriend(
-            diverId
+        social_model.acceptFriendRequest(
+            requestId
             , function (/*json*/) {
+                self.refreshFriendRequests();
                 self.refreshFriends();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    rejectFriendRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
+        var self = this;
+        social_model.rejectFriendRequest(
+            requestId
+            , function (/*json*/) {
+                self.refreshFriendRequests();
             }
             , function (json) {
                 if (json && json.hasOwnProperty("message")) {

@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Table(name = "diver_friend_requests")
 public class DiverFriendRequest {
 
+    @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

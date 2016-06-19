@@ -36,7 +36,7 @@
 
                     <div class="userpic-selection-right">
                         <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
-                        <a href="#" class="link">
+                        <a href="#" class="panel-href link">
                             <s:message code="cmas.face.client.profile.selectUserpic"/>
                         </a>
                     </div>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="panel-row">
-                    <label><s:message code="cmas.face.client.profile.form.label.dob"/>&nbsp;</label>
+                    <label class="panel-label"><s:message code="cmas.face.client.profile.form.label.dob"/>&nbsp;</label>
                     <span class="panel-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></span>
                 </div>
             </div>
@@ -65,8 +65,9 @@
                     <img id="cardImg" width="90%"/>
                 </div>
                 <div class="pass_link">
-                    <a class="link" href="${pageContext.request.contextPath}/secure/cards.html"><s:message
-                            code="cmas.face.client.profile.showAllCards"/></a>
+                    <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">
+                        <s:message code="cmas.face.client.profile.showAllCards"/>
+                    </a>
                 </div>
             </div>
             <div class="panel">
@@ -117,7 +118,7 @@
                 <div class="header">
                     <s:message code="cmas.face.client.social.friendRequestsFrom.header"/>
                 </div>
-                <div class="panel-row" id="fromRequests">
+                <div id="fromRequests">
                 </div>
             </div>
 
@@ -218,10 +219,23 @@
     <my:dialog id="friendRemove"
                title="cmas.face.friendRemove.title"
                buttonText="cmas.face.friendRemove.submitText">
-        <div id="noDiversFoundText">
+        <div>
             <s:message code="cmas.face.friendRemove.question"/>
-            <span> <b id="removeDiverName"></b></span>
+            <span> <b id="removeDiverName"></b>?</span>
         </div>
+    </my:dialog>
+
+    <my:dialog id="friendRequestRemove"
+               title="cmas.face.friendRequestRemove.title"
+               buttonText="cmas.face.friendRequestRemove.submitText">
+        <div>
+            <s:message code="cmas.face.friendRequestRemove.question"/>
+        </div>
+    </my:dialog>
+
+    <my:dialog id="showDiver"
+               title="cmas.face.showDiver.title"
+               buttonText="cmas.face.showDiver.submitText">
     </my:dialog>
 
     <my:dialog id="selectUserpic"
