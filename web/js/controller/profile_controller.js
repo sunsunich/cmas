@@ -7,17 +7,15 @@ var profile_controller = {
     setListeners: function () {
         var self = this;
 
+        var tabName = cookie_controller.readCookie("PROFILE_TAB");
+        if (tabName) {
+            self.showTab(tabName);
+        }
         $('#privateTab').click(function () {
-            $('#socialTab').addClass('inactive');
-            $('#privateTab').removeClass('inactive');
-            $('#socialSettings').hide();
-            $('#privateSettings').show();
+            self.showTab('PRIVATE');
         });
         $('#socialTab').click(function () {
-            $('#privateTab').addClass('inactive');
-            $('#socialTab').removeClass('inactive');
-            $('#privateSettings').hide();
-            $('#socialSettings').show();
+            self.showTab('SOCIAL');
         });
 
         $('.userpic-selection-right a').click(function (event) {
@@ -60,6 +58,21 @@ var profile_controller = {
             self.loadPrimaryCard();
         });
         self.loadPrimaryCard();
+    },
+
+    showTab: function (tabName) {
+        if (tabName == 'PRIVATE') {
+            $('#socialTab').addClass('inactive');
+            $('#privateTab').removeClass('inactive');
+            $('#socialSettings').hide();
+            $('#privateSettings').show();
+        } else {
+            $('#privateTab').addClass('inactive');
+            $('#socialTab').removeClass('inactive');
+            $('#privateSettings').hide();
+            $('#socialSettings').show();
+        }
+        cookie_controller.createCookie("PROFILE_TAB", tabName, 0);
     },
 
     loadPrimaryCard: function () {

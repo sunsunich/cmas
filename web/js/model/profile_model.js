@@ -1,6 +1,7 @@
 var profile_model = {
 
     isFileUpload: true,
+    currentTab: '',
 
     loadCard: function (cardId, successHandler, errorHandler) {
         loader_controller.startwait();
@@ -120,7 +121,7 @@ var profile_model = {
             url: "/secure/processEditUserpic.html",
             dataType: "json",
             data: {
-                imageBase64Bytes : imageBase64Bytes
+                imageBase64Bytes: imageBase64Bytes
             },
             success: function (json) {
                 if (json.success) {
