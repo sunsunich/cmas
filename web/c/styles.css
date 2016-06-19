@@ -92,7 +92,7 @@ input, p {
     background: #f8f8f8;
     height: auto;
     margin: 0 auto;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -151,6 +151,15 @@ input, p {
 
 .panel-row {
     margin-top: 25px;
+    width: 100%;
+}
+
+.country-panel-row {
+    width: 100%;
+}
+
+.panel-row-bottom-margin{
+    margin-bottom: 25px;
 }
 
 .panel-href,

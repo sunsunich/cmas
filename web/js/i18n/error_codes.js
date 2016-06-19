@@ -30,8 +30,8 @@ var error_codes = {
     "validation.imageFormat": "Uploaded image has incorrect file format",
     "validation.imageSize": "Uploaded image is too big. Maximum image size is 250KB",
 
-    "validation.internal.email": "internal email server error",
-    "validation.internal": "internal server error",
+    "validation.internal.email": "The email sending function is not working properly at the moment. Please try again later",
+    "validation.internal": "This function is not working properly at the moment. Please try again later",
 
     "typeMismatch.java.lang.Long": "incorrect number",
 

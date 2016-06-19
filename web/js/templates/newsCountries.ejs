@@ -1,0 +1,12 @@
+<% var i = 0;
+for(i = 0;i < countries.length;i++) {
+%>
+<div class="country-panel-row clearfix">
+    <div class="friendListElemLeft">
+        <img id="<%=countries[i].code %>_removeNewsCountry" src="/i/close_white.png"/>
+    </div>
+    <div class="friendListElemRight">
+        <span class="panel-text"><%=countries[i].name %></span>
+    </div>
+</div>
+<% } %>

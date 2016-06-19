@@ -67,6 +67,11 @@ public class UserSocialSettingsController {
         return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsToDiver(getDiver()));
     }
 
+    @RequestMapping("/secure/social/getNewsCountries.html")
+    public View getNewsCountries() {
+        return gsonViewFactory.createGsonView(getDiver().getNewsFromCountries());
+    }
+
     @RequestMapping("/secure/social/searchNewFriends.html")
     public View searchNewFriends(@ModelAttribute("command") FindDiverFormObject formObject, Errors result) {
         Diver currentDiver = getDiver();

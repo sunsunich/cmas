@@ -12,6 +12,7 @@ var social_settings_controller = {
         country_controller.init();
         this.refreshFriends();
         this.refreshFriendRequests();
+        this.refreshNewsCountries();
 
         this.setListeners();
     },
@@ -105,12 +106,49 @@ var social_settings_controller = {
         );
     },
 
+    refreshNewsCountries: function () {
+        var self = this;
+        social_model.getNewsCountries(
+            function (json) {
+                if (json.length > 0) {
+                    $('#newsCountries').html(
+                        new EJS({url: '/js/templates/newsCountries.ejs'}).render({"countries": json})
+                    ).show();
+                    for (var i = 0; i < json.length; i++) {
+                        $('#' + json[i].code + '_removeNewsCountry').click(function () {
+                            var code = $(this)[0].id.split('_')[0];
+                            social_model.removeCountryFromNews(code,
+                                function () {
+                                    self.refreshNewsCountries();
+                                },
+                                function (json) {
+                                    if (json && json.hasOwnProperty("message")) {
+                                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                                    }
+                                    else {
+                                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                                    }
+                                }
+                            );
+                        });
+                    }
+                }
+                else {
+                    $('#newsCountries').hide();
+                }
+            }
+            , function () {
+                $('#newsCountries').hide();
+            }
+        );
+    },
+
     setListeners: function () {
         var self = this;
         var option = '';
         for (var i = 0; i < visibilityTypes.length; i++) {
             option += '<option value="' + visibilityTypes[i] + '"';
-            if( visibilityTypes[i] == logbookVisibility){
+            if (visibilityTypes[i] == logbookVisibility) {
                 option += ' selected="selected"';
             }
             option += '>' + labels[visibilityTypes[i]] + '</option>';
@@ -237,6 +275,49 @@ var social_settings_controller = {
                 }
             );
         });
+        $('#addCountryClose').click(function () {
+            $('#addCountry').hide();
+        });
+        $('#addCountryOk').click(function () {
+            self.addCountryToNews();
+        });
+        $('#addCountryButton').click(function () {
+            $('#addCountry').show();
+        });
+    },
+
+    addCountryToNews: function () {
+        var self = this;
+        var countryCode = $('#countryToNews').val();
+        $('#addCountryForm_error_countryCode').empty();
+        $('#addCountryForm_error').empty().hide();
+        var formErrors = {};
+        formErrors.fieldErrors = {};
+        formErrors.errors = [];
+        formErrors.success = jQuery.isEmptyObject(formErrors.fieldErrors) && jQuery.isEmptyObject(formErrors.errors);
+        if (isStringTrimmedEmpty(countryCode)) {
+            result.fieldErrors["countryCode"] = 'validation.emptyField';
+        }
+        if (formErrors.success) {
+            social_model.addCountryToNews(
+                countryCode,
+                function (/*json*/) {
+                    self.refreshNewsCountries();
+                    $('#addCountry').hide();
+                }
+                , function (json) {
+                    if (json) {
+                        validation_controller.showErrors('addCountryForm', json);
+                    }
+                    else {
+                        $('#addCountryForm_error').html(error_codes["validation.internal"]);
+                    }
+                }
+            );
+        }
+        else {
+            validation_controller.showErrors('addCountryForm', formErrors);
+        }
     },
 
     findDiver: function () {

@@ -38,6 +38,10 @@ var social_model = {
         this.simpleGetRequest("/secure/social/getToRequests.html", successHandler, errorHandler);
     },
 
+    getNewsCountries: function (successHandler, errorHandler) {
+        this.simpleGetRequest("/secure/social/getNewsCountries.html", successHandler, errorHandler);
+    },
+
     getDiver: function (diverId, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({

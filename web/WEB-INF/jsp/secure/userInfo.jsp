@@ -130,26 +130,23 @@
                 <div class="header">
                     <s:message code="cmas.face.client.social.logbook.settings.header"/>
                 </div>
-                <select name="visibilityType" id="visibilityType" style="width: 100%" size=1 onChange="">
-
-                </select>
+                <div class="panel-row">
+                    <select name="visibilityType" id="visibilityType" style="width: 100%" size=1 onChange="">
+                    </select>
+                </div>
             </div>
             <div class="panel">
                 <div class="header">
                     <s:message code="cmas.face.client.social.newsfeed.header"/>
                 </div>
-                <div class="panel-row">
+                <div class="panel-row panel-row-bottom-margin">
                     <input type="checkbox" id="addLocationCountryToNewsFeed"
                            <c:if test="${diver.newsFromCurrentLocation}">checked="checked"</c:if>
                             />
                     <span class="text"><s:message code="cmas.face.client.social.newfeed.currentLocation"/></span>
                 </div>
-                <c:forEach items="${diver.newsFromCountries}" var="country">
-                    <div>
-                        <img id="${country.id}_remove" src="${pageContext.request.contextPath}/i/close.png"/>
-                        <span class="panel-text">${country.name}</span>
-                    </div>
-                </c:forEach>
+                <div id="newsCountries">
+                </div>
                 <div class="panel-row">
                     <div class="button-container">
                         <button class="centerUserInfo-button reg-button" id="addCountryButton">
@@ -173,6 +170,7 @@
             </div>
         </div>
     </div>
+
     <my:dialog id="findDiver"
                title="cmas.face.findDiver.form.page.title"
                buttonText="cmas.face.findDiver.form.submitText">
@@ -194,7 +192,6 @@
             <div class="error" id="findDiver_error_diverType"></div>
             <div class="dialog-form-row">
                 <select name="findDiverCountry" id="findDiverCountry" style="width: 100%" size=1 onChange="">
-                    <option value=''><s:message code="cmas.face.findDiver.form.label.country"/></option>
                     <c:forEach items="${countries}" var="country">
                         <option value='${country.code}'>${country.name}</option>
                     </c:forEach>
@@ -238,6 +235,24 @@
     <my:dialog id="showDiver"
                title="cmas.face.showDiver.title"
                buttonText="cmas.face.showDiver.submitText">
+    </my:dialog>
+
+    <my:dialog id="addCountry"
+               title="cmas.face.addCountry.title"
+               buttonText="cmas.face.addCountry.submitText">
+        <div id="addCountryForm">
+            <div class="dialog-form-row">
+                <select name="countryToNews" id="countryToNews" style="width: 100%" size=1 onChange="">
+                    <c:forEach items="${countries}" var="country">
+                        <option value='${country.code}'>${country.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="error" id="addCountryForm_error_countryCode"></div>
+
+            <div class="error" style="display: none" id="addCountryForm_error">
+            </div>
+        </div>
     </my:dialog>
 
     <my:dialog id="selectUserpic"

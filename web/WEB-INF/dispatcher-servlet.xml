@@ -47,6 +47,8 @@
                 <value>/secure/social/getFriends.html</value>
                 <value>/secure/social/getFromRequests.html</value>
                 <value>/secure/social/getToRequests.html</value>
+                <value>/secure/social/getNewsCountries.html</value>
+
                 <value>/secure/social/searchNewFriends.html</value>
                 <value>/secure/social/sendFriendRequest.html</value>
                 <value>/secure/social/acceptFriendRequest.html</value>
