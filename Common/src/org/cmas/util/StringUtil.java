@@ -39,6 +39,7 @@ public final class StringUtil {
 
     /**
      * Сравнивает две строки с учетом NULL`ов
+     *
      * @param str
      * @param anStr
      * @return
@@ -54,5 +55,16 @@ public final class StringUtil {
             return false;
         }
         return correctSpaceCharAndTrim(str).equals(correctSpaceCharAndTrim(anStr));
+    }
+
+    public static String addLeadingZerosDecimal(int maxDigits, int i) {
+        long maxNumber = (long) StrictMath.pow(10.0, (double) maxDigits);
+        if (maxNumber > (long) Integer.MAX_VALUE) {
+            throw new IllegalArgumentException();
+        }
+        if ((long) i >= maxNumber) {
+            throw new IllegalArgumentException();
+        }
+        return String.valueOf(maxNumber + (long) i).substring(1);
     }
 }

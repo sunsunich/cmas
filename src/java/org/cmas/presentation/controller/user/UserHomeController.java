@@ -3,6 +3,7 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -17,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +30,7 @@ import java.util.Date;
 /**
 
  */
+@SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class UserHomeController {
 
@@ -43,6 +45,9 @@ public class UserHomeController {
 
     @Autowired
     private RegistrationService registrationService;
+
+    @Autowired
+    private PaySystemSettings paySystemSettings;
 
     @Autowired
     private DiverDao diverDao;
@@ -94,7 +99,8 @@ public class UserHomeController {
             return new ModelAndView("redirect:/secure/welcome-continue.html");
         }
         ModelMap mm = new ModelMap();
-        mm.addAttribute("isFree", isFree);
+        mm.addAttribute("isFree", false);
+        mm.addAttribute("firstPayment", paySystemSettings.getFirstPayment());
         return new ModelAndView("/secure/welcome", mm);
     }
 
@@ -108,27 +114,23 @@ public class UserHomeController {
 
     @RequestMapping("/secure/pay.html")
     @Transactional
-    public ModelAndView pay(@ModelAttribute("command") PaymentAddFormObject fo, BindingResult errors) {
-
+    public ModelAndView pay(@ModelAttribute("command") PaymentAddFormObject fo, Errors errors) {
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", fo);
-        final BackendUser<? extends User> user = authenticationService.getCurrentUser();
+        BackendUser<? extends User> user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();
         }
         if (StringUtil.isEmpty(fo.getAmount()) ||
-            StringUtil.isEmpty(fo.getPaymentType())) {//|| StringUtil.isEmpty(fo.getCurrencyType())) {
+            StringUtil.isEmpty(fo.getPaymentType())) {
             return new ModelAndView("/secure/pay", mm);
         }
-
         validator.validate(fo, errors);
         if (errors.hasErrors()) {
             return new ModelAndView("/secure/pay", mm);
         }
-
         Invoice invoice = billingService.createInvoice(fo, user.getUser());
-
         mm.addAttribute("invoiceId", invoice.getExternalInvoiceNumber());
-        return new ModelAndView("redirect:/secure/billing/interkassa/accept.html", mm);
+        return new ModelAndView("redirect:/secure/billing/systempay/accept.html", mm);
     }
 }

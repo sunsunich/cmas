@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:beans="http://www.springframework.org/schema/beans"
-       xmlns:aop="http://www.springframework.org/schema/aop"       
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
-                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-       ">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 
      <bean id="jspModelConributeFilter" class="org.cmas.presentation.controller.filter.JspModelConributeFilter">
@@ -49,11 +40,8 @@
     <bean id="homeController"
           class="org.cmas.presentation.controller.face.HomePageController"/>
 
-    <bean id="interKassaController"
-              class="org.cmas.presentation.controller.user.billing.interkassa.InterKassaController"/>
-        
-    <bean id="interKassaValidator"
-          class="org.cmas.presentation.controller.user.billing.interkassa.InterKassaValidator"/>
+    <bean id="systempayValidator"
+          class="org.cmas.presentation.controller.user.billing.systempay.SystempayValidator"/>
 
     <bean id="lostPasswdValidator"
           class="org.cmas.presentation.validator.recovery.LostPasswordValidator"/>

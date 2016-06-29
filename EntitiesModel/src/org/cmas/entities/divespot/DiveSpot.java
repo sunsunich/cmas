@@ -1,5 +1,6 @@
 package org.cmas.entities.divespot;
 
+import com.google.myjson.annotations.Expose;
 import org.cmas.entities.DictionaryEntity;
 
 import javax.persistence.Column;
@@ -17,9 +18,11 @@ public class DiveSpot extends DictionaryEntity {
 
     private static final long serialVersionUID = 563219826507639916L;
 
+    @Expose
     @Column
     private double longitude;
 
+    @Expose
     @Column
     private double latitude;
 

@@ -63,11 +63,14 @@
 
                 <value>/secure/cards.html</value>
 
-                <value>/secure/billing/interkassa/accept.html</value>
+                <value>/secure/showSpots.html</value>
+                <value>/secure/getSpots.html</value>
+                <value>/secure/createRecord.html</value>
+
+                <value>/secure/billing/systempay/accept.html</value>
             </list>
         </property>
     </bean>
-
 
     <!--maps request URLs to Controller names -->
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">

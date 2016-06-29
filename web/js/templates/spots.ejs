@@ -1,0 +1,13 @@
+<% var i = 0;
+for(i = 0;i < spots.length;i++) {
+
+%>
+<div class="menu-row clearfix" id="<%=spots[i].id%>_chooseSpot">
+    <div class="menuElemLeft">
+        <%=spots[i].name%>
+    </div>
+    <div class="menuElemRight">
+        <img src="/i/arrow_left_gray.png"/>
+    </div>
+</div>
+<% } %>

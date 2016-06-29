@@ -5,25 +5,55 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class PaySystemSettings {
 
-    private String interKassaShopId;
+    private String firstPayment;
 
-    private String interKassaKey;
+    private String systempayMode;
+    private String systempayCurrencyCode;
+    private String systempaySiteId;
+    private String systempayCertificate;
 
-    public String getInterKassaShopId() {
-        return interKassaShopId;
+    public String getFirstPayment() {
+        return firstPayment;
     }
 
     @Required
-    public void setInterKassaShopId(String interKassaShopId) {
-        this.interKassaShopId = interKassaShopId;
+    public void setFirstPayment(String firstPayment) {
+        this.firstPayment = firstPayment;
     }
 
-    public String getInterKassaKey() {
-        return interKassaKey;
+    public String getSystempayMode() {
+        return systempayMode;
     }
 
     @Required
-    public void setInterKassaKey(String interKassaKey) {
-        this.interKassaKey = interKassaKey;
+    public void setSystempayMode(String systempayMode) {
+        this.systempayMode = systempayMode;
+    }
+
+    public String getSystempayCurrencyCode() {
+        return systempayCurrencyCode;
+    }
+
+    @Required
+    public void setSystempayCurrencyCode(String systempayCurrencyCode) {
+        this.systempayCurrencyCode = systempayCurrencyCode;
+    }
+
+    public String getSystempaySiteId() {
+        return systempaySiteId;
+    }
+
+    @Required
+    public void setSystempaySiteId(String systempaySiteId) {
+        this.systempaySiteId = systempaySiteId;
+    }
+
+    public String getSystempayCertificate() {
+        return systempayCertificate;
+    }
+
+    @Required
+    public void setSystempayCertificate(String systempayCertificate) {
+        this.systempayCertificate = systempayCertificate;
     }
 }

@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
  */
 public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<NationalFederation> implements SportsFederationDao{
 
+    //todo remove?
     @Override
     public NationalFederation getFederationForSportsman(String firstName, String lastName, Country country) {
         String hql = "select sf from org.cmas.presentation.dao.user.sport.NationalFederation" +
@@ -28,6 +29,6 @@ public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<NationalFeder
 
     @Override
     public NationalFederation getByCountry(Country country) {
-        return (NationalFederation)createCriteria().add(Restrictions.eq("country", country)).uniqueResult();
+        return (NationalFederation)createNotDeletedCriteria().add(Restrictions.eq("country", country)).uniqueResult();
     }
 }

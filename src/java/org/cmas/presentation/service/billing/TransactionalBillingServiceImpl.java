@@ -6,7 +6,10 @@ import org.cmas.presentation.dao.billing.FinLogDao;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.UserEventDao;
-import org.cmas.presentation.entities.billing.*;
+import org.cmas.presentation.entities.billing.FinLog;
+import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.presentation.entities.billing.InvoiceStatus;
+import org.cmas.presentation.entities.billing.OperationType;
 import org.cmas.presentation.entities.user.UserEvent;
 import org.cmas.presentation.entities.user.UserEventType;
 import org.hibernate.StaleObjectStateException;
@@ -35,10 +38,6 @@ public class TransactionalBillingServiceImpl {
         Invoice invoice = invoiceDao.getById(invoiceId);
         if (invoice.getInvoiceStatus() != InvoiceStatus.NOT_PAID) {
             return false;
-        }
-        if (invoice.getInvoiceType() == InvoiceType.INTERKASSA
-                ) {
-            invoice.setAmount(amount);
         }
         invoice.setInvoiceStatus(InvoiceStatus.PAID);
         invoiceDao.saveModel(invoice);

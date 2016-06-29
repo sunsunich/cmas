@@ -124,7 +124,7 @@
     <!-- end of Header -->
 
 
-    <div id="">           <!-- Content -->
+    <div id="Wrapper-content">           <!-- Content -->
         <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
         <my:dialog id="errorDialog"

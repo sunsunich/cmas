@@ -29,7 +29,7 @@
 
     <div class="pay-block">
 
-        <div class="pay_rules">Введите сумму пополнения и вы будете переведены на страницу платежного сервиса ИНТЕРКАССА
+        <div class="pay_rules">Введите сумму пополнения и вы будете переведены на страницу платежного сервиса
 
         </div>
 
@@ -37,7 +37,7 @@
         <form:form action="/secure/pay.html" method="POST" id="payForm">
             <form:hidden path="paymentType"/>
 
-            <ef:input path="amount" label="Введите сумму в $:"/>            
+            <ef:input path="amount" label="Введите сумму в Euro:"/>
 
             <input class="pay_agree" type="submit" value="Подтвердить"/>
 

@@ -35,5 +35,7 @@ var error_codes = {
 
     "typeMismatch.java.lang.Long": "incorrect number",
 
-    "error.sending.registration.email": "Error while sending you email with your password. Please try again later."
+    "error.sending.registration.email": "Error while sending you email with your password. Please try again later.",
+    "error.geolocation.service.failed": "Error: The Geolocation service failed",
+    "error.geolocation.support": "Error: Your browser doesn't support geolocation."
 };

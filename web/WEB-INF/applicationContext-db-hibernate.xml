@@ -101,6 +101,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="diveSpotDao" class="org.cmas.presentation.dao.divespot.DiveSpotDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="amateurDao" class="org.cmas.presentation.dao.user.AmateurDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -115,6 +119,10 @@
 
     <bean id="invoiceDao" class="org.cmas.presentation.dao.billing.InvoiceDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="transactionSettingsDao" class="org.cmas.presentation.controller.user.billing.systempay.TransactionSequenceDaoImpl">
+        <property name="jdbc" ref="jdbcTemplate"/>
     </bean>
 
     <bean id="finLogDao" class="org.cmas.presentation.dao.billing.FinLogDaoImpl">

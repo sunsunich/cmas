@@ -38,7 +38,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/secure/showSpots.html">
                                 <i class="menu-ico menu-ico-diving-spots"></i>
                                 <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                             </a>

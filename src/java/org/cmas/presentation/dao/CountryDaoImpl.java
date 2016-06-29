@@ -15,12 +15,12 @@ public class CountryDaoImpl extends DictionaryDataDaoImpl<Country> implements Co
 
     @Override
     public Country getByCode(String code) {
-        return (Country)createCriteria().add(Restrictions.eq("code", code)).uniqueResult();
+        return (Country)createNotDeletedCriteria().add(Restrictions.eq("code", code)).uniqueResult();
     }
 
     @Override
     public List<Country> getAll() {
         //noinspection unchecked
-        return createCriteria().addOrder(Order.asc("name")).list();
+        return createNotDeletedCriteria().addOrder(Order.asc("name")).list();
     }
 }

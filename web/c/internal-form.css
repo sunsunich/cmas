@@ -15,6 +15,7 @@
 .dialog-form-row {
     margin-bottom: 15px;
     position: relative;
+    width: 100%;
 }
 
 .dialog-form-row a {

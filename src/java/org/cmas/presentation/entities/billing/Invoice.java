@@ -5,7 +5,15 @@ import org.cmas.entities.UserAwareEntity;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -38,6 +46,9 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
     // Статус счёта: оплачен, частично оплачен, не оплачен
     @Column(columnDefinition = "int(11) NOT NULL DEFAULT '0'")
     private InvoiceStatus invoiceStatus;
+
+    @Column
+    private String description;
 
     /**
      * счета удалять нельзя, ибо бухгалтения против.
@@ -161,5 +172,13 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
                 ", invoiceType=" + invoiceType +
                 ", invoiceStatus=" + invoiceStatus +
                 '}';
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

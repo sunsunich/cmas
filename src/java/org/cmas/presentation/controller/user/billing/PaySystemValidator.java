@@ -40,7 +40,7 @@ public abstract class PaySystemValidator implements Validator {
             return false;
         }
         InvoiceType invoiceType = invoice.getInvoiceType();
-        if (  invoiceType != InvoiceType.INTERKASSA
+        if (  invoiceType != InvoiceType.SYSTEMPAY
            ) {
             return false;
         }

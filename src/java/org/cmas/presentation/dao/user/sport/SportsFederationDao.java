@@ -11,6 +11,7 @@ import org.cmas.presentation.dao.DictionaryDataDao;
  */
 public interface SportsFederationDao extends DictionaryDataDao<NationalFederation> {
 
+    //todo remove?
     NationalFederation getFederationForSportsman(String firstName, String lastName, Country country);
 
     NationalFederation getByCountry(Country country);

@@ -2,22 +2,27 @@ package org.cmas.presentation.dao;
 
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.util.dao.HibernateDaoImpl;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class DictionaryDataDaoImpl<T extends DictionaryEntity> extends HibernateDaoImpl<T> implements DictionaryDataDao<T> {
+public class DictionaryDataDaoImpl<T extends DictionaryEntity> extends HibernateDaoImpl<T> implements DictionaryDataDao<T> {
 
     @Nullable
     @Override
     public T getByName(String name) {
         //noinspection unchecked
-        return (T) createCriteria()
+        return (T) createNotDeletedCriteria()
                 .add(Restrictions.eq("name", name))
-                .add(Restrictions.eq("deleted", false))
                 .uniqueResult();
+    }
+
+    protected Criteria createNotDeletedCriteria() {
+        return createCriteria()
+                .add(Restrictions.eq("deleted", false));
     }
 
     @Override

@@ -12,7 +12,7 @@ public class PaymentAddFormObject implements Validatable {
     @Pattern(regex = "[1-9][0-9]*(\\.[0-9]{1,2})?", message = "validation.incorrectNumber")
     private String amount;
 
-    private String paymentType = "INTERKASSA";
+    private String paymentType = "SYSTEMPAY";
 
 //	private String currencyType;
 //

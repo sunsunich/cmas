@@ -5,6 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="isFree" scope="request" type="java.lang.Boolean"/>
+<jsp:useBean id="firstPayment" scope="request" type="java.lang.String"/>
 
 <my:securepage title="cmas.face.index.header" hideMenu="true">
 
@@ -48,7 +49,7 @@
             </c:when>
             <c:otherwise>
                 <a href="">
-                    <button class="form-button enter-button">
+                    <button class="form-button enter-button" onclick="window.location='/secure/pay.html?amount=${firstPayment}'">
                         <s:message code="cmas.face.welcome.payment.button"/>
                     </button>
                 </a>

@@ -333,6 +333,48 @@ VALUES
   false
  );
 
+CREATE TABLE `transaction_settings` (
+ `id` bigint(20) NOT NULL AUTO_INCREMENT,
+ `transactionNumber` int(11) DEFAULT NULL
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `transaction_settings`
+(`id`,
+ `transactionNumber`)
+VALUES
+ (1,
+  0);
+
+INSERT INTO `cmas`.`dive_spots`
+(`id`,
+ `deleted`,
+ `name`,
+ `version`,
+ `latitude`,
+ `longitude`)
+VALUES
+ (1,
+  false,
+  'Bida Nok',
+  1,
+  7.6542,
+  98.7662);
+
+INSERT INTO `cmas`.`dive_spots`
+(`id`,
+ `deleted`,
+ `name`,
+ `version`,
+ `latitude`,
+ `longitude`)
+VALUES
+ (2,
+  false,
+  'Ko See',
+  1,
+  7.9296,
+  98.8048);
 
 
 

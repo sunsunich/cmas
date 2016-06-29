@@ -132,8 +132,8 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     private String getInvoiceTypeStrForMail(Invoice invoice) {
         String invoiceTypeStr = "";
         switch (invoice.getInvoiceType()) {
-            case INTERKASSA:
-                invoiceTypeStr = "Interkassa";
+            case SYSTEMPAY:
+                invoiceTypeStr = "Systempay";
                 break;
         }
         return invoiceTypeStr;
