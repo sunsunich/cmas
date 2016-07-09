@@ -4,7 +4,6 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
-<jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 <jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>

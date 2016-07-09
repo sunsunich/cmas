@@ -36,15 +36,31 @@ var spots_controller = {
         bounds.swLongitude = mapBounds.getSouthWest().lng();
         bounds.neLatitude = mapBounds.getNorthEast().lat();
         bounds.neLongitude = mapBounds.getNorthEast().lng();
-        spots_model.getSpots(
-            bounds,
-            function (json) {
-                self.showFoundSpots(json);
-            },
-            function () {
-                $('#spots').hide();
+        var isSpotRefresh = false;
+        if (spots_model.currentBounds) {
+            if (Math.abs(spots_model.currentBounds.swLatitude - bounds.swLatitude) > spots_model.delta
+                || Math.abs(spots_model.currentBounds.swLongitude - bounds.swLongitude) > spots_model.delta
+                || Math.abs(spots_model.currentBounds.neLatitude - bounds.neLatitude) > spots_model.delta
+                || Math.abs(spots_model.currentBounds.neLongitude - bounds.neLongitude) > spots_model.delta
+            ) {
+                isSpotRefresh = true;
             }
-        );
+        }
+        else {
+            isSpotRefresh = true;
+        }
+        if (isSpotRefresh) {
+            spots_model.currentBounds = bounds;
+            spots_model.getSpots(
+                bounds,
+                function (json) {
+                    self.showFoundSpots(json);
+                },
+                function () {
+                    $('#spots').hide();
+                }
+            );
+        }
     },
 
     showFoundSpots: function (spots) {
@@ -83,9 +99,6 @@ var spots_controller = {
                         }
                         infoWindow.open(spots_model.map, marker);
                         spots_model.map.lastOpenInfoWindow = infoWindow;
-                        $("#" + spot.id + "_infoChooseSpot").click(function () {
-                            self.showLogbookEntryCreationDialog($(this)[0].id);
-                        });
                     });
                 }
             }
@@ -97,8 +110,8 @@ var spots_controller = {
     },
 
     showLogbookEntryCreationDialog: function (elemId) {
-        spots_model.spotId = elemId.split('_')[0];
-        alert(spots_model.spotId);
+        var spotId = elemId.split('_')[0];
+        window.location = "/secure/createRecordForm.html?spotId=" + spotId;
     },
 
     handleLocationError: function (browserHasGeolocation, pos) {
@@ -108,10 +121,6 @@ var spots_controller = {
                 error_codes["error.geolocation.service.failed"] :
                 error_codes["error.geolocation.support"]
         );
-    },
-
-    setListeners: function () {
-
     }
 };
 

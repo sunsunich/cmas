@@ -25,32 +25,5 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKmJC1xgN8Did9WLS_5VeUIi3WBqY6fdQ">
     </script>
 
-    <my:dialog id="createLogbookEntry"
-               title="cmas.face.changeEmail.form.page.title"
-               buttonText="cmas.face.client.profile.dialog.email.submitText">
-        <div id="changeEmailForm">
-            <div class="dialog-form-row">
-                <input id="changeEmailPassword" type="password"
-                       placeholder="<s:message code="cmas.face.changeEmail.form.label.password"/>"/>
-            </div>
-            <div class="error" id="changeEmail_error_password"></div>
-            <div class="dialog-form-row">
-                <input id="email" type="email"
-                       placeholder="<s:message code="cmas.face.changeEmail.form.label.newEmail"/>"/>
-            </div>
-            <div class="error" id="changeEmail_error_email"></div>
-            <div class="error" style="display: none" id="changeEmail_error">
-            </div>
-        </div>
-        <div id="changeEmailSuccessMessage">
-            <div class="dialog-form-row"><s:message code="cmas.face.changeEmail.sent.message"/></div>
-            <div class="button-container">
-                <button class="form-button enter-button" id="changeEmailFinishedOk">
-                    <s:message code="cmas.face.dialog.ok"/>
-                </button>
-            </div>
-        </div>
-    </my:dialog>
-
 </my:securepage>
 

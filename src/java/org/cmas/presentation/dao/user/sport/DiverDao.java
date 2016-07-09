@@ -28,6 +28,8 @@ public interface DiverDao extends UserDao<Diver> {
 
     List<Diver> getFriends(Diver diver);
 
+    List<Diver> getDiversByIds(List<Long> diverIds);
+
     boolean isFriend(Diver diver, Diver friend);
 
     void removeFriend(Diver diver, Diver friend);

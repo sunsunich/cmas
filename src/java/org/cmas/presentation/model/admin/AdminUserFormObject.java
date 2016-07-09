@@ -19,7 +19,7 @@ public class AdminUserFormObject extends UserFormObject implements Editable<User
 //    @NotEmpty(message = "validation.passwordEmpty")
 //    private String password;
 
-    @Pattern( regex = Globals.EMAIL_REGEXP
+    @Pattern( regex = Globals.SIMPLE_EMAIL_REGEXP
             , message = "validation.emailValid"
             , flags = java.util.regex.Pattern.CASE_INSENSITIVE
     )

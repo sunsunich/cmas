@@ -1,19 +1,24 @@
 package org.cmas.entities.logbook;
 
 import com.google.myjson.annotations.Expose;
+import org.cmas.Globals;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.Set;
 
@@ -31,6 +36,7 @@ public class LogbookEntry extends DictionaryEntity {
     @ManyToOne
     private Diver diver;
 
+    @Expose
     @Column
     private String digest;
 
@@ -42,25 +48,45 @@ public class LogbookEntry extends DictionaryEntity {
     @Column(nullable = true)
     private Date dateEdit;
 
+    @Expose
+    @Column(nullable = true)
+    private Date diveDate;
+
+    @Expose
     @ManyToOne
     private DiveSpot diveSpot;
 
+    @Expose
     @Column
-    private int durationSeconds;
+    private int durationMinutes;
 
+    @Expose
     @Column
     private int depthMeters;
 
+    @Expose
     @Column
     @Enumerated(EnumType.STRING)
     private DiveScore score;
 
+    @Expose
     @Column
     private String note;
 
+    @Expose
     @ManyToOne
     private Diver instructor;
 
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
+    private byte[] photo;
+
+    @Expose
+    @Transient
+    private String photoBase64;
+
+    @Expose
     @ManyToMany
     @JoinTable(name="logbook_entry_buddies",
             joinColumns=@JoinColumn(name="logbookEntryId"),
@@ -68,9 +94,26 @@ public class LogbookEntry extends DictionaryEntity {
     )
     private Set<Diver> buddies;
 
+    @Expose
     @Column
     @Enumerated(EnumType.STRING)
     private LogbookVisibility visibility;
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+
+    public String getPhotoBase64() {
+        return photoBase64;
+    }
+
+    public void setPhotoBase64(String photoBase64) {
+        this.photoBase64 = photoBase64;
+    }
 
     public LogbookVisibility getVisibility() {
         return visibility;
@@ -112,6 +155,14 @@ public class LogbookEntry extends DictionaryEntity {
         this.dateEdit = dateEdit;
     }
 
+    public Date getDiveDate() {
+        return diveDate;
+    }
+
+    public void setDiveDate(Date diveDate) {
+        this.diveDate = diveDate;
+    }
+
     public DiveSpot getDiveSpot() {
         return diveSpot;
     }
@@ -120,12 +171,12 @@ public class LogbookEntry extends DictionaryEntity {
         this.diveSpot = diveSpot;
     }
 
-    public int getDurationSeconds() {
-        return durationSeconds;
+    public int getDurationMinutes() {
+        return durationMinutes;
     }
 
-    public void setDurationSeconds(int durationSeconds) {
-        this.durationSeconds = durationSeconds;
+    public void setDurationMinutes(int durationSeconds) {
+        this.durationMinutes = durationSeconds;
     }
 
     public int getDepthMeters() {

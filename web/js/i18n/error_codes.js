@@ -29,6 +29,7 @@ var error_codes = {
 
     "validation.imageFormat": "Uploaded image has incorrect file format",
     "validation.imageSize": "Uploaded image is too big. Maximum image size is 250KB",
+    "validation.logbookImageSize": "Uploaded image is too big. Maximum image size is 1MB",
 
     "validation.internal.email": "The email sending function is not working properly at the moment. Please try again later",
     "validation.internal": "This function is not working properly at the moment. Please try again later",

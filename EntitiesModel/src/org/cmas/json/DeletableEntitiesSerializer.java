@@ -17,7 +17,7 @@ public class DeletableEntitiesSerializer implements JsonSerializer<DictionaryEnt
     public JsonElement serialize(DictionaryEntity obj, Type type, JsonSerializationContext jsc) {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
-                .setDateFormat(Globals.DIRECTIVE_FULL_DATE_FORMAT)
+                .setDateFormat(Globals.DTF)
                 .create();
         JsonObject jObj = (JsonObject) gson.toJsonTree(obj);
         handleDeletableEntitySerialization(obj, jObj);

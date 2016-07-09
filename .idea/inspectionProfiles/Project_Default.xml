@@ -791,6 +791,7 @@
           <option value="InstanceVariableNamingConvention" />
           <option value="InstanceMethodNamingConvention" />
           <option value="MethodParameterNamingConvention" />
+          <option value="EmptyClass" />
         </list>
       </option>
     </inspection_tool>

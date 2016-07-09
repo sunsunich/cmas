@@ -352,14 +352,17 @@ INSERT INTO `cmas`.`dive_spots`
  `name`,
  `version`,
  `latitude`,
- `longitude`)
+ `longitude`,
+ `country_id`
+)
 VALUES
  (1,
   false,
   'Bida Nok',
   1,
   7.6542,
-  98.7662);
+  98.7662,
+  126);
 
 INSERT INTO `cmas`.`dive_spots`
 (`id`,
@@ -367,14 +370,17 @@ INSERT INTO `cmas`.`dive_spots`
  `name`,
  `version`,
  `latitude`,
- `longitude`)
+ `longitude`,
+ `country_id`
+)
 VALUES
  (2,
   false,
   'Ko See',
   1,
   7.9296,
-  98.8048);
+  98.8048,
+  126);
 
 
 

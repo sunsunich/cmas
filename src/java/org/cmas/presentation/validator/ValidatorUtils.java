@@ -1,6 +1,6 @@
 package org.cmas.presentation.validator;
 
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.Errors;
 

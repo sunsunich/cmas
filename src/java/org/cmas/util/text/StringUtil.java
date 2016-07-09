@@ -42,10 +42,6 @@ public final class StringUtil {
         return str == null || "".equals(str);
     }
 
-    public static boolean isTrimmedEmpty(@Nullable String s) {
-        return s == null || org.cmas.util.StringUtil.correctSpaceCharAndTrim(s).isEmpty();
-    }
-
     /**
      * Превышен ли лимит на длину строки?
      *

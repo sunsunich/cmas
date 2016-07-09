@@ -1,10 +1,12 @@
 package org.cmas.entities.divespot;
 
 import com.google.myjson.annotations.Expose;
+import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,6 +28,10 @@ public class DiveSpot extends DictionaryEntity {
     @Column
     private double latitude;
 
+    @Expose
+    @ManyToOne
+    private Country country;
+
     public double getLongitude() {
         return longitude;
     }
@@ -40,5 +46,13 @@ public class DiveSpot extends DictionaryEntity {
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
     }
 }

@@ -93,6 +93,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="logbookEntryDao" class="org.cmas.presentation.dao.logbook.LogbookEntryDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="personalCardDao" class="org.cmas.presentation.dao.user.PersonalCardDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

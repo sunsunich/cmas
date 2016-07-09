@@ -1,7 +1,11 @@
 package org.cmas;
 
+import com.google.myjson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 interface GlobalsStaticContainer {
 
@@ -25,12 +29,6 @@ interface GlobalsStaticContainer {
 
     String DOCUMENT_DATE_FORMAT = "yyyy-MM-dd";
 
-    String DOCUMENT_DATE_DISPLAY_FORMAT = "dd/MM/yyyy";
-
-    String TABLE_GRAPH_DATE_DISPLAY_FORMAT = "dd/MM/yy";
-
-    String DIRECTIVE_DATE_TIME_DB_FORMAT = "yyyy.MM.dd";
-
     String TIME_FORMAT = "HH:mm";
 
     String SHORT_DATE_FORMAT = "dd/MM";
@@ -49,11 +47,7 @@ interface GlobalsStaticContainer {
 
     String MOBILE_DB_PASS = "oT98{7s%{7oQg$";
 
-    String DEFAULT_PROFILE_NAME = "Я";
-
     String DTF = "dd/MM/yyyy";
-
-    int ITEMS_AMOUNT_INT_DIGITS = 5;
 
     int PRICE_INT_DIGITS = 6;
     int PRICE_FRAC_DIGITS = 2;
@@ -71,19 +65,16 @@ interface GlobalsStaticContainer {
 
     long ONE_WEEK_IN_MS = 1000L * 60L * 60L * 24L * 7L;
 
-    String EMAIL_REGEXP = ".+@.+\\..+";
+    String SIMPLE_EMAIL_REGEXP = ".+@.+\\..+";
 
     String PHONE_REGEXP = "[\\+0-9 ]+";
 
     BigDecimal HUNDRED = new BigDecimal(100);
     BigDecimal HUNDRED_PERCENT = new BigDecimal(100);
+
 }
 
 public final class Globals implements GlobalsStaticContainer {
-
-    public static SimpleDateFormat getDocumentDateDisplayFormat() {
-        return new SimpleDateFormat(DOCUMENT_DATE_DISPLAY_FORMAT);
-    }
 
     public static SimpleDateFormat getDocumentDateFormat() {
         return new SimpleDateFormat(DOCUMENT_DATE_FORMAT);
@@ -100,4 +91,10 @@ public final class Globals implements GlobalsStaticContainer {
     public static SimpleDateFormat getDTF() {
         return new SimpleDateFormat(DTF);
     }
+
+    @SuppressWarnings("EmptyClass")
+    public static final class LongListTypeToken extends TypeToken<List<Long>> {
+    }
+
+    public static final Type LONG_LIST_TYPE = new LongListTypeToken().getType();
 }

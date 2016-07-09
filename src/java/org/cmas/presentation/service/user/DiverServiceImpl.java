@@ -11,7 +11,7 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

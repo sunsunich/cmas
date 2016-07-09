@@ -12,10 +12,17 @@
 }
 
 .form-row,
-.dialog-form-row {
+.dialog-form-row,
+.white-form-row,
+.date-form-row {
     margin-bottom: 15px;
     position: relative;
     width: 100%;
+}
+
+.white-form-row, .date-form-row {
+    padding-left: 16px;
+    width: 90%;
 }
 
 .dialog-form-row a {
@@ -27,6 +34,8 @@
 
 .form-row input,
 .dialog-form-row input,
+.white-form-row input,
+.date-form-row input,
 .select2-selection {
     width: 100%;
     height: 100% !important;
@@ -38,6 +47,21 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     background-color: rgb(234, 234, 234)
+}
+
+.date-form-calendar-input-ico {
+    content: url("/i/calendar_ico.png");
+    top: 14px;
+    left: 26px;
+}
+
+.date-form-row input {
+    padding-left: 42px;
+}
+
+.date-form-row img {
+    height: 20px;
+    position: absolute;
 }
 
 .form-row input,

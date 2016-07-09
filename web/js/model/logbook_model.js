@@ -1,18 +1,18 @@
-var spots_model = {
+var logbook_model = {
 
-    map: {},
-    spots: [],
-    lastOpenInfoWindow: null,
-    currentBounds: null,
-    delta : 0.01,
+    spotId: "",
+    buddiesIds: [],
+    instructorId: "",
+    score: 'ZERO_STAR',
+    scoreInt: 0,
 
-    getSpots: function (bounds, successHandler, errorHandler) {
+    createRecord: function (form, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
-            type: "GET",
-            url: "/secure/getSpots.html",
+            type: "POST",
+            url: "/secure/createRecord.html",
             dataType: "json",
-            data: bounds,
+            data: form,
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {

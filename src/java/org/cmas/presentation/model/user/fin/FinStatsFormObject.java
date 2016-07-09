@@ -4,7 +4,7 @@ import org.cmas.presentation.entities.billing.OperationType;
 import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.TemporalPaginatorImpl;
 import org.cmas.presentation.validator.ValidatorUtils;
-import org.cmas.util.text.StringUtil;
+import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 

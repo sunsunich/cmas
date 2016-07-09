@@ -137,16 +137,19 @@ html, body {
     margin-bottom: 15px;
 }
 
-.dialog {
-    border-radius: 6px;
+.dialog, .white-form {
     background: #f8f8f8;
     height: auto;
+    width: 335px;
     margin: 0 auto;
+}
+
+.dialog {
+    border-radius: 6px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 335px;
     z-index: 900;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -167,11 +170,60 @@ html, body {
     padding-right: 16px;
 }
 
+.dialog-content, .white-form-content {
+    padding-bottom: 25px;
+}
+
 .dialog-content {
     text-align: center;
-    padding-bottom: 25px;
     padding-left: 16px;
     padding-right: 16px;
+}
+
+.white-form-label {
+    color: #cccccc;
+    margin-right: 17px;
+    font-size: 16px;
+}
+
+.white-form-text {
+    color: #666666;
+    margin-right: 6px;
+    font-size: 24px;
+}
+
+.white-form-href {
+    font-size: 20px;
+    color: #04c8ff;
+    padding-left: 5px;
+    text-decoration: underline;
+}
+
+.white-form-textarea {
+    width: 100%;
+    background-color: rgb(234, 234, 234);
+    border: 0;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.specifications .header {
+    margin-bottom: 10px;
+}
+
+.specifications {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: #a5c9e1;
+    margin-bottom: 15px;
+}
+
+.diveScore, .diveScore-first {
+    width: 15.5%;
+}
+
+.diveScore {
+    margin-left: 3%;
 }
 
 #privateTab, #socialTab {
@@ -311,6 +363,10 @@ html, body {
 .friendListElemCenter {
     text-align: center;
     margin-bottom: 5px;
+}
+
+.center {
+    text-align: center;
 }
 
 .clearfix:after {

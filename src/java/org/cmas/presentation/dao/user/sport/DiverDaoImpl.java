@@ -121,6 +121,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    public List<Diver> getDiversByIds(List<Long> diverIds) {
+        return createCriteria().add(Restrictions.in("id", diverIds)).list();
+    }
+
+    @Override
     public boolean isFriend(Diver diver, Diver friend) {
         String sql = "select count(*) from diver_friends where"
                      + " friendId = :friendId and diverId = :diverId"

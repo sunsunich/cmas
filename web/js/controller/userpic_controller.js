@@ -201,7 +201,7 @@ var userpic_controller = {
             $('#selectUserpic_error_file').html(error_codes["validation.emptyField"]);
             return false;
         }
-        else if (file.size > 250000) {
+        else if (file.size > 256000) {
             $('#selectUserpic_error_file').html(error_codes["validation.imageSize"]);
             return false;
         }
