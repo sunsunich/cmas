@@ -14,13 +14,13 @@ import java.lang.reflect.Type;
 public class DeletableEntitiesSerializer implements JsonSerializer<DictionaryEntity> {
 
     @Override
-    public JsonElement serialize(DictionaryEntity obj, Type type, JsonSerializationContext jsc) {
+    public JsonElement serialize(DictionaryEntity t, Type type, JsonSerializationContext jsonSerializationContext) {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .setDateFormat(Globals.DTF)
                 .create();
-        JsonObject jObj = (JsonObject) gson.toJsonTree(obj);
-        handleDeletableEntitySerialization(obj, jObj);
+        JsonObject jObj = (JsonObject) gson.toJsonTree(t);
+        handleDeletableEntitySerialization(t, jObj);
         return jObj;
     }
 

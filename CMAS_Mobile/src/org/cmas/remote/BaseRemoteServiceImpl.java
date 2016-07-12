@@ -165,7 +165,7 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
             Gson gson = new Gson();
             message = gson.fromJson(responseBody, SimpleGsonResponse.class).getMessage();
         }
-        return new Pair<Pair<T, String>, Map<String, String>>(new Pair<T, String>(result, message), reply.second);
+        return new Pair<>(new Pair<>(result, message), reply.second);
     }
 
     protected Map<String, String> getSessionCookie(Settings settings) {

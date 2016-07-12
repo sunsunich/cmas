@@ -15,6 +15,7 @@ import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.divespot.LatLngBounds;
 import org.cmas.presentation.model.logbook.CreateLogbookEntryFormObject;
+import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
@@ -184,5 +185,46 @@ public class LogbookController {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.internal");
         }
+    }
+
+    @RequestMapping(value = "/secure/showLogbook.html", method = RequestMethod.GET)
+    public ModelAndView showLogbookPage() throws IOException {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("/secure/logbook", mm);
+    }
+
+    @RequestMapping(value = "/secure/getMyLogbookFeed.html", method = RequestMethod.GET)
+    public View getMyLogbookFeed(
+            @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
+    ) throws IOException {
+        Diver diver = getCurrentDiver();
+        return gsonViewFactory.createGsonFeedView(
+                setPhotos(logbookEntryDao.getDiverLogbookFeed(diver, formObject))
+        );
+    }
+
+    @RequestMapping(value = "/secure/getMyFriendsLogbookFeed.html", method = RequestMethod.GET)
+    public View getMyFriendsLogbookFeed(
+            @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
+    ) throws IOException {
+        Diver diver = getCurrentDiver();
+        return gsonViewFactory.createGsonFeedView(
+                setPhotos(logbookEntryDao.getDiverFriendsLogbookFeed(diver, formObject))
+        );
+    }
+
+    private static List<LogbookEntry> setPhotos(List<LogbookEntry> logbookEntries) {
+        for (LogbookEntry logbookEntry : logbookEntries) {
+            Diver diver = logbookEntry.getDiver();
+            byte[] userpic = diver.getUserpic();
+            if (userpic != null) {
+                diver.setPhoto(Base64Coder.encodeString(userpic));
+            }
+            byte[] photo = logbookEntry.getPhoto();
+            if (photo != null) {
+                logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
+            }
+        }
+        return logbookEntries;
     }
 }

@@ -5,7 +5,8 @@ import org.cmas.presentation.entities.billing.FinLog;
 import org.cmas.presentation.entities.billing.OperationType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.user.fin.FinStatsFormObject;
-import org.cmas.util.dao.SearchDaoImpl;
+import org.cmas.util.dao.IdGeneratingDaoImpl;
+import org.cmas.util.dao.SearchDaoUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
@@ -15,12 +16,12 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class FinLogDaoImpl  extends SearchDaoImpl<FinLog> implements FinLogDao {//, InitializingBean{
+public class FinLogDaoImpl  extends IdGeneratingDaoImpl<FinLog> implements FinLogDao {//, InitializingBean{
 
     @Override
     public List<FinLog> getByUser(BackendUser u, FinStatsFormObject formObject) {
         Criteria criteria = createSearchCriteria(u, formObject);
-        return search(criteria, formObject);
+        return SearchDaoUtils.search(criteria, formObject);
     }
 
     private Criteria createSearchCriteria(BackendUser u, FinStatsFormObject formObject) {
@@ -34,17 +35,17 @@ public class FinLogDaoImpl  extends SearchDaoImpl<FinLog> implements FinLogDao {
                 disjunction.add(Restrictions.eq("operationType", operationType));
             }
         }
-        addDateRangeToSearchCriteria(
-                  criteria, formObject.getFromDate(),  formObject.getToDate()
+        SearchDaoUtils.addDateRangeToSearchCriteria(
+                criteria, formObject.getFromDate(), formObject.getToDate()
                 , "recordDate"
                 , Globals.getDTF()
-                );
+        );
         return criteria;
     }
 
     @Override
     public int countForUser(BackendUser u, FinStatsFormObject formObject) {
-        return getMaxCountSearch(createSearchCriteria(u, formObject));
+        return SearchDaoUtils.getMaxCountSearch(createSearchCriteria(u, formObject));
     }
 
     @Override

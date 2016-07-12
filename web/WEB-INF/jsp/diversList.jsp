@@ -15,7 +15,7 @@
         <c:forEach items="${divers}" var="diver">
             <div class="panel clearfix">
                 <div class="diverList-elem-left">
-                    <img id="userpic"
+                    <img class="userpic"
                             <c:choose>
                                 <c:when test="${diver.photo == null}">
                                     src="${pageContext.request.contextPath}/i/no_img.png"

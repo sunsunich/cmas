@@ -33,6 +33,7 @@ public class LogbookEntry extends DictionaryEntity {
 
     private static final long serialVersionUID = -4425599195490254686L;
 
+    @Expose
     @ManyToOne
     private Diver diver;
 
@@ -45,11 +46,11 @@ public class LogbookEntry extends DictionaryEntity {
     private Date dateCreation;
 
     @Expose
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Date dateEdit;
 
     @Expose
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Date diveDate;
 
     @Expose

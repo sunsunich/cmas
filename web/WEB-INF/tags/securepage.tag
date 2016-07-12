@@ -32,7 +32,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/secure/showLogbook.html">
                                 <i class="menu-ico menu-ico-logbook"></i>
                                 <span><s:message code="cmas.face.client.menu.logbook"/></span>
                             </a>

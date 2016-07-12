@@ -3,7 +3,6 @@ package org.cmas.remote.json;
 import com.google.myjson.JsonDeserializationContext;
 import com.google.myjson.JsonDeserializer;
 import com.google.myjson.JsonElement;
-import com.google.myjson.JsonParseException;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
@@ -12,18 +11,17 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DateDeserializer implements JsonDeserializer<Date> {
-    private DateFormat df;
+    private final DateFormat df;
 
     public DateDeserializer(String dateFormat) {
-        this.df = new SimpleDateFormat(dateFormat);
+        df = new SimpleDateFormat(dateFormat);
     }
 
     @Override
-    public Date deserialize(final JsonElement json, final Type typeOfT, final JsonDeserializationContext context)
-            throws JsonParseException {
+    public Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
         try {
-            return df.parse(json.getAsString());
-        } catch (ParseException e) {
+            return df.parse(jsonElement.getAsString());
+        } catch (ParseException ignored) {
             return null;
         }
     }

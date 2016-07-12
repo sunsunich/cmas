@@ -23,10 +23,6 @@ interface GlobalsStaticContainer {
 
     int DB_PIC_MAX_BYTE_SIZE = 17000000;
 
-    String DIRECTIVE_DATE_FORMAT = "dd.MM.yy";
-
-    String DIRECTIVE_FULL_DATE_FORMAT = "dd.MM.yyyy";
-
     String DOCUMENT_DATE_FORMAT = "yyyy-MM-dd";
 
     String TIME_FORMAT = "HH:mm";
@@ -48,6 +44,7 @@ interface GlobalsStaticContainer {
     String MOBILE_DB_PASS = "oT98{7s%{7oQg$";
 
     String DTF = "dd/MM/yyyy";
+   // String FULL_DTF = "YYYY-MM-DDTHH:mm:ss.sssZ";
 
     int PRICE_INT_DIGITS = 6;
     int PRICE_FRAC_DIGITS = 2;
@@ -80,17 +77,13 @@ public final class Globals implements GlobalsStaticContainer {
         return new SimpleDateFormat(DOCUMENT_DATE_FORMAT);
     }
 
-    public static SimpleDateFormat getTimeFormat() {
-        return new SimpleDateFormat(TIME_FORMAT);
-    }
-
-    public static SimpleDateFormat getShortDateFormat() {
-        return new SimpleDateFormat(SHORT_DATE_FORMAT);
-    }
-
     public static SimpleDateFormat getDTF() {
         return new SimpleDateFormat(DTF);
     }
+
+//    public static SimpleDateFormat getFullDTF() {
+//        return new SimpleDateFormat(FULL_DTF);
+//    }
 
     @SuppressWarnings("EmptyClass")
     public static final class LongListTypeToken extends TypeToken<List<Long>> {

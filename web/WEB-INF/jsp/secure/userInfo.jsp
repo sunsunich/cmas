@@ -28,14 +28,14 @@
 
     <div class="content" id="mainContent">
         <div class="tabs">
-            <span id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
-            <span id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
+            <span class="firstTab" id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
+            <span class="secondTab" id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
         </div>
         <div id="privateSettings">
             <div class="panel">
                 <div class="userpic-selection" id="userpicSelectButton">
                     <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png"
-                         class="userpicPreview userpic-selection-left"/>
+                         class="userpic userpicPreview userpic-selection-left"/>
 
                     <div class="userpic-selection-right">
                         <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>

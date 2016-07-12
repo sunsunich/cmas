@@ -11,7 +11,7 @@
 <jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/logbook_model.js,js/controller/country_controller.js,js/controller/logbook_controller.js">
+               customScripts="js/model/logbook_record_model.js,js/controller/country_controller.js,js/controller/logbook_record_controller.js">
 
     <script type="application/javascript">
         labels["PRIVATE"] = '<s:message code="cmas.face.client.social.logbook.private"/>';
@@ -22,7 +22,7 @@
         visibilityTypes[${st.index}] = '${visibilityType.name}';
         </c:forEach>
         var logbookVisibility = "${diver.defaultVisibility}";
-        logbook_model.spotId = "${spot.id}";
+        logbook_record_model.spotId = "${spot.id}";
     </script>
 
     <c:choose>
@@ -45,7 +45,7 @@
 
             <div class="white-form-row clearfix">
                 <div class="diverList-elem-left">
-                    <img id="userpic" src="${userpicSrc}"/>
+                    <img class="userpic" src="${userpicSrc}"/>
                 </div>
                 <div class="diverList-elem-right">
                     <p><span>${diver.firstName} ${diver.lastName}</span></p>

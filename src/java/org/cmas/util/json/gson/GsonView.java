@@ -1,7 +1,6 @@
 package org.cmas.util.json.gson;
 
 import com.google.myjson.Gson;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.AbstractView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,13 +14,12 @@ import java.util.Map;
  * Date: 07/12/12
  * Time: 02:51
  */
-public class GsonView extends AbstractView implements View {
+public class GsonView extends AbstractView {
 
-    private Object toSerialize;
-    private Gson gson;
+    private final Object toSerialize;
+    private final Gson gson;
 
     public GsonView(Object toSerialize, Gson gson) {
-        super();
         this.toSerialize = toSerialize;
         this.gson = gson;
         setContentType("text/plain;charset=UTF-8");

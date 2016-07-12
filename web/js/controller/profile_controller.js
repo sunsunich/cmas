@@ -11,6 +11,9 @@ var profile_controller = {
         if (tabName) {
             self.showTab(tabName);
         }
+        else {
+            self.showTab('PRIVATE');
+        }
         $('#privateTab').click(function () {
             self.showTab('PRIVATE');
         });

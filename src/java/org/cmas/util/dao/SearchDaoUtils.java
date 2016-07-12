@@ -18,10 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
+public final class SearchDaoUtils {
+
+    private SearchDaoUtils() {
+    }
 
     @Transactional
-    protected List<T> search(Criteria crit, SortPaginator form) {
+    public static <E> List<E> search(Criteria crit, SortPaginator form) {
         boolean dir = form.isDir();
         String sort = form.getSortColumnName();
         Order order = getOrder(sort, dir);
@@ -31,39 +34,39 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
     }
 
     @Transactional
-    protected List<T> search(Criteria crit, Paginator form) {
+    public static <E> List<E> search(Criteria crit, Paginator form) {
         //noinspection unchecked
         return crit.setFirstResult(form.getOffset())
                    .setMaxResults(form.getLimit()).setCacheable(true).list();
     }
 
     @Transactional
-    protected int getMaxCountSearch(Criteria crit) {
+    public static int getMaxCountSearch(Criteria crit) {
         crit.setProjection(Projections.rowCount()).setCacheable(true);
 
         Object result = crit.uniqueResult();
         return result == null ? 0 : ((Number) result).intValue();
     }
 
-    protected Order getOrder(String name, boolean dir) {
+    public static Order getOrder(String name, boolean dir) {
         if (dir) {
             return Order.desc(name);
         }
         return Order.asc(name);
     }
 
-    protected void addStringValueToSearchCriteria(Criteria crit, @Nullable String value, ColumnName column) {
+    public static void addStringValueToSearchCriteria(Criteria crit, @Nullable String value, ColumnName column) {
         addStringValueToSearchCriteria(crit, value, column.getName());
     }
 
-    protected void addStringValueToSearchCriteria(Criteria crit, @Nullable String value, String columnName) {
+    public static void addStringValueToSearchCriteria(Criteria crit, @Nullable String value, String columnName) {
         if (!StringUtil.isTrimmedEmpty(value)) {
             //noinspection ConstantConditions
             crit.add(Restrictions.like(columnName, StringUtil.correctSpaceCharAndTrim(value), MatchMode.ANYWHERE));
         }
     }
 
-    protected void addDateRangeToSearchCriteria(Criteria crit
+    public static void addDateRangeToSearchCriteria(Criteria crit
             , @Nullable String fromValue, @Nullable String toValue
             , String columnName
             , SimpleDateFormat simpleDateFormat
@@ -81,7 +84,23 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
         }
     }
 
-    protected void addBooleanToHql(StringBuilder hql, boolean value, String property) {
+    public static void addStrictTimestampRangeToSearchCriteria(Criteria crit
+            , @Nullable String fromValue, @Nullable String toValue
+            , String columnName
+    ) {
+
+        if (!StringUtil.isTrimmedEmpty(fromValue)) {
+            Date value = new Date(Long.parseLong(fromValue));
+            crit.add(Restrictions.gt(columnName, value));
+        }
+        if (!StringUtil.isTrimmedEmpty(toValue)) {
+            Date value = new Date(Long.parseLong(toValue));
+            crit.add(Restrictions.lt(columnName, value));
+        }
+
+    }
+
+    public static void addBooleanToHql(StringBuilder hql, boolean value, String property) {
         if (value) {
             hql.append(" or ")
                .append(property)
@@ -89,7 +108,7 @@ public abstract class SearchDaoImpl<T> extends IdGeneratingDaoImpl<T> {
         }
     }
 
-    protected void addBooleanToJunction(Junction junction, boolean value, String property) {
+    public static void addBooleanToJunction(Junction junction, boolean value, String property) {
         if (value) {
             junction.add(Restrictions.eq(property, true));
         }

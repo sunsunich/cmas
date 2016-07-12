@@ -1,0 +1,85 @@
+<% var records = recordsInfo.records;
+var i;
+for(i = 0; i < records.length;i++) {
+    var diver = records[i].diver;
+    var fullName = diver.firstName + ' ' + diver.lastName;
+    var userpicSrc;
+    if (diver.photo == null) {
+        userpicSrc = '/i/no_img.png';
+    } else {
+        userpicSrc = 'data:image/png;base64,' + diver.photo;
+    }
+
+    var starCnt = 0;
+    if (records[i].score == 'ONE_STAR') {
+        starCnt = 1;
+    } else if (records[i].score == 'TWO_STAR') {
+        starCnt = 2;
+    } else if (records[i].score == 'THREE_STAR') {
+        starCnt = 3;
+    } else if (records[i].score == 'FOUR_STAR') {
+        starCnt = 4;
+    } else if (records[i].score == 'FIVE_STAR') {
+        starCnt = 5;
+    }
+    var diveSpot = records[i].diveSpot.name + ", " + records[i].diveSpot.country.name;
+    var note = records[i].note;
+    var visibleNote;
+    var invisibleNote;
+    if (note.length > 90) {
+        visibleNote = note.substring(0, 90);
+        invisibleNote = note.substring(90, note.length);
+    }
+    else {
+        visibleNote = note;
+        invisibleNote = null;
+    }
+%>
+<div class="logbookRecord" id="<%=recordsInfo.containerId %>logbookRecord_<%=records[i].id %>">
+    <div class="clearfix">
+        <div class="logbookFeed-elem-left">
+            <img class="userpic userpicFeed" src="<%=userpicSrc %>"/>
+        </div>
+        <div class="logbookFeed-elem-right">
+            <p><span class="panel-text"><%=fullName %></span></p>
+            <% if(recordsInfo.isMyRecords){
+            %>
+            <% var j;
+            for(j = 0;j < starCnt;j++) {
+            %>
+            <img class="diveScoreFeed" src="/i/heart-small-full.png"/>
+            <% } %>
+            <%
+            for(j = starCnt;j < 5;j++) {
+            %>
+            <img class="diveScoreFeed" src="/i/heart-small-empty.png"/>
+            <% } %>
+            <% } %>
+            <p><span class="panel-text"><%=diveSpot %></span></p>
+
+            <p><span class="panel-label"><%=records[i].diveDate %></span></p>
+        </div>
+    </div>
+    <div class="dialog-triangle"><img src="/i/dialog-triangle.png"/></div>
+    <div class="panel">
+        <p>
+            <span class="panel-text"><%=visibleNote %></span>
+            <% if(invisibleNote){
+            %>
+            <a href="#" id="<%=recordsInfo.containerId %>more_<%=records[i].id %>"><span class="panel-href">More&gt;</span></a>
+            <span class="panel-text" id="<%=recordsInfo.containerId %>invisibleNote_<%=records[i].id %>"
+                  style="display: none"><%=invisibleNote %></span>
+            <a href="#" id="<%=recordsInfo.containerId %>less_<%=records[i].id %>"><span class="panel-href"><&lt;Less</span></a>
+            <% } %>
+            <% if(recordsInfo.isMyRecords && !records[i].digest){
+            %>
+            <a href="#" id="<%=recordsInfo.containerId %>edit_<%=records[i].id %>"><span class="panel-href">Edit</span></a>
+            <% } %>
+        </p>
+        <% if(records[i].photoBase64){
+        %>
+        <img class="photoFeed" src="data:image/png;base64,<%=records[i].photoBase64 %>"/>
+        <% } %>
+    </div>
+</div>
+<% } %>

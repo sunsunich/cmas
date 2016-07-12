@@ -1,4 +1,4 @@
-var logbook_model = {
+var logbook_record_model = {
 
     spotId: "",
     buddiesIds: [],
