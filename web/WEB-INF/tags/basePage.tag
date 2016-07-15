@@ -61,6 +61,7 @@
     </c:choose>
 
     <link rel="stylesheet" type="text/css" href="c/buttons.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/feed.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/select2.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css" media="all"/>

@@ -159,6 +159,7 @@ public class LogbookController {
             logbookEntry.setDiveDate(Globals.getDTF().parse(formObject.getDiveDate()));
             logbookEntry.setDiveSpot(diveSpot);
             logbookEntry.setDurationMinutes(Integer.parseInt(formObject.getDuration()));
+            logbookEntry.setDepthMeters(Integer.parseInt(formObject.getDepth()));
             logbookEntry.setScore(DiveScore.valueOf(formObject.getScore()));
             logbookEntry.setNote(formObject.getNote());
             logbookEntry.setInstructor(instructor);

@@ -39,10 +39,19 @@ var logbook_feed_controller = {
                         event.preventDefault();
                         self.closeMoreOnRecord($(this)[0].id);
                     });
+                    $('#' + self.model.containerId + 'feedItemSettings_' + records[i].id).click(function (event) {
+                        event.preventDefault();
+                        self.toggleRecordMenu($(this)[0].id);
+                    });
                     $('#' + self.model.containerId + 'edit_' + records[i].id).click(function (event) {
                         event.preventDefault();
                         var elemId = $(this)[0].id;
                         window.location = "/secure/createRecordForm.html?recordId=" + elemId.split('_')[1];
+                    });
+                    $('#' + self.model.containerId + 'delete_' + records[i].id).click(function (event) {
+                        event.preventDefault();
+                        var elemId = $(this)[0].id;
+                        //todo delete
                     });
                 }
             },
@@ -55,6 +64,17 @@ var logbook_feed_controller = {
                 }
             }
         )
+    },
+
+    toggleRecordMenu: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        var wasVisible = $('#' + this.model.containerId + 'menuItemSettings_' + recordId).is(":visible");
+        $('#' + this.model.containerId + 'menuItemSettings_' + recordId).toggle();
+        if (wasVisible) {
+            $('#' + this.model.containerId + 'feedItemSettings_' + recordId).attr('src', "/i/arrow_white_ico.png");
+        } else {
+            $('#' + this.model.containerId + 'feedItemSettings_' + recordId).attr('src', "/i/arrow_up_white_ico.png");
+        }
     },
 
     openMoreOnRecord: function (elemId) {

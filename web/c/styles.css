@@ -373,42 +373,6 @@ html, body {
     margin-bottom: 5px;
 }
 
-.userpicFeed {
-    max-height: 70px;
-    max-width: 70px;
-}
-
-.photoFeed {
-    max-width: 335px;
-}
-
-.logbookFeed-elem-right, .logbookFeed-elem-left {
-    float: left;
-}
-
-.logbookFeed-elem-right {
-    width: 79%;
-    padding-left: 10px;
-}
-
-.logbookFeed-elem-right p {
-    display: block; /* or inline-block, at least its a block element */
-    width: 100%; /* or width is certain by parent element */
-    height: auto; /* height cannot be defined */
-    white-space: normal; /* Firefox 1.0-2.0 */
-    font-size: 1px;
-}
-
-.logbookFeed-elem-right p span {
-    padding-bottom: 10px;
-    font-size: 20px;
-}
-
-.diveScoreFeed {
-    width: 16px;
-    margin-left: 2px;
-}
-
 .center {
     text-align: center;
 }

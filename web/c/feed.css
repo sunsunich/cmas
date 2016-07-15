@@ -1,0 +1,133 @@
+
+.userpicFeed {
+    max-height: 90px;
+    max-width: 90px;
+}
+
+.photoFeed {
+    max-width: 335px;
+}
+
+.logbookFeed-elem-right, .logbookFeed-elem-left {
+    float: left;
+}
+
+.logbookFeed-elem-right {
+    width: 70%;
+    padding-left: 10px;
+}
+
+.logbookFeed-elem-right p {
+    display: block; /* or inline-block, at least its a block element */
+    width: 100%; /* or width is certain by parent element */
+    height: auto; /* height cannot be defined */
+    white-space: normal; /* Firefox 1.0-2.0 */
+    font-size: 1px;
+}
+
+.logbookFeed-elem-right-line {
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+
+.diveScoreFeed {
+    width: 16px;
+    margin-left: 2px;
+}
+
+.dialog-triangle {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+
+    border-bottom: 7px solid rgba(0, 102, 145, 0.55);
+
+    margin-left: 30px;
+}
+
+.panelFeed {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: rgba(0, 102, 145, 0.55);
+    height: auto;
+    width: 335px;
+}
+
+.panelFeed-row {
+    margin-top: 25px;
+    width: 100%;
+}
+
+/*.panel-row-bottom-margin {*/
+/*margin-bottom: 25px;*/
+/*}*/
+
+.panelFeed-href,
+.panelFeed-label {
+    font-size: 16px;
+}
+
+.panelFeed-text {
+    font-size: 20px;
+    color: #f8f8f8;
+}
+
+.panelFeed-label {
+    color: #99b5c3;
+}
+
+.panelFeed p {
+    display: block; /* or inline-block, at least its a block element */
+    width: 100%; /* or width is certain by parent element */
+    height: auto; /* height cannot be defined */
+    white-space: normal; /* Firefox 1.0-2.0 */
+    font-size: 1px;
+}
+
+.menuFeed {
+    position: relative;
+    float: right;
+}
+
+.menuFeedContent{
+    right: 0;
+    display: none;
+    position: absolute;
+}
+
+.menuFeedContent ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 70px;
+    background-color: #e8e8e8;
+    z-index: 597;
+}
+
+.menuFeedContent ul li {
+    list-style-type: none;
+}
+
+.menuFeedContent ul li a {
+    display: block;
+    color: #666666;
+    padding: 8px 16px 8px 16px;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.menuFeedContent ul li a:hover {
+    background-color: #d5d5d5;
+}
+
+.menuFeedContent ul li a {
+    border: 1px solid #d5d5d5;
+    border-top: 0 none;
+}
+
+.menuFeedContent ul li:first-child > a {
+    border-top: 1px solid #d5d5d5;
+}
