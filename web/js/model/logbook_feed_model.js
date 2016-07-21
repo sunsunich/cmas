@@ -6,6 +6,7 @@ var logbook_feed_model = {
     latestDate: "",
     earliestDate: "",
     limit: 10,
+    deleteRecordId: 0,
 
     setState: function (records) {
         if (records.length > 0) {
@@ -54,4 +55,27 @@ var logbook_feed_model = {
             }
         });
     },
+
+    deletetRecord: function (successHandler, errorHandler) {
+        loader_controller.startwait();
+        var self = this;
+        $.ajax({
+            type: "GET",
+            url: "/secure/deleteRecord.html",
+            dataType: "json",
+            data: {logbookEntryId: self.deleteRecordId},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler();
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function (e) {
+                window.location.reload();
+            }
+        });
+    }
 };

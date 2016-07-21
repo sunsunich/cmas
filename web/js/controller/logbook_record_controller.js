@@ -68,7 +68,8 @@ var logbook_record_controller = {
             self.createLogbookEntry();
         });
 
-        $('#findDiverButton').click(function () {
+        $('#viewBuddies').click(function (e) {
+            e.preventDefault();
             self.cleanFindDiverForm();
             $('#findDiver').show();
         });
@@ -95,19 +96,7 @@ var logbook_record_controller = {
             $('#friendRemove').hide();
         });
         $('#friendRemoveOk').click(function () {
-            social_model.removeFriend(
-                function (/*json*/) {
-                    self.refreshFriends();
-                    $('#friendRemove').hide();
-                }
-                , function (json) {
-                    if (json && json.hasOwnProperty("message")) {
-                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                    }
-                    else {
-                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                    }
-                });
+
         });
         $('#showDiverClose').click(function () {
             $('#showDiver').hide();
@@ -160,7 +149,7 @@ var logbook_record_controller = {
     createLogbookEntry: function () {
         var imageData = $('#logbookPic').attr("src");
         if (imageData) {
-            if(imageData.indexOf('base64') == -1) {
+            if (imageData.indexOf('base64') == -1) {
                 imageData = null;
             }
             else {
@@ -183,7 +172,6 @@ var logbook_record_controller = {
         this.cleanCreateFormErrors();
         var formErrors = this.validateCreateForm(createForm);
         if (formErrors.success) {
-            var self = this;
             logbook_record_model.createRecord(
                 createForm
                 , function (/*json*/) {
@@ -229,31 +217,6 @@ var logbook_record_controller = {
         $('#create_error_depth').empty();
     },
 
-    findDiver: function () {
-        var self = this;
-        var findDiverForm = {
-            diverType: $("input[name=findDiverType]:checked").val(),
-            country: $('#findDiverCountry').val(),
-            name: $('#findDiverName').val()
-        };
-
-        this.cleanFindDiverErrors();
-        var formErrors = this.validateFindDiverForm(findDiverForm);
-        if (formErrors.success) {
-            social_model.searchNewFriends(
-                findDiverForm
-                , function (json) {
-                    self.showFoundDivers(json);
-                }
-                , function (json) {
-                    validation_controller.showErrors('findDiver', json);
-                });
-        }
-        else {
-            validation_controller.showErrors('findDiver', formErrors);
-        }
-    },
-
     selectPhotoFromDrive: function () {
         $('#photoFileInput').trigger('click');
     },
@@ -296,6 +259,31 @@ var logbook_record_controller = {
             return false;
         }
         return true;
+    },
+
+    findDiver: function () {
+        var self = this;
+        var findDiverForm = {
+            diverType: $("input[name=findDiverType]:checked").val(),
+            country: $('#findDiverCountry').val(),
+            name: $('#findDiverName').val()
+        };
+
+        this.cleanFindDiverErrors();
+        var formErrors = this.validateFindDiverForm(findDiverForm);
+        if (formErrors.success) {
+            social_model.searchNewFriends(
+                findDiverForm
+                , function (json) {
+                    self.showFoundDivers(json);
+                }
+                , function (json) {
+                    validation_controller.showErrors('findDiver', json);
+                });
+        }
+        else {
+            validation_controller.showErrors('findDiver', formErrors);
+        }
     },
 
     validateFindDiverForm: function (form) {
@@ -363,7 +351,7 @@ var logbook_record_controller = {
             var i;
             for (i = 0; i < divers.length; i++) {
                 $('#' + divers[i].id + '_addFriend').click(function () {
-                    self.sendFriendRequest($(this)[0].id);
+                    self.addBuddie($(this)[0].id);
                 });
             }
             $('#mainContent').hide();

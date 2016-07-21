@@ -95,7 +95,6 @@
     <bean id="mailerService" class="org.cmas.presentation.service.mail.MailServiceImpl">
         <property name="addresses" ref="mailer"/>
         <property name="msgSource" ref="messageSource"/>
-        <property name="localeResolver" ref="localeResolver"/>
         <property name="mailTransport" ref="mailTransport"/>
         <property name="textRenderer" ref="textRenderer"/>
         <property name="subjRenderer" ref="subjRenderer"/>

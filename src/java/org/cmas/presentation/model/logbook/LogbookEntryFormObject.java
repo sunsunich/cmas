@@ -18,7 +18,7 @@ import org.springframework.validation.Errors;
  *
  * @author Alexander Petukhov
  */
-public class CreateLogbookEntryFormObject implements Validatable {
+public class LogbookEntryFormObject implements Validatable {
 
     @Digits(integerDigits = 20, message = "validation.incorrectNumber")
     @NotEmpty(message = "validation.emptyField")

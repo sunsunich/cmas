@@ -111,7 +111,7 @@ var spots_controller = {
 
     showLogbookEntryCreationDialog: function (elemId) {
         var spotId = elemId.split('_')[0];
-        window.location = "/secure/createRecordForm.html?spotId=" + spotId;
+        window.location = "/secure/createLogbookRecordForm.html?spotId=" + spotId;
     },
 
     handleLocationError: function (browserHasGeolocation, pos) {

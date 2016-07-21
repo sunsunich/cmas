@@ -55,7 +55,7 @@ public class LocaleResolverImpl implements CustomLocaleResolver {
 		List<String> candList = buildCandidateLocales(current);
 		List<String> result = new ArrayList<String>();
 		for (String cand : candList) {
-			String path = cand + (cand.length() == 0 ? "" : "/") + resourceName;
+			String path = cand + (cand.isEmpty() ? "" : "/") + resourceName;
 			result.add(path);
 		}
 		return result;
@@ -67,7 +67,7 @@ public class LocaleResolverImpl implements CustomLocaleResolver {
 		List<String> result = new ArrayList<String>();
 		//current locale
 		if (!StringUtil.isEmpty(current.getCountry())) {
-			result.add(current.getLanguage() + "_" + current.getCountry());
+			result.add(current.getLanguage() + '_' + current.getCountry());
 		}
 		result.add(current.getLanguage());
 		//default locale

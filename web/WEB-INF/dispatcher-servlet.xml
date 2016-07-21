@@ -65,8 +65,8 @@
 
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
+                <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/createRecord.html</value>
-                <value>/secure/createRecordForm.html</value>
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
                 <value>/secure/getMyFriendsLogbookFeed.html</value>

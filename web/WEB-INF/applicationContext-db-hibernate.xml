@@ -33,6 +33,8 @@
                 <value>org.cmas.entities.divespot.DiveSpot</value>
                 <value>org.cmas.entities.logbook.LogbookEntry</value>
                 <value>org.cmas.entities.logbook.DiverFriendRequest</value>
+                <value>org.cmas.entities.logbook.Request</value>
+                <value>org.cmas.entities.logbook.LogbookBuddieRequest</value>
 
                 <value>org.cmas.entities.Country</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
@@ -90,6 +92,10 @@
     </bean>
 
     <bean id="diverFriendRequestDao" class="org.cmas.presentation.dao.logbook.DiverFriendRequestDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="logbookBuddieRequestDao" class="org.cmas.presentation.dao.logbook.LogbookBuddieRequestDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

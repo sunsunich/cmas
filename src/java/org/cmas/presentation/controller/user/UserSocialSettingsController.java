@@ -89,6 +89,22 @@ public class UserSocialSettingsController {
         return gsonViewFactory.createGsonView(divers);
     }
 
+    @RequestMapping("/secure/social/searchDivers.html")
+    public View searchDivers(@ModelAttribute("command") FindDiverFormObject formObject, Errors result) {
+        validator.validate(formObject, result);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(result);
+        }
+        List<Diver> divers = diverDao.searchDivers(formObject);
+        for (Diver diver : divers) {
+            byte[] userpic = diver.getUserpic();
+            if (userpic != null) {
+                diver.setPhoto(Base64Coder.encodeString(userpic));
+            }
+        }
+        return gsonViewFactory.createGsonView(divers);
+    }
+
     @RequestMapping("/secure/social/sendFriendRequest.html")
     public View sendFriendRequest(@RequestParam("diverId") long diverId) {
         Diver diver = getDiver();

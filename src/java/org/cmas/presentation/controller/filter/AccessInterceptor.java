@@ -3,7 +3,9 @@ package org.cmas.presentation.controller.filter;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.billing.InvoiceDao;
+import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -24,9 +26,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     public static final String INVOICE_ID = "invoiceId";
     public static final String ORDER_ID = "orderId";
     public static final String CARD_ID = "cardId";
+    public static final String LOGBOOK_ENTRY_ID = "logbookEntryId";
 
     private static final String[] PARAMS = {
-            INVOICE_ID, ORDER_ID, CARD_ID
+            INVOICE_ID, ORDER_ID, CARD_ID, LOGBOOK_ENTRY_ID
     };
 
     @Autowired
@@ -35,6 +38,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private InvoiceDao invoiceDao;
     @Autowired
     private PersonalCardDao personalCardDao;
+    @Autowired
+    private LogbookEntryDao logbookEntryDao;
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -83,7 +88,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         if (!containsId(req)) {
             return false;
         }
-        return checkInvoice(req) && checkCard(req);
+        return checkInvoice(req) && checkCard(req) && checkLogbookEntry(req);
     }
 
     /**
@@ -92,7 +97,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
      * @param req
      * @return
      */
-    private boolean containsId(HttpServletRequest req) {
+    private static boolean containsId(HttpServletRequest req) {
         for (String param : PARAMS) {
             if (req.getParameter(param) != null) {
                 return true;
@@ -129,6 +134,34 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             Invoice invoice = invoiceDao.getById(invoiceId);
             BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
             return invoice.getUser().equals(currentUser.getUser());
+        }
+        return true;
+    }
+
+    private boolean checkLogbookEntry(HttpServletRequest req) {
+        String logbookEntryIdStr = req.getParameter(LOGBOOK_ENTRY_ID);
+        if (logbookEntryIdStr != null && !logbookEntryIdStr.isEmpty()) {
+            Long logbookEntryId;
+            try {
+                logbookEntryId = Long.valueOf(logbookEntryIdStr);
+            } catch (Exception ignored) {
+                return false;
+            }
+            LogbookEntry logbookEntry = logbookEntryDao.getById(logbookEntryId);
+            BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
+            User user = currentUser.getUser();
+            switch (user.getRole()) {
+                case ROLE_AMATEUR:
+                    return false;
+                case ROLE_ATHLETE:
+                    return false;
+                case ROLE_DIVER:
+                    return logbookEntry.getDiver().equals(user);
+                case ROLE_FEDERATION_ADMIN:
+                case ROLE_ADMIN:
+                    return false;
+            }
+
         }
         return true;
     }

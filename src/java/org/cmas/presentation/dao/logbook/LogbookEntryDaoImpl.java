@@ -1,5 +1,6 @@
 package org.cmas.presentation.dao.logbook;
 
+import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.logbook.LogbookVisibility;
@@ -11,6 +12,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +44,51 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " inner join le.diver d"
                      + " inner join d.friends f"
                      + " where (d.id = :diverId or f.id = :diverId and le.visibility != :visibility) and le.deleted = :deleted";
+        Query query = addSearchFormObjectToQuery(formObject, hql, true);
+        return query.setLong("diverId", diver.getId()).list();
+    }
+
+    @Override
+    public List<LogbookEntry> getDiverPublicLogbookFeed(Diver diver, Collection<Country> countries, SearchLogbookEntryFormObject formObject) {
+        String hql = "select distinct le from org.cmas.entities.logbook.LogbookEntry le"
+                     + " inner join le.diveSpot ds"
+                     + " inner join ds.country country"
+                     + " inner join le.diver d"
+                     + " inner join d.friends f"
+                     + " where (d.id = :diverId"
+                     + " or f.id = :diverId and le.visibility != :visibility "
+                     + " or le.visibility = :pubVis)";
+        if (countries != null) {
+            hql += " and country in (:countries)";
+        }
+        hql += " and le.deleted = :deleted";
+        Query query = addSearchFormObjectToQuery(formObject, hql, true);
+        query.setParameter("pubVis", LogbookVisibility.PUBLIC);
+        if (countries != null) {
+            query.setParameter("countries", countries);
+        }
+        return query.setLong("diverId", diver.getId()).list();
+    }
+
+    @Override
+    public List<LogbookEntry> getPublicLogbookFeed(Collection<Country> countries, SearchLogbookEntryFormObject formObject) {
+        String hql = "select distinct le from org.cmas.entities.logbook.LogbookEntry le"
+                     + " inner join le.diveSpot ds"
+                     + " inner join ds.country country"
+                     + " where le.visibility = :pubVis";
+        if (countries != null) {
+            hql += " and country in (:countries)";
+        }
+        hql += " and le.deleted = :deleted";
+        Query query = addSearchFormObjectToQuery(formObject, hql, false);
+        query.setParameter("pubVis", LogbookVisibility.PUBLIC);
+        if (countries != null) {
+            query.setParameter("countries", countries);
+        }
+        return query.list();
+    }
+
+    private Query addSearchFormObjectToQuery(SearchLogbookEntryFormObject formObject, String hql, boolean hasVisibility) {
         String fromDate = formObject.getFromDateTimestamp();
         if (!StringUtil.isTrimmedEmpty(fromDate)) {
             hql += " and le.dateEdit > :fromDate";
@@ -51,10 +98,11 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
             hql += " and le.dateEdit < :toDate";
         }
         hql += " order by le.dateEdit desc";
-        Query query = createQuery(hql)
-                .setLong("diverId", diver.getId())
-                .setParameter("visibility", LogbookVisibility.PRIVATE)
-                .setBoolean("deleted", false);
+        Query query = createQuery(hql);
+        if (hasVisibility) {
+            query.setParameter("visibility", LogbookVisibility.PRIVATE);
+        }
+        query.setBoolean("deleted", false);
         if (!StringUtil.isTrimmedEmpty(fromDate)) {
             query.setTimestamp("fromDate", new Date(Long.parseLong(fromDate)));
         }
@@ -65,6 +113,6 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
         if (!StringUtil.isTrimmedEmpty(limit)) {
             query.setMaxResults(Integer.parseInt(limit));
         }
-        return query.list();
+        return query;
     }
 }

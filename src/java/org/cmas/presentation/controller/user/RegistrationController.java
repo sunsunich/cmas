@@ -3,7 +3,6 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.DeviceType;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.i18n.LocaleResolverImpl;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.user.DeviceDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -31,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,8 +63,6 @@ public class RegistrationController {
 
     @Autowired
     private AuthenticationService authenticationService;
-    @Autowired
-    private LocaleResolverImpl localeResolver;
     @Autowired
     @Qualifier("registrationService")
     private RegistrationService registrationService;
@@ -154,7 +152,7 @@ public class RegistrationController {
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {  // submit form
-            formObject.setLocale(localeResolver.getCurrentLocale());
+            formObject.setLocale(LocaleContextHolder.getLocale());
             Diver diver = registrationService.setupDiver(formObject);
             if (diver == null) {
                 result.reject("error.sending.registration.email");

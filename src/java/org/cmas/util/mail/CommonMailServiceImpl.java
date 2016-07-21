@@ -1,6 +1,5 @@
 package org.cmas.util.mail;
 
-import org.cmas.i18n.LocaleResolverImpl;
 import org.cmas.i18n.MsgKey;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
@@ -34,9 +33,6 @@ public abstract class CommonMailServiceImpl {
      */
     protected MailerConfig addresses;
 
-    // возвращает дефолтную локаль
-    protected LocaleResolverImpl localeResolver;
-
     // Набор заголовков писем
     protected static final Object[] EMPTY_ARGS = {};
     protected MessageSource msgSource;
@@ -65,11 +61,6 @@ public abstract class CommonMailServiceImpl {
 
     protected String getMailEncoding(Locale locale) {
         return msgSource.getMessage(MsgKey.MAIL_ENC, null, locale);
-    }
-    
-    @Required
-    public void setLocaleResolver(LocaleResolverImpl localeResolver) {
-        this.localeResolver = localeResolver;
     }
 
      @Required

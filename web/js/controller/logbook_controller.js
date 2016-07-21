@@ -10,6 +10,7 @@ var logbook_controller = {
         my_logbook_feed_model.containerId = 'myLogbookFeed';
         this.myFeedController = simpleClone(logbook_feed_controller);
         this.myFeedController.model = my_logbook_feed_model;
+        this.myFeedController.init();
 
         var my_friends_logbook_feed_model = simpleClone(logbook_feed_model);
         my_friends_logbook_feed_model.isMyRecords = false;
@@ -35,6 +36,9 @@ var logbook_controller = {
         });
         $('#friendsTab').click(function () {
             self.showTab('FRIENDS');
+        });
+        $('#createLogbookEntryButton').click(function () {
+            window.location = "/secure/showSpots.html";
         });
     },
 

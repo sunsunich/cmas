@@ -3,6 +3,7 @@ package org.cmas.presentation.dao.logbook;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.util.dao.HibernateDaoImpl;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -18,19 +19,21 @@ public class DiverFriendRequestDaoImpl extends HibernateDaoImpl<DiverFriendReque
 
     @Override
     public boolean hasDiverFriendRequest(Diver from, Diver to) {
-        Object result = createCriteria()
-                .add(Restrictions.eq("from", from))
-                .add(Restrictions.eq("to", to))
+        Object result = createSearchCriteria(from, to)
                 .setProjection(Projections.rowCount())
                 .uniqueResult();
         return result != null && ((Number) result).intValue() > 0;
     }
 
+    private Criteria createSearchCriteria(Diver from, Diver to) {
+        return createCriteria()
+                .add(Restrictions.eq("from", from))
+                .add(Restrictions.eq("to", to));
+    }
+
     @Override
     public DiverFriendRequest getDiverFriendRequest(Diver from, Diver to) {
-        return (DiverFriendRequest)createCriteria()
-                .add(Restrictions.eq("from", from))
-                .add(Restrictions.eq("to", to))
+        return (DiverFriendRequest) createSearchCriteria(from, to)
                 .uniqueResult();
     }
 

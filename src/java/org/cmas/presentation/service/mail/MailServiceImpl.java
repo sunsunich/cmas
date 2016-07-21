@@ -40,7 +40,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
      */
     @Override
     public void confirmChangeEmail(User user) {
-        Locale locale = localeResolver.getDefaultLocale();
+        Locale locale = user.getLocale();
         String text = textRenderer.renderText("sendEmailConfirmation.ftl", locale, new ModelAttr("user", user));
         String subj = subjects.renderText("ChangeEmail", locale, addresses.getSiteName(locale));
         InternetAddress from = getSiteReplyAddress(locale);
@@ -78,7 +78,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
      */
     @Override
     public void regCompleteNotify(User user) {
-        Locale locale = localeResolver.getDefaultLocale();
+        Locale locale = user.getLocale();
 
         String text = textRenderer.renderText(
                 "regComplete.ftl", locale,
@@ -92,7 +92,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
     @Override
     public void confirmPayment(Invoice invoice) {
-        Locale locale = localeResolver.getDefaultLocale();
+        Locale locale = invoice.getUser().getLocale();
         String invoiceTypeStr = getInvoiceTypeStrForMail(invoice);
 
         String text = textRenderer.renderText(
@@ -112,7 +112,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
 
     @Override
     public void paymentFailed(Invoice invoice) {
-        Locale locale = localeResolver.getDefaultLocale();
+        Locale locale = invoice.getUser().getLocale();
         String invoiceTypeStr = getInvoiceTypeStrForMail(invoice);
 
         String text = textRenderer.renderText(

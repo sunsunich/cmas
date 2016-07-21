@@ -2,6 +2,7 @@ package org.cmas.presentation.controller.user;
 
 import com.google.myjson.Gson;
 import org.cmas.Globals;
+import org.cmas.entities.Country;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
@@ -9,12 +10,13 @@ import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.DiveScore;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.logbook.LogbookVisibility;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.divespot.LatLngBounds;
-import org.cmas.presentation.model.logbook.CreateLogbookEntryFormObject;
+import org.cmas.presentation.model.logbook.LogbookEntryFormObject;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
@@ -26,6 +28,7 @@ import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
@@ -40,6 +43,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -70,6 +74,9 @@ public class LogbookController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
+
+    @Autowired
+    private CountryDao countryDao;
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -112,25 +119,51 @@ public class LogbookController {
         return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds));
     }
 
-    @RequestMapping(value = "/secure/createRecordForm.html", method = RequestMethod.GET)
-    public ModelAndView createRecordForm(@RequestParam("spotId") Long spotId) throws IOException {
+    @RequestMapping(value = "/secure/createLogbookRecordForm.html", method = RequestMethod.GET)
+    public ModelAndView createLogbookRecordForm(
+            @RequestParam("spotId") Long spotId
+    ) throws IOException {
         DiveSpot diveSpot = diveSpotDao.getById(spotId);
         if (diveSpot == null) {
             throw new BadRequestException();
         }
+        return getLogbookRecordForm(diveSpot, null);
+    }
+
+    @RequestMapping(value = "/secure/editLogbookRecordForm.html", method = RequestMethod.GET)
+    public ModelAndView editLogbookRecordForm(
+            @RequestParam("logbookEntryId") Long logbookEntryId
+    ) throws IOException {
+        DiveSpot diveSpot = null;
+        LogbookEntry logbookEntry = null;
+        if (logbookEntryId != null) {
+            logbookEntry = logbookEntryDao.getById(logbookEntryId);
+            if (logbookEntry == null) {
+                throw new BadRequestException();
+            }
+            diveSpot = logbookEntry.getDiveSpot();
+        }
+        if (diveSpot == null) {
+            throw new BadRequestException();
+        }
+        return getLogbookRecordForm(diveSpot, logbookEntry);
+    }
+
+    private ModelAndView getLogbookRecordForm(DiveSpot diveSpot, LogbookEntry logbookEntry) {
         ModelMap mm = new ModelMap();
         mm.addAttribute("spot", diveSpot);
+        mm.addAttribute("logbookEntry", logbookEntry);
         try {
             mm.addAttribute("countries", dictionaryDataService.getCountries(0L));
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
         mm.addAttribute("visibilityTypes", LogbookVisibility.values());
-        return new ModelAndView("/secure/createRecordForm", mm);
+        return new ModelAndView("/secure/logbookRecordForm", mm);
     }
 
     @RequestMapping(value = "/secure/createRecord.html", method = RequestMethod.POST)
-    public View createRecord(@ModelAttribute("command") CreateLogbookEntryFormObject formObject, Errors errors) throws IOException {
+    public View createRecord(@ModelAttribute("command") LogbookEntryFormObject formObject, Errors errors) throws IOException {
         validator.validate(formObject, errors);
         if (errors.hasErrors()) {
             return gsonViewFactory.createGsonView(errors);
@@ -188,6 +221,19 @@ public class LogbookController {
         }
     }
 
+    @RequestMapping(value = "/secure/deleteRecord.html", method = RequestMethod.GET)
+    public View deleteRecord(
+            @RequestParam("logbookEntryId") Long logbookEntryId
+    ) {
+        LogbookEntry logbookEntry = logbookEntryDao.getById(logbookEntryId);
+        if (logbookEntry == null) {
+            throw new BadRequestException();
+        }
+        logbookEntry.setDeleted(true);
+        logbookEntryDao.updateModel(logbookEntry);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
     @RequestMapping(value = "/secure/showLogbook.html", method = RequestMethod.GET)
     public ModelAndView showLogbookPage() throws IOException {
         ModelMap mm = new ModelMap();
@@ -201,6 +247,39 @@ public class LogbookController {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
                 setPhotos(logbookEntryDao.getDiverLogbookFeed(diver, formObject))
+        );
+    }
+
+    @RequestMapping(value = "/secure/getMyPublicLogbookFeed.html", method = RequestMethod.GET)
+    public View getMyPublicLogbookFeed(
+            @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
+    ) throws IOException {
+        Diver diver = getCurrentDiver();
+        Set<Country> countries = diver.getNewsFromCountries();
+        if (diver.isNewsFromCurrentLocation()) {
+            Locale locale = LocaleContextHolder.getLocale();
+            //todo fix codes
+            Country currentCountry = countryDao.getByName(locale.getDisplayCountry());
+            if (currentCountry != null) {
+                countries.add(currentCountry);
+            }
+        }
+        if (countries.isEmpty()) {
+            countries = null;
+        }
+        return gsonViewFactory.createGsonFeedView(
+                setPhotos(logbookEntryDao.getDiverPublicLogbookFeed(diver, countries, formObject))
+        );
+    }
+
+    @RequestMapping(value = "/getPublicLogbookFeed.html", method = RequestMethod.GET)
+    public View getPublicLogbookFeed(
+            @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
+    ) throws IOException {
+        //todo filters ?
+        List<Country> countries = null;
+        return gsonViewFactory.createGsonFeedView(
+                setPhotos(logbookEntryDao.getPublicLogbookFeed(countries, formObject))
         );
     }
 

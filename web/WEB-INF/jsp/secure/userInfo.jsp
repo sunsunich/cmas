@@ -9,7 +9,7 @@
 <jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/model/social_model.js,js/controller/country_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
+               customScripts="js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
         labels["cmas.face.client.social.friendRequest.accept"] = '<s:message code="cmas.face.client.social.friendRequest.accept"/>';
@@ -26,7 +26,7 @@
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
 
-    <div class="content" id="mainContent">
+    <div class="content-left" id="mainContent">
         <div class="tabs">
             <span class="firstTab" id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
             <span class="secondTab" id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
@@ -158,7 +158,7 @@
         </div>
     </div>
 
-    <div class="content" id="diversList" style="display: none">
+    <div class="content-left" id="diversList" style="display: none">
         <div id="diversListContent">
 
         </div>
@@ -170,6 +170,8 @@
             </div>
         </div>
     </div>
+
+    <div class="content-right" id="accountFeed" ></div>
 
     <my:dialog id="findDiver"
                title="cmas.face.findDiver.form.page.title"

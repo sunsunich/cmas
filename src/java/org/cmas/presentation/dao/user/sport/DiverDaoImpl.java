@@ -100,6 +100,44 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    public List<Diver> searchDivers(FindDiverFormObject formObject) {
+        String cmasCardNumber = formObject.getCmasCardNumber();
+        if (!StringUtil.isTrimmedEmpty(cmasCardNumber)) {
+            return createCriteria()
+                    .createAlias("primaryPersonalCard", "card")
+                    .add(Restrictions.eq("primaryPersonalCard.number",
+                                         StringUtil.correctSpaceCharAndTrim(cmasCardNumber)))
+                    .list();
+        }
+        String federationCardNumber = formObject.getFederationCardNumber();
+        String federationCountry = formObject.getFederationCountry();
+        if (!StringUtil.isTrimmedEmpty(federationCardNumber)
+            && !StringUtil.isTrimmedEmpty(federationCountry)
+                ) {
+            return createCriteria()
+                    .createAlias("cards", "card")
+                    .createAlias("federation", "federation")
+                    .createAlias("federation.country", "country")
+                    .add(Restrictions.eq("card.number",
+                                         StringUtil.correctSpaceCharAndTrim(federationCardNumber)))
+                    .add(Restrictions.eq("country.code",
+                                         StringUtil.correctSpaceCharAndTrim(federationCountry)))
+                    .list();
+        }
+        String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
+        return createCriteria()
+                .createAlias("country", "country")
+                .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
+                .add(Restrictions.eq("dob", formObject.getDob()))
+                .add(Restrictions.eq("diverType", DiverType.valueOf(formObject.getDiverType())))
+                .add(Restrictions.disjunction()
+                                 .add(Restrictions.like("firstName", nameTemplate))
+                                 .add(Restrictions.like("lastName", nameTemplate))
+                )
+                .list();
+    }
+
+    @Override
     public List<Diver> getFriends(Diver diver) {
         String sql = "select diverId, friendId from diver_friends where friendId = :diverId or diverId = :diverId";
         long diverId = diver.getId();

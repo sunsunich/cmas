@@ -3,6 +3,18 @@ var logbook_feed_controller = {
     model: null,
     timeout: null,
 
+    init: function () {
+        if (this.model.isMyRecords) {
+            var self = this;
+            $('#recordDeleteDialogClose').click(function () {
+                $('#recordDeleteDialog').hide();
+            });
+            $('#recordDeleteDialogOk').click(function () {
+                self.doRecordDelete();
+            });
+        }
+    },
+
     start: function () {
         var self = this;
         this.refreshFeed();
@@ -46,12 +58,12 @@ var logbook_feed_controller = {
                     $('#' + self.model.containerId + 'edit_' + records[i].id).click(function (event) {
                         event.preventDefault();
                         var elemId = $(this)[0].id;
-                        window.location = "/secure/createRecordForm.html?recordId=" + elemId.split('_')[1];
+                        window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
                     });
                     $('#' + self.model.containerId + 'delete_' + records[i].id).click(function (event) {
                         event.preventDefault();
                         var elemId = $(this)[0].id;
-                        //todo delete
+                        self.showRecordDeleteDialog(elemId);
                     });
                 }
             },
@@ -64,6 +76,30 @@ var logbook_feed_controller = {
                 }
             }
         )
+    },
+
+    doRecordDelete: function () {
+        $('#recordDeleteDialog').hide();
+        var self = this;
+        this.model.deletetRecord(
+            function () {
+                $('#' + self.model.containerId + 'logbookRecord_' + self.model.deleteRecordId).remove();
+                self.model.deleteRecordId = 0;
+            },
+            function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            }
+        );
+    },
+
+    showRecordDeleteDialog: function (elemId) {
+        this.model.deleteRecordId = elemId.split('_')[1];
+        $('#recordDeleteDialog').show();
     },
 
     toggleRecordMenu: function (elemId) {

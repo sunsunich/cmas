@@ -29,6 +29,12 @@
 
     </div>
 
+    <my:dialog id="recordDeleteDialog"
+               title="cmas.face.logbook.delete.title"
+               buttonText="cmas.face.logbook.delete.ok">
+        <div class="dialog-form-row"><s:message code="cmas.face.logbook.delete.question"/></div>
+    </my:dialog>
+
 </my:securepage>
 
 

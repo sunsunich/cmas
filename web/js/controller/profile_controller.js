@@ -1,5 +1,7 @@
 var profile_controller = {
 
+    myFriendsFeedController: null,
+
     init: function () {
         this.setListeners();
     },
@@ -61,6 +63,14 @@ var profile_controller = {
             self.loadPrimaryCard();
         });
         self.loadPrimaryCard();
+
+        var my_friends_logbook_feed_model = simpleClone(logbook_feed_model);
+        my_friends_logbook_feed_model.isMyRecords = false;
+        my_friends_logbook_feed_model.url = "/secure/getMyFriendsLogbookFeed.html";
+        my_friends_logbook_feed_model.containerId = 'accountFeed';
+        this.myFriendsFeedController = simpleClone(logbook_feed_controller);
+        this.myFriendsFeedController.model = my_friends_logbook_feed_model;
+        this.myFriendsFeedController.start();
     },
 
     showTab: function (tabName) {

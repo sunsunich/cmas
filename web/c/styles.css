@@ -44,13 +44,27 @@ html, body {
     height: 100%;
 }
 
-.content {
+.content, .content-left, .content-right  {
     margin-top: 50px;
     margin-bottom: 30px;
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
     width: 362px;
+}
+
+.content-left {
+    float: left;
+    left: 10%;
+    margin-right: 20%;
+    transform: translate(0%, 0%);
+}
+
+.content-right {
+    margin-top: 120px;
+    float: left;
+    left: 0;
+    transform: translate(0%, 0%);
 }
 
 .menu-left {
@@ -140,7 +154,7 @@ html, body {
 .dialog, .white-form {
     background: #f8f8f8;
     height: auto;
-    width: 335px;
+    width: 320px;
     margin: 0 auto;
 }
 
