@@ -335,7 +335,7 @@ VALUES
 
 CREATE TABLE `transaction_settings` (
  `id` bigint(20) NOT NULL AUTO_INCREMENT,
- `transactionNumber` int(11) DEFAULT NULL
+ `transactionNumber` int(11) DEFAULT NULL,
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

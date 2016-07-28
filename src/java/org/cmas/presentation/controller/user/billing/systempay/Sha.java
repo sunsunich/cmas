@@ -15,7 +15,7 @@ public class Sha {
 
     public static String encode(String src) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
-        byte[] bytes = src.getBytes("iso-8859-1");
+        byte[] bytes = src.getBytes("UTF-8");
         md.update(bytes, 0, bytes.length);
         byte[] sha1hash = md.digest();
         return convertToHex(sha1hash);

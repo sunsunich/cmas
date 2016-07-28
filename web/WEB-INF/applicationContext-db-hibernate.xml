@@ -131,7 +131,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="transactionSettingsDao" class="org.cmas.presentation.controller.user.billing.systempay.TransactionSequenceDaoImpl">
+    <bean id="transactionSettingsDao" class="org.cmas.presentation.controller.user.billing.systempay.MySqlTransactionSequenceDaoImpl">
         <property name="jdbc" ref="jdbcTemplate"/>
     </bean>
 

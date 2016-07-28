@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.DirectFieldBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,10 +38,8 @@ import java.util.TimeZone;
 public class SystempayController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SystempayController.class);
-    private static final String SUCCESS_RESULT_URL = "/billing/systempay/success.html";
-    private static final String ERROR_RESULT_URL = "/billing/systempay/fail.html";
 
-    private static final String SYSTEMPAY_DATE_TIME_FORMAT = "YYYYMMDDHHMMSS";
+    static final String SYSTEMPAY_DATE_TIME_FORMAT = "yyyyMMddHHmmss";
 
     @Autowired
     private InvoiceDao invoiceDao;
@@ -77,16 +76,20 @@ public class SystempayController {
 
             BigDecimal localAmount = invoice.getAmount();
             localAmount = localAmount.setScale(2, RoundingMode.DOWN);
-            paymentRequest.setVads_amount(localAmount.multiply(Globals.HUNDRED).intValue());
+            paymentRequest.setVads_amount(
+                    String.valueOf(localAmount.multiply(Globals.HUNDRED).intValue())
+            );
 
             Diver diver = invoice.getDiver();
             paymentRequest.setVads_cust_email(diver.getEmail());
-            //todo check for japan
             paymentRequest.setVads_language(diver.getLocale().getLanguage());
 
             SimpleDateFormat dateFormat = new SimpleDateFormat(SYSTEMPAY_DATE_TIME_FORMAT, Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            paymentRequest.setVads_trans_date(dateFormat.format(new Date()));
+            Date transactionDate = new Date();
+            invoice.setTransactionDate(transactionDate);
+            invoiceDao.updateModel(invoice);
+            paymentRequest.setVads_trans_date(dateFormat.format(transactionDate));
 
             try {
                 paymentRequest.setSignature(systempayValidator.createSignature(paymentRequest));
@@ -108,10 +111,26 @@ public class SystempayController {
     public void systempayResult(
             HttpServletRequest request
             , HttpServletResponse response
-            , @ModelAttribute SystempayPaymentRequest data
-            , BindingResult errors
     ) throws IOException {
+        SystempayPaymentRequest data = new SystempayPaymentRequest();
+        BindingResult errors = new DirectFieldBindingResult(data, "SystempayPaymentRequest");
         HttpLogger.logHttp(request, response);
+        try {
+            String madeHash = systempayValidator.createSignature(request);
+            String signature = request.getParameter("signature");
+            if (!signature.equals(madeHash)) {
+                errors.reject("validation.billing.paysystem.hash");
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            errors.reject("validation.billing.paysystem.hash");
+        }
+        if (errors.hasErrors()) {
+            LOGGER.error(systempayValidator.makeMessageFromErrors(errors));
+            return;
+        }
+        data = SystempayPaymentRequest.fromServletRequest(request);
+        //todo run all this in separate thread and create response asap
         systempayValidator.validate(data, errors);
         if (errors.hasErrors()) {
             LOGGER.error(systempayValidator.makeMessageFromErrors(errors));
@@ -157,31 +176,53 @@ public class SystempayController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    @RequestMapping(SUCCESS_RESULT_URL)
+    /*
+    vads_amount=300&vads_auth_mode=FULL&vads_auth_number=3fed91&vads_auth_result=00&vads_capture_delay=0
+    &vads_card_brand=CB&vads_card_number=497010XXXXXX0000&vads_payment_certificate=1ab2f5b7c60d778b7201e1a8f52715182075d313
+    &vads_ctx_mode=TEST&vads_currency=978&vads_effective_amount=300&vads_site_id=35521711
+    &vads_trans_date=20160727015345&vads_trans_id=000004&vads_trans_uuid=7a4a508dd2504ad5a4d4cd35f2c7d45f
+    &vads_validation_mode=0&vads_version=V2&vads_warranty_result=YES&vads_payment_src=EC
+    &vads_order_id=420074843744471&vads_cust_email=3516246432961013032%40mailinator.com&vads_sequence_number=1
+    &vads_contract_used=5464867&vads_trans_status=AUTHORISED&vads_expiry_month=6&vads_expiry_year=2017
+    &vads_bank_product=F&vads_pays_ip=FI&vads_presentation_date=20160727015150
+    &vads_effective_creation_date=20160727015150&vads_operation_type=DEBIT
+    &vads_threeds_enrolled=Y&vads_threeds_cavv=Q2F2dkNhdnZDYXZ2Q2F2dkNhdnY%3D&vads_threeds_eci=05
+    &vads_threeds_xid=Q0s3bHFyMXlHOHNESXVpM0RPbEI%3D&vads_threeds_cavvAlgorithm=2&vads_threeds_status=Y
+    &vads_threeds_sign_valid=1&vads_threeds_error_code=&vads_threeds_exit_status=10&vads_result=00
+    &vads_extra_result=&vads_card_country=FR&vads_language=en&vads_action_mode=INTERACTIVE
+    &vads_payment_config=SINGLE&vads_page_action=PAYMENT&signature=eda451e553d1f2d414067edbaca472304b53f082
+
+
+    vads_amount=300&vads_auth_mode=MARK&vads_auth_number=&vads_auth_result=&vads_capture_delay=0
+    &vads_card_brand=&vads_card_number=&vads_payment_certificate=&vads_ctx_mode=TEST
+    &vads_currency=978&vads_effective_amount=&vads_site_id=35521711&vads_trans_date=20160726201858
+    &vads_trans_id=000012&vads_validation_mode=0&vads_version=V2&vads_warranty_result=&vads_payment_src=EC
+    &vads_order_id=593452636725564&vads_cust_email=5616353820540402181%40mailinator.com&vads_contract_used=
+    &vads_trans_status=ABANDONED&vads_pays_ip=FI&vads_presentation_date=20160726201456
+    &vads_threeds_enrolled=&vads_threeds_cavv=&vads_threeds_eci=&vads_threeds_xid=
+    &vads_threeds_cavvAlgorithm=&vads_threeds_status=&vads_threeds_sign_valid=
+    &vads_threeds_error_code=&vads_threeds_exit_status=&vads_result=17
+    &vads_extra_result=&vads_card_country=&vads_language=en&vads_action_mode=INTERACTIVE
+    &vads_payment_config=SINGLE&vads_page_action=PAYMENT&signature=ebb9c2839a275417399f36ad41f7386f9d7f22af
+     */
+    @RequestMapping("/billing/systempay/return.html")
     public ModelAndView systempaySuccess(
             @ModelAttribute SystempayPaymentRequest data
     ) {
-        Map<String, Object> model = new HashMap<String, Object>();
+        Map<String, Object> model = new HashMap<>();
         Invoice invoice = invoiceDao.getByExternalInvoiceNumber(data.getVads_order_id());
+        String vadsAuthResult = data.getVads_auth_result();
+        String vadsResult = data.getVads_result();
         if (invoice != null) {
             model.put("invoice", invoice);
-            model.put("date", Globals.getDTF().format(invoice.getCreateDate().getTime()));
-            model.put("invoiceType", "Systempay");
+            model.put("isSuccess",
+                      SystempayValidator.SUCCESSFUL_PAYMENT_STATUSES.contains(data.getVads_trans_status())
+                      && "00".equals(vadsAuthResult)
+                      && "00".equals(vadsResult)
+            );
         }
-        return new ModelAndView("billing/systempay/success", model);
+        return new ModelAndView("billing/systempay/return", model);
     }
 
-    @RequestMapping(ERROR_RESULT_URL)
-    public ModelAndView systempayFail(
-            @ModelAttribute SystempayPaymentRequest data
-    ) {
-        Map<String, Object> model = new HashMap<String, Object>();
-        Invoice invoice = invoiceDao.getByExternalInvoiceNumber(data.getVads_order_id());
-        if (invoice != null) {
-            model.put("invoice", invoice);
-            model.put("date", Globals.getDTF().format(invoice.getCreateDate().getTime()));
-            model.put("invoiceType", "Systempay");
-        }
-        return new ModelAndView("billing/systempay/fail", model);
-    }
+
 }

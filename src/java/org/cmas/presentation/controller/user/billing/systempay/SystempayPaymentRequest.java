@@ -1,5 +1,9 @@
 package org.cmas.presentation.controller.user.billing.systempay;
 
+import javax.servlet.ServletRequest;
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+
 /*
 vads_action_mode ￼ ￼ 47 X 
 vads_amount ￼ ￼ 09 X 
@@ -56,11 +60,20 @@ vads_cust_city ￼ ￼ 21 F
         "MethodParameterNamingConvention"})
 public class SystempayPaymentRequest {
 
+
+    private String vads_page_action = "PAYMENT";
+    private String vads_payment_config = "SINGLE";
+    private String vads_action_mode = "INTERACTIVE";
+    private String vads_version = "V2";
+    private String vads_capture_delay = "0";
+    private String vads_validation_mode = "0";
+    private String vads_return_mode = "GET";
+
     //PRODUCTION, TEST
     private String vads_ctx_mode;
 
     //e.g. euro cents
-    private int vads_amount;
+    private String vads_amount;
     private String vads_currency;
 
     private String vads_cust_email;
@@ -71,7 +84,7 @@ public class SystempayPaymentRequest {
 
     private String vads_site_id;
 
-    //YYYYMMDDHHMMSS time zone?
+    //YYYYMMDDHHMMSS
     private String vads_trans_date;
 
     /*
@@ -102,11 +115,57 @@ and the value of the certificate (depending on the mode) is =1122334455667788
      */
     private String signature;
 
+    private String vads_trans_status;
+    private String vads_operation_type;
+    private String vads_url_check_src;
     private String vads_auth_result;
     private String vads_card_brand;
     private String vads_card_number;
     private String vads_result;
     private String vads_extra_result;
+
+    public static SystempayPaymentRequest fromServletRequest(ServletRequest request) {
+        SystempayPaymentRequest result = new SystempayPaymentRequest();
+        Enumeration<String> paramNames = request.getParameterNames();
+        while (paramNames.hasMoreElements()) {
+            String paramName = paramNames.nextElement();
+            if (paramName.isEmpty()) {
+                continue;
+            }
+            try {
+                String setterName = "set" + paramName.substring(0, 1).toUpperCase()
+                                    + paramName.substring(1, paramName.length());
+                Method method = SystempayPaymentRequest.class.getDeclaredMethod(setterName, String.class);
+                method.invoke(result, request.getParameter(paramName));
+            } catch (Exception ignored) {
+            }
+        }
+        return result;
+    }
+
+    public String getVads_trans_status() {
+        return vads_trans_status;
+    }
+
+    public void setVads_trans_status(String vads_trans_status) {
+        this.vads_trans_status = vads_trans_status;
+    }
+
+    public String getVads_operation_type() {
+        return vads_operation_type;
+    }
+
+    public void setVads_operation_type(String vads_operation_type) {
+        this.vads_operation_type = vads_operation_type;
+    }
+
+    public String getVads_url_check_src() {
+        return vads_url_check_src;
+    }
+
+    public void setVads_url_check_src(String vads_url_check_src) {
+        this.vads_url_check_src = vads_url_check_src;
+    }
 
     public String getVads_ctx_mode() {
         return vads_ctx_mode;
@@ -116,11 +175,11 @@ and the value of the certificate (depending on the mode) is =1122334455667788
         this.vads_ctx_mode = vads_ctx_mode;
     }
 
-    public int getVads_amount() {
+    public String getVads_amount() {
         return vads_amount;
     }
 
-    public void setVads_amount(int vads_amount) {
+    public void setVads_amount(String vads_amount) {
         this.vads_amount = vads_amount;
     }
 
@@ -226,5 +285,61 @@ and the value of the certificate (depending on the mode) is =1122334455667788
 
     public void setVads_extra_result(String vads_extra_result) {
         this.vads_extra_result = vads_extra_result;
+    }
+
+    public String getVads_page_action() {
+        return vads_page_action;
+    }
+
+    public void setVads_page_action(String vads_page_action) {
+        this.vads_page_action = vads_page_action;
+    }
+
+    public String getVads_payment_config() {
+        return vads_payment_config;
+    }
+
+    public void setVads_payment_config(String vads_payment_config) {
+        this.vads_payment_config = vads_payment_config;
+    }
+
+    public String getVads_action_mode() {
+        return vads_action_mode;
+    }
+
+    public void setVads_action_mode(String vads_action_mode) {
+        this.vads_action_mode = vads_action_mode;
+    }
+
+    public String getVads_version() {
+        return vads_version;
+    }
+
+    public void setVads_version(String vads_version) {
+        this.vads_version = vads_version;
+    }
+
+    public String getVads_capture_delay() {
+        return vads_capture_delay;
+    }
+
+    public void setVads_capture_delay(String vads_capture_delay) {
+        this.vads_capture_delay = vads_capture_delay;
+    }
+
+    public String getVads_validation_mode() {
+        return vads_validation_mode;
+    }
+
+    public void setVads_validation_mode(String vads_validation_mode) {
+        this.vads_validation_mode = vads_validation_mode;
+    }
+
+    public String getVads_return_mode() {
+        return vads_return_mode;
+    }
+
+    public void setVads_return_mode(String vads_return_mode) {
+        this.vads_return_mode = vads_return_mode;
     }
 }

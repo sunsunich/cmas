@@ -48,8 +48,8 @@
                 </a>
             </c:when>
             <c:otherwise>
-                <a href="">
-                    <button class="form-button enter-button" onclick="window.location='/secure/pay.html?amount=${firstPayment}'">
+                <a href="${pageContext.request.contextPath}/secure/pay.html?amount=${firstPayment}">
+                    <button class="form-button enter-button">
                         <s:message code="cmas.face.welcome.payment.button"/>
                     </button>
                 </a>

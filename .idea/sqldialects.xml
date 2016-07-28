@@ -3,6 +3,6 @@
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/sql/08_06_2016.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/sql/initialData.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/src/java/org/cmas/presentation/controller/user/billing/systempay/TransactionSequenceDaoImpl.java" dialect="TSQL" />
+    <file url="file://$PROJECT_DIR$/src/java/org/cmas/presentation/controller/user/billing/systempay/MySqlTransactionSequenceDaoImpl.java" dialect="MySQL" />
   </component>
 </project>

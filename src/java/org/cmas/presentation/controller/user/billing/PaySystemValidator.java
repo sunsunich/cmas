@@ -1,8 +1,9 @@
 package org.cmas.presentation.controller.user.billing;
 
-import org.cmas.entities.sport.Athlete;
+import org.cmas.entities.User;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
@@ -39,12 +40,13 @@ public abstract class PaySystemValidator implements Validator {
         if (invoice == null) {
             return false;
         }
-        InvoiceType invoiceType = invoice.getInvoiceType();
-        if (  invoiceType != InvoiceType.SYSTEMPAY
-           ) {
+        if (invoice.getInvoiceType() != InvoiceType.SYSTEMPAY) {
             return false;
         }
-        Athlete invoiceUser = invoice.getAthlete();
+        if (invoice.getInvoiceStatus() != InvoiceStatus.NOT_PAID) {
+            return false;
+        }
+        User invoiceUser = invoice.getUser();
         if (invoiceUser == null) {
             return false;
         }

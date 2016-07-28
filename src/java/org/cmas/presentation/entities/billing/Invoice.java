@@ -43,6 +43,9 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
     @Column(nullable=false)
     private Date createDate;
 
+    @Column(nullable=true)
+    private Date transactionDate;
+
     // Статус счёта: оплачен, частично оплачен, не оплачен
     @Column(columnDefinition = "int(11) NOT NULL DEFAULT '0'")
     private InvoiceStatus invoiceStatus;
@@ -116,6 +119,14 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
 
     public void setInvoiceType(InvoiceType invoiceType) {
         this.invoiceType = invoiceType;
+    }
+
+    public Date getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(Date transactionDate) {
+        this.transactionDate = transactionDate;
     }
 
     @SuppressWarnings({"CallToSimpleGetterFromWithinClass"})

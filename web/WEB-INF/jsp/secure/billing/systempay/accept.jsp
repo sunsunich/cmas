@@ -3,12 +3,14 @@
 
 <html>
 <body>
-<form id="systempay" name="payment" action="https://systempay.cyberpluspaiement.com/vads-payment/" method="post">
-    <input type="hidden" name="vads_page_action" value="PAYMENT">
-    <input type="hidden" name="vads_payment_config" value="SINGLE">
-    <input type="hidden" name="vads_action_mode" value="INTERACTIVE">
-    <input type="hidden" name="vads_version" value="V2">
-    <input type="hidden" name="vads_return_mode" value="GET">
+<form id="systempay" name="payment" action="https://paiement.systempay.fr/vads-payment/" method="post">
+    <input type="hidden" name="vads_page_action" value="${data.vads_page_action}">
+    <input type="hidden" name="vads_payment_config" value="${data.vads_payment_config}">
+    <input type="hidden" name="vads_action_mode" value="${data.vads_action_mode}">
+    <input type="hidden" name="vads_version" value="${data.vads_version}">
+    <input type="hidden" name="vads_capture_delay" value="${data.vads_capture_delay}">
+    <input type="hidden" name="vads_validation_mode" value="${data.vads_validation_mode}">
+    <input type="hidden" name="vads_return_mode" value="${data.vads_return_mode}">
     <input type="hidden" name="vads_ctx_mode" value="${data.vads_ctx_mode}">
     <input type="hidden" name="vads_amount" value="${data.vads_amount}">
     <input type="hidden" name="vads_currency" value="${data.vads_currency}">
