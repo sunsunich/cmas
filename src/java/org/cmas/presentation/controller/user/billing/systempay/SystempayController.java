@@ -150,7 +150,7 @@ public class SystempayController {
                 BigDecimal amount = new BigDecimal(data.getVads_amount()).divide(Globals.HUNDRED, RoundingMode.DOWN)
                                                                          .setScale(2, RoundingMode.DOWN);
                 paymentAddData.setAmount(amount.toString());
-                if (!billingService.paymentAdd(paymentAddData, HttpUtil.getIP(request), true)) {
+                if (!billingService.paymentAdd(paymentAddData, HttpUtil.getIP(request), false)) {
                     LOGGER.error(
                             "error while adding payment from systempay,"
                             + " possible cuncurrent data modification, invoiceId="

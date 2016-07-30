@@ -23,7 +23,7 @@ public class BillingServiceImpl implements BillingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BillingServiceImpl.class);
     private static final int INVOICE_NUMBER_RAND_PART_LENGTH = 7;
-    private static final SecureRandom rnd = new SecureRandom();
+    private static final SecureRandom RND = new SecureRandom();
 
     @Autowired
     private InvoiceDao invoiceDao;
@@ -37,7 +37,7 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private TransactionalBillingServiceImpl transactionalBillingService;
 
-    private static final int MAX_ATTEMTS_CNT = 2;
+    private static final int MAX_ATTEMPTS_CNT = 2;
 
 
     @Override
@@ -48,7 +48,7 @@ public class BillingServiceImpl implements BillingService {
 
         long invoiceId = data.getInvoiceId();
         int attemptCnt = 0;
-        while (attemptCnt < MAX_ATTEMTS_CNT) {
+        while (attemptCnt < MAX_ATTEMPTS_CNT) {
             try {
                 if (!transactionalBillingService.canPaymentAdd(ip, amount, invoiceId)) {
                     return false;
@@ -58,14 +58,15 @@ public class BillingServiceImpl implements BillingService {
                 attemptCnt++;
             }
         }
-        if (attemptCnt >= MAX_ATTEMTS_CNT) {
-            Invoice invoice = invoiceDao.getById(invoiceId);
+        if (attemptCnt >= MAX_ATTEMPTS_CNT) {
+//            Invoice invoice = invoiceDao.getById(invoiceId);
 
-            try {
-                mailService.paymentFailed(invoice);
-            } catch (Exception ex) {
-                LOG.error("error while sending email to user", ex);
-            }
+//            try {
+                //todo fix hibernate session here
+//                mailService.paymentFailed(invoice);
+//            } catch (Exception ex) {
+//                LOG.error("error while sending email to user", ex);
+//            }
             return false;
         }
         Invoice invoice = invoiceDao.getById(invoiceId);
@@ -89,7 +90,7 @@ public class BillingServiceImpl implements BillingService {
         checkAmount(amount);
 
         int attemptCnt = 0;
-        int returnAttemptCnt = MAX_ATTEMTS_CNT * 3;
+        int returnAttemptCnt = MAX_ATTEMPTS_CNT * 3;
         while (attemptCnt < returnAttemptCnt) {
             try {
                 transactionalBillingService.orderErrorPaymentReturn(user, amount, errorCause);
@@ -110,7 +111,7 @@ public class BillingServiceImpl implements BillingService {
     @Override
     public boolean paymentReturn(long orderId, String ip) {
         int attemptCnt = 0;
-        while (attemptCnt < MAX_ATTEMTS_CNT) {
+        while (attemptCnt < MAX_ATTEMPTS_CNT) {
             try {
                 return transactionalBillingService.canPaymentReturn(orderId, ip);
             } catch (StaleObjectStateException ignored) {
@@ -125,7 +126,7 @@ public class BillingServiceImpl implements BillingService {
         checkAmount(amount);
 
         int attemptCnt = 0;
-        while (attemptCnt < MAX_ATTEMTS_CNT) {
+        while (attemptCnt < MAX_ATTEMPTS_CNT) {
             try {
                 transactionalBillingService.paymentReturn(user, amount, orderId, ip);
                 return true;
@@ -171,7 +172,7 @@ public class BillingServiceImpl implements BillingService {
 
     private String genRandom(int minLength) {
         long minNumber = 10L * (long) (minLength - 1);
-        long number = Math.abs(rnd.nextLong());
+        long number = Math.abs(RND.nextLong());
         if (number > Long.MAX_VALUE - minNumber) {
             return String.valueOf(number);
         } else {
@@ -185,7 +186,7 @@ public class BillingServiceImpl implements BillingService {
         checkAmount(amount);
 
         int attemptCnt = 0;
-        while (attemptCnt < MAX_ATTEMTS_CNT) {
+        while (attemptCnt < MAX_ATTEMPTS_CNT) {
 
             try {
                 if (!transactionalBillingService.canPaymentWithdraw(user, amount, ip)) {
@@ -196,7 +197,7 @@ public class BillingServiceImpl implements BillingService {
                 attemptCnt++;
             }
         }
-        if (attemptCnt >= MAX_ATTEMTS_CNT) {
+        if (attemptCnt >= MAX_ATTEMPTS_CNT) {
             return PaymentWithdrawResult.ERROR;
         }
         return PaymentWithdrawResult.OK;
