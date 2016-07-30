@@ -1,7 +1,9 @@
 package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.billing.InvoiceDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
@@ -27,6 +29,9 @@ public class BillingServiceImpl implements BillingService {
     private InvoiceDao invoiceDao;
 
     @Autowired
+    private DiverDao diverDao;
+
+    @Autowired
     private MailService mailService;
 
     @Autowired
@@ -44,14 +49,12 @@ public class BillingServiceImpl implements BillingService {
         long invoiceId = data.getInvoiceId();
         int attemptCnt = 0;
         while (attemptCnt < MAX_ATTEMTS_CNT) {
-
             try {
                 if (!transactionalBillingService.canPaymentAdd(ip, amount, invoiceId)) {
                     return false;
                 }
                 break;
-            }
-            catch (StaleObjectStateException ignored) {
+            } catch (StaleObjectStateException ignored) {
                 attemptCnt++;
             }
         }
@@ -60,26 +63,23 @@ public class BillingServiceImpl implements BillingService {
 
             try {
                 mailService.paymentFailed(invoice);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 LOG.error("error while sending email to user", ex);
             }
             return false;
         }
-
         Invoice invoice = invoiceDao.getById(invoiceId);
-
+        Diver diver = invoice.getDiver();
+        diver.setHasPayed(true);
+        diverDao.updateModel(diver);
         if (isConfirmEmail) {
             try {
                 mailService.confirmPayment(invoice);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 LOG.error("error while sending email to user", e);
             }
         }
-
         return true;
-
     }
 
 
@@ -94,15 +94,14 @@ public class BillingServiceImpl implements BillingService {
             try {
                 transactionalBillingService.orderErrorPaymentReturn(user, amount, errorCause);
                 return;
-            }
-            catch (StaleObjectStateException ignored) {
+            } catch (StaleObjectStateException ignored) {
                 attemptCnt++;
             }
         }
 
         LOG.error(
                 "error while returning to user account user:" + user.getEmail()
-                        + ", amount:" + amount
+                + ", amount:" + amount
         );
 
     }
@@ -114,8 +113,7 @@ public class BillingServiceImpl implements BillingService {
         while (attemptCnt < MAX_ATTEMTS_CNT) {
             try {
                 return transactionalBillingService.canPaymentReturn(orderId, ip);
-            }
-            catch (StaleObjectStateException ignored) {
+            } catch (StaleObjectStateException ignored) {
                 attemptCnt++;
             }
         }
@@ -131,8 +129,7 @@ public class BillingServiceImpl implements BillingService {
             try {
                 transactionalBillingService.paymentReturn(user, amount, orderId, ip);
                 return true;
-            }
-            catch (StaleObjectStateException ignored) {
+            } catch (StaleObjectStateException ignored) {
                 attemptCnt++;
             }
         }
@@ -166,8 +163,8 @@ public class BillingServiceImpl implements BillingService {
         String externalInvoiceNumberEnd = genRandom(INVOICE_NUMBER_RAND_PART_LENGTH);
         invoice.setExternalInvoiceNumber(
                 externalInvoiceNumberBeg.substring(0, INVOICE_NUMBER_RAND_PART_LENGTH)
-                        + id
-                        + externalInvoiceNumberEnd.substring(0, INVOICE_NUMBER_RAND_PART_LENGTH)
+                + id
+                + externalInvoiceNumberEnd.substring(0, INVOICE_NUMBER_RAND_PART_LENGTH)
         );
         invoiceDao.updateModel(invoice);
     }
@@ -195,8 +192,7 @@ public class BillingServiceImpl implements BillingService {
                     return PaymentWithdrawResult.NOT_ENOUGH;
                 }
                 break;
-            }
-            catch (StaleObjectStateException ignored) {
+            } catch (StaleObjectStateException ignored) {
                 attemptCnt++;
             }
         }
@@ -207,7 +203,7 @@ public class BillingServiceImpl implements BillingService {
     }
 
     private void checkAmount(BigDecimal amount) {
-        if(amount.compareTo(BigDecimal.ZERO) <= 0){
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalStateException("amount is less or eq to 0");
         }
     }

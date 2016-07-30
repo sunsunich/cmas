@@ -1,10 +1,9 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Поступление денег на счет cmasdata.org">
-
-<p style="color: #3a3a3a; font-size: 18px;">Здравствуйте, ${invoice.user.username}!</p>
-<p style="color:#3a3a3a;  font-size:14px; text-indent:0; text-align:left; margin-bottom:0">
-    Ваш платеж от ${date} через ${invoiceType} на сумму ${invoice.amount} $ успешно проведен!
+<@mailer.mail title="Payment at CMAS is successful">
+<p>Dear ${invoice.diver.firstName} ${invoice.diver.lastName},</p>
+<p>
+    your one time payment of membership fee was successful! <br />
 </p>
-
 </@mailer.mail>
+
 
