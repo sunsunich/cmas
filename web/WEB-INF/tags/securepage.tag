@@ -9,7 +9,11 @@
 
 <jsp:useBean id="user" scope="request" type="org.cmas.presentation.entities.user.BackendUser"/>
 
-<my:basePage bodyId="secureBody" title="${title}" intrenal="true" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
+<c:if test="${empty hideMenu}">
+    <c:set var="hideMenu" value="false"/>
+</c:if>
+
+<my:basePage bodyId="secureBody" title="${title}" hideMenu="${hideMenu}" intrenal="true" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>
@@ -51,6 +55,11 @@
                         </li>
                     </ul>
                 </li>
+                <%--<li>--%>
+                    <%--<a href="${pageContext.request.contextPath}/faq.html">--%>
+                        <%--<span><s:message code="cmas.face.client.faq"/></span>--%>
+                    <%--</a>--%>
+                <%--</li>--%>
             </ul>
         </div>
     </c:if>

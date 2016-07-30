@@ -11,7 +11,7 @@
         >
 
     <div class="content" id="mainContent">
-    <div class="tabs">
+    <div class="tabs clearfix">
         <span class="firstTab" id="myTab"><s:message code="cmas.face.logbook.tab.me"/></span>
         <span class="secondTab" id="friendsTab" class="inactive"><s:message
                 code="cmas.face.logbook.tab.friends"/></span>

@@ -16,6 +16,7 @@
 <%@ attribute name="customCSSFiles" required="false" %>
 <%@ attribute name="doNotDoAuth" required="false" %>
 <%@ attribute name="bodyId" required="false" %>
+<%@ attribute name="hideMenu" required="false" %>
 
 <c:if test="${empty bodyId}">
     <c:set var="bodyId" value="body"/>
@@ -23,6 +24,10 @@
 
 <c:if test="${empty intrenal}">
     <c:set var="intrenal" value="false"/>
+</c:if>
+
+<c:if test="${empty hideMenu}">
+    <c:set var="hideMenu" value="true"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -113,37 +118,27 @@
     <my:authorize/>
 </c:if>
 
-<div id="Wrapper" class="wrapper">       <!-- Wrapper -->
+<div id="Wrapper" class="wrapper">
 
-    <!-- END HEADER -->
-
-
-    <div class="header" id="header">    <!-- Header -->
-        <!--<div class="f"></div>-->
-
+    <div class="page-header" id="header">
     </div>
-    <!-- end of Header -->
 
-
-    <div id="Wrapper-content">           <!-- Content -->
+    <div id="Wrapper-content">
         <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
+        <div id="Footer" class="footer_wrapper">
+            <c:if test="${hideMenu}">
+                <a href="${pageContext.request.contextPath}/faq.html">
+                    <span><b><s:message code="cmas.face.client.faq"/></b></span>
+                </a>
+            </c:if>
+        </div>
         <my:dialog id="errorDialog"
                    title="cmas.face.error.title"
                    buttonText="cmas.face.error.submitText">
             <div id="errorDialogText"></div>
         </my:dialog>
     </div>
-    <!-- end of Content -->
-
-
 </div>
-<!-- end of Wrapper -->
-
-<div id="Footer" class="footer_wrapper">            <!-- Footer -->
-
-</div>
-<!-- end of Footer -->
-
 </body>
 </html>

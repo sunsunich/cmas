@@ -53,6 +53,11 @@
                         <s:message code="cmas.face.welcome.payment.button"/>
                     </button>
                 </a>
+                <a href="${pageContext.request.contextPath}/logout.html">
+                    <button class="form-button reg-button">
+                        <s:message code="cmas.face.welcome.cancel.button"/>
+                    </button>
+                </a>
             </c:otherwise>
         </c:choose>
     </div>

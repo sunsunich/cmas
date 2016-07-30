@@ -27,7 +27,7 @@
     </script>
 
     <div class="content-left" id="mainContent">
-        <div class="tabs">
+        <div class="tabs clearfix">
             <span class="firstTab" id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
             <span class="secondTab" id="socialTab" class="inactive"><s:message code="cmas.face.client.profile.social"/></span>
         </div>
