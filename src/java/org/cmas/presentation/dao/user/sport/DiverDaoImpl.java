@@ -86,10 +86,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
         String hql = "select d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
-                     " left outer join d.friendOf f" +
+                     " left outer join d.friendOf fr" +
                      " where (d.lastName like :lastName or d.firstName like :firstName)" +
                      " and d.diverType = :diverType and c.code = :country" +
-                     " and (f.id != :diverId or f.id is null)" +
+                     " and (fr.id != :diverId or fr.id is null)" +
                      " and d.id != :diverId";
 
         return createQuery(hql).setString("lastName", nameTemplate)

@@ -13,7 +13,8 @@
     <c:set var="hideMenu" value="false"/>
 </c:if>
 
-<my:basePage bodyId="secureBody" title="${title}" hideMenu="${hideMenu}" intrenal="true" indexpage="false" doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
+<my:basePage bodyId="secureBody" title="${title}" hideMenu="${hideMenu}" intrenal="true" indexpage="false"
+             doNotDoAuth="true" customCSSFiles="/c/menu.css" customScripts="${customScripts}">
     <c:if test="${!hideMenu}">
         <div id="cssmenu">
             <ul>
@@ -24,11 +25,11 @@
                     </a>
                 </li>
                 <li class="has-sub">
-                    <a style="pointer-events: none;" href="#">
+                    <a href="#" id="menuButton">
                         <i class="menu-ico menu-ico-menu"></i>
                         <span><s:message code="cmas.face.client.menu"/></span>
                     </a>
-                    <ul>
+                    <ul id="menuItems">
                         <li>
                             <a href="/secure/profile/getUser.html">
                                 <i class="menu-ico menu-ico-my-account"></i>
@@ -55,14 +56,20 @@
                         </li>
                     </ul>
                 </li>
-                <%--<li>--%>
+                    <%--<li>--%>
                     <%--<a href="${pageContext.request.contextPath}/faq.html">--%>
-                        <%--<span><s:message code="cmas.face.client.faq"/></span>--%>
+                    <%--<span><s:message code="cmas.face.client.faq"/></span>--%>
                     <%--</a>--%>
-                <%--</li>--%>
+                    <%--</li>--%>
             </ul>
         </div>
     </c:if>
     <jsp:doBody/>
+    <script type="application/javascript">
+        $('#menuButton').click(function (e) {
+            e.preventDefault();
+            $('#menuItems').show();
+        });
+    </script>
 
 </my:basePage>

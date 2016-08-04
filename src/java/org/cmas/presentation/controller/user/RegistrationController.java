@@ -4,6 +4,7 @@ import org.cmas.entities.DeviceType;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.json.SimpleGsonResponse;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.DeviceDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -15,7 +16,6 @@ import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.admin.AdminService;
-import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
@@ -68,7 +68,7 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @Autowired
-    private DictionaryDataService dictionaryDataService;
+    private CountryDao countryDao;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -93,7 +93,7 @@ public class RegistrationController {
 
     private ModelAndView buildDiverVerificationForm(Model model, boolean isCaptchaCorrect, boolean hasUsers) {
         try {
-            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+            model.addAttribute("countries", countryDao.getAll());
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
@@ -136,7 +136,7 @@ public class RegistrationController {
     public ModelAndView registerDiver(Model model) {
         model.addAttribute("command", new DiverRegistrationFormObject());
         try {
-            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+            model.addAttribute("countries", countryDao.getAll());
         } catch (Exception e) {
             throw new BadRequestException(e);
         }

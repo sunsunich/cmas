@@ -5,7 +5,6 @@ var social_model = {
     removeFriendRequestId : 0,
 
     simpleGetRequest: function (url, successHandler, errorHandler) {
-        loader_controller.startwait();
         $.ajax({
             type: "Get",
             url: url,
@@ -17,10 +16,8 @@ var social_model = {
                 } else {
                     errorHandler(json);
                 }
-                loader_controller.stopwait();
             },
             error: function () {
-                loader_controller.stopwait();
                 errorHandler();
             }
         });

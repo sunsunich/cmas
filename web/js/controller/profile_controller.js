@@ -74,12 +74,14 @@ var profile_controller = {
     },
 
     showTab: function (tabName) {
+        social_settings_controller.stop();
         if (tabName == 'PRIVATE') {
             $('#socialTab').addClass('inactive');
             $('#privateTab').removeClass('inactive');
             $('#socialSettings').hide();
             $('#privateSettings').show();
         } else {
+            social_settings_controller.start();
             $('#privateTab').addClass('inactive');
             $('#socialTab').removeClass('inactive');
             $('#privateSettings').hide();

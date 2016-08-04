@@ -43,7 +43,11 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
         String hql = "select distinct le from org.cmas.entities.logbook.LogbookEntry le"
                      + " inner join le.diver d"
                      + " inner join d.friends f"
-                     + " where (d.id = :diverId or f.id = :diverId and le.visibility != :visibility) and le.deleted = :deleted";
+                     + " inner join d.friendOf fof"
+                     + " where (d.id = :diverId"
+                     + " or f.id = :diverId and le.visibility != :visibility"
+                     + " or fof.id = :diverId and le.visibility != :visibility)"
+                     + " and le.deleted = :deleted";
         Query query = addSearchFormObjectToQuery(formObject, hql, true);
         return query.setLong("diverId", diver.getId()).list();
     }
@@ -55,8 +59,10 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " inner join ds.country country"
                      + " inner join le.diver d"
                      + " inner join d.friends f"
+                     + " inner join d.friendOf fof"
                      + " where (d.id = :diverId"
-                     + " or f.id = :diverId and le.visibility != :visibility "
+                     + " or f.id = :diverId and le.visibility != :visibility"
+                     + " or fof.id = :diverId and le.visibility != :visibility"
                      + " or le.visibility = :pubVis)";
         if (countries != null) {
             hql += " and country in (:countries)";

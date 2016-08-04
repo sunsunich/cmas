@@ -1,6 +1,7 @@
 var social_settings_controller = {
 
     newsCountryController: {},
+    timeout: null,
 
     init: function () {
         this.newsCountryController = simpleClone(country_controller);
@@ -10,11 +11,26 @@ var social_settings_controller = {
         country_controller.inputId = "findDiverCountry";
         country_controller.drawIcon = false;
         country_controller.init();
+        this.refreshNewsCountries();
+        this.setListeners();
+    },
+
+    start: function () {
         this.refreshFriends();
         this.refreshFriendRequests();
-        this.refreshNewsCountries();
+        var self = this;
+        this.timeout = setTimeout(function run() {
+            self.refreshFriends();
+            self.refreshFriendRequests();
+            self.timeout = setTimeout(run, 3000);
+        }, 3000);
+    },
 
-        this.setListeners();
+    stop: function () {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = null;
+        }
     },
 
     refreshFriends: function () {

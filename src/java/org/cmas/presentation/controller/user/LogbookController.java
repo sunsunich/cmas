@@ -154,7 +154,7 @@ public class LogbookController {
         mm.addAttribute("spot", diveSpot);
         mm.addAttribute("logbookEntry", logbookEntry);
         try {
-            mm.addAttribute("countries", dictionaryDataService.getCountries(0L));
+            mm.addAttribute("countries", countryDao.getAll());
         } catch (Exception e) {
             throw new BadRequestException(e);
         }

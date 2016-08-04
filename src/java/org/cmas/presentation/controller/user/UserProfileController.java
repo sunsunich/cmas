@@ -6,6 +6,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -14,7 +15,6 @@ import org.cmas.presentation.model.ImageDTO;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
-import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.util.Base64Coder;
@@ -72,7 +72,7 @@ public class UserProfileController {
     private GsonViewFactory gsonViewFactory;
 
     @Autowired
-    private DictionaryDataService dictionaryDataService;
+    private CountryDao countryDao;
 
     @ModelAttribute("user")
     public BackendUser getUser() {
@@ -113,7 +113,7 @@ public class UserProfileController {
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
         try {
-            model.addAttribute("countries", dictionaryDataService.getCountries(0L));
+            model.addAttribute("countries", countryDao.getAll());
         } catch (Exception e) {
             throw new BadRequestException(e);
         }

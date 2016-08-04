@@ -66,14 +66,14 @@ html, body {
 .content-left {
     float: left;
     left: 10%;
-    margin-right: 20%;
+    margin-right: 10%;
     transform: translate(0%, 0%);
 }
 
 .content-right {
     margin-top: 120px;
     float: left;
-    left: 0;
+    left: 10%;
     transform: translate(0%, 0%);
 }
 
