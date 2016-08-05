@@ -16,12 +16,10 @@ var social_settings_controller = {
     },
 
     start: function () {
-        this.refreshFriends();
-        this.refreshFriendRequests();
+        this.getSocialUpdates();
         var self = this;
         this.timeout = setTimeout(function run() {
-            self.refreshFriends();
-            self.refreshFriendRequests();
+            self.getSocialUpdates();
             self.timeout = setTimeout(run, 3000);
         }, 3000);
     },
@@ -33,55 +31,45 @@ var social_settings_controller = {
         }
     },
 
-    refreshFriends: function () {
+    getSocialUpdates: function () {
         var self = this;
-        social_model.getFriends(
+        social_model.getSocialUpdates(
             function (json) {
-                if (json.length > 0) {
+                var friends = json.friends;
+                if (friends.length > 0) {
                     $('#noFriendsText').hide();
                     $('#friendsPanel').html(
-                        new EJS({url: '/js/templates/friends.ejs'}).render({"friends": json})
+                        new EJS({url: '/js/templates/friends.ejs'}).render({"friends": friends})
                     );
-                    var i;
-                    for (i = 0; i < json.length; i++) {
-                        $('#' + json[i].id + '_showFriendDiver').click(function (e) {
+                    for (var i = 0; i < friends.length; i++) {
+                        $('#' + friends[i].id + '_showFriendDiver').click(function (e) {
                             e.preventDefault();
                             self.showDiver($(this)[0].id);
                         });
-                        $('#' + json[i].id + '_removeFriend').click(function () {
+                        $('#' + friends[i].id + '_removeFriend').click(function () {
                             self.removeFriend($(this)[0].id);
                         });
                     }
                 }
                 else {
+                    $('#friendsPanel').empty();
                     $('#noFriendsText').show();
                 }
-            }
-            , function () {
-                $('#noFriendsText').show();
-            }
-        );
-    },
-
-    refreshFriendRequests: function () {
-        var self = this;
-        social_model.getToRequests(
-            function (json) {
-                if (json.length > 0) {
+                var toRequests = json.toRequests;
+                if (toRequests.length > 0) {
                     $('#toRequestsPanel').show();
                     $('#toRequests').html(
-                        new EJS({url: '/js/templates/toRequests.ejs'}).render({"requests": json})
+                        new EJS({url: '/js/templates/toRequests.ejs'}).render({"requests": toRequests})
                     );
-                    var i;
-                    for (i = 0; i < json.length; i++) {
-                        $('#' + json[i].from.id + '_showFromDiver').click(function (e) {
+                    for (i = 0; i < toRequests.length; i++) {
+                        $('#' + toRequests[i].from.id + '_showFromDiver').click(function (e) {
                             e.preventDefault();
                             self.showDiver($(this)[0].id);
                         });
-                        $('#' + json[i].id + '_acceptRequest').click(function () {
+                        $('#' + toRequests[i].id + '_acceptRequest').click(function () {
                             self.acceptFriendRequest($(this)[0].id);
                         });
-                        $('#' + json[i].id + '_rejectRequest').click(function () {
+                        $('#' + toRequests[i].id + '_rejectRequest').click(function () {
                             self.rejectFriendRequest($(this)[0].id);
                         });
                     }
@@ -89,25 +77,18 @@ var social_settings_controller = {
                 else {
                     $('#toRequestsPanel').hide();
                 }
-            }
-            , function () {
-                $('#toRequestsPanel').hide();
-            }
-        );
-        social_model.getFromRequests(
-            function (json) {
-                if (json.length > 0) {
+                var fromRequests = json.fromRequests;
+                if (fromRequests.length > 0) {
                     $('#fromRequestsPanel').show();
                     $('#fromRequests').html(
-                        new EJS({url: '/js/templates/fromRequests.ejs'}).render({"requests": json})
+                        new EJS({url: '/js/templates/fromRequests.ejs'}).render({"requests": fromRequests})
                     );
-                    var i;
-                    for (i = 0; i < json.length; i++) {
-                        $('#' + json[i].to.id + '_showToDiver').click(function (e) {
+                    for (i = 0; i < fromRequests.length; i++) {
+                        $('#' + fromRequests[i].to.id + '_showToDiver').click(function (e) {
                             e.preventDefault();
                             self.showDiver($(this)[0].id);
                         });
-                        $('#' + json[i].id + '_removeFromRequest').click(function () {
+                        $('#' + fromRequests[i].id + '_removeFromRequest').click(function () {
                             self.removeFriendRequest($(this)[0].id);
                         });
                     }
@@ -116,9 +97,7 @@ var social_settings_controller = {
                     $('#fromRequestsPanel').hide();
                 }
             }
-            , function () {
-                $('#fromRequestsPanel').hide();
-            }
+            , function () { }
         );
     },
 
@@ -221,7 +200,7 @@ var social_settings_controller = {
         $('#friendRemoveOk').click(function () {
             social_model.removeFriend(
                 function (/*json*/) {
-                    self.refreshFriends();
+                    self.getSocialUpdates();
                     $('#friendRemove').hide();
                 }
                 , function (json) {
@@ -239,7 +218,7 @@ var social_settings_controller = {
         $('#friendRequestRemoveOk').click(function () {
             social_model.removeFriendRequest(
                 function (/*json*/) {
-                    self.refreshFriendRequests();
+                    self.getSocialUpdates();
                     $('#friendRequestRemove').hide();
                 }
                 , function (json) {
@@ -442,13 +421,13 @@ var social_settings_controller = {
         social_model.sendFriendRequest(
             diverId
             , function (json) {
-                self.refreshFriendRequests();
+                self.getSocialUpdates();
                 var notification;
                 if (isStringTrimmedEmpty(json.message)) {
                     notification = labels["cmas.face.friendRequest.success"];
                 }
                 else {
-                    self.refreshFriends();
+                    self.getSocialUpdates();
                     notification = error_codes[json.message];
                 }
                 $('#' + diverId + '_addFriend').hide();
@@ -482,8 +461,7 @@ var social_settings_controller = {
         social_model.acceptFriendRequest(
             requestId
             , function (/*json*/) {
-                self.refreshFriendRequests();
-                self.refreshFriends();
+                self.getSocialUpdates();
             }
             , function (json) {
                 if (json && json.hasOwnProperty("message")) {
@@ -501,7 +479,7 @@ var social_settings_controller = {
         social_model.rejectFriendRequest(
             requestId
             , function (/*json*/) {
-                self.refreshFriendRequests();
+                self.getSocialUpdates();
             }
             , function (json) {
                 if (json && json.hasOwnProperty("message")) {

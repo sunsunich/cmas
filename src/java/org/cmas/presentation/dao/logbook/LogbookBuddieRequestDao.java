@@ -16,7 +16,7 @@ public interface LogbookBuddieRequestDao extends HibernateDao<LogbookBuddieReque
 
     boolean hasLogbookBuddieRequest(LogbookEntry logbookEntry, Diver from, Diver to);
 
-    LogbookBuddieRequest getLogbookBuddieRequest(LogbookEntry logbookEntry,Diver from, Diver to);
+    LogbookBuddieRequest getLogbookBuddieRequest(LogbookEntry logbookEntry, Diver from, Diver to);
 
     List<LogbookBuddieRequest> getRequestsToDiver(Diver diver);
 }

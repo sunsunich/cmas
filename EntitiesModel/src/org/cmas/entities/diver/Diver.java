@@ -58,6 +58,9 @@ public class Diver extends CardUser {
     )
     private Set<Diver> friends;
 
+    @Column
+    private long socialUpdatesVersion;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "diver_friends",
             joinColumns = @JoinColumn(name = "friendId"),
@@ -93,6 +96,14 @@ public class Diver extends CardUser {
 
     public Diver(long id) {
         super(id);
+    }
+
+    public long getSocialUpdatesVersion() {
+        return socialUpdatesVersion;
+    }
+
+    public void setSocialUpdatesVersion(long socialRefreshVersion) {
+        this.socialUpdatesVersion = socialRefreshVersion;
     }
 
     public boolean isAddFriendsToLogbookEntries() {

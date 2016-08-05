@@ -1,10 +1,13 @@
 var social_model = {
 
-    removeFriendId : 0,
+    removeFriendId: 0,
 
-    removeFriendRequestId : 0,
+    removeFriendRequestId: 0,
+
+    socialUpdatesVersion: -1,
 
     simpleGetRequest: function (url, successHandler, errorHandler) {
+        loader_controller.startwait();
         $.ajax({
             type: "Get",
             url: url,
@@ -16,8 +19,10 @@ var social_model = {
                 } else {
                     errorHandler(json);
                 }
+                loader_controller.stopwait();
             },
             error: function () {
+                loader_controller.stopwait();
                 errorHandler();
             }
         });
@@ -37,6 +42,25 @@ var social_model = {
 
     getNewsCountries: function (successHandler, errorHandler) {
         this.simpleGetRequest("/secure/social/getNewsCountries.html", successHandler, errorHandler);
+    },
+
+    getSocialUpdates: function (successHandler, errorHandler) {
+        var self = this;
+        $.ajax({
+            type: "Get",
+            url: "/secure/social/getSocialUpdates.html",
+            dataType: "json",
+            data: {"version": self.socialUpdatesVersion},
+            success: function (json) {
+                if (self.socialUpdatesVersion < json.socialUpdatesVersion) {
+                    successHandler(json);
+                }
+                self.socialUpdatesVersion = json.socialUpdatesVersion;
+            },
+            error: function () {
+                errorHandler();
+            }
+        });
     },
 
     getDiver: function (diverId, successHandler, errorHandler) {

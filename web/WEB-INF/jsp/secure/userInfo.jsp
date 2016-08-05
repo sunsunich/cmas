@@ -99,9 +99,9 @@
                 </div>
 
                 <div id="friendsPanel">
-                    <div class="panel-row text" id="noFriendsText">
-                        <s:message code="cmas.face.client.social.team.empty"/>
-                    </div>
+                </div>
+                <div class="panel-row text" id="noFriendsText">
+                    <s:message code="cmas.face.client.social.team.empty"/>
                 </div>
 
                 <div class="panel-row button-container">

@@ -7,9 +7,11 @@ import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.logbook.DiverFriendRequestDao;
+import org.cmas.presentation.dao.logbook.LogbookBuddieRequestDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.social.FindDiverFormObject;
+import org.cmas.presentation.model.social.SocialUpdates;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
@@ -50,6 +52,9 @@ public class UserSocialSettingsController {
     private DiverFriendRequestDao diverFriendRequestDao;
 
     @Autowired
+    private LogbookBuddieRequestDao logbookBuddieRequestDao;
+
+    @Autowired
     private GsonViewFactory gsonViewFactory;
 
     @RequestMapping("/secure/social/getFriends.html")
@@ -65,6 +70,21 @@ public class UserSocialSettingsController {
     @RequestMapping("/secure/social/getToRequests.html")
     public View getToRequests() {
         return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsToDiver(getDiver()));
+    }
+
+    @RequestMapping("/secure/social/getSocialUpdates.html")
+    public View getSocialUpdates(@RequestParam("version") long version) {
+        Diver diver = getDiver();
+        SocialUpdates socialUpdates = new SocialUpdates();
+        long currentVersion = diver.getSocialUpdatesVersion();
+        if (currentVersion > version) {
+            socialUpdates.setFriends(diverDao.getFriends(diver));
+            socialUpdates.setFromRequests(diverFriendRequestDao.getRequestsFromDiver(diver));
+            socialUpdates.setToRequests(diverFriendRequestDao.getRequestsToDiver(diver));
+            socialUpdates.setBuddieRequests(logbookBuddieRequestDao.getRequestsToDiver(diver));
+        }
+        socialUpdates.setSocialUpdatesVersion(currentVersion);
+        return gsonViewFactory.createGsonView(socialUpdates);
     }
 
     @RequestMapping("/secure/social/getNewsCountries.html")
@@ -126,6 +146,7 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createGsonView(new SimpleGsonResponse(true, "validation.friendRequestSentToYou"));
         }
         diverFriendRequestDao.save(new DiverFriendRequest(diver, friend));
+        updateSocialVersions(diver, friend);
         //todo send notification
         return gsonViewFactory.createSuccessGsonView();
     }
@@ -160,9 +181,16 @@ public class UserSocialSettingsController {
         return gsonViewFactory.createSuccessGsonView();
     }
 
+    private void updateSocialVersions(Diver from, Diver to) {
+        from.setSocialUpdatesVersion(from.getSocialUpdatesVersion() + 1L);
+        diverDao.updateModel(from);
+        to.setSocialUpdatesVersion(to.getSocialUpdatesVersion() + 1L);
+        diverDao.updateModel(to);
+    }
+
     private void addFriend(Diver from, Diver to) {
         from.getFriends().add(to);
-        diverDao.save(from);
+        updateSocialVersions(from, to);
         //todo send notification
     }
 
@@ -174,6 +202,9 @@ public class UserSocialSettingsController {
         }
         DiverFriendRequest friendRequest = validationResult.friendRequest;
         diverFriendRequestDao.deleteModel(friendRequest);
+        Diver from = friendRequest.getFrom();
+        Diver to = friendRequest.getTo();
+        updateSocialVersions(from, to);
         //todo send notification
         return gsonViewFactory.createSuccessGsonView();
     }
@@ -186,6 +217,9 @@ public class UserSocialSettingsController {
         }
         DiverFriendRequest friendRequest = validationResult.friendRequest;
         diverFriendRequestDao.deleteModel(friendRequest);
+        Diver from = friendRequest.getFrom();
+        Diver to = friendRequest.getTo();
+        updateSocialVersions(from, to);
         return gsonViewFactory.createSuccessGsonView();
     }
 
@@ -197,6 +231,7 @@ public class UserSocialSettingsController {
             throw new BadRequestException();
         }
         diverDao.removeFriend(diver, friend);
+        updateSocialVersions(diver, friend);
         //todo send notification
         return gsonViewFactory.createSuccessGsonView();
     }
