@@ -11,22 +11,23 @@
         >
 
     <div class="content" id="mainContent">
-    <div class="tabs clearfix">
-        <span class="firstTab" id="myTab"><s:message code="cmas.face.logbook.tab.me"/></span>
+        <div class="tabs clearfix">
+            <span class="firstTab" id="myTab"><s:message code="cmas.face.logbook.tab.me"/></span>
         <span class="secondTab" id="friendsTab" class="inactive"><s:message
                 code="cmas.face.logbook.tab.friends"/></span>
-    </div>
-    <div id="myLogbook">
-        <div class="button-container">
-            <button class="form-button enter-button" id="createLogbookEntryButton">
-                <s:message code="cmas.face.logbook.addNew"/>
-            </button>
         </div>
-        <div id="myLogbookFeed"></div>
-    </div>
+        <div id="myLogbook">
+            <div class="button-container">
+                <button class="form-button enter-button" id="createLogbookEntryButton">
+                    <s:message code="cmas.face.logbook.addNew"/>
+                </button>
+            </div>
+            <div id="myLogbookFeed"></div>
+        </div>
 
-    <div id="friendsLogbookFeed" style="display: none">
+        <div id="friendsLogbookFeed" style="display: none">
 
+        </div>
     </div>
 
     <my:dialog id="recordDeleteDialog"

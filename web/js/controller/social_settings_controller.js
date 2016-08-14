@@ -408,19 +408,19 @@ var social_settings_controller = {
                 $('#showLogbookEntryContent').html(
                     new EJS({url: '/js/templates/logbookEntryDialog.ejs'}).render({"record": record})
                 );
-                $('#' + record.diver.id + '_logbookRecordDialog_showDiver').click(function (e) {
+                $('#' + record.diver.id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
                     e.preventDefault();
                     util_controller.showDiver($(this)[0].id);
                 });
                 if (record.instructor) {
-                    $('#' + record.instructor.id + '_logbookRecordDialog_showDiver').click(function (e) {
+                    $('#' + record.instructor.id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
                         e.preventDefault();
                         util_controller.showDiver($(this)[0].id);
                     });
                 }
                 if (record.buddies) {
                     for (var i = 0; i < record.buddies.length; i++) {
-                        $('#' + record.buddies[i].id + '_logbookRecordDialog_showDiver').click(function (e) {
+                        $('#' + record.buddies[i].id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
                             e.preventDefault();
                             util_controller.showDiver($(this)[0].id);
                         });

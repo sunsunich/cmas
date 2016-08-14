@@ -112,7 +112,7 @@ for(i = 0; i < records.length;i++) {
                 %>
                 <span class="panelFeed-label"><%= labels["cmas.face.diver.instructor"] %>:</span>
                 <a class="panelFeed-href" href="#"
-                   id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_showDiver"><%= fullName %></a>
+                   id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
                 <br/>
                 <% } %>
                 <% if(records[i].buddies.length > 0){
@@ -124,7 +124,7 @@ for(i = 0; i < records.length;i++) {
                     fullName = records[i].buddies[j].firstName + ' ' + records[i].buddies[j].lastName;
                 %>
                 <a class="panelFeed-href" href="#"
-                   id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_showDiver"><%= fullName %></a>
+                   id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
                &nbsp;
                 <% } %>
                 <br/>

@@ -5,14 +5,14 @@ var diveSpot = record.diveSpot.name + ", " + record.diveSpot.country.name;
 %>
 <div class="" id=logbookRecordDialog_<%=record.id %>">
     <p><span><%=diveSpot %></span></p>
-    <p><span><%= labels["cmas.face.feed.createdBy"] %>: <a class="white-form-href link" href="#" id="<%=diver.id %>_logbookRecordDialog_showDiver"><%=fullName %></a></span></p>
+    <p><span><%= labels["cmas.face.feed.createdBy"] %>: <a class="white-form-href link" href="#" id="<%=diver.id %>_logbookRecordDialog_<%= record.id %>_showDiver"><%=fullName %></a></span></p>
     <p><span><%= labels["cmas.face.feed.time.label"] %>: <%=record.diveDate %></span></p>
     <p><span><%= labels["cmas.face.feed.depth"] %>: <%=record.depthMeters %> <%= labels["cmas.face.feed.meters"] %></span></p>
     <p><span><%= labels["cmas.face.feed.duration"] %>: <%=record.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span></p>
     <% if(record.instructor){
         fullName = record.instructor.firstName + ' ' + record.instructor.lastName;
     %>
-    <p><span><%= labels["cmas.face.diver.instructor"] %>: <a class="white-form-href link" href="#" id="<%=record.instructor.id %>_logbookRecordDialog_showDiver"><%=fullName %></a></span></p>
+    <p><span><%= labels["cmas.face.diver.instructor"] %>: <a class="white-form-href link" href="#" id="<%=record.instructor.id %>_logbookRecordDialog_<%= record.id %>_showDiver"><%=fullName %></a></span></p>
     <% } %>
     <% if(record.photoBase64){
     %>
@@ -27,7 +27,7 @@ var diveSpot = record.diveSpot.name + ", " + record.diveSpot.country.name;
         fullName = record.buddies[i].firstName + ' ' + record.buddies[i].lastName;
     %>
         <div class="buddieElemLeft">
-            <a class="white-form-href link" href="#" id="<%=record.buddies[i].id %>_logbookRecordDialog_showDiver"><%=fullName %></a>
+            <a class="white-form-href link" href="#" id="<%=record.buddies[i].id %>_logbookRecordDialog_<%= record.id %>_showDiver"><%=fullName %></a>
         </div>
     <% } %>
 </div>

@@ -75,7 +75,8 @@ var logbook_feed_controller = {
         var self = this;
         var records = recordsInfo.records;
         for (var i = 0; i < records.length; i++) {
-            $('#' + self.model.containerId + 'logbookRecord_' + records[i].id).remove();
+            var record = records[i];
+            $('#' + self.model.containerId + 'logbookRecord_' + record.id).remove();
         }
         if (isNew) {
             $('#' + self.model.containerId).prepend(
@@ -88,46 +89,48 @@ var logbook_feed_controller = {
             );
         }
         for (i = 0; i < records.length; i++) {
-            $('#' + self.model.containerId + 'more_' + records[i].id).click(function (event) {
+            record = records[i];
+            $('#' + self.model.containerId + 'more_' + record.id).click(function (event) {
                 event.preventDefault();
                 self.openMoreOnRecord($(this)[0].id);
             });
-            $('#' + self.model.containerId + 'less_' + records[i].id).click(function (event) {
+            $('#' + self.model.containerId + 'less_' + record.id).click(function (event) {
                 event.preventDefault();
                 self.closeMoreOnRecord($(this)[0].id);
             });
-            $('#' + self.model.containerId + 'feedItemSettings_' + records[i].id).click(function (event) {
+            $('#' + self.model.containerId + 'feedItemSettings_' + record.id).click(function (event) {
                 event.preventDefault();
                 self.toggleRecordMenu($(this)[0].id);
             });
-            $('#' + self.model.containerId + 'edit_' + records[i].id).click(function (event) {
+            $('#' + self.model.containerId + 'edit_' + record.id).click(function (event) {
                 event.preventDefault();
                 var elemId = $(this)[0].id;
                 window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
             });
-            $('#' + self.model.containerId + 'delete_' + records[i].id).click(function (event) {
+            $('#' + self.model.containerId + 'delete_' + record.id).click(function (event) {
                 event.preventDefault();
                 var elemId = $(this)[0].id;
                 self.showRecordDeleteDialog(elemId);
             });
             if (self.model.isShowSpec) {
-                $('#' + self.model.containerId + 'SpecOpen_' + records[i].id).click(function (event) {
+                $('#' + self.model.containerId + 'SpecOpen_' + record.id).click(function (event) {
                     event.preventDefault();
                     self.openSpecOnRecord($(this)[0].id);
                 });
-                $('#' + self.model.containerId + 'SpecClose_' + records[i].id).click(function (event) {
+                $('#' + self.model.containerId + 'SpecClose_' + record.id).click(function (event) {
                     event.preventDefault();
                     self.closeSpecOnRecord($(this)[0].id);
                 });
-                if (records[i].instructor) {
-                    $('#' + records[i].instructor.id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                if (record.instructor) {
+                    $('#' + record.instructor.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
                         e.preventDefault();
                         util_controller.showDiver($(this)[0].id);
                     });
                 }
-                if (records[i].buddies) {
-                    for (var j = 0; j < records[i].buddies.length; j++) {
-                        $('#' + records[i].buddies[j].id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                if (record.buddies) {
+                    for (var j = 0; j < record.buddies.length; j++) {
+                        var buddy = record.buddies[j];
+                        $('#' + buddy.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
                             e.preventDefault();
                             util_controller.showDiver($(this)[0].id);
                         });

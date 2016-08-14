@@ -65,11 +65,12 @@
         </div>
     </c:if>
     <jsp:doBody/>
-    <script type="application/javascript">
-        $('#menuButton').click(function (e) {
-            e.preventDefault();
-            $('#menuItems').show();
-        });
-    </script>
-
+    <c:if test="${!hideMenu}">
+        <script type="application/javascript">
+            $('#menuButton').click(function (e) {
+                e.preventDefault();
+                $('#menuItems').show();
+            });
+        </script>
+    </c:if>
 </my:basePage>

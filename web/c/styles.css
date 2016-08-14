@@ -209,7 +209,6 @@ html, body {
 }
 
 .logbookEntry {
-    position: absolute;
     transform: translate(-50%, 0);
     top: 98px;
     width: 362px;
