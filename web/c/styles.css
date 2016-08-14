@@ -54,7 +54,7 @@ html, body {
 
 }
 
-.content, .content-left, .content-right {
+.content, .content-left, .content-right, .white-form {
     margin-top: 50px;
     margin-bottom: 30px;
     position: relative;
@@ -75,6 +75,10 @@ html, body {
     float: left;
     left: 10%;
     transform: translate(0%, 0%);
+}
+
+.white-form {
+    background: #f8f8f8;
 }
 
 .menu-left {
@@ -188,14 +192,11 @@ html, body {
     margin-bottom: 15px;
 }
 
-.dialog, .white-form {
+.dialog, .logbookEntry {
     background: #f8f8f8;
     height: auto;
     width: 320px;
     margin: 0 auto;
-}
-
-.dialog {
     border-radius: 6px;
     position: fixed;
     top: 50%;
@@ -205,6 +206,14 @@ html, body {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     -o-border-radius: 6px;
+}
+
+.logbookEntry {
+    position: absolute;
+    transform: translate(-50%, 0);
+    top: 98px;
+    width: 362px;
+    z-index: 800;
 }
 
 .dialogClose {
@@ -219,9 +228,15 @@ html, body {
     padding-top: 25px;
     padding-left: 16px;
     padding-right: 16px;
+    margin-bottom: 16px;
 }
 
-.dialog-content, .white-form-content {
+.dialog-sub-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.dialog-content {
     padding-bottom: 25px;
 }
 
@@ -425,6 +440,14 @@ html, body {
 .friendListElemCenter {
     text-align: center;
     margin-bottom: 5px;
+}
+
+.buddieElemLeft {
+    float: left;
+}
+
+.buddieElemRight {
+    float: right;
 }
 
 .center {

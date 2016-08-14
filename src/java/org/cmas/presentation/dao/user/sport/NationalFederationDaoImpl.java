@@ -11,7 +11,7 @@ import org.hibernate.criterion.Restrictions;
  *
  * @author Alexander Petukhov
  */
-public class SportsFederationDaoImpl extends DictionaryDataDaoImpl<NationalFederation> implements SportsFederationDao{
+public class NationalFederationDaoImpl extends DictionaryDataDaoImpl<NationalFederation> implements NationalFederationDao {
 
     //todo remove?
     @Override

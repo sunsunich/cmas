@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import java.util.Date;
 import java.util.Set;
 
@@ -32,6 +33,9 @@ import java.util.Set;
 public class LogbookEntry extends DictionaryEntity {
 
     private static final long serialVersionUID = -4425599195490254686L;
+
+    @Version
+    private long updateVersion;
 
     @Expose
     @ManyToOne
@@ -89,9 +93,9 @@ public class LogbookEntry extends DictionaryEntity {
 
     @Expose
     @ManyToMany
-    @JoinTable(name="logbook_entry_buddies",
-            joinColumns=@JoinColumn(name="logbookEntryId"),
-            inverseJoinColumns=@JoinColumn(name="diverId")
+    @JoinTable(name = "logbook_entry_buddies",
+            joinColumns = @JoinColumn(name = "logbookEntryId"),
+            inverseJoinColumns = @JoinColumn(name = "diverId")
     )
     private Set<Diver> buddies;
 
@@ -218,5 +222,13 @@ public class LogbookEntry extends DictionaryEntity {
 
     public void setBuddies(Set<Diver> buddies) {
         this.buddies = buddies;
+    }
+
+    public long getUpdateVersion() {
+        return updateVersion;
+    }
+
+    public void setUpdateVersion(long updateVersion) {
+        this.updateVersion = updateVersion;
     }
 }

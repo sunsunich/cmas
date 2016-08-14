@@ -41,12 +41,15 @@ public class FindDiverFormObject implements Validatable {
         if (StringUtil.isTrimmedEmpty(cmasCardNumber)) {
             if (StringUtil.isTrimmedEmpty(federationCardNumber)
                 && StringUtil.isTrimmedEmpty(federationCountry)) {
-                ValidatorUtils.validateEnum(errors,
-                                            diverType,
-                                            DiverType.class,
-                                            "diverType",
-                                            "validation.incorrectField");
-                ValidatorUtils.validateDate(errors, dob, "dob", "validation.incorrectDate", Globals.getDTF());
+                if (StringUtil.isTrimmedEmpty(diverType)) {
+                    errors.rejectValue("diverType", "validation.emptyField");
+                } else {
+                    ValidatorUtils.validateEnum(errors,
+                                                diverType,
+                                                DiverType.class,
+                                                "diverType",
+                                                "validation.incorrectField");
+                }
                 if (StringUtil.isTrimmedEmpty(name) || name.length() < 3) {
                     errors.rejectValue("name", "validation.incorrectField");
                 }

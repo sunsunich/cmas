@@ -9,7 +9,7 @@ import org.cmas.presentation.dao.DictionaryDataDao;
  *
  * @author Alexander Petukhov
  */
-public interface SportsFederationDao extends DictionaryDataDao<NationalFederation> {
+public interface NationalFederationDao extends DictionaryDataDao<NationalFederation> {
 
     //todo remove?
     NationalFederation getFederationForSportsman(String firstName, String lastName, Country country);

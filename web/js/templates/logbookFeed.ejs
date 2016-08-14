@@ -35,15 +35,15 @@ for(i = 0; i < records.length;i++) {
         invisibleNote = null;
     }
 %>
-<div class="logbookRecord" id="<%=recordsInfo.containerId %>logbookRecord_<%=records[i].id %>">
+<div class="logbookRecord" id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
     <div class="clearfix">
         <div class="logbookFeed-elem-left">
-            <img class="userpic userpicFeed" src="<%=userpicSrc %>"/>
+            <img class="userpic userpicFeed" src="<%= userpicSrc %>"/>
 
             <div class="dialog-triangle"></div>
         </div>
         <div class="logbookFeed-elem-right">
-            <p><span class="logbookFeed-elem-right-line panelFeed-text"><%=fullName %></span></p>
+            <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
             <% if(recordsInfo.isMyRecords){
             %>
             <% var j;
@@ -57,18 +57,21 @@ for(i = 0; i < records.length;i++) {
             <img class="diveScoreFeed" src="/i/heart-small-empty.png"/>
             <% } %>
             <% } %>
-            <p><span class="text"><%=diveSpot %></span></p>
+            <p><span class="text"><%= diveSpot %></span></p>
 
-            <p><span class="panelFeed-label"><%=records[i].diveDate %></span></p>
+            <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
         </div>
         <% if(recordsInfo.isMyRecords && !records[i].digest){
         %>
-        <div class="menuFeed" >
-            <img src="/i/arrow_white_ico.png" id="<%=recordsInfo.containerId %>feedItemSettings_<%=records[i].id %>"/>
-            <div class="menuFeedContent" id="<%=recordsInfo.containerId %>menuItemSettings_<%=records[i].id %>">
+        <div class="menuFeed">
+            <img src="/i/arrow_white_ico.png" id="<%= recordsInfo.containerId %>feedItemSettings_<%= records[i].id %>"/>
+
+            <div class="menuFeedContent" id="<%= recordsInfo.containerId %>menuItemSettings_<%= records[i].id %>">
                 <ul>
-                    <li id="<%= recordsInfo.containerId %>edit_<%= records[i].id %>"><a href="#">Edit</a></li>
-                    <li id="<%= recordsInfo.containerId %>delete_<%= records[i].id %>"><a href="#">Delete</a></li>
+                    <li id="<%= recordsInfo.containerId %>edit_<%= records[i].id %>"><a
+                                href="#"><%= labels["cmas.face.feed.edit"] %></a></li>
+                    <li id="<%= recordsInfo.containerId %>delete_<%= records[i].id %>"><a
+                                href="#"><%= labels["cmas.face.feed.delete"] %></a></li>
                 </ul>
             </div>
         </div>
@@ -77,24 +80,25 @@ for(i = 0; i < records.length;i++) {
 
     <div class="panelFeed">
         <p>
-            <span class="panelFeed-text"><%=visibleNote %></span>
-            <a href="#" id="<%=recordsInfo.containerId %>more_<%=records[i].id %>"><span class="panelFeed-href">More&gt;</span></a>
-            <span id="<%=recordsInfo.containerId %>invisibleNote_<%=records[i].id %>" style="display: none">
+            <span class="panelFeed-text"><%= visibleNote %></span>
+            <a href="#" id="<%= recordsInfo.containerId %>more_<%= records[i].id %>"><span
+                        class="panelFeed-href"><%= labels["cmas.face.feed.more"] %>&gt;</span></a>
+            <span id="<%= recordsInfo.containerId %>invisibleNote_<%= records[i].id %>" style="display: none">
                 <% if(invisibleNote){
                 %>
-                <span class="panelFeed-text"><%=invisibleNote %></span><br/>
+                <span class="panelFeed-text"><%= invisibleNote %></span><br/>
                 <% } %>
-                <span class="panelFeed-label">Depth: </span>
-                <span class="text"><%=records[i].depthMeters %> meters</span><br/>
-                <span class="panelFeed-label">Duration: </span>
-                <span class="text"><%=records[i].durationMinutes %> minutes</span><br/>
-                <a href="#" id="<%=recordsInfo.containerId %>less_<%=records[i].id %>"><span
-                            class="panelFeed-href"><&lt;Less</span></a>
+                <span class="panelFeed-label"><%= labels["cmas.face.feed.depth"] %>: </span>
+                <span class="text"><%= records[i].depthMeters %> <%= labels["cmas.face.feed.meters"] %></span><br/>
+                <span class="panelFeed-label"><%= labels["cmas.face.feed.duration"] %>: </span>
+                <span class="text"><%= records[i].durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span><br/>
+                <a href="#" id="<%= recordsInfo.containerId %>less_<%= records[i].id %>"><span
+                            class="panelFeed-href"><&lt;<%= labels["cmas.face.feed.less"] %></span></a>
             </span>
         </p>
         <% if(records[i].photoBase64){
         %>
-        <img class="photoFeed" src="data:image/png;base64,<%=records[i].photoBase64 %>"/>
+        <img class="photoFeed" src="data:image/png;base64,<%= records[i].photoBase64 %>"/>
         <% } %>
     </div>
 </div>

@@ -12,12 +12,6 @@
                customScripts="js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
-        labels["cmas.face.client.social.friendRequest.accept"] = '<s:message code="cmas.face.client.social.friendRequest.accept"/>';
-        labels["cmas.face.client.social.friendRequest.reject"] = '<s:message code="cmas.face.client.social.friendRequest.reject"/>';
-        labels["cmas.face.findDiver.add"] = '<s:message code="cmas.face.findDiver.add"/>';
-        labels["PRIVATE"] = '<s:message code="cmas.face.client.social.logbook.private"/>';
-        labels["FRIENDS"] = '<s:message code="cmas.face.client.social.logbook.friends"/>';
-        labels["PUBLIC"] = '<s:message code="cmas.face.client.social.logbook.public"/>';
         var visibilityTypes = [];
         <c:forEach items="${visibilityTypes}" var="visibilityType" varStatus="st">
         visibilityTypes[${st.index}] = '${visibilityType.name}';
@@ -85,6 +79,14 @@
             </div>
         </div>
         <div id="socialSettings" style="display: none">
+            <div class="panel" style="display: none" id="buddieRequestsPanel">
+                <div class="header">
+                    <s:message code="cmas.face.client.social.buddieRequests.header"/>
+                </div>
+                <div id="buddieRequests">
+                </div>
+            </div>
+
             <div class="panel" style="display: none" id="toRequestsPanel">
                 <div class="header">
                     <s:message code="cmas.face.client.social.friendRequestsTo.header"/>
@@ -238,6 +240,22 @@
                title="cmas.face.showDiver.title"
                buttonText="cmas.face.showDiver.submitText">
     </my:dialog>
+
+    <div id="showLogbookEntry" class="logbookEntry" style="display: none">
+        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png" class="dialogClose"/>
+
+        <div class="dialog-title" id="showLogbookEntryTitle"><s:message code="cmas.face.showLogbookEntry.title"/></div>
+
+        <div class="dialog-content" id="showLogbookEntryContent">
+        </div>
+
+        <div class="button-container">
+            <button class="form-button enter-button" id="showLogbookEntryOk">
+                <s:message code="cmas.face.showLogbookEntry.submitText"/>
+            </button>
+        </div>
+    </div>
+
 
     <my:dialog id="addCountry"
                title="cmas.face.addCountry.title"

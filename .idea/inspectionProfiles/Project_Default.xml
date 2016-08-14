@@ -295,7 +295,7 @@
       <option name="m_countConstantFields" value="false" />
       <option name="m_considerStaticFinalFieldsConstant" value="true" />
       <option name="myCountEnumConstants" value="false" />
-      <option name="m_limit" value="10" />
+      <option name="m_limit" value="20" />
     </inspection_tool>
     <inspection_tool class="FieldHidesSuperclassField" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_ignoreInvisibleFields" value="true" />
@@ -438,7 +438,7 @@
     <inspection_tool class="MapReplaceableByEnumMap" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MarkerInterface" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="MethodCount" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="m_limit" value="20" />
+      <option name="m_limit" value="40" />
       <option name="ignoreGettersAndSetters" value="true" />
       <option name="ignoreOverridingMethods" value="true" />
     </inspection_tool>
@@ -744,7 +744,9 @@
       <option name="m_ignoreUnlessAssigned" value="true" />
     </inspection_tool>
     <inspection_tool class="StringConcatenationInMessageFormatCall" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="StringConcatenationMissingWhitespace" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="StringConcatenationMissingWhitespace" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoreNonStringLiterals" value="true" />
+    </inspection_tool>
     <inspection_tool class="StringEquals" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="StringEqualsEmptyString" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="StringEqualsIgnoreCase" enabled="true" level="WARNING" enabled_by_default="true" />

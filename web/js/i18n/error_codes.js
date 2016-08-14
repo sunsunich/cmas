@@ -24,8 +24,12 @@ var error_codes = {
     "validation.diverAlreadyRegistered": "You have already registered at Cmas Data",
     "validation.friendAlready": "You are already a friend to this person",
     "validation.friendRequestAlreadyExists": "You have already send a friend requests to this person",
-    "validation.friendRequestAlreadyProcessed": "You have already processed this friend requests",
+    "validation.friendRequestAlreadyProcessed": "You have already processed this requests",
     "validation.friendRequestSentToYou": "This diver has previously sent friend request to you. Now you are friends",
+    "validation.buddieAlready": "You have already added this person as a buddie",
+    "validation.instructorAlready": "You have already added this person as an instructor",
+    "validation.cannotAddSelf": "You cannot add yourself",
+    "validation.logbookEntryChanged": "This logbook entry has been changed. Please refresh the screen and try again",
 
     "validation.imageFormat": "Uploaded image has incorrect file format",
     "validation.imageSize": "Uploaded image is too big. Maximum image size is 250KB",

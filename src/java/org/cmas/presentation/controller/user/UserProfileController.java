@@ -1,5 +1,7 @@
 package org.cmas.presentation.controller.user;
 
+import com.google.myjson.Gson;
+import org.cmas.Globals;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
@@ -42,6 +44,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -108,6 +111,20 @@ public class UserProfileController {
             diver.setPhoto(Base64Coder.encodeString(userpic));
         }
         return gsonViewFactory.createGsonView(diver);
+    }
+
+    @RequestMapping(value = "/secure/getDivers.html", method = RequestMethod.GET)
+    public View showSpots(@RequestParam("diverIdsJson") String diverIdsJson) {
+        List<Long> diverIds = null;
+        try {
+            diverIds = new Gson().fromJson(diverIdsJson, Globals.LONG_LIST_TYPE);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        if (diverIds == null || diverIds.isEmpty()) {
+            return gsonViewFactory.createGsonView(Collections.emptyList());
+        }
+        return gsonViewFactory.createGsonView(diverDao.getDiversByIds(diverIds));
     }
 
     @RequestMapping("/secure/profile/getUser.html")

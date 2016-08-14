@@ -6,6 +6,8 @@ var social_model = {
 
     socialUpdatesVersion: -1,
 
+    logbookEntriesToProcessMap: {},
+
     simpleGetRequest: function (url, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
@@ -70,6 +72,29 @@ var social_model = {
             url: "/secure/getDiver.html",
             dataType: "json",
             data: {"diverId": diverId},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
+    getLogbookEntry: function (logbookEntryId, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/getRecord.html",
+            dataType: "json",
+            data: {"logbookEntryId": logbookEntryId},
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {
@@ -162,6 +187,52 @@ var social_model = {
             url: "/secure/social/rejectFriendRequest.html",
             dataType: "json",
             data: {"friendRequestId": friendRequestId},
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
+    acceptLogbookEntryRequest: function (formObject, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/social/acceptLogbookBuddieRequest.html",
+            dataType: "json",
+            data: formObject,
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                loader_controller.stopwait();
+                errorHandler();
+            }
+        });
+    },
+
+    rejectLogbookEntryRequest: function (requestId, successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "Get",
+            url: "/secure/social/rejectLogbookBuddieRequest.html",
+            dataType: "json",
+            data: {"logbookBuddieRequestId": requestId},
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {

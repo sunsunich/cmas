@@ -37,6 +37,7 @@
                 <value>/secure/pageErrorLoad.html</value>
 
                 <value>/secure/getDiver.html</value>
+                <value>/secure/getDivers.html</value>
                 <value>/secure/profile/getUser.html</value>
                 <value>/secure/profile/getUserpic.html</value>
                 <value>/secure/processEditPasswd.html</value>
@@ -51,11 +52,14 @@
                 <value>/secure/social/getSocialUpdates.html</value>
 
                 <value>/secure/social/searchNewFriends.html</value>
+                <value>/secure/social/searchDivers.html</value>
                 <value>/secure/social/sendFriendRequest.html</value>
                 <value>/secure/social/acceptFriendRequest.html</value>
                 <value>/secure/social/rejectFriendRequest.html</value>
                 <value>/secure/social/removeFriendRequest.html</value>
                 <value>/secure/social/removeFriend.html</value>
+                <value>/secure/social/acceptLogbookBuddieRequest.html</value>
+                <value>/secure/social/rejectLogbookBuddieRequest.html</value>
                 <value>/secure/social/setDefaultLogbookVisibility.html</value>
                 <value>/secure/social/addCountryToNews.html</value>
                 <value>/secure/social/removeCountryFromNews.html</value>
@@ -68,6 +72,7 @@
                 <value>/secure/getSpots.html</value>
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/createRecord.html</value>
+                <value>/secure/getRecord.html</value>
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
                 <value>/secure/getMyFriendsLogbookFeed.html</value>
@@ -115,7 +120,7 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <!--one of the properties available; the maximum file size in bytes -->
         <property name="maxUploadSize" value="250000"/>
-        <property name="maxInMemorySize" value="250000" />
+        <property name="maxInMemorySize" value="250000"/>
     </bean>
 
     <bean id="errorHandler" class="org.cmas.util.presentation.spring.CustomExceptionResolver">

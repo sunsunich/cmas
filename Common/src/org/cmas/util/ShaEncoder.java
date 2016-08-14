@@ -1,4 +1,4 @@
-package org.cmas.presentation.controller.user.billing.systempay;
+package org.cmas.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author Alexander Petukhov
  */
-public class Sha {
+public class ShaEncoder {
 
     public static final String SEPARATOR = "+";
 

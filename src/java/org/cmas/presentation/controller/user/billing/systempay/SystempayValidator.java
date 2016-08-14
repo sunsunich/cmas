@@ -4,6 +4,7 @@ import org.cmas.Globals;
 import org.cmas.presentation.controller.user.billing.PaySystemValidator;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
+import org.cmas.util.ShaEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
@@ -64,7 +65,7 @@ public class SystempayValidator extends PaySystemValidator {
             }
         }
         // Compute the signature
-        String sep = Sha.SEPARATOR;
+        String sep = ShaEncoder.SEPARATOR;
         StringBuilder sb = new StringBuilder();
         for (String vadsParamName : vadsFields) {
             String vadsParamValue = request.getParameter(vadsParamName);
@@ -74,7 +75,7 @@ public class SystempayValidator extends PaySystemValidator {
             sb.append(sep);
         }
         sb.append(paySystemSettings.getSystempayCertificate());
-        return Sha.encode(sb.toString());
+        return ShaEncoder.encode(sb.toString());
     }
 
     public String createSignature(SystempayPaymentRequest paymentRequest) throws Exception {
@@ -87,7 +88,7 @@ public class SystempayValidator extends PaySystemValidator {
             }
         }
         // Calculates the signature
-        String sep = Sha.SEPARATOR;
+        String sep = ShaEncoder.SEPARATOR;
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, Field> entry : vadsFields.entrySet()) {
             Field field = entry.getValue();
@@ -103,7 +104,7 @@ public class SystempayValidator extends PaySystemValidator {
             }
         }
         sb.append(paySystemSettings.getSystempayCertificate());
-        return Sha.encode(sb.toString());
+        return ShaEncoder.encode(sb.toString());
     }
  /*
  vads_amount = 3000

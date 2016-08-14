@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/sql/08_06_2016.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/sql/30_07_2016.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/sql/initialData.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/src/java/org/cmas/presentation/controller/user/billing/systempay/MySqlTransactionSequenceDaoImpl.java" dialect="MySQL" />
   </component>
 </project>

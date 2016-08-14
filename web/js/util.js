@@ -40,3 +40,31 @@ function simpleClone(obj) {
     }
     return copy;
 }
+
+function arrayToJsonStr(array) {
+    if (null == array || "object" != typeof array) return "[]";
+    //var str = "[";
+    //for (var i = 0; i < array.length; i++) {
+    //    str += array[i];
+    //    if (str != array.length - 1) {
+    //        str += ',';
+    //    }
+    //}
+    //str += "]";
+    //return str;
+    return JSON.stringify(array);
+}
+
+function removeFromArray(array, elem){
+    if (null == array || "object" != typeof array) return array;
+    if (array.indexOf(elem) == -1) {
+        return array;
+    }
+    var newArray = [];
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] != elem) {
+            newArray.push(array[i]);
+        }
+    }
+    return newArray;
+}

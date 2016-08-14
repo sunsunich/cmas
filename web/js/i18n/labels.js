@@ -1,5 +1,35 @@
 var labels = {
     "cmas.face.registration.form.label.country": "Country",
     "cmas.face.friendRequest.success": "Friend request has been sent. Please wait for the other diver's reply",
-    "cmas.face.friendRequest.failure": "Friend request failed. Reason:"
+    "cmas.face.friendRequest.failure": "Friend request failed. Reason:",
+    "cmas.face.client.social.friendRequest.accept": "Accept",
+    "cmas.face.client.social.friendRequest.reject": "Reject",
+    "cmas.face.findDiver.add": "Add friend",
+    "cmas.face.findDiver.add.buddie": "Add buddie",
+    "cmas.face.findDiver.add.instructor": "Add instructor",
+    "cmas.face.findDiver.form.page.title.instructor": "Find instructor",
+    "PRIVATE": "Visible only for me",
+    "FRIENDS": "Visible for my friends",
+    "PUBLIC": "Visible for everyone",
+    "cmas.face.client.social.buddieRequests.text": "Please confirm that you have been diving",
+    "cmas.face.client.social.buddieRequests.buddie.label": "with",
+    "cmas.face.client.social.buddieRequests.time.label": "on",
+    "cmas.face.client.social.buddieRequests.spot.label": "Spot",
+    "cmas.face.client.social.signatureRequests.text": "Please approve that this logbook entry is valid",
+    "cmas.face.client.social.buddieRequests.sign": "Verify",
+    "cmas.face.friendList.notRegistered": "Not registered at CMAS Data",
+    "cmas.face.diver.instructor": "Instructor",
+    "cmas.face.feed.delete": "Delete",
+    "cmas.face.feed.edit": "Edit",
+    "cmas.face.feed.more": "More",
+    "cmas.face.feed.less": "Less",
+    "cmas.face.feed.depth": "Depth",
+    "cmas.face.feed.meters": "meters",
+    "cmas.face.feed.duration": "Duration",
+    "cmas.face.feed.minutes": "minutes",
+    "cmas.face.feed.buddies.label": "With",
+    "cmas.face.feed.time.label": "Dive date",
+    "cmas.face.feed.createdBy": "Created by"
+
+
 };

@@ -3,20 +3,29 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
+import org.cmas.entities.logbook.LogbookBuddieRequest;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.logbook.LogbookVisibility;
+import org.cmas.entities.logbook.Request;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.logbook.DiverFriendRequestDao;
 import org.cmas.presentation.dao.logbook.LogbookBuddieRequestDao;
+import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
+import org.cmas.presentation.model.logbook.LogbookEntryRequestFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.social.SocialUpdates;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
+import org.hibernate.StaleObjectStateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -36,6 +45,8 @@ import java.util.List;
 @Controller
 public class UserSocialSettingsController {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private AuthenticationService authenticationService;
 
@@ -53,6 +64,12 @@ public class UserSocialSettingsController {
 
     @Autowired
     private LogbookBuddieRequestDao logbookBuddieRequestDao;
+
+    @Autowired
+    private LogbookEntryDao logbookEntryDao;
+
+    @Autowired
+    private LogbookService logbookService;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -151,26 +168,32 @@ public class UserSocialSettingsController {
         return gsonViewFactory.createSuccessGsonView();
     }
 
-    private FriendRequestValidationResult validateFriendRequest(@RequestParam("friendRequestId") long friendRequestId, boolean isFromCurrentDiver) {
+    private <T extends Request> FriendRequestValidationResult<T> validateFriendRequest(
+            long requestId, boolean isFromCurrentDiver, boolean isLogbookRequest) {
         Diver diver = getDiver();
-        DiverFriendRequest friendRequest = diverFriendRequestDao.getModel(friendRequestId);
-        if (friendRequest == null) {
-            return new FriendRequestValidationResult("validation.friendRequestAlreadyProcessed", null);
+        @SuppressWarnings("unchecked")
+        T request = isLogbookRequest
+                ? (T) logbookBuddieRequestDao.getModel(requestId)
+                : (T) diverFriendRequestDao.getModel(requestId);
+        if (request == null) {
+            return new FriendRequestValidationResult<>("validation.friendRequestAlreadyProcessed", null);
         }
-        Diver from = isFromCurrentDiver ? friendRequest.getFrom() : friendRequest.getTo();
+        Diver from = isFromCurrentDiver ? request.getFrom() : request.getTo();
         if (from.getId() != diver.getId()) {
             throw new BadRequestException();
         }
-        return new FriendRequestValidationResult(null, friendRequest);
+        return new FriendRequestValidationResult<>(null, request);
     }
 
     @RequestMapping("/secure/social/acceptFriendRequest.html")
     public View acceptFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, false);
+        FriendRequestValidationResult<DiverFriendRequest> validationResult = validateFriendRequest(friendRequestId,
+                                                                                                   false,
+                                                                                                   false);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
-        DiverFriendRequest friendRequest = validationResult.friendRequest;
+        DiverFriendRequest friendRequest = validationResult.request;
         if (diverDao.isFriend(friendRequest.getFrom(), friendRequest.getTo())) {
             return gsonViewFactory.createErrorGsonView("validation.friendAlready");
         }
@@ -196,11 +219,13 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/rejectFriendRequest.html")
     public View rejectFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, false);
+        FriendRequestValidationResult<DiverFriendRequest> validationResult = validateFriendRequest(friendRequestId,
+                                                                                                   false,
+                                                                                                   false);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
-        DiverFriendRequest friendRequest = validationResult.friendRequest;
+        DiverFriendRequest friendRequest = validationResult.request;
         diverFriendRequestDao.deleteModel(friendRequest);
         Diver from = friendRequest.getFrom();
         Diver to = friendRequest.getTo();
@@ -211,11 +236,13 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/removeFriendRequest.html")
     public View removeFriendRequest(@RequestParam("friendRequestId") long friendRequestId) {
-        FriendRequestValidationResult validationResult = validateFriendRequest(friendRequestId, true);
+        FriendRequestValidationResult<DiverFriendRequest> validationResult = validateFriendRequest(friendRequestId,
+                                                                                                   true,
+                                                                                                   false);
         if (validationResult.errorCode != null) {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
-        DiverFriendRequest friendRequest = validationResult.friendRequest;
+        DiverFriendRequest friendRequest = validationResult.request;
         diverFriendRequestDao.deleteModel(friendRequest);
         Diver from = friendRequest.getFrom();
         Diver to = friendRequest.getTo();
@@ -235,6 +262,81 @@ public class UserSocialSettingsController {
         //todo send notification
         return gsonViewFactory.createSuccessGsonView();
     }
+
+    @RequestMapping("/secure/social/acceptLogbookBuddieRequest.html")
+    public View acceptLogbookBuddieRequest(@ModelAttribute("command") LogbookEntryRequestFormObject formObject) {
+        FriendRequestValidationResult<LogbookBuddieRequest> validationResult = validateFriendRequest(
+                formObject.getRequestId(),
+                false,
+                true);
+        if (validationResult.errorCode != null) {
+            return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
+        }
+        LogbookBuddieRequest request = validationResult.request;
+        LogbookBuddieRequest logbookBuddieRequest = validationResult.request;
+        LogbookEntry logbookEntry = logbookBuddieRequest.getLogbookEntry();
+        Diver to = request.getTo();
+        if (logbookBuddieRequest.isToSign()) {
+            if (!logbookEntry.getInstructor().equals(to) || logbookEntry.getDigest() != null) {
+                logbookBuddieRequestDao.deleteModel(request);
+                updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
+            }
+            try {
+                String signature = logbookService.createSignature(logbookEntry);
+                if (!signature.equals(logbookService.createSignature(formObject))) {
+                    updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                    return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
+                }
+                logbookEntry.setDigest(signature);
+                logbookEntryDao.updateModel(logbookEntry);
+            } catch (StaleObjectStateException e) {
+                log.error(e.getMessage(), e);
+                updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                return gsonViewFactory.createErrorGsonView("validation.internal");
+            }
+        }
+        logbookBuddieRequestDao.deleteModel(request);
+        updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
+    @RequestMapping("/secure/social/rejectLogbookBuddieRequest.html")
+    public View rejectLogbookBuddieRequest(@RequestParam("logbookBuddieRequestId") long logbookBuddieRequestId) {
+        FriendRequestValidationResult<LogbookBuddieRequest> validationResult = validateFriendRequest(
+                logbookBuddieRequestId, false, true);
+        if (validationResult.errorCode != null) {
+            return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
+        }
+        LogbookBuddieRequest request = validationResult.request;
+        LogbookEntry logbookEntry = request.getLogbookEntry();
+        Diver to = request.getTo();
+        if (request.isToSign()) {
+            if (!logbookEntry.getInstructor().equals(to) || logbookEntry.getDigest() != null) {
+                logbookBuddieRequestDao.deleteModel(request);
+                updateSocialVersions(request.getFrom(), to);
+                return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
+            }
+            logbookEntry.setInstructor(null);
+        } else {
+            logbookEntry.getBuddies().remove(to);
+        }
+        try {
+            logbookEntryDao.updateModel(logbookEntry);
+        } catch (StaleObjectStateException e) {
+            log.error(e.getMessage(), e);
+            updateSocialVersions(request.getFrom(), to);
+            return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
+        }
+        logbookBuddieRequestDao.deleteModel(request);
+        updateSocialVersions(request.getFrom(), to);
+        //todo send notification
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
 
     @RequestMapping("/secure/social/addCountryToNews.html")
     public View addCountryToNews(@RequestParam("countryCode") String countryCode) {
@@ -298,13 +400,13 @@ public class UserSocialSettingsController {
         return currentDiver.getUser();
     }
 
-    private static final class FriendRequestValidationResult {
+    private static final class FriendRequestValidationResult<T extends Request> {
         private final String errorCode;
-        private final DiverFriendRequest friendRequest;
+        private final T request;
 
-        private FriendRequestValidationResult(String errorCode, DiverFriendRequest friendRequest) {
+        private FriendRequestValidationResult(String errorCode, T request) {
             this.errorCode = errorCode;
-            this.friendRequest = friendRequest;
+            this.request = request;
         }
     }
 }

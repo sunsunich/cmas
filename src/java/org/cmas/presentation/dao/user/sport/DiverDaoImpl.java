@@ -105,7 +105,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (!StringUtil.isTrimmedEmpty(cmasCardNumber)) {
             return createCriteria()
                     .createAlias("primaryPersonalCard", "card")
-                    .add(Restrictions.eq("primaryPersonalCard.number",
+                    .add(Restrictions.eq("card.number",
                                          StringUtil.correctSpaceCharAndTrim(cmasCardNumber)))
                     .list();
         }
@@ -128,7 +128,6 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         return createCriteria()
                 .createAlias("country", "country")
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
-                .add(Restrictions.eq("dob", formObject.getDob()))
                 .add(Restrictions.eq("diverType", DiverType.valueOf(formObject.getDiverType())))
                 .add(Restrictions.disjunction()
                                  .add(Restrictions.like("firstName", nameTemplate))

@@ -107,7 +107,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="sportsFederationDao" class="org.cmas.presentation.dao.user.sport.SportsFederationDaoImpl">
+    <bean id="sportsFederationDao" class="org.cmas.presentation.dao.user.sport.NationalFederationDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

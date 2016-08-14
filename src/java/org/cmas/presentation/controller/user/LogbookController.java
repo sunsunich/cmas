@@ -1,28 +1,25 @@
 package org.cmas.presentation.controller.user;
 
-import com.google.myjson.Gson;
-import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
-import org.cmas.entities.logbook.DiveScore;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.logbook.LogbookVisibility;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
-import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.divespot.LatLngBounds;
 import org.cmas.presentation.model.logbook.LogbookEntryFormObject;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
+import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
-import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
@@ -40,8 +37,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -61,13 +58,13 @@ public class LogbookController {
     private AuthenticationService authenticationService;
 
     @Autowired
+    private LogbookService logbookService;
+
+    @Autowired
     private DictionaryDataService dictionaryDataService;
 
     @Autowired
     private DiveSpotDao diveSpotDao;
-
-    @Autowired
-    private DiverDao diverDao;
 
     @Autowired
     private LogbookEntryDao logbookEntryDao;
@@ -100,10 +97,6 @@ public class LogbookController {
         }
         if (diver == null) {
             throw new BadRequestException();
-        }
-        byte[] userpic = diver.getUserpic();
-        if (userpic != null) {
-            diver.setPhoto(Base64Coder.encodeString(userpic));
         }
         return diver;
     }
@@ -152,9 +145,21 @@ public class LogbookController {
     private ModelAndView getLogbookRecordForm(DiveSpot diveSpot, LogbookEntry logbookEntry) {
         ModelMap mm = new ModelMap();
         mm.addAttribute("spot", diveSpot);
-        mm.addAttribute("logbookEntry", logbookEntry);
+        if (logbookEntry != null) {
+            mm.addAttribute("logbookEntry", logbookEntry);
+            byte[] photo = logbookEntry.getPhoto();
+            if (photo != null) {
+                logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
+            }
+        }
         try {
             mm.addAttribute("countries", countryDao.getAll());
+            List<NationalFederation> nationalFederations = dictionaryDataService.getNationalFederations(0L);
+            List<Country> federationCountries = new ArrayList<>(nationalFederations.size());
+            for (NationalFederation federation : nationalFederations) {
+                federationCountries.add(federation.getCountry());
+            }
+            mm.addAttribute("federationCountries", federationCountries);
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
@@ -168,57 +173,28 @@ public class LogbookController {
         if (errors.hasErrors()) {
             return gsonViewFactory.createGsonView(errors);
         }
-        Diver diver = getCurrentDiver();
-        Long spotId = Long.parseLong(formObject.getSpotId());
-        DiveSpot diveSpot = diveSpotDao.getById(spotId);
-        if (diveSpot == null) {
-            throw new BadRequestException();
-        }
-        String instructorIdStr = formObject.getInstructorId();
-        Diver instructor = null;
-        if (!StringUtil.isTrimmedEmpty(instructorIdStr)) {
-            Long instructorId = Long.parseLong(instructorIdStr);
-            instructor = diverDao.getModel(instructorId);
-            if (instructor == null) {
-                throw new BadRequestException();
-            }
-        }
-
         try {
-            LogbookEntry logbookEntry = new LogbookEntry();
-            logbookEntry.setDiver(diver);
-            logbookEntry.setDateCreation(new Date());
-            logbookEntry.setDateEdit(new Date());
-            logbookEntry.setDiveDate(Globals.getDTF().parse(formObject.getDiveDate()));
-            logbookEntry.setDiveSpot(diveSpot);
-            logbookEntry.setDurationMinutes(Integer.parseInt(formObject.getDuration()));
-            logbookEntry.setDepthMeters(Integer.parseInt(formObject.getDepth()));
-            logbookEntry.setScore(DiveScore.valueOf(formObject.getScore()));
-            logbookEntry.setNote(formObject.getNote());
-            logbookEntry.setInstructor(instructor);
-            logbookEntry.setVisibility(LogbookVisibility.valueOf(formObject.getVisibility()));
-            String photo = formObject.getPhoto();
-            if (!StringUtil.isTrimmedEmpty(photo)) {
-                logbookEntry.setPhoto(Base64Coder.decode(photo));
-            }
-            List<Long> buddiesIds = new Gson().fromJson(formObject.getBuddiesIds(), Globals.LONG_LIST_TYPE);
-            if (buddiesIds != null && !buddiesIds.isEmpty()) {
-                Set<Diver> buddies = new HashSet<>(diverDao.getDiversByIds(buddiesIds));
-                if (instructor != null) {
-                    buddies.remove(instructor);
-                }
-                buddies.remove(diver);
-                logbookEntry.setBuddies(buddies);
-            }
-            logbookEntryDao.save(logbookEntry);
-            //todo send notification to instructor
-            //todo send notification to buddies
-
+            Diver diver = getCurrentDiver();
+            logbookService.createOrUpdateRecord(diver, formObject);
             return gsonViewFactory.createSuccessGsonView();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.internal");
         }
+    }
+
+    @RequestMapping(value = "/secure/getRecord.html", method = RequestMethod.GET)
+    public View getRecord(@RequestParam("logbookEntryId") Long logbookEntryId
+    ) {
+        LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
+        if (logbookEntry == null) {
+            throw new BadRequestException();
+        }
+        byte[] photo = logbookEntry.getPhoto();
+        if (photo != null) {
+            logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
+        }
+        return gsonViewFactory.createGsonFeedView(Arrays.asList(logbookEntry));
     }
 
     @RequestMapping(value = "/secure/deleteRecord.html", method = RequestMethod.GET)

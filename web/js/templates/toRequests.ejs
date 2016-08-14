@@ -5,7 +5,7 @@ for(i = 0;i < requests.length;i++) {
 <div class="panel-row">
     <div class="friendListElemCenter">
         <% if(requests[i].from.diverType == 'INSTRUCTOR') { %>
-        <a class="friendListElem-href" href="#" id="<%= requests[i].from.id %>_showFromDiver"><%= fullName %> <b>(Instructor)</b></a>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].from.id %>_showFromDiver"><%= fullName %> <b>(<%=labels["cmas.face.diver.instructor"] %>)</b></a>
         <% } else { %>
         <a class="friendListElem-href" href="#" id="<%= requests[i].from.id %>_showFromDiver"><%= fullName %></a>
         <% } %>

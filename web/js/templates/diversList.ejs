@@ -37,7 +37,7 @@ for(i = 0;i < divers.length;i++) {
             <% } %>
             <% if(cardNumber == null){
             %>
-            <p><span class="panel-text">Not registered at CMAS Data</span></p>
+            <p><span class="panel-text"><%=labels["cmas.face.friendList.notRegistered"] %></span></p>
             <% } else { %>
             <p><span class="panel-text"><%=cardNumber %></span></p>
             <% } %>

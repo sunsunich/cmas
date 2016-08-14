@@ -170,6 +170,9 @@
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
     </bean>
 
+    <bean id="logbookService" class="org.cmas.presentation.service.user.LogbookServiceImpl">
+    </bean>
+
     <bean id="dictionaryDataService" class="org.cmas.presentation.service.mobile.DictionaryDataServiceImpl">
     </bean>
 

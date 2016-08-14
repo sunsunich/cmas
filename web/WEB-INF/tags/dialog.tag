@@ -13,7 +13,7 @@
 <div id="${id}" class="dialog" style="display: none">
     <img id="${id}Close" src="${pageContext.request.contextPath}/i/close.png" class="dialogClose"/>
 
-    <p class="dialog-title" id="${id}Title"><s:message code="${title}"/></p>
+    <div class="dialog-title" id="${id}Title"><s:message code="${title}"/></div>
 
     <div class="dialog-content" id="${id}Content">
         <jsp:doBody/>

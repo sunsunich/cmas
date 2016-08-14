@@ -20,6 +20,8 @@ import org.springframework.validation.Errors;
  */
 public class LogbookEntryFormObject implements Validatable {
 
+    private String logbookEntryId;
+
     @Digits(integerDigits = 20, message = "validation.incorrectNumber")
     @NotEmpty(message = "validation.emptyField")
     private String spotId;
@@ -78,6 +80,14 @@ public class LogbookEntryFormObject implements Validatable {
                                               }, photo, "photo", "validation.incorrectField"
             );
         }
+    }
+
+    public String getLogbookEntryId() {
+        return logbookEntryId;
+    }
+
+    public void setLogbookEntryId(String logbookEntryId) {
+        this.logbookEntryId = logbookEntryId;
     }
 
     public String getPhoto() {

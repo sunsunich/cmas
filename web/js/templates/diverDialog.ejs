@@ -35,7 +35,7 @@ if (diver.primaryPersonalCard == null) {
         <% } %>
         <% if(cardNumber == null){
         %>
-        <p>Not registered at CMAS Data</p>
+        <p><%=labels["cmas.face.friendList.notRegistered"] %></p>
         <% } else { %>
         <p><span><%=cardNumber %></span></p>
         <% } %>

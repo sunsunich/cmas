@@ -96,8 +96,32 @@ var social_settings_controller = {
                 else {
                     $('#fromRequestsPanel').hide();
                 }
+                var buddieRequests = json.buddieRequests;
+                if (buddieRequests.length > 0) {
+                    $('#buddieRequestsPanel').show();
+                    $('#buddieRequests').html(
+                        new EJS({url: '/js/templates/logbookRequests.ejs'}).render({"requests": buddieRequests})
+                    );
+                    for (i = 0; i < buddieRequests.length; i++) {
+                        social_model.logbookEntriesToProcessMap[buddieRequests[i].id] = buddieRequests[i];
+                        $('#' + buddieRequests[i].logbookEntry.id + '_showLogbookRequest').click(function (e) {
+                            e.preventDefault();
+                            self.showLogbookEntry($(this)[0].id);
+                        });
+                        $('#' + buddieRequests[i].id + '_acceptLogbookRequest').click(function () {
+                            self.acceptLogbookRequest($(this)[0].id);
+                        });
+                        $('#' + buddieRequests[i].id + '_rejectLogbookRequest').click(function () {
+                            self.rejectLogbookRequest($(this)[0].id);
+                        });
+                    }
+                }
+                else {
+                    $('#buddieRequestsPanel').hide();
+                }
             }
-            , function () { }
+            , function () {
+            }
         );
     },
 
@@ -236,7 +260,12 @@ var social_settings_controller = {
         $('#showDiverOk').click(function () {
             $('#showDiver').hide();
         });
-
+        $('#showLogbookEntryClose').click(function () {
+            $('#showLogbookEntry').hide();
+        });
+        $('#showLogbookEntryOk').click(function () {
+            $('#showLogbookEntry').hide();
+        });
         $('#addTeamToLogbook').click(function () {
             var checked = $(this).prop("checked");
             social_model.setAddTeamToLogbook(
@@ -395,6 +424,46 @@ var social_settings_controller = {
             });
     },
 
+    showLogbookEntry: function (elemId) {
+        var self = this;
+        var logbookEntryId = elemId.split('_')[0];
+        social_model.getLogbookEntry(
+            logbookEntryId
+            , function (json) {
+                var record = json[0];
+                $('#showLogbookEntryContent').html(
+                    new EJS({url: '/js/templates/logbookEntryDialog.ejs'}).render({"record": record})
+                );
+                $('#' + record.diver.id + '_logbookRecordDialog_showDiver').click(function (e) {
+                    e.preventDefault();
+                    self.showDiver($(this)[0].id);
+                });
+                if (record.instructor) {
+                    $('#' + record.instructor.id + '_logbookRecordDialog_showDiver').click(function (e) {
+                        e.preventDefault();
+                        self.showDiver($(this)[0].id);
+                    });
+                }
+                if (record.buddies) {
+                    for (var i = 0; i < record.buddies.length; i++) {
+                        $('#' + record.buddies[i].id + '_logbookRecordDialog_showDiver').click(function (e) {
+                            e.preventDefault();
+                            self.showDiver($(this)[0].id);
+                        });
+                    }
+                }
+                $('#showLogbookEntry').show();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
     showFoundDivers: function (divers) {
         var self = this;
         $('#findDiver').hide();
@@ -477,6 +546,49 @@ var social_settings_controller = {
         var requestId = elemId.split('_')[0];
         var self = this;
         social_model.rejectFriendRequest(
+            requestId
+            , function (/*json*/) {
+                self.getSocialUpdates();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    acceptLogbookRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
+        var logbookEntry = social_model.logbookEntriesToProcessMap[requestId].logbookEntry;
+        var form = {
+            "requestId": requestId,
+            "duration": logbookEntry.durationMinutes,
+            "depth": logbookEntry.depthMeters,
+            "diveDate": logbookEntry.diveDate
+        };
+        var self = this;
+        social_model.acceptLogbookEntryRequest(
+            form
+            , function (/*json*/) {
+                self.getSocialUpdates();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    rejectLogbookRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
+        var self = this;
+        social_model.rejectLogbookEntryRequest(
             requestId
             , function (/*json*/) {
                 self.getSocialUpdates();

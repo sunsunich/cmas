@@ -1,0 +1,41 @@
+<% var i = 0;
+for(i = 0;i < requests.length;i++) {
+    var diveSpot = requests[i].logbookEntry.diveSpot.name + ", " + requests[i].logbookEntry.diveSpot.country.name;
+    var fullName = requests[i].from.firstName + ' ' + requests[i].from.lastName;
+    var diveDate = requests[i].logbookEntry.diveDate;
+%>
+<div class="panel-row">
+    <div class="friendListElemCenter">
+        <% if(requests[i].toSign){
+        %>
+        <p><span class="panel-text"><%= labels["cmas.face.client.social.signatureRequests.text"] %><br/>
+                <%= labels["cmas.face.feed.time.label"] %>: <%= diveDate %>
+            </span></p>
+        <% } else { %>
+        <p><span class="panel-text"><%= labels["cmas.face.client.social.buddieRequests.text"] %>
+                <%= labels["cmas.face.client.social.buddieRequests.buddie.label"] %> <%= fullName %>
+                <%= labels["cmas.face.client.social.buddieRequests.time.label"] %> <%= diveDate %>
+            </span></p>
+        <% } %>
+    </div>
+    <div class="friendListElemCenter">
+        <span class="panel-text"><%= labels["cmas.face.client.social.buddieRequests.spot.label"] %>:</span>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].logbookEntry.id %>_showLogbookRequest">
+            <%= diveSpot %>
+        </a>
+    </div>
+    <div class="button-container">
+        <button class="userInfo-button enter-button" id="<%= requests[i].id %>_acceptLogbookRequest">
+            <% if(requests[i].toSign){
+            %>
+            <%= labels["cmas.face.client.social.buddieRequests.sign"] %>
+            <% } else { %>
+            <%= labels["cmas.face.client.social.friendRequest.accept"] %>
+            <% } %>
+        </button>
+        <button class="userInfo-button reg-button" id="<%= requests[i].id %>_rejectLogbookRequest">
+            <%= labels["cmas.face.client.social.friendRequest.reject"] %>
+        </button>
+    </div>
+</div>
+<% } %>

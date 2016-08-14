@@ -7,5 +7,9 @@ package org.cmas.entities.logbook;
  */
 public enum DiveScore {
 
-    ZERO_STAR, ONE_STAR, TWO_STAR, THREE_STAR, FOUR_STAR, FIVE_STAR
+    ZERO_STAR, ONE_STAR, TWO_STAR, THREE_STAR, FOUR_STAR, FIVE_STAR;
+
+    public String getName(){
+        return name();
+    }
 }
