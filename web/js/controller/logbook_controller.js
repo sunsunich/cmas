@@ -18,6 +18,7 @@ var logbook_controller = {
         my_friends_logbook_feed_model.containerId = 'friendsLogbookFeed';
         this.myFriendsFeedController = simpleClone(logbook_feed_controller);
         this.myFriendsFeedController.model = my_friends_logbook_feed_model;
+        this.myFriendsFeedController.init();
 
         this.setListeners();
     },

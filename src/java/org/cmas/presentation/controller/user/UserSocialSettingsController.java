@@ -22,6 +22,7 @@ import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
@@ -114,7 +115,7 @@ public class UserSocialSettingsController {
         Diver currentDiver = getDiver();
         validator.validate(formObject, result);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(result);
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
         for (Diver diver : divers) {
@@ -130,7 +131,7 @@ public class UserSocialSettingsController {
     public View searchDivers(@ModelAttribute("command") FindDiverFormObject formObject, Errors result) {
         validator.validate(formObject, result);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(result);
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchDivers(formObject);
         for (Diver diver : divers) {

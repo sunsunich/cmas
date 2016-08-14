@@ -75,7 +75,7 @@ public class LogbookEntry extends DictionaryEntity {
     private DiveScore score;
 
     @Expose
-    @Column
+    @Column(length = Globals.VERY_BIG_MAX_LENGTH)
     private String note;
 
     @Expose

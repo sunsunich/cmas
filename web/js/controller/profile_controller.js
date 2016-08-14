@@ -70,6 +70,7 @@ var profile_controller = {
         my_friends_logbook_feed_model.containerId = 'accountFeed';
         this.myFriendsFeedController = simpleClone(logbook_feed_controller);
         this.myFriendsFeedController.model = my_friends_logbook_feed_model;
+        this.myFriendsFeedController.init();
         this.myFriendsFeedController.start();
     },
 

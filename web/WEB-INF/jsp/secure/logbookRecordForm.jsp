@@ -150,6 +150,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+            <div class="error" id="create_error_note"></div>
 
             <c:choose>
                 <c:when test="${logbookEntry == null}">

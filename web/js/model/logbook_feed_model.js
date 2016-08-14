@@ -4,8 +4,9 @@ var logbook_feed_model = {
     isShowSpec: true,
     containerId: "",
     url: "",
-    latestDate: "",
+    latestDate: "0",
     earliestDate: "",
+    lastElemId: null,
     limit: 10,
     deleteRecordId: 0,
 
@@ -14,8 +15,10 @@ var logbook_feed_model = {
             if (compare_big_int(records[0].dateEdit, this.latestDate)) {
                 this.latestDate = records[0].dateEdit;
             }
-            if (compare_big_int(this.earliestDate, records[records.length - 1].dateEdit)) {
-                this.earliestDate = records[records.length - 1].dateEdit;
+            var lastRecord = records[records.length - 1];
+            if (this.earliestDate == "" || compare_big_int(this.earliestDate, lastRecord.dateEdit)) {
+                this.earliestDate = lastRecord.dateEdit;
+                this.lastElemId = lastRecord.id;
             }
         }
     },

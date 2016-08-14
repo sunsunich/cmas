@@ -10,6 +10,7 @@ import org.cmas.presentation.validator.ValidatorUtils;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.hibernate.validator.Digits;
+import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.springframework.validation.Errors;
 
@@ -43,6 +44,7 @@ public class LogbookEntryFormObject implements Validatable {
     @NotEmpty(message = "validation.emptyField")
     private String visibility;
 
+    @Length(max = Globals.VERY_BIG_MAX_LENGTH, message = "validation.maxLength")
     private String note;
 
     private String instructorId;

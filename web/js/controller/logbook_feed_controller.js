@@ -2,16 +2,20 @@ var logbook_feed_controller = {
 
     model: null,
     timeout: null,
+    scrollHandler: null,
 
     init: function () {
+        var self = this;
         if (this.model.isMyRecords) {
-            var self = this;
             $('#recordDeleteDialogClose').click(function () {
                 $('#recordDeleteDialog').hide();
             });
             $('#recordDeleteDialogOk').click(function () {
                 self.doRecordDelete();
             });
+        }
+        this.scrollHandler = function () {
+            self.handleScroll();
         }
     },
 
@@ -22,6 +26,7 @@ var logbook_feed_controller = {
             self.refreshFeed();
             self.timeout = setTimeout(run, 3000);
         }, 3000);
+        $(window).scroll(this.scrollHandler);
     },
 
     stop: function () {
@@ -29,67 +34,14 @@ var logbook_feed_controller = {
             clearTimeout(this.timeout);
             this.timeout = null;
         }
+        $(window).off('scroll', this.scrollHandler);
     },
 
     refreshFeed: function () {
         var self = this;
         this.model.getNewRecords(
             function (recordsInfo) {
-                var records = recordsInfo.records;
-                for (var i = 0; i < records.length; i++) {
-                    $('#' + self.model.containerId + 'logbookRecord_' + records[i].id).remove();
-                }
-                $('#' + self.model.containerId).prepend(
-                    new EJS({url: '/js/templates/logbookFeed.ejs'}).render({"recordsInfo": recordsInfo})
-                );
-                for (i = 0; i < records.length; i++) {
-                    $('#' + self.model.containerId + 'more_' + records[i].id).click(function (event) {
-                        event.preventDefault();
-                        self.openMoreOnRecord($(this)[0].id);
-                    });
-                    $('#' + self.model.containerId + 'less_' + records[i].id).click(function (event) {
-                        event.preventDefault();
-                        self.closeMoreOnRecord($(this)[0].id);
-                    });
-                    $('#' + self.model.containerId + 'feedItemSettings_' + records[i].id).click(function (event) {
-                        event.preventDefault();
-                        self.toggleRecordMenu($(this)[0].id);
-                    });
-                    $('#' + self.model.containerId + 'edit_' + records[i].id).click(function (event) {
-                        event.preventDefault();
-                        var elemId = $(this)[0].id;
-                        window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
-                    });
-                    $('#' + self.model.containerId + 'delete_' + records[i].id).click(function (event) {
-                        event.preventDefault();
-                        var elemId = $(this)[0].id;
-                        self.showRecordDeleteDialog(elemId);
-                    });
-                    if (self.model.isShowSpec) {
-                        $('#' + self.model.containerId + 'SpecOpen_' + records[i].id).click(function (event) {
-                            event.preventDefault();
-                            self.openSpecOnRecord($(this)[0].id);
-                        });
-                        $('#' + self.model.containerId + 'SpecClose_' + records[i].id).click(function (event) {
-                            event.preventDefault();
-                            self.closeSpecOnRecord($(this)[0].id);
-                        });
-                        if (records[i].instructor) {
-                            $('#' + records[i].instructor.id + '_' + self.model.containerId + '_showDiver').click(function (e) {
-                                e.preventDefault();
-                                util_controller.showDiver($(this)[0].id);
-                            });
-                        }
-                        if (records[i].buddies) {
-                            for (var j = 0; j < records[i].buddies.length; j++) {
-                                $('#' + records[i].buddies[j].id + '_' + self.model.containerId + '_showDiver').click(function (e) {
-                                    e.preventDefault();
-                                    util_controller.showDiver($(this)[0].id);
-                                });
-                            }
-                        }
-                    }
-                }
+                self.renderFeed(recordsInfo, true);
             },
             function (json) {
                 if (json && json.hasOwnProperty("message")) {
@@ -100,6 +52,103 @@ var logbook_feed_controller = {
                 }
             }
         )
+    },
+
+    getOldRecords: function () {
+        var self = this;
+        this.model.getOldRecords(
+            function (recordsInfo) {
+                self.renderFeed(recordsInfo, false);
+            },
+            function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            }
+        )
+    },
+
+    renderFeed: function (recordsInfo, isNew) {
+        var self = this;
+        var records = recordsInfo.records;
+        for (var i = 0; i < records.length; i++) {
+            $('#' + self.model.containerId + 'logbookRecord_' + records[i].id).remove();
+        }
+        if (isNew) {
+            $('#' + self.model.containerId).prepend(
+                new EJS({url: '/js/templates/logbookFeed.ejs'}).render({"recordsInfo": recordsInfo})
+            );
+        }
+        else {
+            $('#' + self.model.containerId).append(
+                new EJS({url: '/js/templates/logbookFeed.ejs'}).render({"recordsInfo": recordsInfo})
+            );
+        }
+        for (i = 0; i < records.length; i++) {
+            $('#' + self.model.containerId + 'more_' + records[i].id).click(function (event) {
+                event.preventDefault();
+                self.openMoreOnRecord($(this)[0].id);
+            });
+            $('#' + self.model.containerId + 'less_' + records[i].id).click(function (event) {
+                event.preventDefault();
+                self.closeMoreOnRecord($(this)[0].id);
+            });
+            $('#' + self.model.containerId + 'feedItemSettings_' + records[i].id).click(function (event) {
+                event.preventDefault();
+                self.toggleRecordMenu($(this)[0].id);
+            });
+            $('#' + self.model.containerId + 'edit_' + records[i].id).click(function (event) {
+                event.preventDefault();
+                var elemId = $(this)[0].id;
+                window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
+            });
+            $('#' + self.model.containerId + 'delete_' + records[i].id).click(function (event) {
+                event.preventDefault();
+                var elemId = $(this)[0].id;
+                self.showRecordDeleteDialog(elemId);
+            });
+            if (self.model.isShowSpec) {
+                $('#' + self.model.containerId + 'SpecOpen_' + records[i].id).click(function (event) {
+                    event.preventDefault();
+                    self.openSpecOnRecord($(this)[0].id);
+                });
+                $('#' + self.model.containerId + 'SpecClose_' + records[i].id).click(function (event) {
+                    event.preventDefault();
+                    self.closeSpecOnRecord($(this)[0].id);
+                });
+                if (records[i].instructor) {
+                    $('#' + records[i].instructor.id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                        e.preventDefault();
+                        util_controller.showDiver($(this)[0].id);
+                    });
+                }
+                if (records[i].buddies) {
+                    for (var j = 0; j < records[i].buddies.length; j++) {
+                        $('#' + records[i].buddies[j].id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                            e.preventDefault();
+                            util_controller.showDiver($(this)[0].id);
+                        });
+                    }
+                }
+            }
+        }
+    },
+
+    handleScroll: function () {
+        var self = this;
+        if (self.model.lastElemId) {
+            var elem = $('#' + self.model.containerId + 'logbookRecord_' + self.model.lastElemId);
+            var elemTop = elem.offset().top;
+            var elemHeight = elem.outerHeight();
+            var winHeight = $(window).height();
+            var winSize = $(window).scrollTop();
+            if (winSize > (elemTop + elemHeight - winHeight)) {
+                self.getOldRecords();
+            }
+        }
     },
 
     doRecordDelete: function () {

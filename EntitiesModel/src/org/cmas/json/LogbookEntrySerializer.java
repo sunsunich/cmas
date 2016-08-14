@@ -28,7 +28,7 @@ public class LogbookEntrySerializer implements JsonSerializer<LogbookEntry> {
                 .create();
         JsonObject jObj = (JsonObject) gson.toJsonTree(t);
         jObj.remove("dateEdit");
-        jObj.addProperty("dateEdit", t.getDateEdit().getTime());
+        jObj.addProperty("dateEdit", String.valueOf(t.getDateEdit().getTime()));
         return jObj;
     }
 }

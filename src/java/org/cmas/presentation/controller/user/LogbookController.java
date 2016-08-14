@@ -21,6 +21,7 @@ import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -94,6 +95,10 @@ public class LogbookController {
         Diver diver = null;
         if (role == Role.ROLE_DIVER) {
             diver = (Diver) user.getUser();
+            byte[] userpic = diver.getUserpic();
+            if (userpic != null) {
+                diver.setPhoto(Base64Coder.encodeString(userpic));
+            }
         }
         if (diver == null) {
             throw new BadRequestException();
@@ -171,7 +176,7 @@ public class LogbookController {
     public View createRecord(@ModelAttribute("command") LogbookEntryFormObject formObject, Errors errors) throws IOException {
         validator.validate(formObject, errors);
         if (errors.hasErrors()) {
-            return gsonViewFactory.createGsonView(errors);
+            return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
         }
         try {
             Diver diver = getCurrentDiver();
