@@ -9,7 +9,7 @@
 <jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
+               customScripts="js/model/util_model.js,js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
         var visibilityTypes = [];

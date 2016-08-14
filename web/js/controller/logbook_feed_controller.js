@@ -65,6 +65,30 @@ var logbook_feed_controller = {
                         var elemId = $(this)[0].id;
                         self.showRecordDeleteDialog(elemId);
                     });
+                    if (self.model.isShowSpec) {
+                        $('#' + self.model.containerId + 'SpecOpen_' + records[i].id).click(function (event) {
+                            event.preventDefault();
+                            self.openSpecOnRecord($(this)[0].id);
+                        });
+                        $('#' + self.model.containerId + 'SpecClose_' + records[i].id).click(function (event) {
+                            event.preventDefault();
+                            self.closeSpecOnRecord($(this)[0].id);
+                        });
+                        if (records[i].instructor) {
+                            $('#' + records[i].instructor.id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                                e.preventDefault();
+                                util_controller.showDiver($(this)[0].id);
+                            });
+                        }
+                        if (records[i].buddies) {
+                            for (var j = 0; j < records[i].buddies.length; j++) {
+                                $('#' + records[i].buddies[j].id + '_' + self.model.containerId + '_showDiver').click(function (e) {
+                                    e.preventDefault();
+                                    util_controller.showDiver($(this)[0].id);
+                                });
+                            }
+                        }
+                    }
                 }
             },
             function (json) {
@@ -125,5 +149,19 @@ var logbook_feed_controller = {
         $('#' + this.model.containerId + 'more_' + recordId).show();
         $('#' + this.model.containerId + 'invisibleNote_' + recordId).hide();
         $('#' + this.model.containerId + 'less_' + recordId).hide();
+    },
+
+    openSpecOnRecord: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        $('#' + this.model.containerId + 'SpecOpen_' + recordId).hide();
+        $('#' + this.model.containerId + 'Spec_' + recordId).show();
+        $('#' + this.model.containerId + 'SpecClose_' + recordId).show();
+    },
+
+    closeSpecOnRecord: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        $('#' + this.model.containerId + 'SpecOpen_' + recordId).show();
+        $('#' + this.model.containerId + 'Spec_' + recordId).hide();
+        $('#' + this.model.containerId + 'SpecClose_' + recordId).hide();
     }
 };

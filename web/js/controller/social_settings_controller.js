@@ -44,7 +44,7 @@ var social_settings_controller = {
                     for (var i = 0; i < friends.length; i++) {
                         $('#' + friends[i].id + '_showFriendDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                         $('#' + friends[i].id + '_removeFriend').click(function () {
                             self.removeFriend($(this)[0].id);
@@ -64,7 +64,7 @@ var social_settings_controller = {
                     for (i = 0; i < toRequests.length; i++) {
                         $('#' + toRequests[i].from.id + '_showFromDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                         $('#' + toRequests[i].id + '_acceptRequest').click(function () {
                             self.acceptFriendRequest($(this)[0].id);
@@ -86,7 +86,7 @@ var social_settings_controller = {
                     for (i = 0; i < fromRequests.length; i++) {
                         $('#' + fromRequests[i].to.id + '_showToDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                         $('#' + fromRequests[i].id + '_removeFromRequest').click(function () {
                             self.removeFriendRequest($(this)[0].id);
@@ -254,12 +254,6 @@ var social_settings_controller = {
                     }
                 });
         });
-        $('#showDiverClose').click(function () {
-            $('#showDiver').hide();
-        });
-        $('#showDiverOk').click(function () {
-            $('#showDiver').hide();
-        });
         $('#showLogbookEntryClose').click(function () {
             $('#showLogbookEntry').hide();
         });
@@ -404,26 +398,6 @@ var social_settings_controller = {
         $('#findDiver_error_name').empty();
     },
 
-    showDiver: function (elemId) {
-        var diverId = elemId.split('_')[0];
-        social_model.getDiver(
-            diverId
-            , function (json) {
-                $('#showDiverContent').html(
-                    new EJS({url: '/js/templates/diverDialog.ejs'}).render({"diver": json})
-                );
-                $('#showDiver').show();
-            }
-            , function (json) {
-                if (json && json.hasOwnProperty("message")) {
-                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                }
-                else {
-                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                }
-            });
-    },
-
     showLogbookEntry: function (elemId) {
         var self = this;
         var logbookEntryId = elemId.split('_')[0];
@@ -436,19 +410,19 @@ var social_settings_controller = {
                 );
                 $('#' + record.diver.id + '_logbookRecordDialog_showDiver').click(function (e) {
                     e.preventDefault();
-                    self.showDiver($(this)[0].id);
+                    util_controller.showDiver($(this)[0].id);
                 });
                 if (record.instructor) {
                     $('#' + record.instructor.id + '_logbookRecordDialog_showDiver').click(function (e) {
                         e.preventDefault();
-                        self.showDiver($(this)[0].id);
+                        util_controller.showDiver($(this)[0].id);
                     });
                 }
                 if (record.buddies) {
                     for (var i = 0; i < record.buddies.length; i++) {
                         $('#' + record.buddies[i].id + '_logbookRecordDialog_showDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                     }
                 }

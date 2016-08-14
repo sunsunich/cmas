@@ -138,12 +138,6 @@ var logbook_record_controller = {
         $('#friendRemoveOk').click(function () {
 
         });
-        $('#showDiverClose').click(function () {
-            $('#showDiver').hide();
-        });
-        $('#showDiverOk').click(function () {
-            $('#showDiver').hide();
-        });
         this.restoreDiveScore();
         this.setBuddies();
         this.setInstructor();
@@ -204,7 +198,7 @@ var logbook_record_controller = {
                     for (var i = 0; i < json.length; i++) {
                         $('#' + json[i].id + '_showDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                         $('#' + json[i].id + '_removeBuddie').click(function () {
                             self.removeBuddie($(this)[0].id);
@@ -240,7 +234,7 @@ var logbook_record_controller = {
                     for (var i = 0; i < json.length; i++) {
                         $('#' + json[i].id + '_showDiver').click(function (e) {
                             e.preventDefault();
-                            self.showDiver($(this)[0].id);
+                            util_controller.showDiver($(this)[0].id);
                         });
                         $('#' + json[i].id + '_removeBuddie').click(function () {
                             self.removeBuddie($(this)[0].id);
@@ -471,26 +465,6 @@ var logbook_record_controller = {
         $('#findDiver_error_federationCountry').empty();
         $('#findDiver_error_federationCardNumber').empty();
         $('#findDiver_error_cmasCardNumber').empty();
-    },
-
-    showDiver: function (elemId) {
-        var diverId = elemId.split('_')[0];
-        social_model.getDiver(
-            diverId
-            , function (json) {
-                $('#showDiverContent').html(
-                    new EJS({url: '/js/templates/diverDialog.ejs'}).render({"diver": json})
-                );
-                $('#showDiver').show();
-            }
-            , function (json) {
-                if (json && json.hasOwnProperty("message")) {
-                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                }
-                else {
-                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                }
-            });
     },
 
     showFoundDivers: function (divers) {

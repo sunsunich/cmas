@@ -23,6 +23,8 @@ var labels = {
     "cmas.face.feed.edit": "Edit",
     "cmas.face.feed.more": "More",
     "cmas.face.feed.less": "Less",
+    "cmas.face.feed.spec": "Specifications",
+    "cmas.face.feed.close": "Close",
     "cmas.face.feed.depth": "Depth",
     "cmas.face.feed.meters": "meters",
     "cmas.face.feed.duration": "Duration",

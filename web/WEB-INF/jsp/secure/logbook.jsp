@@ -7,7 +7,7 @@
 
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/logbook_feed_model.js,js/controller/logbook_feed_controller.js,js/controller/logbook_controller.js"
+               customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_controller.js"
         >
 
     <div class="content" id="mainContent">
@@ -33,6 +33,11 @@
                title="cmas.face.logbook.delete.title"
                buttonText="cmas.face.logbook.delete.ok">
         <div class="dialog-form-row"><s:message code="cmas.face.logbook.delete.question"/></div>
+    </my:dialog>
+
+    <my:dialog id="showDiver"
+               title="cmas.face.showDiver.title"
+               buttonText="cmas.face.showDiver.submitText">
     </my:dialog>
 
 </my:securepage>

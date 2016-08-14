@@ -1,6 +1,7 @@
 var logbook_feed_model = {
 
     isMyRecords: false,
+    isShowSpec: true,
     containerId: "",
     url: "",
     latestDate: "",
@@ -46,7 +47,12 @@ var logbook_feed_model = {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {
                     self.setState(json);
-                    successHandler({records: json, isMyRecords: self.isMyRecords, containerId: self.containerId});
+                    successHandler({
+                        records: json,
+                        isMyRecords: self.isMyRecords,
+                        containerId: self.containerId,
+                        isShowSpec: self.isShowSpec
+                    });
                 } else {
                     errorHandler(json);
                 }
