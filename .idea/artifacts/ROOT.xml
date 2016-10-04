@@ -1,19 +1,19 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="ROOT">
+  <artifact type="war" build-on-make="true" name="ROOT">
     <output-path>$PROJECT_DIR$/out/artifacts/ROOT</output-path>
     <root id="archive" name="ROOT.war">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="Common" />
           <element id="module-output" name="EntitiesModel" />
-          <element id="module-output" name="сmas" />
+          <element id="module-output" name="cmasWeb" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="commonLib" />
           <element id="library" level="project" name="lib" />
+          <element id="library" level="project" name="commonLib" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="сmas/web/Web" />
+      <element id="javaee-facet-resources" facet="cmasWeb/web/Web" />
     </root>
   </artifact>
 </component>
