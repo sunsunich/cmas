@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.cocosw.undobar.UndoBarController;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.service.RegistrationService;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.ProgressTask;

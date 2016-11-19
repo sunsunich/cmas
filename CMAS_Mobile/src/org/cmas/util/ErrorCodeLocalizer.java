@@ -1,7 +1,7 @@
 package org.cmas.util;
 
 import android.content.Context;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.remote.ErrorCodes;
 
 public class ErrorCodeLocalizer {

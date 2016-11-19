@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1083044937933",
+    "firebase_url": "https://cmas-f4986.firebaseio.com",
+    "project_id": "cmas-f4986",
+    "storage_bucket": "cmas-f4986.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1083044937933:android:a66f53cee1fadde5",
+        "android_client_info": {
+          "package_name": "org.cmas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1083044937933-otahc02ce9n2l0aifhjrcjon9psa9gfh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIYd1tNR4o0EA8gfRt_gfIR0vQm-s3VpM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

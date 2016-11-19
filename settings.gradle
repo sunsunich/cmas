@@ -1,0 +1,2 @@
+include ':appcompat', ':UndoBar', ':SlidingMenu', ':Common', ':EntitiesModel', ':CMAS_Mobile', ':AppLauncher'
+// , ':WheelWidget' , ':google-play-services_lib'

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.util.android.FileUtils;
 
 import java.io.File;

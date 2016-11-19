@@ -10,8 +10,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import org.cmas.R;
 import org.cmas.entities.diver.Diver;
+import org.cmas.mobile.R;
 import org.cmas.util.BarcodeEncoder;
 
 /**

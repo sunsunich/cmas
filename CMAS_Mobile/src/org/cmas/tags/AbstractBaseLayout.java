@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import org.cmas.R;
+import org.cmas.mobile.R;
 
 public abstract class AbstractBaseLayout extends LinearLayout {
 

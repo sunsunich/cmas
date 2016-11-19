@@ -3,8 +3,8 @@ package org.cmas.activities.social;
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
-import org.cmas.R;
 import org.cmas.entities.User;
+import org.cmas.mobile.R;
 import org.cmas.util.android.BaseEfficientAdapter;
 
 import java.util.List;

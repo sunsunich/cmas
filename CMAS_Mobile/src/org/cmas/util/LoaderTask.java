@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-import org.cmas.R;
+import org.cmas.mobile.R;
 
 public class LoaderTask<T> extends AsyncTask<Integer, Integer, T> {
 

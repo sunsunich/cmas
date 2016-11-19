@@ -11,10 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import org.cmas.R;
 import org.cmas.activities.file.FileChooseActivity;
 import org.cmas.activities.file.Params;
 import org.cmas.dao.doc.DocFileDaoFileImpl;
+import org.cmas.mobile.R;
 
 import java.io.File;
 

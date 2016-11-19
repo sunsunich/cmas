@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import org.cmas.R;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.mobile.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,11 +6,11 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.cmas.R;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.fragments.BaseFragment;
 import org.cmas.fragments.EntityManagementAction;
 import org.cmas.json.logbook.LogbookEntryCreateReply;
+import org.cmas.mobile.R;
 import org.cmas.util.StringUtil;
 
 /**

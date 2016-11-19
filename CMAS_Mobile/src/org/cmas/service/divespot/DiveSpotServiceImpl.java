@@ -1,7 +1,6 @@
 package org.cmas.service.divespot;
 
 import android.content.Context;
-import com.google.android.gms.maps.model.LatLngBounds;
 import net.sqlcipher.database.SQLiteDatabase;
 import org.cmas.BaseBeanContainer;
 import org.cmas.Globals;
@@ -10,7 +9,7 @@ import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.divespot.DiveSpotDao;
 import org.cmas.entities.divespot.DiveSpot;
 
-import java.util.List;
+//import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * Created on Jan 06, 2016
@@ -26,16 +25,16 @@ public class DiveSpotServiceImpl implements DiveSpotService, InitializingBean{
         diveSpotDao = BaseBeanContainer.getInstance().getDiveSpotDao();
     }
 
-    @Override
-    public List<DiveSpot> getInMapBounds(Context context, LatLngBounds bounds) {
-        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
-        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
-        try {
-            return diveSpotDao.getInMapBounds(readableDatabase, bounds);
-        } finally {
-            readableDatabase.close();
-        }
-    }
+//    @Override
+//    public List<DiveSpot> getInMapBounds(Context context, LatLngBounds bounds) {
+//        DataBaseHolder dataBaseHolder = new DataBaseHolder(context);
+//        SQLiteDatabase readableDatabase = dataBaseHolder.getReadableDatabase(Globals.MOBILE_DB_PASS);
+//        try {
+//            return diveSpotDao.getInMapBounds(readableDatabase, bounds);
+//        } finally {
+//            readableDatabase.close();
+//        }
+//    }
 
     private static long id = 1L;
 

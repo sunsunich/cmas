@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.util.LoaderProgressTask;
 import org.cmas.util.ProgressTask;
 import org.cmas.util.StringUtil;

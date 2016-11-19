@@ -3,7 +3,7 @@ package org.cmas.service;
 import android.content.Context;
 import android.util.Log;
 import android.util.Pair;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.remote.ErrorCodes;
 
 public abstract class ReLoginAction<T> {

@@ -26,8 +26,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.cmas.R;
 import org.cmas.fragments.BaseResultViewFragment;
+import org.cmas.mobile.R;
 import org.cmas.util.AssetImagesAdapter;
 
 import java.io.IOException;

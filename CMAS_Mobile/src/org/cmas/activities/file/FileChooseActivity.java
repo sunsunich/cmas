@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.util.DialogUtils;
 
 import java.io.File;

@@ -2,9 +2,9 @@ package org.cmas.activities.divespot;
 
 import android.view.View;
 import android.widget.TextView;
-import org.cmas.R;
 import org.cmas.activities.SecureActivity;
 import org.cmas.entities.divespot.DiveSpot;
+import org.cmas.mobile.R;
 import org.cmas.util.android.BaseEfficientAdapter;
 
 import java.util.List;

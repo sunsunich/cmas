@@ -3,7 +3,7 @@ package org.cmas.fragments;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Pair;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.util.DialogUtils;
 import org.cmas.util.ErrorCodeLocalizer;
 import org.cmas.util.ProgressTask;

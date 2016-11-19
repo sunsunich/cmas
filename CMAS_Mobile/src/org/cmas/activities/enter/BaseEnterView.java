@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import org.cmas.R;
 import org.cmas.activities.BaseActivity;
+import org.cmas.mobile.R;
 
 import java.io.Serializable;
 import java.util.Collections;

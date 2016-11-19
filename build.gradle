@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.google.gms:google-services:3.0.0'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 24
+                buildToolsVersion "24.0.3"
+
+                defaultConfig {
+                    minSdkVersion 16
+                    targetSdkVersion 24
+                    versionCode 1
+                    versionName "1.0"
+                }
+
+                buildTypes {
+                    release {
+                        debuggable false
+                        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+                    }
+
+                    debug {
+                        debuggable true
+                    }
+
+                    lintOptions {
+                        abortOnError false
+                    }
+                }
+
+                sourceSets {
+                    main {
+                        java {
+                            srcDirs = ['src']
+                        }
+                        resources {
+                            srcDirs = ['src']
+                        }
+                        manifest.srcFile 'AndroidManifest.xml'
+                        aidl.srcDirs = ['src']
+                        renderscript.srcDirs = ['src']
+                        res.srcDirs = ['res']
+                        assets.srcDirs = ['assets']
+                    }
+
+                    instrumentTest.setRoot('test')
+                }
+            }
+        }
+    }
+}
+
+
+// Gradle wrapper task
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.1'
+}

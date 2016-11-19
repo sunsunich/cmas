@@ -11,7 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import org.cmas.BaseBeanContainer;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.service.NavigationService;
 import org.cmas.util.android.BundleUtil;
 import org.cmas.util.android.SecurePreferences;

@@ -138,6 +138,9 @@
 
     <bean id="captchaService" class="org.cmas.presentation.service.CaptchaServiceImpl"/>
 
+    <bean id="pushServerSettings" class="org.cmas.presentation.service.mobile.PushServerSettings">
+    </bean>
+
     <bean id="athleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
         <property name="entityClass" value="org.cmas.entities.sport.Athlete"/>
         <property name="entityDao" ref="athleteDao"/>

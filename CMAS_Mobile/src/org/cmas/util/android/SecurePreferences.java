@@ -24,7 +24,7 @@ import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
 import org.cmas.Globals;
-import org.cmas.R;
+import org.cmas.mobile.R;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

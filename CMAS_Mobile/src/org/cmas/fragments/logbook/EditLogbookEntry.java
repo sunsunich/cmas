@@ -5,10 +5,10 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import org.cmas.R;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.fragments.EntityManagementAction;
 import org.cmas.json.EntityEditReply;
+import org.cmas.mobile.R;
 
 /**
  * Created with IntelliJ IDEA.

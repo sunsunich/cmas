@@ -1,0 +1,19 @@
+apply plugin: 'com.android.application'
+
+android {
+
+}
+
+dependencies {
+//    compile project(":Common")
+//    compile project(":EntitiesModel")
+//    compile project(":appcompat")
+////    compile project(":google-play-services_lib")
+//    compile project(":UndoBar")
+//    compile project(":SlidingMenu")
+    compile project(":CMAS_Mobile")
+
+    sourceCompatibility = 1.7
+}
+
+apply plugin: 'com.google.gms.google-services'

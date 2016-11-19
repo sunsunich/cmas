@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import org.cmas.Globals;
-import org.cmas.R;
+import org.cmas.mobile.R;
 import org.cmas.util.StringUtil;
 
 public class EnterUsername extends BaseEnterView {

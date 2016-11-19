@@ -11,9 +11,9 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import org.cmas.BaseBeanContainer;
 import org.cmas.InitializingBean;
-import org.cmas.R;
 import org.cmas.SettingsService;
 import org.cmas.activities.AuthorizedHolder;
+import org.cmas.mobile.R;
 
 public class PushDispatcherServiceImpl implements PushDispatcherService, InitializingBean {
 

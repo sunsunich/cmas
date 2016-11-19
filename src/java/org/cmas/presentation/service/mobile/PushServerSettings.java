@@ -2,11 +2,19 @@ package org.cmas.presentation.service.mobile;
 
 import org.springframework.beans.factory.annotation.Required;
 
-public class PushServerSettings {
+public class PushServerSettings {//} implements InitializingBean{
 
     private String gcmKey;
     private String iosKeystorePath;
     private String iosKeystorePssword;
+
+//    @Override
+//    public void afterPropertiesSet() throws Exception {
+//        FirebaseOptions options = new FirebaseOptions.Builder()
+//                .setServiceAccount(getClass().getResourceAsStream("google-services.json"))
+//                .build();
+//        FirebaseApp.initializeApp(options);
+//    }
 
     public String getGcmKey() {
         return gcmKey;

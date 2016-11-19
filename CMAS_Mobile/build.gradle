@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+android {
+
+}
+
+dependencies {
+//    compile project(":Common")
+    compile fileTree(dir: new File(project(':Common').projectDir, 'lib'), include: ['*.jar'])
+    compile project(":EntitiesModel")
+    compile project(":SlidingMenu")
+//    compile project(":appcompat")
+//    compile fileTree(dir: new File(project(':appcompat').projectDir, 'libs'), include: ['*.jar'])
+    compile project(":UndoBar")
+    //compile project(":google-play-services_lib")
+   // compile files(new File(project(':google-play-services_lib').projectDir, 'libs/google-play-services-STRIPPED.jar'))
+    compile 'com.google.firebase:firebase-core:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    sourceCompatibility = 1.7
+}
+
+

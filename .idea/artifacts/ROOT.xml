@@ -11,6 +11,8 @@
         <element id="directory" name="lib">
           <element id="library" level="project" name="lib" />
           <element id="library" level="project" name="commonLib" />
+          <element id="library" level="project" name="com.google.firebase:firebase-server-sdk:3.0.1" />
+          <element id="library" level="project" name="com.google.gcm:gcm-server:1.0.0" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="cmasWeb/web/Web" />

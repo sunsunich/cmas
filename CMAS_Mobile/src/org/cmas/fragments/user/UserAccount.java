@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.cmas.Globals;
-import org.cmas.R;
 import org.cmas.activities.SecureActivity;
 import org.cmas.entities.diver.Diver;
 import org.cmas.fragments.MenuFragment;
+import org.cmas.mobile.R;
 import org.cmas.service.DrawCardService;
 
 import java.text.MessageFormat;

@@ -8,8 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.view.ContextThemeWrapper;
-import org.cmas.R;
 import org.cmas.fragments.LoaderDialogFragment;
+import org.cmas.mobile.R;
 
 /**
  * User: ABadretdinov

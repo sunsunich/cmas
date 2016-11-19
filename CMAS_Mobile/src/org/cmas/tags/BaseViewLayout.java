@@ -2,7 +2,7 @@ package org.cmas.tags;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import org.cmas.R;
+import org.cmas.mobile.R;
 
 public class BaseViewLayout extends AbstractBaseLayout {
 

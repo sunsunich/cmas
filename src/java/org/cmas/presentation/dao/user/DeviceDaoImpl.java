@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.user;
 
 import org.cmas.entities.DeviceType;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.Device;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.hibernate.Criteria;
@@ -26,12 +26,12 @@ public class DeviceDaoImpl extends HibernateDaoImpl<Device> implements DeviceDao
     }
 
     @Override
-    public List<String> getPushRegIdByUserAndDeviceType(User user, DeviceType deviceType) {
+    public List<String> getPushRegIdByUserAndDeviceType(Diver diver, DeviceType deviceType) {
         Criteria crit = createCriteria();
         //todo modify
         //noinspection unchecked
         return (List<String>) crit.add(Restrictions.eq("deviceType", deviceType))
-                                  .add(Restrictions.eq("user", user))
+                                  .add(Restrictions.eq("diver", diver))
                                   .setProjection(Projections.groupProperty("pushServiceRegId"))
                             .setCacheable(true).list();
     }

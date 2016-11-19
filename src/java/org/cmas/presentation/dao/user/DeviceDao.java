@@ -1,7 +1,7 @@
 package org.cmas.presentation.dao.user;
 
 import org.cmas.entities.DeviceType;
-import org.cmas.entities.User;
+import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.Device;
 import org.cmas.util.dao.HibernateDao;
 
@@ -17,5 +17,5 @@ public interface DeviceDao extends HibernateDao<Device> {
 
     Device getByClientDeviceId(String clientDeviceId);
 
-    List<String> getPushRegIdByUserAndDeviceType(User user, DeviceType deviceType);
+    List<String> getPushRegIdByUserAndDeviceType(Diver diver, DeviceType deviceType);
 }

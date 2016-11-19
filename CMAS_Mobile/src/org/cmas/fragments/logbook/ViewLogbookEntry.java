@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import org.cmas.R;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.mobile.R;
 
 /**
  * Created with IntelliJ IDEA.
