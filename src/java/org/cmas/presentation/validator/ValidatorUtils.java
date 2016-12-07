@@ -36,6 +36,18 @@ public class ValidatorUtils {
                 );
     }
 
+    public static void validateDouble(Errors errors, final String value, String fieldName, String validaitionMessage) {
+        validateWithAction( errors
+                , new ValidationAction() {
+                    @Override
+                    public void doActionValidatingAction() throws Exception {
+                        Double.parseDouble(value);
+                    }
+                }
+                , value, fieldName, validaitionMessage
+        );
+    }
+
     public static void validateLong(Errors errors, final String value, String fieldName, String validaitionMessage) {
         validateWithAction( errors
                           , new ValidationAction() {

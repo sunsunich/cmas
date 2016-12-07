@@ -20,6 +20,9 @@ var error_codes = {
     "validation.diverTypeEmpty": "select diver type",
     "validation.searchNameTooShort": "please enter at least 3 letter of the name",
 
+    "validation.country": "invalid country",
+    "validation.toponym": "please enter a local hydronym, e.g. bay, strait or lake",
+
     "validation.noPersonInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.diverAlreadyRegistered": "You have already registered at Cmas Data",
     "validation.friendAlready": "You are already a friend to this person",
@@ -42,5 +45,6 @@ var error_codes = {
 
     "error.sending.registration.email": "Error while sending you email with your password. Please try again later.",
     "error.geolocation.service.failed": "Error: The Geolocation service failed",
-    "error.geolocation.support": "Error: Your browser doesn't support geolocation."
+    "error.geolocation.support": "Error: Your browser doesn't support geolocation.",
+    "error.spot.creation": "Error while adding the diving spot into the database. Please try again later"
 };

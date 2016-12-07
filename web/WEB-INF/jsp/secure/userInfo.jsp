@@ -112,12 +112,12 @@
                     </button>
                 </div>
 
-                <div class="panel-row">
-                    <input type="checkbox" id="addTeamToLogbook"
-                           <c:if test="${diver.addFriendsToLogbookEntries}">checked="checked"</c:if>
-                            />
-                    <span class="text"><s:message code="cmas.face.client.social.addToLogbook"/></span>
-                </div>
+                <%--<div class="panel-row">--%>
+                    <%--<input type="checkbox" id="addTeamToLogbook"--%>
+                           <%--<c:if test="${diver.addFriendsToLogbookEntries}">checked="checked"</c:if>--%>
+                            <%--/>--%>
+                    <%--<span class="text"><s:message code="cmas.face.client.social.addToLogbook"/></span>--%>
+                <%--</div>--%>
             </div>
 
             <div class="panel" style="display: none" id="fromRequestsPanel">

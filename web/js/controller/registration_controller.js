@@ -89,7 +89,7 @@ var registration_controller = {
     },
 
     hideRegistrationOk: function () {
-        $('#country').select2("val", "");
+        $('#country').val('').trigger("change");
         $('#firstNameField').val('');
         $('#lastNameField').val('');
         $('#dobField').val('');

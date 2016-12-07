@@ -43,13 +43,15 @@ public class Diver extends CardUser {
     private DiverType diverType;
 
     @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
-    private List<LogbookEntry> logbookEntries;
-
-    @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
     private List<PersonalCard> cards;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Diver instructor;
+
+    //social
+
+    @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
+    private List<LogbookEntry> logbookEntries;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "diver_friends",

@@ -70,6 +70,9 @@
 
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
+                <value>/secure/getSpotByCoords.html</value>
+                <value>/secure/createSpot.html</value>
+
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/createRecord.html</value>
                 <value>/secure/getRecord.html</value>

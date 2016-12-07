@@ -103,7 +103,7 @@ public class FederationAdminController {
             result.rejectValue("file", "validation.xlsFileFormat");
             return showIndexPage(command, fileBean);
         }
-        return showIndexPage(command, fileBean);
+        return new ModelAndView("redirect:/fed/index.html");
     }
 
 

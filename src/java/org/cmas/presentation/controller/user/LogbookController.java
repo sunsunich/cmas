@@ -12,7 +12,6 @@ import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.entities.user.BackendUser;
-import org.cmas.presentation.model.divespot.LatLngBounds;
 import org.cmas.presentation.model.logbook.LogbookEntryFormObject;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.AuthenticationService;
@@ -104,17 +103,6 @@ public class LogbookController {
             throw new BadRequestException();
         }
         return diver;
-    }
-
-    @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
-    public ModelAndView showSpotsPage() throws IOException {
-        ModelMap mm = new ModelMap();
-        return new ModelAndView("/secure/spots", mm);
-    }
-
-    @RequestMapping(value = "/secure/getSpots.html", method = RequestMethod.GET)
-    public View showSpots(@ModelAttribute("command") LatLngBounds bounds) throws IOException {
-        return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds));
     }
 
     @RequestMapping(value = "/secure/createLogbookRecordForm.html", method = RequestMethod.GET)

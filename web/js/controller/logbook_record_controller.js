@@ -449,9 +449,9 @@ var logbook_record_controller = {
             $('#findDiverTitle').html(labels["cmas.face.findDiver.form.page.title"]);
             $('#findDiverTypeChoose').show();
         }
-        $('#findDiverCountry').select2("val", '');
+        $('#findDiverCountry').val('').trigger("change");
         $('#findDiverName').val('');
-        $('#findDiverFederationCountry').select2("val", '');
+        $('#findDiverFederationCountry').val('').trigger("change");
         $('#findDiverFederationCardNumber').val('');
         $('#findDiverCmasCardNumber').val('');
         this.cleanFindDiverErrors();

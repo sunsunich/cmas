@@ -29,7 +29,10 @@
     </facet>
     <facet type="hibernate" name="Hibernate">
       <configuration>
-        <datasource-map />
+        <datasource-map>
+          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="sessionFactory" value="hibernateDataSource" />
+        </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/java/hibernate.cfg.xml" />
       </configuration>
@@ -44,7 +47,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/out" />
     </content>
-    <orderEntry type="jdk" jdkName="8" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="7" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="EntitiesModel" exported="" />
     <orderEntry type="library" exported="" name="lib" level="project" />
@@ -57,7 +60,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="com.google.firebase:firebase-server-sdk:3.0.1" level="project" />
-    <orderEntry type="library" name="com.google.gcm:gcm-server:1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-server-sdk:3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.google.gcm:gcm-server:1.0.0" level="project" />
   </component>
 </module>

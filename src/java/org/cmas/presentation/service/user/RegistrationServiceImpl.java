@@ -136,7 +136,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             String newPasswd = passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT);
             diver.setGeneratedPassword(generatedPassword);
             diver.setPassword(newPasswd);
-            diver.setLocale(formObject.getLocale());
+            if (diver.getLocale() == null) {
+                diver.setLocale(formObject.getLocale());
+            }
 
             diverDao.updateModel(diver);
 
@@ -155,13 +157,15 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void createDiverPrimaryCard(Diver diver) {
-        personalCardService.generatePrimaryCard(
-                diver, diverDao
-        );
+        if (diver.getPrimaryPersonalCard() == null) {
+            personalCardService.generatePrimaryCard(
+                    diver, diverDao
+            );
+        }
     }
 
     @Override
-    public boolean isFreeRegistration(Diver diver){
+    public boolean isFreeRegistration(Diver diver) {
         return diverDao.getFullyRegisteredDiverCnt() <= freeDiversRegistrationsAmount;
     }
 

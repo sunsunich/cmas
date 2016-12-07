@@ -3,6 +3,7 @@ package org.cmas.entities.divespot;
 import com.google.myjson.annotations.Expose;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
+import org.cmas.entities.Toponym;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,15 +23,43 @@ public class DiveSpot extends DictionaryEntity {
 
     @Expose
     @Column
-    private double longitude;
+    private double latitude;
 
     @Expose
     @Column
-    private double latitude;
+    private double longitude;
 
     @Expose
     @ManyToOne
     private Country country;
+
+    @Expose
+    @ManyToOne
+    private Toponym toponym;
+
+    @Expose
+    @Column
+    private boolean isApproved;
+
+    @Expose
+    @Column
+    private boolean isAutoGeoLocation;
+
+    public boolean isAutoGeoLocation() {
+        return isAutoGeoLocation;
+    }
+
+    public void setIsAutoGeoLocation(boolean isAutoGeoLocation) {
+        this.isAutoGeoLocation = isAutoGeoLocation;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setIsApproved(boolean isApproved) {
+        this.isApproved = isApproved;
+    }
 
     public double getLongitude() {
         return longitude;
@@ -54,5 +83,13 @@ public class DiveSpot extends DictionaryEntity {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public Toponym getToponym() {
+        return toponym;
+    }
+
+    public void setToponym(Toponym toponym) {
+        this.toponym = toponym;
     }
 }

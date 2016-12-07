@@ -31,7 +31,8 @@ var labels = {
     "cmas.face.feed.minutes": "minutes",
     "cmas.face.feed.buddies.label": "With",
     "cmas.face.feed.time.label": "Dive date",
-    "cmas.face.feed.createdBy": "Created by"
+    "cmas.face.feed.createdBy": "Created by",
 
-
+    "cmas.face.spots.choose": "Choose this spot",
+    "cmas.face.spots.edit": "Edit"
 };

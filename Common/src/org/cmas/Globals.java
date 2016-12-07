@@ -69,6 +69,9 @@ interface GlobalsStaticContainer {
     BigDecimal HUNDRED = new BigDecimal(100);
     BigDecimal HUNDRED_PERCENT = new BigDecimal(100);
 
+    double DIVE_SPOT_DELTA_DEGREES = 0.0005; //50 meters
+    double HALF_DIVE_SPOT_DELTA_DEGREES =DIVE_SPOT_DELTA_DEGREES / 2.0;
+
 }
 
 public final class Globals implements GlobalsStaticContainer {

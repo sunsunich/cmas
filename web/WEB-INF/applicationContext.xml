@@ -170,6 +170,9 @@
     <bean id="rusDiverXlsParser" class="org.cmas.backend.xls.RusDiverXlsParserImpl">
     </bean>
 
+    <bean id="singleTableDiverXlsParser" class="org.cmas.backend.xls.SingleTableDiverXlsParserImpl">
+    </bean>
+
     <bean id="registrationService" class="org.cmas.presentation.service.user.RegistrationServiceImpl">
     </bean>
 

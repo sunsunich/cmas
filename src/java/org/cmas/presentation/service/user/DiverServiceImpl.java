@@ -1,6 +1,8 @@
 package org.cmas.presentation.service.user;
 
+import org.apache.commons.lang.LocaleUtils;
 import org.cmas.backend.xls.DiverXlsParser;
+import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
@@ -11,7 +13,10 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -31,9 +36,18 @@ import java.util.Map;
  */
 public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverService {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PersonalCardService personalCardService;
+
     @Autowired
     @Qualifier("rusDiverXlsParser")
     private DiverXlsParser rusDiverXlsParser;
+
+    @Autowired
+    @Qualifier("singleTableDiverXlsParser")
+    private DiverXlsParser singleTableDiverXlsParser;
 
     @Autowired
     private DiverDao diverDao;
@@ -44,7 +58,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Override
     public List<PersonalCard> getCardsToShow(Diver diver) {
         List<PersonalCard> cards = diver.getCards();
-        if(cards == null || cards.isEmpty()){
+        if (cards == null || cards.isEmpty()) {
             return new ArrayList<>();
         }
         Map<PersonalCardType, PersonalCard> result
@@ -66,17 +80,25 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         return new ArrayList<>(result.values());
     }
 
-    @SuppressWarnings("CallToStringEqualsIgnoreCase")
+    @SuppressWarnings({"CallToStringEqualsIgnoreCase", "CallToStringEquals", "ObjectAllocationInLoop"})
     @Override
     public void uploadDivers(NationalFederation federation, InputStream file) throws Exception {
-        Collection<Diver> divers = null;
-        Locale locale = null;
-        if ("RUS".equalsIgnoreCase(federation.getCountry().getCode())) {
+        Collection<Diver> divers;
+        Country country = federation.getCountry();
+        String countryCode = country.getCode();
+        if ("RUS".equalsIgnoreCase(countryCode)) {
             divers = rusDiverXlsParser.getDivers(file);
-            locale = new Locale("ru");
+        } else {
+            divers = singleTableDiverXlsParser.getDivers(file);
         }
         if (divers == null) {
             throw new UnsupportedOperationException("Federation not supported");
+        }
+        Locale locale = null;
+        @SuppressWarnings("unchecked")
+        List<Locale> languages = LocaleUtils.languagesByCountry(LocaleMapping.getIso2CountryCode(countryCode));
+        if (!languages.isEmpty()) {
+            locale = languages.get(0);
         }
         for (Diver diver : divers) {
             String email = diver.getEmail();
@@ -86,7 +108,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 dbDiver = diverDao.createNew(Diver.class);
                 dbDiver.setLocale(locale);
                 dbDiver.setFederation(federation);
-                dbDiver.setCountry(federation.getCountry());
+                dbDiver.setCountry(country);
                 dbDiver.setRole(Role.ROLE_DIVER);
                 dbDiver.setEmail(email);
 
@@ -124,7 +146,12 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 diverDao.updateModel(dbDiver);
             }
             for (PersonalCard card : diver.getCards()) {
-                PersonalCard dbCard = personalCardDao.getByNumber(card.getNumber());
+                String cardNumber = card.getNumber();
+                PersonalCard dbCard = null;
+                //todo remove support for editing cards
+                if (!StringUtil.isTrimmedEmpty(cardNumber)) {
+                    dbCard = personalCardDao.getByNumber(cardNumber);
+                }
                 boolean isNewCard = dbCard == null;
                 if (isNewCard) {
                     dbCard = card;
@@ -141,6 +168,47 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                     personalCardDao.updateModel(dbCard);
                 }
             }
+
+            //hidden functionality creating or editing primary card number
+            PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
+            if (primaryPersonalCard != null) {
+                String newNumber = primaryPersonalCard.getNumber();
+                if (!StringUtil.isTrimmedEmpty(newNumber)) {
+                    PersonalCard checkingCard = personalCardDao.getByNumber(newNumber);
+                    if (checkingCard == null) {
+                        // no such number found in DB
+                        PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
+                        boolean isNewCard = dbCard == null;
+                        if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
+                            //number change or new number detected
+                            try {
+                                if (isNewCard) {
+                                    dbCard = primaryPersonalCard;
+                                    dbCard.setCardType(PersonalCardType.PRIMARY);
+                                    dbCard.setDiverLevel(dbDiver.getDiverLevel());
+                                    dbCard.setDiverType(dbDiver.getDiverType());
+                                    primaryPersonalCard.setDiver(dbDiver);
+                                    personalCardDao.save(dbCard);
+                                    dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
+                                    diverDao.updateModel(dbDiver);
+                                } else {
+                                    dbCard.setNumber(newNumber);
+                                    personalCardDao.updateModel(dbCard);
+                                }
+
+                                personalCardService.generateAndSaveCardImage(dbCard.getId());
+                                if (dbDiver.getDateReg() == null) {
+                                    dbDiver.setDateReg(new Date());
+                                    diverDao.updateModel(dbDiver);
+                                }
+                            } catch (Exception e) {
+                                //number change or creation failed
+                                log.error(e.getMessage(), e);
+                            }
+                        }
+                    }
+                }
+            }
         }
         for (Diver diver : divers) {
             Diver dbDiver = diverDao.getByEmail(diver.getEmail());
@@ -154,7 +222,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             if (dbDiver.getInstructor() == null && dbInstructor != null) {
                 dbDiver.setInstructor(dbInstructor);
             }
-            diverDao.save(dbDiver);
+            diverDao.updateModel(dbDiver);
         }
     }
 }

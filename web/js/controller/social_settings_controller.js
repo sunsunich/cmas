@@ -260,22 +260,22 @@ var social_settings_controller = {
         $('#showLogbookEntryOk').click(function () {
             $('#showLogbookEntry').hide();
         });
-        $('#addTeamToLogbook').click(function () {
-            var checked = $(this).prop("checked");
-            social_model.setAddTeamToLogbook(
-                checked,
-                function (/*json*/) {
-                },
-                function (json) {
-                    if (json && json.hasOwnProperty("message")) {
-                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                    }
-                    else {
-                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                    }
-                }
-            );
-        });
+        //$('#addTeamToLogbook').click(function () {
+        //    var checked = $(this).prop("checked");
+        //    social_model.setAddTeamToLogbook(
+        //        checked,
+        //        function (/*json*/) {
+        //        },
+        //        function (json) {
+        //            if (json && json.hasOwnProperty("message")) {
+        //                error_dialog_controller.showErrorDialog(error_codes[json.message]);
+        //            }
+        //            else {
+        //                error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+        //            }
+        //        }
+        //    );
+        //});
 
         $('#addLocationCountryToNewsFeed').click(function () {
             var checked = $(this).prop("checked");
@@ -386,7 +386,7 @@ var social_settings_controller = {
 
     cleanFindDiverForm: function () {
         $("input[name=findDiverType]:checked").attr('checked', false);
-        $('#findDiverCountry').select2("val", '');
+        $('#findDiverCountry').val('').trigger("change");
         $('#findDiverName').val('');
         this.cleanFindDiverErrors();
     },

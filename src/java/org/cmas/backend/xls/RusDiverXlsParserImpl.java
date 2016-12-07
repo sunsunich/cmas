@@ -13,8 +13,6 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +27,7 @@ import java.util.Map;
  * @author Alexander Petukhov
  */
 @SuppressWarnings("MagicCharacter")
-public class RusDiverXlsParserImpl implements DiverXlsParser {
+public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Override
     public Collection<Diver> getDivers(InputStream file) throws Exception {
@@ -77,11 +75,6 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
             }
             return divers.values();
         }
-    }
-
-    @Override
-    public Collection<Diver> getDivers(File file) throws Exception {
-        return getDivers(new FileInputStream(file));
     }
 
     @Nullable
@@ -140,100 +133,19 @@ public class RusDiverXlsParserImpl implements DiverXlsParser {
         } else {
             card.setDiverType(DiverType.DIVER);
         }
-        char lastChar = sheetName.charAt(sheetName.length() - 1);
-        switch (lastChar) {
-            case '1':
-                card.setDiverLevel(DiverLevel.ONE_STAR);
-                break;
-            case '2':
-                card.setDiverLevel(DiverLevel.TWO_STAR);
-                break;
-            case '3':
-                card.setDiverLevel(DiverLevel.THREE_STAR);
-                break;
+        try {
+            int lastChar = Integer.parseInt(sheetName.substring(sheetName.length() - 1));
+            setDiverLevelFromInt(card, lastChar);
+        } catch (Exception ignored) {
         }
+
         Cell sheetHeaderCell = sheet.getRow(0).getCell(0);
-        String header = StringUtil.correctSpaceCharAndTrim(sheetHeaderCell.getStringCellValue())
-                                  .toUpperCase(Locale.ENGLISH);
+        String header = StringUtil.correctSpaceCharAndTrim(sheetHeaderCell.getStringCellValue());
         if (!StringUtil.isTrimmedEmpty(header)) {
-            card.setFederationName(header);
-            if (header.contains("CHILDREN")) {
-                card.setCardType(PersonalCardType.CHILDREN_DIVING);
-            } else if (header.contains("ALTITUDE")) {
-                card.setCardType(PersonalCardType.ALTITUDE_DIVER);
-            } else if (header.contains("COMPRESSOR")) {
-                card.setCardType(PersonalCardType.COMPRESSOR_OPERATOR);
-            } else if (header.contains("DISABLED")) {
-                card.setCardType(PersonalCardType.DISABLED_DIVING);
-            } else if (header.contains("DRIFT")) {
-                card.setCardType(PersonalCardType.DRIFT_DIVING);
-            } else if (header.contains("GYMSWIMMING")) {
-                card.setCardType(PersonalCardType.GYMSWIMMING);
-            } else if (header.contains("HYDROBIKE")) {
-                card.setCardType(PersonalCardType.HYDROBIKE);
-            } else if (header.contains("INTRO")) {
-                card.setCardType(PersonalCardType.INTRO_TO_SCUBA);
-            } else if (header.contains("NAVIGATION")) {
-                card.setCardType(PersonalCardType.NAVIGATION);
-            } else if (header.contains("NIGHT")) {
-                card.setCardType(PersonalCardType.NIGHT);
-            } else if (header.contains("PHOTO")) {
-                card.setCardType(PersonalCardType.PHOTO);
-            } else if (header.contains("RESCUE") && header.contains("SELF")) {
-                card.setCardType(PersonalCardType.SELF_RESCUE);
-            } else if (header.contains("RESCUE")) {
-                card.setCardType(PersonalCardType.RESCUE);
-            } else if (header.contains("SCOOTER")) {
-                card.setCardType(PersonalCardType.SCOOTER);
-            } else if (header.contains("SKILLS")) {
-                card.setCardType(PersonalCardType.SKILLS);
-            } else if (header.contains("SNORKEL")) {
-                card.setCardType(PersonalCardType.SNORKEL);
-            } else if (header.contains("WRECK")) {
-                card.setCardType(PersonalCardType.WRECK);
-            } else if (header.contains("SCIENTIFIC")) {
-                card.setCardType(PersonalCardType.SCIENTIFIC);
-            } else if (header.contains("ARCHAEOLOGY")) {
-                card.setCardType(PersonalCardType.UNDERWATER_ARCHAEOLOGY);
-            } else if (header.contains("GEOLOGY")) {
-                card.setCardType(PersonalCardType.UNDERWATER_GEOLOGY);
-            } else if (header.contains("BIOLOGY") && header.contains("FRESHWATER")) {
-                card.setCardType(PersonalCardType.FRESHWATER_BIOLOGY);
-            } else if (header.contains("BIOLOGY") && header.contains("MARINE")) {
-                card.setCardType(PersonalCardType.MARINE_BIOLOGY);
-            } else if (header.contains("OCEAN") && header.contains("DISCOVERY")) {
-                card.setCardType(PersonalCardType.OCEAN_DISCOVERY);
-            } else if (header.contains("HERITAGE") && header.contains("DISCOVERY")) {
-                card.setCardType(PersonalCardType.HERITAGE_DISCOVERY);
-            } else if (header.contains("REBREATHER")) {
-                card.setCardType(PersonalCardType.REBREATHER);
-            } else if (header.contains("OXYGEN")) {
-                card.setCardType(PersonalCardType.OXYGEN_ADMINISTATOR);
-            } else if (header.contains("TRIMIX") && header.contains("GASBLENDER")) {
-                card.setCardType(PersonalCardType.TRIMIX_GASBLENDER);
-            } else if (header.contains("TRIMIX")) {
-                card.setCardType(PersonalCardType.TRIMIX);
-            } else if (header.contains("NITROX") && header.contains("GASBLENDER")) {
-                card.setCardType(PersonalCardType.NITROX_GASBLENDER);
-            } else if (header.contains("NITROX")) {
-                card.setCardType(PersonalCardType.NITROX);
-            } else if (header.contains("ICE")) {
-                card.setCardType(PersonalCardType.ICE_DIVING);
-            } else if (header.contains("DRY")) {
-                card.setCardType(PersonalCardType.DRY_SUIT);
-            } else if (header.contains("SIDE")) {
-                card.setCardType(PersonalCardType.SIDE_MOUNT);
-            } else if (header.contains("CAVE")) {
-                card.setCardType(PersonalCardType.CAVE);
-            } else if (header.contains("RANGE")) {
-                card.setCardType(PersonalCardType.EXTENDED_RANGE);
-            } else if (header.contains("APNOEA")) {
-                card.setCardType(PersonalCardType.APNOEA);
-            }
+            card.setFederationName(header.toUpperCase(Locale.ENGLISH));
         }
-        if (card.getCardType() == null) {
-            card.setCardType(PersonalCardType.NATIONAL);
-        }
+        setCardTypeFromStr(card, header);
+
         return card;
     }
 }

@@ -48,5 +48,11 @@ public abstract class CardUser extends User {
         this.federation = federation;
     }
 
-
+    @Override
+    public String toString() {
+        return "CardUser{" +
+               "primaryPersonalCard=" + primaryPersonalCard +
+               ", federation=" + federation +
+               "} " + super.toString();
+    }
 }

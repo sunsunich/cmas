@@ -24,7 +24,7 @@ var country_controller = {
         }
 
         $("#" + this.inputId).select2(options);
-        $("#" + this.inputId).select2("val", this.defaultValue);
+        $("#" + this.inputId).val(this.defaultValue).trigger("change");
     },
 
     formatCountry: function (state) {

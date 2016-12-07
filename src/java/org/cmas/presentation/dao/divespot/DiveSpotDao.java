@@ -14,5 +14,5 @@ import java.util.List;
  */
 public interface DiveSpotDao extends HibernateDao<DiveSpot> {
 
-    List<DiveSpot> getInMapBounds(LatLngBounds bounds);
+    List<DiveSpot> getInMapBounds(LatLngBounds bounds, Boolean isApproved);
 }
