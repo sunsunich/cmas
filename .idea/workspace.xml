@@ -986,7 +986,7 @@
       <workItem from="1481299789621" duration="317000" />
       <workItem from="1481300140413" duration="2193000" />
       <workItem from="1481305593282" duration="1197000" />
-      <workItem from="1481307483807" duration="441000" />
+      <workItem from="1481307483807" duration="469000" />
     </task>
     <task id="LOCAL-00001" summary="correct sql file names">
       <created>1475613529884</created>
@@ -1036,11 +1036,17 @@
       <option name="project" value="LOCAL" />
       <updated>1481307749898</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="removing always changing file">
+      <created>1481307937785</created>
+      <option name="number" value="00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1481307937785</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="154784000" />
+    <option name="totallyTimeSpent" value="154812000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="852" extended-state="0" />
