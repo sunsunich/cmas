@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActionBarActivity;
+import org.cmas.mobile.R;
 import org.cmas.activities.SecureActivity;
 import org.cmas.entities.diver.Diver;
 import org.cmas.fragments.settings.SettingsList;
-import org.cmas.mobile.R;
 
 /**
  * User: ABadretdinov

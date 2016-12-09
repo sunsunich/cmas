@@ -16,9 +16,11 @@ dependencies {
    // compile files(new File(project(':google-play-services_lib').projectDir, 'libs/google-play-services-STRIPPED.jar'))
     compile 'com.google.firebase:firebase-core:9.6.1'
     compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.android.gms:play-services-maps:9.6.1'
+    compile 'com.google.android.gms:play-services-location:9.6.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    sourceCompatibility = 1.7
+   sourceCompatibility = 1.7
 }
 
 

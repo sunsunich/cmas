@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.cmas"
-          android:versionCode="12"
-          android:versionName="0.119316"
           android:installLocation="preferExternal"
         >
-
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="23"/>
 
     <permission android:name="org.cmas.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
     <uses-permission android:name="org.cmas.permission.C2D_MESSAGE"/>
@@ -55,9 +51,9 @@
                 <!--android:name="com.google.android.maps.v2.API_KEY"-->
                 <!--android:value="@string/debug_key"/>-->
 
-        <!--<meta-data-->
-                <!--android:name="com.google.android.maps.v2.API_KEY"-->
-                <!--android:value="AIzaSyDNgjHkhbIz4ME8QQVA7dM6ZXACLQgI_kE"/>-->
+        <meta-data
+                android:name="com.google.android.maps.v2.API_KEY"
+                android:value="AIzaSyDNgjHkhbIz4ME8QQVA7dM6ZXACLQgI_kE"/>
         <!--<meta-data-->
             <!--android:name="com.google.android.gms.version"-->
             <!--android:value="@integer/google_play_services_version" />-->
@@ -71,7 +67,19 @@
             <!--</intent-filter>-->
         <!--</receiver>-->
 
-        <!--<service android:name=".GCMIntentService"/>-->
+        <!--<service android:name=".PushMessagingService"/>-->
+        <service
+                android:name=".PushMessagingService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+                android:name=".PushInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
 
         <activity android:name="org.cmas.activities.LoaderActivity"
                   android:configChanges="keyboardHidden|screenSize|orientation"

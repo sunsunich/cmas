@@ -5,10 +5,10 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.cmas.BaseBeanContainer;
 import org.cmas.Globals;
 import org.cmas.InitializingBean;
+import org.cmas.mobile.R;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.UserDao;
 import org.cmas.entities.User;
-import org.cmas.mobile.R;
 import org.cmas.util.StringUtil;
 
 public class CodeServiceImpl implements CodeService, InitializingBean {

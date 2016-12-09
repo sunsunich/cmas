@@ -3,15 +3,19 @@ package org.cmas.activities.enter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import org.cmas.Globals;
 import org.cmas.mobile.R;
 import org.cmas.util.StringUtil;
 
 public class EnterUsername extends BaseEnterView {
 
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     public EnterUsername() {
         super(true);
@@ -21,7 +25,9 @@ public class EnterUsername extends BaseEnterView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-		getSupportActionBar().hide();
+        checkCompatibility();
+
+        getSupportActionBar().hide();
 		setContentView(R.layout.enter_username);
         Button enterButton = (Button) findViewById(R.id.bnt_enter);
         enterButton.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +46,25 @@ public class EnterUsername extends BaseEnterView {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+    }
+
+    private void checkCompatibility(){
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                               .show();
+            } else {
+                Log.i(getClass().getName(), "This device is not supported.");
+                finish();
+            }
+        }
     }
 
     @Override

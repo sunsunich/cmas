@@ -30,6 +30,7 @@ public class SimpleHttpClient {
 
     public static final char COOKIE_NAME_VAL_SEPARATOR = '=';
     public static final char COOKIE_ATTR_SEPARATOR = ';';
+    private static final int TIME_OUT = 1000;
 
     private SimpleHttpClient() {
     }
@@ -135,7 +136,9 @@ public class SimpleHttpClient {
                 urlConnection.setChunkedStreamingMode(0);
                 writeStream(urlConnection.getOutputStream(), bodyBuilder.toString(), encoding);
             }
-
+            urlConnection.setReadTimeout(TIME_OUT);
+            urlConnection.setConnectTimeout(TIME_OUT);
+            
             urlConnection.connect();
 
             String responseBody  = readStream(urlConnection.getInputStream(), encoding);

@@ -9,4 +9,6 @@ public interface PushDispatcherService {
     Intent handlePush(Activity activity, Intent intent);
 
     void generateNotification(Context context, Intent intent);
+
+    void generateNotification(Context context, PushData pushData);
 }

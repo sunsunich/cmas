@@ -26,7 +26,7 @@ public class Dispatcher extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        registerReceiver( mHandleMessageReceiver
-//                        , new IntentFilter(GCMIntentService.PUSH_MESSAGE_ACTION)
+//                        , new IntentFilter(PushMessagingService.PUSH_MESSAGE_ACTION)
 //        );
 
         dispatchToStoredStateIntent();

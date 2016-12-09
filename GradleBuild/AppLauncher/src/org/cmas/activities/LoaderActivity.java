@@ -1,18 +1,18 @@
 package org.cmas.activities;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import org.cmas.AppLoader;
 import org.cmas.R;
 import org.cmas.activities.settings.CodeEnter;
 import org.cmas.util.LoaderProgressTask;
 import org.cmas.util.ProgressTask;
-
-//import com.google.android.gms.common.ConnectionResult;
-//import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class LoaderActivity extends Activity {
     public static final int PLAY_SERVICES =1;
@@ -22,18 +22,18 @@ public class LoaderActivity extends Activity {
         setContentView(R.layout.loading_screen);
         progress= (ProgressBar) findViewById(R.id.progress);
         progressStatus= (TextView) findViewById(R.id.progress_status);
-//        int code = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-//        if (code == ConnectionResult.SUCCESS) {
+        int code = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (code == ConnectionResult.SUCCESS) {
             startLoaderTask();
-//        } else {
-//            GooglePlayServicesUtil.getErrorDialog(code, this, PLAY_SERVICES, new DialogInterface.OnCancelListener() {
-//                @Override
-//                public void onCancel(DialogInterface dialog) {
-//                    dialog.dismiss();
-//                    finish();
-//                }
-//            });
-//        }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(code, this, PLAY_SERVICES, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        }
     }
 
     @Override

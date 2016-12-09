@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="commonLib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/GradleBuild/Common/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/Common/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/GradleBuild/Common/lib" recursive="false" />
+  </library>
+</component>

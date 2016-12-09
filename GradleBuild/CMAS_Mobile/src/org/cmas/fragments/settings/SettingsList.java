@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import com.cocosw.undobar.UndoBarController;
-import org.cmas.fragments.BaseResultViewFragment;
 import org.cmas.mobile.R;
+import org.cmas.fragments.BaseResultViewFragment;
 import org.cmas.service.RegistrationService;
 
 import java.util.ArrayList;

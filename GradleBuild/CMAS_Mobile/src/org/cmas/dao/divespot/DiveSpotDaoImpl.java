@@ -2,12 +2,15 @@ package org.cmas.dao.divespot;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import com.google.android.gms.maps.model.LatLngBounds;
+import net.sqlcipher.database.SQLiteDatabase;
 import org.cmas.InitializingBean;
 import org.cmas.dao.dictionary.DictionaryDataDaoImpl;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.util.StringUtil;
 
-//import com.google.android.gms.maps.model.LatLngBounds;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on Jan 06, 2016
@@ -78,29 +81,29 @@ public class DiveSpotDaoImpl extends DictionaryDataDaoImpl<DiveSpot> implements 
         return values;
     }
 
-//    @Override
-//    public List<DiveSpot> getInMapBounds(SQLiteDatabase database, LatLngBounds bounds) {
-//        try (Cursor cursor = database.rawQuery(
-//                getByBoundsSql,
-//                new String[]{
-//                        String.valueOf(bounds.southwest.longitude),
-//                        String.valueOf(bounds.northeast.longitude),
-//                        String.valueOf(bounds.southwest.latitude),
-//                        String.valueOf(bounds.northeast.latitude)
-//                }
-//
-//        )) {
-//            List<DiveSpot> result = new ArrayList<>(cursor.getCount());
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    DiveSpot logbookEntry = cursorToEntity(cursor, 0);
-//                    result.add(logbookEntry);
-//                } while (cursor.moveToNext());
-//            }
-//
-//            return result;
-//        }
-//    }
+    @Override
+    public List<DiveSpot> getInMapBounds(SQLiteDatabase database, LatLngBounds bounds) {
+        try (Cursor cursor = database.rawQuery(
+                getByBoundsSql,
+                new String[]{
+                        String.valueOf(bounds.southwest.longitude),
+                        String.valueOf(bounds.northeast.longitude),
+                        String.valueOf(bounds.southwest.latitude),
+                        String.valueOf(bounds.northeast.latitude)
+                }
+
+        )) {
+            List<DiveSpot> result = new ArrayList<>(cursor.getCount());
+            if (cursor.moveToFirst()) {
+                do {
+                    DiveSpot logbookEntry = cursorToEntity(cursor, 0);
+                    result.add(logbookEntry);
+                } while (cursor.moveToNext());
+            }
+
+            return result;
+        }
+    }
 
     @Override
     protected DiveSpot constructEntity() {

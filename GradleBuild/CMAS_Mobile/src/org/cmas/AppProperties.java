@@ -6,8 +6,6 @@ public class AppProperties {
 
     private final boolean isDebug;
 
-    private final String gcmSenderId;
-
     private final String serverHOST;
 
     private final String loginURL;
@@ -31,7 +29,6 @@ public class AppProperties {
     private final String deleteLogbookEntryURL;
 
     public AppProperties(Properties properties) {
-        gcmSenderId = properties.getProperty("cmas.gcm.senderId");
         isDebug = Boolean.parseBoolean(properties.getProperty("cmas.isDebug"));
         serverHOST = properties.getProperty("cmas.serverHOST");
         loginURL = properties.getProperty("cmas.loginURL");
@@ -77,10 +74,6 @@ public class AppProperties {
 
     public String getRegisterNewProfileURL() {
         return registerNewProfileURL;
-    }
-
-    public String getGcmSenderId() {
-        return gcmSenderId;
     }
 
     public boolean isDebug() {

@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import org.cmas.GCMIntentService;
+import org.cmas.PushMessagingService;
+import org.cmas.mobile.R;
 import org.cmas.activities.Dispatcher;
 import org.cmas.activities.SecureActivity;
 import org.cmas.entities.User;
-import org.cmas.mobile.R;
 import org.cmas.service.CodeService;
 import org.cmas.util.LoaderTask;
 import org.cmas.util.StringUtil;
@@ -75,7 +75,7 @@ public class CodeEnter extends SecureActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        user = (User) intent.getExtras().getSerializable(GCMIntentService.EGOSANUM_PUSH_PROFILE);
+        user = (User) intent.getExtras().getSerializable(PushMessagingService.CMAS_PUSH_USER);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CodeEnter extends SecureActivity {
         super.onStart();
         if (StringUtil.isTrimmedEmpty(currentUser.getMobileLockCode())) {
             Intent intent = new Intent(this, Dispatcher.class);
-            intent.putExtra(GCMIntentService.EGOSANUM_PUSH_PROFILE, user);
+            intent.putExtra(PushMessagingService.CMAS_PUSH_USER, user);
             startActivity(intent);
             finish();
         } else {
@@ -117,7 +117,7 @@ public class CodeEnter extends SecureActivity {
                     public void doAfterTask(String result) {
                         if (StringUtil.isTrimmedEmpty(result)) {
                             Intent intent = new Intent(activity, Dispatcher.class);
-                            intent.putExtra(GCMIntentService.EGOSANUM_PUSH_PROFILE, user);
+                            intent.putExtra(PushMessagingService.CMAS_PUSH_USER, user);
                             activity.startActivity(intent);
                             finish();
                         } else {

@@ -7,6 +7,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.cmas.BaseBeanContainer;
 import org.cmas.Globals;
 import org.cmas.InitializingBean;
+import org.cmas.mobile.R;
 import org.cmas.dao.DataBaseHolder;
 import org.cmas.dao.dictionary.CountryDao;
 import org.cmas.dao.dictionary.DictionaryDataDao;
@@ -14,7 +15,6 @@ import org.cmas.dao.divespot.DiveSpotDao;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.divespot.DiveSpot;
-import org.cmas.mobile.R;
 import org.cmas.remote.RemoteDictionaryService;
 import org.cmas.util.ProgressTask;
 

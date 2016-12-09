@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - cmas@localhost" uuid="568114ed-161f-4d2a-accb-d29db5f36d08">
+    <database-info product="MySQL" version="5.7.9" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="mixed" quoted-identifiers="upper"/>
+    <schema name="" catalog="cmas"/>
+    <table name="amateurs" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="dateReg" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="dob" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="enabled" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="firstName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="generatedPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastAction" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="lastName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="locale" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lostPasswdCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="md5newMail" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="mobileLockCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="newMail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="role" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userpic" sqlType="LONGBLOB" precision="2147483647" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="country_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userBalance_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK8E71A4D02381CEB5" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK8E71A4D0A8443735" columns="userBalance_id" ref-table="user_balances" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKB06B1E56AD3D09AA" table="device" schema="" catalog="cmas" columns="amateur_id"/>
+      <exported-key name="FKCD236110AD3D09AA" table="fin_log" schema="" catalog="cmas" columns="amateur_id"/>
+      <exported-key name="FK74D6432DAD3D09AA" table="invoice" schema="" catalog="cmas" columns="amateur_id"/>
+      <exported-key name="FKA5908C74AD3D09AA" table="mass_event_requests" schema="" catalog="cmas" columns="amateur_id"/>
+      <exported-key name="FKDF41280DAD3D09AA" table="user_events" schema="" catalog="cmas" columns="amateur_id"/>
+      <index name="email" unique="true" columns="email"/>
+      <index name="FK8E71A4D02381CEB5" unique="false" columns="country_id"/>
+      <index name="FK8E71A4D0A8443735" unique="false" columns="userBalance_id"/>
+    </table>
+    <table name="athletes" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="dateReg" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="dob" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="enabled" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="firstName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="generatedPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastAction" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="lastName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="locale" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lostPasswdCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="md5newMail" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="mobileLockCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="newMail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="role" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userpic" sqlType="LONGBLOB" precision="2147483647" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="country_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userBalance_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="federation_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="primaryPersonalCard_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKC3E6E942381CEB5" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKC3E6E943E01F78B" columns="federation_id" ref-table="national_federations" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKC3E6E94A8443735" columns="userBalance_id" ref-table="user_balances" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKC3E6E94CF26C1BD" columns="primaryPersonalCard_id" ref-table="personal_cards" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKB06B1E56A15F655B" table="device" schema="" catalog="cmas" columns="athlete_id"/>
+      <exported-key name="FKCD236110A15F655B" table="fin_log" schema="" catalog="cmas" columns="athlete_id"/>
+      <exported-key name="FK74D6432DA15F655B" table="invoice" schema="" catalog="cmas" columns="athlete_id"/>
+      <exported-key name="FK3101C0A4A15F655B" table="personal_cards" schema="" catalog="cmas" columns="athlete_id"/>
+      <exported-key name="FKDF41280DA15F655B" table="user_events" schema="" catalog="cmas" columns="athlete_id"/>
+      <index name="email" unique="true" columns="email"/>
+      <index name="FKC3E6E942381CEB5" unique="false" columns="country_id"/>
+      <index name="FKC3E6E943E01F78B" unique="false" columns="federation_id"/>
+      <index name="FKC3E6E94A8443735" unique="false" columns="userBalance_id"/>
+      <index name="FKC3E6E94CF26C1BD" unique="false" columns="primaryPersonalCard_id"/>
+    </table>
+    <table name="countries" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="code" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK8E71A4D02381CEB5" table="amateurs" schema="" catalog="cmas" columns="country_id"/>
+      <exported-key name="FKC3E6E942381CEB5" table="athletes" schema="" catalog="cmas" columns="country_id"/>
+      <exported-key name="FK3ABB51A59D7C4ED7" table="countries_geo_locations" schema="" catalog="cmas" columns="countries_id"/>
+      <exported-key name="FKB0A132969D7C4ED7" table="countries_toponyms" schema="" catalog="cmas" columns="countries_id"/>
+      <exported-key name="FKA60751A62381CEB5" table="dive_spots" schema="" catalog="cmas" columns="country_id"/>
+      <exported-key name="FKB62939BFB0C6BB82" table="diver_new_from_countries" schema="" catalog="cmas" columns="countryId"/>
+      <exported-key name="FKB0A36F352381CEB5" table="divers" schema="" catalog="cmas" columns="country_id"/>
+      <exported-key name="FK759E462A4625BC54" table="divers_countries" schema="" catalog="cmas" columns="newsFromCountries_id"/>
+      <exported-key name="FKF05619259D7C4ED7" table="geo_locations_countries" schema="" catalog="cmas" columns="countries_id"/>
+      <exported-key name="FKEBEE7A832381CEB5" table="national_federations" schema="" catalog="cmas" columns="country_id"/>
+      <exported-key name="FK9C30DCE09D7C4ED7" table="toponyms_countries" schema="" catalog="cmas" columns="countries_id"/>
+    </table>
+    <table name="countries_geo_locations" schema="" catalog="cmas" type="TABLE">
+      <column name="countries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="geoLocations_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FK3ABB51A579B4FCCE" columns="geoLocations_id" ref-table="geo_locations" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK3ABB51A59D7C4ED7" columns="countries_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK3ABB51A579B4FCCE" unique="false" columns="geoLocations_id"/>
+      <index name="FK3ABB51A59D7C4ED7" unique="false" columns="countries_id"/>
+    </table>
+    <table name="countries_toponyms" schema="" catalog="cmas" type="TABLE">
+      <column name="countries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="toponyms_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FKB0A132969D7C4ED7" columns="countries_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB0A13296BED46132" columns="toponyms_id" ref-table="toponyms" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKB0A132969D7C4ED7" unique="false" columns="countries_id"/>
+      <index name="FKB0A13296BED46132" unique="false" columns="toponyms_id"/>
+    </table>
+    <table name="device" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="clientDeviceId" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="deviceType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="pushServiceRegId" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="amateur_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="athlete_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKB06B1E5689B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB06B1E56A15F655B" columns="athlete_id" ref-table="athletes" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB06B1E56AD3D09AA" columns="amateur_id" ref-table="amateurs" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="clientDeviceId" unique="true" columns="clientDeviceId"/>
+      <index name="FKB06B1E5689B6F45" unique="false" columns="diver_id"/>
+      <index name="FKB06B1E56A15F655B" unique="false" columns="athlete_id"/>
+      <index name="FKB06B1E56AD3D09AA" unique="false" columns="amateur_id"/>
+    </table>
+    <table name="dive_spots" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="latitude" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="longitude" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="country_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="isApproved" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="geoLocation_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="isAutoGeoLocation" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="toponym_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKA60751A62381CEB5" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKA60751A6306A175" columns="toponym_id" ref-table="toponyms" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKA60751A63F688755" columns="geoLocation_id" ref-table="geo_locations" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK61C24A7E1183B74D" table="logbook_entries" schema="" catalog="cmas" columns="diveSpot_id"/>
+      <index name="FKA60751A62381CEB5" unique="false" columns="country_id"/>
+      <index name="FKA60751A6306A175" unique="false" columns="toponym_id"/>
+      <index name="FKA60751A63F688755" unique="false" columns="geoLocation_id"/>
+    </table>
+    <table name="diver_friend_requests" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="from_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="to_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK7BEBE304CFAA7919" columns="from_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK7BEBE304F9ADC4A8" columns="to_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK7BEBE304CFAA7919" unique="false" columns="from_id"/>
+      <index name="FK7BEBE304F9ADC4A8" unique="false" columns="to_id"/>
+    </table>
+    <table name="diver_friends" schema="" catalog="cmas" type="TABLE">
+      <column name="diverId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="friendId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="friendId,diverId"/>
+      <foreign-key name="FKC4B3C35456E1ADE2" columns="diverId" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKC4B3C3549E451F82" columns="friendId" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKC4B3C35456E1ADE2" unique="false" columns="diverId"/>
+      <index name="FKC4B3C3549E451F82" unique="false" columns="friendId"/>
+    </table>
+    <table name="diver_new_from_countries" schema="" catalog="cmas" type="TABLE">
+      <column name="diverId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="countryId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="diverId,countryId"/>
+      <foreign-key name="FKB62939BF56E1ADE2" columns="diverId" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB62939BFB0C6BB82" columns="countryId" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKB62939BF56E1ADE2" unique="false" columns="diverId"/>
+      <index name="FKB62939BFB0C6BB82" unique="false" columns="countryId"/>
+    </table>
+    <table name="divers" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="dateReg" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="dob" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="enabled" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="firstName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="generatedPassword" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastAction" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="lastName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="locale" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="lostPasswdCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="md5newMail" sqlType="VARCHAR" precision="32" scale="0" nullable="true" jdbcType="12"/>
+      <column name="mobileLockCode" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="newMail" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="role" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="userpic" sqlType="LONGBLOB" precision="2147483647" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="diverLevel" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diverType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="hasPayed" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="country_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="userBalance_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="federation_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="primaryPersonalCard_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="instructor_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="defaultVisibility" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="isAddFriendsToLogbookEntries" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="isNewsFromCurrentLocation" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <column name="socialUpdatesVersion" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKB0A36F352381CEB5" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB0A36F353E01F78B" columns="federation_id" ref-table="national_federations" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB0A36F356ADCF746" columns="instructor_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB0A36F35A8443735" columns="userBalance_id" ref-table="user_balances" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKB0A36F35CF26C1BD" columns="primaryPersonalCard_id" ref-table="personal_cards" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKB06B1E5689B6F45" table="device" schema="" catalog="cmas" columns="diver_id"/>
+      <exported-key name="FK7BEBE304CFAA7919" table="diver_friend_requests" schema="" catalog="cmas" columns="from_id"/>
+      <exported-key name="FK7BEBE304F9ADC4A8" table="diver_friend_requests" schema="" catalog="cmas" columns="to_id"/>
+      <exported-key name="FKC4B3C35456E1ADE2" table="diver_friends" schema="" catalog="cmas" columns="diverId"/>
+      <exported-key name="FKC4B3C3549E451F82" table="diver_friends" schema="" catalog="cmas" columns="friendId"/>
+      <exported-key name="FKB62939BF56E1ADE2" table="diver_new_from_countries" schema="" catalog="cmas" columns="diverId"/>
+      <exported-key name="FKB0A36F356ADCF746" table="divers" schema="" catalog="cmas" columns="instructor_id"/>
+      <exported-key name="FK759E462A8E22F1AE" table="divers_countries" schema="" catalog="cmas" columns="divers_id"/>
+      <exported-key name="FK5823677F8A707B4E" table="divers_divers" schema="" catalog="cmas" columns="friends_id"/>
+      <exported-key name="FK5823677F8E22F1AE" table="divers_divers" schema="" catalog="cmas" columns="divers_id"/>
+      <exported-key name="FKCD23611089B6F45" table="fin_log" schema="" catalog="cmas" columns="diver_id"/>
+      <exported-key name="FK74D6432D89B6F45" table="invoice" schema="" catalog="cmas" columns="diver_id"/>
+      <exported-key name="FK60547182CFAA7919" table="logbook_buddie_requests" schema="" catalog="cmas" columns="from_id"/>
+      <exported-key name="FK60547182F9ADC4A8" table="logbook_buddie_requests" schema="" catalog="cmas" columns="to_id"/>
+      <exported-key name="FK61C24A7E6ADCF746" table="logbook_entries" schema="" catalog="cmas" columns="instructor_id"/>
+      <exported-key name="FK61C24A7E89B6F45" table="logbook_entries" schema="" catalog="cmas" columns="diver_id"/>
+      <exported-key name="FK9DDF8163151C49F" table="logbook_entries_divers" schema="" catalog="cmas" columns="buddies_id"/>
+      <exported-key name="FK3DC1228556E1ADE2" table="logbook_entry_buddies" schema="" catalog="cmas" columns="diverId"/>
+      <exported-key name="FK3101C0A489B6F45" table="personal_cards" schema="" catalog="cmas" columns="diver_id"/>
+      <exported-key name="FKDF41280D89B6F45" table="user_events" schema="" catalog="cmas" columns="diver_id"/>
+      <index name="email" unique="true" columns="email"/>
+      <index name="FKB0A36F352381CEB5" unique="false" columns="country_id"/>
+      <index name="FKB0A36F353E01F78B" unique="false" columns="federation_id"/>
+      <index name="FKB0A36F356ADCF746" unique="false" columns="instructor_id"/>
+      <index name="FKB0A36F35A8443735" unique="false" columns="userBalance_id"/>
+      <index name="FKB0A36F35CF26C1BD" unique="false" columns="primaryPersonalCard_id"/>
+    </table>
+    <table name="divers_countries" schema="" catalog="cmas" type="TABLE">
+      <column name="divers_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="newsFromCountries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FK759E462A4625BC54" columns="newsFromCountries_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK759E462A8E22F1AE" columns="divers_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK759E462A4625BC54" unique="false" columns="newsFromCountries_id"/>
+      <index name="FK759E462A8E22F1AE" unique="false" columns="divers_id"/>
+    </table>
+    <table name="divers_divers" schema="" catalog="cmas" type="TABLE">
+      <column name="divers_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="friends_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FK5823677F8A707B4E" columns="friends_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK5823677F8E22F1AE" columns="divers_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK5823677F8A707B4E" unique="false" columns="friends_id"/>
+      <index name="FK5823677F8E22F1AE" unique="false" columns="divers_id"/>
+    </table>
+    <table name="fin_log" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="amount" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ip" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="operationType" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="recordDate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="amateur_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="athlete_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKCD23611089B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKCD236110A15F655B" columns="athlete_id" ref-table="athletes" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKCD236110AD3D09AA" columns="amateur_id" ref-table="amateurs" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKCD23611089B6F45" unique="false" columns="diver_id"/>
+      <index name="FKCD236110A15F655B" unique="false" columns="athlete_id"/>
+      <index name="FKCD236110AD3D09AA" unique="false" columns="amateur_id"/>
+    </table>
+    <table name="fin_settings" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="commissionPercent" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="defaultDiscountPercent" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="orderLimitDollar" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="shippingFirstDollar" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="shippingRestDollar" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="geo_locations" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK3ABB51A579B4FCCE" table="countries_geo_locations" schema="" catalog="cmas" columns="geoLocations_id"/>
+      <exported-key name="FKA60751A63F688755" table="dive_spots" schema="" catalog="cmas" columns="geoLocation_id"/>
+      <exported-key name="FKF05619257227E52B" table="geo_locations_countries" schema="" catalog="cmas" columns="geo_locations_id"/>
+    </table>
+    <table name="geo_locations_countries" schema="" catalog="cmas" type="TABLE">
+      <column name="geo_locations_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="countries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FKF05619257227E52B" columns="geo_locations_id" ref-table="geo_locations" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKF05619259D7C4ED7" columns="countries_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKF05619257227E52B" unique="false" columns="geo_locations_id"/>
+      <index name="FKF05619259D7C4ED7" unique="false" columns="countries_id"/>
+    </table>
+    <table name="invoice" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="amount" sqlType="DECIMAL" precision="12" scale="2" nullable="false" jdbcType="3"/>
+      <column name="createDate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="deleted" sqlType="TINYINT" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="externalInvoiceNumber" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="invoiceStatus" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="invoiceType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="amateur_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="athlete_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="transactionDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK74D6432D89B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK74D6432DA15F655B" columns="athlete_id" ref-table="athletes" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK74D6432DAD3D09AA" columns="amateur_id" ref-table="amateurs" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK74D6432D89B6F45" unique="false" columns="diver_id"/>
+      <index name="FK74D6432DA15F655B" unique="false" columns="athlete_id"/>
+      <index name="FK74D6432DAD3D09AA" unique="false" columns="amateur_id"/>
+    </table>
+    <table name="logbook_buddie_requests" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="from_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="to_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="logbookEntry_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="toSign" sqlType="BIT" precision="1" scale="0" nullable="true" jdbcType="-7"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK60547182794946C0" columns="logbookEntry_id" ref-table="logbook_entries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK60547182CFAA7919" columns="from_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK60547182F9ADC4A8" columns="to_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK60547182794946C0" unique="false" columns="logbookEntry_id"/>
+      <index name="FK60547182CFAA7919" unique="false" columns="from_id"/>
+      <index name="FK60547182F9ADC4A8" unique="false" columns="to_id"/>
+    </table>
+    <table name="logbook_entries" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="dateCreation" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="dateEdit" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="depthMeters" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="digest" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="durationSeconds" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="note" sqlType="VARCHAR" precision="2048" scale="0" nullable="true" jdbcType="12"/>
+      <column name="score" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diveSpot_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="instructor_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="visibility" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diveDate" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="durationMinutes" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="photo" sqlType="LONGBLOB" precision="2147483647" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="updateVersion" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK61C24A7E1183B74D" columns="diveSpot_id" ref-table="dive_spots" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK61C24A7E6ADCF746" columns="instructor_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK61C24A7E89B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK60547182794946C0" table="logbook_buddie_requests" schema="" catalog="cmas" columns="logbookEntry_id"/>
+      <exported-key name="FK9DDF81612E01A07" table="logbook_entries_divers" schema="" catalog="cmas" columns="logbook_entries_id"/>
+      <exported-key name="FK3DC12285D02F73CB" table="logbook_entry_buddies" schema="" catalog="cmas" columns="logbookEntryId"/>
+      <index name="FK61C24A7E1183B74D" unique="false" columns="diveSpot_id"/>
+      <index name="FK61C24A7E6ADCF746" unique="false" columns="instructor_id"/>
+      <index name="FK61C24A7E89B6F45" unique="false" columns="diver_id"/>
+    </table>
+    <table name="logbook_entries_divers" schema="" catalog="cmas" type="TABLE">
+      <column name="logbook_entries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="buddies_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FK9DDF81612E01A07" columns="logbook_entries_id" ref-table="logbook_entries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK9DDF8163151C49F" columns="buddies_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK9DDF81612E01A07" unique="false" columns="logbook_entries_id"/>
+      <index name="FK9DDF8163151C49F" unique="false" columns="buddies_id"/>
+    </table>
+    <table name="logbook_entry_buddies" schema="" catalog="cmas" type="TABLE">
+      <column name="logbookEntryId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="diverId" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="logbookEntryId,diverId"/>
+      <foreign-key name="FK3DC1228556E1ADE2" columns="diverId" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK3DC12285D02F73CB" columns="logbookEntryId" ref-table="logbook_entries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK3DC1228556E1ADE2" unique="false" columns="diverId"/>
+      <index name="FK3DC12285D02F73CB" unique="false" columns="logbookEntryId"/>
+    </table>
+    <table name="mass_event_requests" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="massEventRequestStatus" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="amateur_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="massEvent_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKA5908C7435918EAA" columns="massEvent_id" ref-table="mass_events" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKA5908C74AD3D09AA" columns="amateur_id" ref-table="amateurs" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKA5908C7435918EAA" unique="false" columns="massEvent_id"/>
+      <index name="FKA5908C74AD3D09AA" unique="false" columns="amateur_id"/>
+    </table>
+    <table name="mass_events" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="date" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FKA5908C7435918EAA" table="mass_event_requests" schema="" catalog="cmas" columns="massEvent_id"/>
+    </table>
+    <table name="national_federations" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="country_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKEBEE7A832381CEB5" columns="country_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKC3E6E943E01F78B" table="athletes" schema="" catalog="cmas" columns="federation_id"/>
+      <exported-key name="FKB0A36F353E01F78B" table="divers" schema="" catalog="cmas" columns="federation_id"/>
+      <index name="FKEBEE7A832381CEB5" unique="false" columns="country_id"/>
+    </table>
+    <table name="personal_cards" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="cardType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diverLevel" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="diverType" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="federationName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="image" sqlType="LONGBLOB" precision="2147483647" scale="0" nullable="true" jdbcType="-4"/>
+      <column name="number" sqlType="VARCHAR" precision="128" scale="0" nullable="true" jdbcType="12"/>
+      <column name="athlete_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK3101C0A489B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK3101C0A4A15F655B" columns="athlete_id" ref-table="athletes" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FKC3E6E94CF26C1BD" table="athletes" schema="" catalog="cmas" columns="primaryPersonalCard_id"/>
+      <exported-key name="FKB0A36F35CF26C1BD" table="divers" schema="" catalog="cmas" columns="primaryPersonalCard_id"/>
+      <index name="FK3101C0A489B6F45" unique="false" columns="diver_id"/>
+      <index name="FK3101C0A4A15F655B" unique="false" columns="athlete_id"/>
+    </table>
+    <table name="registration" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="country" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="dateReg" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="dob" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="email" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="firstName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="lastName" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="locale" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="md5" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="password" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="role" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="toponyms" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="deleted" sqlType="BIT" precision="1" scale="0" nullable="false" jdbcType="-7"/>
+      <column name="name" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FKB0A13296BED46132" table="countries_toponyms" schema="" catalog="cmas" columns="toponyms_id"/>
+      <exported-key name="FKA60751A6306A175" table="dive_spots" schema="" catalog="cmas" columns="toponym_id"/>
+      <exported-key name="FK9C30DCE0BED46132" table="toponyms_countries" schema="" catalog="cmas" columns="toponyms_id"/>
+    </table>
+    <table name="toponyms_countries" schema="" catalog="cmas" type="TABLE">
+      <column name="toponyms_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <column name="countries_id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <foreign-key name="FK9C30DCE09D7C4ED7" columns="countries_id" ref-table="countries" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK9C30DCE0BED46132" columns="toponyms_id" ref-table="toponyms" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FK9C30DCE09D7C4ED7" unique="false" columns="countries_id"/>
+      <index name="FK9C30DCE0BED46132" unique="false" columns="toponyms_id"/>
+    </table>
+    <table name="transaction_settings" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="transactionNumber" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="euroCentFirstPayment" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="user_balances" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="balance" sqlType="DECIMAL" precision="19" scale="2" nullable="true" jdbcType="3"/>
+      <column name="discountPercent" sqlType="DECIMAL" precision="19" scale="2" nullable="true" jdbcType="3"/>
+      <column name="version" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK8E71A4D0A8443735" table="amateurs" schema="" catalog="cmas" columns="userBalance_id"/>
+      <exported-key name="FKC3E6E94A8443735" table="athletes" schema="" catalog="cmas" columns="userBalance_id"/>
+      <exported-key name="FKB0A36F35A8443735" table="divers" schema="" catalog="cmas" columns="userBalance_id"/>
+    </table>
+    <table name="user_events" schema="" catalog="cmas" type="TABLE">
+      <column name="id" sqlType="BIGINT" precision="19" scale="0" nullable="false" jdbcType="-5" autoIncrement="true"/>
+      <column name="description" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ip" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="recordDate" sqlType="DATETIME" precision="19" scale="0" nullable="false" jdbcType="93"/>
+      <column name="userEventType" sqlType="VARCHAR" precision="255" scale="0" nullable="false" jdbcType="12"/>
+      <column name="amateur_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="athlete_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <column name="diver_id" sqlType="BIGINT" precision="19" scale="0" nullable="true" jdbcType="-5"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FKDF41280D89B6F45" columns="diver_id" ref-table="divers" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKDF41280DA15F655B" columns="athlete_id" ref-table="athletes" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FKDF41280DAD3D09AA" columns="amateur_id" ref-table="amateurs" ref-schema="" ref-catalog="cmas" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="FKDF41280D89B6F45" unique="false" columns="diver_id"/>
+      <index name="FKDF41280DA15F655B" unique="false" columns="athlete_id"/>
+      <index name="FKDF41280DAD3D09AA" unique="false" columns="amateur_id"/>
+    </table>
+  </data-source>
+</component>

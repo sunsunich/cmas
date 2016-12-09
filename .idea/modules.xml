@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GradleBuild/Common/Common.iml" filepath="$PROJECT_DIR$/GradleBuild/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GradleBuild/EntitiesModel/EntitiesModel.iml" filepath="$PROJECT_DIR$/GradleBuild/EntitiesModel/EntitiesModel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CmasWeb/cmasWeb.iml" filepath="$PROJECT_DIR$/CmasWeb/cmasWeb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cmasWeb.iml" filepath="$PROJECT_DIR$/cmasWeb.iml" />
+    </modules>
+  </component>
+</project>

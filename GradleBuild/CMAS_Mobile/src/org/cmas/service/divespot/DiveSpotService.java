@@ -1,9 +1,10 @@
 package org.cmas.service.divespot;
 
 import android.content.Context;
+import com.google.android.gms.maps.model.LatLngBounds;
 import org.cmas.entities.divespot.DiveSpot;
 
-//import com.google.android.gms.maps.model.LatLngBounds;
+import java.util.List;
 
 /**
  * Created on Jan 06, 2016
@@ -16,5 +17,5 @@ public interface DiveSpotService {
 
     void deleteDiveSpot(Context context, DiveSpot diveSpot);
 
-//    List<DiveSpot> getInMapBounds(Context context, LatLngBounds bounds);
+    List<DiveSpot> getInMapBounds(Context context, LatLngBounds bounds);
 }

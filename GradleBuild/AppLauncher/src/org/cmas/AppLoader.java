@@ -86,22 +86,6 @@ public class AppLoader {
                     //TODO check internet connections
 
                     AppProperties appProperties = beanContainer.getAppProperties();
-                    if (appProperties.isDebug()) {
-//                        GCMRegistrar.checkDevice(activity);
-//                        GCMRegistrar.checkManifest(activity);
-                    }
-
-//                    String registrationId = GCMRegistrar.getRegistrationId(activity);
-//                    if (StringUtil.isTrimmedEmpty(registrationId)) {
-//                        GCMRegistrar.register(activity, appProperties.getGcmSenderId());
-//                    } else {
-//                        SettingsService settingsService=beanContainer.getSettingsService();
-//                        SharedPreferences sharedPreferences = new SecurePreferences(activity);
-//                        Settings settings = settingsService.getSettings(sharedPreferences);
-//                        settings.setGcmRegistrationId(registrationId);
-//                        settingsService.setSettings(sharedPreferences, settings);
-//                        Log.v(AppLoader.class.getName(), "Already registered");
-//                    }
                     isDynamicLoaded = true;
                     if(listener!=null){
                         listener.onPublishProgress(activity.getString(R.string.loading_libraries_complete),"5");
