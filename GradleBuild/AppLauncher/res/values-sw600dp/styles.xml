@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Light.CMAS" parent="Theme.AppCompat.Light">
+        <item name="actionBarSize">100dp</item>
+        <item name="actionBarStyle">@style/Light.CMAS.Styled</item>
+        <item name="android:actionBarSize">100dp</item>
+        <item name="android:actionBarStyle">@style/Light.CMAS.Styled</item>
+        <item name="android:buttonStyle">@style/CMAS.Button</item>
+        <item name="android:editTextStyle">@style/CMAS.EditText</item>
+        <item name="android:textAppearance">@style/Light.CMAS.TextAppearance</item>
+
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+
+
+        <item name="actionButtonStyle">@style/Light.CMAS.ActionButton</item>
+        <item name="android:actionButtonStyle">@style/Light.CMAS.ActionButton</item>
+    </style>
+    <!-- <style name="Light.CustomActionBar.ActionButton" parent="@style/Widget.AppCompat.Light.ActionButton">
+             <item name="android:minHeight">100dp</item>
+             <item name="android:minWidth">100dp</item>
+             <item name="android:gravity">center</item>
+             <item name="android:paddingLeft">30dip</item>
+             <item name="android:paddingRight">10dip</item>
+     </style>-->
+    <style name="Light.CMAS.Styled.TitleText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Light.CMAS.Styled.SubTitleText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+</resources>
