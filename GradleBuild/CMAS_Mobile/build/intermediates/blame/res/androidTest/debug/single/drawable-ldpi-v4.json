@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/drawable-ldpi-v4/icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/bundles/debug/res/drawable-ldpi-v4/icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/drawable-ldpi-v4/common_ic_googleplayservices.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-ldpi-v4/common_ic_googleplayservices.png"
+    }
+]

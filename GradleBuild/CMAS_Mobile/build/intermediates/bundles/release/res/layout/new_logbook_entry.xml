@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+        >
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_from_screen_borders"
+            android:layout_marginRight="@dimen/margin_from_screen_borders"
+            android:gravity="center_horizontal"
+            >
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/new_logbook_entry_title_caps"
+                style="@style/CMAS.Title"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                />
+
+        <EditText
+                android:id="@+id/entry_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:singleLine="true"
+                android:textStyle="normal"
+                android:hint="@string/doc_name"
+                />
+
+        <EditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:singleLine="false"
+                android:textStyle="normal"
+                android:hint="@string/description"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+            <ImageButton
+                    android:id="@+id/entry_set_date_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/calendar_icon"
+                    style="@style/CMAS.Button"
+                    android:background="@drawable/image_button_bkg"
+                    android:contentDescription="@string/calendar_icon"
+                    />
+
+            <EditText
+                    android:id="@+id/logbook_entry_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginLeft="@dimen/space_between_views"
+                    android:textStyle="normal"
+                    android:hint="@string/date"
+                    android:enabled="false"
+                    />
+        </LinearLayout>
+
+        <Spinner
+                android:id="@+id/new_doc_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:prompt="@string/dive_score"
+                />
+
+        <LinearLayout
+                android:id="@+id/type_hospitalization_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:visibility="gone"
+                >
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
+                <ImageButton
+                        android:id="@+id/date_hospitalization_from_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/calendar_icon"
+                        style="@style/CMAS.Button"
+                        android:background="@drawable/image_button_bkg"
+                        android:contentDescription="@string/calendar_icon"
+                        />
+
+                <EditText
+                        android:id="@+id/date_hospitalization_from"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/space_between_views"
+                        android:textStyle="normal"
+                        android:hint="@string/hospitalization_from"
+                        android:enabled="false"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/vertical_space_between_views"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    >
+
+                <ImageButton
+                        android:id="@+id/date_hospitalization_till_btn"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:src="@drawable/calendar_icon"
+                        style="@style/CMAS.Button"
+                        android:background="@drawable/image_button_bkg"
+                        android:contentDescription="@string/calendar_icon"
+                        />
+
+                <EditText
+                        android:id="@+id/date_hospitalization_till"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/space_between_views"
+                        android:textStyle="normal"
+                        android:hint="@string/hospitalization_till"
+                        android:enabled="false"
+                        />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/entry_added_files_holder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:orientation="vertical"
+                />
+
+        <Button
+                android:id="@+id/entry_add_file_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/doc_attach_file_title"
+                android:textColor="@color/turquoise"
+                style="@style/CMAS.Button.White"
+                android:drawableLeft="@drawable/plus"
+                android:drawablePadding="@dimen/margin_from_screen_borders"
+                />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/vertical_space_between_views"
+                android:layout_marginBottom="@dimen/vertical_space_between_views"
+                android:orientation="horizontal">
+            <Button
+                    android:id="@+id/cancel_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cancel"
+                    style="@style/CMAS.Button.Gray"/>
+            <Button
+                    android:id="@+id/save_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/space_between_views"
+                    android:text="@string/save_caps"
+                    android:textColor="@color/white"
+                    style="@style/CMAS.Button.Orange"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

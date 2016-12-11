@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center_horizontal"
+              android:background="@drawable/dialog_bkg">
+
+    <TextView
+            android:id="@+id/spot_edit_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_from_screen_borders"
+            android:layout_marginBottom="@dimen/margin_from_screen_borders"
+            style="@style/CMAS.Title"
+            android:text="@string/create_new_diving_spot"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_gray"/>
+
+    <EditText
+            android:id="@+id/spot_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="@dimen/margin_from_screen_borders"
+            android:layout_marginRight="@dimen/margin_from_screen_borders"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/space_between_views"
+
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textStyle="bold"
+            android:textColor="@color/turquoise"
+            android:textSize="16sp"
+            android:inputType="text"
+            android:hint="@string/dive_spot_name_hint"
+            />
+
+    <Button
+            android:id="@+id/bnt_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_spot"
+            android:layout_marginTop="10dip"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/margin_from_screen_borders"
+            android:layout_marginRight="@dimen/margin_from_screen_borders"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="@dimen/space_between_views">
+
+        <Button
+                android:id="@+id/delete"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                style="@style/CMAS.Button.Red"
+                android:text="@string/delete"/>
+
+        <Button
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_between_views"
+                style="@style/CMAS.Button.Orange"
+                android:text="@string/save_caps"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -10,7 +10,7 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="dob">Dob</string>
-    <string name="username">Email</string>
+    <string name="username">E-mail</string>
     <string name="password">Password</string>
     <string name="new_password">new password</string>
     <string name="repeat_password">Confirm Password</string>
@@ -29,8 +29,8 @@
     <string name="back_to_main">The main menu</string>
     <string name="forgot_password_main">Forgot your password?</string>
     <string name="expand">Expand</string>
-    <string name="login_enter">Login</string>
-    <string name="login_register">Register</string>
+    <string name="login_enter">ENTER</string>
+    <string name="login_register">REGISTER</string>
     <string name="caps_login_register">Sign in</string>
     <string name="do_register">Register</string>
     <string name="caps_do_register">Register</string>

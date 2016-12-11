@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.cmas.tags.BaseLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cl_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
+
+            <TextView
+                    android:id="@+id/error_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="40dip"
+
+                    style="@style/text"
+
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginRight="9dip"
+                    android:layout_marginTop="15dip"
+                    android:layout_marginLeft="15dip"
+                    android:textColor="#AA0000"
+                    android:text="@string/fatal_error"/>
+		    
+</org.cmas.tags.BaseLayout>

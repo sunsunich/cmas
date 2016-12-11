@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal"
+              android:gravity="center"
+              android:background="@color/white">
+    <TextView
+            android:id="@+id/access_userpic_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="0"
+            android:layout_marginLeft="20dp"
+            android:background="@color/green"/>
+    <TextView
+            android:id="@+id/access_title_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/numbers_for_test"
+            android:background="@android:color/transparent"/>
+    <Button
+            android:id="@+id/remove_access_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/cancel"/>
+</LinearLayout>
