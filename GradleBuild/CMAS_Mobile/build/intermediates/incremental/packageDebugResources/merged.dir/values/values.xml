@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="gender_names">
+        <item>Men</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="relationship_names">
+        <item/>
+        <item>Man</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Grandfather</item>
+        <item>Grandma</item>
+    </string-array>
+    <string-array name="settings_items">
+        <item>Screen Lock</item>
+        <item>Select language applications</item>
+        <item>Change password</item>
+        <item>Specify email</item>
+        <item>Reset</item>
+    </string-array>
     <attr name="direction">
         <enum name="rightToLeft" value="0"/>
         <enum name="bottomToTop" value="1"/>
@@ -168,6 +190,7 @@
     <string name="dynamic">Dynamic</string>
     <string name="edit">Edit</string>
     <string name="edit_diving_spot">Edit diving spot</string>
+    <string name="edit_profile_title">Edit profile</string>
     <string name="email">email</string>
     <string name="email_already_exists">This Email has already been set</string>
     <string name="email_error">invalid email</string>
@@ -179,11 +202,13 @@
     <string name="enter_new_profile">Enter the profile name</string>
     <string name="enter_oms_hint">Enter policy OMC</string>
     <string name="enter_user_name_hint">Enter the profile name</string>
+    <string name="entry_delete_question">"Are you sure you want to remove this record? "</string>
     <string name="error">Error</string>
     <string name="error_add_file_to_doc">error in the file attachment to the document</string>
     <string name="error_connecting_to_server">Error connecting to server</string>
     <string name="error_doc_name_empty">The document name can not be empty</string>
     <string name="error_doc_type_empty">Document Type is selected</string>
+    <string name="error_entry_name_empty">Empty document name</string>
     <string name="error_new_name_equals_old">The new name is the same as the old</string>
     <string name="error_no_app_to_open_file">The device is not installed to view this type of file
     </string>
@@ -205,6 +230,7 @@
     <string name="forgot_password_main">Forgot your password?</string>
     <string name="forward">Next</string>
     <string name="gallery">Gallery</string>
+    <string name="gender_title">Gender</string>
     <string name="hide">Hide</string>
     <string name="hospitalization_from">Home hospitalization</string>
     <string name="hospitalization_till">End of the admission</string>
@@ -225,9 +251,9 @@
     <string name="logbook">Logbook</string>
     <string name="logbook_entry_notes_hint">Notes</string>
     <string name="logbook_title">LOGBOOK</string>
-    <string name="login_enter">Login</string>
+    <string name="login_enter">ENTER</string>
     <string name="login_no_register">Without registration</string>
-    <string name="login_register">Register</string>
+    <string name="login_register">REGISTER</string>
     <string name="logout">Exit</string>
     <string name="longitude_label">Longitude:</string>
     <string name="menu">Menu</string>
@@ -267,6 +293,7 @@
     <string name="reg_username_text">To register, enter the username and enter the password twice</string>
     <string name="registration_attempt">Checking with National Federation</string>
     <string name="registration_success">Registration is successful</string>
+    <string name="relationship_title">The kind of relationship</string>
     <string name="release_key">AIzaSyCG-zflBvuu9dXCYZ7ZgOabTNXFO3kGkTw</string>
     <string name="rename">rename</string>
     <string name="rename_profile_title">Rename profile</string>
@@ -308,7 +335,7 @@
     <string name="user_is_already_the_owner">This user already has access to this profile</string>
     <string name="user_is_deleted">This user has been deleted</string>
     <string name="user_userpic_icon">Photos by</string>
-    <string name="username">Email</string>
+    <string name="username">E-mail</string>
     <string name="username_input_error">The user name must contain only Latin characters
                 digits, and underscores
     </string>
@@ -355,7 +382,7 @@
     </style>
     <style name="CMAS.CheckedTextView" parent="@android:style/Widget.TextView">
         <item name="android:checkMark">@drawable/radiobutton_selector</item>
-        <!--<item name="android:background">@drawable/white_item</item>-->
+        
     </style>
     <style name="CMAS.Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:textAppearance">@style/CMAS.TextAppearance</item>

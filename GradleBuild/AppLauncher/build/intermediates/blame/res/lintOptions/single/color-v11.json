@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    }
+]

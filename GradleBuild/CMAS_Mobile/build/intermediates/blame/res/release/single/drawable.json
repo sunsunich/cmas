@@ -1,11 +1,11 @@
 [
     {
-        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/main_menu_background.xml",
-        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable/main_menu_background.xml"
-    },
-    {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/abc_dialog_material_background.xml",
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable/abc_dialog_material_background.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/main_menu_background.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable/main_menu_background.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/abc_seekbar_tick_mark_material.xml",
@@ -86,6 +86,10 @@
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/abc_ic_ab_back_material.xml",
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable/abc_ic_ab_back_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/background.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable/background.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/release/drawable/collections_go_to_today.png",

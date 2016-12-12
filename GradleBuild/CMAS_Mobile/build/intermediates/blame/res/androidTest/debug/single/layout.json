@@ -12,16 +12,16 @@
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/bundles/debug/res/layout/userpic_select_dialog.xml"
     },
     {
-        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/undobar.xml",
-        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/layout/undobar.xml"
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/logbook_entry_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/bundles/debug/res/layout/logbook_entry_view.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_multichoice_material.xml",
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/select_dialog_multichoice_material.xml"
     },
     {
-        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/logbook_entry_view.xml",
-        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/bundles/debug/res/layout/logbook_entry_view.xml"
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/undobar.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/layout/undobar.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/androidTest/debug/layout/default_userpic_row.xml",

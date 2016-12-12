@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/assets"/><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/generated/assets/shaders/lintOptions"/></dataSet><dataSet config="lintOptions"><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/src/lintOptions/assets"/></dataSet></merger>

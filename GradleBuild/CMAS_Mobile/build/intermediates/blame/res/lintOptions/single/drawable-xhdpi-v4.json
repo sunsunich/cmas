@@ -1,0 +1,666 @@
+[
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/barcode_wheel.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/barcode_wheel.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_text_bkg_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_text_bkg_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_half_black_16dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_up_white.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_up_white.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_black_16dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_black_16dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_switch_track_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_focused_holo.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_focused_holo.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_longpressed_holo.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_longpressed_holo.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_dark_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_dark_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_menu_cut_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_selector_disabled_holo_dark.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_selector_disabled_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_box.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_box.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/barcode_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/barcode_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_light.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_selected_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_selected_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_light_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/orders_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/orders_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_selected.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_selected.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/notifications_bg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/notifications_bg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_tab_indicator_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/check_mark.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/check_mark.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/portal_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/portal_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_light_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_light_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_light_normal.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_light_normal.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/toast_frame_holo.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/toast_frame_holo.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_up_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_up_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_popup_background_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/table_icon_black.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/table_icon_black.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/messages_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/messages_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/spinner_bkg_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/spinner_bkg_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_unselected_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_unselected_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/camera_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/camera_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/graph_icon_black.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/graph_icon_black.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_menu_selectall_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_unselected.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_unselected.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/ic_menu_close_clear_cancel.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/ic_menu_close_clear_cancel.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/researches_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/researches_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_015.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/add_pressed.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/add_pressed.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_pressed.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_pressed.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/search_pressed.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/search_pressed.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/toast_frame_holo_right_button_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/toast_frame_holo_right_button_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/button_checked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/button_checked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_left_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_left_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_box_selected.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_box_selected.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_text_bkg_selected.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_text_bkg_selected.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/find_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/find_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/checkbox_unchecked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/checkbox_unchecked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_light_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/graph_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/graph_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_dark_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_dark_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/right_staple.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/right_staple.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/message_counter.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/message_counter.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_scrubber_primary_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_light.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/search.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/search.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_half_black_48dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_half_black_48dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/account_info_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/account_info_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_checked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_checked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/left_staple.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/left_staple.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/map_marker_mini.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/map_marker_mini.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_full_open_on_phone.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_full_open_on_phone.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/heltertalk_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/heltertalk_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/my_family_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/my_family_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/account_info_icon_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/account_info_icon_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/ic_retry.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/ic_retry.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/plus.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/plus.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/ic_undobar_undo.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/ic_undobar_undo.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_right_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_right_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/barcode.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/barcode.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/pass_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/pass_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_check_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_down_black.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_down_black.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_box_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_box_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/dialog_bkg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/dialog_bkg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_menu_paste_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/radiobutton_checked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/radiobutton_checked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/settings.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/settings.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/calendar_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/calendar_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_left.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_left.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_down_white.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_down_white.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_scrubber_control_off_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_black_36dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_black_36dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_textfield_search_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_dark.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_right_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_scrubber_track_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_down_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_down_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_half_black_36dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_half_black_36dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/file.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/file.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/wheel_foreground.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/wheel_foreground.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_btn_bkg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_btn_bkg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_divider.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_divider.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_textfield_activated_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/camera_icon_gray.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/camera_icon_gray.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_light_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_light_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/input_normal.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/input_normal.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/undobar_divider.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/undobar_divider.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_menu_share_mtrl_alpha.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_light_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_switch_to_on_mtrl_00001.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_ic_googleplayservices.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_ic_googleplayservices.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/settings_white.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/settings_white.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_divider_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_divider_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/spots_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/spots_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/bicycle_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/bicycle_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/personal_info.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/personal_info.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/edit_box_pass.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/edit_box_pass.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/table_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/table_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ab_share_pack_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_light.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_middle_mtrl_light.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/map_zoom.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/map_zoom.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_pressed_holo_dark.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_pressed_holo_dark.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/table_row_bkg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/table_row_bkg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/main_menu_pressed.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/main_menu_pressed.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/delete.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/delete.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_light_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_light_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/messages_btn.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/messages_btn.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_ic_star_black_48dp.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_ic_star_black_48dp.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/radiobutton_unchecked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/radiobutton_unchecked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_scrubber_control_to_pressed_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_textfield_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_btn_bkg_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_btn_bkg_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_left_white.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_left_white.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/custom_tab_indicator_selected_focused.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/custom_tab_indicator_selected_focused.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/add.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/add.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/main_menu.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/main_menu.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/map_marker.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/map_marker.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/lab_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/lab_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/userpic_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/userpic_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/button_unchecked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/button_unchecked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_000.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_btn_radio_to_on_mtrl_000.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/logbook_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/logbook_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/arrow_right_white.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/arrow_right_white.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/toast_frame_holo_left_button_pressed.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/drawable-xhdpi-v4/toast_frame_holo_left_button_pressed.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_dark.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_text_select_handle_left_mtrl_dark.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/exit.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/exit.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/image_button_bkg.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/image_button_bkg.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_textfield_search_default_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/notifications_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/notifications_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/checkbox_checked.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/checkbox_checked.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_dark_disabled.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_dark_disabled.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_menu_hardkey_panel_mtrl_mult.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/login_icon.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/login_icon.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_cab_background_top_mtrl_alpha.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/spinner_bkg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/spinner_bkg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_text_bkg.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_text_bkg.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/finder_btn_bkg_selected.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/finder_btn_bkg_selected.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/abc_list_pressed_holo_light.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable-xhdpi-v4/abc_list_pressed_holo_light.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/common_google_signin_btn_text_dark_normal.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/9.6.1/res/drawable-xhdpi-v4/common_google_signin_btn_text_dark_normal.9.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/red_circle.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/red_circle.png"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/lintOptions/drawable-xhdpi-v4/map_balloon.9.png",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/drawable-xhdpi/map_balloon.9.png"
+    }
+]

@@ -82,13 +82,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:prompt="@string/relationship_title"/>
+                    />
                 <Spinner
                     android:id="@+id/select_gender_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:prompt="@string/gender_title"/>
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

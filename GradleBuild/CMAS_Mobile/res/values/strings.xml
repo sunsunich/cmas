@@ -42,6 +42,28 @@
     <string name="username_input_error">The user name must contain only Latin characters
                 digits, and underscores
     </string>
+    <string-array name="gender_names">
+        <item>Men</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="relationship_names">
+        <item></item>
+        <item>Man</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Grandfather</item>
+        <item>Grandma</item>
+    </string-array>
+    <string-array name="settings_items">
+        <item>Screen Lock</item>
+        <item>Select language applications</item>
+        <item>Change password</item>
+        <item>Specify email</item>
+        <item>Reset</item>
+    </string-array>
     <string name="password_empty_error">Enter password</string>
     <string name="enter_new_profile">Enter the profile name</string>
     <string name="cancel">Cancel</string>
@@ -262,4 +284,9 @@
     <string name="lastname_empty_error">Enter last name</string>
     <string name="dob_empty_error">Enter date of birth</string>
     <string name="registration_attempt">Checking with National Federation</string>
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="entry_delete_question">"Are you sure you want to remove this record? "</string>
+    <string name="error_entry_name_empty">Empty document name</string>
+    <string name="relationship_title">The kind of relationship</string>
+    <string name="gender_title">Gender</string>
 </resources>

@@ -172,12 +172,12 @@
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/drawable/enter.png"
     },
     {
-        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/abc_ratingbar_material.xml",
-        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable/abc_ratingbar_material.xml"
-    },
-    {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/abc_btn_radio_material.xml",
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable/abc_btn_radio_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/abc_ratingbar_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/drawable/abc_ratingbar_material.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/abc_vector_test.xml",
@@ -282,6 +282,10 @@
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/researches_icon_with_padding.xml",
         "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/drawable/researches_icon_with_padding.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/background.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/drawable/background.xml"
     },
     {
         "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/debug/drawable/checkbox_selector.xml",
