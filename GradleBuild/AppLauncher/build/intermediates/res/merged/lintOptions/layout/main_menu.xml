@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.cmas.tags.BaseViewLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/cl_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        >
+
+    <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="top"
+            >
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/bnt_user_account"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="@string/personal_info"
+                    android:textSize="22sp"
+                    android:textStyle="normal"
+                    android:gravity="left|center_horizontal"
+                    android:drawableLeft="@drawable/account_info_icon"
+                    android:paddingLeft="10dp"
+                    android:drawablePadding="15dp"
+                    style="@style/CMAS.Button.Turquoise"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/bnt_logbook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="@string/logbook"
+                    android:textSize="22sp"
+                    android:textStyle="normal"
+                    android:gravity="left|center_horizontal"
+                    android:drawableLeft="@drawable/logbook_icon"
+                    android:paddingLeft="10dp"
+                    android:drawablePadding="15dp"
+                    style="@style/CMAS.Button.Turquoise"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/bnt_dive_spot"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:text="@string/diving_spots"
+                    android:textSize="22sp"
+                    android:textStyle="normal"
+                    android:gravity="left|center_horizontal"
+                    android:drawableLeft="@drawable/logbook_icon"
+                    android:paddingLeft="10dp"
+                    android:drawablePadding="15dp"
+                    style="@style/CMAS.Button.Turquoise"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</org.cmas.tags.BaseViewLayout>
+

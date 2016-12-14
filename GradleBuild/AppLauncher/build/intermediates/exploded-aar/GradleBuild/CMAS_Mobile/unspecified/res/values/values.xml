@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_names">
+        <item>Men</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="relationship_names">
+        <item/>
+        <item>Man</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Son</item>
+        <item>Daughter</item>
+        <item>Grandfather</item>
+        <item>Grandma</item>
+    </string-array>
+    <string-array name="settings_items">
+        <item>Screen Lock</item>
+        <item>Select language applications</item>
+        <item>Change password</item>
+        <item>Specify email</item>
+        <item>Reset</item>
+    </string-array>
+    <attr name="direction">
+        <enum name="rightToLeft" value="0"/>
+        <enum name="bottomToTop" value="1"/>
+        <enum name="leftToRight" value="2"/>
+        <enum name="topToBottom" value="3"/>
+    </attr>
+    <bool name="is_tablet">false</bool>
+    <color name="actionBarBackground">#303030</color>
+    <color name="aqua">#00FFFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#0000FF</color>
+    <color name="bottomActionBarBackground">#efefef</color>
+    <color name="bottomActionBarTextColor">#555555</color>
+    <color name="cardNameColor">#25456c</color>
+    <color name="cardNumberGradEndColor">#dddddd</color>
+    <color name="cardNumberGradStartColor">#111111</color>
+    <color name="dark_gray">#555555</color>
+    <color name="darker_light_blue">#07C2DF</color>
+    <color name="divider_gray">#e1e1e1</color>
+    <color name="fuchsia">#FF00FF</color>
+    <color name="gray">#e9e9e9</color>
+    <color name="green">#008000</color>
+    <color name="light_blue">#8FDBEC</color>
+    <color name="lime">#00FF00</color>
+    <color name="maroon">#800000</color>
+    <color name="menu_gray">#222222</color>
+    <color name="menu_text_gray">#999999</color>
+    <color name="navy">#000080</color>
+    <color name="olive">#808000</color>
+    <color name="orange">#FF6E00</color>
+    <color name="purple">#800080</color>
+    <color name="red">#ce3635</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="teal">#008080</color>
+    <color name="text_gray">#5F6464</color>
+    <color name="turquoise">#07C2DF</color>
+    <color name="turquoise_transparent">#5507C2DF</color>
+    <color name="very_light_blue">#DAF2F9</color>
+    <color name="very_light_gray">#EBF0F0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFFF00</color>
+    <declare-styleable name="Finder"><attr name="button_align">
+            <enum name="right" value="0"/>
+            <enum name="left" value="1"/>
+        </attr><attr format="string" name="hint"/><attr format="reference|color" name="finderButtonSrc"/><attr format="reference" name="finderButtonBackground"/><attr format="dimension" name="finderBtnPadding"/><attr format="dimension" name="finderBtnPaddingLeft"/><attr format="dimension" name="finderBtnPaddingTop"/><attr format="dimension" name="finderBtnPaddingRight"/><attr format="dimension" name="finderBtnPaddingBottom"/><attr format="dimension" name="finderEditPadding"/><attr format="dimension" name="finderEditPaddingLeft"/><attr format="dimension" name="finderEditPaddingTop"/><attr format="dimension" name="finderEditPaddingRight"/><attr format="dimension" name="finderEditPaddingBottom"/><attr format="string" name="text"/><attr name="android:textColor"/><attr name="android:textColorHighlight"/><attr name="android:textColorHint"/><attr format="reference" name="finderTextBackground"/><attr format="dimension" name="textSize"/><attr format="boolean" name="enabled"/><attr format="integer" name="maxLines"/></declare-styleable>
+    <declare-styleable name="MultiDirectionSlidingDrawer"><attr format="reference" name="handle"/><attr name="handleAlign">
+            <enum name="left" value="-1"/>
+            <enum name="bottom" value="-1"/>
+            <enum name="center" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="top" value="1"/>
+        </attr><attr name="defState">
+            <enum name="closed" value="0"/>
+            <enum name="opened" value="1"/>
+            <enum name="delayOpened" value="2"/>
+        </attr><attr format="reference" name="content"/><attr name="direction"/><attr format="dimension" name="bottomOffset"/><attr format="dimension" name="topOffset"/><attr format="boolean" name="allowSingleTap"/><attr format="boolean" name="animateOnClick"/></declare-styleable>
+    <dimen name="ab_icon_padding">5dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+    <dimen name="margin_from_screen_borders">16dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="sliding_menu_offset">50dp</dimen>
+    <dimen name="space_between_views">8dp</dimen>
+    <dimen name="vertical_space_between_views">20dp</dimen>
+    <string name="about_parameter">About parameter</string>
+    <string name="add">Add</string>
+    <string name="add_access">Add access rights</string>
+    <string name="add_calendar_event">Calendar reminder</string>
+    <string name="add_caps">ADD</string>
+    <string name="add_code_header">Lock Screen</string>
+    <string name="add_code_header_caps">Screen lock</string>
+    <string name="add_email">Specify the email</string>
+    <string name="add_email_caps">INSERT EMAIL</string>
+    <string name="add_email_header">set email</string>
+    <string name="add_new_document">Add Document</string>
+    <string name="add_new_profile">Add new profile</string>
+    <string name="add_new_profile_caps">add a profile</string>
+    <string name="add_new_profile_title">Add new profile</string>
+    <string name="add_parameter_caps">add parameters</string>
+    <string name="added_files_title">attached file</string>
+    <string name="app_name">CMAS</string>
+    <string name="authorization_attempt">Authorization</string>
+    <string name="back">Back</string>
+    <string name="back_to_main">The main menu</string>
+    <string name="back_to_profiles">Back to the profile</string>
+    <string name="back_toast">Click again to exit</string>
+    <string name="barcode">Barcode</string>
+    <string name="barcode_image_description">image of the bar code</string>
+    <string name="bind">to access</string>
+    <string name="bind_profile_title">Allow</string>
+    <string name="calendar_icon">calendar icon</string>
+    <string name="camera">Camera</string>
+    <string name="cancel">Cancel</string>
+    <string name="caps_do_register">Register</string>
+    <string name="caps_login_register">Sign in</string>
+    <string name="change">Edit</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_pass">Change Password</string>
+    <string name="change_password">Change password</string>
+    <string name="change_password_caps">CHANGE PASSWORD</string>
+    <string name="check">Select</string>
+    <string name="choose_spot">Choose this spot</string>
+    <string name="clear_all">Reset</string>
+    <string name="clear_all_question">Are you sure you want to delete all local data and reset all settings
+                application?
+    </string>
+    <string name="clear_code">Clear the code</string>
+    <string name="close">Close</string>
+    <string name="code_4_digit">4-digit code</string>
+    <string name="code_enter_header">enter the code</string>
+    <string name="code_error">code must be 4 digits</string>
+    <string name="code_mismatch_error">entered codes do not match</string>
+    <string name="comments_caps">NOTES</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="continue_str">Continue</string>
+    <string name="country">Country</string>
+    <string name="country_empty_error">Enter conrry</string>
+    <string name="create">Create</string>
+    <string name="create_new_diving_spot">Create new diving spot</string>
+    <string name="create_new_profile">Create a new profile</string>
+    <string name="current_user_select">Selecting the current user</string>
+    <string name="cv_alert">Warning</string>
+    <string name="cv_choose">Select</string>
+    <string name="cv_create_folder">New Folder</string>
+    <string name="cv_file_name">Filename</string>
+    <string name="cv_file_name_empty_alert">The file name must not be empty</string>
+    <string name="cv_next">Next</string>
+    <string name="cv_no">No</string>
+    <string name="cv_parent_directory">Parent Folder</string>
+    <string name="cv_save">Save</string>
+    <string name="data_deleted_successfully">Data successfully deleted</string>
+    <string name="date">Date</string>
+    <string name="date_birthday_format">Date of birth. {0}</string>
+    <string name="date_birthday_hint">Date of Birth</string>
+    <string name="debug_key">AIzaSyBOs3hgNjuJ3f6LMGH_1ml9XOUO4703k0s</string>
+    <string name="delete">Delete</string>
+    <string name="delete_parameter">Delete option</string>
+    <string name="delete_profile">delete a profile</string>
+    <string name="delete_profile_question">Are you sure you want to permanently delete this profile and all data on the
+                server?
+    </string>
+    <string name="delete_profile_title">Remove all</string>
+    <string name="description">Description</string>
+    <string name="dive_score">Dive score</string>
+    <string name="dive_spot_name_hint">Diving spot name</string>
+    <string name="diving_depth_hint">diving depth in meters</string>
+    <string name="diving_duration_hint">Diving duration in minutes</string>
+    <string name="diving_spots">Diving Spots</string>
+    <string name="do_register">Register</string>
+    <string name="dob">Dob</string>
+    <string name="dob_empty_error">Enter date of birth</string>
+    <string name="doc_attach_file_title">Attach file</string>
+    <string name="doc_attach_file_title_caps">Attach file</string>
+    <string name="doc_attach_parameter_title">Add option</string>
+    <string name="doc_author_title">Author</string>
+    <string name="doc_aux_data">MORE INFORMATION</string>
+    <string name="doc_common_info">BACKGROUND</string>
+    <string name="doc_date_title">Date</string>
+    <string name="doc_delete_question">Are you sure you want to delete this document?</string>
+    <string name="doc_delete_title">Deleting the document</string>
+    <string name="doc_desc_title">FULL DESCRIPTION</string>
+    <string name="doc_description">Description</string>
+    <string name="doc_directive_number_title">№ Order</string>
+    <string name="doc_edit_title">Edit Document</string>
+    <string name="doc_name">Name</string>
+    <string name="doc_type_title">Document Type</string>
+    <string name="dynamic">Dynamic</string>
+    <string name="edit">Edit</string>
+    <string name="edit_diving_spot">Edit diving spot</string>
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="email">email</string>
+    <string name="email_already_exists">This Email has already been set</string>
+    <string name="email_error">invalid email</string>
+    <string name="email_hint">To restore the code, specify the email</string>
+    <string name="email_txt">You can specify your email address here to be able to restore the code, login
+                and password
+    </string>
+    <string name="enter_code_4_digit">Enter the 4-digit code</string>
+    <string name="enter_new_profile">Enter the profile name</string>
+    <string name="enter_oms_hint">Enter policy OMC</string>
+    <string name="enter_user_name_hint">Enter the profile name</string>
+    <string name="entry_delete_question">"Are you sure you want to remove this record? "</string>
+    <string name="error">Error</string>
+    <string name="error_add_file_to_doc">error in the file attachment to the document</string>
+    <string name="error_connecting_to_server">Error connecting to server</string>
+    <string name="error_doc_name_empty">The document name can not be empty</string>
+    <string name="error_doc_type_empty">Document Type is selected</string>
+    <string name="error_entry_name_empty">Empty document name</string>
+    <string name="error_new_name_equals_old">The new name is the same as the old</string>
+    <string name="error_no_app_to_open_file">The device is not installed to view this type of file
+    </string>
+    <string name="error_profile_management">Error during operation with a profile</string>
+    <string name="error_profile_name_empty">profile name can not be empty</string>
+    <string name="error_username_empty">User Name can not be empty</string>
+    <string name="error_while_opening_doc_file_format">Error during opening the file {0}</string>
+    <string name="error_while_saving_document">Error during saving the document on the server</string>
+    <string name="error_while_saving_profile">Error in saving profile on the server</string>
+    <string name="exit">Sign out</string>
+    <string name="expand">Expand</string>
+    <string name="fatal_error">An error has occurred. Restart the application.</string>
+    <string name="fav">Mark</string>
+    <string name="file_from_disc">The file from disk</string>
+    <string name="find">GET</string>
+    <string name="first_name">First name</string>
+    <string name="firstname_empty_error">Enter first name</string>
+    <string name="folder_name">The folder</string>
+    <string name="forgot_password_main">Forgot your password?</string>
+    <string name="forward">Next</string>
+    <string name="gallery">Gallery</string>
+    <string name="gender_title">Gender</string>
+    <string name="hide">Hide</string>
+    <string name="hospitalization_from">Home hospitalization</string>
+    <string name="hospitalization_till">End of the admission</string>
+    <string name="internet_is_unavailable">Connecting to a network does not</string>
+    <string name="invalid_country">Invalid country</string>
+    <string name="invalid_dob">invalid dob</string>
+    <string name="is_not_the_owner">You do not have access to this profile</string>
+    <string name="last_name">Last name</string>
+    <string name="lastname_empty_error">Enter last name</string>
+    <string name="latitude_label">Latitude:</string>
+    <string name="loading">Loading …</string>
+    <string name="loading_complete">Download complete</string>
+    <string name="loading_dictionaries">Load the dictionary data </string>
+    <string name="loading_dictionaries_complete">The dictionary data is loaded</string>
+    <string name="loading_logbook">Loading Logbook</string>
+    <string name="loading_users">Loading users</string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings > Apps > \'Google Maps API Demos\'.</string>
+    <string name="logbook">Logbook</string>
+    <string name="logbook_entry_notes_hint">Notes</string>
+    <string name="logbook_title">LOGBOOK</string>
+    <string name="login_enter">ENTER</string>
+    <string name="login_no_register">Without registration</string>
+    <string name="login_register">REGISTER</string>
+    <string name="logout">Exit</string>
+    <string name="longitude_label">Longitude:</string>
+    <string name="menu">Menu</string>
+    <string name="message_icon_description">Icon messages in the notification bar</string>
+    <string name="messages">Messages</string>
+    <string name="my_account_title">MY ACCOUNT</string>
+    <string name="new_logbook_entry_title_caps">ADDING NEW LOGBOOK ENTRY</string>
+    <string name="new_password">new password</string>
+    <string name="new_profile_name">a new profile name</string>
+    <string name="no_network_error">This functionality is not available without the inclusion of the network</string>
+    <string name="no_such_directive">direction with a given number you found to a specified laboratory</string>
+    <string name="no_such_document">The document has been deleted</string>
+    <string name="no_such_user">This diver is not registered</string>
+    <string name="notification_icon_description">Icon notification in the notification bar</string>
+    <string name="notifications">Notifications</string>
+    <string name="numbers_for_test">23</string>
+    <string name="ok">OK</string>
+    <string name="parameters_caps">OPTIONS</string>
+    <string name="password">Password</string>
+    <string name="password_empty_error">Enter password</string>
+    <string name="password_mismatch_error">The entered passwords do not match</string>
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="permission_required_toast">Location permission is required for this demo.</string>
+    <string name="personal_info">My Account</string>
+    <string name="photo_from_camera">Camera pictures</string>
+    <string name="profile_already_exists">This profile name is already with you. Or does it have a different user
+                who has access to the profile you are trying to rename
+    </string>
+    <string name="profile_change_alert">Warning! You will now see the profile:</string>
+    <string name="profile_operations_title">Operations with the profile</string>
+    <string name="profiles">profiles</string>
+    <string name="profiles_hint">Profiles</string>
+    <string name="qr_code_error">Failed to create a bar code</string>
+    <string name="qr_code_title">CARD NUMBER</string>
+    <string name="reg_mobile_text">To register, enter the password twice</string>
+    <string name="reg_pass_advice">The password must contain numbers and letters mixed case</string>
+    <string name="reg_username_text">To register, enter the username and enter the password twice</string>
+    <string name="registration_attempt">Checking with National Federation</string>
+    <string name="registration_success">Registration is successful</string>
+    <string name="relationship_title">The kind of relationship</string>
+    <string name="release_key">AIzaSyCG-zflBvuu9dXCYZ7ZgOabTNXFO3kGkTw</string>
+    <string name="rename">rename</string>
+    <string name="rename_profile_title">Rename profile</string>
+    <string name="repeat_code">Repeat code</string>
+    <string name="repeat_password">Confirm Password</string>
+    <string name="restore_app">Restores</string>
+    <string name="restore_password">Forgot your password?</string>
+    <string name="restore_password_message_sent">How to recover password sent to your Email</string>
+    <string name="save">Save</string>
+    <string name="save_caps">SAVE</string>
+    <string name="saved_successfully">Data successfully saved</string>
+    <string name="saving_profile_data">stores the data in a profile</string>
+    <string name="saving_profile_data_error">Failed to save profile information</string>
+    <string name="search_buddies">Search buddies</string>
+    <string name="search_instructor">Search instructor</string>
+    <string name="search_parameter">Search option</string>
+    <string name="search_txt">Search</string>
+    <string name="select_all">Select All</string>
+    <string name="select_country">Select Country</string>
+    <string name="select_spot">Select spot</string>
+    <string name="select_userpic">Select Userpic</string>
+    <string name="select_userpic_caps">SELECT USERPIC</string>
+    <string name="set_as_read">Mark All Read</string>
+    <string name="settings">Settings</string>
+    <string name="settings_title">SET</string>
+    <string name="spots_icon">Spots icon</string>
+    <string name="submit_code">Set code</string>
+    <string name="terms_not_agreed">You do not agree to the terms of the application</string>
+    <string name="ticket">Coupon</string>
+    <string name="time">Time</string>
+    <string name="unbind_profile">delete</string>
+    <string name="unbind_profile_question">Are you sure you want to remove the profile from the device and stop
+                receive data from this profile?
+    </string>
+    <string name="unbind_profile_title">Remove from the device</string>
+    <string name="updating_profile_data_success">Profile updated</string>
+    <string name="user_account_title_caps">YOUR ACCOUNT</string>
+    <string name="user_already_exists">This user is already registered</string>
+    <string name="user_is_already_the_owner">This user already has access to this profile</string>
+    <string name="user_is_deleted">This user has been deleted</string>
+    <string name="user_userpic_icon">Photos by</string>
+    <string name="username">E-mail</string>
+    <string name="username_input_error">The user name must contain only Latin characters
+                digits, and underscores
+    </string>
+    <string name="view">look</string>
+    <string name="wait_text">Wait for a</string>
+    <string name="wrong_code">invalid code</string>
+    <string name="wrong_email_format">Wrong format Email</string>
+    <string name="wrong_password">Invalid password</string>
+    <style name="CMAS.ActionBarTitle" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="CMAS.Button" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+    </style>
+    <style name="CMAS.Button.Gray" parent="CMAS.Button">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:background">@drawable/gray_element</item>
+    </style>
+    <style name="CMAS.Button.Orange" parent="CMAS.Button">
+        <item name="android:background">@drawable/orange_element</item>
+    </style>
+    <style name="CMAS.Button.Red" parent="CMAS.Button">
+        <item name="android:background">@drawable/red_element</item>
+    </style>
+    <style name="CMAS.Button.Transparent" parent="CMAS.Button">
+        <item name="android:textColor">@color/menu_text_gray</item>
+        <item name="android:background">@drawable/transparent_element</item>
+    </style>
+    <style name="CMAS.Button.Turquoise" parent="CMAS.Button">
+        <item name="android:background">@drawable/turquoise_element</item>
+    </style>
+    <style name="CMAS.Button.White" parent="CMAS.Button">
+        <item name="android:textColor">@color/turquoise</item>
+        <item name="android:background">@drawable/white_item</item>
+    </style>
+    <style name="CMAS.CheckBox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_selector</item>
+    </style>
+    <style name="CMAS.CheckedTextView" parent="@android:style/Widget.TextView">
+        <item name="android:checkMark">@drawable/radiobutton_selector</item>
+        
+    </style>
+    <style name="CMAS.Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:textAppearance">@style/CMAS.TextAppearance</item>
+        <item name="android:buttonStyle">@style/CMAS.Button</item>
+        <item name="android:editTextStyle">@style/CMAS.EditText</item>
+        <item name="android:textViewStyle">@style/CMAS.TextView</item>
+        <item name="android:windowBackground">@drawable/dialog_bkg</item>
+        <item name="android:checkboxStyle">@style/CMAS.CheckBox</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="finderTextBackground">@drawable/finder_text_selector</item>
+        <item name="finderButtonSrc">@drawable/arrow_down_gray</item>
+        <item name="finderButtonBackground">@drawable/finder_btn_selector</item>
+        <item name="finderEditPaddingTop">10dp</item>
+        <item name="finderEditPaddingBottom">10dp</item>
+        <item name="android:spinnerStyle">@style/CMAS.Spinner</item>
+
+    </style>
+    <style name="CMAS.EditText" parent="@android:style/Widget.EditText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/dark_gray</item>
+        <item name="android:background">@drawable/edit_text_selector</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+    <style name="CMAS.RadioButton" parent="android:Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/radiobutton_selector</item>
+    </style>
+    <style name="CMAS.Spinner" parent="android:Widget.Spinner">
+        <item name="android:background">@drawable/spinner</item>
+        <item name="android:spinnerMode">dialog</item>
+    </style>
+    <style name="CMAS.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="CMAS.TextView" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="CMAS.Title" parent="@android:style/Widget.TextView">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/turquoise</item>
+    </style>
+    <style name="Light.CMAS.TextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="buttonText" parent="text">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="text" parent="textSize">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="textSize">
+        <item name="android:textSize">18sp</item>
+        <item name="android:typeface">sans</item>
+    </style>
+    <style name="title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

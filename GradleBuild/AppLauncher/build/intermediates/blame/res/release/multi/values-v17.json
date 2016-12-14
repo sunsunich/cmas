@@ -1,0 +1,322 @@
+[
+    {
+        "outputFile": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-v17/values-v17.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 9,
+                    "endColumn": 12,
+                    "endOffset": 496
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 9,
+                        "endColumn": 12,
+                        "endOffset": 496
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 501,
+                    "endLine": 12,
+                    "endColumn": 12,
+                    "endOffset": 669
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 4,
+                        "endColumn": 12,
+                        "endOffset": 223
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 13,
+                    "startColumn": 4,
+                    "startOffset": 674,
+                    "endLine": 16,
+                    "endColumn": 12,
+                    "endOffset": 897
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 228,
+                        "endLine": 8,
+                        "endColumn": 12,
+                        "endOffset": 451
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 17,
+                    "startColumn": 4,
+                    "startOffset": 902,
+                    "endLine": 19,
+                    "endColumn": 12,
+                    "endOffset": 1055
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 456,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 609
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 20,
+                    "startColumn": 4,
+                    "startOffset": 1060,
+                    "endLine": 22,
+                    "endColumn": 12,
+                    "endOffset": 1205
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 614,
+                        "endLine": 14,
+                        "endColumn": 12,
+                        "endOffset": 759
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 1210,
+                    "endLine": 25,
+                    "endColumn": 12,
+                    "endOffset": 1377
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 764,
+                        "endLine": 17,
+                        "endColumn": 12,
+                        "endOffset": 931
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 1382,
+                    "endLine": 29,
+                    "endColumn": 12,
+                    "endOffset": 1605
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 936,
+                        "endLine": 21,
+                        "endColumn": 12,
+                        "endOffset": 1159
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 1610,
+                    "endLine": 33,
+                    "endColumn": 12,
+                    "endOffset": 1847
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 22,
+                        "startColumn": 4,
+                        "startOffset": 1164,
+                        "endLine": 25,
+                        "endColumn": 12,
+                        "endOffset": 1401
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 1852,
+                    "endLine": 36,
+                    "endColumn": 12,
+                    "endOffset": 2018
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1406,
+                        "endLine": 28,
+                        "endColumn": 12,
+                        "endOffset": 1572
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 2023,
+                    "endLine": 39,
+                    "endColumn": 12,
+                    "endOffset": 2192
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 29,
+                        "startColumn": 4,
+                        "startOffset": 1577,
+                        "endLine": 31,
+                        "endColumn": 12,
+                        "endOffset": 1746
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 40,
+                    "startColumn": 4,
+                    "startOffset": 2197,
+                    "endLine": 42,
+                    "endColumn": 12,
+                    "endOffset": 2361
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1751,
+                        "endLine": 34,
+                        "endColumn": 12,
+                        "endOffset": 1915
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 43,
+                    "startColumn": 4,
+                    "startOffset": 2366,
+                    "endLine": 46,
+                    "endColumn": 12,
+                    "endOffset": 2634
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 35,
+                        "startColumn": 4,
+                        "startOffset": 1920,
+                        "endLine": 38,
+                        "endColumn": 12,
+                        "endOffset": 2188
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 47,
+                    "startColumn": 4,
+                    "startOffset": 2639,
+                    "endLine": 49,
+                    "endColumn": 12,
+                    "endOffset": 2834
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 39,
+                        "startColumn": 4,
+                        "startOffset": 2193,
+                        "endLine": 41,
+                        "endColumn": 12,
+                        "endOffset": 2388
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 50,
+                    "startColumn": 4,
+                    "startOffset": 2839,
+                    "endLine": 53,
+                    "endColumn": 12,
+                    "endOffset": 3038
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 42,
+                        "startColumn": 4,
+                        "startOffset": 2393,
+                        "endLine": 45,
+                        "endColumn": 12,
+                        "endOffset": 2592
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 54,
+                    "startColumn": 4,
+                    "startOffset": 3043,
+                    "endLine": 57,
+                    "endColumn": 12,
+                    "endOffset": 3367
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-v17/values-v17.xml",
+                    "position": {
+                        "startLine": 46,
+                        "startColumn": 4,
+                        "startOffset": 2597,
+                        "endLine": 49,
+                        "endColumn": 12,
+                        "endOffset": 2921
+                    }
+                }
+            }
+        ]
+    }
+]

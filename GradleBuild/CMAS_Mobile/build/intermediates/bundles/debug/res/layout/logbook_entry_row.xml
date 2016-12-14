@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:paddingLeft="@dimen/margin_from_screen_borders"
+              android:paddingRight="@dimen/margin_from_screen_borders"
+              android:paddingTop="13dp"
+              android:paddingBottom="13dp"
+              android:gravity="center">
+    <TextView
+            android:id="@+id/logbook_entry_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginRight="@dimen/space_between_views"
+            android:layout_weight="1"
+            android:textColor="#535353"
+            android:textSize="20sp"
+            android:text="Магнитно-резонансная терапия"
+            android:singleLine="true"/>
+
+</LinearLayout>

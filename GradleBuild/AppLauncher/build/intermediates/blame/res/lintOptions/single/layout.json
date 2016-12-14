@@ -1,0 +1,362 @@
+[
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_bar_up_container.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/dive_spot_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/dive_spot_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/advert_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/advert_view.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_part_time.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/authorized_menu.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/authorized_menu.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_screen_simple.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/base_settings.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/base_settings.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/logbook_entry_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/logbook_entry_view.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_search_dropdown_item_icons_2line.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/base_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/base_view.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/bottom_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/bottom_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/logbook.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/logbook.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_lines.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_lines.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/file_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/file_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/dive_spot_balloon.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/dive_spot_balloon.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/select_dialog_multichoice_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/settings_add_email_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/settings_add_email_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/base.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/base.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/settings_change_password_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/settings_change_password_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_list_menu_item_radio.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/select_dialog_singlechoice_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_alert_dialog_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/settings_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/settings_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_bar_view_list_nav_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/menu_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/menu_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/title_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/title_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/default_userpic_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/default_userpic_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_big_media.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_media_cancel_action.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/settings.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/settings.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/spinner_row_nothing_selected.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/spinner_row_nothing_selected.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_expanded_menu_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/loading_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/loading_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_list_menu_item_icon.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/user_search_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/user_search_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/access_list_item.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/access_list_item.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/undobar.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/UndoBar/unspecified/res/layout/undobar.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_popup_menu_item_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/loading_screen.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/loading_screen.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_bar_title_item.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/document_file_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/document_file_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/logbook_entry_edit.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/logbook_entry_edit.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_popup_menu_header_item_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_menu_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/dive_spot_edit_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/dive_spot_edit_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/file_choose.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/file_choose.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/enter_username.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/enter_username.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/add_file_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/add_file_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_big_media_narrow.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_menu_item_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/select_dialog_item_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/alert_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/alert_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_search_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/new_logbook_entry.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/new_logbook_entry.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/add_email.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/add_email.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/userpic_select_dialog.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/userpic_select_dialog.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/menu_frame.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/menu_frame.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_media.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_activity_chooser_view.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/user_account.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/user_account.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_select_dialog_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/fatal_error.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/fatal_error.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_screen_toolbar.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/view_qr_code.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/view_qr_code.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/message_count.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/message_count.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_mode_bar.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_list_menu_item_checkbox.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/main_menu.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/layout/main_menu.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/user_search.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/user_search.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/first_payment.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/layout/first_payment.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_template_part_chronometer.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_action_mode_close_item_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/logbook_entry_row.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/logbook_entry_row.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_list_menu_item_layout.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_dialog_title_material.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/dive_spot.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/dive_spot.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/add_new_edit_profile.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/add_new_edit_profile.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/abc_screen_content_include.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/multiline_list_item.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/multiline_list_item.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/registration.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/registration.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/logbook_entry_new.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/logbook_entry_new.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/code_enter.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/code_enter.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/slidingmenumain.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/SlidingMenu/unspecified/res/layout/slidingmenumain.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/add_secure_code.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/add_secure_code.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/spinner_row_country.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/GradleBuild/CMAS_Mobile/unspecified/res/layout/spinner_row_country.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/res/merged/lintOptions/layout/notification_media_action.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/layout/notification_media_action.xml"
+    }
+]

@@ -1,0 +1,241 @@
+[
+    {
+        "outputFile": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/incremental/mergeLintOptionsResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 38,
+                    "endOffset": 89
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/values-sw600dp/strings.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 38,
+                        "endOffset": 89
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 94,
+                    "endColumn": 68,
+                    "endOffset": 158
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 68,
+                        "endOffset": 119
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 4,
+                    "startColumn": 4,
+                    "startOffset": 163,
+                    "endColumn": 68,
+                    "endOffset": 227
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 124,
+                        "endColumn": 68,
+                        "endOffset": 188
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 5,
+                    "startColumn": 4,
+                    "startOffset": 232,
+                    "endColumn": 69,
+                    "endOffset": 297
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 193,
+                        "endColumn": 69,
+                        "endOffset": 258
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 6,
+                    "startColumn": 4,
+                    "startOffset": 302,
+                    "endColumn": 73,
+                    "endOffset": 371
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 263,
+                        "endColumn": 73,
+                        "endOffset": 332
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 7,
+                    "startColumn": 4,
+                    "startOffset": 376,
+                    "endColumn": 75,
+                    "endOffset": 447
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 337,
+                        "endColumn": 75,
+                        "endOffset": 408
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 452,
+                    "endColumn": 58,
+                    "endOffset": 506
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 413,
+                        "endColumn": 58,
+                        "endOffset": 467
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 9,
+                    "startColumn": 4,
+                    "startOffset": 511,
+                    "endColumn": 70,
+                    "endOffset": 577
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 472,
+                        "endColumn": 70,
+                        "endOffset": 538
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 10,
+                    "startColumn": 4,
+                    "startOffset": 582,
+                    "endColumn": 67,
+                    "endOffset": 645
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 543,
+                        "endColumn": 67,
+                        "endOffset": 606
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 11,
+                    "startColumn": 4,
+                    "startOffset": 650,
+                    "endLine": 26,
+                    "endColumn": 12,
+                    "endOffset": 1486
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/values-sw600dp/styles.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 56,
+                        "endLine": 18,
+                        "endColumn": 12,
+                        "endOffset": 892
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 1491,
+                    "endLine": 31,
+                    "endColumn": 12,
+                    "endOffset": 1757
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/values-sw600dp/styles.xml",
+                    "position": {
+                        "startLine": 32,
+                        "startColumn": 4,
+                        "startOffset": 1582,
+                        "endLine": 36,
+                        "endColumn": 12,
+                        "endOffset": 1848
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 1762,
+                    "endLine": 36,
+                    "endColumn": 12,
+                    "endOffset": 2025
+                },
+                "from": {
+                    "file": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/res/values-sw600dp/styles.xml",
+                    "position": {
+                        "startLine": 26,
+                        "startColumn": 4,
+                        "startOffset": 1313,
+                        "endLine": 30,
+                        "endColumn": 12,
+                        "endOffset": 1576
+                    }
+                }
+            }
+        ]
+    }
+]

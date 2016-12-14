@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/personal_info.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/personal_info.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/personal_messages.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/personal_messages.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/menu_with_menu.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/menu_with_menu.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/fav.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/fav.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/record_info.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/record_info.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/parameters.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/parameters.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/search.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/search.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/settings.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/settings.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/search_with_menu.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/search_with_menu.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/search_and_add.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/search_and_add.xml"
+    },
+    {
+        "merged": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/build/intermediates/res/merged/debug/menu/messages_edit_mode.xml",
+        "source": "/Users/alina/AndroidStudioProjects/cmas/GradleBuild/CMAS_Mobile/res/menu/messages_edit_mode.xml"
+    }
+]
