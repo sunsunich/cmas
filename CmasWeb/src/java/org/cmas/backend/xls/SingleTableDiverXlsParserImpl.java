@@ -79,7 +79,7 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
     @SuppressWarnings("MagicNumber")
     @Nullable
     private static Diver evalDiver(Row row) {
-        if (row == null || row.getPhysicalNumberOfCells() < 7) {
+        if (row == null || row.getCell(5) == null) {
             return null;
         }
         String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());

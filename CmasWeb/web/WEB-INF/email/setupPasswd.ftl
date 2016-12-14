@@ -13,7 +13,7 @@
     <br />
     Welcome! <br />
     <br />
-    CMAS <br />
+    CMASDATA <br />
 </p>
 </@mailer.mail>        
 

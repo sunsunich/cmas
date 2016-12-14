@@ -23,8 +23,9 @@ public class LogbookEntryFormObject implements Validatable {
 
     private String logbookEntryId;
 
+    private String name;
+
     @Digits(integerDigits = 20, message = "validation.incorrectNumber")
-    @NotEmpty(message = "validation.emptyField")
     private String spotId;
 
     @Digits(integerDigits = 3, message = "validation.incorrectNumber")
@@ -82,6 +83,14 @@ public class LogbookEntryFormObject implements Validatable {
                                               }, photo, "photo", "validation.incorrectField"
             );
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogbookEntryId() {

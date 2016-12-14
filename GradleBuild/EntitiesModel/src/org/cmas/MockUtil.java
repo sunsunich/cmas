@@ -5,6 +5,7 @@ import com.google.myjson.GsonBuilder;
 import com.google.myjson.LongSerializationPolicy;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
@@ -39,7 +40,8 @@ public final class MockUtil {
 
         NationalFederation federation = getSportsFederation();
         PersonalCard card = new PersonalCard();
-        card.setNumber("5510123456789001");
+        card.setCardType(PersonalCardType.PRIMARY);
+        card.setNumber("123");
         card.setDiverLevel(instructor.getDiverLevel());
         card.setDiver(instructor);
         instructor.setFederation(federation);

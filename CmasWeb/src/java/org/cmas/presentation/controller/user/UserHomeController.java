@@ -80,7 +80,10 @@ public class UserHomeController {
         Diver diver = getCurrentDiver();
         if (diver.isHasPayed()) {
             if (diver.getPrimaryPersonalCard() == null) {
-                diver.setDateReg(new Date());
+                if (diver.getDateReg() == null) {
+                    diver.setDateReg(new Date());
+                    diverDao.updateModel(diver);
+                }
                 registrationService.createDiverPrimaryCard(diver);
             }
             return new ModelAndView("redirect:/secure/profile/getUser.html");
@@ -107,6 +110,8 @@ public class UserHomeController {
     @RequestMapping(value = "/secure/welcome-continue.html", method = RequestMethod.GET)
     public ModelAndView continueWelcome() throws IOException {
         Diver diver = getCurrentDiver();
+        diver.setDateReg(new Date());
+        diverDao.updateModel(diver);
         registrationService.createDiverPrimaryCard(diver);
         return new ModelAndView("redirect:/secure/profile/getUser.html");
     }

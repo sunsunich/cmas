@@ -44,18 +44,50 @@
     <meta name="distribution" content="local"/>
     <meta name="keywords" content="cmas, diving, finswimming, apnea, sport diving, sport, underwater"/>
     <meta name="copyright" content="All rights reserved"/>
-    <meta name="generator" content="Eplos CMS 3.0"/>
+
     <meta name="robots" content="index, follow"/>
     <base href="/"/>
     <meta itemprop="name" content="World Underwater Federation - Quality in diving"/>
-    <meta itemprop="description"
-          content="In addition to organizing international underwater sport events it is at the forefront of technical and scientific research and development. It can be associated with elaborating one of the oldest and most extensive dive training system."/>
-    <meta property="og:title" content="World Underwater Federation - Quality in diving"/>
-    <meta property="og:image" content="php_images/jutland_2016_banner_v3-450x150.jpg"/>
-    <link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico"/>
-    <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
+
     <link rel="stylesheet" type="text/css" href="c/loader.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-194x194.png?v=1" sizes="194x194">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=1" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
+    <link rel="manifest" href="/manifest.json?v=1">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=1" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon.ico?v=1">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=1">
+    <meta name="theme-color" content="#ffffff">
+
+    <%--
+    more icons just in case
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=1">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=1">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=1">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=1">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=1">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=1">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=1">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=1">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=1">
+<link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-194x194.png?v=1" sizes="194x194">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=1" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
+<link rel="manifest" href="/manifest.json?v=1">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=1" color="#5bbad5">
+<link rel="shortcut icon" href="/favicon.ico?v=1">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=1">
+<meta name="theme-color" content="#ffffff">
+
+    --%>
     <c:choose>
         <c:when test="${intrenal}">
             <link rel="stylesheet" type="text/css" href="c/internal-form.css" media="all"/>

@@ -79,7 +79,7 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Nullable
     private static Diver evalDiver(Row row) {
-        if (row == null || row.getPhysicalNumberOfCells() < 10) {
+        if (row == null || row.getCell(9) == null) {
             return null;
         }
         Diver diver = new Diver();

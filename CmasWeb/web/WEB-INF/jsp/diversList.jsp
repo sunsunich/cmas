@@ -44,6 +44,12 @@
                             <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
                             <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
                         </c:when>
+                        <c:when test="${diver.diverLevel == 'FOUR_STAR'}">
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                        </c:when>
                     </c:choose>
                     <c:choose>
                         <c:when test="${diver.primaryPersonalCard == null}">

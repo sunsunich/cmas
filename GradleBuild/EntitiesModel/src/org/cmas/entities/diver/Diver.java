@@ -71,9 +71,9 @@ public class Diver extends CardUser {
     private Set<Diver> friendOf;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="diver_new_from_countries",
-            joinColumns=@JoinColumn(name="diverId"),
-            inverseJoinColumns=@JoinColumn(name="countryId")
+    @JoinTable(name = "diver_new_from_countries",
+            joinColumns = @JoinColumn(name = "diverId"),
+            inverseJoinColumns = @JoinColumn(name = "countryId")
     )
     private Set<Country> newsFromCountries;
 
@@ -94,6 +94,7 @@ public class Diver extends CardUser {
     private boolean isNewsFromCurrentLocation;
 
     public Diver() {
+        defaultVisibility = LogbookVisibility.FRIENDS;
     }
 
     public Diver(long id) {

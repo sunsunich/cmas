@@ -18,7 +18,7 @@ public class SingleTableDiverXlsParserImplTest {
         SingleTableDiverXlsParserImpl sut = new SingleTableDiverXlsParserImpl();
         try {
              //Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/BookPortDiversOneTable.xlsx"));
-             Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/DataCMAS1_ire.xlsx"));
+             Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/DataCMAS_tmp_dk.xlsx"));
             for (Diver diver : divers) {
                 System.out.println(diver);
             }

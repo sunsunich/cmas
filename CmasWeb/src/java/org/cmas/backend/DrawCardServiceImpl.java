@@ -3,6 +3,7 @@ package org.cmas.backend;
 
 import com.google.zxing.WriterException;
 import com.mortennobel.imagescaling.ResampleOp;
+import org.cmas.Globals;
 import org.cmas.MockUtil;
 import org.cmas.entities.CardPrintInfo;
 import org.cmas.entities.CardPrintUtil;
@@ -72,33 +73,15 @@ public class DrawCardServiceImpl implements DrawCardService {
 
         Diver diver = card.getDiver();
         String cardNumber = diver.getPrimaryPersonalCard().getNumber();
+        String cardNumberToDraw = addLeadingZeors(cardNumber);
         if (card.getCardType() == PersonalCardType.PRIMARY) {
             g2d.setPaint(Color.BLACK);
             g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
-//        String cardNumber1 = cardNumber.substring(0, 4);
             g2d.drawString(
-                    cardNumber,
+                    cardNumberToDraw,
                     CARD_NUMBER_X_1 * (float) width,
                     CARD_NUMBER_Y * (float) height
             );
-//        String cardNumber2 = cardNumber.substring(4, 8);
-//        g2d.drawString(
-//                cardNumber2,
-//                CARD_NUMBER_X_2 * (float) width,
-//                CARD_NUMBER_Y * (float) height
-//        );
-//        String cardNumber3 = cardNumber.substring(8, 12);
-//        g2d.drawString(
-//                cardNumber3,
-//                CARD_NUMBER_X_3 * (float) width,
-//                CARD_NUMBER_Y * (float) height
-//        );
-//        String cardNumber4 = cardNumber.substring(12);
-//        g2d.drawString(
-//                cardNumber4,
-//                CARD_NUMBER_X_4 * (float) width,
-//                CARD_NUMBER_Y * (float) height
-//        );
         }
 
         @SuppressWarnings("NumericCastThatLosesPrecision")
@@ -180,6 +163,15 @@ public class DrawCardServiceImpl implements DrawCardService {
         }
         g2d.dispose();
         return finalImage;
+    }
+
+    private static String addLeadingZeors(String cardNumber) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - cardNumber.length(); i++) {
+            sb.append('0');
+        }
+        sb.append(cardNumber);
+        return sb.toString();
     }
 
     private static String getFileName(PersonalCard card) {

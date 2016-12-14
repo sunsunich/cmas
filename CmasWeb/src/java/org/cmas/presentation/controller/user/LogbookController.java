@@ -39,6 +39,7 @@ import org.springframework.web.servlet.View;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -148,7 +149,7 @@ public class LogbookController {
         try {
             mm.addAttribute("countries", countryDao.getAll());
             List<NationalFederation> nationalFederations = dictionaryDataService.getNationalFederations(0L);
-            List<Country> federationCountries = new ArrayList<>(nationalFederations.size());
+            Collection<Country> federationCountries = new ArrayList<>(nationalFederations.size());
             for (NationalFederation federation : nationalFederations) {
                 federationCountries.add(federation.getCountry());
             }
