@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/src/main/jniLibs"/><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/libs"/></dataSet><dataSet config="debug"><source path="/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/src/debug/jniLibs"/></dataSet></merger>

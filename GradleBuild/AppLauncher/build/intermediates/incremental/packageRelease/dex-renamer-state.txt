@@ -1,4 +1,0 @@
-#Sun Dec 11 19:03:46 IST 2016
-base.0=/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/transforms/dex/release/folders/1000/1f/main
-renamed.0=classes.dex
-file.0=/Users/alina/AndroidStudioProjects/cmas/GradleBuild/AppLauncher/build/intermediates/transforms/dex/release/folders/1000/1f/main/classes.dex
