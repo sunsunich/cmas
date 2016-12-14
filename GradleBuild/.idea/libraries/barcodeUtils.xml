@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="barcodeUtils">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Common/lib/barcodeUtils.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
