@@ -54,7 +54,7 @@ html, body {
 
 }
 
-.content, .content-left, .content-right, .white-form {
+.content, .content-left, .content-right {
     margin-top: 50px;
     margin-bottom: 30px;
     position: relative;
@@ -63,22 +63,18 @@ html, body {
     width: 362px;
 }
 
-.content-left {
+.content-right, .content-left {
     float: left;
     left: 10%;
-    margin-right: 10%;
     transform: translate(0%, 0%);
 }
 
 .content-right {
     margin-top: 120px;
-    float: left;
-    left: 10%;
-    transform: translate(0%, 0%);
 }
 
-.white-form {
-    background: #f8f8f8;
+.content-left {
+    margin-right: 10%;
 }
 
 .menu-left {
@@ -198,7 +194,7 @@ html, body {
     margin-bottom: 15px;
 }
 
-.dialog, .logbookEntry {
+.dialog {
     background: #f8f8f8;
     height: auto;
     width: 320px;
@@ -212,13 +208,6 @@ html, body {
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
     -o-border-radius: 6px;
-}
-
-.logbookEntry {
-    transform: translate(-50%, 0);
-    top: 98px;
-    width: 362px;
-    z-index: 800;
 }
 
 .dialogClose {
@@ -249,33 +238,6 @@ html, body {
     text-align: center;
     padding-left: 16px;
     padding-right: 16px;
-}
-
-.white-form-label {
-    color: #cccccc;
-    margin-right: 17px;
-    font-size: 16px;
-}
-
-.white-form-text {
-    color: #666666;
-    margin-right: 6px;
-    font-size: 24px;
-}
-
-.white-form-href {
-    font-size: 20px;
-    color: #04c8ff;
-    padding-left: 5px;
-    text-decoration: underline;
-}
-
-.white-form-textarea {
-    width: 100%;
-    background-color: rgb(234, 234, 234);
-    border: 0;
-    font-size: 16px;
-    line-height: normal;
 }
 
 .specifications .header {

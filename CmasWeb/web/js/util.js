@@ -19,6 +19,26 @@ function is_positive_int(value) {
     return (parseFloat(value) == parseInt(value)) && !isNaN(value) && value > 0;
 }
 
+function is_positive_float(value) {
+    var number = parseFloat(value);
+    if (isNaN(number)) {
+        return false;
+    }
+    else {
+        return number > 0;
+    }
+}
+
+function is_non_negative_float(value) {
+    var number = parseFloat(value);
+    if (isNaN(number)) {
+        return false;
+    }
+    else {
+        return number >= 0;
+    }
+}
+
 function round_to_Money(value) {
     return Math.round(value * 100) / 100;
 }
@@ -63,6 +83,20 @@ function removeFromArray(array, elem){
     var newArray = [];
     for (var i = 0; i < array.length; i++) {
         if (array[i] != elem) {
+            newArray.push(array[i]);
+        }
+    }
+    return newArray;
+}
+
+function removeFromArrayByIndex(array, index) {
+    if (null == array || "object" != typeof array) return array;
+    if (index < 0 && index >= array.length) {
+        return array;
+    }
+    var newArray = [];
+    for (var i = 0; i < array.length; i++) {
+        if (i != index) {
             newArray.push(array[i]);
         }
     }

@@ -408,19 +408,19 @@ var social_settings_controller = {
                 $('#showLogbookEntryContent').html(
                     new EJS({url: '/js/templates/logbookEntryDialog.ejs'}).render({"record": record})
                 );
-                $('#' + record.diver.id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
+                $('#' + record.diver.id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
                     e.preventDefault();
                     util_controller.showDiver($(this)[0].id);
                 });
                 if (record.instructor) {
-                    $('#' + record.instructor.id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
+                    $('#' + record.instructor.id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
                         e.preventDefault();
                         util_controller.showDiver($(this)[0].id);
                     });
                 }
                 if (record.buddies) {
                     for (var i = 0; i < record.buddies.length; i++) {
-                        $('#' + record.buddies[i].id + '_logbookRecordDialog' + '_' + record.id +'_showDiver').click(function (e) {
+                        $('#' + record.buddies[i].id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
                             e.preventDefault();
                             util_controller.showDiver($(this)[0].id);
                         });
@@ -537,15 +537,10 @@ var social_settings_controller = {
     acceptLogbookRequest: function (elemId) {
         var requestId = elemId.split('_')[0];
         var logbookEntry = social_model.logbookEntriesToProcessMap[requestId].logbookEntry;
-        var form = {
-            "requestId": requestId,
-            "duration": logbookEntry.durationMinutes,
-            "depth": logbookEntry.depthMeters,
-            "diveDate": logbookEntry.diveDate
-        };
+        logbookEntry.requestId = requestId;
         var self = this;
         social_model.acceptLogbookEntryRequest(
-            form
+            logbookEntry
             , function (/*json*/) {
                 self.getSocialUpdates();
             }

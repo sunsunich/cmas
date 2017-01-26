@@ -51,6 +51,7 @@
 
     <link rel="stylesheet" type="text/css" href="c/loader.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/logbook.css" media="all"/>
 
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1">
@@ -103,6 +104,7 @@
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery.timepicker.min.css" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/print.css" media="print"/>
     <meta name="google-site-verification" content="Xaw1kGm7_ZeykPyMuWwVpY8t9_tOTAkWEaKu6aOv6i0"/>
     <meta name="creator" content="dotindot">
@@ -122,6 +124,7 @@
     <script type="text/javascript" src="js/lib/json.js"></script>
     <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js"></script>
     <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/lib/jquery.timepicker.min.js"></script>
     <script type="text/javascript" src="js/lib/ejs_production.js"></script>
     <script type="text/javascript" src="js/lib/select2.full.min.js"></script>
 

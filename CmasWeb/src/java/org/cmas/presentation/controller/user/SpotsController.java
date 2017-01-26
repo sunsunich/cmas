@@ -83,16 +83,18 @@ public class SpotsController {
         return diver;
     }
 
+
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
-    public ModelAndView showSpotsPage() throws IOException {
+    public ModelAndView showSpotsPage(@RequestParam(value = "logbookEntryId", required = false) Long logbookEntryId) throws IOException {
         ModelMap mm = new ModelMap();
         mm.addAttribute("countries", countryDao.getAll());
+        mm.addAttribute("logbookEntryId", logbookEntryId);
         return new ModelAndView("/secure/spots", mm);
     }
 
     @RequestMapping(value = "/secure/getSpots.html", method = RequestMethod.GET)
     public View getSpots(@ModelAttribute("command") LatLngBounds bounds) throws IOException {
-        return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds, true));
+        return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds, null));
     }
 
     private List<DiveSpot> getDiveSpotsByCoords(double latitude, double longitude) {

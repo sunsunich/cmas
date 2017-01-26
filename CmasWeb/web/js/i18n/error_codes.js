@@ -10,9 +10,9 @@ var error_codes = {
     "validation.passwordRejected": "password is incorrect",
 
     "validation.emailValid": "email is invalid",
-    "validation.incorrectNumber": "the number is incorrect",
-    "validation.emptyField": "field is empty",
-    "validation.maxLength": "the message length is over the maximum length allowed",
+    "validation.incorrectNumber": "incorrect number",
+    "validation.emptyField": "empty field",
+    "validation.maxLength": "message length is over the maximum length allowed",
 
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
@@ -46,5 +46,8 @@ var error_codes = {
     "error.sending.registration.email": "Error while sending you email with your password. Please try again later.",
     "error.geolocation.service.failed": "Error: The Geolocation service failed",
     "error.geolocation.support": "Error: Your browser doesn't support geolocation.",
-    "error.spot.creation": "Error while adding the diving spot into the database. Please try again later"
+    "error.spot.creation": "Error while adding the diving spot into the database. Please try again later",
+
+    "validation.logbook.gasTanksEmpty": "please add gas tanks or set the dive as apnea",
+    "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks"
 };

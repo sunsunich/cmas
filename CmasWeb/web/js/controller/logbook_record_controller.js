@@ -1,539 +1,152 @@
 var logbook_record_controller = {
 
-    federationCountryController: {},
-
     init: function () {
-        this.federationCountryController = simpleClone(country_controller);
-        this.federationCountryController.inputId = "findDiverFederationCountry";
-        this.federationCountryController.drawIcon = false;
-        this.federationCountryController.init();
-        country_controller.inputId = "findDiverCountry";
-        country_controller.drawIcon = false;
-        country_controller.init();
         this.setListeners();
     },
 
     setListeners: function () {
         var self = this;
-        $("#diveDate").datepicker(
-            {
-                changeYear: true,
-                changeMonth: true,
-                yearRange: '-10:+0',
-                maxDate: new Date(),
-                defaultDate: new Date(),
-                dateFormat: 'dd/mm/yy'
-            }
-        );
-        var option = '';
-        for (var i = 0; i < visibilityTypes.length; i++) {
-            option += '<option value="' + visibilityTypes[i] + '"';
-            if (visibilityTypes[i] == logbookVisibility) {
-                option += ' selected="selected"';
-            }
-            option += '>' + labels[visibilityTypes[i]] + '</option>';
+        var tabName = logbook_record_model.logbookEntry.state;
+        if (!tabName) {
+            tabName = 'NEW';
         }
-        $("#visibility").append(option);
-        $("#visibility").select2({
-            escapeMarkup: function (m) {
-                return m;
-            }
-        });
-        $('#duration').keypress(function (event) {
-            var value = $(this).val();
-            if (event.charCode < 48 || event.charCode > 57 || (value && value.length >= 3)) {
-                event.preventDefault();
-            }
-        });
 
-        $('#depth').keypress(function (event) {
-            var value = $(this).val();
-            if (event.charCode < 48 || event.charCode > 57 || (value && value.length >= 4)) {
-                event.preventDefault();
-            }
-        });
-
-        $("#fileFromDiscSelect").click(function (e) {
-            e.preventDefault();
-            self.selectPhotoFromDrive();
-        });
-        $("#photoFileInput").change(function () {
-            self.loadFileToPreview(this);
-        });
-
-        $(".diveScore").hover(function () {
-                self.colorDiveScore($(this)[0].id);
-            }, function () {
-                self.restoreDiveScore();
-            }
-        ).click(function () {
-                self.setDiveScore($(this)[0].id);
-            });
-
-        $('#createLogbookEntryButton').click(function () {
-            self.createLogbookEntry();
-        });
-
-        $('#addBuddies').click(function (e) {
-            e.preventDefault();
-            logbook_record_model.isInstructorSearch = false;
-            self.cleanFindDiverForm();
-            $('#findDiver').show();
-        });
-        $('#addInstructor').click(function (e) {
-            e.preventDefault();
-            logbook_record_model.isInstructorSearch = true;
-            self.cleanFindDiverForm();
-            $('#findDiver').show();
-        });
-        $("#findDiverClose").click(function () {
-            $('#findDiver').hide();
-        });
-        $('#findDiverOk').click(function () {
-            self.findDiver();
-        });
-        $("#noDiversFoundClose").click(function () {
-            $('#noDiversFound').hide();
-        });
-        $('#noDiversFoundOk').click(function () {
-            $('#noDiversFound').hide();
-            $('#findDiver').show();
-        });
-        $('#newDiverSearch').click(function () {
-            $('#diversList').hide();
-            $('#createLogbookEntry').show();
-            $('#findDiver').show();
-        });
-        $('#searchByName').click(function () {
-            logbook_record_model.findDiverMode = 'NAME';
-            $('#searchByName').hide();
-            $('#searchByFedNumber').show();
-            $('#searchByCmasCard').show();
-            $('#findDiverByCmasCardForm').hide();
-            $('#findDiverByFederationCardNumberForm').hide();
-            $('#findDiverByNameForm').show();
-        });
-        $('#searchByFedNumber').click(function () {
-            logbook_record_model.findDiverMode = 'FEDERATION';
-            $('#searchByFedNumber').hide();
-            $('#searchByName').show();
-            $('#searchByCmasCard').show();
-            $('#findDiverByCmasCardForm').hide();
-            $('#findDiverByNameForm').hide();
-            $('#findDiverByFederationCardNumberForm').show();
-        });
-        $('#searchByCmasCard').click(function () {
-            logbook_record_model.findDiverMode = 'CMAS';
-            $('#searchByCmasCard').hide();
-            $('#searchByName').show();
-            $('#searchByFedNumber').show();
-            $('#findDiverByFederationCardNumberForm').hide();
-            $('#findDiverByNameForm').hide();
-            $('#findDiverByCmasCardForm').show();
-        });
-
-        $('#friendRemoveClose').click(function () {
-            $('#friendRemove').hide();
-        });
-        $('#friendRemoveOk').click(function () {
-
-        });
-        this.restoreDiveScore();
-        this.setBuddies();
-        this.setInstructor();
-    },
-
-    colorDiveScore: function (elemId) {
-        var scoreInt = parseInt(elemId.split('_')[1]);
-        for (var i = 1; i <= scoreInt; i++) {
-            $('#diveScore_' + i).attr('src', '/i/heart-full.png');
-        }
-    },
-
-    restoreDiveScore: function () {
-        for (var i = 1; i <= logbook_record_model.scoreInt; i++) {
-            $('#diveScore_' + i).attr('src', '/i/heart-full.png');
-        }
-        for (i = logbook_record_model.scoreInt + 1; i <= 5; i++) {
-            $('#diveScore_' + i).attr('src', '/i/heart-empty.png');
-        }
-    },
-
-    setDiveScore: function (elemId) {
-        var scoreInt = parseInt(elemId.split('_')[1]);
-        logbook_record_model.scoreInt = scoreInt;
-        switch (scoreInt) {
-            case 1:
-                logbook_record_model.score = 'ONE_STAR';
-                break;
-            case 2:
-                logbook_record_model.score = 'TWO_STAR';
-                break;
-            case 3:
-                logbook_record_model.score = 'THREE_STAR';
-                break;
-            case 4:
-                logbook_record_model.score = 'FOUR_STAR';
-                break;
-            case 5:
-                logbook_record_model.score = 'FIVE_STAR';
-                break;
-        }
-        this.restoreDiveScore();
-    },
-
-    setBuddies: function () {
-        var self = this;
-        logbook_record_model.getDivers(
-            logbook_record_model.buddiesIds,
-            function (json) {
-                if (json.length == 0) {
-                    $('#buddies').hide();
-                }
-                else {
-                    $('#buddies').show();
-                    $('#buddiesList').html(
-                        new EJS({url: '/js/templates/buddiesList.ejs'}).render({"divers": json})
-                    );
-                    for (var i = 0; i < json.length; i++) {
-                        $('#' + json[i].id + '_showDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                        $('#' + json[i].id + '_removeBuddie').click(function () {
-                            self.removeBuddie($(this)[0].id);
-                        });
-                    }
-                }
-            },
-            function () {
-            }
-        );
-    },
-
-    setInstructor: function () {
-        var self = this;
-        var diverArray;
-        if (logbook_record_model.instructorId == "") {
-            diverArray = [];
+        if (tabName == 'NEW') {
+            $('#tabs').hide();
         }
         else {
-            diverArray = [logbook_record_model.instructorId];
+            $('#tabs').show();
         }
-        logbook_record_model.getDivers(
-            diverArray,
+
+        self.showTab(tabName);
+        $('#diveProfileTab').click(function () {
+            self.showTab('NEW_SAVED');
+        });
+        $('#publishTab').click(function () {
+            self.showTab('SAVED');
+        });
+
+        $('#chooseSpot').click(function (e) {
+            e.preventDefault();
+            self.buildLogbookEntryForm();
+            logbook_record_diveProfile_controller.maskInvalidValues();
+            logbook_record_model.createDraftRecord(
+                function (json) {
+                    window.location = "/secure/showSpots.html?logbookEntryId=" + json.id;
+                }, function () {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            );
+        });
+
+        $('#saveDraftSuccessClose').click(function () {
+            window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + logbook_record_model.logbookEntry.id;
+        });
+        $('#saveDraftSuccessOk').click(function () {
+            window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + logbook_record_model.logbookEntry.id;
+        });
+
+        $('#submitSuccessClose').click(function () {
+            window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + logbook_record_model.logbookEntry.id;
+        });
+        $('#submitSuccessOk').click(function () {
+            window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + logbook_record_model.logbookEntry.id;
+        });
+
+        $('#saveDraftLogbookEntryButton').click(function () {
+            self.saveDraft();
+        });
+        $('#saveLogbookEntryButton').click(function () {
+            self.saveLogbookEntry('SAVED');
+        });
+        $('#publishLogbookEntryButton').click(function () {
+            self.saveLogbookEntry('PUBLISHED');
+        });
+    },
+
+    showTab: function (tabName) {
+        if (tabName == 'NEW') {
+            $('#publish').hide();
+            $('#diveProfile').show();
+        } else if (tabName == 'NEW_SAVED') {
+            $('#publishTab').addClass('inactive');
+            $('#diveProfileTab').removeClass('inactive');
+            $('#publish').hide();
+            $('#diveProfile').show();
+        } else {
+            $('#diveProfileTab').addClass('inactive');
+            $('#publishTab').removeClass('inactive');
+            $('#diveProfile').hide();
+            $('#publish').show();
+        }
+    },
+
+    buildLogbookEntryForm: function () {
+        logbook_record_diveProfile_controller.buildLogbookEntryForm();
+        logbook_record_publish_controller.buildLogbookEntryForm();
+    },
+
+    saveDraft: function () {
+        this.buildLogbookEntryForm();
+        logbook_record_diveProfile_controller.maskInvalidValues();
+        logbook_record_model.createDraftRecord(
             function (json) {
-                if (json.length == 0) {
-                    $('#instructor').hide();
-                }
-                else {
-                    $('#instructor').show();
-                    $('#instructorContainer').html(
-                        new EJS({url: '/js/templates/buddiesList.ejs'}).render({"divers": json})
-                    );
-                    for (var i = 0; i < json.length; i++) {
-                        $('#' + json[i].id + '_showDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                        $('#' + json[i].id + '_removeBuddie').click(function () {
-                            self.removeBuddie($(this)[0].id);
-                        });
-                    }
-                }
-            },
-            function () {
+                logbook_record_model.logbookEntry.id = json.id;
+                $('#saveDraftSuccess').show();
+            }, function () {
+                error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
             }
         );
     },
 
-    createLogbookEntry: function () {
-        var imageData = $('#logbookPic').attr("src");
-        if (imageData) {
-            if (imageData.indexOf('base64') == -1) {
-                imageData = null;
-            }
-            else {
-                imageData = imageData.substring(imageData.indexOf(',') + 1);
+    saveLogbookEntry: function (futureState) {
+        logbook_record_diveProfile_controller.buildLogbookEntryForm();
+        this.cleanCreateFormErrors();
+        var diveProfileFormErrors = logbook_record_diveProfile_controller.validateCreateForm();
+        if (!diveProfileFormErrors.success) {
+            validation_controller.showErrors('create', diveProfileFormErrors);
+            if (logbook_record_model.logbookEntry.state == 'NEW') {
+                this.showTab('NEW');
+            } else {
+                this.showTab('NEW_SAVED');
             }
         }
-        var createForm = {
-            logbookEntryId: logbook_record_model.logbookEntryId,
-            spotId: logbook_record_model.spotId,
-            duration: $('#duration').val(),
-            depth: $('#depth').val(),
-            diveDate: $('#diveDate').val(),
-            score: logbook_record_model.score,
-            visibility: $('#visibility').val(),
-            note: $('#comments').val(),
-            instructorId: logbook_record_model.instructorId,
-            buddiesIds: arrayToJsonStr(logbook_record_model.buddiesIds),
-            photo: imageData
-        };
+        var publishFormErrors = {"success": true};
+        if (logbook_record_model.logbookEntry.state != 'NEW') {
+            logbook_record_publish_controller.buildLogbookEntryForm();
+            publishFormErrors = logbook_record_publish_controller.validateCreateForm();
+            if (!publishFormErrors.success) {
+                validation_controller.showErrors('create', publishFormErrors);
+                if (diveProfileFormErrors.success) {
+                    this.showTab(logbook_record_model.logbookEntry.state);
+                }
+            }
+        }
 
-        this.cleanCreateFormErrors();
-        var formErrors = this.validateCreateForm(createForm);
-        if (formErrors.success) {
+        if (diveProfileFormErrors.success && publishFormErrors.success) {
+            logbook_record_diveProfile_controller.maskInvalidValues();
+            const oldState = logbook_record_model.logbookEntry.state;
+            logbook_record_model.logbookEntry.state = futureState;
             logbook_record_model.createRecord(
-                createForm
-                , function (/*json*/) {
-                    window.location = "/secure/showLogbook.html";
+                function (json) {
+                    if (logbook_record_model.logbookEntry.state == "PUBLISHED") {
+                        window.location = "/secure/showLogbook.html";
+                    } else {
+                        logbook_record_model.logbookEntry.id = json.id;
+                        $('#submitSuccess').show();
+                    }
                 }
                 , function (json) {
+                    logbook_record_model.logbookEntry.state = oldState;
                     validation_controller.showErrors('create', json);
                 });
         }
-        else {
-            validation_controller.showErrors('create', formErrors);
-        }
-    },
-
-    validateCreateForm: function (regForm) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = {};
-        if (isStringTrimmedEmpty(regForm.duration)) {
-            result.fieldErrors["duration"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(regForm.depth)) {
-            result.fieldErrors["depth"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(regForm.diveDate)) {
-            result.fieldErrors["diveDate"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(regForm.visibility)) {
-            result.fieldErrors["visibility"] = 'validation.emptyField';
-        }
-
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-
-        return result;
     },
 
     cleanCreateFormErrors: function () {
         $("#create_error").empty().hide();
-        $('#create_error_diveDate').empty();
-        $('#create_error_visibility').empty();
-        $('#create_error_photo').empty();
-        $('#create_error_duration').empty();
-        $('#create_error_depth').empty();
-    },
-
-    selectPhotoFromDrive: function () {
-        $('#photoFileInput').trigger('click');
-    },
-
-    loadFileToPreview: function (input) {
-        try {
-            if (!this.validateFile(input)) {
-                return;
-            }
-            var file = input.files[0];
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#logbookPic').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-        catch (err) {
-            $('#logbookPic').hide();
-            $('#photoFileInput').show();
-        }
-    },
-
-    validateFile: function (input) {
-        $('#create_error_photo').html('');
-        if (!(input.files && input.files[0])) {
-            $('#create_error_photo').html(error_codes["validation.emptyField"]);
-            return false;
-        }
-        var file = input.files[0];
-        if (file.name.length < 1) {
-            $('#create_error_photo').html(error_codes["validation.emptyField"]);
-            return false;
-        }
-        else if (file.size > 1048576) {
-            $('#create_error_photo').html(error_codes["validation.logbookImageSize"]);
-            return false;
-        }
-        else if (file.type != 'image/png' && file.type != 'image/jpg' && file.type != 'image/gif' && file.type != 'image/jpeg') {
-            $('#create_error_photo').html(error_codes["validation.imageFormat"]);
-            return false;
-        }
-        return true;
-    },
-
-    findDiver: function () {
-        var self = this;
-        var findDiverForm = {};
-        switch (logbook_record_model.findDiverMode) {
-            case 'NAME':
-                findDiverForm.diverType = logbook_record_model.isInstructorSearch
-                    ? "INSTRUCTOR"
-                    : $("input[name=findDiverType]:checked").val();
-                findDiverForm.country = $('#findDiverCountry').val();
-                findDiverForm.name = $('#findDiverName').val();
-                break;
-            case 'FEDERATION':
-                findDiverForm.federationCountry = $('#findDiverFederationCountry').val();
-                findDiverForm.federationCardNumber = $('#findDiverFederationCardNumber').val();
-                break;
-            case 'CMAS':
-                findDiverForm.cmasCardNumber = $('#findDiverCmasCardNumber').val();
-                break;
-        }
-
-        this.cleanFindDiverErrors();
-        var formErrors = this.validateFindDiverForm(findDiverForm);
-        if (formErrors.success) {
-            logbook_record_model.searchDivers(
-                findDiverForm
-                , function (json) {
-                    self.showFoundDivers(json);
-                }
-                , function (json) {
-                    validation_controller.showErrors('findDiver', json);
-                });
-        }
-        else {
-            validation_controller.showErrors('findDiver', formErrors);
-        }
-    },
-
-    validateFindDiverForm: function (form) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = [];
-        switch (logbook_record_model.findDiverMode) {
-            case 'NAME':
-                if (isStringTrimmedEmpty(form.diverType)) {
-                    result.fieldErrors["diverType"] = 'validation.diverTypeEmpty';
-                }
-                if (isStringTrimmedEmpty(form.country)) {
-                    result.fieldErrors["country"] = 'validation.emptyField';
-                }
-                if (isStringTrimmedEmpty(form.name)) {
-                    result.fieldErrors["name"] = 'validation.emptyField';
-                }
-                else if (form.name.length < 3) {
-                    result.fieldErrors["name"] = 'validation.searchNameTooShort';
-                }
-                break;
-            case 'FEDERATION':
-                if (isStringTrimmedEmpty(form.federationCountry)) {
-                    result.fieldErrors["federationCountry"] = 'validation.emptyField';
-                }
-                if (isStringTrimmedEmpty(form.federationCardNumber)) {
-                    result.fieldErrors["federationCardNumber"] = 'validation.emptyField';
-                }
-                break;
-            case 'CMAS':
-                if (isStringTrimmedEmpty(form.cmasCardNumber)) {
-                    result.fieldErrors["cmasCardNumber"] = 'validation.emptyField';
-                }
-                break;
-        }
-
-
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-        return result;
-    },
-
-    cleanFindDiverForm: function () {
-        $("input[name=findDiverType]:checked").attr('checked', false);
-        if (logbook_record_model.isInstructorSearch) {
-            $('#findDiverTypeChoose').hide();
-            $('#findDiverTitle').html(labels["cmas.face.findDiver.form.page.title.instructor"]);
-        }
-        else {
-            $('#findDiverTitle').html(labels["cmas.face.findDiver.form.page.title"]);
-            $('#findDiverTypeChoose').show();
-        }
-        $('#findDiverCountry').val('').trigger("change");
-        $('#findDiverName').val('');
-        $('#findDiverFederationCountry').val('').trigger("change");
-        $('#findDiverFederationCardNumber').val('');
-        $('#findDiverCmasCardNumber').val('');
-        this.cleanFindDiverErrors();
-    },
-
-    cleanFindDiverErrors: function () {
-        $("#findDiver_error").empty().hide();
-        $('#findDiver_error_diverType').empty();
-        $('#findDiver_error_country').empty();
-        $('#findDiver_error_name').empty();
-        $('#findDiver_error_federationCountry').empty();
-        $('#findDiver_error_federationCardNumber').empty();
-        $('#findDiver_error_cmasCardNumber').empty();
-    },
-
-    showFoundDivers: function (divers) {
-        var self = this;
-        $('#findDiver').hide();
-        if (divers.length > 0) {
-            $('#diversListContent').html(
-                new EJS({url: '/js/templates/diversList.ejs'}).render({"divers": divers})
-            );
-            var i;
-            for (i = 0; i < divers.length; i++) {
-                var notification = null;
-                if (divers[i].id == logbook_record_model.diverId) {
-                    notification = error_codes["validation.cannotAddSelf"];
-                }
-                else if (logbook_record_model.buddiesIds.indexOf(divers[i].id) != -1) {
-                    notification = error_codes["validation.buddieAlready"];
-                }
-                else if (logbook_record_model.instructorId == divers[i].id) {
-                    notification = error_codes["validation.instructorAlready"];
-                }
-                if (notification == null) {
-                    var addText;
-                    if (logbook_record_model.isInstructorSearch) {
-                        addText = labels["cmas.face.findDiver.add.instructor"];
-                    }
-                    else {
-                        addText = labels["cmas.face.findDiver.add.buddie"];
-                    }
-                    $('#' + divers[i].id + '_addFriend').html(addText).click(function () {
-                        self.addBuddie($(this)[0].id);
-                    });
-                }
-                else {
-                    $('#' + divers[i].id + '_addFriend').hide();
-                    $('#' + divers[i].id + '_addFriendNotification').html(notification).show();
-                }
-            }
-            $('#createLogbookEntry').hide();
-            $('#diversList').show();
-        } else {
-            $('#noDiversFound').show();
-        }
-    },
-
-    addBuddie: function (elemId) {
-        var diverId = elemId.split('_')[0];
-        if (logbook_record_model.isInstructorSearch) {
-            logbook_record_model.instructorId = diverId;
-            this.setInstructor();
-        }
-        else {
-            logbook_record_model.buddiesIds.push(diverId);
-            this.setBuddies();
-        }
-        $('#diversList').hide();
-        $('#createLogbookEntry').show();
-    },
-
-    removeBuddie: function (elemId) {
-        var diverId = elemId.split('_')[0];
-        if (logbook_record_model.isInstructorSearch) {
-            logbook_record_model.instructorId = "";
-            this.setInstructor();
-        }
-        else {
-            logbook_record_model.buddiesIds = removeFromArray(logbook_record_model.buddiesIds, diverId);
-            this.setBuddies();
-        }
+        logbook_record_diveProfile_controller.cleanCreateFormErrors();
+        logbook_record_publish_controller.cleanCreateFormErrors();
     }
 };
 

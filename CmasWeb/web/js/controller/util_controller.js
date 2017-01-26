@@ -27,6 +27,83 @@ var util_controller = {
                     error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
                 }
             });
+    },
+
+    maskInvalidInt: function (str) {
+        var number = parseInt(str);
+        if (isNaN(number)) {
+            return null;
+        }
+        else {
+            return number;
+        }
+    },
+
+    maskInvalidFloat: function (str) {
+        var number = parseFloat(str);
+        if (isNaN(number)) {
+            return null;
+        }
+        else {
+            return number;
+        }
+    },
+
+    filterNumbers: function (event, value, maxLength) {
+        if (event.keyCode < 48 || event.keyCode > 57 || (value && value.length > maxLength)) {
+            event.preventDefault();
+        }
+    },
+
+    filterFloatNumberChars: function (event, value, maxLength) {
+        if (event.keyCode != 44 && event.keyCode != 46 && (event.keyCode < 48 || event.keyCode > 57 || (value && value.length > maxLength))) {
+            event.preventDefault();
+        }
+    },
+
+    setupSelect2: function (elemId, selectOptions, chosenOption, placeholder) {
+        if (!chosenOption) {
+            chosenOption = '';
+        }
+        var option = '';
+        for (var i = 0; i < selectOptions.length; i++) {
+            option += '<option value="' + selectOptions[i] + '"';
+            if (selectOptions[i] == chosenOption) {
+                option += ' selected="selected"';
+            }
+            option += '>' + labels[selectOptions[i]] + '</option>';
+        }
+        $("#" + elemId).append(option).select2({
+            escapeMarkup: function (m) {
+                return m;
+            },
+            placeholder: placeholder
+        }).val(chosenOption).trigger("change");
+    },
+
+    setupDate: function (elemId) {
+        $("#" + elemId).datepicker(
+            {
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '-10:+0',
+                maxDate: new Date(),
+                defaultDate: new Date(),
+                dateFormat: 'dd/mm/yy'
+            }
+        );
+    },
+
+    setupTime: function (elemId) {
+        $("#" + elemId).timepicker(
+            {
+                timeFormat: 'HH:mm',
+                dynamic: true,
+                interval: 10,
+                dropdown: true,
+                scrollbar: true
+            }
+        );
     }
 };
 

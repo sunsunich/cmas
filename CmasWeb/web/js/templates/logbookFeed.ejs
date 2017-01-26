@@ -10,18 +10,6 @@ for(i = 0; i < records.length;i++) {
         userpicSrc = 'data:image/png;base64,' + diver.photo;
     }
 
-    var starCnt = 0;
-    if (records[i].score == 'ONE_STAR') {
-        starCnt = 1;
-    } else if (records[i].score == 'TWO_STAR') {
-        starCnt = 2;
-    } else if (records[i].score == 'THREE_STAR') {
-        starCnt = 3;
-    } else if (records[i].score == 'FOUR_STAR') {
-        starCnt = 4;
-    } else if (records[i].score == 'FIVE_STAR') {
-        starCnt = 5;
-    }
     var diveSpot = records[i].diveSpot.name + ", " + records[i].diveSpot.country.name;
     var note = records[i].note;
     var visibleNote;
@@ -44,21 +32,7 @@ for(i = 0; i < records.length;i++) {
         </div>
         <div class="logbookFeed-elem-right">
             <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
-            <% if(recordsInfo.isMyRecords){
-            %>
-            <% var j;
-            for(j = 0;j < starCnt;j++) {
-            %>
-            <img class="diveScoreFeed" src="/i/heart-small-full.png"/>
-            <% } %>
-            <%
-            for(j = starCnt;j < 5;j++) {
-            %>
-            <img class="diveScoreFeed" src="/i/heart-small-empty.png"/>
-            <% } %>
-            <% } %>
             <p><span class="text"><%= diveSpot %></span></p>
-
             <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
         </div>
         <% if(recordsInfo.isMyRecords && !records[i].digest){
@@ -104,9 +78,9 @@ for(i = 0; i < records.length;i++) {
         </a>
             <span id="<%= recordsInfo.containerId %>Spec_<%= records[i].id %>" style="display: none">
                 <span class="panelFeed-label"><%= labels["cmas.face.feed.depth"] %>: </span>
-                <span class="text"><%= records[i].depthMeters %> <%= labels["cmas.face.feed.meters"] %></span><br/>
+                <span class="text"><%= records[i].diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span><br/>
                 <span class="panelFeed-label"><%= labels["cmas.face.feed.duration"] %>: </span>
-                <span class="text"><%= records[i].durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span><br/>
+                <span class="text"><%= records[i].diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span><br/>
                 <% if(records[i].instructor){
                     fullName = records[i].instructor.firstName + ' ' + records[i].instructor.lastName;
                 %>

@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
@@ -46,6 +47,11 @@ public class LogbookEntry extends DictionaryEntity {
     private String digest;
 
     @Expose
+    @Column
+    @Enumerated(EnumType.STRING)
+    private LogbookEntryState state;
+
+    @Expose
     @Column(nullable = false)
     private Date dateCreation;
 
@@ -54,20 +60,24 @@ public class LogbookEntry extends DictionaryEntity {
     private Date dateEdit;
 
     @Expose
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date diveDate;
+
+    @Expose
+    @Column(nullable = true)
+    private Date prevDiveDate;
 
     @Expose
     @ManyToOne
     private DiveSpot diveSpot;
 
     @Expose
-    @Column
-    private int durationMinutes;
+    @Column(nullable = true)
+    private Double latitude;
 
     @Expose
-    @Column
-    private int depthMeters;
+    @Column(nullable = true)
+    private Double longitude;
 
     @Expose
     @Column
@@ -103,6 +113,38 @@ public class LogbookEntry extends DictionaryEntity {
     @Column
     @Enumerated(EnumType.STRING)
     private LogbookVisibility visibility;
+
+    @Expose
+    @OneToOne
+    private DiveSpec diveSpec;
+
+    public LogbookEntry() {
+        state = LogbookEntryState.NEW;
+    }
+
+    public LogbookEntryState getState() {
+        return state;
+    }
+
+    public void setState(LogbookEntryState state) {
+        this.state = state;
+    }
+
+    public Date getPrevDiveDate() {
+        return prevDiveDate;
+    }
+
+    public void setPrevDiveDate(Date prevDiveDate) {
+        this.prevDiveDate = prevDiveDate;
+    }
+
+    public DiveSpec getDiveSpec() {
+        return diveSpec;
+    }
+
+    public void setDiveSpec(DiveSpec diveSpec) {
+        this.diveSpec = diveSpec;
+    }
 
     public byte[] getPhoto() {
         return photo;
@@ -176,22 +218,6 @@ public class LogbookEntry extends DictionaryEntity {
         this.diveSpot = diveSpot;
     }
 
-    public int getDurationMinutes() {
-        return durationMinutes;
-    }
-
-    public void setDurationMinutes(int durationSeconds) {
-        this.durationMinutes = durationSeconds;
-    }
-
-    public int getDepthMeters() {
-        return depthMeters;
-    }
-
-    public void setDepthMeters(int depthMeters) {
-        this.depthMeters = depthMeters;
-    }
-
     public DiveScore getScore() {
         return score;
     }
@@ -230,5 +256,21 @@ public class LogbookEntry extends DictionaryEntity {
 
     public void setUpdateVersion(long updateVersion) {
         this.updateVersion = updateVersion;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

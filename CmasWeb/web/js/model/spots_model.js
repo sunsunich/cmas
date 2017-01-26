@@ -1,5 +1,6 @@
 var spots_model = {
 
+    logbookEntryId: "",
     map: {},
     spotMap: {},
     currentEditSpot: {},

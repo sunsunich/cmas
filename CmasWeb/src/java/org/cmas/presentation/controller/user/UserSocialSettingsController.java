@@ -102,7 +102,7 @@ public class UserSocialSettingsController {
             socialUpdates.setBuddieRequests(logbookBuddieRequestDao.getRequestsToDiver(diver));
         }
         socialUpdates.setSocialUpdatesVersion(currentVersion);
-        return gsonViewFactory.createGsonView(socialUpdates);
+        return gsonViewFactory.createSocialUpdatesGsonView(socialUpdates);
     }
 
     @RequestMapping("/secure/social/getNewsCountries.html")
@@ -265,7 +265,13 @@ public class UserSocialSettingsController {
     }
 
     @RequestMapping("/secure/social/acceptLogbookBuddieRequest.html")
-    public View acceptLogbookBuddieRequest(@ModelAttribute("command") LogbookEntryRequestFormObject formObject) {
+    public View acceptLogbookBuddieRequest(@RequestParam("logbookEntryRequestJson") String logbookEntryRequestJson) {
+        LogbookEntryRequestFormObject formObject;
+        try {
+            formObject = gsonViewFactory.getLogbookEntryEditGson().fromJson(logbookEntryRequestJson, LogbookEntryRequestFormObject.class);
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
         FriendRequestValidationResult<LogbookBuddieRequest> validationResult = validateFriendRequest(
                 formObject.getRequestId(),
                 false,

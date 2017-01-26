@@ -1,0 +1,88 @@
+{
+  "state": "NEW",
+  "diveDate": "25/01/2017 00:20",
+  "prevDiveDate": "01/01/2017 00:00",
+  "latitude": "15.6631077",
+  "longitude": "73.7419017",
+  "note": "asd",
+  "buddies": [],
+  "visibility": "FRIENDS",
+  "diveSpec": {
+    "id": "2",
+    "durationMinutes": "12",
+    "maxDepthMeters": "12",
+    "avgDepthMeters": "12",
+    "weather": "CLEAR",
+    "surface": "SMALL_WAVES",
+    "current": "LIGHT_CURRENT",
+    "underWaterVisibility": "ONE_TO_TWO_M",
+    "waterType": "SALTED",
+    "airTemp": "12.0",
+    "waterTemp": "12.0",
+    "temperatureMeasureUnit": "CELSIUS",
+    "divePurpose": "EDUCATIONAL",
+    "entryType": "FROM_SHORE",
+    "additionalWeightKg": "12.0",
+    "diveSuit": "WET_SUIT",
+    "isApnea": false,
+    "scubaTanks": [
+      {
+        "id": "1",
+        "isDecoTank": true,
+        "size": "23",
+        "volumeMeasureUnit": "LITRES",
+        "startPressure": "23",
+        "endPressure": "23",
+        "pressureMeasureUnit": "BAR",
+        "supplyType": "OPEN_CIRCUIT",
+        "isAir": false,
+        "oxygenPercent": "23",
+        "heliumPercent": "23"
+      },
+      {
+        "id": "2",
+        "isDecoTank": false,
+        "supplyType": "OPEN_CIRCUIT",
+        "isAir": true,
+        "oxygenPercent": 0,
+        "heliumPercent": 0,
+        "size": "",
+        "volumeMeasureUnit": null,
+        "startPressure": "",
+        "endPressure": "",
+        "pressureMeasureUnit": null
+      }
+    ],
+    "decoStops": [],
+    "decoStepsComments": "we",
+    "hasSafetyStop": true,
+    "cnsToxicity": "qwe"
+  },
+  "id": "24",
+  "name": "xzc",
+  "version": "1",
+  "deleted": false,
+  "spot": {
+    "latitude": 15.6631077,
+    "longitude": 73.7419017,
+    "country": {
+      "code": "AFG",
+      "id": 2,
+      "name": "Afghanistan",
+      "version": 1,
+      "deleted": false
+    },
+    "toponym": {
+      "id": 3,
+      "name": "zxc",
+      "version": 1,
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": true,
+    "id": 5,
+    "name": "xzc",
+    "version": 1,
+    "deleted": false
+  }
+}

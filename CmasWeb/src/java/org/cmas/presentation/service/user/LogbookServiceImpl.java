@@ -1,18 +1,18 @@
 package org.cmas.presentation.service.user;
 
-import com.google.myjson.Gson;
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
-import org.cmas.entities.logbook.DiveScore;
+import org.cmas.entities.logbook.DiveSpec;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.logbook.LogbookEntry;
-import org.cmas.entities.logbook.LogbookVisibility;
+import org.cmas.entities.logbook.ScubaTank;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
+import org.cmas.presentation.dao.logbook.DiveSpecDao;
 import org.cmas.presentation.dao.logbook.LogbookBuddieRequestDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
+import org.cmas.presentation.dao.logbook.ScubaTankDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.presentation.model.logbook.LogbookEntryFormObject;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.ShaEncoder;
 import org.cmas.util.StringUtil;
@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -51,35 +52,53 @@ public class LogbookServiceImpl implements LogbookService {
     @Autowired
     private LogbookEntryDao logbookEntryDao;
 
+    @Autowired
+    private DiveSpecDao diveSpecDao;
+
+    @Autowired
+    private ScubaTankDao scubaTankDao;
+
     @Transactional
     @Override
-    public void createOrUpdateRecord(Diver diver, LogbookEntryFormObject formObject) throws ParseException, StaleObjectStateException {
-        Long spotId = Long.parseLong(formObject.getSpotId());
-        DiveSpot diveSpot = diveSpotDao.getById(spotId);
-        if (diveSpot == null) {
-            throw new RuntimeException();
+    public long createOrUpdateRecord(Diver diver, LogbookEntry formObject) throws ParseException, StaleObjectStateException {
+        Long spotId = null;
+        if (formObject.getDiveSpot() != null) {
+            spotId = formObject.getDiveSpot().getId();
         }
-        String instructorIdStr = formObject.getInstructorId();
+        DiveSpot diveSpot = null;
+        if (spotId != null) {
+            diveSpot = diveSpotDao.getById(spotId);
+            if (diveSpot == null) {
+                throw new RuntimeException();
+            }
+        }
+
+        Long instructorId = null;
+        if (formObject.getInstructor() != null) {
+            instructorId = formObject.getInstructor().getId();
+        }
         Diver instructor = null;
-        if (!StringUtil.isTrimmedEmpty(instructorIdStr)) {
-            Long instructorId = Long.parseLong(instructorIdStr);
+        if (instructorId != null) {
             instructor = diverDao.getModel(instructorId);
             if (instructor == null) {
                 throw new RuntimeException();
             }
         }
+
         Set<Diver> oldBuddies = null;
         Diver oldInstructor = null;
-        String logbookEntryIdStr = formObject.getLogbookEntryId();
+        Set<Long> oldTankIds = null;
+        long logbookEntryId = formObject.getId();
         LogbookEntry logbookEntry;
-        boolean isNew = StringUtil.isTrimmedEmpty(logbookEntryIdStr);
+        DiveSpec diveSpec;
+        boolean isNew = logbookEntryId == 0L;
         if (isNew) {
             logbookEntry = new LogbookEntry();
             logbookEntry.setDiver(diver);
             logbookEntry.setDateCreation(new Date());
-            logbookEntry.setDiveSpot(diveSpot);
+            diveSpec = new DiveSpec();
+            logbookEntry.setDiveSpec(diveSpec);
         } else {
-            Long logbookEntryId = Long.parseLong(logbookEntryIdStr);
             logbookEntry = logbookEntryDao.getModel(logbookEntryId);
             if (logbookEntry == null) {
                 throw new RuntimeException();
@@ -87,6 +106,15 @@ public class LogbookServiceImpl implements LogbookService {
             if (!StringUtil.isTrimmedEmpty(logbookEntry.getDigest())) {
                 throw new RuntimeException();
             }
+            diveSpec = logbookEntry.getDiveSpec();
+            List<ScubaTank> oldTanks = diveSpec.getScubaTanks();
+            if (oldTanks != null) {
+                oldTankIds = new HashSet<>(oldTanks.size());
+                for (ScubaTank scubaTank : oldTanks) {
+                    oldTankIds.add(scubaTank.getId());
+                }
+            }
+
             oldInstructor = logbookEntry.getInstructor();
             if (oldInstructor != null && !oldInstructor.equals(instructor)) {
                 LogbookBuddieRequest oldInstructorRequest
@@ -96,7 +124,7 @@ public class LogbookServiceImpl implements LogbookService {
                 }
             }
             oldBuddies = logbookEntry.getBuddies();
-            if (oldBuddies != null) {
+            if (oldBuddies != null && !oldBuddies.isEmpty()) {
                 //manual fetching
                 List<Long> buddiesIds = new ArrayList<>(oldBuddies.size());
                 for (Diver buddie : oldBuddies) {
@@ -110,23 +138,59 @@ public class LogbookServiceImpl implements LogbookService {
 
         logbookEntry.setDateEdit(new Date());
         logbookEntry.setInstructor(instructor);
+        logbookEntry.setDiveSpot(diveSpot);
         transfer(logbookEntry, formObject);
+        DiveSpec foDiveSpec = formObject.getDiveSpec();
+        transfer(diveSpec, foDiveSpec);
 
         Set<Diver> buddies = null;
-        List<Long> buddiesIds = new Gson().fromJson(formObject.getBuddiesIds(), Globals.LONG_LIST_TYPE);
-        if (buddiesIds != null && !buddiesIds.isEmpty()) {
-            buddies = new HashSet<>(diverDao.getDiversByIds(buddiesIds));
-            if (instructor != null) {
-                buddies.remove(instructor);
+        Set<Diver> foBuddies = formObject.getBuddies();
+        if (foBuddies != null) {
+            List<Long> buddiesIds = new ArrayList<>(foBuddies.size());
+            for (Diver foBuddie : foBuddies) {
+                buddiesIds.add(foBuddie.getId());
             }
-            buddies.remove(diver);
-            logbookEntry.setBuddies(buddies);
+            if (!buddiesIds.isEmpty()) {
+                buddies = new HashSet<>(diverDao.getDiversByIds(buddiesIds));
+                if (instructor != null) {
+                    buddies.remove(instructor);
+                }
+                buddies.remove(diver);
+                logbookEntry.setBuddies(buddies);
+            }
         }
 
         if (isNew) {
-            logbookEntryDao.save(logbookEntry);
+            diveSpecDao.save(diveSpec);
+            logbookEntryId = (Long)logbookEntryDao.save(logbookEntry);
         } else {
             logbookEntryDao.updateModel(logbookEntry);
+            diveSpecDao.updateModel(diveSpec);
+        }
+
+        List<ScubaTank> foScubaTanks = foDiveSpec.getScubaTanks();
+        if (foScubaTanks != null) {
+            for (ScubaTank foScubaTank : foScubaTanks) {
+                Long scubaTankId = foScubaTank.getId();
+                if (scubaTankId == null) {
+                    foScubaTank.setDiveSpec(diveSpec);
+                    scubaTankDao.save(foScubaTank);
+                } else {
+                    ScubaTank dbScubaTank = scubaTankDao.getById(scubaTankId);
+                    if (Objects.equals(dbScubaTank.getDiveSpec().getId(), diveSpec.getId())) {
+                        transfer(dbScubaTank, foScubaTank);
+                        scubaTankDao.updateModel(dbScubaTank);
+                        if (oldTankIds != null) {
+                            oldTankIds.remove(scubaTankId);
+                        }
+                    }
+                }
+            }
+        }
+        if (oldTankIds != null) {
+            for (Long scubaTankId : oldTankIds) {
+                scubaTankDao.deleteModel(scubaTankDao.getById(scubaTankId));
+            }
         }
 
         if (instructor != null && !instructor.equals(oldInstructor)) {
@@ -168,44 +232,87 @@ public class LogbookServiceImpl implements LogbookService {
                 }
             }
         }
+
+        return logbookEntryId;
     }
 
-    private static LogbookEntry transfer(LogbookEntry logbookEntry, LogbookEntryFormObject formObject) throws ParseException {
-        logbookEntry.setDiveDate(Globals.getDTF().parse(formObject.getDiveDate()));
-        logbookEntry.setDurationMinutes(Integer.parseInt(formObject.getDuration()));
-        logbookEntry.setDepthMeters(Integer.parseInt(formObject.getDepth()));
-
+    private static void transfer(LogbookEntry logbookEntry, LogbookEntry formObject) {
+        logbookEntry.setDiveDate(formObject.getDiveDate());
+        logbookEntry.setPrevDiveDate(formObject.getPrevDiveDate());
+        logbookEntry.setName(formObject.getName());
+        logbookEntry.setLatitude(formObject.getLatitude());
+        logbookEntry.setLongitude(formObject.getLongitude());
+        logbookEntry.setScore(formObject.getScore());
         logbookEntry.setNote(formObject.getNote());
+        logbookEntry.setVisibility(formObject.getVisibility());
+        logbookEntry.setState(formObject.getState());
 
-        String score = formObject.getScore();
-        if (!StringUtil.isTrimmedEmpty(score)) {
-            logbookEntry.setScore(DiveScore.valueOf(score));
-        }
-        String visibility = formObject.getVisibility();
-        if (!StringUtil.isTrimmedEmpty(visibility)) {
-            logbookEntry.setVisibility(LogbookVisibility.valueOf(visibility));
-        }
-        String photo = formObject.getPhoto();
-        if (!StringUtil.isTrimmedEmpty(photo)) {
+        String photo = formObject.getPhotoBase64();
+        if (StringUtil.isTrimmedEmpty(photo)) {
+            logbookEntry.setPhoto(null);
+        } else {
             logbookEntry.setPhoto(Base64Coder.decode(photo));
         }
-        return logbookEntry;
+    }
+
+    private static void transfer(DiveSpec diveSpec, DiveSpec formObject) {
+        diveSpec.setDurationMinutes(formObject.getDurationMinutes());
+        diveSpec.setMaxDepthMeters(formObject.getMaxDepthMeters());
+        diveSpec.setAvgDepthMeters(formObject.getAvgDepthMeters());
+
+        diveSpec.setWeather(formObject.getWeather());
+        diveSpec.setSurface(formObject.getSurface());
+        diveSpec.setCurrent(formObject.getCurrent());
+        diveSpec.setUnderWaterVisibility(formObject.getUnderWaterVisibility());
+        diveSpec.setWaterType(formObject.getWaterType());
+        diveSpec.setWaterTemp(formObject.getWaterTemp());
+        diveSpec.setAirTemp(formObject.getAirTemp());
+        diveSpec.setTemperatureMeasureUnit(formObject.getTemperatureMeasureUnit());
+
+        diveSpec.setDivePurpose(formObject.getDivePurpose());
+        diveSpec.setEntryType(formObject.getEntryType());
+
+        diveSpec.setAdditionalWeightKg(formObject.getAdditionalWeightKg());
+        diveSpec.setDiveSuit(formObject.getDiveSuit());
+
+        diveSpec.setIsApnea(formObject.getIsApnea());
+
+        diveSpec.setDecoStepsComments(formObject.getDecoStepsComments());
+        diveSpec.setHasSafetyStop(formObject.isHasSafetyStop());
+        diveSpec.setCnsToxicity(formObject.getCnsToxicity());
+    }
+
+    private static void transfer(ScubaTank scubaTank, ScubaTank formObject) {
+        scubaTank.setIsDecoTank(formObject.getIsDecoTank());
+        scubaTank.setSize(formObject.getSize());
+        scubaTank.setVolumeMeasureUnit(formObject.getVolumeMeasureUnit());
+        scubaTank.setStartPressure(formObject.getStartPressure());
+        scubaTank.setEndPressure(formObject.getEndPressure());
+        scubaTank.setPressureMeasureUnit(formObject.getPressureMeasureUnit());
+        scubaTank.setSupplyType(formObject.getSupplyType());
+        scubaTank.setIsAir(formObject.getIsAir());
+        scubaTank.setOxygenPercent(formObject.getOxygenPercent());
+        scubaTank.setHeliumPercent(formObject.getHeliumPercent());
     }
 
     @Override
     public String createSignature(LogbookEntry entry) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        DiveSpec diveSpec = entry.getDiveSpec();
         //noinspection StringConcatenation
-        return ShaEncoder.encode(entry.getDepthMeters()
+        return ShaEncoder.encode(entry.getName()
                                  + ShaEncoder.SEPARATOR
-                                 + Globals.getDTF().format(entry.getDiveDate())
+                                 + Globals.getDTFWebControls().format(entry.getDiveDate())
                                  + ShaEncoder.SEPARATOR
-                                 + entry.getDurationMinutes()
+                                 + entry.getLatitude()
+                                 + ShaEncoder.SEPARATOR
+                                 + entry.getLongitude()
+                                 + ShaEncoder.SEPARATOR
+                                 + diveSpec.getIsApnea()
+                                 + ShaEncoder.SEPARATOR
+                                 + diveSpec.getMaxDepthMeters()
+                                 + ShaEncoder.SEPARATOR
+                                 + diveSpec.getDurationMinutes()
                                  + ShaEncoder.SEPARATOR
                                  + SALT);
-    }
-
-    @Override
-    public String createSignature(LogbookEntryFormObject formObject) throws ParseException, UnsupportedEncodingException, NoSuchAlgorithmException {
-        return createSignature(transfer(new LogbookEntry(), formObject));
     }
 }

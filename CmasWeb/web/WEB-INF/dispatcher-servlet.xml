@@ -74,6 +74,7 @@
                 <value>/secure/createSpot.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
+                <value>/secure/saveDraftRecord.html</value>
                 <value>/secure/createRecord.html</value>
                 <value>/secure/getRecord.html</value>
                 <value>/secure/showLogbook.html</value>

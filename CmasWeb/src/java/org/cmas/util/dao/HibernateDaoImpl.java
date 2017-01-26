@@ -32,8 +32,7 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
     public static <T> T initializeAndUnproxy(T entity) {
         if (entity == null) {
-            throw new
-                    NullPointerException("Entity passed for initialization is null");
+            throw new NullPointerException("Entity passed for initialization is null");
         }
 
         Hibernate.initialize(entity);

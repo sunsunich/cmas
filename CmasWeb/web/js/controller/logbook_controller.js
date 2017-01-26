@@ -39,7 +39,7 @@ var logbook_controller = {
             self.showTab('FRIENDS');
         });
         $('#createLogbookEntryButton').click(function () {
-            window.location = "/secure/showSpots.html";
+            window.location = "/secure/createLogbookRecordForm.html";
         });
     },
 

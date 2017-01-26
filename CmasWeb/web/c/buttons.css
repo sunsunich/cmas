@@ -2,7 +2,7 @@
     text-align: center;
 }
 
-.form-button, .userInfo-button, .centerUserInfo-button, .longText-button {
+.form-button, .userInfo-button, .centerUserInfo-button, .longText-button, .the-only-button {
     margin-bottom: 25px;
     width: 60%;
     font-size: 26px;
@@ -33,6 +33,10 @@
 
 .userInfo-button {
     margin-left: 10px;
+}
+
+.the-only-button {
+    margin-bottom: 0;
 }
 
 .enter-button {

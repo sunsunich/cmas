@@ -7,8 +7,8 @@ var diveSpot = record.diveSpot.name + ", " + record.diveSpot.country.name;
     <p><span><%=diveSpot %></span></p>
     <p><span><%= labels["cmas.face.feed.createdBy"] %>: <a class="white-form-href link" href="#" id="<%=diver.id %>_logbookRecordDialog_<%= record.id %>_showDiver"><%=fullName %></a></span></p>
     <p><span><%= labels["cmas.face.feed.time.label"] %>: <%=record.diveDate %></span></p>
-    <p><span><%= labels["cmas.face.feed.depth"] %>: <%=record.depthMeters %> <%= labels["cmas.face.feed.meters"] %></span></p>
-    <p><span><%= labels["cmas.face.feed.duration"] %>: <%=record.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span></p>
+    <p><span><%= labels["cmas.face.feed.depth"] %>: <%=record.diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span></p>
+    <p><span><%= labels["cmas.face.feed.duration"] %>: <%=record.diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span></p>
     <% if(record.instructor){
         fullName = record.instructor.firstName + ' ' + record.instructor.lastName;
     %>

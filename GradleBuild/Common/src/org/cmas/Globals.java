@@ -44,7 +44,8 @@ interface GlobalsStaticContainer {
     String MOBILE_DB_PASS = "oT98{7s%{7oQg$";
 
     String DTF = "dd/MM/yyyy";
-   // String FULL_DTF = "YYYY-MM-DDTHH:mm:ss.sssZ";
+    String DTF_WEB_CONTROLS = "dd/MM/yyyy HH:mm";
+    String FULL_DTF = "YYYY-MM-DDTHH:mm:ss.sssZ";
 
     int PRICE_INT_DIGITS = 6;
     int PRICE_FRAC_DIGITS = 2;
@@ -84,9 +85,13 @@ public final class Globals implements GlobalsStaticContainer {
         return new SimpleDateFormat(DTF);
     }
 
-//    public static SimpleDateFormat getFullDTF() {
-//        return new SimpleDateFormat(FULL_DTF);
-//    }
+    public static SimpleDateFormat getFullDTF() {
+        return new SimpleDateFormat(FULL_DTF);
+    }
+
+    public static SimpleDateFormat getDTFWebControls() {
+        return new SimpleDateFormat(DTF_WEB_CONTROLS);
+    }
 
     @SuppressWarnings("EmptyClass")
     public static final class LongListTypeToken extends TypeToken<List<Long>> {

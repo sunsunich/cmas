@@ -183,10 +183,10 @@ var social_model = {
     acceptLogbookEntryRequest: function (formObject, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({
-            type: "Get",
+            type: "POST",
             url: "/secure/social/acceptLogbookBuddieRequest.html",
             dataType: "json",
-            data: formObject,
+            data: {"logbookEntryRequestJson": JSON.stringify(formObject)},
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {

@@ -260,6 +260,10 @@ var spots_controller = {
 
         for (var i = 0; i < spots.length; i++) {
             var spot = spots[i];
+            spot.toponymName = spot.toponym ? spot.toponym.name : "";
+            spot.countryCode = spot.country ? spot.country.code : "";
+            spot.countryName = spot.country ? spot.country.name : "";
+
             if (this.findSpotOnMap(spot) == null) {
                 this.createSpotMarker(spot);
             }
@@ -314,20 +318,26 @@ var spots_controller = {
     },
 
     createLogbookEntry: function (elemId) {
+        var gotoUrl;
+        if (spots_model.logbookEntryId) {
+            gotoUrl = "/secure/editLogbookRecordForm.html?logbookEntryId=" + spots_model.logbookEntryId + '&spotId=';
+        } else {
+            gotoUrl = "/secure/createLogbookRecordForm.html?spotId=";
+        }
         var spotId = elemId.split('_')[0];
         var spot = spots_model.spotMap[spotId].spot;
-        if (spot.isApproved) {
-            window.location = "/secure/createLogbookRecordForm.html?spotId=" + spotId;
-        } else {
+        if (!spot.isApproved) {
             spots_model.createSpot(
                 spot,
                 function (json) {
-                    window.location = "/secure/createLogbookRecordForm.html?spotId=" + json.id;
+                    window.location = gotoUrl + json.id;
                 },
                 function () {
                     error_dialog_controller.showErrorDialog(labels["error.spot.creation"]);
                 }
             );
+        } else {
+            window.location = gotoUrl + spotId;
         }
     },
 

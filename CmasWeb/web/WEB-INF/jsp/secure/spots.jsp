@@ -6,7 +6,14 @@
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
-<my:securepage title="cmas.face.index.header" customScripts="js/model/spots_model.js,js/controller/country_controller.js,js/controller/spots_controller.js">
+<my:securepage title="cmas.face.index.header"
+               customScripts="js/model/spots_model.js,js/controller/country_controller.js,js/controller/spots_controller.js">
+
+    <script type="application/javascript">
+        <c:if test="${logbookEntryId != null}">
+        spots_model.logbookEntryId = "${logbookEntryId}";
+        </c:if>
+    </script>
 
     <div class="menu-left" id="spotsMenu">
         <div class="menu-title">

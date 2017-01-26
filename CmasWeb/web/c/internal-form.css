@@ -13,14 +13,13 @@
 
 .form-row,
 .dialog-form-row,
-.white-form-row,
 .date-form-row {
     margin-bottom: 15px;
     position: relative;
     width: 100%;
 }
 
-.white-form-row, .date-form-row {
+.date-form-row {
     padding-left: 16px;
     width: 90%;
 }
@@ -34,7 +33,6 @@
 
 .form-row input,
 .dialog-form-row input,
-.white-form-row input,
 .date-form-row input,
 .select2-selection {
     width: 100%;
@@ -51,8 +49,8 @@
 
 .date-form-calendar-input-ico {
     content: url("/i/calendar_ico.png");
-    top: 14px;
-    left: 26px;
+    top: 34px;
+    left: 8%;
 }
 
 .date-form-row input {

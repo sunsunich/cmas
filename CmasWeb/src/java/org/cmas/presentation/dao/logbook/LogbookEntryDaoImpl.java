@@ -3,6 +3,7 @@ package org.cmas.presentation.dao.logbook;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.entities.logbook.LogbookEntryState;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.presentation.dao.DictionaryDataDaoImpl;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
@@ -47,7 +48,8 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " where (d.id = :diverId"
                      + " or f.id = :diverId and le.visibility != :visibility"
                      + " or fof.id = :diverId and le.visibility != :visibility)"
-                     + " and le.deleted = :deleted";
+                     + " and le.deleted = :deleted"
+                     + " and le.state = :state";
         Query query = addSearchFormObjectToQuery(formObject, hql, true);
         return query.setLong("diverId", diver.getId()).list();
     }
@@ -67,7 +69,8 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
         if (countries != null) {
             hql += " and country in (:countries)";
         }
-        hql += " and le.deleted = :deleted";
+        hql += " and le.deleted = :deleted"
+               + " and le.state = :state";
         Query query = addSearchFormObjectToQuery(formObject, hql, true);
         query.setParameter("pubVis", LogbookVisibility.PUBLIC);
         if (countries != null) {
@@ -85,7 +88,8 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
         if (countries != null) {
             hql += " and country in (:countries)";
         }
-        hql += " and le.deleted = :deleted";
+        hql += " and le.deleted = :deleted"
+               + " and le.state = :state";
         Query query = addSearchFormObjectToQuery(formObject, hql, false);
         query.setParameter("pubVis", LogbookVisibility.PUBLIC);
         if (countries != null) {
@@ -109,6 +113,7 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
             query.setParameter("visibility", LogbookVisibility.PRIVATE);
         }
         query.setBoolean("deleted", false);
+        query.setParameter("state", LogbookEntryState.PUBLISHED);
         if (!StringUtil.isTrimmedEmpty(fromDate)) {
             query.setTimestamp("fromDate", new Date(Long.parseLong(fromDate)));
         }

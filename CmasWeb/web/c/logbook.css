@@ -1,0 +1,162 @@
+.logbookEntry {
+    background: #f8f8f8;
+    height: auto;
+    width: 362px;
+    margin: 0 auto;
+    border-radius: 6px;
+    position: fixed;
+    top: 98px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 800;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+.createEntryHeader {
+    margin-top: 20px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.createEntryHeaderTitle {
+    font-size: 28px;
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.white-form, .white-form-right, .white-form-left {
+    margin-top: 20px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 460px;
+    background: #f8f8f8;
+}
+
+.white-form-right, .white-form-left {
+    float: left;
+    left: 10%;
+    transform: translate(0%, 0%);
+}
+
+.white-form-right {
+    float: right;
+}
+
+.white-form-left {
+    margin-right: 10%;
+}
+
+.white-form-title-left {
+    font-size: 22px;
+    float: left;
+}
+
+.white-form-title-right {
+    float: right;
+}
+
+.white-form-label, .white-form-checkbox-label {
+    color: #cccccc;
+    width: 100%;
+    font-size: 16px;
+}
+
+.white-form-checkbox-label {
+    color: #666666;
+    font-size: 20px;
+}
+
+.white-form-text {
+    color: #666666;
+    margin-right: 6px;
+    font-size: 24px;
+}
+
+.white-form-href {
+    font-size: 20px;
+    color: #04c8ff;
+    padding-left: 5px;
+    text-decoration: underline;
+}
+
+.white-form-textarea {
+    width: 100%;
+    background-color: rgb(234, 234, 234);
+    border: 0;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.white-form-top-row {
+    margin-top: 15px;
+}
+
+.white-form-row {
+    margin-bottom: 15px;
+    padding-left: 5%;
+    position: relative;
+    width: 90%;
+}
+
+.white-form-row-date {
+    width: 60%;
+    float: left;
+}
+
+.white-form-row-time {
+    width: 35%;
+    float: right;
+}
+
+.white-form-row-half, .white-form-row-half-right {
+    width: 48%;
+    float: left;
+}
+
+.white-form-row-half-right {
+    float: right;
+}
+
+.white-form-row-third, .white-form-row-third-right {
+    width: 32%;
+    padding-right: 6px;
+    float: left;
+}
+
+.white-form-row-third-right {
+    padding-right: 0;
+    float: right;
+}
+
+.white-form-row-input,
+.white-form-date-input,
+.white-form-time-input {
+    width: 100%;
+    height: 100% !important;
+    padding-top: 18px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: rgb(234, 234, 234)
+}
+
+.white-form-date-input {
+    margin-right: 3%;
+    padding-left: 42px;
+}
+
+.white-form-row-img {
+    height: 20px;
+    position: absolute;
+}
+
+
+

@@ -44,7 +44,7 @@
       <excludeFolder url="file://$MODULE_DIR$/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/toTranslate" />
     </content>
-    <orderEntry type="jdk" jdkName="7" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="EntitiesModel" exported="" />
     <orderEntry type="library" exported="" name="lib" level="project" />
