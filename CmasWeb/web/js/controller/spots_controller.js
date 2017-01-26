@@ -26,11 +26,11 @@ var spots_controller = {
                     self.showSpotOnMap(pos.lat, pos.lng, true);
                 });
             }, function () {
-                self.handleLocationError(true, map.getCenter());
+                self.handleLocationError(true, spots_model.map.getCenter());
             });
         } else {
             // Browser doesn't support Geolocation
-            self.handleLocationError(false, map.getCenter());
+            self.handleLocationError(false, spots_model.map.getCenter());
         }
 
         google.maps.event.addListener(spots_model.map, 'click', function (event) {
@@ -342,12 +342,19 @@ var spots_controller = {
     },
 
     handleLocationError: function (browserHasGeolocation, pos) {
-        var infoWindow = new google.maps.InfoWindow({map: map});
+        var infoWindow = new google.maps.InfoWindow({map: spots_model.map});
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
                 error_codes["error.geolocation.service.failed"] :
                 error_codes["error.geolocation.support"]
         );
+        /*
+         error_dialog_controller.showErrorDialog(
+         browserHasGeolocation ?
+         error_codes["error.geolocation.service.failed"] :
+         error_codes["error.geolocation.support"]
+         )
+         */
     }
 };
 
