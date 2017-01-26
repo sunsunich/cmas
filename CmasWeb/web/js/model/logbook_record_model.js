@@ -88,7 +88,7 @@ var logbook_record_model = {
                 loader_controller.stopwait();
             },
             error: function () {
-                errorHandler();
+                window.location.reload();
             }
         });
     },
@@ -110,7 +110,7 @@ var logbook_record_model = {
                 loader_controller.stopwait();
             },
             error: function () {
-                errorHandler();
+                window.location.reload();
             }
         });
     }

@@ -6,17 +6,11 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
-<jsp:useBean id="visibilityTypes" scope="request" type="org.cmas.entities.logbook.LogbookVisibility[]"/>
 
 <my:securepage title="cmas.face.index.header"
                customScripts="js/model/util_model.js,js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
         >
     <script type="application/javascript">
-        var visibilityTypes = [];
-        <c:forEach items="${visibilityTypes}" var="visibilityType" varStatus="st">
-        visibilityTypes[${st.index}] = '${visibilityType.name}';
-        </c:forEach>
-        var logbookVisibility = "${diver.defaultVisibility}";
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
 
@@ -111,13 +105,6 @@
                         <s:message code="cmas.face.client.social.addMember"/>
                     </button>
                 </div>
-
-                <%--<div class="panel-row">--%>
-                    <%--<input type="checkbox" id="addTeamToLogbook"--%>
-                           <%--<c:if test="${diver.addFriendsToLogbookEntries}">checked="checked"</c:if>--%>
-                            <%--/>--%>
-                    <%--<span class="text"><s:message code="cmas.face.client.social.addToLogbook"/></span>--%>
-                <%--</div>--%>
             </div>
 
             <div class="panel" style="display: none" id="fromRequestsPanel">
@@ -128,15 +115,6 @@
                 </div>
             </div>
 
-            <div class="panel">
-                <div class="header">
-                    <s:message code="cmas.face.client.social.logbook.settings.header"/>
-                </div>
-                <div class="panel-row">
-                    <select name="visibilityType" id="visibilityType" style="width: 100%" size=1 onChange="">
-                    </select>
-                </div>
-            </div>
             <div class="panel">
                 <div class="header">
                     <s:message code="cmas.face.client.social.newsfeed.header"/>

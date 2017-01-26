@@ -105,8 +105,7 @@ var social_model = {
                 loader_controller.stopwait();
             },
             error: function () {
-                loader_controller.stopwait();
-                errorHandler();
+                window.location.reload();
             }
         });
     },

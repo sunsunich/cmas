@@ -84,6 +84,7 @@ var profile_model = {
                 loader_controller.stopwait();
             },
             error: function (e) {
+                loader_controller.stopwait();
             }
         });
     },

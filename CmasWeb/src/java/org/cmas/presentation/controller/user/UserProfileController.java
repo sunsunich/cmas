@@ -6,7 +6,6 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.PersonalCardDao;
@@ -134,7 +133,6 @@ public class UserProfileController {
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
-        model.addAttribute("visibilityTypes", LogbookVisibility.values());
         return new ModelAndView("/secure/userInfo");
     }
 

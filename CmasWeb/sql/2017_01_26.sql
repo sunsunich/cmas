@@ -1,0 +1,1 @@
+update divers set defaultVisibility = 'PRIVATE';

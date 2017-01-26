@@ -164,37 +164,6 @@ var social_settings_controller = {
 
     setListeners: function () {
         var self = this;
-        var option = '';
-        for (var i = 0; i < visibilityTypes.length; i++) {
-            option += '<option value="' + visibilityTypes[i] + '"';
-            if (visibilityTypes[i] == logbookVisibility) {
-                option += ' selected="selected"';
-            }
-            option += '>' + labels[visibilityTypes[i]] + '</option>';
-        }
-        $("#visibilityType").append(option);
-        $("#visibilityType").select2({
-            escapeMarkup: function (m) {
-                return m;
-            }
-        });
-        $('#visibilityType').change(function () {
-            var defaultVisibility = $(this).val();
-            social_model.setDefaultLogbookVisibility(
-                defaultVisibility,
-                function (/*json*/) {
-                },
-                function (json) {
-                    if (json && json.hasOwnProperty("message")) {
-                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                    }
-                    else {
-                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                    }
-                }
-            );
-
-        });
 
         $('#findDiverButton').click(function () {
             self.cleanFindDiverForm();

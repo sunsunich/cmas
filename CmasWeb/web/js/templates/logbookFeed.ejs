@@ -10,7 +10,16 @@ for(i = 0; i < records.length;i++) {
         userpicSrc = 'data:image/png;base64,' + diver.photo;
     }
 
-    var diveSpot = records[i].diveSpot.name + ", " + records[i].diveSpot.country.name;
+    var diveSpot;
+    if (records[i].diveSpot) {
+        diveSpot = records[i].diveSpot.name;
+        if (records[i].diveSpot.country) {
+            diveSpot += ", " + records[i].diveSpot.country.name;
+        }
+    }
+    else {
+        diveSpot = records[i].name;
+    }
     var note = records[i].note;
     var visibleNote;
     var invisibleNote;
@@ -32,7 +41,9 @@ for(i = 0; i < records.length;i++) {
         </div>
         <div class="logbookFeed-elem-right">
             <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
+
             <p><span class="text"><%= diveSpot %></span></p>
+
             <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
         </div>
         <% if(recordsInfo.isMyRecords && !records[i].digest){

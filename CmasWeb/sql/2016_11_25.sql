@@ -401,7 +401,7 @@ VALUES
 
 update divers set isAddFriendsToLogbookEntries = false;
 update divers set isNewsFromCurrentLocation = false;
-update divers set defaultVisibility = 'FRIENDS';
+update divers set defaultVisibility = 'PRIVATE';
 update divers set socialUpdatesVersion = 0;
 update countries set code = 'PRT' where code = 'POR';
 update countries set code = 'DNK' where code = 'DEN';

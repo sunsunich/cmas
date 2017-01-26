@@ -127,7 +127,7 @@ update personal_cards set number = '9', image = NULL where id = @v;
 
 update divers set isAddFriendsToLogbookEntries = false WHERE isAddFriendsToLogbookEntries is NULL;
 update divers set isNewsFromCurrentLocation = false WHERE isNewsFromCurrentLocation is NULL;
-update divers set defaultVisibility = 'FRIENDS' WHERE defaultVisibility is NULL;
+update divers set defaultVisibility = 'PRIVATE' WHERE defaultVisibility is NULL;
 update divers set socialUpdatesVersion = 0 WHERE socialUpdatesVersion is NULL;
 
 update personal_cards set image = NULL;
