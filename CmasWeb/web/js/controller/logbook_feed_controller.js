@@ -1,7 +1,7 @@
 var logbook_feed_controller = {
 
     model: null,
-    timeout: null,
+    reloadInterval: null,
     scrollHandler: null,
 
     init: function () {
@@ -20,19 +20,14 @@ var logbook_feed_controller = {
     },
 
     start: function () {
-        var self = this;
         this.refreshFeed();
-        this.timeout = setTimeout(function run() {
-            self.refreshFeed();
-            self.timeout = setTimeout(run, 3000);
-        }, 3000);
         $(window).scroll(this.scrollHandler);
     },
 
     stop: function () {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-            this.timeout = null;
+        if (this.reloadInterval) {
+            clearTimeout(this.reloadInterval);
+            this.reloadInterval = null;
         }
         $(window).off('scroll', this.scrollHandler);
     },
@@ -42,6 +37,7 @@ var logbook_feed_controller = {
         this.model.getNewRecords(
             function (recordsInfo) {
                 self.renderFeed(recordsInfo, true);
+                self.resetReloadInterval();
             },
             function (json) {
                 if (json && json.hasOwnProperty("message")) {
@@ -50,8 +46,16 @@ var logbook_feed_controller = {
                 else {
                     error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
                 }
+                self.resetReloadInterval();
             }
         )
+    },
+
+    resetReloadInterval: function () {
+        var self = this;
+        this.reloadInterval = setTimeout(function run() {
+            self.refreshFeed();
+        }, 3000);
     },
 
     getOldRecords: function () {

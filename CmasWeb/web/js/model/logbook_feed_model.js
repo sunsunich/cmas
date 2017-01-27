@@ -1,5 +1,6 @@
 var logbook_feed_model = {
 
+    isFirstLoad: true,
     isMyRecords: false,
     isShowSpec: true,
     containerId: "",
@@ -40,6 +41,9 @@ var logbook_feed_model = {
     },
 
     getRecords: function (form, successHandler, errorHandler) {
+        if (this.isFirstLoad) {
+            loader_controller.startwait();
+        }
         var self = this;
         $.ajax({
             type: "GET",
@@ -56,11 +60,24 @@ var logbook_feed_model = {
                         containerId: self.containerId,
                         isShowSpec: self.isShowSpec
                     });
+
+                    if (self.isFirstLoad) {
+                        loader_controller.stopwait();
+                        self.isFirstLoad = false;
+                    }
                 } else {
+                    if (self.isFirstLoad) {
+                        loader_controller.stopwait();
+                        self.isFirstLoad = false;
+                    }
                     errorHandler(json);
                 }
             },
             error: function (e) {
+                if (self.isFirstLoad) {
+                    loader_controller.stopwait();
+                    self.isFirstLoad = false;
+                }
             }
         });
     },
