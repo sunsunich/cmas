@@ -426,10 +426,10 @@ var logbook_record_diveProfile_controller = {
                 } else if (!is_non_negative_float(tank.oxygenPercent)) {
                     result.fieldErrors["oxygenPercent_" + index] = 'validation.incorrectNumber';
                 }
-                if (isStringTrimmedEmpty(tank.heliumPercent)) {
-                    result.fieldErrors["heliumPercent_" + index] = 'validation.emptyField';
-                } else if (!is_non_negative_float(tank.heliumPercent)) {
-                    result.fieldErrors["heliumPercent_" + index] = 'validation.incorrectNumber';
+                if (!isStringTrimmedEmpty(tank.heliumPercent)) {
+                    if (!is_non_negative_float(tank.heliumPercent)) {
+                        result.fieldErrors["heliumPercent_" + index] = 'validation.incorrectNumber';
+                    }
                 }
             }
         }
