@@ -117,6 +117,6 @@ public class FederationAdminController {
         }
         ModelMap mmap = new ModelMap();
         mmap.addAttribute("user", user);
-        return new ModelAndView("federation/userInfo", mmap);
+        return new ModelAndView("fed/userInfo", mmap);
     }
 }
