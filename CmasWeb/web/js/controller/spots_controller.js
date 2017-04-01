@@ -45,6 +45,14 @@ var spots_controller = {
             $('#createSpot').hide();
         });
 
+        $('#deleteSpotOk').click(function () {
+            self.deleteSpot();
+        });
+
+        $('#deleteSpotClose').click(function () {
+            $('#deleteSpot').hide();
+        });
+
     },
 
     refreshSpots: function () {
@@ -80,14 +88,6 @@ var spots_controller = {
                 }
             );
         }
-    },
-
-    deleteSpotFromMap: function (spotId) {
-        var infoWindow = spots_model.spotMap[spotId].infoWindow;
-        google.maps.event.clearInstanceListeners(infoWindow);  // just in case handlers continue to stick around
-        infoWindow.close();
-        spots_model.spotMap[spotId].marker.setMap(null);
-        delete spots_model.spotMap[spotId];
     },
 
     showSpotOnMap: function (latitude, longitude, isAutoGeoLocation) {
@@ -204,7 +204,8 @@ var spots_controller = {
                 '<span>' + spot.toponymName + '</span> <br />' +
                 '<span>' + spot.countryName + '</span> <br />' +
                 '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button> <br />' +
-                '<button id="' + spot.id + '_editSpotInfoWindow">' + labels['cmas.face.spots.edit'] + '</button>';
+                '<button id="' + spot.id + '_editSpotInfoWindow">' + labels['cmas.face.spots.edit'] + '</button>' +
+                '<button id="' + spot.id + '_deleteSpotInfoWindow">' + labels['cmas.face.spots.delete'] + '</button>';
 
         }
         var infoWindow = new google.maps.InfoWindow({
@@ -232,6 +233,12 @@ var spots_controller = {
             $('#' + spotId + '_editSpotInfoWindow').click(function () {
                     var spotId = $(this)[0].id.split('_')[0];
                     self.showEditSpotDialog(spots_model.spotMap[spotId].spot);
+                }
+            );
+            $("body").off("click", '#' + spotId + '_deleteSpotInfoWindow');
+            $('#' + spotId + '_deleteSpotInfoWindow').click(function () {
+                    var spotId = $(this)[0].id.split('_')[0];
+                    self.showDeleteSpotDialog(spotId);
                 }
             );
         }
@@ -294,6 +301,12 @@ var spots_controller = {
                                 self.showEditSpotDialog(spots_model.spotMap[spotId].spot);
                             }
                         );
+                        $('#' + spot.id + '_deleteSpot').click(function (e) {
+                                e.preventDefault();
+                                var spotId = $(this)[0].id.split('_')[0];
+                                self.showDeleteSpotDialog(spotId);
+                            }
+                        );
                     }
                 }
             }
@@ -317,6 +330,36 @@ var spots_controller = {
         return null;
     },
 
+    showDeleteSpotDialog: function (spotId) {
+        spots_model.currentSpotIdToDelete = spotId;
+        $('#deleteSpot').show();
+    },
+
+    deleteSpot: function () {
+        var self = this;
+        spots_model.deleteSpot(
+            function (json) {
+                self.deleteSpotFromMap(spots_model.currentSpotIdToDelete);
+                self.updateFoundSpots();
+                spots_model.currentSpotIdToDelete = "";
+                $('#deleteSpot').hide();
+            },
+            function () {
+                spots_model.currentSpotIdToDelete = "";
+                $('#deleteSpot').hide();
+                error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+            }
+        );
+    },
+
+    deleteSpotFromMap: function (spotId) {
+        var infoWindow = spots_model.spotMap[spotId].infoWindow;
+        google.maps.event.clearInstanceListeners(infoWindow);  // just in case handlers continue to stick around
+        infoWindow.close();
+        spots_model.spotMap[spotId].marker.setMap(null);
+        delete spots_model.spotMap[spotId];
+    },
+
     createLogbookEntry: function (elemId) {
         var gotoUrl;
         if (spots_model.logbookEntryId) {
@@ -333,7 +376,7 @@ var spots_controller = {
                     window.location = gotoUrl + json.id;
                 },
                 function () {
-                    error_dialog_controller.showErrorDialog(labels["error.spot.creation"]);
+                    error_dialog_controller.showErrorDialog(error_codes["error.spot.creation"]);
                 }
             );
         } else {

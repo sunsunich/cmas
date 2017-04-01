@@ -72,6 +72,7 @@
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
                 <value>/secure/createSpot.html</value>
+                <value>/secure/deleteSpot.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/saveDraftRecord.html</value>

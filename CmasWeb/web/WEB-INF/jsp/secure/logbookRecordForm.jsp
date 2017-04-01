@@ -84,7 +84,7 @@
 
         <div class="createEntryHeader">
             <div class="createEntryHeaderTitle"><s:message code="cmas.face.logbook.create.title"/></div>
-            <div class="content-left">
+            <div class="content">
                 <div id="tabs" class="tabs clearfix">
                 <span class="firstTab" id="diveProfileTab">
                     <s:message code="cmas.face.logbook.diveProfile"/>
@@ -258,7 +258,7 @@
                         <label class="white-form-label"><s:message code="cmas.face.logbook.waterType"/></label>
                         <select name="waterType" id="waterType" style="width: 100%" size=1 onChange="">
                         </select>
-                        <label class="error" id="create_error_current"></label>
+                        <label class="error" id="create_error_waterType"></label>
                     </div>
                 </div>
 
@@ -276,7 +276,7 @@
                         <label class="white-form-label"><s:message code="cmas.face.logbook.current"/></label>
                         <select name="current" id="current" style="width: 100%" size=1 onChange="">
                         </select>
-                        <label class="error" id="create_error_waterType"></label>
+                        <label class="error" id="create_error_current"></label>
                     </div>
                 </div>
 

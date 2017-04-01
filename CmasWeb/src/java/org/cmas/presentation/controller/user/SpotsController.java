@@ -83,7 +83,6 @@ public class SpotsController {
         return diver;
     }
 
-
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
     public ModelAndView showSpotsPage(@RequestParam(value = "logbookEntryId", required = false) Long logbookEntryId) throws IOException {
         ModelMap mm = new ModelMap();
@@ -163,5 +162,16 @@ public class SpotsController {
         }
 
         return gsonViewFactory.createGsonView(new IdObject(spotId));
+    }
+
+    @RequestMapping(value = "/secure/deleteSpot.html", method = RequestMethod.GET)
+    public View deleteSpot(@RequestParam("spotId") long spotId) throws IOException {
+        DiveSpot spot = diveSpotDao.getById(spotId);
+        if (spot.isApproved()) {
+            throw new BadRequestException();
+        }
+        spot.setDeleted(true);
+        diveSpotDao.updateModel(spot);
+        return gsonViewFactory.createSuccessGsonView();
     }
 }

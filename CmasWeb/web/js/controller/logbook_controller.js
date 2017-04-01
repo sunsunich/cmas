@@ -6,6 +6,8 @@ var logbook_controller = {
     init: function () {
         var my_logbook_feed_model = simpleClone(logbook_feed_model);
         my_logbook_feed_model.isMyRecords = true;
+        my_logbook_feed_model.isShowSpec = false;
+        my_logbook_feed_model.templateName = "logbookFeedFull";
         my_logbook_feed_model.url = "/secure/getMyLogbookFeed.html";
         my_logbook_feed_model.containerId = 'myLogbookFeed';
         this.myFeedController = simpleClone(logbook_feed_controller);
@@ -13,7 +15,6 @@ var logbook_controller = {
         this.myFeedController.init();
 
         var my_friends_logbook_feed_model = simpleClone(logbook_feed_model);
-        my_friends_logbook_feed_model.isMyRecords = false;
         my_friends_logbook_feed_model.url = "/secure/getMyFriendsLogbookFeed.html";
         my_friends_logbook_feed_model.containerId = 'friendsLogbookFeed';
         this.myFriendsFeedController = simpleClone(logbook_feed_controller);
@@ -50,14 +51,14 @@ var logbook_controller = {
             this.myFeedController.start();
             $('#friendsTab').addClass('inactive');
             $('#myTab').removeClass('inactive');
-            $('#friendsLogbookFeed').hide();
+            $('#friendsLogbook').hide();
             $('#myLogbook').show();
         } else {
             this.myFriendsFeedController.start();
             $('#myTab').addClass('inactive');
             $('#friendsTab').removeClass('inactive');
             $('#myLogbook').hide();
-            $('#friendsLogbookFeed').show();
+            $('#friendsLogbook').show();
         }
         cookie_controller.createCookie("LOGBOOK_TAB", tabName, 0);
     }

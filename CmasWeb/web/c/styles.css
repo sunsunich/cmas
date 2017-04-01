@@ -60,7 +60,7 @@ html, body {
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
-    width: 362px;
+    width: 460px;
 }
 
 .content-right, .content-left {
@@ -285,7 +285,7 @@ html, body {
     border-radius: 6px;
     background: rgba(0, 102, 145, 0.55);
     height: auto;
-    width: 335px;
+    width: 425px;
 }
 
 .panel-row {

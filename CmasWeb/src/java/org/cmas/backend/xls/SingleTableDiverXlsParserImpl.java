@@ -151,8 +151,11 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         //8
         Cell cell8 = row.getCell(8);
         if (cell8 != null) {
-            setDiverLevelFromInt(card, (int) cell8.getNumericCellValue());
-            diver.setDiverLevel(card.getDiverLevel());
+            Integer value = getIntegerValue(cell8);
+            if (value != null) {
+                setDiverLevelFromInt(card, value);
+                diver.setDiverLevel(card.getDiverLevel());
+            }
         }
 
         //9 image reading is broken
@@ -160,14 +163,35 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         //10 reading hidden info - preferred primary card number
         Cell cell10 = row.getCell(10);
         if (cell10 != null) {
-            String primaryCardNumberStr = String.valueOf((int) cell10.getNumericCellValue());
-            if (!StringUtil.isTrimmedEmpty(primaryCardNumberStr)) {
-                PersonalCard primaryCard = new PersonalCard();
-                primaryCard.setNumber(primaryCardNumberStr);
-                diver.setPrimaryPersonalCard(primaryCard);
+            Integer value = getIntegerValue(cell10);
+            if (value != null) {
+                if (value > 0) {
+                    String primaryCardNumberStr = String.valueOf(value);
+                    PersonalCard primaryCard = new PersonalCard();
+                    primaryCard.setNumber(primaryCardNumberStr);
+                    diver.setPrimaryPersonalCard(primaryCard);
+
+                }
             }
         }
 
         return diver;
+    }
+
+    private static Integer getIntegerValue(Cell cell10) {
+        Integer value = null;
+        int cellType = cell10.getCellType();
+        switch (cellType) {
+            case Cell.CELL_TYPE_NUMERIC:
+                value = (int) cell10.getNumericCellValue();
+                break;
+            case Cell.CELL_TYPE_STRING:
+                String str = cell10.getStringCellValue();
+                if (!StringUtil.isTrimmedEmpty(str)) {
+                    value = Integer.parseInt(StringUtil.correctSpaceCharAndTrim(str));
+                }
+                break;
+        }
+        return value;
     }
 }

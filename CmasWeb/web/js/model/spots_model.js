@@ -4,6 +4,7 @@ var spots_model = {
     map: {},
     spotMap: {},
     currentEditSpot: {},
+    currentSpotIdToDelete: "",
     lastOpenInfoWindow: null,
     currentBounds: null,
     delta: 0.0005, // 50 meters
@@ -59,6 +60,29 @@ var spots_model = {
             url: "/secure/createSpot.html",
             dataType: "json",
             data: editSpotForm,
+            success: function (json) {
+                var success = !json.hasOwnProperty('success') || json.success;
+                if (success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function () {
+                window.location.reload();
+            }
+        });
+    },
+
+    deleteSpot: function (successHandler, errorHandler) {
+        var self = this;
+        loader_controller.startwait();
+        $.ajax({
+            type: "GET",
+            url: "/secure/deleteSpot.html",
+            dataType: "json",
+            data: {"spotId": self.currentSpotIdToDelete},
             success: function (json) {
                 var success = !json.hasOwnProperty('success') || json.success;
                 if (success) {

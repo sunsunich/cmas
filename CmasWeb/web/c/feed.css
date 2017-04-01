@@ -5,7 +5,7 @@
 }
 
 .photoFeed {
-    max-width: 335px;
+    max-width: 425px;
 }
 
 .logbookFeed-elem-right, .logbookFeed-elem-left {
@@ -53,7 +53,7 @@
     border-radius: 6px;
     background: rgba(0, 102, 145, 0.55);
     height: auto;
-    width: 335px;
+    width: 425px;
 }
 
 .panelFeed-row {

@@ -9,6 +9,9 @@ if (spotMap.hasOwnProperty(key)) {
     </div>
     <div class="menuElemRight">
         <% if(!spot.isApproved){ %>
+        <a href="#" id="<%= spot.id %>_deleteSpot">
+            <%= labels['cmas.face.spots.delete'] %>
+        </a>
         <a href="#" id="<%= spot.id %>_editSpot">
             <%= labels['cmas.face.spots.edit'] %>
         </a>

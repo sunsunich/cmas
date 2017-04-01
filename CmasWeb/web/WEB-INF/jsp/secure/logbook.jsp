@@ -10,22 +10,27 @@
                customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_controller.js"
         >
 
-    <div class="content" id="mainContent">
+    <div class="content">
         <div class="tabs clearfix">
             <span class="firstTab" id="myTab"><s:message code="cmas.face.logbook.tab.me"/></span>
-        <span class="secondTab" id="friendsTab" class="inactive"><s:message
+        <span class="secondTab inactive" id="friendsTab"><s:message
                 code="cmas.face.logbook.tab.friends"/></span>
         </div>
-        <div id="myLogbook">
+    </div>
+
+    <div id="myLogbook">
+        <div class="createEntryHeader">
             <div class="button-container">
                 <button class="form-button enter-button" id="createLogbookEntryButton">
                     <s:message code="cmas.face.logbook.addNew"/>
                 </button>
             </div>
-            <div id="myLogbookFeed"></div>
         </div>
+        <div id="myLogbookFeed" class="clearfix"></div>
+    </div>
 
-        <div id="friendsLogbookFeed" style="display: none">
+    <div class="content-right" id="friendsLogbook" style="display: none">
+        <div id="friendsLogbookFeed" class="clearfix">
 
         </div>
     </div>

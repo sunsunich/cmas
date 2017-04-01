@@ -84,12 +84,12 @@ var logbook_feed_controller = {
         }
         if (isNew) {
             $('#' + self.model.containerId).prepend(
-                new EJS({url: '/js/templates/logbookFeed.ejs'}).render({"recordsInfo": recordsInfo})
+                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
             );
         }
         else {
             $('#' + self.model.containerId).append(
-                new EJS({url: '/js/templates/logbookFeed.ejs'}).render({"recordsInfo": recordsInfo})
+                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
             );
         }
         for (i = 0; i < records.length; i++) {
@@ -125,6 +125,8 @@ var logbook_feed_controller = {
                     event.preventDefault();
                     self.closeSpecOnRecord($(this)[0].id);
                 });
+            }
+            if (self.model.isShowBuddies) {
                 if (record.instructor) {
                     $('#' + record.instructor.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
                         e.preventDefault();

@@ -62,6 +62,12 @@
         </div>
     </my:dialog>
 
+    <my:dialog id="deleteSpot"
+               title="cmas.face.spots.delete.title"
+               buttonText="cmas.face.spots.delete">
+        <s:message code="cmas.face.spots.delete.text"/>
+    </my:dialog>
+
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKmJC1xgN8Did9WLS_5VeUIi3WBqY6fdQ">
     </script>
