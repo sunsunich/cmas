@@ -477,12 +477,12 @@
 
                 <c:choose>
                     <c:when test="${logbookEntry == null}">
-                        <c:set var="photoSrc" value="${pageContext.request.contextPath}/i/no_img.png"/>
+                        <c:set var="photoSrc" value="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
                     </c:when>
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${logbookEntry.photoBase64 == null}">
-                                <c:set var="photoSrc" value="${pageContext.request.contextPath}/i/no_img.png"/>
+                                <c:set var="photoSrc" value="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
                             </c:when>
                             <c:otherwise>
                                 <c:set var="photoSrc" value="data:image/png;base64,${logbookEntry.photoBase64}"/>
@@ -499,7 +499,7 @@
                         <img id="logbookPic" class="userpicPreview" src="${photoSrc}"/>
                     </div>
                     <div class="diverList-elem-right" id="fileFromDiscSelect">
-                        <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png"/>
+                        <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png?v=${webVersion}"/>
                         <a href="#" class="white-form-href link">
                             <s:message code="cmas.face.logbook.selectPic"/>
                         </a>

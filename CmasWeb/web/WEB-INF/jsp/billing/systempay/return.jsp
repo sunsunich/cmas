@@ -9,7 +9,7 @@
 
     <div class="content" id="Content">
         <div class="form-logo">
-            <img src="${pageContext.request.contextPath}/i/logo.png">
+            <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
         </div>
         <div class="welcome-text">
             <c:choose>

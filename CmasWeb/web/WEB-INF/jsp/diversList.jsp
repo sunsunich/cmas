@@ -18,7 +18,7 @@
                     <img class="userpic"
                             <c:choose>
                                 <c:when test="${diver.photo == null}">
-                                    src="${pageContext.request.contextPath}/i/no_img.png"
+                                    src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"
                                 </c:when>
                                 <c:otherwise>
                                     src="data:image/png;base64,${diver.photo}"
@@ -33,22 +33,22 @@
                     </p>
                     <c:choose>
                         <c:when test="${diver.diverLevel == 'ONE_STAR'}">
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                         </c:when>
                         <c:when test="${diver.diverLevel == 'TWO_STAR'}">
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                         </c:when>
                         <c:when test="${diver.diverLevel == 'THREE_STAR'}">
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                         </c:when>
                         <c:when test="${diver.diverLevel == 'FOUR_STAR'}">
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
-                            <img class="star" src="${pageContext.request.contextPath}/i/star.png"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
+                            <img class="star" src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                         </c:when>
                     </c:choose>
                     <c:choose>

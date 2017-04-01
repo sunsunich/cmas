@@ -8,11 +8,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-
+    <c:set var="version">2</c:set>
     <title>Administration</title>
 
-    <link rel="stylesheet" type="text/css" href="/c/amdin.css" media="all"/>
-    <script type="text/javascript" src="/js/util.js"></script>
+    <link rel="stylesheet" type="text/css" href="/c/amdin.css?v=${webVersion}" media="all"/>
+    <script type="text/javascript" src="/js/util.js?v=${webVersion}"></script>
 
 </head>
 <body>

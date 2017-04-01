@@ -22,11 +22,11 @@
         <div id="privateSettings">
             <div class="panel">
                 <div class="userpic-selection" id="userpicSelectButton">
-                    <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png"
+                    <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"
                          class="userpic userpicPreview userpic-selection-left"/>
 
                     <div class="userpic-selection-right">
-                        <img src="${pageContext.request.contextPath}/i/photo_ico.png"/>
+                        <img src="${pageContext.request.contextPath}/i/photo_ico.png?v=${webVersion}"/>
                         <a href="#" class="panel-href link">
                             <s:message code="cmas.face.client.profile.selectUserpic"/>
                         </a>
@@ -220,7 +220,7 @@
     </my:dialog>
 
     <div id="showLogbookEntry" class="logbookEntry" style="display: none">
-        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png" class="dialogClose"/>
+        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}" class="dialogClose"/>
 
         <div class="dialog-title" id="showLogbookEntryTitle"><s:message code="cmas.face.showLogbookEntry.title"/></div>
 
@@ -258,17 +258,17 @@
                buttonText="cmas.face.client.profile.dialog.submitText">
         <div class="dialog-form-row">
             <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
-            <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png"/>
+            <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
         </div>
         <div class="error" id="selectUserpic_error_file"></div>
         <div class="dialog-form-row" id="cameraSelect">
-            <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png"/>
+            <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png?v=${webVersion}"/>
             <a href="#">
                 <s:message code="cmas.face.client.profile.selectUserpic.camera"/>
             </a>
         </div>
         <div class="dialog-form-row" id="fileFromDiscSelect">
-            <img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png"/>
+            <img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png?v=${webVersion}"/>
             <a href="#">
                 <s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>
             </a>

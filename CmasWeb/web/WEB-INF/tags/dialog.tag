@@ -11,7 +11,7 @@
 </c:if>
 
 <div id="${id}" class="dialog" style="display: none">
-    <img id="${id}Close" src="${pageContext.request.contextPath}/i/close.png" class="dialogClose"/>
+    <img id="${id}Close" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}" class="dialogClose"/>
 
     <div class="dialog-title" id="${id}Title"><s:message code="${title}"/></div>
 

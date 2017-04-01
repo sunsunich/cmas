@@ -23,7 +23,7 @@
     <div class="content" id="Content">
         <div class="form-logo">
             <a href="${pageContext.request.contextPath}/">
-                <img src="${pageContext.request.contextPath}/i/logo.png">
+                <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
             </a>
         </div>
         <form:form id="lostPasswdForm"

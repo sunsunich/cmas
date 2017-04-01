@@ -49,63 +49,63 @@
     <base href="/"/>
     <meta itemprop="name" content="World Underwater Federation - Quality in diving"/>
 
-    <link rel="stylesheet" type="text/css" href="c/loader.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/styles.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/logbook.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/loader.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/styles.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/logbook.css?v=${webVersion}" media="all"/>
 
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=1">
-    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-194x194.png?v=1" sizes="194x194">
-    <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=1" sizes="192x192">
-    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
-    <link rel="manifest" href="/manifest.json?v=1">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=1" color="#5bbad5">
-    <link rel="shortcut icon" href="/favicon.ico?v=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=${webVersion}">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png?v=${webVersion}" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-194x194.png?v=${webVersion}" sizes="194x194">
+    <link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=${webVersion}" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png?v=${webVersion}" sizes="16x16">
+    <link rel="manifest" href="/manifest.json?v=${webVersion}">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=${webVersion}" color="#5bbad5">
+    <link rel="shortcut icon" href="/favicon.ico?v=${webVersion}">
     <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=1">
+    <meta name="msapplication-TileImage" content="/mstile-144x144.png?v=${webVersion}">
     <meta name="theme-color" content="#ffffff">
 
     <%--
     more icons just in case
-<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=1">
-<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=1">
-<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=1">
-<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=1">
-<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=1">
-<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=1">
-<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=1">
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=1">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=1">
-<link rel="icon" type="image/png" href="/favicon-32x32.png?v=1" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicon-194x194.png?v=1" sizes="194x194">
-<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=1" sizes="192x192">
-<link rel="icon" type="image/png" href="/favicon-16x16.png?v=1" sizes="16x16">
-<link rel="manifest" href="/manifest.json?v=1">
-<link rel="mask-icon" href="/safari-pinned-tab.svg?v=1" color="#5bbad5">
-<link rel="shortcut icon" href="/favicon.ico?v=1">
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=${webVersion}">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=${webVersion}">
+<link rel="icon" type="image/png" href="/favicon-32x32.png?v=${webVersion}" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-194x194.png?v=${webVersion}" sizes="194x194">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png?v=${webVersion}" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png?v=${webVersion}" sizes="16x16">
+<link rel="manifest" href="/manifest.json?v=${webVersion}">
+<link rel="mask-icon" href="/safari-pinned-tab.svg?v=${webVersion}" color="#5bbad5">
+<link rel="shortcut icon" href="/favicon.ico?v=${webVersion}">
 <meta name="msapplication-TileColor" content="#2d89ef">
-<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=1">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png?v=${webVersion}">
 <meta name="theme-color" content="#ffffff">
 
     --%>
     <c:choose>
         <c:when test="${intrenal}">
-            <link rel="stylesheet" type="text/css" href="c/internal-form.css" media="all"/>
+            <link rel="stylesheet" type="text/css" href="c/internal-form.css?v=${webVersion}" media="all"/>
         </c:when>
         <c:otherwise>
-            <link rel="stylesheet" type="text/css" href="c/form.css" media="all"/>
+            <link rel="stylesheet" type="text/css" href="c/form.css?v=${webVersion}" media="all"/>
         </c:otherwise>
     </c:choose>
 
-    <link rel="stylesheet" type="text/css" href="c/buttons.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/feed.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/select2.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery.timepicker.min.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/print.css" media="print"/>
+    <link rel="stylesheet" type="text/css" href="c/buttons.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/feed.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/select2.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery.timepicker.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/print.css?v=${webVersion}" media="print"/>
     <meta name="google-site-verification" content="Xaw1kGm7_ZeykPyMuWwVpY8t9_tOTAkWEaKu6aOv6i0"/>
     <meta name="creator" content="dotindot">
     <!--[if IE]>
@@ -120,30 +120,30 @@
         }
     </script>
 
-    <script type="text/javascript" src="js/lib/modernizr-custom.js"></script>
-    <script type="text/javascript" src="js/lib/json.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/lib/jquery.timepicker.min.js"></script>
-    <script type="text/javascript" src="js/lib/ejs_production.js"></script>
-    <script type="text/javascript" src="js/lib/select2.full.min.js"></script>
+    <script type="text/javascript" src="js/lib/modernizr-custom.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/json.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/jquery-ui.min.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/jquery.timepicker.min.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/ejs_production.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/select2.full.min.js"?v=${webVersion}></script>
 
-    <script type="text/javascript" src="js/i18n/error_codes.js"></script>
-    <script type="text/javascript" src="js/i18n/labels.js"></script>
+    <script type="text/javascript" src="js/i18n/error_codes.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/i18n/labels.js?v=${webVersion}"></script>
 
-    <script type="text/javascript" src="js/util.js"></script>
+    <script type="text/javascript" src="js/util.js?v=${webVersion}"></script>
 
-    <script type="text/javascript" src="js/controller/cookie_controller.js"></script>
-    <script type="text/javascript" src="js/controller/loader_controller.js"></script>
-    <script type="text/javascript" src="js/controller/validation_controller.js"></script>
-    <script type="text/javascript" src="js/controller/error_dialog_controller.js"></script>
+    <script type="text/javascript" src="js/controller/cookie_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/controller/loader_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/controller/validation_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/controller/error_dialog_controller.js?v=${webVersion}"></script>
 
     <c:forEach items="${customCSSFiles}" var="customCSSFile">
-        <link type="text/css" rel="stylesheet" href="${customCSSFile}"/>
+        <link type="text/css" rel="stylesheet" href="${customCSSFile}?v=${webVersion}"/>
     </c:forEach>
 
     <c:forEach items="${customScripts}" var="customScript">
-        <script type="text/javascript" src="${customScript}"></script>
+        <script type="text/javascript" src="${customScript}?v=${webVersion}"></script>
     </c:forEach>
 
     <script type="application/javascript">

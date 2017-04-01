@@ -8,7 +8,7 @@
 
     <div class="content" id="Content">
         <div class="form-logo">
-            <img src="${pageContext.request.contextPath}/i/logo.png">
+            <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
         </div>
         <form id="loginForm" action="">
             <div class="login-block">

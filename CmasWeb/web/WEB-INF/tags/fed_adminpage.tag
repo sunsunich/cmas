@@ -11,8 +11,8 @@
     
     <title>Administration</title>
 
-    <link rel="stylesheet" type="text/css" href="/c/amdin.css" media="all"/>
-    <script type="text/javascript" src="/js/util.js"></script>
+    <link rel="stylesheet" type="text/css" href="/c/amdin.css?v=${webVersion}" media="all"/>
+    <script type="text/javascript" src="/js/util.js?v=${webVersion}"></script>
     
 </head>
 <body>
