@@ -35,6 +35,8 @@ interface GlobalsStaticContainer {
 
     String UTF_8_ENC = "UTF-8";
 
+    String UTF_8_CHARSET = "utf-8";
+
     String HTTP_PROTOCOL = "http";
 
     String PROFILE_ID_REQ_PARAM = "profileId";

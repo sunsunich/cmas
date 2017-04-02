@@ -180,5 +180,10 @@
 }
 
 .capcha-block {
+    width: 100%;
     margin-bottom: 15px;
+}
+
+.capcha-block div {
+    margin: 0 auto;
 }

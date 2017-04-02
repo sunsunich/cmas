@@ -120,6 +120,9 @@
         }
     </script>
 
+    <%--add localization hl param--%>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     <script type="text/javascript" src="js/lib/modernizr-custom.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/lib/json.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/lib/jquery-1.12.2.min.js?v=${webVersion}"></script>

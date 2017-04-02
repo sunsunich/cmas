@@ -26,7 +26,7 @@
                 <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
             </a>
         </div>
-        <form:form id="lostPasswdForm"
+        <form:form id="diverVerificationForm"
                    action="${pageContext.request.contextPath}/diver-verification-submit.html"
                    method="POST">
             <div class="reg-block">

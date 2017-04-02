@@ -1,51 +1,68 @@
 package org.cmas.presentation.service;
 
-import net.tanesha.recaptcha.ReCaptchaImpl;
-import net.tanesha.recaptcha.ReCaptchaResponse;
+import com.google.myjson.Gson;
+import org.apache.commons.httpclient.NameValuePair;
+import org.cmas.json.SimpleGsonResponse;
 import org.cmas.util.http.Cookies;
+import org.cmas.util.http.HttpUtil;
+import org.cmas.util.http.SimpleHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class CaptchaServiceImpl implements CaptchaService{
+public class CaptchaServiceImpl implements CaptchaService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CaptchaServiceImpl.class);
 
     //30 mins
-    private static final int CAPTCHA_COOKIE_AGE = 60*2;
+    private static final int CAPTCHA_COOKIE_AGE = 60 * 2;
     private static final String CAPTCHA_COOKIE_NAME = "CAPTCHA_COOKIE";
+    private static final String RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
     private String reCaptchaPrivateKey;
 
     private String reCaptchaPublicKey;
 
-	@Override
+    @Override
     public boolean validateCaptcha(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-
         String cookieValue = Cookies.getCookieValueByName(servletRequest.getCookies(), CAPTCHA_COOKIE_NAME);
-        if(cookieValue != null){
+        if (cookieValue != null) {
             return true;
         }
-
-        String challenge = servletRequest.getParameter("recaptcha_challenge_field");
-        //retrieve the response
-        String response = servletRequest.getParameter("recaptcha_response_field");
-
-         if(challenge == null || response == null){
+        String response = servletRequest.getParameter("g-recaptcha-response");
+        if (response == null) {
             return false;
         }
 
         // Validate the reCAPTCHA
-        String remoteAddr = servletRequest.getRemoteAddr();
-        ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
-        reCaptcha.setPrivateKey(reCaptchaPrivateKey);
+        /*
+        secret	Required. The shared key between your site and reCAPTCHA.
+        response	Required. The user response token provided by reCAPTCHA, verifying the user on your site.
+        remoteip	Optional. The user's IP address.
+         */
+        SimpleGsonResponse validationResponse;
+        try {
+            validationResponse = new Gson().fromJson(SimpleHttpClient.sendHTTPPostRequest(
+                    RECAPTCHA_VERIFY_URL,
+                    new NameValuePair[]{
+                            new NameValuePair("secret", reCaptchaPrivateKey),
+                            new NameValuePair("response", response),
+                            new NameValuePair("remoteip", HttpUtil.getIP(servletRequest))
+                    }
+            ), SimpleGsonResponse.class);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
 
-        ReCaptchaResponse reCaptchaResponse =
-                reCaptcha.checkAnswer(remoteAddr, challenge, response);
-
-        if (reCaptchaResponse.isValid()) {
-            Cookie cookie
-                    = Cookies.createCookie(CAPTCHA_COOKIE_NAME, String.valueOf(Math.random()), CAPTCHA_COOKIE_AGE);
+        if (validationResponse.isSuccess()) {
+            Cookie cookie = Cookies.createCookie(
+                    CAPTCHA_COOKIE_NAME, String.valueOf(StrictMath.random()), CAPTCHA_COOKIE_AGE
+            );
             servletResponse.addCookie(cookie);
             return true;
         } else {
