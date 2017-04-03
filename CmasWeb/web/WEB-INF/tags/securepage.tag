@@ -19,6 +19,9 @@
         <div id="cssmenu">
             <ul>
                 <li>
+                    <img src="/i/logo192x192.png?v=${webVersion}" class="logo-ico"/>
+                </li>
+                <li>
                     <a href="${pageContext.request.contextPath}/logout.html">
                         <i class="menu-ico menu-ico-logout"></i>
                         <span><s:message code="cmas.face.client.exit"/></span>

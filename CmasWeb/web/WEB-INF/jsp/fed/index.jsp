@@ -27,6 +27,8 @@
         <input type="hidden" name="dir" value="${command.dir}"/>
     </ff:form>
 
+    <button type="button" style="margin: 0 83px"><a href="/fed/userInfo.html?userId=3" style="text-decoration: none">Add new diver</a></button>
+
 
     <c:choose>
         <c:when test="${!empty users}">

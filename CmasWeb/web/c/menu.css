@@ -211,6 +211,11 @@
     padding-left: 28px;
 }
 
+.logo-ico {
+    display: inline-block;
+    height: 28px;
+    padding: 7px 20px;
+}
 .menu-ico {
     display: inline-block;
     height: 20px;
