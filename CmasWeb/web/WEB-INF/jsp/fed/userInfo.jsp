@@ -8,6 +8,7 @@
 <jsp:useBean id="user" scope="request" type="org.cmas.entities.User"/>
 
 <my:fed_adminpage title="Diver Info">
+    <%----%>
     <h2>Diver Info</h2>
     <form style="line-height: 200%">
         <div class="width70">
