@@ -34,315 +34,328 @@ for(i = 0; i < records.length;i++) {
 
     var showPanelFeed = note.length > 0 || records[i].photoBase64 || records[i].instructor || records[i].buddies.length > 0;
 %>
-<div class="logbookRecord clearfix" id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
-    <div class="content-left">
-        <div class="clearfix">
-            <div class="logbookFeed-elem-left">
-                <img class="userpic userpicFeed" src="<%= userpicSrc %>"/>
-                <% if(showPanelFeed) { %>
-                <div class="dialog-triangle"></div>
-                <% } %>
-            </div>
-            <div class="logbookFeed-elem-right">
-                <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
-
-                <p><span class="text"><%= diveSpot %></span></p>
-
-                <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
-            </div>
-            <% if(!records[i].digest){
-            %>
-            <div class="menuFeed">
-                <img src="/i/arrow_white_ico.png"
-                     id="<%= recordsInfo.containerId %>feedItemSettings_<%= records[i].id %>"/>
-
-                <div class="menuFeedContent" id="<%= recordsInfo.containerId %>menuItemSettings_<%= records[i].id %>">
-                    <ul>
-                        <li id="<%= recordsInfo.containerId %>edit_<%= records[i].id %>"><a
-                                    href="#"><%= labels["cmas.face.feed.edit"] %></a></li>
-                        <li id="<%= recordsInfo.containerId %>delete_<%= records[i].id %>"><a
-                                    href="#"><%= labels["cmas.face.feed.delete"] %></a></li>
-                    </ul>
+<div class="logbookRecord panelFeed-full clearfix"
+     id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
+    <div class="feed-align">
+        <div class="content-left-feed">
+            <!-- 1 -->
+            <div class="clearfix">
+                <div class="logbookFeed-elem-left">
+                    <img class="userpic userpicFeed" src="<%= userpicSrc %>"/>
                 </div>
-            </div>
-            <% } %>
-        </div>
-        <% if(showPanelFeed){
-        %>
-        <div class="panelFeed">
-            <p>
-                <span class="panelFeed-text"><%= visibleNote %></span>
-                <% if(invisibleNote){
+                <div class="logbookFeed-elem-right">
+                    <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
+
+                    <p><span class="text"><%= diveSpot %></span></p>
+
+                    <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
+                    <% if(records[i].instructor){
+                        fullName = records[i].instructor.firstName + ' ' + records[i].instructor.lastName;
+                    %>
+                    <span class="panelFeed-label"><%= labels["cmas.face.diver.instructor"] %>:</span>
+                    <a class="panelFeed-href" href="#"
+                       id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
+                    <br/>
+                    <% } %>
+                    <% if(records[i].buddies.length > 0){
+                    %>
+                    <span class="panelFeed-label"><%= labels["cmas.face.feed.buddies.label"] %>:</span>
+                    <% } %>
+                    <% var j = 0;
+                    for(j = 0;j < records[i].buddies.length;j++) {
+                        fullName = records[i].buddies[j].firstName + ' ' + records[i].buddies[j].lastName;
+                    %>
+                    <a class="panelFeed-href" href="#"
+                       id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
+                    &nbsp;
+                    <% } %>
+                </div>
+                <% if(!records[i].digest){
                 %>
-                <a href="#" id="<%= recordsInfo.containerId %>more_<%= records[i].id %>">
-                    <span class="panelFeed-href"><%= labels["cmas.face.feed.more"] %>&gt;</span>
-                </a>
+                <div class="menuFeed">
+                    <div class="menuFeedContent"
+                         id="<%= recordsInfo.containerId %>menuItemSettings_<%= records[i].id %>">
+                        <ul>
+                            <li id="<%= recordsInfo.containerId %>edit_<%= records[i].id %>"><a
+                                        href="#"><%= labels["cmas.face.feed.edit"] %></a></li>
+                            <li id="<%= recordsInfo.containerId %>delete_<%= records[i].id %>"><a
+                                        href="#"><%= labels["cmas.face.feed.delete"] %></a></li>
+                        </ul>
+                    </div>
+                </div>
                 <% } %>
-                <span id="<%= recordsInfo.containerId %>invisibleNote_<%= records[i].id %>" style="display: none">
+            </div>
+            <!-- 2 -->
+            <div class="white-elem">
+                <div class="white-form-row white-form-top-row clearfix">
+                    <div class="white-form-row-third">
+                        <% if(records[i].diveSpec.durationMinutes){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.feed.duration"] %>:</label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-third">
+                        <% if(records[i].diveSpec.maxDepthMeters){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.feed.depth"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-third-right">
+                        <% if(records[i].diveSpec.avgDepthMeters){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.feed.avgDepth"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.avgDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% if(records[i].diveSpec.weather || records[i].diveSpec.surface || records[i].diveSpec.waterType){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-third">
+                        <% if(records[i].diveSpec.weather){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.weather"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.weather] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-third">
+                        <% if(records[i].diveSpec.surface){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.surface"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.surface] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-third-right">
+                        <% if(records[i].diveSpec.waterType){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.waterType"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.waterType] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.underWaterVisibility || records[i].diveSpec.current){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(records[i].diveSpec.underWaterVisibility){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.underWaterVisibility"] %>
+                            : </label>
+                        <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.underWaterVisibility] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(records[i].diveSpec.current){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.current"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.current] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.airTemp || records[i].diveSpec.waterTemp){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(records[i].diveSpec.airTemp){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.airTemp"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.airTemp %> <%= labels[records[i].diveSpec.temperatureMeasureUnit] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(records[i].diveSpec.waterTemp){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.waterTemp"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.waterTemp %> <%= labels[records[i].diveSpec.temperatureMeasureUnit] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.divePurpose || records[i].diveSpec.entryType){
+                %>
+                <div class="white-form-row white-form-top-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(records[i].diveSpec.divePurpose){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.divePurpose"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.divePurpose] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(records[i].diveSpec.entryType){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.entryType"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.entryType] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.additionalWeightKg || records[i].diveSpec.diveSuit){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(records[i].diveSpec.additionalWeightKg){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.feed.addWeight"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= records[i].diveSpec.additionalWeightKg %> kg</span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(records[i].diveSpec.diveSuit){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.diveSuit"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[records[i].diveSpec.diveSuit] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.hasSafetyStop){
+                %>
+                <div class="white-form-row">
+                    <span class="white-elem-text"><%= labels["cmas.face.logbook.hasSafetyStop"] %></span>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.cnsToxicity){
+                %>
+                <div class="white-form-row">
+                    <label class="white-elem-label"><%= labels["cmas.face.logbook.cnsToxicity"] %>: </label> <br/>
+                    <span class="white-elem-text"><%= records[i].diveSpec.cnsToxicity %></span>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.decoStepsComments){
+                %>
+                <div class="white-form-row">
+                    <label class="white-elem-label"><%= labels["cmas.face.logbook.decoStepsComments"] %>: </label> <br/>
+                    <span class="white-elem-text"><%= records[i].diveSpec.decoStepsComments %></span>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.isApnea){
+                %>
+                <div class="white-form-row">
+                    <span class="white-elem-text"><%= labels["cmas.face.feed.isApnea"] %></span>
+                </div>
+                <% } %>
+            </div>
+            <% if(showPanelFeed){
+            %>
+            <!-- 4 and 5 -->
+            <div>
+                <p>
+                    <span class="panelFeed-text"><%= visibleNote %></span>
+                    <% if(invisibleNote){
+                    %>
+                    <a href="#" id="<%= recordsInfo.containerId %>more_<%= records[i].id %>">
+                        <span class="panelFeed-href"><%= labels["cmas.face.feed.more"] %>&gt;</span>
+                    </a>
+                    <% } %>
+                    <span id="<%= recordsInfo.containerId %>invisibleNote_<%= records[i].id %>" style="display: none">
                 <span class="panelFeed-text"><%= invisibleNote %></span><br/>
                 <a href="#" id="<%= recordsInfo.containerId %>less_<%= records[i].id %>"><span
                             class="panelFeed-href"><&lt;<%= labels["cmas.face.feed.less"] %></span></a>
             </span>
-            </p>
-            <% if(records[i].photoBase64){
-            %>
-            <img class="photoFeed" src="data:image/png;base64,<%= records[i].photoBase64 %>"/>
+                </p>
+                <% if(records[i].photoBase64){
+                %>
+                <img class="photoFeed" src="data:image/png;base64,<%= records[i].photoBase64 %>"/>
+                <% } %>
+
+                <br/>
+            </div>
             <% } %>
-            <% if(records[i].instructor){
-                fullName = records[i].instructor.firstName + ' ' + records[i].instructor.lastName;
-            %>
-            <span class="panelFeed-label"><%= labels["cmas.face.diver.instructor"] %>:</span>
-            <a class="panelFeed-href" href="#"
-               id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
-            <br/>
+        </div>
+
+        <div class="white-elem-left-feed">
+            <!-- 3 -->
+            <% if(records[i].diveSpec.scubaTanks) { %>
+            <div>
+                <div class="dialog-title"><%= labels["cmas.face.logbook.tanks.title"] %></div>
+                <%
+                    var k = 0;
+                    var index = 1;
+                for(k = 0; k < records[i].diveSpec.scubaTanks.length;k++) {
+                    var tank = records[i].diveSpec.scubaTanks[k];
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-title-left"><%= labels["cmas.face.logbook.tank.title"] + ' ' + index %></div>
+                </div>
+                <% if(tank.supplyType || tank.size){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(tank.supplyType){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.supplyType"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= labels[tank.supplyType] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(tank.size){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.tankSize"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= tank.size %> <%= labels[tank.volumeMeasureUnit] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(tank.startPressure || tank.endPressure){
+                %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(tank.startPressure){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.tankStartPressure"] %>: </label>
+                        <br/>
+                        <span class="white-elem-text"><%= tank.startPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(tank.endPressure){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.tankEndPressure"] %>: </label>
+                        <br/>
+                        <span class="white-elem-text"><%= tank.endPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% if(tank.isDecoTank){
+                %>
+                <div class="white-form-row">
+                    <span class="white-elem-text"><%= labels["cmas.face.feed.isDecoTank"] %></span>
+                </div>
+                <% } %>
+                <% if(tank.isAir){
+                %>
+                <div class="white-form-row">
+                    <span class="white-elem-text"><%= labels["cmas.face.feed.isAir"] %></span>
+                </div>
+                <% } else if(tank.oxygenPercent || tank.heliumPercent){ %>
+                <div class="white-form-row clearfix">
+                    <div class="white-form-row-half">
+                        <% if(tank.oxygenPercent){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.oxygenPercent"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= tank.oxygenPercent %></span>
+                        <% } %>
+                    </div>
+                    <div class="white-form-row-half-right">
+                        <% if(tank.heliumPercent){
+                        %>
+                        <label class="white-elem-label"><%= labels["cmas.face.logbook.heliumPercent"] %>: </label> <br/>
+                        <span class="white-elem-text"><%= tank.heliumPercent %></span>
+                        <% } %>
+                    </div>
+                </div>
+                <% } %>
+                <% index++ } %>
+            </div>
             <% } %>
-            <% if(records[i].buddies.length > 0){
-            %>
-            <span class="panelFeed-label"><%= labels["cmas.face.feed.buddies.label"] %>:</span>
-            <% } %>
-            <% var j = 0;
-            for(j = 0;j < records[i].buddies.length;j++) {
-                fullName = records[i].buddies[j].firstName + ' ' + records[i].buddies[j].lastName;
-            %>
-            <a class="panelFeed-href" href="#"
-               id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
-            &nbsp;
-            <% } %>
-            <br/>
         </div>
-        <% } %>
-    </div>
-    <div class="white-elem-left">
-        <div class="white-form-row white-form-top-row clearfix">
-            <div class="white-form-row-third">
-                <% if(records[i].diveSpec.durationMinutes){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.feed.duration"] %>:</label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-third">
-                <% if(records[i].diveSpec.maxDepthMeters){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.feed.depth"] %>: </label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-third-right">
-                <% if(records[i].diveSpec.avgDepthMeters){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.feed.avgDepth"] %>: </label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.avgDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% if(records[i].diveSpec.weather || records[i].diveSpec.surface || records[i].diveSpec.waterType){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-third">
-                <% if(records[i].diveSpec.weather){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.weather"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.weather] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-third">
-                <% if(records[i].diveSpec.surface){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.surface"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.surface] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-third-right">
-                <% if(records[i].diveSpec.waterType){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.waterType"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.waterType] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.underWaterVisibility || records[i].diveSpec.current){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(records[i].diveSpec.underWaterVisibility){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.underWaterVisibility"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.underWaterVisibility] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(records[i].diveSpec.current){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.current"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.current] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.airTemp || records[i].diveSpec.waterTemp){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(records[i].diveSpec.airTemp){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.airTemp"] %>: </label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.airTemp %> <%= labels[records[i].diveSpec.temperatureMeasureUnit] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(records[i].diveSpec.waterTemp){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.waterTemp"] %>: </label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.waterTemp %> <%= labels[records[i].diveSpec.temperatureMeasureUnit] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.divePurpose || records[i].diveSpec.entryType){
-        %>
-        <div class="white-form-row white-form-top-row clearfix">
-            <div class="white-form-row-half">
-                <% if(records[i].diveSpec.divePurpose){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.divePurpose"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.divePurpose] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(records[i].diveSpec.entryType){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.entryType"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.entryType] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.additionalWeightKg || records[i].diveSpec.diveSuit){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(records[i].diveSpec.additionalWeightKg){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.feed.addWeight"] %>: </label> <br/>
-                <span class="white-elem-text"><%= records[i].diveSpec.additionalWeightKg %> kg</span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(records[i].diveSpec.diveSuit){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.diveSuit"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[records[i].diveSpec.diveSuit] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.hasSafetyStop){
-        %>
-        <div class="white-form-row">
-            <span class="white-elem-text"><%= labels["cmas.face.logbook.hasSafetyStop"] %></span>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.cnsToxicity){
-        %>
-        <div class="white-form-row">
-            <label class="white-elem-label"><%= labels["cmas.face.logbook.cnsToxicity"] %>: </label> <br/>
-            <span class="white-elem-text"><%= records[i].diveSpec.cnsToxicity %></span>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.decoStepsComments){
-        %>
-        <div class="white-form-row">
-            <label class="white-elem-label"><%= labels["cmas.face.logbook.decoStepsComments"] %>: </label> <br/>
-            <span class="white-elem-text"><%= records[i].diveSpec.decoStepsComments %></span>
-        </div>
-        <% } %>
-        <% if(records[i].diveSpec.isApnea){
-        %>
-        <div class="white-form-row">
-            <span class="white-elem-text"><%= labels["cmas.face.feed.isApnea"] %></span>
-        </div>
-        <% } else if(records[i].diveSpec.scubaTanks) { %>
-        <div class="dialog-title"><%= labels["cmas.face.logbook.tanks.title"] %></div>
-        <%
-            var k = 0;
-            var index = 1;
-        for(k = 0; k < records[i].diveSpec.scubaTanks.length;k++) {
-            var tank = records[i].diveSpec.scubaTanks[k];
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-title-left"><%= labels["cmas.face.logbook.tank.title"] + ' ' + index %></div>
-        </div>
-        <% if(tank.supplyType || tank.size){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(tank.supplyType){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.supplyType"] %>: </label> <br/>
-                <span class="white-elem-text"><%= labels[tank.supplyType] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(tank.size){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.tankSize"] %>: </label> <br/>
-                <span class="white-elem-text"><%= tank.size %> <%= labels[tank.volumeMeasureUnit] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(tank.startPressure || tank.endPressure){
-        %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(tank.startPressure){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.tankStartPressure"] %>: </label> <br/>
-                <span class="white-elem-text"><%= tank.startPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(tank.endPressure){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.tankEndPressure"] %>: </label> <br/>
-                <span class="white-elem-text"><%= tank.endPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% if(tank.isDecoTank){
-        %>
-        <div class="white-form-row">
-            <span class="white-elem-text"><%= labels["cmas.face.feed.isDecoTank"] %></span>
-        </div>
-        <% } %>
-        <% if(tank.isAir){
-        %>
-        <div class="white-form-row">
-            <span class="white-elem-text"><%= labels["cmas.face.feed.isAir"] %></span>
-        </div>
-        <% } else if(tank.oxygenPercent || tank.heliumPercent){ %>
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <% if(tank.oxygenPercent){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.oxygenPercent"] %>: </label> <br/>
-                <span class="white-elem-text"><%= tank.oxygenPercent %></span>
-                <% } %>
-            </div>
-            <div class="white-form-row-half-right">
-                <% if(tank.heliumPercent){
-                %>
-                <label class="white-elem-label"><%= labels["cmas.face.logbook.heliumPercent"] %>: </label> <br/>
-                <span class="white-elem-text"><%= tank.heliumPercent %></span>
-                <% } %>
-            </div>
-        </div>
-        <% } %>
-        <% index++ } %>
-        <% } %>
     </div>
 </div>
 <% } %>

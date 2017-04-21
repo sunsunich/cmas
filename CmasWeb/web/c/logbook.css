@@ -16,9 +16,9 @@
 
 .createEntryHeader {
     margin-top: 20px;
+    width: 50%;
     position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
+    left: 2%;
 }
 
 .createEntryHeaderTitle {
@@ -34,6 +34,10 @@
     left: 50%;
     transform: translate(-50%, 0%);
     width: 460px;
+    background: #f8f8f8;
+}
+
+.white-elem {
     background: #f8f8f8;
 }
 
@@ -53,6 +57,20 @@
 
 .white-elem-left {
     margin-top: 50px;
+}
+.white-elem-left-feed {
+    float: left;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    position: relative;
+    width: 460px;
+    background: #f8f8f8;
+    margin-right: 3%;
+}
+
+.logbookParent{
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .white-elem-label {
@@ -174,5 +192,138 @@
     position: absolute;
 }
 
+.calendar-input-ico-logbook {
+    content: url("/i/calendar_ico.png");
+    position: relative;
+    top: 4px;
+    left: 35px;
+    height: auto;
+}
 
+.form-row-logbook,
+.dialog-form-row {
+    margin-bottom: 15px;
+    position: relative;
+}
 
+.dialog-form-row a {
+    color: #04c8ff;
+    padding-left: 5px;
+    font-size: 26px;
+    text-decoration: underline;
+}
+
+.form-row-logbook input,
+.dialog-form-row input,
+.select2-selection {
+    width: 35%;
+    height: 100% !important;
+    padding-top: 18px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: rgba(234, 234, 234, 0.8)
+}
+
+.form-row-logbook-half input,
+.select2-selection {
+    padding-left: 42px;
+    background-color: rgba(235, 243, 245, 0.8) !important;
+    display: inline-block;
+}
+
+.form-row-logbook-half label {
+    color: #99b5c3;
+}
+
+.form-row-logbook-half-two input,
+.select2-selection {
+    padding-left: 10px;
+    background-color: rgba(235, 243, 245, 0.8) !important;
+    display: inline-block;
+    width: 38%;
+    height: 100% !important;
+    padding-top: 18px;
+    padding-bottom: 10px;
+    border-radius: 0 !important;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.form-row-logbook-half-two label {
+    color: #99b5c3;
+    padding-right: 15px;
+}
+
+.form-row-logbook input::-webkit-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input::-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input:-moz-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input:-ms-input-placeholder {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+.form-row-logbook input:focus::-webkit-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input:focus::-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input:focus:-moz-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.form-row-logbook input:focus:-ms-input-placeholder {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-overflow: ellipsis;
+    color: #53788b;
+}
+
+.search-form-logbook {
+    margin: 0 0 25px 0;
+    padding: 20px;
+    position: relative;
+    left: 15%;
+    background-color: rgba(0, 102, 145, 0.55);
+    border-radius: 6px;
+    width: 460px;
+    display: inline-block;
+    font-size: 20px;
+    color: #fefefe;
+    line-height: 150%;
+}

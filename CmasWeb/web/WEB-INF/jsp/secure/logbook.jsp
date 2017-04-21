@@ -18,15 +18,67 @@
         </div>
     </div>
 
-    <div id="myLogbook">
+    <div id="myLogbook" class="logbookParent">
         <div class="createEntryHeader">
             <div class="button-container">
                 <button class="form-button enter-button" id="createLogbookEntryButton">
                     <s:message code="cmas.face.logbook.addNew"/>
                 </button>
             </div>
+            <!--add search form !-->
+            <form id="regForm" action="">
+                <div class="search-form-logbook">
+                    <label>Dive date:</label>
+                    <div class="form-row-logbook">
+                        <div class="form-row-logbook-half" style="display: inline">
+                            <label>From</label>
+                            <img class="calendar-input-ico-logbook">
+                            <input type="date" name="divedatefrom"></div>
+                        <div class="form-row-logbook-half" style="display: inline">
+                            <label style="padding-left: 10px">To</label>
+                            <img class="calendar-input-ico-logbook">
+                            <input type="date" name="divedateto"></div>
+                    </div>
+                    <div class="error"></div>
+                    <div class="form-row-logbook">
+                        <select name="country" id="country" style="width: 90%; position:relative; left: 8%;" size=1 onChange="">
+                            <c:forEach items="${countries}" var="country">
+                                <option value='${country.code}'>${country.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="error" id="reg_error_country"></div>
+                    <label>Depth:</label>
+                    <div class="form-row-logbook">
+                        <div class="form-row-logbook-half-two" style="display: inline">
+                            <label>From</label>
+                            <input type="text" name="divedepthfrom" placeholder="meters"></div>
+                        <div class="form-row-logbook-half-two" style="display: inline">
+                            <label style="padding-left: 10px">To</label>
+                            <input type="text" name="divedepthto" placeholder="meters"></div>
+                    </div>
+                    <div class="error"></div>
+                    <label>Duration:</label>
+                    <div class="form-row-logbook">
+                        <div class="form-row-logbook-half-two" style="display: inline">
+                        <label>From</label>
+                        <input type="text" name="divedurationfrom" placeholder="minutes"></div>
+                        <div class="form-row-logbook-half-two" style="display: inline">
+                        <label style="padding-left: 10px">To</label>
+                        <input type="text" name="divedurationto" placeholder="minutes"></div>
+                    </div>
+                    <div class="error"></div>
+                </div>
+                <div class="error" style="display: none" id="reg_error">
+                </div>
+                <div class="button-container">
+                    <button class="form-button enter-button">
+                        Search Dive
+                    </button>
+                </div>
+            </form>
         </div>
-        <div id="myLogbookFeed" class="clearfix"></div>
+        <div id="myLogbookFeed" ></div>
     </div>
 
     <div class="content-right" id="friendsLogbook" style="display: none">
