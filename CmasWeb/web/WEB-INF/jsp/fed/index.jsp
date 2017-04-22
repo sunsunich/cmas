@@ -27,7 +27,9 @@
         <input type="hidden" name="dir" value="${command.dir}"/>
     </ff:form>
 
-    <button type="button" style="margin: 0 83px"><a href="/fed/userInfo.html?userId=3" style="text-decoration: none">Add new diver</a></button>
+    <button type="button" style="margin: 0 83px" onclick="window.location = '/fed/addDiver.html'">
+        Add new diver
+    </button>
 
 
     <c:choose>
@@ -67,9 +69,7 @@
                     <th><my:sort url="${url}" title="Registration date" dir="${command.dir}"
                                  columnNumber="${command.sort}" sortColumn="dateReg"/>
                     </th>
-                    <th><my:sort url="${url}" title="Last profile edit" dir="${command.dir}"
-                                 columnNumber="${command.sort}" sortColumn="lastAction"/>
-                    </th>
+                    <th>Action</th>
                 </tr>
                 <c:forEach items="${users}" var="user" varStatus="st">
                     <tr class="info" <c:if test="${!user.enabled}"> style="color:#999999"</c:if>>
@@ -99,7 +99,9 @@
                             <fmt:formatDate value="${user.dateReg}" pattern="dd.MM.yyyy HH:mm"/>
                         </td>
                         <td>
-                            <fmt:formatDate value="${user.lastAction}" pattern="dd.MM.yyyy HH:mm"/>
+                            <button type="button" onclick="window.location = '/fed/editDiver.html?userId=${user.id}'">
+                                Edit diver
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>

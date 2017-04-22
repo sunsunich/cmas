@@ -11,7 +11,7 @@
     <c:set var="version">2</c:set>
     <title>Administration</title>
 
-    <link rel="stylesheet" type="text/css" href="/c/amdin.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/c/admin.css?v=${webVersion}" media="all"/>
     <script type="text/javascript" src="/js/util.js?v=${webVersion}"></script>
 
 </head>

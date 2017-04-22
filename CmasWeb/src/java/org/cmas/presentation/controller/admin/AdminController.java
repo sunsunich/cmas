@@ -26,6 +26,7 @@ import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.presentation.SpringRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -65,6 +66,7 @@ public class AdminController {
     private CountryDao countryDao;
 
     @Autowired
+    @Qualifier("editUserValidator")
     private EditUserValidator editUserValidator;
     @Autowired
     private PasswdValidator passwdValidator;

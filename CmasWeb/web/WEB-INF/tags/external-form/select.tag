@@ -10,7 +10,7 @@
 <%@ attribute name="comment" required="false" %>
 <%@ attribute name="itemValue" required="false" %>
 
-<ef:row path="${path}" label="${label}" comment="${comment}" >
+<ef:row path="${path}" label="${label}" >
     <form:select path="${path}" htmlEscape="true" cssErrorClass="errorInput" cssClass="field text small">
         <c:if test="${not empty options}">
             <c:choose>

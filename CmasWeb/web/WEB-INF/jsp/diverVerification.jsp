@@ -14,7 +14,7 @@
 <my:basePage title="cmas.face.index.header" indexpage="false"
              customScripts="js/controller/country_controller.js"
         >
-    <script>
+    <script type="application/javascript">
         $(document).ready(function () {
             country_controller.init();
         });

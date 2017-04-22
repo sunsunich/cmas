@@ -32,9 +32,9 @@ for(i = 0; i < records.length;i++) {
         invisibleNote = null;
     }
 
-    var showPanelFeed = note.length > 0 || records[i].photoBase64 || records[i].instructor || records[i].buddies.length > 0;
+    var showPanelFeed = note.length > 0 || records[i].photoBase64;
 %>
-<div class="logbookRecord panelFeed-full clearfix"
+<div class="panelFeed-full clearfix"
      id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
     <div class="feed-align">
         <div class="content-left-feed">
@@ -271,7 +271,7 @@ for(i = 0; i < records.length;i++) {
 
         <div class="white-elem-left-feed">
             <!-- 3 -->
-            <% if(records[i].diveSpec.scubaTanks) { %>
+            <% if(records[i].diveSpec.scubaTanks && records[i].diveSpec.scubaTanks.length > 0) { %>
             <div>
                 <div class="dialog-title"><%= labels["cmas.face.logbook.tanks.title"] %></div>
                 <%

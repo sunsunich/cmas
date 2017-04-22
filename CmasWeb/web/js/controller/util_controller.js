@@ -50,15 +50,49 @@ var util_controller = {
     },
 
     filterNumbers: function (event, value, maxLength) {
-        if (event.keyCode < 48 || event.keyCode > 57 || (value && value.length > maxLength)) {
+        if (event.keyCode < 48 || event.keyCode > 57 || (value && value.length + 1 > maxLength)) {
             event.preventDefault();
         }
     },
 
-    filterFloatNumberChars: function (event, value, maxLength) {
-        if (event.keyCode != 44 && event.keyCode != 46 && (event.keyCode < 48 || event.keyCode > 57 || (value && value.length > maxLength))) {
-            event.preventDefault();
-        }
+    filterPositiveFloatNumberChars: function (elem, maxLength, maxNumbersAfterDot) {
+        this.innerFilterFloatNumberChars(elem, maxLength, maxNumbersAfterDot, true);
+    },
+
+    filterFloatNumberChars: function (elem, maxLength, maxNumbersAfterDot) {
+        this.innerFilterFloatNumberChars(elem, maxLength, maxNumbersAfterDot, false);
+    },
+
+    innerFilterFloatNumberChars: function (elem, maxLength, maxNumbersAfterDot, isPositive) {
+        const element = elem;
+        const oldVal = elem.val();
+        setTimeout(function () {
+            var newVal = element.val();
+            if (!newVal) {
+                return;
+            }
+            if (!isPositive) {
+                if (newVal[0] == '-') {
+                    newVal = newVal.substring(1);
+                }
+                if (!newVal) {
+                    return;
+                }
+            }
+            newVal = newVal.replace(',', '.');
+            if (isNaN(newVal)) {
+                element.val(oldVal);
+            }
+            var number = parseFloat(newVal) * Math.pow(10, maxNumbersAfterDot);
+            //is integer
+            if (number % 1 === 0) {
+                if (number < 0 || number >= Math.pow(10, maxLength + maxNumbersAfterDot)) {
+                    element.val(oldVal);
+                }
+            } else {
+                element.val(oldVal);
+            }
+        }, 0);
     },
 
     setupSelect2: function (elemId, selectOptions, chosenOption, placeholder) {

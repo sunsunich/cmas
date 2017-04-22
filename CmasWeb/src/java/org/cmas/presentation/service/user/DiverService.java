@@ -17,4 +17,7 @@ public interface DiverService extends UserService<Diver> {
     void uploadDivers(NationalFederation federation, InputStream file) throws Exception;
 
     List<PersonalCard> getCardsToShow(Diver diver);
+
+    @SuppressWarnings({"CallToStringEqualsIgnoreCase", "CallToStringEquals", "ObjectAllocationInLoop"})
+    void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards);
 }

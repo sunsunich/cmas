@@ -77,15 +77,6 @@ html, body {
     margin-right: 10%;
 }
 
-.content-left-feed {
-    position: relative;
-    width: 460px;
-    float: left;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    margin-right: 3%;
-}
-
 .content-feed {
     position: relative;
     left: 50%;

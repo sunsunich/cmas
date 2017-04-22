@@ -50,6 +50,9 @@
     <bean id="adminPasswdValidator"
           class="org.cmas.presentation.validator.admin.PasswdValidator"/>
 
+    <bean id="diverUploadValidator"
+          class="org.cmas.presentation.validator.fedadmin.DiverUploadValidator"/>
+
     <bean id="foCompletenessValidator"
           class="org.cmas.presentation.validator.FormObjectCompletenessValidatorImpl"/>
 

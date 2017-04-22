@@ -1,0 +1,11 @@
+<%
+var number = "";
+if (card.number) {
+    number = card.number;
+}
+%>
+<div id="<%= card.uiId %>">
+    <label style="margin:0 10px 0 20px"><%= card.printName %> <%= number %></label>
+
+    <button type="button" id="<%= card.uiId %>_deleteCard">Delete certificate</button>
+</div>

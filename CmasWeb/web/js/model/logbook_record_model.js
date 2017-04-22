@@ -1,5 +1,7 @@
 var logbook_record_model = {
 
+    // freeTankId: 1,
+    // displayTanks: {},
     logbookEntry: {state: 'NEW', diveSpec: {scubaTanks: []}, spot: {}},
 
     weatherTypes: [],

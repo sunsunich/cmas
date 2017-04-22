@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao.user;
 
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.diver.Diver;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.hibernate.criterion.Restrictions;
 
@@ -15,5 +16,12 @@ public class PersonalCardDaoImpl extends HibernateDaoImpl<PersonalCard> implemen
     @Override
     public PersonalCard getByNumber(String cardNumber) {
         return (PersonalCard) createCriteria().add(Restrictions.eq("number", cardNumber)).uniqueResult();
+    }
+
+    @Override
+    public void deleteDiverCards(Diver diver) {
+        String hql = "delete from org.cmas.entities.PersonalCard c where c.diver = :diver";
+        createQuery(hql).setEntity("diver", diver)
+                        .executeUpdate();
     }
 }

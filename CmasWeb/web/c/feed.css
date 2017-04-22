@@ -1,4 +1,3 @@
-
 .userpicFeed {
     max-height: 90px;
     max-width: 90px;
@@ -46,6 +45,19 @@
     margin-left: 30px;
 }
 
+.content-left-feed, .white-elem-left-feed {
+    width: 460px;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 10%;
+}
+
+.white-elem-left-feed {
+    background: #f8f8f8;
+    margin-right: 0;
+}
+
 .panelFeed {
     margin-top: -10px;
     margin-bottom: 10px;
@@ -62,19 +74,14 @@
 }
 
 .feed-align {
-    max-width: 980px;
-    margin: auto;
     padding-left: 20px;
+    padding-right: 20px;
 }
 
 .panelFeed-row {
     margin-top: 25px;
     width: 100%;
 }
-
-/*.panel-row-bottom-margin {*/
-/*margin-bottom: 25px;*/
-/*}*/
 
 .panelFeed-href,
 .panelFeed-label {

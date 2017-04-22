@@ -1,6 +1,6 @@
 <%@ tag body-content="scriptless" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="submitText" required="true" %>
 <%@ attribute name="action" required="false" %>
@@ -14,19 +14,19 @@
     <c:set var="method" value="POST"/>
 </c:if>
 <form:form htmlEscape="true" action="${action}" commandName="${command}" method="${method}" cssClass="b-form" id="${id}" enctype="${enctype}">
-    <spring:hasBindErrors name="${command}">
+    <s:hasBindErrors name="${command}">
         <ul>
            <c:forEach items="${errors.globalErrors}" var="error">
-                <li><span class="error"><spring:message message="${error}"/></span></li>
+                <li><span class="error"><s:message message="${error}"/></span></li>
            </c:forEach>
         </ul>
-    </spring:hasBindErrors>
+    </s:hasBindErrors>
     <table class="formTable">
         <jsp:doBody/>
         <c:if test="${not noRequiredText}">
             <tr>
                 <td colspan="3"><div  style="font-size:80%;margin:8px;">
-                    Знаком <span class="reqMark" style="font-size:120%">*</span> помечены поля, обязательные для заполнения
+                    <s:message code="cmas.face.extForm.requiredText_1"/> <span class="reqMark" style="font-size:120%">*</span> <s:message code="cmas.face.extForm.requiredText_2"/>
                 </div></td>
             </tr>
         </c:if>

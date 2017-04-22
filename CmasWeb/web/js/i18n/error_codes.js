@@ -49,5 +49,6 @@ var error_codes = {
     "error.spot.creation": "Error while adding the diving spot into the database. Please try again later",
 
     "validation.logbook.gasTanksEmpty": "please add gas tanks or set the dive as apnea",
-    "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks"
+    "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks",
+    "validation.logbook.start.pressure.less.end.pressure": "Start pressure cannot be less that end pressure"
 };

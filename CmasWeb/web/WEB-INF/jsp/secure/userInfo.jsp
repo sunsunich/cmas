@@ -194,7 +194,7 @@
     <my:dialog id="noDiversFound"
                title="cmas.face.diverList.title"
                buttonText="cmas.face.diverList.submitText">
-        <div id="noDiversFoundText"><s:message code="cmas.face.diverList.noDivers"/></div>
+        <div><s:message code="cmas.face.diverList.noDivers"/></div>
     </my:dialog>
 
     <my:dialog id="friendRemove"

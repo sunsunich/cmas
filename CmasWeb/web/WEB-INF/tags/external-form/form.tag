@@ -36,9 +36,9 @@
     </spring:hasBindErrors>
     <jsp:doBody/>
     <c:if test="${not noRequiredText}">
-    <div class="zvezd"><s:message code="face.extForm.requiredText_1"/> <span class="zvezdsym">*</span> <s:message code="face.extForm.requiredText_2"/></div>
+    <div class="zvezd"><s:message code="cmas.face.extForm.requiredText_1"/> <span class="zvezdsym">*</span> <s:message code="cmas.face.extForm.requiredText_2"/></div>
     </c:if>
     <div class="b-form-row"><label>&nbsp;</label>
         <input type="image" src="${submitImg}"
-               alt="<spring:message code="${submitText}"/>" class="b-form-submit" id="submitButton" style="width: ${submitImgWidth}px; height: ${submitImgHeight}px; position: ${submitPosition}; top: ${submitPositionTop}px; left: ${submitPositionLeft}px;" /></div>
+               alt="<spring:message code="${submitText}"/>" id="submitButton" style="width: ${submitImgWidth}px; height: ${submitImgHeight}px; position: ${submitPosition}; top: ${submitPositionTop}px; left: ${submitPositionLeft}px;" /></div>
 </form:form>

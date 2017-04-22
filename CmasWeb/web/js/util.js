@@ -20,23 +20,28 @@ function is_positive_int(value) {
 }
 
 function is_positive_float(value) {
-    var number = parseFloat(value);
-    if (isNaN(number)) {
+    value = value.replace(',', '.');
+    if (isNaN(value)) {
         return false;
     }
     else {
-        return number > 0;
+        return parseFloat(value) > 0;
     }
 }
 
 function is_non_negative_float(value) {
-    var number = parseFloat(value);
-    if (isNaN(number)) {
+    value = value.replace(',', '.');
+    if (isNaN(value)) {
         return false;
     }
     else {
-        return number >= 0;
+        return parseFloat(value) >= 0;
     }
+}
+
+function is_float(value) {
+    value = value.replace(',', '.');
+    return isNaN(value);
 }
 
 function round_to_Money(value) {
@@ -75,7 +80,7 @@ function arrayToJsonStr(array) {
     return JSON.stringify(array);
 }
 
-function removeFromArray(array, elem){
+function removeFromArray(array, elem) {
     if (null == array || "object" != typeof array) return array;
     if (array.indexOf(elem) == -1) {
         return array;
@@ -88,6 +93,14 @@ function removeFromArray(array, elem){
     }
     return newArray;
 }
+
+function mapSize(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 function removeFromArrayByIndex(array, index) {
     if (null == array || "object" != typeof array) return array;

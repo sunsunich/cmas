@@ -16,9 +16,14 @@
 
 .createEntryHeader {
     margin-top: 20px;
-    width: 50%;
     position: relative;
-    left: 2%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.logbookHeader {
+    width: 500px;
+    margin-top: 20px;
 }
 
 .createEntryHeaderTitle {
@@ -58,19 +63,11 @@
 .white-elem-left {
     margin-top: 50px;
 }
-.white-elem-left-feed {
-    float: left;
-    margin-top: 2%;
-    margin-bottom: 2%;
-    position: relative;
-    width: 460px;
-    background: #f8f8f8;
-    margin-right: 3%;
-}
 
-.logbookParent{
-    margin-left: 20px;
-    margin-right: 20px;
+.logbookParent {
+    min-width: 500px;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .white-elem-label {
@@ -286,6 +283,7 @@
     text-overflow: ellipsis;
     color: #53788b;
 }
+
 .form-row-logbook input:focus::-webkit-input-placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -317,11 +315,8 @@
 .search-form-logbook {
     margin: 0 0 25px 0;
     padding: 20px;
-    position: relative;
-    left: 15%;
     background-color: rgba(0, 102, 145, 0.55);
     border-radius: 6px;
-    width: 460px;
     display: inline-block;
     font-size: 20px;
     color: #fefefe;

@@ -89,7 +89,7 @@
                 <span class="firstTab" id="diveProfileTab">
                     <s:message code="cmas.face.logbook.diveProfile"/>
                 </span>
-                <span class="secondTab" id="publishTab" class="inactive">
+                    <span class="secondTab" id="publishTab" class="inactive">
                     <s:message code="cmas.face.logbook.publish"/>
                 </span>
                 </div>
@@ -106,7 +106,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="dd/MM/yyyy"/>"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_diveDate"></label>
                     </div>
 
@@ -117,7 +117,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="HH:mm"/>"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_diveTime"></label>
                     </div>
 
@@ -132,7 +132,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="<fmt:formatDate value="${logbookEntry.prevDiveDate}" pattern="dd/MM/yyyy"/>"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_prevDiveDate"></label>
                     </div>
                     <div class="white-form-row-time">
@@ -142,7 +142,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="<fmt:formatDate value="${logbookEntry.prevDiveDate}" pattern="HH:mm"/>"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_prevDiveTime"></label>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                                     value="${spot.name}"
                                 </c:otherwise>
                             </c:choose>
-                            />
+                    />
                     <label class="error" id="create_error_name"></label>
                 </div>
 
@@ -186,7 +186,7 @@
                                         value="${spot.latitude}"
                                     </c:otherwise>
                                 </c:choose>
-                                />
+                        />
                         <label class="error" id="create_error_latitude"></label>
                     </div>
                     <div class="white-form-row-half-right">
@@ -203,7 +203,7 @@
                                         value="${spot.longitude}"
                                     </c:otherwise>
                                 </c:choose>
-                                />
+                        />
                         <label class="error" id="create_error_longitude"></label>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.durationMinutes}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_durationMinutes"></label>
                     </div>
                     <div class="white-form-row-third">
@@ -226,7 +226,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.maxDepthMeters}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_maxDepthMeters"></label>
                     </div>
                     <div class="white-form-row-third-right">
@@ -236,7 +236,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.avgDepthMeters}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_avgDepthMeters"></label>
                     </div>
                 </div>
@@ -288,7 +288,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.airTemp}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_airTemp"></label>
                     </div>
                     <div class="white-form-row-third">
@@ -298,7 +298,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.waterTemp}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_waterTemp"></label>
                     </div>
                     <div class="white-form-row-third-right">
@@ -338,7 +338,7 @@
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.additionalWeightKg}"
                                 </c:if>
-                                />
+                        />
                         <label class="error" id="create_error_additionalWeightKg"></label>
                     </div>
                     <div class="white-form-row-half-right">
@@ -354,7 +354,7 @@
                             <c:if test="${logbookEntry != null}">
                                 <c:if test="${logbookEntry.diveSpec.hasSafetyStop}">checked="checked"</c:if>
                             </c:if>
-                            />
+                    />
                     <label class="white-form-checkbox-label">
                         <s:message code="cmas.face.logbook.hasSafetyStop"/>
                     </label>
@@ -366,7 +366,7 @@
                             <c:if test="${logbookEntry != null}">
                                 value="${logbookEntry.diveSpec.cnsToxicity}"
                             </c:if>
-                            />
+                    />
                     <label class="error" id="create_error_cnsToxicity"></label>
                 </div>
 
@@ -420,7 +420,7 @@
                             <c:if test="${logbookEntry != null}">
                                 <c:if test="${logbookEntry.diveSpec.isApnea}">checked="checked"</c:if>
                             </c:if>
-                            />
+                    />
                     <label class="white-form-checkbox-label">
                         <s:message code="cmas.face.logbook.isApnea"/>
                     </label>
@@ -482,7 +482,8 @@
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${logbookEntry.photoBase64 == null}">
-                                <c:set var="photoSrc" value="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
+                                <c:set var="photoSrc"
+                                       value="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
                             </c:when>
                             <c:otherwise>
                                 <c:set var="photoSrc" value="data:image/png;base64,${logbookEntry.photoBase64}"/>
@@ -603,19 +604,19 @@
     <my:dialog id="noDiversFound"
                title="cmas.face.diverList.title"
                buttonText="cmas.face.diverList.submitText">
-        <div id="noDiversFoundText"><s:message code="cmas.face.diverList.noDivers"/></div>
+        <div><s:message code="cmas.face.diverList.noDivers"/></div>
     </my:dialog>
 
     <my:dialog id="saveDraftSuccess"
                title="cmas.face.logbook.saveDraftSuccessTitle"
                buttonText="cmas.face.dialog.ok">
-        <div id="noDiversFoundText"><s:message code="cmas.face.logbook.saveDraftSuccessText"/></div>
+        <div><s:message code="cmas.face.logbook.saveDraftSuccessText"/></div>
     </my:dialog>
 
     <my:dialog id="submitSuccess"
                title="cmas.face.logbook.submitTitle"
                buttonText="cmas.face.dialog.ok">
-        <div id="noDiversFoundText"><s:message code="cmas.face.logbook.submitText"/></div>
+        <div><s:message code="cmas.face.logbook.submitText"/></div>
     </my:dialog>
 
     <my:dialog id="showDiver"

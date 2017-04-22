@@ -35,6 +35,8 @@ public class AllUsersServiceImpl implements AllUsersService {
     public boolean isEmailUnique(Role role, @Nullable Long userId, String email) {
         boolean isEmailUnique = true;
         switch (role) {
+            case ROLE_FEDERATION_ADMIN:
+                //fall through
             case ROLE_ADMIN:
                 //fall through
             case ROLE_DIVER:

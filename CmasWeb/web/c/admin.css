@@ -1,0 +1,107 @@
+.info td {
+    text-align: center;
+    vertical-align: top;
+}
+
+td.email {
+    text-align: left;
+}
+
+.input-fed-admin, .input-fed-admin-card {
+    display: inline-block;
+    width: 300px;
+}
+
+.input-fed-admin-card {
+    width: 150px;
+}
+
+.card-addition-block{
+    margin-left: 30px;
+}
+
+.card-addition{
+    float: left;
+}
+
+.fed-form {
+    line-height: 200%;
+    margin-left: 30px;
+}
+
+.button-fed-admin {
+    background-color: green;
+    color: white;
+    border: 2px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 40px 30px;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+.error {
+    padding-left: 15px;
+    color: #ff5050;
+    margin-bottom: 15px;
+}
+
+
+.dialog {
+    background: #f8f8f8;
+    height: auto;
+    width: 320px;
+    margin: 0 auto;
+    border-radius: 6px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 900;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+.dialogClose {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.dialog-title {
+    font-size: 22px;
+    text-align: center;
+    padding-top: 25px;
+    padding-left: 16px;
+    padding-right: 16px;
+    margin-bottom: 16px;
+}
+
+.dialog-sub-title {
+    font-size: 20px;
+    text-align: center;
+}
+
+.dialog-content {
+    padding-bottom: 25px;
+}
+
+.dialog-content {
+    text-align: center;
+    padding-left: 16px;
+    padding-right: 16px;
+}

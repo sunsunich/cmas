@@ -11,29 +11,32 @@ var logbook_record_diveProfile_controller = {
         util_controller.setupDate('prevDiveDate');
         util_controller.setupTime('prevDiveTime');
 
-        $('#latitude').keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+        $('#latitude').keypress(function () {
+            util_controller.filterFloatNumberChars($(this), 12, 12);
         });
-        $('#longitude').keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+        $('#longitude').keypress(function () {
+            util_controller.filterFloatNumberChars($(this), 12, 12);
         });
-        $('#airTemp').keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 5);
+        $('#airTemp').keypress(function () {
+            util_controller.filterFloatNumberChars($(this), 2, 1);
         });
-        $('#waterTemp').keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 5);
+        $('#waterTemp').keypress(function () {
+            util_controller.filterFloatNumberChars($(this), 2, 1);
         });
-        $('#addWeight').keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 5);
+        $('#addWeight').keypress(function () {
+            util_controller.filterPositiveFloatNumberChars($(this), 2, 1);
         });
         $('#duration').keypress(function (event) {
-            util_controller.filterNumbers(event, $(this).val(), 2);
+            util_controller.filterNumbers(event, $(this).val(), 3);
         });
         $('#depth').keypress(function (event) {
             util_controller.filterNumbers(event, $(this).val(), 3);
         });
         $('#avgDepth').keypress(function (event) {
             util_controller.filterNumbers(event, $(this).val(), 3);
+        });
+        $('#cnsToxicity').keypress(function () {
+            util_controller.filterPositiveFloatNumberChars($(this), 3, 1);
         });
         util_controller.setupSelect2(
             'weather', logbook_record_model.weatherTypes, logbook_record_model.logbookEntry.diveSpec.weather,
@@ -136,6 +139,7 @@ var logbook_record_diveProfile_controller = {
         var self = this;
         $('#removeTank_' + i).click(function () {
             var index = $(this)[0].id.split('_')[1];
+            self.collectTanks();
             logbook_record_model.logbookEntry.diveSpec.scubaTanks =
                 removeFromArrayByIndex(logbook_record_model.logbookEntry.diveSpec.scubaTanks, index - 1);
             self.restoreTanks();
@@ -192,19 +196,19 @@ var logbook_record_diveProfile_controller = {
             }
         );
         $('#size_' + i).keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+            util_controller.filterNumbers(event, $(this).val(), 3);
         });
         $('#startPressure_' + i).keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+            util_controller.filterNumbers(event, $(this).val(), 4);
         });
         $('#endPressure_' + i).keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+            util_controller.filterNumbers(event, $(this).val(), 4);
         });
         $('#oxygenPercent_' + i).keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+            util_controller.filterNumbers(event, $(this).val(), 2);
         });
         $('#heliumPercent_' + i).keypress(function (event) {
-            util_controller.filterFloatNumberChars(event, $(this).val(), 12);
+            util_controller.filterNumbers(event, $(this).val(), 2);
         });
         //}
     },
@@ -260,6 +264,10 @@ var logbook_record_diveProfile_controller = {
         if (logbook_record_model.logbookEntry.diveSpec.isApnea) {
             logbook_record_model.logbookEntry.diveSpec.scubaTanks = [];
         }
+        this.collectTanks();
+    },
+
+    collectTanks: function () {
         var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
         for (var i = 0; i < tanks.length; i++) {
             var tank = tanks[i];
@@ -377,15 +385,23 @@ var logbook_record_diveProfile_controller = {
             }
         }
         if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.airTemp)) {
-            if (!is_positive_float(logbook_record_model.logbookEntry.diveSpec.airTemp)) {
+            if (is_float(logbook_record_model.logbookEntry.diveSpec.airTemp)) {
                 result.fieldErrors["airTemp"] = 'validation.incorrectNumber';
             }
         }
         if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.waterTemp)) {
-            if (!is_positive_float(logbook_record_model.logbookEntry.diveSpec.waterTemp)) {
+            if (is_float(logbook_record_model.logbookEntry.diveSpec.waterTemp)) {
                 result.fieldErrors["waterTemp"] = 'validation.incorrectNumber';
             }
         }
+        if ((!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.airTemp)
+            || !isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.waterTemp))
+            && !result.fieldErrors["waterTemp"] && !result.fieldErrors["airTemp"]
+            && isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.temperatureMeasureUnit)
+        ) {
+            result.fieldErrors["temperatureMeasureUnit"] = 'validation.emptyField';
+        }
+
         if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.additionalWeightKg)) {
             if (!is_positive_float(logbook_record_model.logbookEntry.diveSpec.additionalWeightKg)) {
                 result.fieldErrors["additionalWeightKg"] = 'validation.incorrectNumber';
@@ -415,6 +431,11 @@ var logbook_record_diveProfile_controller = {
                 result.fieldErrors["endPressure_" + index] = 'validation.emptyField';
             } else if (!is_non_negative_float(tank.endPressure)) {
                 result.fieldErrors["endPressure_" + index] = 'validation.incorrectNumber';
+            }
+            if (!result.fieldErrors["startPressure_" + index] && !result.fieldErrors["endPressure_" + index]
+                && parseFloat(tank.startPressure) < parseFloat(tank.endPressure)
+            ) {
+                result.fieldErrors["startPressure_" + index] = 'validation.logbook.start.pressure.less.end.pressure';
             }
             if (isStringTrimmedEmpty(tank.pressureMeasureUnit)) {
                 result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.emptyField';
