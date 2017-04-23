@@ -191,10 +191,15 @@
 
 .calendar-input-ico-logbook {
     content: url("/i/calendar_ico.png");
-    position: relative;
-    top: 4px;
-    left: 35px;
+    position: absolute;
+    top: -4px;
+    left: 8px;
     height: auto;
+}
+
+.calendar-container {
+    display: inline;
+    position: relative;
 }
 
 .form-row-logbook,
@@ -212,48 +217,70 @@
 
 .form-row-logbook input,
 .dialog-form-row input,
-.select2-selection {
-    width: 35%;
+.form-row-logbook .select2-selection {
+    width: 99%;
+    height: 100% !important;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    background-color: rgba(234, 234, 234, 0.8) !important;
+}
+
+.form-row-logbook .select2-selection__rendered,
+.form-row-logbook .select2-selection__placeholder {
+    text-align: left;
+    font-size: 16px;
+    color: #53788b !important;
+    padding: 0 !important;
+    line-height: normal !important;
+}
+
+.form-row-logbook .select2-selection__rendered {
+    color: black !important;
+}
+
+.form-row-logbook .select2-selection__arrow {
+    background: url("/i/arrow_gray_ico.png") no-repeat center;
+    top: 10px !important;
+    right: 14px !important;
+}
+
+.form-row-logbook .country-input-ico {
+    content: url("/i/country_ico.png");
+    top: 14px;
+    left: 14px;
+    margin-right: 10px;
+}
+
+.form-row-logbook-half input {
+    padding-left: 10px;
+    background-color: rgba(235, 243, 245, 0.8) !important;
+    display: inline-block;
+    width: 39%;
     height: 100% !important;
     padding-top: 18px;
     padding-bottom: 10px;
-    padding-left: 10px;
     border-radius: 0 !important;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    background-color: rgba(234, 234, 234, 0.8)
 }
 
-.form-row-logbook-half input,
-.select2-selection {
-    padding-left: 42px;
-    background-color: rgba(235, 243, 245, 0.8) !important;
-    display: inline-block;
+.calendar-container input{
+    padding-left: 40px;
+}
+
+.form-row-logbook-half {
+    display: inline;
 }
 
 .form-row-logbook-half label {
     color: #99b5c3;
+    padding-right: 2%;
 }
 
-.form-row-logbook-half-two input,
-.select2-selection {
-    padding-left: 10px;
-    background-color: rgba(235, 243, 245, 0.8) !important;
-    display: inline-block;
-    width: 38%;
-    height: 100% !important;
-    padding-top: 18px;
-    padding-bottom: 10px;
-    border-radius: 0 !important;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-
-.form-row-logbook-half-two label {
-    color: #99b5c3;
-    padding-right: 15px;
+.form-row-logbook-half-label2 {
+    padding-left: 2%;
 }
 
 .form-row-logbook input::-webkit-input-placeholder {

@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
@@ -93,7 +92,7 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         //1
         diver.setLastName(StringUtil.correctSpaceCharAndTrim(row.getCell(1).getStringCellValue()));
         //2
-        diver.setDob(row.getCell(2).getDateCellValue());
+        diver.setDob(getDateCellValue(row.getCell(2)));
 
         //3
         PersonalCard card = new PersonalCard();
@@ -109,18 +108,7 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         Cell cell4 = row.getCell(4);
         if (cell4 != null) {
             String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(cell4.getStringCellValue());
-            if (!StringUtil.isTrimmedEmpty(instructorCardNumber)) {
-                Diver instructor = new Diver();
-                instructor.setDiverType(DiverType.INSTRUCTOR);
-                PersonalCard instructorCard = new PersonalCard();
-                instructorCard.setCardType(PersonalCardType.NATIONAL);
-                instructorCard.setDiverType(DiverType.INSTRUCTOR);
-                instructorCard.setNumber(instructorCardNumber);
-                List<PersonalCard> instructorCards = new ArrayList<>(1);
-                instructorCards.add(instructorCard);
-                instructor.setCards(instructorCards);
-                diver.setInstructor(instructor);
-            }
+            setInstructor(diver, instructorCardNumber);
         }
 
         // 5
@@ -149,49 +137,23 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         setCardTypeFromStr(card, cardTypeStr);
 
         //8
-        Cell cell8 = row.getCell(8);
-        if (cell8 != null) {
-            Integer value = getIntegerValue(cell8);
-            if (value != null) {
-                setDiverLevelFromInt(card, value);
-                diver.setDiverLevel(card.getDiverLevel());
-            }
-        }
+        setDiverLevelFromInt(card, getIntegerValue(row.getCell(8)));
+        diver.setDiverLevel(card.getDiverLevel());
 
         //9 image reading is broken
 
         //10 reading hidden info - preferred primary card number
-        Cell cell10 = row.getCell(10);
-        if (cell10 != null) {
-            Integer value = getIntegerValue(cell10);
-            if (value != null) {
-                if (value > 0) {
-                    String primaryCardNumberStr = String.valueOf(value);
-                    PersonalCard primaryCard = new PersonalCard();
-                    primaryCard.setNumber(primaryCardNumberStr);
-                    diver.setPrimaryPersonalCard(primaryCard);
+        Integer value10 = getIntegerValue(row.getCell(10));
+        if (value10 != null) {
+            if (value10 > 0) {
+                String primaryCardNumberStr = String.valueOf(value10);
+                PersonalCard primaryCard = new PersonalCard();
+                primaryCard.setNumber(primaryCardNumberStr);
+                diver.setPrimaryPersonalCard(primaryCard);
 
-                }
             }
         }
 
         return diver;
-    }
-
-    private static Integer getIntegerValue(Cell cell10) {
-        Integer value = null;
-        int cellType = cell10.getCellType();
-        switch (cellType) {
-            case Cell.CELL_TYPE_NUMERIC:
-                value = (int) cell10.getNumericCellValue();
-                break;
-            case Cell.CELL_TYPE_STRING:
-                String str = cell10.getStringCellValue();
-                if (!StringUtil.isTrimmedEmpty(str)) {
-                    value = Integer.parseInt(StringUtil.correctSpaceCharAndTrim(str));
-                }
-                break;
-        }
-        return value;
     }
 }

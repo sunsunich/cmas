@@ -27,10 +27,35 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
 
     @Override
     public List<LogbookEntry> getDiverLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject) {
-        Criteria criteria = createNotDeletedCriteria().add(Restrictions.eq("diver", diver));
+        Criteria criteria = createNotDeletedCriteria()
+                .createAlias("diveSpec", "diveSpec")
+                .createAlias("diveSpot", "diveSpot")
+                .createAlias("diveSpot.country", "country")
+                .add(Restrictions.eq("diver", diver));
         SearchDaoUtils.addStrictTimestampRangeToSearchCriteria(
                 criteria, formObject.getFromDateTimestamp(), formObject.getToDateTimestamp(), "dateEdit"
         );
+        String countryCode = formObject.getCountry();
+        if (!StringUtil.isTrimmedEmpty(countryCode)) {
+            criteria.add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(countryCode)));
+        }
+        String fromMeters = formObject.getFromMeters();
+        if (!StringUtil.isTrimmedEmpty(fromMeters)) {
+            criteria.add(Restrictions.ge("diveSpec.maxDepthMeters", Integer.parseInt(fromMeters)));
+        }
+        String toMeters = formObject.getToMeters();
+        if (!StringUtil.isTrimmedEmpty(toMeters)) {
+            criteria.add(Restrictions.le("diveSpec.maxDepthMeters", Integer.parseInt(toMeters)));
+        }
+        String fromMinutes = formObject.getFromMinutes();
+        if (!StringUtil.isTrimmedEmpty(fromMinutes)) {
+            criteria.add(Restrictions.ge("diveSpec.durationMinutes", Integer.parseInt(fromMinutes)));
+        }
+        String toMinutes = formObject.getToMinutes();
+        if (!StringUtil.isTrimmedEmpty(toMinutes)) {
+            criteria.add(Restrictions.le("diveSpec.durationMinutes", Integer.parseInt(toMinutes)));
+        }
+
         criteria.addOrder(SearchDaoUtils.getOrder("dateEdit", true));
         String limit = formObject.getLimit();
         if (!StringUtil.isTrimmedEmpty(limit)) {

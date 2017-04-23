@@ -1,13 +1,19 @@
 package org.cmas.backend.xls;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverType;
+import org.cmas.util.StringUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -23,7 +29,55 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
         return getDivers(new FileInputStream(file));
     }
 
-    protected static void setDiverLevelFromInt(PersonalCard card, int levelChar) {
+    static Date getDateCellValue(Cell cell) {
+        if (cell == null) {
+            return null;
+        }
+        if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            return cell.getDateCellValue();
+        }
+        return null;
+    }
+
+    static Integer getIntegerValue(Cell cell) {
+        if (cell == null) {
+            return null;
+        }
+        Integer value = null;
+        int cellType = cell.getCellType();
+        switch (cellType) {
+            case Cell.CELL_TYPE_NUMERIC:
+                value = (int) cell.getNumericCellValue();
+                break;
+            case Cell.CELL_TYPE_STRING:
+                String str = cell.getStringCellValue();
+                if (!StringUtil.isTrimmedEmpty(str)) {
+                    value = Integer.parseInt(StringUtil.correctSpaceCharAndTrim(str));
+                }
+                break;
+        }
+        return value;
+    }
+
+    static void setInstructor(Diver diver, String instructorCardNumber) {
+        if (!StringUtil.isTrimmedEmpty(instructorCardNumber)) {
+            Diver instructor = new Diver();
+            instructor.setDiverType(DiverType.INSTRUCTOR);
+            PersonalCard instructorCard = new PersonalCard();
+            instructorCard.setCardType(PersonalCardType.NATIONAL);
+            instructorCard.setDiverType(DiverType.INSTRUCTOR);
+            instructorCard.setNumber(instructorCardNumber);
+            List<PersonalCard> instructorCards = new ArrayList<>(1);
+            instructorCards.add(instructorCard);
+            instructor.setCards(instructorCards);
+            diver.setInstructor(instructor);
+        }
+    }
+
+    static void setDiverLevelFromInt(PersonalCard card, Integer levelChar) {
+        if (levelChar == null) {
+            return;
+        }
         switch (levelChar) {
             case 1:
                 card.setDiverLevel(DiverLevel.ONE_STAR);
@@ -40,7 +94,7 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
         }
     }
 
-    protected static void setCardTypeFromStr(PersonalCard card, String str) {
+    static void setCardTypeFromStr(PersonalCard card, String str) {
         String fixedInputStr = str;
         if (fixedInputStr == null) {
             fixedInputStr = "";

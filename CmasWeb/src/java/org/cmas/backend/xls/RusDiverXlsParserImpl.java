@@ -6,7 +6,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -79,41 +77,25 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Nullable
     private static Diver evalDiver(Row row) {
-        if (row == null || row.getCell(9) == null) {
+        if (row == null || row.getCell(5) == null) {
             return null;
         }
         Diver diver = new Diver();
-        String[] firstNameAndLastName = StringUtil.correctSpaceCharAndTrim(row.getCell(0).getStringCellValue())
-                                                  .split(" ");
-        if (firstNameAndLastName.length < 2) {
-            return null;
-        }
-        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(9).getStringCellValue());
+        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
         }
 
-        diver.setFirstName(firstNameAndLastName[1]);
-        diver.setLastName(firstNameAndLastName[0]);
-        diver.setDob(row.getCell(4).getDateCellValue());
+        diver.setFirstName(row.getCell(1).getStringCellValue());
+        diver.setLastName(row.getCell(0).getStringCellValue());
+        diver.setDob(getDateCellValue(row.getCell(2)));
         diver.setEmail(email);
 
-        String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(row.getCell(7).getStringCellValue());
-        if (!StringUtil.isTrimmedEmpty(instructorCardNumber)) {
-            Diver instructor = new Diver();
-            instructor.setDiverType(DiverType.INSTRUCTOR);
-            PersonalCard instructorCard = new PersonalCard();
-            instructorCard.setCardType(PersonalCardType.NATIONAL);
-            instructorCard.setDiverType(DiverType.INSTRUCTOR);
-            instructorCard.setNumber(instructorCardNumber);
-            List<PersonalCard> cards = new ArrayList<>(1);
-            cards.add(instructorCard);
-            instructor.setCards(cards);
-            diver.setInstructor(instructor);
-        }
+        String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(row.getCell(4).getStringCellValue());
+        setInstructor(diver, instructorCardNumber);
 
         PersonalCard card = new PersonalCard();
-        card.setNumber(StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue()));
+        card.setNumber(StringUtil.correctSpaceCharAndTrim(row.getCell(3).getStringCellValue()));
         List<PersonalCard> cards = new ArrayList<>();
         cards.add(card);
         diver.setCards(cards);
@@ -122,30 +104,21 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Nullable
     private static PersonalCard evalDiverTypeLevel(Sheet sheet) {
-        String sheetName = sheet.getSheetName();
-        if (StringUtil.isTrimmedEmpty(sheetName)) {
-            return null;
-        }
         PersonalCard card = new PersonalCard();
-        char firstChar = sheetName.charAt(0);
-        if (firstChar == 'I' || firstChar == 'i' || firstChar == 'И' || firstChar == 'и') {
+        Cell diverTypeCell = sheet.getRow(0).getCell(0);
+        Cell cardTypeCell = sheet.getRow(0).getCell(1);
+        Cell diverLevelCell = sheet.getRow(0).getCell(2);
+        if (diverTypeCell != null
+            && DiverType.INSTRUCTOR.name()
+                                   .equals(StringUtil.correctSpaceCharAndTrim(diverTypeCell.getStringCellValue()))) {
             card.setDiverType(DiverType.INSTRUCTOR);
         } else {
             card.setDiverType(DiverType.DIVER);
         }
-        try {
-            int lastChar = Integer.parseInt(sheetName.substring(sheetName.length() - 1));
-            setDiverLevelFromInt(card, lastChar);
-        } catch (Exception ignored) {
+        if (cardTypeCell != null) {
+            setCardTypeFromStr(card, StringUtil.correctSpaceCharAndTrim(cardTypeCell.getStringCellValue()));
         }
-
-        Cell sheetHeaderCell = sheet.getRow(0).getCell(0);
-        String header = StringUtil.correctSpaceCharAndTrim(sheetHeaderCell.getStringCellValue());
-        if (!StringUtil.isTrimmedEmpty(header)) {
-            card.setFederationName(header.toUpperCase(Locale.ENGLISH));
-        }
-        setCardTypeFromStr(card, header);
-
+        setDiverLevelFromInt(card, getIntegerValue(diverLevelCell));
         return card;
     }
 }

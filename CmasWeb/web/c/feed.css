@@ -64,7 +64,7 @@
     padding: 10px;
     border-radius: 6px;
     height: auto;
-    width: 425px;
+    background: rgba(0, 102, 145, 0.55);
 }
 
 .panelFeed-full {

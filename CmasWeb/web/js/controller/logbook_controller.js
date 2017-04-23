@@ -21,6 +21,9 @@ var logbook_controller = {
         this.myFriendsFeedController.model = my_friends_logbook_feed_model;
         this.myFriendsFeedController.init();
 
+        country_controller.init();
+        util_controller.setupDate('diveDateFrom');
+        util_controller.setupDate('diveDateTo');
         this.setListeners();
     },
 
@@ -42,6 +45,8 @@ var logbook_controller = {
         $('#createLogbookEntryButton').click(function () {
             window.location = "/secure/createLogbookRecordForm.html";
         });
+
+
     },
 
     showTab: function (tabName) {

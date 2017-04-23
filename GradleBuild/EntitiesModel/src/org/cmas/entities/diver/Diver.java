@@ -94,11 +94,12 @@ public class Diver extends CardUser {
     private boolean isNewsFromCurrentLocation;
 
     public Diver() {
-        defaultVisibility = LogbookVisibility.FRIENDS;
+        defaultVisibility = LogbookVisibility.PRIVATE;
     }
 
     public Diver(long id) {
         super(id);
+        defaultVisibility = LogbookVisibility.PRIVATE;
     }
 
     public long getSocialUpdatesVersion() {

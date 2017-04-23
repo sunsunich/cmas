@@ -273,6 +273,7 @@ public class LogbookController {
     @RequestMapping(value = "/secure/showLogbook.html", method = RequestMethod.GET)
     public ModelAndView showLogbookPage() throws IOException {
         ModelMap mm = new ModelMap();
+        mm.addAttribute("countries", countryDao.getAll());
         return new ModelAndView("/secure/logbook", mm);
     }
 

@@ -3,11 +3,13 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
+<jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_controller.js"
+               customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_controller.js"
 >
 
     <div class="content">
@@ -26,22 +28,30 @@
                 </button>
             </div>
             <!--add search form !-->
-            <form id="regForm" action="">
+            <form id="logbookEntrySearchForm" action="">
                 <div class="search-form-logbook">
-                    <label>Dive date:</label>
+                    <label><s:message code="cmas.face.logbook.diveDate"/>:</label>
                     <div class="form-row-logbook">
-                        <div class="form-row-logbook-half" style="display: inline">
-                            <label>From</label>
-                            <img class="calendar-input-ico-logbook">
-                            <input type="date" name="divedatefrom"></div>
-                        <div class="form-row-logbook-half" style="display: inline">
-                            <label style="padding-left: 10px">To</label>
-                            <img class="calendar-input-ico-logbook">
-                            <input type="date" name="divedateto"></div>
+                        <div class="form-row-logbook-half">
+                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <div class="calendar-container">
+                                <img class="calendar-input-ico-logbook">
+                                <input name="diveDateFrom" id="diveDateFrom"/>
+                            </div>
+                        </div>
+                        <div class="form-row-logbook-half">
+                            <label class="form-row-logbook-half-label2"><s:message
+                                    code="cmas.face.logbook.to.search"/></label>
+                            <div class="calendar-container">
+                                <img class="calendar-input-ico-logbook">
+                                <input name="diveDateTo" id="diveDateTo" />
+                            </div>
+                        </div>
                     </div>
                     <div class="error"></div>
+                    <label><s:message code="cmas.face.logbook.country.search"/>:</label>
                     <div class="form-row-logbook">
-                        <select name="country" id="country" style="width: 90%; position:relative; left: 8%;" size=1
+                        <select name="country" id="country" style="width: 99%" size=1
                                 onChange="">
                             <c:forEach items="${countries}" var="country">
                                 <option value='${country.code}'>${country.name}</option>
@@ -49,29 +59,39 @@
                         </select>
                     </div>
                     <div class="error" id="reg_error_country"></div>
-                    <label>Depth:</label>
+                    <label><s:message code="cmas.face.logbook.depth.search"/>:</label>
                     <div class="form-row-logbook">
-                        <div class="form-row-logbook-half-two" style="display: inline">
-                            <label>From</label>
-                            <input type="text" name="divedepthfrom" placeholder="meters"></div>
-                        <div class="form-row-logbook-half-two" style="display: inline">
-                            <label style="padding-left: 10px">To</label>
-                            <input type="text" name="divedepthto" placeholder="meters"></div>
+                        <div class="form-row-logbook-half">
+                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <input type="text" name="diveDepthFrom" id="diveDepthFrom"
+                                   placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"/>
+                        </div>
+                        <div class="form-row-logbook-half">
+                            <label class="form-row-logbook-half-label2"><s:message
+                                    code="cmas.face.logbook.to.search"/></label>
+                            <input type="text" name="diveDepthTo" id="diveDepthTo"
+                                   placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"/>
+                        </div>
                     </div>
                     <div class="error"></div>
-                    <label>Duration:</label>
+                    <label><s:message code="cmas.face.logbook.duration"/>:</label>
                     <div class="form-row-logbook">
-                        <div class="form-row-logbook-half-two" style="display: inline">
-                            <label>From</label>
-                            <input type="text" name="divedurationfrom" placeholder="minutes"></div>
-                        <div class="form-row-logbook-half-two" style="display: inline">
-                            <label style="padding-left: 10px">To</label>
-                            <input type="text" name="divedurationto" placeholder="minutes"></div>
+                        <div class="form-row-logbook-half">
+                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <input type="text" name="diveDurationFrom" id="diveDurationFrom"
+                                   placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>">
+                        </div>
+                        <div class="form-row-logbook-half">
+                            <label class="form-row-logbook-half-label2"><s:message
+                                    code="cmas.face.logbook.to.search"/></label>
+                            <input type="text" name="diveDurationTo" id="diveDurationTo"
+                                   placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>">
+                        </div>
                     </div>
                     <div class="error"></div>
                 </div>
                 <div class="">
-                    <button class="form-button enter-button">
+                    <button type="button" class="form-button enter-button">
                         Search Dive
                     </button>
                 </div>
@@ -80,7 +100,7 @@
         <div class="myLogbookFeed" id="myLogbookFeed"></div>
     </div>
 
-    <div class="content-right" id="friendsLogbook" style="display: none">
+    <div class="content-left" id="friendsLogbook" style="display: none">
         <div id="friendsLogbookFeed" class="clearfix">
 
         </div>
