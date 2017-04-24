@@ -1,16 +1,10 @@
 package org.cmas.presentation.service;
 
-import com.google.myjson.Gson;
-import org.apache.commons.httpclient.NameValuePair;
-import org.cmas.json.SimpleGsonResponse;
 import org.cmas.util.http.Cookies;
-import org.cmas.util.http.HttpUtil;
-import org.cmas.util.http.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,6 +38,13 @@ public class CaptchaServiceImpl implements CaptchaService {
         response	Required. The user response token provided by reCAPTCHA, verifying the user on your site.
         remoteip	Optional. The user's IP address.
          */
+        return true;
+
+        //todo uncomment when we move to dedicated IP from openshift IP
+        /*
+        http://stackoverflow.com/questions/17559671/post-requests-from-a-servlet
+         */
+        /*
         SimpleGsonResponse validationResponse;
         try {
             validationResponse = new Gson().fromJson(SimpleHttpClient.sendHTTPPostRequest(
@@ -68,6 +69,7 @@ public class CaptchaServiceImpl implements CaptchaService {
         } else {
             return false;
         }
+        */
     }
 
     @Required

@@ -33,15 +33,16 @@
                     <label><s:message code="cmas.face.logbook.diveDate"/>:</label>
                     <div class="form-row-logbook">
                         <div class="form-row-logbook-half">
-                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <label for="diveDateFrom"><s:message code="cmas.face.logbook.search.from"/></label>
                             <div class="calendar-container">
                                 <img class="calendar-input-ico-logbook">
                                 <input name="diveDateFrom" id="diveDateFrom"/>
                             </div>
                         </div>
                         <div class="form-row-logbook-half">
-                            <label class="form-row-logbook-half-label2"><s:message
-                                    code="cmas.face.logbook.to.search"/></label>
+                            <label class="form-row-logbook-half-label2">
+                                <s:message code="cmas.face.logbook.search.to"/>
+                            </label>
                             <div class="calendar-container">
                                 <img class="calendar-input-ico-logbook">
                                 <input name="diveDateTo" id="diveDateTo" />
@@ -49,7 +50,7 @@
                         </div>
                     </div>
                     <div class="error"></div>
-                    <label><s:message code="cmas.face.logbook.country.search"/>:</label>
+                    <label><s:message code="cmas.face.logbook.search.country"/>:</label>
                     <div class="form-row-logbook">
                         <select name="country" id="country" style="width: 99%" size=1
                                 onChange="">
@@ -62,13 +63,13 @@
                     <label><s:message code="cmas.face.logbook.depth.search"/>:</label>
                     <div class="form-row-logbook">
                         <div class="form-row-logbook-half">
-                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <label><s:message code="cmas.face.logbook.search.to"/></label>
                             <input type="text" name="diveDepthFrom" id="diveDepthFrom"
                                    placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"/>
                         </div>
                         <div class="form-row-logbook-half">
                             <label class="form-row-logbook-half-label2"><s:message
-                                    code="cmas.face.logbook.to.search"/></label>
+                                    code="cmas.face.logbook.search.to"/></label>
                             <input type="text" name="diveDepthTo" id="diveDepthTo"
                                    placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"/>
                         </div>
@@ -77,13 +78,13 @@
                     <label><s:message code="cmas.face.logbook.duration"/>:</label>
                     <div class="form-row-logbook">
                         <div class="form-row-logbook-half">
-                            <label><s:message code="cmas.face.logbook.from.search"/></label>
+                            <label><s:message code="cmas.face.logbook.search.from"/></label>
                             <input type="text" name="diveDurationFrom" id="diveDurationFrom"
                                    placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>">
                         </div>
                         <div class="form-row-logbook-half">
                             <label class="form-row-logbook-half-label2"><s:message
-                                    code="cmas.face.logbook.to.search"/></label>
+                                    code="cmas.face.logbook.search.to"/></label>
                             <input type="text" name="diveDurationTo" id="diveDurationTo"
                                    placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>">
                         </div>
@@ -92,7 +93,7 @@
                 </div>
                 <div class="">
                     <button type="button" class="form-button enter-button">
-                        Search Dive
+                        <s:message code="cmas.face.logbook.search.buttonText"/>
                     </button>
                 </div>
             </form>
