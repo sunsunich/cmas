@@ -101,8 +101,11 @@
         <div class="myLogbookFeed" id="myLogbookFeed"></div>
     </div>
 
-    <div class="content-left" id="friendsLogbook" style="display: none">
-        <div id="friendsLogbookFeed" class="clearfix">
+    <div id="friendsLogbook" style="display: none">
+        <div class="content-left" >
+            <div id="friendsLogbookFeed" class="clearfix"></div>
+        </div>
+        <div class="content-left" >
 
         </div>
     </div>
