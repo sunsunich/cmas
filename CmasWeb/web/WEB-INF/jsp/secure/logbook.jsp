@@ -105,8 +105,18 @@
         <div class="content-left" >
             <div id="friendsLogbookFeed" class="clearfix"></div>
         </div>
-        <div class="content-left" >
-
+        <div class="content-left">
+            <form name="searchfriend">
+                <div class="search-friend-form-logbook">
+                    <input type="text"
+                           placeholder="<s:message code="cmas.face.logbook.search.friend.placeholderText"/>">
+                </div>
+                <div>
+                    <button type="button" class="form-button enter-button">
+                        <s:message code="cmas.face.logbook.search.friend.buttonText"/>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
