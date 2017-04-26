@@ -62,13 +62,13 @@ var registration_controller = {
             result.fieldErrors["country"] = 'validation.emptyCountry';
         }
         if (isStringTrimmedEmpty(regForm.firstName)) {
-            result.fieldErrors["firstName"] = 'validation.emptyField';
+            result.fieldErrors["firstName"] = 'validation.emptyfirstName';
         }
         if (isStringTrimmedEmpty(regForm.lastName)) {
-            result.fieldErrors["lastName"] = 'validation.emptyField';
+            result.fieldErrors["lastName"] = 'validation.emptylastName';
         }
         if (isStringTrimmedEmpty(regForm.dob)) {
-            result.fieldErrors["dob"] = 'validation.emptyField';
+            result.fieldErrors["dob"] = 'validation.emptyDob';
         }
 
         result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);

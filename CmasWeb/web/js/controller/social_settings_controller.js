@@ -340,10 +340,10 @@ var social_settings_controller = {
             result.fieldErrors["diverType"] = 'validation.diverTypeEmpty';
         }
         if (isStringTrimmedEmpty(form.country)) {
-            result.fieldErrors["country"] = 'validation.emptyField';
+            result.fieldErrors["country"] = 'validation.emptyCountry';
         }
         if (isStringTrimmedEmpty(form.name)) {
-            result.fieldErrors["name"] = 'validation.emptyField';
+            result.fieldErrors["name"] = 'validation.emptyName';
         }
         else if (form.name.length < 3) {
             result.fieldErrors["name"] = 'validation.searchNameTooShort';

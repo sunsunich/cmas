@@ -15,15 +15,20 @@ var error_codes = {
     "validation.maxLength": "message length is over the maximum length allowed",
 
     "validation.emptyCountry": "Please enter value for country",
+    "validation.emptyfirstName": "Please enter value for first name",
+    "validation.emptylastName": "Please enter value for last name",
+    "validation.emptyDob": "Please enter date of birth",
 
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
 
-    "validation.diverTypeEmpty": "select diver type",
-    "validation.searchNameTooShort": "please enter at least 3 letter of the name",
+    "validation.diverTypeEmpty": "Please select diver type",
+    "validation.emptyName": "Please enter value for name",
+    "validation.searchNameTooShort": "Please enter at least 3 letter of the name",
 
     "validation.country": "invalid country",
-    "validation.toponym": "please enter a local hydronym, e.g. bay, strait or lake",
+    "validation.toponym": "Please enter a local hydronym, e.g. bay, strait or lake",
+    "validation.emptydivingspotName": "Please enter value for diving spot name",
 
     "validation.noPersonInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.diverAlreadyRegistered": "You have already registered at Cmas Data",
@@ -35,6 +40,20 @@ var error_codes = {
     "validation.instructorAlready": "You have already added this person as an instructor",
     "validation.cannotAddSelf": "You cannot add yourself",
     "validation.logbookEntryChanged": "This logbook entry has been changed. Please refresh the screen and try again",
+
+    "validation.logbookemptydiveDate": "Please enter value for dive date",
+    "validation.logbookemptydiveTime": "time is missing",
+    "validation.logbookemptydivingspotName": "Please enter value for diving spot name",
+    "validation.logbookemptyspotLatitude": "spot latitude is missing",
+    "validation.logbookemptyLongitude": "spot longitude is missing",
+    "validation.logbookemptydiveDuration": "duration is missing",
+    "validation.logbookemptyMaximumDepth": "maximum depth is missing",
+    "validation.logbookemptyMeasureUnit": "measure unit is missing",
+    "validation.logbookemptySupplyType": "select supply type",
+    "validation.logbookemptyTankSize": "select tank size",
+    "validation.logbookemptyStartPressure": "start pressure is missing",
+    "validation.logbookemptyEndPressure": "end pressure is missing",
+    "validation.logbookemptyOxygenPercent": "oxygen percent is missing",
 
     "validation.imageFormat": "Uploaded image has incorrect file format",
     "validation.imageSize": "Uploaded image is too big. Maximum image size is 250KB",

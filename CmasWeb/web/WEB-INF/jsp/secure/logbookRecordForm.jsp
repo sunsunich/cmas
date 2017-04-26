@@ -190,7 +190,7 @@
                         <label class="error" id="create_error_latitude"></label>
                     </div>
                     <div class="white-form-row-half-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.latitude"/></label>
+                        <label class="white-form-label"><s:message code="cmas.face.logbook.longitude"/></label>
                         <input class="white-form-row-input" id="longitude" type="text"
                                placeholder="<s:message code="cmas.face.logbook.longitude"/>"
                                 <c:choose>

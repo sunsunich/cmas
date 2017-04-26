@@ -162,10 +162,10 @@ var spots_controller = {
         result.fieldErrors = {};
         result.errors = [];
         if (isStringTrimmedEmpty(form.name)) {
-            result.fieldErrors["name"] = 'validation.emptyField';
+            result.fieldErrors["name"] = 'validation.emptydivingspotName';
         }
         if (isStringTrimmedEmpty(form.countryCode)) {
-            result.fieldErrors["countryCode"] = 'validation.emptyField';
+            result.fieldErrors["countryCode"] = 'validation.emptyCountry';
         }
         if (isStringTrimmedEmpty(form.toponymName)) {
             result.fieldErrors["toponymName"] = 'validation.toponym';
