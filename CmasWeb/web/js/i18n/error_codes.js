@@ -15,8 +15,8 @@ var error_codes = {
     "validation.maxLength": "message length is over the maximum length allowed",
 
     "validation.emptyCountry": "Please enter value for country",
-    "validation.emptyfirstName": "Please enter value for first name",
-    "validation.emptylastName": "Please enter value for last name",
+    "validation.emptyFirstName": "Please enter value for first name",
+    "validation.emptyLastName": "Please enter value for last name",
     "validation.emptyDob": "Please enter date of birth",
 
     "validation.incorrectDate": "date is incorrect",

@@ -8,11 +8,11 @@ import org.hibernate.validator.NotEmpty;
 public class DiverVerificationFormObject  {
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyField")
+    @NotEmpty(message = "validation.emptyCountry")
     private String country;
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyField")
+    @NotEmpty(message = "validation.emptyLastName")
     private String lastName;
 
     public String getLastName() {
