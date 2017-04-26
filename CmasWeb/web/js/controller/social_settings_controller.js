@@ -281,10 +281,10 @@ var social_settings_controller = {
         var formErrors = {};
         formErrors.fieldErrors = {};
         formErrors.errors = [];
-        formErrors.success = jQuery.isEmptyObject(formErrors.fieldErrors) && jQuery.isEmptyObject(formErrors.errors);
         if (isStringTrimmedEmpty(countryCode)) {
-            result.fieldErrors["countryCode"] = 'validation.emptyField';
+            formErrors.fieldErrors["countryCode"] = 'validation.emptyCountry';
         }
+        formErrors.success = jQuery.isEmptyObject(formErrors.fieldErrors) && jQuery.isEmptyObject(formErrors.errors);
         if (formErrors.success) {
             social_model.addCountryToNews(
                 countryCode,

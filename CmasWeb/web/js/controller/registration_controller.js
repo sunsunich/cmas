@@ -59,7 +59,7 @@ var registration_controller = {
         result.fieldErrors = {};
         result.errors = {};
         if (isStringTrimmedEmpty(regForm.country)) {
-            result.fieldErrors["country"] = 'validation.emptyField';
+            result.fieldErrors["country"] = 'validation.emptyCountry';
         }
         if (isStringTrimmedEmpty(regForm.firstName)) {
             result.fieldErrors["firstName"] = 'validation.emptyField';

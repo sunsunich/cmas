@@ -14,6 +14,8 @@ var error_codes = {
     "validation.emptyField": "empty field",
     "validation.maxLength": "message length is over the maximum length allowed",
 
+    "validation.emptyCountry": "Please enter value for country",
+
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
 
