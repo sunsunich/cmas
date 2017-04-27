@@ -162,7 +162,7 @@ var spots_controller = {
         result.fieldErrors = {};
         result.errors = [];
         if (isStringTrimmedEmpty(form.name)) {
-            result.fieldErrors["name"] = 'validation.emptydivingspotName';
+            result.fieldErrors["name"] = 'validation.emptyDivingSpotName';
         }
         if (isStringTrimmedEmpty(form.countryCode)) {
             result.fieldErrors["countryCode"] = 'validation.emptyCountry';

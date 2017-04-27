@@ -344,38 +344,38 @@ var logbook_record_diveProfile_controller = {
         result.errors = {};
         var diveDateFull = logbook_record_model.logbookEntry.diveDate;
         if (isStringTrimmedEmpty(diveDateFull)) {
-            result.fieldErrors["diveDate"] = 'validation.logbookemptydiveDate';
-            result.fieldErrors["diveTime"] = 'validation.logbookemptydiveTime';
+            result.fieldErrors["diveDate"] = 'validation.logbookEmptyDiveDate';
+            result.fieldErrors["diveTime"] = 'validation.logbookEmptyDiveTime';
         } else {
             var diveDate = diveDateFull.split(' ')[0];
             if (isStringTrimmedEmpty(diveDate)) {
-                result.fieldErrors["diveDate"] = 'validation.logbookemptydiveDate';
+                result.fieldErrors["diveDate"] = 'validation.logbookEmptyDiveDate';
             }
             var diveTime = diveDateFull.split(' ')[1];
             if (isStringTrimmedEmpty(diveTime)) {
-                result.fieldErrors["diveTime"] = 'validation.logbookemptydiveTime';
+                result.fieldErrors["diveTime"] = 'validation.logbookEmptyDiveTime';
             }
         }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.name)) {
-            result.fieldErrors["name"] = 'validation.logbookemptydivingspotName';
+            result.fieldErrors["name"] = 'validation.logbookEmptyDivingSpotName';
         }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.latitude)) {
-            result.fieldErrors["latitude"] = 'validation.logbookemptyspotLatitude';
+            result.fieldErrors["latitude"] = 'validation.logbookEmptySpotLatitude';
         } else if (!is_positive_float(logbook_record_model.logbookEntry.latitude)) {
             result.fieldErrors["latitude"] = 'validation.incorrectNumber';
         }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.longitude)) {
-            result.fieldErrors["longitude"] = 'validation.logbookemptyLongitude';
+            result.fieldErrors["longitude"] = 'validation.logbookEmptyLongitude';
         } else if (!is_positive_float(logbook_record_model.logbookEntry.longitude)) {
             result.fieldErrors["longitude"] = 'validation.incorrectNumber';
         }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.durationMinutes)) {
-            result.fieldErrors["durationMinutes"] = 'validation.logbookemptydiveDuration';
+            result.fieldErrors["durationMinutes"] = 'validation.logbookEmptyDiveDuration';
         } else if (!is_positive_int(logbook_record_model.logbookEntry.diveSpec.durationMinutes)) {
             result.fieldErrors["durationMinutes"] = 'validation.incorrectNumber';
         }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.maxDepthMeters)) {
-            result.fieldErrors["maxDepthMeters"] = 'validation.logbookemptyMaximumDepth';
+            result.fieldErrors["maxDepthMeters"] = 'validation.logbookEmptyMaximumDepth';
         } else if (!is_positive_int(logbook_record_model.logbookEntry.diveSpec.maxDepthMeters)) {
             result.fieldErrors["maxDepthMeters"] = 'validation.incorrectNumber';
         }
@@ -399,7 +399,7 @@ var logbook_record_diveProfile_controller = {
             && !result.fieldErrors["waterTemp"] && !result.fieldErrors["airTemp"]
             && isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.temperatureMeasureUnit)
         ) {
-            result.fieldErrors["temperatureMeasureUnit"] = 'validation.logbookemptyMeasureUnit';
+            result.fieldErrors["temperatureMeasureUnit"] = 'validation.logbookEmptyMeasureUnit';
         }
 
         if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.additionalWeightKg)) {
@@ -412,23 +412,23 @@ var logbook_record_diveProfile_controller = {
             var tank = tanks[i];
             var index = i + 1;
             if (isStringTrimmedEmpty(tank.supplyType)) {
-                result.fieldErrors["supplyType_" + index] = 'validation.logbookemptySupplyType';
+                result.fieldErrors["supplyType_" + index] = 'validation.logbookEmptySupplyType';
             }
             if (isStringTrimmedEmpty(tank.size)) {
-                result.fieldErrors["size_" + index] = 'validation.logbookemptyTankSize';
+                result.fieldErrors["size_" + index] = 'validation.logbookEmptyTankSize';
             } else if (!is_positive_float(tank.size)) {
                 result.fieldErrors["size_" + index] = 'validation.incorrectNumber';
             }
             if (isStringTrimmedEmpty(tank.volumeMeasureUnit)) {
-                result.fieldErrors["volumeMeasureUnit_" + index] = 'validation.logbookemptyMeasureUnit';
+                result.fieldErrors["volumeMeasureUnit_" + index] = 'validation.logbookEmptyMeasureUnit';
             }
             if (isStringTrimmedEmpty(tank.startPressure)) {
-                result.fieldErrors["startPressure_" + index] = 'validation.logbookemptyStartPressure';
+                result.fieldErrors["startPressure_" + index] = 'validation.logbookEmptyStartPressure';
             } else if (!is_positive_float(tank.startPressure)) {
                 result.fieldErrors["startPressure_" + index] = 'validation.incorrectNumber';
             }
             if (isStringTrimmedEmpty(tank.endPressure)) {
-                result.fieldErrors["endPressure_" + index] = 'validation.logbookemptyEndPressure';
+                result.fieldErrors["endPressure_" + index] = 'validation.logbookEmptyEndPressure';
             } else if (!is_non_negative_float(tank.endPressure)) {
                 result.fieldErrors["endPressure_" + index] = 'validation.incorrectNumber';
             }
@@ -438,12 +438,12 @@ var logbook_record_diveProfile_controller = {
                 result.fieldErrors["startPressure_" + index] = 'validation.logbook.start.pressure.less.end.pressure';
             }
             if (isStringTrimmedEmpty(tank.pressureMeasureUnit)) {
-                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbookemptyMeasureUnit';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbookEmptyMeasureUnit';
             }
 
             if (!tank.isAir) {
                 if (isStringTrimmedEmpty(tank.oxygenPercent)) {
-                    result.fieldErrors["oxygenPercent_" + index] = 'validation.logbookemptyOxygenPercent';
+                    result.fieldErrors["oxygenPercent_" + index] = 'validation.logbookEmptyOxygenPercent';
                 } else if (!is_non_negative_float(tank.oxygenPercent)) {
                     result.fieldErrors["oxygenPercent_" + index] = 'validation.incorrectNumber';
                 }
