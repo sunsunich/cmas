@@ -48,16 +48,16 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="EntitiesModel" exported="" />
     <orderEntry type="library" exported="" name="lib" level="project" />
+    <orderEntry type="library" exported="" name="com.google.firebase:firebase-server-sdk:3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="com.google.gcm:gcm-server:1.0.0" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/apache-tomcat-8.0.28/lib/mail.jar!/" />
+          <root url="jar://D:/Tomcat8.5/lib/mail.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="com.google.firebase:firebase-server-sdk:3.0.1" level="project" />
-    <orderEntry type="library" exported="" name="com.google.gcm:gcm-server:1.0.0" level="project" />
   </component>
 </module>
