@@ -145,21 +145,19 @@ var logbook_feed_controller = {
                 event.preventDefault();
                 self.closeMoreOnRecord($(this)[0].id);
             });
-            if (self.model.isShowBuddies) {
-                if (record.instructor) {
-                    $('#' + record.instructor.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
+            if (record.instructor) {
+                $('#' + record.instructor.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
+                    e.preventDefault();
+                    util_controller.showDiver($(this)[0].id);
+                });
+            }
+            if (record.buddies) {
+                for (var j = 0; j < record.buddies.length; j++) {
+                    var buddy = record.buddies[j];
+                    $('#' + buddy.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
                         e.preventDefault();
                         util_controller.showDiver($(this)[0].id);
                     });
-                }
-                if (record.buddies) {
-                    for (var j = 0; j < record.buddies.length; j++) {
-                        var buddy = record.buddies[j];
-                        $('#' + buddy.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                    }
                 }
             }
         }

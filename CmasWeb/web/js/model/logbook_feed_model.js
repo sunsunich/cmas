@@ -2,7 +2,6 @@ var logbook_feed_model = {
 
     isFirstLoad: true,
     isMyRecords: false,
-    isShowBuddies: true,
     containerId: "",
     url: "",
     templateName: "logbookFeed",
