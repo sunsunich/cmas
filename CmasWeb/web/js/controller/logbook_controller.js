@@ -6,7 +6,6 @@ var logbook_controller = {
     init: function () {
         var my_logbook_feed_model = simpleClone(logbook_feed_model);
         my_logbook_feed_model.isMyRecords = true;
-        my_logbook_feed_model.isShowSpec = false;
         my_logbook_feed_model.templateName = "logbookFeedFull";
         my_logbook_feed_model.url = "/secure/getMyLogbookFeed.html";
         my_logbook_feed_model.containerId = 'myLogbookFeed';
@@ -21,9 +20,7 @@ var logbook_controller = {
         this.myFriendsFeedController.model = my_friends_logbook_feed_model;
         this.myFriendsFeedController.init();
 
-        country_controller.init();
-        util_controller.setupDate('diveDateFrom');
-        util_controller.setupDate('diveDateTo');
+        logbook_search_controller.init(this.myFeedController);
         this.setListeners();
     },
 
@@ -45,8 +42,6 @@ var logbook_controller = {
         $('#createLogbookEntryButton').click(function () {
             window.location = "/secure/createLogbookRecordForm.html";
         });
-
-
     },
 
     showTab: function (tabName) {

@@ -88,6 +88,11 @@
     font-size: 16px;
 }
 
+.panelFeed-expand {
+    padding-left: 5%;
+    font-size: 20px;
+}
+
 .panelFeed-text {
     font-size: 20px;
     color: #f8f8f8;

@@ -23,6 +23,9 @@ public class SearchLogbookEntryFormObject implements Validatable {
     @NotEmpty(message = "validation.emptyField")
     private String country;
 
+    private String fromDate;
+    private String toDate;
+
     private String fromMeters;
     private String toMeters;
 
@@ -41,6 +44,16 @@ public class SearchLogbookEntryFormObject implements Validatable {
         if (!StringUtil.isTrimmedEmpty(toDateTimestamp)) {
             ValidatorUtils.validateLong(
                     errors, toDateTimestamp, "toDateTimestamp", "validation.incorrectField"
+            );
+        }
+        if (!StringUtil.isTrimmedEmpty(fromDate)) {
+            ValidatorUtils.validateDate(
+                    errors, fromDate, "fromDate", "validation.incorrectField", Globals.getDTF()
+            );
+        }
+        if (!StringUtil.isTrimmedEmpty(toDate)) {
+            ValidatorUtils.validateDate(
+                    errors, toDate, "toDate", "validation.incorrectField", Globals.getDTF()
             );
         }
         if (!StringUtil.isTrimmedEmpty(limit)) {
@@ -68,6 +81,22 @@ public class SearchLogbookEntryFormObject implements Validatable {
                     errors, toMinutes, "toMinutes", "validation.incorrectNumber"
             );
         }
+    }
+
+    public String getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(String fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public String getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(String toDate) {
+        this.toDate = toDate;
     }
 
     public String getToDateTimestamp() {

@@ -2,7 +2,6 @@ var logbook_feed_model = {
 
     isFirstLoad: true,
     isMyRecords: false,
-    isShowSpec: true,
     isShowBuddies: true,
     containerId: "",
     url: "",
@@ -12,6 +11,14 @@ var logbook_feed_model = {
     lastElemId: null,
     limit: 10,
     deleteRecordId: 0,
+
+    fromDate: "",
+    toDate: "",
+    country: "",
+    fromMeters: "",
+    toMeters: "",
+    fromMinutes: "",
+    toMinutes: "",
 
     setState: function (records) {
         if (records.length > 0) {
@@ -27,16 +34,34 @@ var logbook_feed_model = {
     },
 
     getNewRecords: function (successHandler, errorHandler) {
+        var self = this;
         var form = {
-            fromDateTimestamp: this.latestDate, toDateTimestamp: "", limit: this.limit
+            fromDateTimestamp: self.latestDate, toDateTimestamp: "", limit: self.limit
         };
 
         this.getRecords(form, successHandler, errorHandler);
     },
 
     getOldRecords: function (successHandler, errorHandler) {
+        var self = this;
         var form = {
-            fromDateTimestamp: "", toDateTimestamp: this.earliestDate, limit: this.limit
+            fromDateTimestamp: "", toDateTimestamp: self.earliestDate, limit: self.limit
+        };
+
+        this.getRecords(form, successHandler, errorHandler);
+    },
+
+    searchForRecords: function (successHandler, errorHandler) {
+        var self = this;
+        var form = {
+            country: self.country,
+            fromDate: self.fromDate,
+            toDate: self.toDate,
+            fromMeters: self.fromMeters,
+            toMeters: self.toMeters,
+            fromMinutes: self.fromMinutes,
+            toMinutes: self.toMinutes,
+            limit: this.limit
         };
 
         this.getRecords(form, successHandler, errorHandler);
@@ -59,8 +84,7 @@ var logbook_feed_model = {
                     successHandler({
                         records: json,
                         isMyRecords: self.isMyRecords,
-                        containerId: self.containerId,
-                        isShowSpec: self.isShowSpec
+                        containerId: self.containerId
                     });
 
                     if (self.isFirstLoad) {

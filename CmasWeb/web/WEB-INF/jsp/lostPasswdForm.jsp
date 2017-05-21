@@ -9,7 +9,7 @@
 <jsp:useBean id="captchaError" scope="request" type="java.lang.Boolean"/>
 <jsp:useBean id="reCaptchaPublicKey" scope="request" type="java.lang.String"/>
 
-<my:basePage title="cmas.face.lostPasswd.title" indexpage="false">
+<my:basePage title="cmas.face.lostPasswd.title" indexpage="false" customScripts="https://www.google.com/recaptcha/api.js">
     <div class="content" id="Content">
         <div class="form-logo">
             <a href="${pageContext.request.contextPath}/">

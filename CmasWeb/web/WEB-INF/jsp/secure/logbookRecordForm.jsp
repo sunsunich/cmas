@@ -61,7 +61,7 @@
         </c:if>
         </c:when>
         <c:otherwise>
-        logbook_record_model.logbookEntry = JSON.parse('${logbookEntryJson}');
+        logbook_record_model.logbookEntry = JSON.parse('${logbookEntryJson}'.replace(/\n/g, "\\n").replace(/\r/g, "\\r"));
         <c:if test="${logbookEntry.buddies != null}">
         logbook_record_model.buddiesIds = [
             <c:forEach var="buddie" items="${logbookEntry.buddies}">

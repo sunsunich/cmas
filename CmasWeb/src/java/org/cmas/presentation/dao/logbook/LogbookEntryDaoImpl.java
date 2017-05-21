@@ -1,5 +1,6 @@
 package org.cmas.presentation.dao.logbook;
 
+import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
@@ -32,9 +33,16 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                 .createAlias("diveSpot", "diveSpot")
                 .createAlias("diveSpot.country", "country")
                 .add(Restrictions.eq("diver", diver));
-        SearchDaoUtils.addStrictTimestampRangeToSearchCriteria(
-                criteria, formObject.getFromDateTimestamp(), formObject.getToDateTimestamp(), "dateEdit"
-        );
+        if (StringUtil.isTrimmedEmpty(formObject.getFromDate())
+            && StringUtil.isTrimmedEmpty(formObject.getToDate())) {
+            SearchDaoUtils.addStrictTimestampRangeToSearchCriteria(
+                    criteria, formObject.getFromDateTimestamp(), formObject.getToDateTimestamp(), "dateEdit"
+            );
+        } else {
+            SearchDaoUtils.addDateRangeToSearchCriteria(
+                    criteria, formObject.getFromDate(), formObject.getToDate(), "dateEdit", Globals.getDTF()
+            );
+        }
         String countryCode = formObject.getCountry();
         if (!StringUtil.isTrimmedEmpty(countryCode)) {
             criteria.add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(countryCode)));

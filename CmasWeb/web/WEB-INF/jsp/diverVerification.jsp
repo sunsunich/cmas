@@ -12,7 +12,7 @@
 <jsp:useBean id="reCaptchaPublicKey" scope="request" type="java.lang.String"/>
 
 <my:basePage title="cmas.face.index.header" indexpage="false"
-             customScripts="js/controller/country_controller.js"
+             customScripts="js/controller/country_controller.js,https://www.google.com/recaptcha/api.js"
         >
     <script type="application/javascript">
         $(document).ready(function () {

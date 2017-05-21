@@ -36,7 +36,7 @@ var logbook_feed_controller = {
         var self = this;
         this.model.getNewRecords(
             function (recordsInfo) {
-                self.renderFeed(recordsInfo, true);
+                self.renderFeed(recordsInfo, true, false);
                 self.resetReloadInterval();
             },
             function (json) {
@@ -62,7 +62,7 @@ var logbook_feed_controller = {
         var self = this;
         this.model.getOldRecords(
             function (recordsInfo) {
-                self.renderFeed(recordsInfo, false);
+                self.renderFeed(recordsInfo, false, false);
             },
             function (json) {
                 if (json && json.hasOwnProperty("message")) {
@@ -75,48 +75,59 @@ var logbook_feed_controller = {
         )
     },
 
-    renderFeed: function (recordsInfo, isNew) {
+    renderFeed: function (recordsInfo, isNew, isReplace) {
         var self = this;
         var records = recordsInfo.records;
-        for (var i = 0; i < records.length; i++) {
-            var record = records[i];
-            $('#' + self.model.containerId + 'logbookRecord_' + record.id).remove();
-        }
-        if (isNew) {
-            $('#' + self.model.containerId).prepend(
+        if (isReplace) {
+            $('#' + self.model.containerId).html(
                 new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
-            );
-        }
-        else {
-            $('#' + self.model.containerId).append(
-                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
-            );
+            )
+        } else {
+            for (var i = 0; i < records.length; i++) {
+                var record = records[i];
+                $('#' + self.model.containerId + 'logbookRecord_' + record.id).remove();
+            }
+            if (isNew) {
+                $('#' + self.model.containerId).prepend(
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
+                );
+            }
+            else {
+                $('#' + self.model.containerId).append(
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
+                );
+            }
         }
         for (i = 0; i < records.length; i++) {
             record = records[i];
-            $('#' + self.model.containerId + 'more_' + record.id).click(function (event) {
-                event.preventDefault();
-                self.openMoreOnRecord($(this)[0].id);
-            });
-            $('#' + self.model.containerId + 'less_' + record.id).click(function (event) {
-                event.preventDefault();
-                self.closeMoreOnRecord($(this)[0].id);
-            });
-            $('#' + self.model.containerId + 'feedItemSettings_' + record.id).click(function (event) {
-                event.preventDefault();
-                self.toggleRecordMenu($(this)[0].id);
-            });
-            $('#' + self.model.containerId + 'edit_' + record.id).click(function (event) {
-                event.preventDefault();
-                var elemId = $(this)[0].id;
-                window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
-            });
-            $('#' + self.model.containerId + 'delete_' + record.id).click(function (event) {
-                event.preventDefault();
-                var elemId = $(this)[0].id;
-                self.showRecordDeleteDialog(elemId);
-            });
-            if (self.model.isShowSpec) {
+            if (self.model.isMyRecords) {
+                $('#' + self.model.containerId + 'edit_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    var elemId = $(this)[0].id;
+                    window.location = "/secure/editLogbookRecordForm.html?logbookEntryId=" + elemId.split('_')[1];
+                });
+                $('#' + self.model.containerId + 'delete_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    var elemId = $(this)[0].id;
+                    self.showRecordDeleteDialog(elemId);
+                });
+                $('#' + self.model.containerId + 'specMore_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    self.openFullSpecOnRecord($(this)[0].id);
+                });
+                $('#' + self.model.containerId + 'specLess_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    self.closeFullSpecOnRecord($(this)[0].id);
+                });
+                $('#' + self.model.containerId + 'tanksMore_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    self.openTanksOnRecord($(this)[0].id);
+                });
+                $('#' + self.model.containerId + 'tanksLess_' + record.id).click(function (event) {
+                    event.preventDefault();
+                    self.closeTanksOnRecord($(this)[0].id);
+                });
+            } else {
                 $('#' + self.model.containerId + 'SpecOpen_' + record.id).click(function (event) {
                     event.preventDefault();
                     self.openSpecOnRecord($(this)[0].id);
@@ -126,6 +137,14 @@ var logbook_feed_controller = {
                     self.closeSpecOnRecord($(this)[0].id);
                 });
             }
+            $('#' + self.model.containerId + 'more_' + record.id).click(function (event) {
+                event.preventDefault();
+                self.openMoreOnRecord($(this)[0].id);
+            });
+            $('#' + self.model.containerId + 'less_' + record.id).click(function (event) {
+                event.preventDefault();
+                self.closeMoreOnRecord($(this)[0].id);
+            });
             if (self.model.isShowBuddies) {
                 if (record.instructor) {
                     $('#' + record.instructor.id + '_' + self.model.containerId + '_' + record.id + '_showDiver').click(function (e) {
@@ -184,15 +203,32 @@ var logbook_feed_controller = {
         $('#recordDeleteDialog').show();
     },
 
-    toggleRecordMenu: function (elemId) {
+    openFullSpecOnRecord: function (elemId) {
         var recordId = elemId.split('_')[1];
-        var wasVisible = $('#' + this.model.containerId + 'menuItemSettings_' + recordId).is(":visible");
-        $('#' + this.model.containerId + 'menuItemSettings_' + recordId).toggle();
-        if (wasVisible) {
-            $('#' + this.model.containerId + 'feedItemSettings_' + recordId).attr('src', "/i/arrow_white_ico.png");
-        } else {
-            $('#' + this.model.containerId + 'feedItemSettings_' + recordId).attr('src', "/i/arrow_up_white_ico.png");
-        }
+        $('#' + this.model.containerId + 'specMore_' + recordId).hide();
+        $('#' + this.model.containerId + 'invisibleSpec_' + recordId).show();
+        $('#' + this.model.containerId + 'specLess_' + recordId).show();
+    },
+
+    closeFullSpecOnRecord: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        $('#' + this.model.containerId + 'specMore_' + recordId).show();
+        $('#' + this.model.containerId + 'invisibleSpec_' + recordId).hide();
+        $('#' + this.model.containerId + 'specLess_' + recordId).hide();
+    },
+
+    openTanksOnRecord: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        $('#' + this.model.containerId + 'tanksMore_' + recordId).hide();
+        $('#' + this.model.containerId + 'invisibleTanks_' + recordId).show();
+        $('#' + this.model.containerId + 'tanksLess_' + recordId).show();
+    },
+
+    closeTanksOnRecord: function (elemId) {
+        var recordId = elemId.split('_')[1];
+        $('#' + this.model.containerId + 'tanksMore_' + recordId).show();
+        $('#' + this.model.containerId + 'invisibleTanks_' + recordId).hide();
+        $('#' + this.model.containerId + 'tanksLess_' + recordId).hide();
     },
 
     openMoreOnRecord: function (elemId) {
