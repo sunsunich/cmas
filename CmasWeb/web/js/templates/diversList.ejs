@@ -3,7 +3,7 @@ for(i = 0;i < divers.length;i++) {
     var fullName = divers[i].firstName + ' ' + divers[i].lastName;
     var userpicSrc;
     if (divers[i].photo == null) {
-        userpicSrc = '/i/no_img.png';
+        userpicSrc = '/i/no_img.png?v=' + webVersion;
     } else {
         userpicSrc = 'data:image/png;base64,' + divers[i].photo;
     }
@@ -27,31 +27,31 @@ for(i = 0;i < divers.length;i++) {
 <div class="panel">
     <div class="clearfix">
         <div class="diverList-elem-left">
-            <img class="userpic" src="<%=userpicSrc %>"/>
+            <img class="userpic" src="<%= userpicSrc %>"/>
         </div>
         <div class="diverList-elem-right">
-            <p><span class="panel-text"><%=fullName %></span></p>
-            <p><span class="panel-text"><%=divers[i].diverType %></span></p>
+            <p><span class="panel-text"><%= fullName %></span></p>
+            <p><span class="panel-text"><%= divers[i].diverType %></span></p>
             <% var j;
             for(j = 0;j < starCnt;j++) {
             %>
-            <img class="star" src="/i/star.png"/>
+            <img class="star" src="/i/star.png?v=<%= webVersion %>"/>
             <% } %>
             <% if(cardNumber == null){
             %>
-            <p><span class="panel-text"><%=labels["cmas.face.friendList.notRegistered"] %></span></p>
+            <p><span class="panel-text"><%= labels["cmas.face.friendList.notRegistered"] %></span></p>
             <% } else { %>
-            <p><span class="panel-text"><%=cardNumber %></span></p>
+            <p><span class="panel-text"><%= cardNumber %></span></p>
             <% } %>
         </div>
     </div>
     <% if(cardNumber != null){
     %>
     <div class="button-container">
-        <button class="userInfo-button enter-button" id="<%=divers[i].id %>_addFriend">
-            <%=labels["cmas.face.findDiver.add"] %>
+        <button class="userInfo-button enter-button" id="<%= divers[i].id %>_addFriend">
+            <%= labels["cmas.face.findDiver.add"] %>
         </button>
-        <div style="display: none" class="panel-text" id="<%=divers[i].id %>_addFriendNotification"></div>
+        <div style="display: none" class="panel-text" id="<%= divers[i].id %>_addFriendNotification"></div>
     </div>
     <% } %>
 </div>

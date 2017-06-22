@@ -150,6 +150,7 @@
 
     <script type="application/javascript">
         labels["cmas.face.findDiver.form.page.title"] = '<s:message code="cmas.face.findDiver.form.page.title"/>';
+        var webVersion = ${webVersion};
     </script>
 
 </head>

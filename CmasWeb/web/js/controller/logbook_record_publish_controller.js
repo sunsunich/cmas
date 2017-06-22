@@ -107,7 +107,7 @@ var logbook_record_publish_controller = {
                 else {
                     $('#buddies').show();
                     $('#buddiesList').html(
-                        new EJS({url: '/js/templates/buddiesList.ejs'}).render({"divers": json})
+                        new EJS({url: '/js/templates/buddiesList.ejs?v=' + webVersion}).render({"divers": json, "webVersion" : webVersion})
                     );
                     for (var i = 0; i < json.length; i++) {
                         $('#' + json[i].id + '_showDiver').click(function (e) {
@@ -143,7 +143,7 @@ var logbook_record_publish_controller = {
                 else {
                     $('#instructor').show();
                     $('#instructorContainer').html(
-                        new EJS({url: '/js/templates/buddiesList.ejs'}).render({"divers": json})
+                        new EJS({url: '/js/templates/buddiesList.ejs?v=' + webVersion}).render({"divers": json, "webVersion" : webVersion})
                     );
                     for (var i = 0; i < json.length; i++) {
                         $('#' + json[i].id + '_showDiver').click(function (e) {
@@ -359,7 +359,7 @@ var logbook_record_publish_controller = {
         $('#findDiver').hide();
         if (divers.length > 0) {
             $('#diversListContent').html(
-                new EJS({url: '/js/templates/diversList.ejs'}).render({"divers": divers})
+                new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({"divers": divers, "webVersion" : webVersion})
             );
             var i;
             for (i = 0; i < divers.length; i++) {

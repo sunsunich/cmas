@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
@@ -21,6 +22,7 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
@@ -118,6 +120,25 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
+        for (Diver diver : divers) {
+            byte[] userpic = diver.getUserpic();
+            if (userpic != null) {
+                diver.setPhoto(Base64Coder.encodeString(userpic));
+            }
+        }
+        return gsonViewFactory.createGsonView(divers);
+    }
+
+    @RequestMapping("/secure/social/searchFriendsFast.html")
+    public View searchFriendsFast(@RequestParam String input) {
+        Diver currentDiver = getDiver();
+        if (StringUtil.isTrimmedEmpty(input)) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.empty");
+        }
+        if (input.length() < Globals.FAST_SEARCH_MIN_INPUT) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
+        }
+        List<Diver> divers = diverDao.searchFriendsFast(currentDiver.getId(), input);
         for (Diver diver : divers) {
             byte[] userpic = diver.getUserpic();
             if (userpic != null) {

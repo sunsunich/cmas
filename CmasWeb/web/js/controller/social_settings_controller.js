@@ -39,7 +39,10 @@ var social_settings_controller = {
                 if (friends.length > 0) {
                     $('#noFriendsText').hide();
                     $('#friendsPanel').html(
-                        new EJS({url: '/js/templates/friends.ejs'}).render({"friends": friends})
+                        new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
+                            "friends": friends,
+                            "webVersion": webVersion
+                        })
                     );
                     for (var i = 0; i < friends.length; i++) {
                         $('#' + friends[i].id + '_showFriendDiver').click(function (e) {
@@ -59,7 +62,10 @@ var social_settings_controller = {
                 if (toRequests.length > 0) {
                     $('#toRequestsPanel').show();
                     $('#toRequests').html(
-                        new EJS({url: '/js/templates/toRequests.ejs'}).render({"requests": toRequests})
+                        new EJS({url: '/js/templates/toRequests.ejs?v=' + webVersion}).render({
+                            "requests": toRequests,
+                            "webVersion": webVersion
+                        })
                     );
                     for (i = 0; i < toRequests.length; i++) {
                         $('#' + toRequests[i].from.id + '_showFromDiver').click(function (e) {
@@ -81,7 +87,10 @@ var social_settings_controller = {
                 if (fromRequests.length > 0) {
                     $('#fromRequestsPanel').show();
                     $('#fromRequests').html(
-                        new EJS({url: '/js/templates/fromRequests.ejs'}).render({"requests": fromRequests})
+                        new EJS({url: '/js/templates/fromRequests.ejs?v=' + webVersion}).render({
+                            "requests": fromRequests,
+                            "webVersion": webVersion
+                        })
                     );
                     for (i = 0; i < fromRequests.length; i++) {
                         $('#' + fromRequests[i].to.id + '_showToDiver').click(function (e) {
@@ -100,7 +109,10 @@ var social_settings_controller = {
                 if (buddieRequests.length > 0) {
                     $('#buddieRequestsPanel').show();
                     $('#buddieRequests').html(
-                        new EJS({url: '/js/templates/logbookRequests.ejs'}).render({"requests": buddieRequests})
+                        new EJS({url: '/js/templates/logbookRequests.ejs?v=' + webVersion}).render({
+                            "requests": buddieRequests,
+                            "webVersion": webVersion
+                        })
                     );
                     for (i = 0; i < buddieRequests.length; i++) {
                         social_model.logbookEntriesToProcessMap[buddieRequests[i].id] = buddieRequests[i];
@@ -131,7 +143,10 @@ var social_settings_controller = {
             function (json) {
                 if (json.length > 0) {
                     $('#newsCountries').html(
-                        new EJS({url: '/js/templates/newsCountries.ejs'}).render({"countries": json})
+                        new EJS({url: '/js/templates/newsCountries.ejs?v=' + webVersion}).render({
+                            "countries": json,
+                            "webVersion": webVersion
+                        })
                     ).show();
                     for (var i = 0; i < json.length; i++) {
                         $('#' + json[i].code + '_removeNewsCountry').click(function () {
@@ -375,7 +390,7 @@ var social_settings_controller = {
             , function (json) {
                 var record = json[0];
                 $('#showLogbookEntryContent').html(
-                    new EJS({url: '/js/templates/logbookEntryDialog.ejs'}).render({"record": record})
+                    new EJS({url: '/js/templates/logbookEntryDialog.ejs?v=' + webVersion}).render({"record": record})
                 );
                 $('#' + record.diver.id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
                     e.preventDefault();
@@ -412,7 +427,10 @@ var social_settings_controller = {
         $('#findDiver').hide();
         if (divers.length > 0) {
             $('#diversListContent').html(
-                new EJS({url: '/js/templates/diversList.ejs'}).render({"divers": divers})
+                new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({
+                    "divers": divers,
+                    "webVersion": webVersion
+                })
             );
             var i;
             for (i = 0; i < divers.length; i++) {

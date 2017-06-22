@@ -113,11 +113,12 @@ var logbook_record_diveProfile_controller = {
                 var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
                 tanks.push(tank);
                 $('#tanks').append(
-                    new EJS({url: '/js/templates/tanksList.ejs'}).render({
+                    new EJS({url: '/js/templates/tanksList.ejs?v=' + webVersion}).render({
                         data: {
                             "tanks": [tank],
                             "index": tanks.length
-                        }
+                        },
+                        "webVersion": webVersion
                     })
                 );
                 self.setupTank(tank, tanks.length);
@@ -217,7 +218,10 @@ var logbook_record_diveProfile_controller = {
         var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
         if (tanks.length > 0) {
             $('#tanks').html(
-                new EJS({url: '/js/templates/tanksList.ejs'}).render({data: {"tanks": tanks, "index": 1}})
+                new EJS({url: '/js/templates/tanksList.ejs?v=' + webVersion}).render({
+                    data: {"tanks": tanks, "index": 1},
+                    "webVersion": webVersion
+                })
             );
             for (var i = 0; i < tanks.length; i++) {
                 var tank = tanks[i];

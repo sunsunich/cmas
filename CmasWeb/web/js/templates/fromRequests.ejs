@@ -4,13 +4,14 @@ for(i = 0;i < requests.length;i++) {
 %>
 <div class="panel-row clearfix">
     <div class="friendListElemLeft">
-        <img id="<%=requests[i].id %>_removeFromRequest" src="/i/close_white.png"/>
+        <img id="<%= requests[i].id %>_removeFromRequest" src="/i/close_white.png?v=<%= webVersion %>"/>
     </div>
     <div class="friendListElemRight">
         <% if( requests[i].to.diverType == 'INSTRUCTOR') { %>
-        <a class="friendListElem-href" href="#" id="<%=requests[i].to.id %>_showToDiver"><%=fullName %> <b>(<%=labels["cmas.face.diver.instructor"] %>)</b></a>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].to.id %>_showToDiver"><%= fullName %>
+            <b>(<%= labels["cmas.face.diver.instructor"] %>)</b></a>
         <% } else { %>
-        <a class="friendListElem-href" href="#" id="<%=requests[i].to.id %>_showToDiver"><%=fullName %></a>
+        <a class="friendListElem-href" href="#" id="<%= requests[i].to.id %>_showToDiver"><%= fullName %></a>
         <% } %>
     </div>
 </div>

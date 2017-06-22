@@ -5,7 +5,7 @@ for(i = 0; i < records.length;i++) {
     var fullName = diver.firstName + ' ' + diver.lastName;
     var userpicSrc;
     if (diver.photo == null) {
-        userpicSrc = '/i/no_img.png';
+        userpicSrc = '/i/no_img.png?v=' + webVersion;
     } else {
         userpicSrc = 'data:image/png;base64,' + diver.photo;
     }

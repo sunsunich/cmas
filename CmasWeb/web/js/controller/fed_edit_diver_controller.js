@@ -51,7 +51,7 @@ var fed_edit_diver_controller = {
         fed_edit_diver_model.freeCardId++;
         fed_edit_diver_model.displayCards[card.uiId] = card;
         $('#cardsContainer').append(
-            new EJS({url: '/js/templates/editDiverCard.ejs'}).render({"card": card})
+            new EJS({url: '/js/templates/editDiverCard.ejs?v=' + webVersion}).render({"card": card})
         );
         $('#' + card.uiId + '_deleteCard').click(function () {
             var uiId = $(this)[0].id.split('_')[0];

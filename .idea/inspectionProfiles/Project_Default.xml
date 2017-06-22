@@ -794,6 +794,8 @@
           <option value="MethodParameterNamingConvention" />
           <option value="EmptyClass" />
           <option value="RefusedBequest" />
+          <option value="MultipleTopLevelClassesInFile" />
+          <option value="ClassNameDiffersFromFileName" />
         </list>
       </option>
     </inspection_tool>

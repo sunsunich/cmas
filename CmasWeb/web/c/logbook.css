@@ -207,7 +207,7 @@
     position: relative;
 }
 
-.calendar-container-input{
+.calendar-container-input {
     padding-left: 42px;
 }
 
@@ -385,4 +385,37 @@
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
+}
+
+.foundFriendList {
+    position: absolute;
+    width: 92%;
+    background-color: rgb(234, 234, 234);
+}
+
+.foundFriendList-elem-right, .foundFriendList-elem-left {
+    float: left;
+}
+
+.foundFriendList-elem-right {
+    padding-left: 10px;
+}
+
+.foundFriendList-text {
+    color: #666666;
+    font-size: 16px;
+}
+
+.foundFriendList-star {
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+}
+
+.foundFriendList-userpic {
+    max-height: 70px;
+}
+
+.searchFriendsButton {
+    margin-top: 20px;
 }

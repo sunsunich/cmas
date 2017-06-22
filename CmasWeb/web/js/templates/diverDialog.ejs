@@ -2,7 +2,7 @@
 var fullName = diver.firstName + ' ' + diver.lastName;
 var userpicSrc;
 if (diver.photo == null) {
-    userpicSrc = '/i/no_img.png';
+    userpicSrc = '/i/no_img.png?v=' + webVersion;
 } else {
     userpicSrc = 'data:image/png;base64,' + diver.photo;
 }
@@ -25,21 +25,21 @@ if (diver.primaryPersonalCard == null) {
 %>
 <div class="clearfix">
     <div class="diverList-elem-left">
-        <img class="userpic" src="<%=userpicSrc %>"/>
+        <img class="userpic" src="<%= userpicSrc %>"/>
     </div>
     <div class="diverList-elem-right">
-        <p><span><%=fullName %></span></p>
-        <p><span><%=diver.diverType %></span></p>
+        <p><span><%= fullName %></span></p>
+        <p><span><%= diver.diverType %></span></p>
         <% var j;
         for(j = 0;j < starCnt;j++) {
         %>
-        <img class="star" src="/i/star.png"/>
+        <img class="star" src="/i/star.png?v=<%= webVersion %>"/>
         <% } %>
         <% if(cardNumber == null){
         %>
-        <p><%=labels["cmas.face.friendList.notRegistered"] %></p>
+        <p><%= labels["cmas.face.friendList.notRegistered"] %></p>
         <% } else { %>
-        <p><span><%=cardNumber %></span></p>
+        <p><span><%= cardNumber %></span></p>
         <% } %>
     </div>
 </div>

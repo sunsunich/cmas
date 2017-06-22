@@ -7,7 +7,8 @@ for(i = 0; i < data.tanks.length;i++) {
 <div id="tank_<%= index %>">
     <div class="white-form-row clearfix">
         <div class="white-form-title-left"><%= labels["cmas.face.logbook.tank.title"] + ' ' + index %></div>
-        <div class="white-form-title-right"><img id="removeTank_<%= index %>" src="/i/close.png"/></div>
+        <div class="white-form-title-right"><img id="removeTank_<%= index %>" src="/i/close.png?v=<%= webVersion %>"/>
+        </div>
     </div>
     <div class="white-form-row clearfix">
         <div class="white-form-row-third">
@@ -25,7 +26,7 @@ for(i = 0; i < data.tanks.length;i++) {
             </label>
             <input class="white-form-row-input" id="size_<%= index %>" type="text"
                    placeholder="<%= labels["cmas.face.logbook.tankSize"] %>" value="<%= tank.size %>"
-                    />
+            />
             <label class="error" id="create_error_size_<%= index %>"></label>
         </div>
         <div class="white-form-row-third-right">
@@ -43,7 +44,7 @@ for(i = 0; i < data.tanks.length;i++) {
             <label class="white-form-label"><%= labels["cmas.face.logbook.tankStartPressure"] %></label>
             <input class="white-form-row-input" id="startPressure_<%= index %>" type="text"
                    placeholder="<%= labels["cmas.face.logbook.tankStartPressure"] %>" value="<%= tank.startPressure %>"
-                    />
+            />
             <label class="error" id="create_error_startPressure_<%= index %>"></label>
         </div>
         <div class="white-form-row-third">
@@ -51,7 +52,7 @@ for(i = 0; i < data.tanks.length;i++) {
             <input class="white-form-row-input" id="endPressure_<%= index %>" type="text"
                    value="<%= tank.endPressure %>"
                    placeholder="<%= labels["cmas.face.logbook.tankEndPressure"] %>"
-                    />
+            />
             <label class="error" id="create_error_endPressure_<%= index %>"></label>
         </div>
         <div class="white-form-row-third-right">
@@ -70,7 +71,7 @@ for(i = 0; i < data.tanks.length;i++) {
                 <% if(tank.isDecoTank){ %>
                checked
                 <% } %>
-                />
+        />
         <label class="white-form-checkbox-label">
             <%= labels["cmas.face.logbook.isDecoTank"] %>
         </label>
@@ -80,7 +81,7 @@ for(i = 0; i < data.tanks.length;i++) {
                 <% if(tank.isAir){ %>
                checked
                 <% } %>
-                />
+        />
         <label class="white-form-checkbox-label">
             <%= labels["cmas.face.logbook.isAir"] %>
         </label>
@@ -91,14 +92,14 @@ for(i = 0; i < data.tanks.length;i++) {
                 <label class="white-form-label"><%= labels["cmas.face.logbook.oxygenPercent"] %></label>
                 <input class="white-form-row-input" id="oxygenPercent_<%= index %>" type="text"
                        placeholder="<%= labels["cmas.face.logbook.oxygenPercent"] %>" value="<%= tank.oxygenPercent %>"
-                        />
+                />
                 <label class="error" id="create_error_oxygenPercent_<%= index %>"></label>
             </div>
             <div class="white-form-row-half-right">
                 <label class="white-form-label"><%= labels["cmas.face.logbook.heliumPercent"] %></label>
                 <input class="white-form-row-input" id="heliumPercent_<%= index %>" type="text"
                        placeholder="<%= labels["cmas.face.logbook.heliumPercent"] %>" value="<%= tank.heliumPercent %>"
-                        />
+                />
                 <label class="error" id="create_error_heliumPercent_<%= index %>"></label>
             </div>
         </div>

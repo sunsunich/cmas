@@ -1,5 +1,6 @@
 package org.cmas.presentation.dao.user.sport;
 
+import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
@@ -84,7 +85,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     public List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject) {
         String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
-        String hql = "select d from org.cmas.entities.diver.Diver d" +
+        String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
                      " left outer join d.friendOf fr" +
                      " where (d.lastName like :lastName or d.firstName like :firstName)" +
@@ -97,6 +98,20 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                                .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
                                .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
                                .setLong("diverId", diverId).list();
+    }
+
+    @Override
+    public List<Diver> searchFriendsFast(long diverId, String input) {
+        String template = StringUtil.correctSpaceCharAndTrim(input) + '%';
+        String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
+                     " inner join d.cards c" +
+                     " left outer join d.friendOf fr" +
+                     " where (d.lastName like :template or d.firstName like :template or c.number like :template)" +
+                     " and (fr.id != :diverId or fr.id is null)" +
+                     " and d.id != :diverId";
+
+        return createQuery(hql).setString("template", template)
+                               .setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }
 
     @Override

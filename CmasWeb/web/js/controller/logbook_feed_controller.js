@@ -80,7 +80,7 @@ var logbook_feed_controller = {
         var records = recordsInfo.records;
         if (isReplace) {
             $('#' + self.model.containerId).html(
-                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
+                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
             )
         } else {
             for (var i = 0; i < records.length; i++) {
@@ -89,12 +89,12 @@ var logbook_feed_controller = {
             }
             if (isNew) {
                 $('#' + self.model.containerId).prepend(
-                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
                 );
             }
             else {
                 $('#' + self.model.containerId).append(
-                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs'}).render({"recordsInfo": recordsInfo})
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
                 );
             }
         }

@@ -1,0 +1,52 @@
+<% var i;
+for(i = 0; i < divers.length;i++) {
+    var diver = divers[i];
+    var fullName = diver.firstName + ' ' + diver.lastName;
+    var userpicSrc;
+    if (diver.photo == null) {
+        userpicSrc = '/i/no_img.png?v=' + webVersion;
+    } else {
+        userpicSrc = 'data:image/png;base64,' + diver.photo;
+    }
+    var starCnt = 0;
+    if (diver.diverLevel == 'ONE_STAR') {
+        starCnt = 1;
+    } else if (diver.diverLevel == 'TWO_STAR') {
+        starCnt = 2;
+    } else if (diver.diverLevel == 'THREE_STAR') {
+        starCnt = 3;
+    } else if (diver.diverLevel == 'FOUR_STAR') {
+        starCnt = 4;
+    }
+    var cardNumber;
+    if (diver.primaryPersonalCard == null) {
+        cardNumber = null;
+    } else {
+        cardNumber = diver.primaryPersonalCard.number;
+    }
+%>
+
+<div id="<%= diver.id %>_foundFriend" class="clearfix">
+    <div class="foundFriendList-elem-left">
+        <img class="foundFriendList-userpic" src="<%= userpicSrc %>"/>
+    </div>
+    <div class="foundFriendList-elem-right">
+        <div><span class="foundFriendList-text"><%= diver.firstName %> <%= diver.lastName %></span></div>
+
+        <div>
+            <span class="foundFriendList-text"><%= diver.diverType %></span>
+            <% var j;
+            for(j = 0;j < starCnt;j++) {
+            %>
+            <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+            <% } %>
+            <% if(cardNumber == null){
+            %>
+            <div><span class="foundFriendList-text"><%= labels["cmas.face.friendList.notRegistered"] %></span></div>
+            <% } else { %>
+            <div><span class="foundFriendList-text"><%= cardNumber %></span></div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<% } %>

@@ -8,8 +8,8 @@
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 <my:securepage title="cmas.face.index.header"
-               customScripts="js/model/util_model.js,js/model/profile_model.js,js/model/social_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js"
-        >
+               customScripts="js/model/util_model.js,js/model/profile_model.js,js/model/social_model.js,js/model/fast_search_friends_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js,js/controller/social_settings_controller.js,js/controller/fast_search_friends_controller.js"
+>
     <script type="application/javascript">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
     </script>
@@ -17,7 +17,7 @@
     <div class="content-left" id="mainContent">
         <div class="tabs clearfix">
             <span class="firstTab" id="privateTab"><s:message code="cmas.face.client.profile.private"/></span>
-            <span class="secondTab inactive" id="socialTab" ><s:message code="cmas.face.client.profile.social"/></span>
+            <span class="secondTab inactive" id="socialTab"><s:message code="cmas.face.client.profile.social"/></span>
         </div>
         <div id="privateSettings">
             <div class="panel">
@@ -88,12 +88,34 @@
                 <div id="toRequests">
                 </div>
             </div>
+            <form name="searchFriends">
+                <div class="search-friend-form-logbook">
+                    <input type="text" id="searchFriendInput"
+                           placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>">
+                    <div id="foundFriendList" class="foundFriendList">
+                        <div id="foundFriendListContent"></div>
+                        <div id="noDiversFoundMessage" style="display: none">
+                        <span class="foundFriendList-text">
+                            <s:message code="cmas.face.diver.fast.search.notFound"/>
+                        </span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="error" id="searchFriends_error_input"></label>
+                    </div>
+                    <div>
+                        <button type="button" class="form-button enter-button searchFriendsButton"
+                                id="searchFriendsButton">
+                            <s:message code="cmas.face.diver.fast.search.buttonText"/>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
             <div class="panel">
                 <div class="header">
                     <s:message code="cmas.face.client.social.team.header"/>
                 </div>
-
                 <div id="friendsPanel">
                 </div>
                 <div class="panel-row text" id="noFriendsText">
@@ -101,9 +123,11 @@
                 </div>
 
                 <div class="panel-row button-container">
+
                     <button class="centerUserInfo-button reg-button" id="findDiverButton">
-                        <s:message code="cmas.face.client.social.addMember"/>
+                        <s:message code="cmas.face.client.social.advancedSearch"/>
                     </button>
+
                 </div>
             </div>
 
@@ -122,7 +146,7 @@
                 <div class="panel-row panel-row-bottom-margin">
                     <input type="checkbox" id="addLocationCountryToNewsFeed"
                            <c:if test="${diver.newsFromCurrentLocation}">checked="checked"</c:if>
-                            />
+                    />
                     <span class="text"><s:message code="cmas.face.client.social.newfeed.currentLocation"/></span>
                 </div>
                 <div id="newsCountries">
@@ -151,7 +175,7 @@
         </div>
     </div>
 
-    <div class="content-right" id="accountFeed" ></div>
+    <div class="content-right" id="accountFeed"></div>
 
     <my:dialog id="findDiver"
                title="cmas.face.findDiver.form.page.title"
@@ -220,7 +244,8 @@
     </my:dialog>
 
     <div id="showLogbookEntry" class="logbookEntry" style="display: none">
-        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}" class="dialogClose"/>
+        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}"
+             class="dialogClose"/>
 
         <div class="dialog-title" id="showLogbookEntryTitle"><s:message code="cmas.face.showLogbookEntry.title"/></div>
 
@@ -258,7 +283,8 @@
                buttonText="cmas.face.client.profile.dialog.submitText">
         <div class="dialog-form-row">
             <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
-            <img id="userpicPreview" class="userpicPreview" src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
+            <img id="userpicPreview" class="userpicPreview"
+                 src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
         </div>
         <div class="error" id="selectUserpic_error_file"></div>
         <div class="dialog-form-row" id="cameraSelect">

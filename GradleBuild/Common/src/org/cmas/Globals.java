@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+@SuppressWarnings({"MultipleTopLevelClassesInFile", "ClassNameDiffersFromFileName"})
 interface GlobalsStaticContainer {
 
     int PRECISION = 12;
@@ -52,11 +53,6 @@ interface GlobalsStaticContainer {
     int PRICE_INT_DIGITS = 6;
     int PRICE_FRAC_DIGITS = 2;
 
-    int SPEC_PRECISION = 7;
-    int SPEC_SCALE = 3;
-    int SPEC_MAX_LENGTH = 255;
-    int SPEC_LIST_MAX_LENGTH = 512;
-
     int NAME_MAX_LENGTH = 512;
 
     int FULL_DESCR_LENGTH = 3000;
@@ -74,6 +70,9 @@ interface GlobalsStaticContainer {
 
     double DIVE_SPOT_DELTA_DEGREES = 0.0005; //50 meters
     double HALF_DIVE_SPOT_DELTA_DEGREES =DIVE_SPOT_DELTA_DEGREES / 2.0;
+
+    int FAST_SEARCH_MIN_INPUT = 3;
+    int FAST_SEARCH_MAX_RESULT = 10;
 
 }
 

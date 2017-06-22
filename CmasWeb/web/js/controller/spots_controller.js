@@ -283,7 +283,10 @@ var spots_controller = {
         if (Object.keys(spots_model.spotMap).length > 0) {
             $('#noSpotsText').hide();
             $('#foundSpots').html(
-                new EJS({url: '/js/templates/spots.ejs'}).render({"spotMap": spots_model.spotMap})
+                new EJS({url: '/js/templates/spots.ejs?v=' + webVersion}).render({
+                    "spotMap": spots_model.spotMap,
+                    "webVersion": webVersion
+                })
             ).show();
             for (var key in spots_model.spotMap) {
                 if (spots_model.spotMap.hasOwnProperty(key)) {
@@ -388,8 +391,8 @@ var spots_controller = {
         var infoWindow = new google.maps.InfoWindow({map: spots_model.map});
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
-                error_codes["error.geolocation.service.failed"] :
-                error_codes["error.geolocation.support"]
+            error_codes["error.geolocation.service.failed"] :
+            error_codes["error.geolocation.support"]
         );
         /*
          error_dialog_controller.showErrorDialog(
