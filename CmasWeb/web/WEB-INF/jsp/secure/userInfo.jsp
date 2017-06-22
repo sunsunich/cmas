@@ -377,6 +377,11 @@
         </div>
     </my:dialog>
 
+    <my:dialog id="friendRequestSuccessDialog"
+               title="cmas.face.friendRequest.success"
+               buttonText="cmas.face.friendRequest.success.button">
+    </my:dialog>
+
 </my:securepage>
 
 

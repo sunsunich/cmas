@@ -4,21 +4,15 @@ var fast_search_friends_controller = {
         var self = this;
         $('#searchFriendInput').keyup(function () {
             self.search();
-        })
-        //     .focusout(function () {
-        //     $('#foundFriendList').hide();
-        // })
-        ;
+        });
         $('#searchFriendsButton').click(function () {
             self.search();
         });
         $("#friendRequestSuccessDialogOk").click(function () {
             $('#friendRequestSuccessDialog').hide();
-            return false;
         });
         $("#friendRequestSuccessDialogClose").click(function () {
             $('#friendRequestSuccessDialog').hide();
-            return false;
         });
     },
 

@@ -383,7 +383,6 @@ var social_settings_controller = {
     },
 
     showLogbookEntry: function (elemId) {
-        var self = this;
         var logbookEntryId = elemId.split('_')[0];
         social_model.getLogbookEntry(
             logbookEntryId
