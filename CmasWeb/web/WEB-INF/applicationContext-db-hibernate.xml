@@ -57,7 +57,6 @@
                 <value>org.cmas.presentation.entities.user.Device</value>
 
 
-
             </list>
         </property>
         <property name="hibernateProperties">
@@ -149,7 +148,8 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="transactionSettingsDao" class="org.cmas.presentation.controller.user.billing.systempay.MySqlTransactionSequenceDaoImpl">
+    <bean id="transactionSettingsDao"
+          class="org.cmas.presentation.controller.user.billing.systempay.MySqlTransactionSequenceDaoImpl">
         <property name="jdbc" ref="jdbcTemplate"/>
     </bean>
 

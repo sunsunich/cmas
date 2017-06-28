@@ -4,6 +4,8 @@ import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.DiverFriendRequest;
+import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -70,6 +72,59 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(diver);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendFriendRequest(DiverFriendRequest friendRequest) {
+        Diver diver = friendRequest.getTo();
+        Locale locale = diver.getLocale();
+        String siteName = addresses.getSiteName(locale);
+        String subj = subjects.renderText("FriendRequest", locale, siteName);
+        String text = textRenderer.renderText("friendRequest.ftl", locale,
+                                              new ModelAttr("request", friendRequest),
+                                              new ModelAttr("siteName", siteName)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendToInstructorToApprove(LogbookBuddieRequest instructorRequest) {
+        Diver diver = instructorRequest.getTo();
+        Locale locale = diver.getLocale();
+        String siteName = addresses.getSiteName(locale);
+        String subj = subjects.renderText("InstructorVerificationRequest", locale, siteName);
+        String text = textRenderer.renderText("instructorApproveRequest.ftl", locale,
+                                              new ModelAttr("request", instructorRequest),
+                                              new ModelAttr("diveDate",
+                                                            Globals.getDTF()
+                                                                   .format(instructorRequest.getLogbookEntry()
+                                                                                            .getDiveDate())),
+                                              new ModelAttr("siteName", siteName)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendInstructorApproved(LogbookBuddieRequest instructorRequest) {
+        Diver diver = instructorRequest.getTo();
+        Locale locale = diver.getLocale();
+        String siteName = addresses.getSiteName(locale);
+        String subj = subjects.renderText("InstructorApproved", locale, siteName);
+        String text = textRenderer.renderText("instructorVerifiedDive.ftl", locale,
+                                              new ModelAttr("request", instructorRequest),
+                                              new ModelAttr("diveDate",
+                                                            Globals.getDTF()
+                                                                   .format(instructorRequest.getLogbookEntry()
+                                                                                            .getDiveDate())),
+                                              new ModelAttr("siteName", siteName)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(instructorRequest.getFrom());
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 

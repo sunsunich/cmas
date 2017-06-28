@@ -74,7 +74,11 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             if (existingCard == null) {
                 result.put(cardType, card);
             } else {
-                if (existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                if (card.getDiverLevel() == null) {
+                    continue;
+                }
+                if (existingCard.getDiverLevel() == null
+                    || existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
                     result.put(cardType, card);
                 }
             }
@@ -85,18 +89,26 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @SuppressWarnings("CallToStringEqualsIgnoreCase")
     @Override
-    public void uploadDivers(NationalFederation federation, InputStream file) throws Exception {
+    public void uploadDivers(NationalFederation federation, InputStream file, final ProgressListener progressListener) throws Exception {
         Collection<Diver> divers;
         Country country = federation.getCountry();
         String countryCode = country.getCode();
+        ProgressListener xlsProgressListener = new ProgressListener() {
+            @Override
+            public void updateProgress(int newPercentValue) {
+                progressListener.updateProgress(newPercentValue / 5);
+            }
+        };
         if ("RUS".equalsIgnoreCase(countryCode)) {
-            divers = rusDiverXlsParser.getDivers(file);
+            divers = rusDiverXlsParser.getDivers(file, xlsProgressListener);
         } else {
-            divers = singleTableDiverXlsParser.getDivers(file);
+            divers = singleTableDiverXlsParser.getDivers(file, xlsProgressListener);
         }
         if (divers == null) {
             throw new UnsupportedOperationException("Federation not supported");
         }
+        int totalWork = divers.size();
+        int workDone = 0;
         for (Diver diver : divers) {
             uploadDiver(federation, diver, false);
             //hidden functionality creating or editing primary card number
@@ -140,11 +152,17 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                     }
                 }
             }
+            workDone++;
+            progressListener.updateProgress(20 + workDone * 100 * 2 / totalWork / 5);
         }
+        workDone = 0;
         for (Diver diver : divers) {
             Diver dbDiver = diverDao.getByEmail(diver.getEmail());
             setDiverInstructor(dbDiver, diver.getInstructor());
+            workDone++;
+            progressListener.updateProgress(StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99));
         }
+        progressListener.updateProgress(100);
     }
 
     private void setDiverInstructor(Diver dbDiver, Diver instructor) {

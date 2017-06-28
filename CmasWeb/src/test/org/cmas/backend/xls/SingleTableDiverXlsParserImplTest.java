@@ -1,6 +1,7 @@
 package org.cmas.backend.xls;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.service.user.ProgressListener;
 import org.junit.Test;
 
 import java.io.File;
@@ -18,7 +19,13 @@ public class SingleTableDiverXlsParserImplTest {
         SingleTableDiverXlsParserImpl sut = new SingleTableDiverXlsParserImpl();
         try {
              //Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/BookPortDiversOneTable.xlsx"));
-             Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/DataCMAS_tmp_dk.xlsx"));
+             Collection<Diver> divers = sut.getDivers(new File(
+                     "/Users/sunsunich/Documents/cmas/federations/DataCMAS_tmp_dk.xlsx"), new ProgressListener() {
+                 @Override
+                 public void updateProgress(int newPercentValue) {
+
+                 }
+             });
             for (Diver diver : divers) {
                 System.out.println(diver);
             }

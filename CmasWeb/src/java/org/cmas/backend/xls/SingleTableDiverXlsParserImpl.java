@@ -9,13 +9,13 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -30,45 +30,49 @@ import java.util.Map;
 public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Override
-    public Collection<Diver> getDivers(InputStream file) throws Exception {
+    public Collection<Diver> getDivers(InputStream file, ProgressListener progressListener) throws Exception {
         try (Workbook wb = WorkbookFactory.create(file)) {
+            int workDone = 0;
+            int totalWork = evalTotalWork(wb);
             Map<String, Diver> divers = new HashMap<>();
-            int numberOfSheets = wb.getNumberOfSheets();
-            if (numberOfSheets == 0) {
-                return Collections.emptyList();
-            }
             Sheet sheet = wb.getSheetAt(0);
             for (int r = 0; r < sheet.getPhysicalNumberOfRows(); r++) {
-                Row row = sheet.getRow(r);
-                Diver diver = evalDiver(row);
-                if (diver == null) {
-                    continue;
-                }
-                PersonalCard card = diver.getCards().get(0);
-                Diver existingDiver = divers.get(diver.getEmail());
-                if (existingDiver == null) {
-                    divers.put(diver.getEmail(), diver);
-                } else {
-                    List<PersonalCard> existingDiverCards = existingDiver.getCards();
-                    existingDiverCards.add(card);
-                    if (diver.getDiverType() == DiverType.INSTRUCTOR) {
-                        existingDiver.setDiverType(DiverType.INSTRUCTOR);
+                try {
+                    Row row = sheet.getRow(r);
+                    Diver diver = evalDiver(row);
+                    if (diver == null) {
+                        continue;
                     }
-                    DiverLevel newDiverLevel = diver.getDiverLevel();
-                    if (newDiverLevel != null) {
-                        DiverLevel existingDiverLevel = existingDiver.getDiverLevel();
-                        if (existingDiverLevel == null
-                            || existingDiverLevel.ordinal() < newDiverLevel.ordinal()) {
-                            existingDiver.setDiverLevel(newDiverLevel);
+                    PersonalCard card = diver.getCards().get(0);
+                    Diver existingDiver = divers.get(diver.getEmail());
+                    if (existingDiver == null) {
+                        divers.put(diver.getEmail(), diver);
+                    } else {
+                        List<PersonalCard> existingDiverCards = existingDiver.getCards();
+                        existingDiverCards.add(card);
+                        if (diver.getDiverType() == DiverType.INSTRUCTOR) {
+                            existingDiver.setDiverType(DiverType.INSTRUCTOR);
+                        }
+                        DiverLevel newDiverLevel = diver.getDiverLevel();
+                        if (newDiverLevel != null) {
+                            DiverLevel existingDiverLevel = existingDiver.getDiverLevel();
+                            if (existingDiverLevel == null
+                                || existingDiverLevel.ordinal() < newDiverLevel.ordinal()) {
+                                existingDiver.setDiverLevel(newDiverLevel);
+                            }
+                        }
+                        PersonalCard newPrimaryCard = diver.getPrimaryPersonalCard();
+                        if (newPrimaryCard != null) {
+                            PersonalCard existingDiverPrimaryCard = existingDiver.getPrimaryPersonalCard();
+                            if (existingDiverPrimaryCard == null) {
+                                existingDiver.setPrimaryPersonalCard(newPrimaryCard);
+                            }
                         }
                     }
-                    PersonalCard newPrimaryCard = diver.getPrimaryPersonalCard();
-                    if (newPrimaryCard != null) {
-                        PersonalCard existingDiverPrimaryCard = existingDiver.getPrimaryPersonalCard();
-                        if (existingDiverPrimaryCard == null) {
-                            existingDiver.setPrimaryPersonalCard(newPrimaryCard);
-                        }
-                    }
+                    workDone++;
+                    progressListener.updateProgress(workDone * 100 / totalWork);
+                } catch (Exception e) {
+                    throw new XlsParseException(String.valueOf(r + 1), e.getMessage(), e);
                 }
             }
             return divers.values();

@@ -71,6 +71,9 @@ var labels = {
 
     "cmas.face.logbook.visibility": "This entry is visible for",
 
+    "cmas.face.file.uploading": "Uploading file to server",
+    "cmas.face.file.processing": "Processing file",
+
     "PRIVATE": "Visible only for me",
     "FRIENDS": "Visible for my friends",
     "PUBLIC": "Visible for everyone",

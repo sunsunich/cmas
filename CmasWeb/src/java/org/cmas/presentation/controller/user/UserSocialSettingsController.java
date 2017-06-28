@@ -19,6 +19,7 @@ import org.cmas.presentation.model.logbook.LogbookEntryRequestFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.social.SocialUpdates;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.Base64Coder;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -76,6 +78,9 @@ public class UserSocialSettingsController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping("/secure/social/getFriends.html")
     public View getFriends() {
@@ -184,9 +189,13 @@ public class UserSocialSettingsController {
             //todo separate case
             return gsonViewFactory.createGsonView(new SimpleGsonResponse(true, "validation.friendRequestSentToYou"));
         }
-        diverFriendRequestDao.save(new DiverFriendRequest(diver, friend));
+        Serializable requestId = diverFriendRequestDao.save(new DiverFriendRequest(diver, friend));
         updateSocialVersions(diver, friend);
-        //todo send notification
+        try {
+            mailService.sendFriendRequest(diverFriendRequestDao.getById(requestId));
+        } catch (Exception e) {
+            log.error("error send email for user " + friend, e);
+        }
         return gsonViewFactory.createSuccessGsonView();
     }
 
@@ -289,7 +298,8 @@ public class UserSocialSettingsController {
     public View acceptLogbookBuddieRequest(@RequestParam("logbookEntryRequestJson") String logbookEntryRequestJson) {
         LogbookEntryRequestFormObject formObject;
         try {
-            formObject = gsonViewFactory.getLogbookEntryEditGson().fromJson(logbookEntryRequestJson, LogbookEntryRequestFormObject.class);
+            formObject = gsonViewFactory.getLogbookEntryEditGson()
+                                        .fromJson(logbookEntryRequestJson, LogbookEntryRequestFormObject.class);
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
@@ -301,34 +311,38 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createErrorGsonView(validationResult.errorCode);
         }
         LogbookBuddieRequest request = validationResult.request;
-        LogbookBuddieRequest logbookBuddieRequest = validationResult.request;
-        LogbookEntry logbookEntry = logbookBuddieRequest.getLogbookEntry();
+        LogbookEntry logbookEntry = request.getLogbookEntry();
         Diver to = request.getTo();
-        if (logbookBuddieRequest.isToSign()) {
+        if (request.isToSign()) {
             if (!logbookEntry.getInstructor().equals(to) || logbookEntry.getDigest() != null) {
                 logbookBuddieRequestDao.deleteModel(request);
-                updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                updateSocialVersions(request.getFrom(), to);
                 return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
             }
             try {
                 String signature = logbookService.createSignature(logbookEntry);
                 if (!signature.equals(logbookService.createSignature(formObject))) {
-                    updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                    updateSocialVersions(request.getFrom(), to);
                     return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
                 }
                 logbookEntry.setDigest(signature);
                 logbookEntryDao.updateModel(logbookEntry);
             } catch (StaleObjectStateException e) {
                 log.error(e.getMessage(), e);
-                updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+                updateSocialVersions(request.getFrom(), to);
                 return gsonViewFactory.createErrorGsonView("validation.logbookEntryChanged");
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 return gsonViewFactory.createErrorGsonView("validation.internal");
             }
+            try {
+                mailService.sendInstructorApproved(request);
+            } catch (Exception e) {
+                log.error("error send email for user " + request.getTo(), e);
+            }
         }
         logbookBuddieRequestDao.deleteModel(request);
-        updateSocialVersions(logbookBuddieRequest.getFrom(), to);
+        updateSocialVersions(request.getFrom(), to);
         return gsonViewFactory.createSuccessGsonView();
     }
 

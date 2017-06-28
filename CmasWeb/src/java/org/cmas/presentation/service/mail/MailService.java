@@ -3,6 +3,8 @@ package org.cmas.presentation.service.mail;
 import org.cmas.entities.Country;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.DiverFriendRequest;
+import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.Registration;
 
@@ -11,6 +13,12 @@ public interface MailService {
     void confirmRegistrator(Registration reg, Country country);
 
     void sendDiverPassword(Diver diver);
+
+    void sendFriendRequest(DiverFriendRequest friendRequest);
+
+    void sendToInstructorToApprove(LogbookBuddieRequest instructorRequest);
+
+    void sendInstructorApproved(LogbookBuddieRequest instructorRequest);
 
     /**
      * Отправляет пользователю подтверждение о смене email

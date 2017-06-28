@@ -43,7 +43,7 @@ var error_codes = {
 
     "validation.logbookEmptyDiveDate": "Please enter value for dive date",
     "validation.logbookEmptyDiveTime": "time is missing",
-    "validation.logbookEmptyEivingSpotName": "Please enter value for diving spot name",
+    "validation.logbookEmptyDivingSpotName": "Please enter value for diving spot name",
     "validation.logbookEmptySpotLatitude": "spot latitude is missing",
     "validation.logbookEmptyLongitude": "spot longitude is missing",
     "validation.logbookEmptyDiveDuration": "duration is missing",
@@ -73,5 +73,8 @@ var error_codes = {
     "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks",
     "validation.logbook.start.pressure.less.end.pressure": "Start pressure cannot be less that end pressure",
     "validation.diver.fast.search.empty": "Please enter friend name or card number",
-    "validation.diver.fast.search.tooSmall": "Please enter at least 3 characters"
+    "validation.diver.fast.search.tooSmall": "Please enter at least 3 characters",
+
+    "validation.xlsFileFormat": "Unsupported xls file format",
+    "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}"
 };

@@ -10,13 +10,37 @@
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
-<my:fed_adminpage title="Users">
+<my:fed_adminpage title="Users" customScripts="/js/model/fileUpload_model.js,/js/controller/fileUpload_controller.js">
     <h2>Your federation divers</h2>
 
     <ff:form submitText="Upload" action="/fed/uploadUsers.html" commandName="xlsFileFormObject" method="POST"
-             noRequiredText="true" enctype="multipart/form-data">
+             noRequiredText="true" enctype="multipart/form-data" id="diverUpload">
         <ff:file path="file" label="Xls file with divers"/>
     </ff:form>
+
+    <script type="application/javascript">
+        $(document).ready(function () {
+            fileUpload_model.uploadUrl = "/fed/uploadUsers.html";
+            fileUpload_model.processingProgressUrl = "/fed/getUploadUsersProgress.html";
+            fileUpload_controller.model = fileUpload_model;
+            fileUpload_controller.uploadForm = $("#diverUpload");
+            fileUpload_controller.textElem = $("#progressText");
+            fileUpload_controller.progressOuterElem = $("#progressOuter");
+            fileUpload_controller.progressElem = $("#progress");
+            fileUpload_controller.errorElem = $("#fileUploadError");
+
+            fileUpload_controller.init();
+        });
+
+    </script>
+
+    <div id="progressText"></div>
+    <div id="fileUploadError" class="error"></div>
+    <div class="fileUpload-progress-container">
+        <div class="fileUpload-progress-outer" id="progressOuter" style="display: none">
+            <div id="progress" class="fileUpload-progress"></div>
+        </div>
+    </div>
 
     <ff:form submitText="Find" action="/fed/index.html" method="GET" noRequiredText="true">
         <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
@@ -101,6 +125,9 @@
                         <td>
                             <button type="button" onclick="window.location = '/fed/editDiver.html?userId=${user.id}'">
                                 Edit diver
+                            </button>
+                            <button type="button" onclick="window.location = '/fed/deleteDiver.html?userId=${user.id}'">
+                                Delete diver
                             </button>
                         </td>
                     </tr>

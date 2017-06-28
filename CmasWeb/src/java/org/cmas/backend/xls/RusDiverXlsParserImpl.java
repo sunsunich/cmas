@@ -9,6 +9,7 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,8 +29,10 @@ import java.util.Map;
 public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Override
-    public Collection<Diver> getDivers(InputStream file) throws Exception {
+    public Collection<Diver> getDivers(InputStream file, ProgressListener progressListener) throws Exception {
         try (Workbook wb = WorkbookFactory.create(file)) {
+            int workDone = 0;
+            int totalWork = evalTotalWork(wb);
             Map<String, Diver> divers = new HashMap<>();
             for (int i = 0; i < wb.getNumberOfSheets(); i++) {
                 Sheet sheet = wb.getSheetAt(i);
@@ -38,36 +41,46 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                     continue;
                 }
                 for (int r = 1; r < sheet.getPhysicalNumberOfRows(); r++) {
-                    Row row = sheet.getRow(r);
-                    Diver diver = evalDiver(row);
-                    if (diver == null) {
-                        continue;
-                    }
-                    diver.setDiverType(globalCard.getDiverType());
-                    diver.setDiverLevel(globalCard.getDiverLevel());
-                    PersonalCard card = diver.getCards().get(0);
-                    card.setDiverType(globalCard.getDiverType());
-                    card.setDiverLevel(globalCard.getDiverLevel());
-                    card.setCardType(globalCard.getCardType());
-                    card.setFederationName(globalCard.getFederationName());
-
-                    Diver existingDiver = divers.get(diver.getEmail());
-                    if (existingDiver == null) {
-                        divers.put(diver.getEmail(), diver);
-                    } else {
-                        List<PersonalCard> existingDiverCards = existingDiver.getCards();
-                        existingDiverCards.add(card);
-                        if (diver.getDiverType() == DiverType.INSTRUCTOR) {
-                            existingDiver.setDiverType(DiverType.INSTRUCTOR);
+                    try {
+                        Row row = sheet.getRow(r);
+                        Diver diver = evalDiver(row);
+                        if (diver == null) {
+                            continue;
                         }
-                        DiverLevel newDiverLevel = diver.getDiverLevel();
-                        if (newDiverLevel != null) {
-                            DiverLevel existingDiverLevel = existingDiver.getDiverLevel();
-                            if (existingDiverLevel == null
-                                || existingDiverLevel.ordinal() < newDiverLevel.ordinal()) {
-                                existingDiver.setDiverLevel(newDiverLevel);
+                        diver.setDiverType(globalCard.getDiverType());
+                        diver.setDiverLevel(globalCard.getDiverLevel());
+                        PersonalCard card = diver.getCards().get(0);
+                        card.setDiverType(globalCard.getDiverType());
+                        card.setDiverLevel(globalCard.getDiverLevel());
+                        card.setCardType(globalCard.getCardType());
+                        card.setFederationName(globalCard.getFederationName());
+
+                        Diver existingDiver = divers.get(diver.getEmail());
+                        if (existingDiver == null) {
+                            divers.put(diver.getEmail(), diver);
+                        } else {
+                            List<PersonalCard> existingDiverCards = existingDiver.getCards();
+                            existingDiverCards.add(card);
+                            if (diver.getDiverType() == DiverType.INSTRUCTOR) {
+                                existingDiver.setDiverType(DiverType.INSTRUCTOR);
+                            }
+                            DiverLevel newDiverLevel = diver.getDiverLevel();
+                            if (newDiverLevel != null) {
+                                DiverLevel existingDiverLevel = existingDiver.getDiverLevel();
+                                if (existingDiverLevel == null
+                                    || existingDiverLevel.ordinal() < newDiverLevel.ordinal()) {
+                                    existingDiver.setDiverLevel(newDiverLevel);
+                                }
                             }
                         }
+                        workDone++;
+                        progressListener.updateProgress(workDone * 100 / totalWork);
+                    } catch (Exception e) {
+                        String sheetName = sheet.getSheetName() == null ? "" : sheet.getSheetName();
+                        throw new XlsParseException(
+                                (r + 1) + ", sheet number " + (i + 1) + ", sheet name " + sheetName,
+                                e.getMessage(),
+                                e);
                     }
                 }
             }
@@ -91,14 +104,20 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         diver.setDob(getDateCellValue(row.getCell(2)));
         diver.setEmail(email);
 
-        String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(row.getCell(4).getStringCellValue());
-        setInstructor(diver, instructorCardNumber);
+        Cell cell4 = row.getCell(4);
+        if (cell4 != null) {
+            String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(cell4.getStringCellValue());
+            setInstructor(diver, instructorCardNumber);
+        }
 
-        PersonalCard card = new PersonalCard();
-        card.setNumber(StringUtil.correctSpaceCharAndTrim(row.getCell(3).getStringCellValue()));
-        List<PersonalCard> cards = new ArrayList<>();
-        cards.add(card);
-        diver.setCards(cards);
+        Cell cell3 = row.getCell(3);
+        if (cell3 != null) {
+            PersonalCard card = new PersonalCard();
+            card.setNumber(StringUtil.correctSpaceCharAndTrim(cell3.getStringCellValue()));
+            List<PersonalCard> cards = new ArrayList<>();
+            cards.add(card);
+            diver.setCards(cards);
+        }
         return diver;
     }
 

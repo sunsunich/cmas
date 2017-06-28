@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface DiverService extends UserService<Diver> {
 
-    void uploadDivers(NationalFederation federation, InputStream file) throws Exception;
+    void uploadDivers(NationalFederation federation, InputStream file, ProgressListener progressListener) throws Exception;
 
     List<PersonalCard> getCardsToShow(Diver diver);
 

@@ -1,11 +1,14 @@
 package org.cmas.backend.xls;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
 
 import java.io.File;
@@ -25,8 +28,20 @@ import java.util.Locale;
 public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
 
     @Override
-    public Collection<Diver> getDivers(File file) throws Exception {
-        return getDivers(new FileInputStream(file));
+    public Collection<Diver> getDivers(File file, ProgressListener progressListener) throws Exception {
+        return getDivers(new FileInputStream(file), progressListener);
+    }
+
+    static int evalTotalWork(Workbook wb) throws XlsParseException {
+        int totalWork = 0;
+        for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+            Sheet sheet = wb.getSheetAt(i);
+            totalWork += sheet.getPhysicalNumberOfRows();
+        }
+        if (totalWork <= 0) {
+            throw new XlsParseException("0", "empty file");
+        }
+        return totalWork;
     }
 
     static Date getDateCellValue(Cell cell) {

@@ -13,13 +13,17 @@ import org.cmas.presentation.dao.logbook.LogbookBuddieRequestDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.logbook.ScubaTankDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.ShaEncoder;
 import org.cmas.util.StringUtil;
 import org.hibernate.StaleObjectStateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -38,7 +42,9 @@ import java.util.Set;
  */
 public class LogbookServiceImpl implements LogbookService {
 
-    public static final String SALT = "Wfdf$%@T#@c)(";
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
+    private static final String SALT = "Wfdf$%@T#@c)(";
 
     @Autowired
     private LogbookBuddieRequestDao logbookBuddieRequestDao;
@@ -57,6 +63,9 @@ public class LogbookServiceImpl implements LogbookService {
 
     @Autowired
     private ScubaTankDao scubaTankDao;
+
+    @Autowired
+    private MailService mailService;
 
     @Transactional
     @Override
@@ -162,7 +171,7 @@ public class LogbookServiceImpl implements LogbookService {
 
         if (isNew) {
             diveSpecDao.save(diveSpec);
-            logbookEntryId = (Long)logbookEntryDao.save(logbookEntry);
+            logbookEntryId = (Long) logbookEntryDao.save(logbookEntry);
         } else {
             logbookEntryDao.updateModel(logbookEntry);
             diveSpecDao.updateModel(diveSpec);
@@ -199,10 +208,15 @@ public class LogbookServiceImpl implements LogbookService {
             request.setFrom(diver);
             request.setTo(instructor);
             request.setToSign(true);
-            logbookBuddieRequestDao.save(request);
+            Serializable requestId = logbookBuddieRequestDao.save(request);
 
             instructor.setSocialUpdatesVersion(instructor.getSocialUpdatesVersion() + 1L);
-            //todo send notification to instructor
+            diverDao.updateModel(instructor);
+            try {
+                mailService.sendToInstructorToApprove(logbookBuddieRequestDao.getById(requestId));
+            } catch (Exception e) {
+                log.error("error send email for user " + request.getTo(), e);
+            }
         }
 
         if (buddies != null) {
@@ -220,6 +234,7 @@ public class LogbookServiceImpl implements LogbookService {
 
                     buddie.setSocialUpdatesVersion(buddie.getSocialUpdatesVersion() + 1L);
                     //todo send notification to buddies
+                    diverDao.updateModel(buddie);
                 }
             }
             for (Diver buddie : oldBuddies) {

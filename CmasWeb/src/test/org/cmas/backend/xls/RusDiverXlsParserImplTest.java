@@ -1,6 +1,7 @@
 package org.cmas.backend.xls;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.service.user.ProgressListener;
 import org.junit.Test;
 
 import java.io.File;
@@ -17,9 +18,16 @@ public class RusDiverXlsParserImplTest {
     public void test() {
         RusDiverXlsParserImpl sut = new RusDiverXlsParserImpl();
         try {
-             Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/RusInstructor.xlsx"));
-          //  Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/BookRusDivers.xlsx"));
-         //   Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/Arzhanova.xlsx"));
+            Collection<Diver> divers = sut.getDivers(new File(
+                    "/Users/sunsunich/Documents/cmas/federations/RusInstructor.xlsx"
+            ), new ProgressListener() {
+                @Override
+                public void updateProgress(int newPercentValue) {
+
+                }
+            });
+            //  Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/BookRusDivers.xlsx"));
+            //   Collection<Diver> divers = sut.getDivers(new File("/Users/sunsunich/Documents/cmas/federations/Arzhanova.xlsx"));
             for (Diver diver : divers) {
                 System.out.println(diver);
             }
