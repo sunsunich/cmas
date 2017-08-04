@@ -74,11 +74,15 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             if (existingCard == null) {
                 result.put(cardType, card);
             } else {
-                if (card.getDiverLevel() == null) {
-                    continue;
-                }
-                if (existingCard.getDiverLevel() == null
-                    || existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                if (card.getDiverType() == existingCard.getDiverType()) {
+                    if (card.getDiverLevel() == null) {
+                        continue;
+                    }
+                    if (existingCard.getDiverLevel() == null
+                        || existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                        result.put(cardType, card);
+                    }
+                } else if (card.getDiverType() == DiverType.INSTRUCTOR) {
                     result.put(cardType, card);
                 }
             }
