@@ -43,6 +43,10 @@
     <c:forEach items="${customScripts}" var="customScript">
         <script type="text/javascript" src="${customScript}?v=${webVersion}"></script>
     </c:forEach>
+
+    <script type="application/javascript">
+        var webVersion = ${webVersion};
+    </script>
     
 </head>
 <body>

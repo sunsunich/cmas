@@ -239,10 +239,13 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             personalCardDao.deleteDiverCards(dbDiver);
             Map<CardEqualityKey, PersonalCard> cardsToAdd = new HashMap<>(cards.size());
             for (PersonalCard card : cards) {
-                CardEqualityKey key = new CardEqualityKey(
-                        card.getDiverType(), card.getDiverLevel(), card.getCardType()
-                );
-                cardsToAdd.put(key, card);
+                PersonalCardType cardType = card.getCardType();
+                if (cardType != PersonalCardType.PRIMARY) {
+                    CardEqualityKey key = new CardEqualityKey(
+                            card.getDiverType(), card.getDiverLevel(), cardType
+                    );
+                    cardsToAdd.put(key, card);
+                }
             }
             for (PersonalCard card : cardsToAdd.values()) {
                 card.setDiver(dbDiver);
