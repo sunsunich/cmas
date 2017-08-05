@@ -43,6 +43,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     private static final int NAME_FONT_SIZE = 22;
     private static final float NAME_LEFT_X = 200.0f / 640.0f;
+    private static final float LONG_NAME_LEFT_X = 130.0f / 640.0f;
     private static final float NAME_RIGHT_X = 468.0f / 640.0f;
     private static final float FIRST_NAME_Y = 90.0f / 414.0f;
     private static final float LAST_NAME_Y = 115.0f / 414.0f;
@@ -112,16 +113,26 @@ public class DrawCardServiceImpl implements DrawCardService {
         int cardPrintNameWidth = g2d.getFontMetrics().stringWidth(cardPrintInfo.printName);
         if ((float) cardPrintNameWidth > rightX - leftX) {
             String[] parts = cardPrintInfo.printName.split(" ");
+            float longLeftX = LONG_NAME_LEFT_X * (float) width;
             if (parts.length > 1) {
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < parts.length - 1; i++) {
-                    sb.append(parts[i]).append(' ');
+                String[] rows = evalOptimalTwoRowsByMinLength(g2d, parts);
+                boolean isLong = false;
+                for (String row : rows) {
+                    isLong = (float) g2d.getFontMetrics().stringWidth(row) > rightX - leftX;
                 }
-                drawWithCenterAlign(g2d, sb.toString(), leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
-                drawWithCenterAlign(g2d, parts[parts.length - 1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                if (isLong) {
+                    drawWithCenterAlign(g2d, rows[0], longLeftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                    drawWithCenterAlign(g2d, rows[1], longLeftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                } else {
+                    drawWithCenterAlign(g2d, rows[0], leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                    drawWithCenterAlign(g2d, rows[1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                }
             } else {
-                //todo invent something
-                drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                drawWithCenterAlign(g2d,
+                                    cardPrintInfo.printName,
+                                    longLeftX,
+                                    rightX,
+                                    DIVER_TYPE_Y_1 * (float) height);
             }
         } else {
             drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
@@ -241,6 +252,53 @@ public class DrawCardServiceImpl implements DrawCardService {
         @SuppressWarnings("MagicNumber")
         float finalX = (leftX + rightX) / 2.0f - (float) actualWidth / 2.0f;
         g2d.drawString(text, finalX, y);
+    }
+
+    @SuppressWarnings({"MagicCharacter", "StringConcatenation"})
+    private static String[] evalOptimalTwoRowsByMinLength(Graphics2D g2d, String[] parts) {
+        if (parts.length < 2) {
+            return parts;
+        }
+        String[] result = {"", ""};
+        if (parts.length % 2 == 0) {
+            for (int i = 0; i < parts.length / 2 - 1; i++) {
+                result[0] += parts[i] + ' ';
+            }
+            result[0] += parts[parts.length / 2 - 1];
+
+            for (int i = parts.length / 2; i < parts.length - 1; i++) {
+                result[1] += parts[i] + ' ';
+            }
+            result[1] += parts[parts.length - 1];
+        } else {
+            StringBuilder option1 = new StringBuilder();
+            for (int i = 0; i < parts.length / 2; i++) {
+                option1.append(parts[i]).append(' ');
+            }
+            option1.append(parts[parts.length / 2]);
+
+            StringBuilder option2 = new StringBuilder();
+            for (int i = parts.length / 2; i < parts.length - 1; i++) {
+                option2.append(parts[i]).append(' ');
+            }
+            option2.append(parts[parts.length - 1]);
+
+            if (g2d.getFontMetrics().stringWidth(option1.toString()) <
+                g2d.getFontMetrics().stringWidth(option2.toString())) {
+                result[0] = option1.toString();
+                for (int i = parts.length / 2 + 1; i < parts.length - 1; i++) {
+                    result[1] += parts[i] + ' ';
+                }
+                result[1] += parts[parts.length - 1];
+            } else {
+                for (int i = 0; i < parts.length / 2 - 1; i++) {
+                    result[0] += parts[i] + ' ';
+                }
+                result[0] += parts[parts.length / 2 - 1];
+                result[1] = option2.toString();
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {
