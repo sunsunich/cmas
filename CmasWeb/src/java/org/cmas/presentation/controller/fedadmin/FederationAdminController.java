@@ -22,8 +22,10 @@ import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.DiverService;
-import org.cmas.presentation.service.user.ProgressListener;
+import org.cmas.presentation.service.user.UploadDiversTask;
+import org.cmas.presentation.service.user.UploadDiversTaskStatus;
 import org.cmas.presentation.validator.fedadmin.DiverUploadValidator;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
@@ -40,15 +42,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
@@ -113,41 +112,19 @@ public class FederationAdminController {
         return new ModelAndView("fed/index", mm);
     }
 
-    private static final Map<Long, Integer> FED_ADMIN_ID_TO_UPLOAD_PROGRESS = new ConcurrentHashMap<>();
-
     @SuppressWarnings("CallToStringEquals")
     @RequestMapping(value = "/fed/uploadUsers.html", method = RequestMethod.POST)
     public View uploadUsers(@ModelAttribute("xlsFileFormObject") FileUploadBean fileBean, Errors result) {
-        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
-        if (currentFedAdmin == null) {
+        BackendUser<Diver> currentDiver = authenticationService.getCurrentDiver();
+        if (currentDiver == null) {
             throw new BadRequestException();
         }
-        final Long currentFedAdminId = currentFedAdmin.getNullableId();
-        FED_ADMIN_ID_TO_UPLOAD_PROGRESS.put(currentFedAdminId, 0);
-        MultipartFile file = fileBean.getFile();
-        if (file == null) {
-            result.rejectValue("file", "validation.emptyField");
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
-        }
-        String contentType = file.getContentType();
-        if (!"application/vnd.ms-excel".equals(contentType)
-            && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
-            result.rejectValue("file", "validation.xlsFileFormat");
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
-        }
         try {
-            diverService.uploadDivers(currentFedAdmin.getUser().getFederation(),
-                                      file.getInputStream(),
-                                      new ProgressListener() {
-                                          @Override
-                                          public void updateProgress(int newPercentValue) {
-                                              FED_ADMIN_ID_TO_UPLOAD_PROGRESS.put(currentFedAdminId, newPercentValue);
-                                          }
-                                      }
-            );
-        } catch (XlsParseException e) {
-            log.error(e.getMessage(), e);
-            return gsonViewFactory.createGsonView(new XlsParseErrorJsonBean(e.getMessage(), e.getRowNumber()));
+            String errorCode = diverService.scheduleUploadDivers(currentDiver.getUser(), fileBean.getFile());
+            if (!StringUtil.isTrimmedEmpty(errorCode)) {
+                result.rejectValue("file", errorCode);
+                return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             result.rejectValue("file", "validation.xlsFileFormat");
@@ -162,8 +139,27 @@ public class FederationAdminController {
         if (currentFedAdmin == null) {
             throw new BadRequestException();
         }
-        Integer progress = FED_ADMIN_ID_TO_UPLOAD_PROGRESS.get(currentFedAdmin.getNullableId());
-        return gsonViewFactory.createGsonView(new XlsParseProgressJsonBean(progress == null ? 0 : progress));
+        UploadDiversTask uploadDiversTask = diverService.getUploadDiversTask(currentFedAdmin.getUser().getId());
+        if (uploadDiversTask == null) {
+            return gsonViewFactory.createGsonView(new XlsParseProgressJsonBean(UploadDiversTaskStatus.NOT_EXIST));
+        } else {
+            XlsParseErrorJsonBean xlsParseErrorJsonBean = null;
+            String error = null;
+            UploadDiversTaskStatus status = uploadDiversTask.getStatus();
+            if (status == UploadDiversTaskStatus.ERROR) {
+                Exception exception = uploadDiversTask.getException();
+                if (exception instanceof XlsParseException) {
+                    xlsParseErrorJsonBean = new XlsParseErrorJsonBean(exception.getMessage(),
+                                                                      ((XlsParseException) exception).getRowNumber());
+                } else {
+                    error = "validation.xlsFileFormat";
+                }
+            }
+            return gsonViewFactory.createGsonView(new XlsParseProgressJsonBean(status,
+                                                                               uploadDiversTask.getProgress(),
+                                                                               error,
+                                                                               xlsParseErrorJsonBean));
+        }
     }
 
     @RequestMapping("/fed/getCardPrintName.html")

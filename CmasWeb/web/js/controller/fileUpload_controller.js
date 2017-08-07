@@ -10,6 +10,7 @@ var fileUpload_controller = {
 
     reloadInterval: null,
     isLoadingError: false,
+    isProcessingFile: false,
 
     init: function () {
         var self = this;
@@ -31,42 +32,29 @@ var fileUpload_controller = {
                 if (e.lengthComputable) {
                     var percentage = Math.ceil(e.loaded / e.total) * 100;
                     self.progressElem.width(percentage + '%');
-                    if (percentage >= 100) {
-                        self.textElem.html(labels["cmas.face.file.processing"]);
-                        self.progressElem.width("0%");
-                        self.updateFileProcessingProgress();
-                    }
                 }
             }
             , function () {
-                window.location.reload();
+                self.startFileProcessingProgress();
             }
             , function (json) {
                 self.isLoadingError = true;
                 var message = error_codes["validation.internal"];
-                if (json && json.rowNumber) {
-                    message = error_codes["validation.xlsFileParseError"]
-                        .replace("${rowNumber}", json.rowNumber)
-                        .replace("${cause}", json.cause);
-                }
-                else if (json && json.fieldErrors && json.fieldErrors.file) {
+                if (json && json.fieldErrors && json.fieldErrors.file) {
                     message = error_codes[json.fieldErrors.file];
                 }
                 else if (json && json.errors && json.errors.length && json.errors.length > 0) {
                     message = error_codes[json.errors[0]];
                 }
-                self.textElem.empty();
-                self.progressOuterElem.hide();
-                self.errorElem.html(message);
+                self.clearProgress(message);
                 self.stopUpdatingFileProcessingProgress();
             }
         );
     },
 
     resetReloadInterval: function () {
-        if (this.isLoadingError) {
-            this.stopUpdatingFileProcessingProgress();
-        } else {
+        this.stopUpdatingFileProcessingProgress();
+        if (!this.isLoadingError) {
             var self = this;
             this.reloadInterval = setTimeout(function run() {
                 self.updateFileProcessingProgress();
@@ -81,15 +69,72 @@ var fileUpload_controller = {
         }
     },
 
+    startFileProcessingProgress: function () {
+        if (this.isProcessingFile) {
+            return;
+        }
+        this.textElem.html(labels["cmas.face.file.processing"]);
+        this.progressElem.width("0%");
+        this.isProcessingFile = true;
+        this.updateFileProcessingProgress();
+    },
+
     updateFileProcessingProgress: function () {
         var self = this;
         this.model.getFileProcessingProgress(
             function (json) {
-                self.progressElem.width(json.progressPercent + '%');
-                self.resetReloadInterval();
+                if (json) {
+                    self.processTaskState(json);
+                } else {
+                    self.resetReloadInterval();
+                }
             }, function () {
                 self.resetReloadInterval();
             }
         );
+    },
+
+    processTaskState: function (json) {
+        switch (json.taskStatus) {
+            case "NOT_EXIST" :
+                this.clearProgress("");
+                break;
+            case "NOT_STARTED" :
+                this.textElem.html(labels["cmas.face.file.queued"]);
+                this.progressElem.width("0%");
+                this.errorElem.empty();
+                break;
+            case "IN_PROGRESS" :
+                this.textElem.html(labels["cmas.face.file.processing"]);
+                this.progressElem.width(json.progressPercent + '%');
+                this.errorElem.empty();
+                break;
+            case "ERROR" :
+                var message = error_codes["validation.internal"];
+                if (json.parseError) {
+                    message = error_codes["validation.xlsFileParseError"]
+                        .replace("${rowNumber}", json.parseError.rowNumber)
+                        .replace("${cause}", json.parseError.cause);
+                } else if (json.error) {
+                    message = error_codes[json.error];
+                }
+                this.clearProgress(message);
+                this.isLoadingError = true;
+                break;
+            case "CANCELLED" :
+                this.clearProgress(labels["cmas.face.file.cancelled"]);
+                this.isLoadingError = true;
+                break;
+            case "DONE" :
+                window.location.reload();
+                break;
+        }
+        this.resetReloadInterval();
+    },
+
+    clearProgress: function (errorMessage) {
+        this.textElem.empty();
+        this.progressOuterElem.hide();
+        this.errorElem.html(errorMessage);
     }
 };

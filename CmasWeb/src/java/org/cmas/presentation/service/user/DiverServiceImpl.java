@@ -15,14 +15,14 @@ import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.cmas.util.schedule.Scheduler;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -30,6 +30,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created on Apr 29, 2016
@@ -38,24 +42,25 @@ import java.util.Objects;
  */
 public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
+    @Autowired
+    private Scheduler scheduler;
 
     @Autowired
-    private PersonalCardService personalCardService;
+    SessionFactory sessionFactory;
 
     @Autowired
     @Qualifier("rusDiverXlsParser")
-    private DiverXlsParser rusDiverXlsParser;
+    DiverXlsParser rusDiverXlsParser;
 
     @Autowired
     @Qualifier("singleTableDiverXlsParser")
-    private DiverXlsParser singleTableDiverXlsParser;
+    DiverXlsParser singleTableDiverXlsParser;
 
     @Autowired
-    private DiverDao diverDao;
+    DiverDao diverDao;
 
     @Autowired
-    private PersonalCardDao personalCardDao;
+    PersonalCardDao personalCardDao;
 
     @Override
     public List<PersonalCard> getCardsToShow(Diver diver) {
@@ -90,86 +95,57 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         return new ArrayList<>(result.values());
     }
 
+    private final Map<Long, UploadDiversTask> fedAdminIdToUploadTask = new ConcurrentHashMap<>();
+    private final Map<Long, Lock> fedAdminIdToLock = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("CallToStringEqualsIgnoreCase")
+    @SuppressWarnings({"CallToStringEqualsIgnoreCase", "HardcodedFileSeparator", "CallToStringEquals"})
     @Override
-    public void uploadDivers(NationalFederation federation, InputStream file, final ProgressListener progressListener) throws Exception {
-        Collection<Diver> divers;
-        Country country = federation.getCountry();
-        String countryCode = country.getCode();
-        ProgressListener xlsProgressListener = new ProgressListener() {
-            @Override
-            public void updateProgress(int newPercentValue) {
-                progressListener.updateProgress(newPercentValue / 5);
+    public String scheduleUploadDivers(Diver fedAdmin, MultipartFile file) throws IOException {
+        long adminId = fedAdmin.getId();
+        Lock lock = fedAdminIdToLock.get(adminId);
+        if (lock == null) {
+            synchronized (fedAdminIdToLock) {
+                Lock value = new ReentrantLock();
+                fedAdminIdToLock.put(adminId, value);
+                lock = value;
             }
-        };
-        if ("RUS".equalsIgnoreCase(countryCode)) {
-            divers = rusDiverXlsParser.getDivers(file, xlsProgressListener);
-        } else {
-            divers = singleTableDiverXlsParser.getDivers(file, xlsProgressListener);
         }
-        if (divers == null) {
-            throw new UnsupportedOperationException("Federation not supported");
-        }
-        int totalWork = divers.size();
-        int workDone = 0;
-        for (Diver diver : divers) {
-            uploadDiver(federation, diver, false);
-            //hidden functionality creating or editing primary card number
-            Diver dbDiver = diverDao.getByEmail(diver.getEmail());
-            PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
-            if (primaryPersonalCard != null) {
-                String newNumber = primaryPersonalCard.getNumber();
-                if (!StringUtil.isTrimmedEmpty(newNumber)) {
-                    PersonalCard checkingCard = personalCardDao.getByNumber(newNumber);
-                    if (checkingCard == null) {
-                        // no such number found in DB
-                        PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
-                        boolean isNewCard = dbCard == null;
-                        if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
-                            //number change or new number detected
-                            try {
-                                if (isNewCard) {
-                                    dbCard = primaryPersonalCard;
-                                    dbCard.setCardType(PersonalCardType.PRIMARY);
-                                    dbCard.setDiverLevel(dbDiver.getDiverLevel());
-                                    dbCard.setDiverType(dbDiver.getDiverType());
-                                    primaryPersonalCard.setDiver(dbDiver);
-                                    personalCardDao.save(dbCard);
-                                    dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
-                                    diverDao.updateModel(dbDiver);
-                                } else {
-                                    dbCard.setNumber(newNumber);
-                                    personalCardDao.updateModel(dbCard);
-                                }
-
-                                personalCardService.generateAndSaveCardImage(dbCard.getId());
-                                if (dbDiver.getDateReg() == null) {
-                                    dbDiver.setDateReg(new Date());
-                                    diverDao.updateModel(dbDiver);
-                                }
-                            } catch (Exception e) {
-                                //number change or creation failed
-                                log.error(e.getMessage(), e);
-                            }
-                        }
-                    }
+        lock.lock();
+        try {
+            UploadDiversTask oldTask = fedAdminIdToUploadTask.get(adminId);
+            if (oldTask != null) {
+                scheduler.remove(oldTask);
+                if (oldTask.future != null && !oldTask.future.isDone()) {
+                    oldTask.future.cancel(true);
+                    scheduler.purge();
                 }
+                fedAdminIdToUploadTask.put(adminId, null);
             }
-            workDone++;
-            progressListener.updateProgress(20 + workDone * 100 * 2 / totalWork / 5);
+
+            if (file == null) {
+                return "validation.emptyField";
+            }
+            String contentType = file.getContentType();
+            if (!"application/vnd.ms-excel".equals(contentType)
+                && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
+                return "validation.xlsFileFormat";
+            }
+
+            UploadDiversTask newTask = new UploadDiversTask(this, fedAdmin.getFederation(), file.getInputStream());
+            newTask.future = scheduler.schedule(newTask, 0, TimeUnit.MILLISECONDS);
+            fedAdminIdToUploadTask.put(adminId, newTask);
+        } finally {
+            lock.unlock();
         }
-        workDone = 0;
-        for (Diver diver : divers) {
-            Diver dbDiver = diverDao.getByEmail(diver.getEmail());
-            setDiverInstructor(dbDiver, diver.getInstructor());
-            workDone++;
-            progressListener.updateProgress(StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99));
-        }
-        progressListener.updateProgress(100);
+        return "";
     }
 
-    private void setDiverInstructor(Diver dbDiver, Diver instructor) {
+    @Override
+    public UploadDiversTask getUploadDiversTask(long fedAdminId) {
+        return fedAdminIdToUploadTask.get(fedAdminId);
+    }
+
+    void setDiverInstructor(Diver dbDiver, Diver instructor) {
         Diver dbInstructor = null;
         if (instructor != null) {
             dbInstructor = diverDao.getDiverByCardNumber(

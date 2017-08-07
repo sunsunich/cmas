@@ -31,6 +31,11 @@ public class SchedulerImpl implements DisposableBean, InitializingBean, Schedule
     }
 
     @Override
+    public void purge() {
+        scheduler.purge();
+    }
+
+    @Override
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
         return scheduler.schedule(command, delay, unit);
     }

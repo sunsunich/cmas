@@ -8,8 +8,6 @@ import com.google.myjson.annotations.Expose;
  * @author Alexander Petukhov
  */
 public class XlsParseErrorJsonBean {
-    @Expose
-    private boolean success;
 
     @Expose
     private String cause;
@@ -18,21 +16,11 @@ public class XlsParseErrorJsonBean {
     private String rowNumber;
 
     public XlsParseErrorJsonBean() {
-        success = false;
     }
 
     public XlsParseErrorJsonBean(String cause, String rowNumber) {
-        this();
         this.cause = cause;
         this.rowNumber = rowNumber;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setIsSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getCause() {

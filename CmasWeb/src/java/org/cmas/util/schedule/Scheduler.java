@@ -11,7 +11,9 @@ import java.util.concurrent.TimeUnit;
 
 public interface Scheduler {
 
-     boolean remove(Runnable task);
+    boolean remove(Runnable task);
+
+    void purge();
 
     ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
 
@@ -19,19 +21,21 @@ public interface Scheduler {
 
     /**
      * Запускает периодическое выполнение команды с фиксированной частотой выполнения.
-     * @see {@link java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(Runnable, long, long, java.util.concurrent.TimeUnit)}
-     * @param command Команда
+     *
+     * @param command      Команда
      * @param initialDelay Задержка от текущего моента до первого выполнения, милисекунд
-     * @param period Интервал между выполнениями в милисекнудах
+     * @param period       Интервал между выполнениями в милисекнудах
+     * @see {@link java.util.concurrent.ScheduledExecutorService#scheduleAtFixedRate(Runnable, long, long, java.util.concurrent.TimeUnit)}
      */
     ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period);
 
     /**
      * Запускает ежедневное выполнение команды
+     *
      * @param command Команда
-     * @param hours Время запуска, в часах
+     * @param hours   Время запуска, в часах
      * @param minutes Время запуска, в минутах
-     * @param zone Временная зона, к которой относятся временные параметры
+     * @param zone    Временная зона, к которой относятся временные параметры
      * @return Время, когда команда запустится в первый раз
      */
     @NotNull
@@ -39,8 +43,9 @@ public interface Scheduler {
 
     /**
      * Запускает ежедневное выполнение команды
+     *
      * @param command Команда
-     * @param hours Время запуска, в часах
+     * @param hours   Время запуска, в часах
      * @param minutes Время запуска, в минутах
      * @return Время, когда команда запустится в первый раз
      */
@@ -55,10 +60,11 @@ public interface Scheduler {
 
     /**
      * Запускает периодическое выполнение команды c фиксрованной задержкой между выполненями.
-     * @see {@link java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(Runnable, long, long, java.util.concurrent.TimeUnit)}
-     * @param command Команда
+     *
+     * @param command      Команда
      * @param initialDelay Задержка от текущего моента до первого выполнения, милисекунд
-     * @param delay Интервал между выполнениями в милисекнудах
+     * @param delay        Интервал между выполнениями в милисекнудах
+     * @see {@link java.util.concurrent.ScheduledExecutorService#scheduleWithFixedDelay(Runnable, long, long, java.util.concurrent.TimeUnit)}
      */
     ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay);
 }
