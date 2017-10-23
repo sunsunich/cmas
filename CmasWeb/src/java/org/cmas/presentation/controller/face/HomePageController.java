@@ -21,5 +21,11 @@ public class HomePageController {
         ModelMap mm = new ModelMap();
         return new ModelAndView("faq", mm);
     }
+
+    @RequestMapping(value = "/termsAndCond.html", method = RequestMethod.GET)
+    public ModelAndView termsAndCond() {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("termsAndCond", mm);
+    }
 }
 

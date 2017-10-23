@@ -58,7 +58,7 @@ public class DrawCardServiceImpl implements DrawCardService {
     @Override
     public synchronized BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
         String fileName = getFileName(card);
-        BufferedImage initImage = ImageIO.read(getClass().getResourceAsStream(fileName));
+        BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
         BufferedImage finalImage = new BufferedImage(
@@ -144,7 +144,7 @@ public class DrawCardServiceImpl implements DrawCardService {
             float starSpace = STAR_X_SPACE * (float) width;
             float middlePoint = (leftX + rightX) / 2.0f;
             //noinspection NumericCastThatLosesPrecision
-            BufferedImage starImage = ImageIO.read(getClass().getResourceAsStream("star.png"));
+            BufferedImage starImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream("star.png"));
             switch (card.getDiverLevel()) {
                 case ONE_STAR:
                     drawStar(starSize, height, g2d, starImage, middlePoint - starSize / 2.0f);

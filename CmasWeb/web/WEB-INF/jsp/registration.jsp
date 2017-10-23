@@ -46,6 +46,13 @@
                            placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"/>
                 </div>
                 <div class="error" id="reg_error_dob"></div>
+                <div class="row-checkbox">
+                    <span>
+                        <input id="termsAndCondAccepted" type="checkbox"/>
+                        <s:message code="cmas.face.registration.form.label.termsAndCond"/>
+                    </span>
+                </div>
+                <div class="error" id="reg_error_termsAndCondAccepted"></div>
             </div>
             <div class="error" style="display: none" id="reg_error">
             </div>

@@ -7,5 +7,4 @@ update divers set socialUpdatesVersion = 0 WHERE socialUpdatesVersion is NULL;
 
 update personal_cards set image = NULL;
 
-update divers set socialUpdatesVersion = 0;
 update personal_cards set number = REPLACE(number, 'RUS/F01/', 'RUS/FO1/')

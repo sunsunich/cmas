@@ -29,11 +29,16 @@ var registration_controller = {
     },
 
     register: function () {
+        var termsAndCondAccepted = 'false';
+        if ($('#termsAndCondAccepted').prop("checked")) {
+            termsAndCondAccepted = 'true';
+        }
         var regForm = {
             country: $('#country').val(),
             firstName: $('#firstNameField').val(),
             lastName: $('#lastNameField').val(),
-            dob: $('#dobField').val()
+            dob: $('#dobField').val(),
+            termsAndCondAccepted: termsAndCondAccepted
         };
 
         this.cleanErrors();
@@ -70,6 +75,9 @@ var registration_controller = {
         if (isStringTrimmedEmpty(regForm.dob)) {
             result.fieldErrors["dob"] = 'validation.emptyDob';
         }
+        if (regForm.termsAndCondAccepted !== 'true') {
+            result.fieldErrors["termsAndCondAccepted"] = 'validation.termsAndCondNotAccepted';
+        }
 
         result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
 
@@ -82,6 +90,7 @@ var registration_controller = {
         $('#reg_error_firstName').empty();
         $('#reg_error_lastName').empty();
         $('#reg_error_dob').empty();
+        $('#reg_error_termsAndCondAccepted').empty();
     },
 
     showRegistrationOk: function () {
@@ -93,6 +102,7 @@ var registration_controller = {
         $('#firstNameField').val('');
         $('#lastNameField').val('');
         $('#dobField').val('');
+        $('#termsAndCondAccepted').prop('checked', false)
         $("#dialog").hide();
         setTimeout(function () {
             window.location = "/";

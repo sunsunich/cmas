@@ -28,12 +28,18 @@ public class DiverRegistrationFormObject implements Validatable {
     @NotEmpty(message = "validation.emptyField")
     private String dob;
 
+    private String termsAndCondAccepted;
+
     //локаль с которрой регился
     private Locale locale;
 
     @Override
     public void validate(Errors errors) {
         ValidatorUtils.validateDate(errors, dob, "dob", "validation.incorrectField", Globals.getDTF());
+        ValidatorUtils.validateBoolean(errors,
+                                       termsAndCondAccepted,
+                                       "termsAndCondAccepted",
+                                       "validation.termsAndCondNotAccepted");
     }
 
     public String getFirstName() {
@@ -74,5 +80,13 @@ public class DiverRegistrationFormObject implements Validatable {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public String getTermsAndCondAccepted() {
+        return termsAndCondAccepted;
+    }
+
+    public void setTermsAndCondAccepted(String termsAndCondAccepted) {
+        this.termsAndCondAccepted = termsAndCondAccepted;
     }
 }

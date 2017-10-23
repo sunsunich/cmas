@@ -23,7 +23,7 @@
                            placeholder="<s:message code="cmas.face.login.form.label.password"/>"/>
                 </div>
                 <div class="row-checkbox">
-                    <span class="remember">
+                    <span >
                         <input id="rememberLogin" type="checkbox"/>
                         <s:message code="cmas.face.login.form.label.remember"/>
                     </span>
