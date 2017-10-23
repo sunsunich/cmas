@@ -33,7 +33,7 @@
                 <s:message code="cmas.face.welcome.free.text"/>
             </c:when>
             <c:otherwise>
-                <s:message code="cmas.face.welcome.payment.text"/>
+                <s:message code="cmas.face.welcome.payment.text"/>&nbsp;${firstPayment}&nbsp;<s:message code="cmas.face.welcome.payment.currency"/>
             </c:otherwise>
         </c:choose>
     </div>
