@@ -119,7 +119,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                     oldTask.future.cancel(true);
                     scheduler.purge();
                 }
-                fedAdminIdToUploadTask.put(adminId, null);
+                fedAdminIdToUploadTask.remove(adminId);
             }
 
             if (file == null) {

@@ -346,7 +346,7 @@ VALUES
  (1,
   0);
 
-INSERT INTO `cmas`.`dive_spots`
+INSERT INTO `dive_spots`
 (`id`,
  `deleted`,
  `name`,
@@ -364,7 +364,7 @@ VALUES
   98.7662,
   126);
 
-INSERT INTO `cmas`.`dive_spots`
+INSERT INTO `dive_spots`
 (`id`,
  `deleted`,
  `name`,
