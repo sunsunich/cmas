@@ -113,32 +113,34 @@
     </div>
 
     <div id="friendsLogbook" style="display: none">
-    <div class="content-left">
-        <div id="friendsLogbookFeed" class="clearfix"></div>
-    </div>
-    <div class="content-left">
-        <form name="searchFriends">
-            <div class="search-friend-form-logbook">
-                <input type="text" id="searchFriendInput"
-                       placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>">
-                <div id="foundFriendList" class="foundFriendList">
-                    <div id="foundFriendListContent"></div>
-                    <div id="noDiversFoundMessage" style="display: none">
+        <div class="content-left">
+            <div id="friendsLogbookFeed" class="clearfix"></div>
+        </div>
+        <div class="content-left">
+            <form name="searchFriends">
+                <div class="search-friend-form-logbook">
+                    <input type="text" id="searchFriendInput"
+                           placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>">
+                    <div id="foundFriendList" class="foundFriendList">
+                        <div id="foundFriendListContent"></div>
+                        <div id="noDiversFoundMessage" style="display: none">
                         <span class="foundFriendList-text">
                             <s:message code="cmas.face.diver.fast.search.notFound"/>
                         </span>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="error" id="searchFriends_error_input"></label>
+                    </div>
+                    <div>
+                        <button type="button" class="form-button enter-button searchFriendsButton"
+                                id="searchFriendsButton">
+                            <s:message code="cmas.face.diver.fast.search.buttonText"/>
+                        </button>
                     </div>
                 </div>
-                <div>
-                    <label class="error" id="searchFriends_error_input"></label>
-                </div>
-                <div>
-                    <button type="button" class="form-button enter-button searchFriendsButton" id="searchFriendsButton">
-                        <s:message code="cmas.face.diver.fast.search.buttonText"/>
-                    </button>
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <my:dialog id="recordDeleteDialog"
