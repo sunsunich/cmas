@@ -318,9 +318,9 @@ public class LogbookServiceImpl implements LogbookService {
                                  + ShaEncoder.SEPARATOR
                                  + Globals.getDTFWebControls().format(entry.getDiveDate())
                                  + ShaEncoder.SEPARATOR
-                                 + entry.getLatitude()
+                                 + String.valueOf(entry.getLatitude())
                                  + ShaEncoder.SEPARATOR
-                                 + entry.getLongitude()
+                                 + String.valueOf(entry.getLongitude())
                                  + ShaEncoder.SEPARATOR
                                  + diveSpec.getIsApnea()
                                  + ShaEncoder.SEPARATOR

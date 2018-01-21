@@ -425,7 +425,7 @@
                         <s:message code="cmas.face.logbook.isApnea"/>
                     </label>
                 </div>
-                <div class="error" id="create_error_scubaTanks"></div>
+                <div class="error white-form-row" id="create_error_scubaTanks"></div>
                 <div id="tanksSection">
                     <div id="tanks">
 

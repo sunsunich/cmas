@@ -363,16 +363,6 @@ var logbook_record_diveProfile_controller = {
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.name)) {
             result.fieldErrors["name"] = 'validation.logbookEmptyDivingSpotName';
         }
-        if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.latitude)) {
-            result.fieldErrors["latitude"] = 'validation.logbookEmptySpotLatitude';
-        } else if (!is_positive_float(logbook_record_model.logbookEntry.latitude)) {
-            result.fieldErrors["latitude"] = 'validation.incorrectNumber';
-        }
-        if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.longitude)) {
-            result.fieldErrors["longitude"] = 'validation.logbookEmptyLongitude';
-        } else if (!is_positive_float(logbook_record_model.logbookEntry.longitude)) {
-            result.fieldErrors["longitude"] = 'validation.incorrectNumber';
-        }
         if (isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.durationMinutes)) {
             result.fieldErrors["durationMinutes"] = 'validation.logbookEmptyDiveDuration';
         } else if (!is_positive_int(logbook_record_model.logbookEntry.diveSpec.durationMinutes)) {

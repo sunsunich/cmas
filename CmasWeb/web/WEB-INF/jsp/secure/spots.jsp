@@ -27,6 +27,20 @@
         <div class="dialog-content">
             <s:message code="cmas.face.spots.hint"/>
         </div>
+        <c:if test="${logbookEntryId != null}">
+            <div class="menu-row clearfix">
+                <div class="menuElemLeft">
+                    <a href="${pageContext.request.contextPath}/secure/editLogbookRecordForm.html?logbookEntryId=${logbookEntryId}">
+                        <img src="${pageContext.request.contextPath}/i/arrow_right_gray.png?v=${webVersion}"/>
+                    </a>
+                </div>
+                <div class="menuElemLeft">
+                    <a href="${pageContext.request.contextPath}/secure/editLogbookRecordForm.html?logbookEntryId=${logbookEntryId}">
+                        <span><s:message code="cmas.face.spots.back"/></span>
+                    </a>
+                </div>
+            </div>
+        </c:if>
     </div>
 
     <div id="map">

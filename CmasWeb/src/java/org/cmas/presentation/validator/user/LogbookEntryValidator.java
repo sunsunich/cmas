@@ -35,12 +35,6 @@ public class LogbookEntryValidator implements Validator {
         if (logbookEntry.getDiveDate() == null) {
             errors.rejectValue("diveDate", "validation.emptyField");
         }
-        if (logbookEntry.getLatitude() <= 0.0) {
-            errors.rejectValue("latitude", "validation.incorrectNumber");
-        }
-        if (logbookEntry.getLongitude() <= 0.0) {
-            errors.rejectValue("longitude", "validation.incorrectNumber");
-        }
         if (logbookEntry.getVisibility() == null) {
             errors.rejectValue("visibility", "validation.emptyField");
         }
