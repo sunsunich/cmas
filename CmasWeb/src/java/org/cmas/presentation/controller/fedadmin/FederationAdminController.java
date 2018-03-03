@@ -19,6 +19,7 @@ import org.cmas.presentation.controller.CardDisplayManager;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
+import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.DiverService;
@@ -27,6 +28,7 @@ import org.cmas.presentation.service.user.UploadDiversTaskStatus;
 import org.cmas.presentation.validator.fedadmin.DiverUploadValidator;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,9 +49,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
@@ -279,5 +285,44 @@ public class FederationAdminController {
             }
         }
         return foundCard;
+    }
+
+    @RequestMapping("/fed/passwdForm.html")
+    public ModelAndView loadUserPasswd(Model mm) {
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        PasswordEditFormObject passwd = new PasswordEditFormObject();
+        mm.addAttribute("command", passwd);
+        return buidPassChangeForm(mm, currentFedAdmin.getUser());
+    }
+
+    /*
+     * Submit формы редактирования пароля
+     */
+    @RequestMapping(value = "/fed/processEditPasswd.html", method = RequestMethod.POST)
+    public ModelAndView userEditPasswd(
+            HttpServletRequest request
+            , @ModelAttribute("command") PasswordEditFormObject formObject
+            , BindingResult result
+            , Model mm) {
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        Diver user = currentFedAdmin.getUser();
+        diverService.changePassword(user, formObject, result, HttpUtil.getIP(request));
+        if (result.hasErrors()) {
+            return buidPassChangeForm(mm, user);
+        } else {
+            Map<String, Object> model = new HashMap<String, Object>();
+            return new ModelAndView("fed/passwdChangeSuccess", model);
+        }
+    }
+
+    private static ModelAndView buidPassChangeForm(Model model, Diver fedAdmin) {
+        model.addAttribute("fedAdmin", fedAdmin);
+        return new ModelAndView("fed/passwdForm");
     }
 }

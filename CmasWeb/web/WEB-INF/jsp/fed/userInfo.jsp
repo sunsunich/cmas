@@ -60,13 +60,13 @@ mmap.addAttribute("cardsJson", new Gson().toJson(diver.getCards()));
         <c:if test="${command.primaryPersonalCard != null}">
             <div>
                 <label class="input-fed-admin">CMAS card number</label>
-                <span>${command.primaryPersonalCard.number}</span>
+                <span>${command.primaryPersonalCard.printNumber}</span>
             </div>
         </c:if>
         <c:choose>
             <c:when test="${natFedCard != null}">
                 <fed:input prefix="diver" name="natFedCardNumber" label="National Federation card number"
-                           value="${natFedCard.number}"/>
+                           value="${natFedCard.printNumber}"/>
             </c:when>
             <c:otherwise>
                 <fed:input prefix="diver" name="natFedCardNumber" label="National Federation card number"/>
@@ -76,7 +76,7 @@ mmap.addAttribute("cardsJson", new Gson().toJson(diver.getCards()));
             <c:when test="${natFedInstructorCard != null}">
                 <fed:input prefix="diver" name="natFedInstructorCardNumber"
                            label="National Federation Instructor card number"
-                           value="${natFedInstructorCard.number}"/>
+                           value="${natFedInstructorCard.printNumber}"/>
             </c:when>
             <c:otherwise>
                 <fed:input prefix="diver" name="natFedInstructorCardNumber"

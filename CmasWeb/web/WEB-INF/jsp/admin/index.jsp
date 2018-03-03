@@ -124,16 +124,16 @@
         </c:otherwise>
     </c:choose>
     <br><br>
-    <c:choose>
-        <c:when test="${urlEmpty}">
-            <c:set var="pagerURL" value="${initURL}"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="pagerURL" value="${url}"/>
-        </c:otherwise>
-    </c:choose>
+    <%--<c:choose>--%>
+        <%--<c:when test="${urlEmpty}">--%>
+            <%--<c:set var="pagerURL" value="${initURL}"/>--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<c:set var="pagerURL" value="${url}"/>--%>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 
-    <pg:pager url="${pagerURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"
+    <pg:pager url="${initURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"
               export="currentPageNumber=pageNumber,offSet=pageOffset">
         <pg:param name="sort"/>
         <pg:param name="email"/>

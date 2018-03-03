@@ -103,13 +103,13 @@
                         <td><fmt:formatDate value="${user.dob}" pattern="dd.MM.yyyy"/></td>
                         <td>${user.diverType.name}</td>
                         <td>${user.diverLevel.name}</td>
-                        <td>
+                        <td style="white-space: nowrap;">
                             <c:choose>
                                 <c:when test="${user.primaryPersonalCard == null}">
                                     Not registered at CMAS Data
                                 </c:when>
                                 <c:otherwise>
-                                    ${user.primaryPersonalCard.number}
+                                    ${user.primaryPersonalCard.printNumber}
                                 </c:otherwise>
                             </c:choose>
                         </td>
@@ -126,9 +126,7 @@
                             <button type="button" onclick="window.location = '/fed/editDiver.html?userId=${user.id}'">
                                 Edit diver
                             </button>
-                            <button type="button" onclick="window.location = '/fed/deleteDiver.html?userId=${user.id}'">
-                                Delete diver
-                            </button>
+                            <my:delete url="/fed/deleteDiver.html?userId=${user.id}"/>
                         </td>
                     </tr>
                 </c:forEach>
@@ -139,16 +137,16 @@
         </c:otherwise>
     </c:choose>
     <br><br>
-    <c:choose>
-        <c:when test="${urlEmpty}">
-            <c:set var="pagerURL" value="${initURL}"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="pagerURL" value="${url}"/>
-        </c:otherwise>
-    </c:choose>
+    <%--<c:choose>--%>
+        <%--<c:when test="${urlEmpty}">--%>
+            <%--<c:set var="pagerURL" value="${initURL}"/>--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+            <%--<c:set var="pagerURL" value="${url}"/>--%>
+        <%--</c:otherwise>--%>
+    <%--</c:choose>--%>
 
-    <pg:pager url="${pagerURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"
+    <pg:pager url="${initURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"
               export="currentPageNumber=pageNumber,offSet=pageOffset">
         <pg:param name="sort"/>
         <pg:param name="email"/>

@@ -5,10 +5,11 @@
 <%@ attribute name="required" required="false" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <tr>
     <td align="right"
     <form:label path="${path}" cssErrorClass="errorLabel" htmlEscape="true" cssClass="formLabel">
-        <c:if test="${required}"><span class="reqMark">* </span></c:if>${label}:
+        <c:if test="${required}"><span class="reqMark">* </span></c:if><s:message code="${label}"/>:
     </form:label>
     </td>
     <td>

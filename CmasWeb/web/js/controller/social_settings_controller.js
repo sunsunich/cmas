@@ -447,7 +447,7 @@ var social_settings_controller = {
     sendFriendRequest: function (elemId) {
         var diverId = elemId.split('_')[0];
         var self = this;
-        social_model.sendFriendRequest(
+        fast_search_friends_model.sendFriendRequest(
             diverId
             , function (json) {
                 self.getSocialUpdates();

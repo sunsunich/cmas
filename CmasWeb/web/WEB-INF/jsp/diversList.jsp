@@ -56,7 +56,7 @@
                             <p><span class="panel-text">Not registered at CMAS Data</span></p>
                         </c:when>
                         <c:otherwise>
-                            <p><span class="panel-text">${diver.primaryPersonalCard.number}</span></p>
+                            <p><span class="panel-text">${diver.primaryPersonalCard.printNumber}</span></p>
                         </c:otherwise>
                     </c:choose>
                 </div>

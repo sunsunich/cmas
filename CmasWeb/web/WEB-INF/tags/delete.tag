@@ -7,12 +7,14 @@
 <%@ attribute name="confirmMessage" required="false" type="java.lang.String"%>
 <c:if test="${empty alt}">    
     <c:set var="alt">
-        Удалить
+        Delete diver
     </c:set>
 </c:if>
 <c:if test="${empty confirmMessage}">
     <c:set var="confirmMessage">
-        Вы действительно хотите удалить данного пользователя? 
+        Are you sure you want to delete theis diver?
     </c:set>
 </c:if>
-<a href="${url}" onclick="return confirm('${confirmMessage}');"><span class="sign icn-delete" title="${alt}"></span></a>
+<button type="button" onclick="if(confirm('${confirmMessage}')) window.location = '${url}'">
+    ${alt}
+</button>

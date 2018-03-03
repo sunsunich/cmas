@@ -27,7 +27,7 @@ public class JspModelConributeFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setAttribute("webVersion", 8);
+        servletRequest.setAttribute("webVersion", 9);
         String path = ((HttpServletRequest) servletRequest).getServletPath();
         if (!(path.startsWith("/secure/") || path.startsWith("/admin/"))) {
 

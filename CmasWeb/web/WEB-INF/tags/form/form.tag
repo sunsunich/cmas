@@ -33,7 +33,7 @@
         <tr>
             <td>&nbsp;</td>
             <td  align="left">
-                <button type="submit">${submitText}</button>
+                <button type="submit"><s:message code="${submitText}"/></button>
             </td>
             <td>&nbsp;</td>
         </tr>
