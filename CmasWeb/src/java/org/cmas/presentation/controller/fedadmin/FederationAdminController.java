@@ -2,10 +2,6 @@ package org.cmas.presentation.controller.fedadmin;
 
 import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
-import com.google.myjson.JsonElement;
-import com.google.myjson.JsonObject;
-import com.google.myjson.JsonSerializationContext;
-import com.google.myjson.JsonSerializer;
 import org.cmas.Globals;
 import org.cmas.backend.xls.XlsParseException;
 import org.cmas.entities.PersonalCard;
@@ -50,7 +46,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -247,21 +242,7 @@ public class FederationAdminController {
         mmap.addAttribute("natFedInstructorCard", natFedInstructorCard);
 
         mmap.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(PersonalCard.class, new JsonSerializer<PersonalCard>() {
-
-            @Override
-            public JsonElement serialize(PersonalCard t, Type type, JsonSerializationContext jsonSerializationContext) {
-                Gson gson = new GsonBuilder()
-                        .excludeFieldsWithoutExposeAnnotation()
-                        .setDateFormat(Globals.DTF)
-                        .create();
-                JsonObject jObj = (JsonObject) gson.toJsonTree(t);
-                jObj.addProperty("printName", t.getPrintName());
-                return jObj;
-            }
-        });
-        mmap.addAttribute("cardsJson", gsonBuilder.create().toJson(diverCards));
+        mmap.addAttribute("cardsJson", gsonViewFactory.getPersonalCardsGson().toJson(diverCards));
 
         return new ModelAndView("fed/userInfo", mmap);
     }

@@ -4,6 +4,7 @@ import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.LongSerializationPolicy;
 import org.cmas.Globals;
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.DateTypeAdapter;
@@ -13,6 +14,7 @@ import org.cmas.json.LogbookEntryEditSerializer;
 import org.cmas.json.LogbookEntrySerializer;
 import org.cmas.json.LongTypeAdapter;
 import org.cmas.json.MinimumDiverSerializer;
+import org.cmas.json.PersonalCardSerializer;
 import org.cmas.json.SimpleGsonResponse;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +34,13 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
         return createCommonGsonBuilder()
                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
                 .registerTypeAdapter(LogbookEntry.class, new LogbookEntryEditSerializer())
+                .create();
+    }
+
+    @Override
+    public Gson getPersonalCardsGson() {
+        return createCommonGsonBuilder()
+                .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
                 .create();
     }
 

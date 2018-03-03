@@ -89,22 +89,25 @@ public class PersonalCard implements Serializable {
     }
 
     public String getPrintNumber() {
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length(); i++) {
-            result.append('0');
-            if ((i + 1) % 4 == 0) {
-                result.append(' ');
+        if (cardType == PersonalCardType.PRIMARY) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length(); i++) {
+                result.append('0');
+                if ((i + 1) % 4 == 0) {
+                    result.append(' ');
+                }
             }
-        }
-        for (int i = Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length();
-             i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH;
-             i++) {
-            result.append(number.charAt(i + number.length() - Globals.SPORTS_CARD_NUMBER_MAX_LENGTH));
-            if ((i + 1) % 4 == 0 && i != Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - 1) {
-                result.append(' ');
+            for (int i = Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length();
+                 i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH;
+                 i++) {
+                result.append(number.charAt(i + number.length() - Globals.SPORTS_CARD_NUMBER_MAX_LENGTH));
+                if ((i + 1) % 4 == 0 && i != Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - 1) {
+                    result.append(' ');
+                }
             }
+            return result.toString();
         }
-        return result.toString();
+        return number;
     }
 
     public DiverType getDiverType() {

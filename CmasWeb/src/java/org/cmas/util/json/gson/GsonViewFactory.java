@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface GsonViewFactory {
 
+    Gson getPersonalCardsGson();
+
     GsonView createSocialUpdatesGsonView(Object toSerialize);
 
     GsonView createGsonView(Object toSerialize);
