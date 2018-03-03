@@ -70,7 +70,7 @@ var registration_controller = {
             result.fieldErrors["firstName"] = 'validation.emptyFirstName';
         }
         if (isStringTrimmedEmpty(regForm.lastName)) {
-            result.fieldErrors["lastName"] = 'validation.emptyLastName';
+            result.fieldErrors["lastName"] = 'validation.emptyName';
         }
         if (isStringTrimmedEmpty(regForm.dob)) {
             result.fieldErrors["dob"] = 'validation.emptyDob';

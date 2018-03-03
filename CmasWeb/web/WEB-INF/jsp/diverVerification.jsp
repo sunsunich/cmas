@@ -53,13 +53,13 @@
                 </div>
                 <div class="form-row">
                     <img class="name-input-ico">
-                    <input id="lastName" type="text" name="lastName" value="${command.lastName}"
-                           placeholder="<s:message code="cmas.face.registration.form.label.lastName"/>"/>
+                    <input id="name" type="text" name="name" value="${command.name}"
+                           placeholder="<s:message code="cmas.face.registration.form.label.name"/>"/>
                 </div>
-                <div class="error" id="error_lastName">
-                    <s:bind path="lastName">
+                <div class="error" id="error_name">
+                    <s:bind path="name">
                         <c:if test="${status.error}">
-                            <form:errors path="lastName" htmlEscape="true"/>
+                            <form:errors path="name" htmlEscape="true"/>
                         </c:if>
                     </s:bind>
                 </div>

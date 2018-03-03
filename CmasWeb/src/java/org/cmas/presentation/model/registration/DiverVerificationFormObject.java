@@ -12,15 +12,15 @@ public class DiverVerificationFormObject  {
     private String country;
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyLastName")
-    private String lastName;
+    @NotEmpty(message = "validation.emptyName")
+    private String name;
 
-    public String getLastName() {
-        return lastName;
+    public String getName() {
+        return name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCountry() {

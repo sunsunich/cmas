@@ -1,6 +1,12 @@
 package org.cmas.presentation.service;
 
+import com.google.myjson.Gson;
+import org.apache.commons.httpclient.NameValuePair;
+import org.cmas.json.SimpleGsonResponse;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.Cookies;
+import org.cmas.util.http.HttpUtil;
+import org.cmas.util.http.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Required;
@@ -28,25 +34,20 @@ public class CaptchaServiceImpl implements CaptchaService {
             return true;
         }
         String response = servletRequest.getParameter("g-recaptcha-response");
-        if (response == null) {
+        if (StringUtil.isTrimmedEmpty(response)) {
             return false;
         }
-
-        // Validate the reCAPTCHA
+        /*
+        http://stackoverflow.com/questions/17559671/post-requests-from-a-servlet
+         */
+        SimpleGsonResponse validationResponse;
+        try {
+            // Validate the reCAPTCHA
         /*
         secret	Required. The shared key between your site and reCAPTCHA.
         response	Required. The user response token provided by reCAPTCHA, verifying the user on your site.
         remoteip	Optional. The user's IP address.
          */
-        return true;
-
-        //todo uncomment when we move to dedicated IP from openshift IP
-        /*
-        http://stackoverflow.com/questions/17559671/post-requests-from-a-servlet
-         */
-        /*
-        SimpleGsonResponse validationResponse;
-        try {
             validationResponse = new Gson().fromJson(SimpleHttpClient.sendHTTPPostRequest(
                     RECAPTCHA_VERIFY_URL,
                     new NameValuePair[]{
@@ -61,15 +62,14 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
 
         if (validationResponse.isSuccess()) {
-            Cookie cookie = Cookies.createCookie(
+            servletResponse.addCookie(Cookies.createCookie(
                     CAPTCHA_COOKIE_NAME, String.valueOf(StrictMath.random()), CAPTCHA_COOKIE_AGE
-            );
-            servletResponse.addCookie(cookie);
+            ));
             return true;
         } else {
             return false;
         }
-        */
+
     }
 
     @Required

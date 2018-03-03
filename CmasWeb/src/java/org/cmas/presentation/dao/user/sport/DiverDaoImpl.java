@@ -10,6 +10,8 @@ import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.StringUtil;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -68,17 +70,30 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
     }
 
-    private Criteria createDiverSearchCriteria(DiverVerificationFormObject formObject) {
-        return createCriteria()
-                .add(Restrictions.eq("lastName", formObject.getLastName()))
-                .createAlias("federation", "fed")
-                .createAlias("fed.country", "country")
-                .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())));
-    }
-
     @Override
     public List<Diver> searchForVerification(DiverVerificationFormObject formObject) {
-        return (List<Diver>) createDiverSearchCriteria(formObject)
+        String[] names = StringUtil.correctSpaceCharAndTrim(formObject.getName()).split(" ");
+        Disjunction disjunction = Restrictions.disjunction();
+        if (names.length == 2) {
+            Conjunction conjunction1 = Restrictions.conjunction();
+            conjunction1.add(Restrictions.eq("firstName", names[0]));
+            conjunction1.add(Restrictions.eq("lastName", names[1]));
+            disjunction.add(conjunction1);
+            Conjunction conjunction2 = Restrictions.conjunction();
+            conjunction2.add(Restrictions.eq("lastName", names[0]));
+            conjunction2.add(Restrictions.eq("firstName", names[1]));
+            disjunction.add(conjunction2);
+        } else {
+            for (String name : names) {
+                disjunction.add(Restrictions.eq("firstName", name));
+                disjunction.add(Restrictions.eq("lastName", name));
+            }
+        }
+        return (List<Diver>) createCriteria()
+                .add(disjunction)
+                .createAlias("federation", "fed")
+                .createAlias("fed.country", "country")
+                .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
                 .list();
     }
 
