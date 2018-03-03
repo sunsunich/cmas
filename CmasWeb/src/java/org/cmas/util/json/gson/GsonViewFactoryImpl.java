@@ -39,9 +39,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
 
     @Override
     public Gson getPersonalCardsGson() {
-        return createCommonGsonBuilder()
-                .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
-                .create();
+        return createCommonGsonBuilder().create();
     }
 
     @Override
@@ -53,6 +51,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     public GsonView createGsonView(Object toSerialize) {
         Gson gson = createCommonGsonBuilder()
                     .setDateFormat(Globals.DTF)
+                    .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
                     .create();
         return new GsonView(toSerialize, gson);
     }

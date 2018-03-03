@@ -20,7 +20,7 @@ var cardNumber;
 if (diver.primaryPersonalCard == null) {
     cardNumber = null;
 } else {
-    cardNumber = diver.primaryPersonalCard.number;
+    cardNumber = diver.primaryPersonalCard.printNumber;
 }
 %>
 <div class="clearfix">
@@ -37,7 +37,7 @@ if (diver.primaryPersonalCard == null) {
         <% } %>
         <% if(cardNumber == null){
         %>
-        <p><%= labels["cmas.face.friendList.notRegistered"] %></p>
+        <p><span><%= labels["cmas.face.friendList.notRegistered"] %></span></p>
         <% } else { %>
         <p><span><%= cardNumber %></span></p>
         <% } %>

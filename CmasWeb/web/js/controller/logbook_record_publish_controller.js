@@ -359,7 +359,10 @@ var logbook_record_publish_controller = {
         $('#findDiver').hide();
         if (divers.length > 0) {
             $('#diversListContent').html(
-                new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({"divers": divers, "webVersion" : webVersion})
+                new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({
+                    "divers": divers,
+                    "webVersion": webVersion
+                })
             );
             var i;
             for (i = 0; i < divers.length; i++) {
