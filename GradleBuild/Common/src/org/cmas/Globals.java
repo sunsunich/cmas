@@ -73,6 +73,7 @@ interface GlobalsStaticContainer {
 
     int FAST_SEARCH_MIN_INPUT = 3;
     int FAST_SEARCH_MAX_RESULT = 10;
+    int ADVANCED_SEARCH_MAX_RESULT = 20;
 
 }
 

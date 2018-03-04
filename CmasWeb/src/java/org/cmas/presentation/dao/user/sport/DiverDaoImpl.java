@@ -10,10 +10,12 @@ import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.StringUtil;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -70,23 +72,40 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
     }
 
+    @NotNull
+    private static List<String> filterNames(String nameValue) {
+        String[] names = StringUtil.correctSpaceCharAndTrim(nameValue).split(" ");
+        List<String> filteredNames = new ArrayList<>(names.length);
+        for (String name : names) {
+            if (!name.isEmpty()) {
+                filteredNames.add(name);
+            }
+        }
+        return filteredNames;
+    }
+
     @Override
     public List<Diver> searchForVerification(DiverVerificationFormObject formObject) {
-        String[] names = StringUtil.correctSpaceCharAndTrim(formObject.getName()).split(" ");
+        List<String> filteredNames = filterNames(formObject.getName());
+        if (filteredNames.isEmpty()) {
+            return new ArrayList<>();
+        }
         Disjunction disjunction = Restrictions.disjunction();
-        if (names.length == 2) {
+        if (filteredNames.size() == 2) {
             Conjunction conjunction1 = Restrictions.conjunction();
-            conjunction1.add(Restrictions.eq("firstName", names[0]));
-            conjunction1.add(Restrictions.eq("lastName", names[1]));
+            conjunction1.add(Restrictions.eq("firstName", filteredNames.get(0)));
+            conjunction1.add(Restrictions.eq("lastName", filteredNames.get(1)));
             disjunction.add(conjunction1);
             Conjunction conjunction2 = Restrictions.conjunction();
-            conjunction2.add(Restrictions.eq("lastName", names[0]));
-            conjunction2.add(Restrictions.eq("firstName", names[1]));
+            conjunction2.add(Restrictions.eq("lastName", filteredNames.get(0)));
+            conjunction2.add(Restrictions.eq("firstName", filteredNames.get(1)));
             disjunction.add(conjunction2);
         } else {
-            for (String name : names) {
-                disjunction.add(Restrictions.eq("firstName", name));
-                disjunction.add(Restrictions.eq("lastName", name));
+            for (String name : filteredNames) {
+                if (!name.isEmpty()) {
+                    disjunction.add(Restrictions.eq("firstName", name));
+                    disjunction.add(Restrictions.eq("lastName", name));
+                }
             }
         }
         return (List<Diver>) createCriteria()
@@ -97,36 +116,77 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .list();
     }
 
+    @NotNull
+    private static StringBuilder getNameClause(List<String> filteredNames) {
+        StringBuilder nameClause = new StringBuilder();
+        if (filteredNames.size() == 2) {
+            nameClause.append("d.firstName like :template0 and d.lastName like :template1 or ")
+                      .append("d.lastName like :template0 and d.firstName like :template1");
+        } else {
+            for (int i = 0; i < filteredNames.size(); i++) {
+                if (nameClause.length() > 0) {
+                    nameClause.append(" or ");
+                }
+                nameClause.append("d.lastName like :template")
+                          .append(i)
+                          .append(" or d.firstName like :template")
+                          .append(i);
+
+            }
+        }
+        return nameClause;
+    }
+
     @Override
     public List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject) {
-        String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
+        List<String> filteredNames = filterNames(formObject.getName());
+        if (filteredNames.isEmpty()) {
+            return new ArrayList<>();
+        }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
                      " left outer join d.friendOf fr" +
-                     " where (d.lastName like :lastName or d.firstName like :firstName)" +
+                     " where (" + getNameClause(filteredNames) + ')' +
                      " and d.diverType = :diverType and c.code = :country" +
                      " and (fr.id != :diverId or fr.id is null)" +
                      " and d.id != :diverId";
 
-        return createQuery(hql).setString("lastName", nameTemplate)
-                               .setString("firstName", nameTemplate)
-                               .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
-                               .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
-                               .setLong("diverId", diverId).list();
+        Query query = createQuery(hql);
+        for (int i = 0; i < filteredNames.size(); i++) {
+            String name = filteredNames.get(i);
+            query.setString("template" + i, name + '%');
+        }
+        return query.setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
+                    .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
+                    .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
     }
 
     @Override
     public List<Diver> searchFriendsFast(long diverId, String input) {
-        String template = StringUtil.correctSpaceCharAndTrim(input) + '%';
+        List<String> filteredNames = filterNames(input);
+        if (filteredNames.isEmpty()) {
+            return new ArrayList<>();
+        }
+        StringBuilder numberClause = new StringBuilder();
+        for (int i = 0; i < filteredNames.size(); i++) {
+            if (numberClause.length() > 0) {
+                numberClause.append(" or ");
+            }
+            numberClause.append("c.number like :template").append(i);
+        }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.cards c" +
                      " left outer join d.friendOf fr" +
-                     " where (d.lastName like :template or d.firstName like :template or c.number like :template)" +
+                     " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))" +
                      " and (fr.id != :diverId or fr.id is null)" +
                      " and d.id != :diverId";
 
-        return createQuery(hql).setString("template", template)
-                               .setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
+        Query query = createQuery(hql);
+        for (int i = 0; i < filteredNames.size(); i++) {
+            String name = filteredNames.get(i);
+            query.setString("template" + i, name + '%');
+        }
+        return query.setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }
 
     @Override
@@ -154,15 +214,34 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                                          StringUtil.correctSpaceCharAndTrim(federationCountry)))
                     .list();
         }
-        String nameTemplate = StringUtil.correctSpaceCharAndTrim(formObject.getName()) + '%';
+        List<String> filteredNames = filterNames(formObject.getName());
+        if (filteredNames.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Disjunction disjunction = Restrictions.disjunction();
+        if (filteredNames.size() == 2) {
+            Conjunction conjunction1 = Restrictions.conjunction();
+            conjunction1.add(Restrictions.like("firstName", filteredNames.get(0) + '%'));
+            conjunction1.add(Restrictions.like("lastName", filteredNames.get(1) + '%'));
+            disjunction.add(conjunction1);
+            Conjunction conjunction2 = Restrictions.conjunction();
+            conjunction2.add(Restrictions.like("lastName", filteredNames.get(0) + '%'));
+            conjunction2.add(Restrictions.like("firstName", filteredNames.get(1) + '%'));
+            disjunction.add(conjunction2);
+        } else {
+            for (String name : filteredNames) {
+                if (!name.isEmpty()) {
+                    disjunction.add(Restrictions.like("firstName", name + '%'));
+                    disjunction.add(Restrictions.like("lastName", name + '%'));
+                }
+            }
+        }
         return createCriteria()
                 .createAlias("country", "country")
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
                 .add(Restrictions.eq("diverType", DiverType.valueOf(formObject.getDiverType())))
-                .add(Restrictions.disjunction()
-                                 .add(Restrictions.like("firstName", nameTemplate))
-                                 .add(Restrictions.like("lastName", nameTemplate))
-                )
+                .add(disjunction)
+                .setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT)
                 .list();
     }
 
