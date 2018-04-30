@@ -39,7 +39,6 @@
                 <value>/secure/getDiver.html</value>
                 <value>/secure/getDivers.html</value>
                 <value>/secure/profile/getUser.html</value>
-                <value>/secure/profile/getUserpic.html</value>
                 <value>/secure/processEditPasswd.html</value>
                 <value>/secure/processEditEmail.html</value>
                 <value>/secure/processEditUserpic.html</value>

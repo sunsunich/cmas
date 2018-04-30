@@ -151,6 +151,12 @@
     <script type="application/javascript">
         labels["cmas.face.findDiver.form.page.title"] = '<s:message code="cmas.face.findDiver.form.page.title"/>';
         var webVersion = ${webVersion};
+        var imagesData = {
+            userpicRoot : "${userpicRoot}",
+            userpicReloadCnt : 0,
+            logbookPicRoot : "${userpicRoot}",
+            cardsPicRoot : "${cardsPicRoot}"
+        };
     </script>
 
 </head>

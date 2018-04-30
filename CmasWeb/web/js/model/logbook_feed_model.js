@@ -32,6 +32,12 @@ var logbook_feed_model = {
         }
     },
 
+    resetFeed: function () {
+        this.latestDate = "0";
+        this.earliestDate = "";
+        this.lastElemId = null;
+    },
+
     getNewRecords: function (successHandler, errorHandler) {
         var self = this;
         var form = {

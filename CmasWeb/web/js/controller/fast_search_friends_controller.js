@@ -53,7 +53,8 @@ var fast_search_friends_controller = {
             $('#foundFriendListContent').html(
                 new EJS({url: '/js/templates/foundFriendList.ejs?v=' + webVersion}).render({
                     "divers": divers,
-                    "webVersion": webVersion
+                    "webVersion": webVersion,
+                    "imagesData" : imagesData
                 })
             ).show();
             var i;

@@ -1,10 +1,10 @@
 <%
 var fullName = diver.firstName + ' ' + diver.lastName;
 var userpicSrc;
-if (diver.photo == null) {
+if (diver.userpicUrl == null) {
     userpicSrc = '/i/no_img.png?v=' + webVersion;
 } else {
-    userpicSrc = 'data:image/png;base64,' + diver.photo;
+    userpicSrc = imagesData.userpicRoot + diver.userpicUrl + "?v=" + imagesData.userpicReloadCnt;
 }
 var starCnt = 0;
 if (diver.diverLevel == 'ONE_STAR') {

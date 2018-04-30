@@ -32,6 +32,12 @@ var logbook_feed_controller = {
         $(window).off('scroll', this.scrollHandler);
     },
 
+    resetFeed: function () {
+        this.stop();
+        this.model.resetFeed();
+        this.start();
+    },
+
     refreshFeed: function () {
         var self = this;
         this.model.getNewRecords(
@@ -80,7 +86,12 @@ var logbook_feed_controller = {
         var records = recordsInfo.records;
         if (isReplace) {
             $('#' + self.model.containerId).html(
-                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
+                new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({
+                        "recordsInfo": recordsInfo,
+                        "webVersion": webVersion,
+                        "imagesData": imagesData
+                    }
+                )
             )
         } else {
             for (var i = 0; i < records.length; i++) {
@@ -89,12 +100,20 @@ var logbook_feed_controller = {
             }
             if (isNew) {
                 $('#' + self.model.containerId).prepend(
-                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({
+                        "recordsInfo": recordsInfo,
+                        "webVersion": webVersion,
+                        "imagesData": imagesData
+                    })
                 );
             }
             else {
                 $('#' + self.model.containerId).append(
-                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({"recordsInfo": recordsInfo, "webVersion" : webVersion})
+                    new EJS({url: '/js/templates/' + self.model.templateName + '.ejs?v=' + webVersion}).render({
+                        "recordsInfo": recordsInfo,
+                        "webVersion": webVersion,
+                        "imagesData": imagesData
+                    })
                 );
             }
         }

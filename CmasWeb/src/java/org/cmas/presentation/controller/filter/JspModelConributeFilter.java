@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.filter;
 
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.util.http.Cookies;
 import org.cmas.util.presentation.spring.LogoutEventBroadcaster;
@@ -21,13 +22,17 @@ public class JspModelConributeFilter implements Filter {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setAttribute("webVersion", 9);
+        servletRequest.setAttribute("webVersion", 10);
+        servletRequest.setAttribute("userpicRoot", imageStorageManager.getUserpicRoot());
         String path = ((HttpServletRequest) servletRequest).getServletPath();
         if (!(path.startsWith("/secure/") || path.startsWith("/admin/"))) {
 

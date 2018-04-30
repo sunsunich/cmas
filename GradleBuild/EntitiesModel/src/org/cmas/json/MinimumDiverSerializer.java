@@ -28,7 +28,7 @@ public class MinimumDiverSerializer implements JsonSerializer<Diver> {
         jObj.entrySet().clear();
         jObj.addProperty("firstName", t.getFirstName());
         jObj.addProperty("lastName", t.getLastName());
-        jObj.addProperty("photo", t.getPhoto());
+        jObj.addProperty("userpicUrl", t.getUserpicUrl());
         jObj.addProperty("id", t.getId());
         return jObj;
     }

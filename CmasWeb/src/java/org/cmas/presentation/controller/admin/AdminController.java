@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.admin;
 
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
@@ -25,6 +26,7 @@ import org.cmas.presentation.validator.admin.PasswdValidator;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.presentation.SpringRole;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -274,5 +279,17 @@ public class AdminController {
     public ModelAndView newUser() {
         UserFormObject data = setupAddUserForm();
         return getModelAndViewForNewUser(data);
+    }
+
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
+    @RequestMapping(value = "/admin/userpicsToFiles.html", method = RequestMethod.GET)
+    public ModelAndView userpicsToFiles() throws IOException {
+        List<Diver> divers = diverDao.createCriteria().add(Restrictions.isNotNull("userpic")).list();
+        for (Diver diver : divers) {
+            imageStorageManager.storeUserpic(diver, ImageIO.read(new ByteArrayInputStream(diver.getUserpic())));
+        }
+        return new ModelAndView("redirect:/admin/index.html");
     }
 }

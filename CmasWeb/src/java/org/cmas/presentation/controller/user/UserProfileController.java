@@ -2,6 +2,7 @@ package org.cmas.presentation.controller.user;
 
 import com.google.myjson.Gson;
 import org.cmas.Globals;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
@@ -76,6 +77,9 @@ public class UserProfileController {
     @Autowired
     private CountryDao countryDao;
 
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
     @ModelAttribute("user")
     public BackendUser getUser() {
         BackendUser<? extends User> user = authenticationService.getCurrentUser();
@@ -104,10 +108,6 @@ public class UserProfileController {
         Diver diver = diverDao.getModel(diverId);
         if (diver == null) {
             throw new BadRequestException();
-        }
-        byte[] userpic = diver.getUserpic();
-        if (userpic != null) {
-            diver.setPhoto(Base64Coder.encodeString(userpic));
         }
         return gsonViewFactory.createGsonView(diver);
     }
@@ -160,21 +160,6 @@ public class UserProfileController {
         }
     }
 
-    @RequestMapping("/secure/profile/getUserpic.html")
-    public View getUserpic() throws IOException {
-        Diver user = getCurrentDiver();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-        byte[] imageBytes = user.getUserpic();
-        if (imageBytes == null || imageBytes.length == 0) {
-            return gsonViewFactory.createErrorGsonView("error.no.image");
-        } else {
-            return gsonViewFactory.createGsonView(
-                    new ImageDTO(true, Base64Coder.encodeString(imageBytes)));
-        }
-    }
-
     /*
      * Submit формы редактирования пароля
      */
@@ -211,7 +196,7 @@ public class UserProfileController {
         }
     }
 
-    private static final long MAX_IMAGE_SIZE = 250L * 1024L * 1024L;
+    private static final long MAX_IMAGE_SIZE = 10L * 1024L * 1024L * 1024L;
 
     @RequestMapping(value = "/secure/uploadFileUserpic.html", method = RequestMethod.POST)
     public View userEditUserpicFile(@ModelAttribute FileUploadBean fileBean) {
@@ -225,15 +210,14 @@ public class UserProfileController {
         if (file.getSize() > MAX_IMAGE_SIZE) {
             return gsonViewFactory.createErrorGsonView("validation.imageSize");
         }
-        Diver user = getCurrentDiver();
-        if (user == null) {
+        Diver diver = getCurrentDiver();
+        if (diver == null) {
             throw new BadRequestException();
         }
         try {
-            user.setUserpic(file.getBytes());
-            diverDao.updateModel(user);
+            imageStorageManager.storeUserpic(diver, ImageIO.read(file.getInputStream()));
             return gsonViewFactory.createSuccessGsonView();
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
@@ -244,9 +228,9 @@ public class UserProfileController {
         if (StringUtil.isTrimmedEmpty(imageBase64Bytes)) {
             return gsonViewFactory.createErrorGsonView("validation.emptyField");
         }
-        byte[] imageBytes;
+        Diver diver = getCurrentDiver();
         try {
-            imageBytes = Base64Coder.decode(imageBase64Bytes);
+            byte[] imageBytes = Base64Coder.decode(imageBase64Bytes);
             if ((long) imageBytes.length > MAX_IMAGE_SIZE) {
                 return gsonViewFactory.createErrorGsonView("validation.imageSize");
             }
@@ -254,17 +238,11 @@ public class UserProfileController {
             if (image == null) {
                 return gsonViewFactory.createErrorGsonView("validation.imageFormat");
             }
+            imageStorageManager.storeUserpic(diver, image);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
-        Diver user = getCurrentDiver();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-
-        user.setUserpic(imageBytes);
-        diverDao.updateModel(user);
         return gsonViewFactory.createSuccessGsonView();
     }
 }

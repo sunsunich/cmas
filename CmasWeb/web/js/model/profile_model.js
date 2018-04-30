@@ -68,27 +68,6 @@ var profile_model = {
         });
     },
 
-    loadUserpic: function (successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/profile/getUserpic.html",
-            dataType: "json",
-            data: {},
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function (e) {
-                loader_controller.stopwait();
-            }
-        });
-    },
-
     uploadFileUserpic: function (form, successHandler, errorHandler) {
         loader_controller.startwait();
         $.ajax({

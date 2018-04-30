@@ -17,11 +17,11 @@
                 <div class="diverList-elem-left">
                     <img class="userpic"
                             <c:choose>
-                                <c:when test="${diver.photo == null}">
+                                <c:when test="${diver.userpicUrl == null}">
                                     src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"
                                 </c:when>
                                 <c:otherwise>
-                                    src="data:image/png;base64,${diver.photo}"
+                                    src="${userpicRoot}${diver.userpicUrl}"
                                 </c:otherwise>
                             </c:choose>
                             />

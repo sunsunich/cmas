@@ -15,7 +15,9 @@ var util_controller = {
             diverId
             , function (json) {
                 $('#showDiverContent').html(
-                    new EJS({url: '/js/templates/diverDialog.ejs?v=' + webVersion}).render({"diver": json, "webVersion" : webVersion})
+                    new EJS({url: '/js/templates/diverDialog.ejs?v=' + webVersion}).render(
+                        {"diver": json, "webVersion": webVersion, "imagesData": imagesData}
+                    )
                 );
                 $('#showDiver').show();
             }

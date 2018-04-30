@@ -20,7 +20,6 @@ import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
@@ -117,12 +116,6 @@ public class RegistrationController {
             List<Diver> divers = diverDao.searchForVerification(formObject);
             if (divers.isEmpty()) {
                 return buildDiverVerificationForm(model, true, false);
-            }
-            for (Diver diver : divers) {
-                byte[] userpic = diver.getUserpic();
-                if (userpic != null) {
-                    diver.setPhoto(Base64Coder.encodeString(userpic));
-                }
             }
             model.addAttribute("divers", divers);
             return new ModelAndView("diversList");

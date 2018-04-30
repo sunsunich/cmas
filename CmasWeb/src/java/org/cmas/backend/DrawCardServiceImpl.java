@@ -2,7 +2,6 @@ package org.cmas.backend;
 
 
 import com.google.zxing.WriterException;
-import com.mortennobel.imagescaling.ResampleOp;
 import org.cmas.Globals;
 import org.cmas.MockUtil;
 import org.cmas.entities.CardPrintInfo;
@@ -19,7 +18,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 
@@ -30,21 +28,24 @@ import java.io.IOException;
  */
 public class DrawCardServiceImpl implements DrawCardService {
 
-    private static final float QR_SCALE_FACTOR = 136.0f / 640.0f;
-    private static final float QR_X = 480.0f / 640.0f;
+    private static final float CARD_WIDTH = 640.0f;
+    private static final float CARD_HEIGHT = 414.0f;
+
+    private static final float QR_SCALE_FACTOR = 136.0f / CARD_WIDTH;
+    private static final float QR_X = 480.0f / CARD_WIDTH;
     private static final float QR_Y = 69.0f / 414.0f;
 
     private static final int CARD_NUMBER_FONT_SIZE = 56;
-    private static final float CARD_NUMBER_Y = 210.0f / 414.0f;
-    private static final float CARD_NUMBER_X_1 = 25.0f / 640.0f;
-    private static final float CARD_NUMBER_X_2 = 200.0f / 640.0f;
-    private static final float CARD_NUMBER_X_3 = 320.0f / 640.0f;
-    private static final float CARD_NUMBER_X_4 = 440.0f / 640.0f;
+    private static final float CARD_NUMBER_Y = 210.0f / CARD_HEIGHT;
+    private static final float CARD_NUMBER_X_1 = 25.0f / CARD_WIDTH;
+    private static final float CARD_NUMBER_X_2 = 200.0f / CARD_WIDTH;
+    private static final float CARD_NUMBER_X_3 = 320.0f / CARD_WIDTH;
+    private static final float CARD_NUMBER_X_4 = 440.0f / CARD_WIDTH;
 
     private static final int NAME_FONT_SIZE = 22;
-    private static final float NAME_LEFT_X = 200.0f / 640.0f;
-    private static final float LONG_NAME_LEFT_X = 130.0f / 640.0f;
-    private static final float NAME_RIGHT_X = 468.0f / 640.0f;
+    private static final float NAME_LEFT_X = 200.0f / CARD_WIDTH;
+    private static final float LONG_NAME_LEFT_X = 130.0f / CARD_WIDTH;
+    private static final float NAME_RIGHT_X = 468.0f / CARD_WIDTH;
     private static final float FIRST_NAME_Y = 90.0f / 414.0f;
     private static final float LAST_NAME_Y = 115.0f / 414.0f;
     private static final float DIVER_TYPE_Y_1 = 140.0f / 414.0f;
@@ -52,7 +53,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     private static final float STAR_SCALE_FACTOR = 40.0f / 414.0f;
     private static final float STAR_Y = 140.0f / 414.0f;
-    private static final float STAR_X_SPACE = 10.0f / 640.0f;
+    private static final float STAR_X_SPACE = 10.0f / CARD_WIDTH;
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
@@ -240,10 +241,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings("NumericCastThatLosesPrecision")
     private static void drawStar(float starSize, int height, Graphics2D g2d, BufferedImage starImage, float x) {
-        int starSizeInt = (int) starSize;
-        BufferedImage after = new BufferedImage(starSizeInt, starSizeInt, BufferedImage.TYPE_INT_ARGB);
-        BufferedImageOp resampleOp = new ResampleOp(starSizeInt, starSizeInt);
-        resampleOp.filter(starImage, after);
+        BufferedImage after = ImageResizer.scaleDown(starImage, starSize, starSize);
         g2d.drawImage(after, (int) x, (int) (STAR_Y * (float) height), null);
     }
 

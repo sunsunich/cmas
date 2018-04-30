@@ -3,10 +3,10 @@
 
 
      <!--
-     password="Dob3Voar"   lb2v0yn
+     password="Dob3Voar"   lb2v0yn [tkmcbyrb
     -->
 	<Resource name="jdbc/hiber" auth="Container" type="javax.sql.DataSource"
-			  username="root" password="[tkmcbyrb"
+			  username="root" password="ibanezRG270"
 			  driverClassName="com.mysql.jdbc.Driver"
 			  url="jdbc:mysql://localhost:3306/cmas?relaxAutoCommit=true&amp;useUnicode=true&amp;characterEncoding=UTF-8"
 			  validationQuery="SELECT 1"
@@ -16,7 +16,7 @@
 			/>
 
 	<Resource name="jdbc/true" auth="Container" type="javax.sql.DataSource"
-			  username="root" password="[tkmcbyrb"
+			  username="root" password="ibanezRG270"
 			  driverClassName="com.mysql.jdbc.Driver"
 			  url="jdbc:mysql://localhost:3306/cmas?relaxAutoCommit=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;allowMultiQueries=true&amp;rewriteBatchedStatements=true&amp;useServerPrepStmts=false&amp;profileSQL=true"
 			  validationQuery="SELECT 1"

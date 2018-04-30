@@ -428,7 +428,8 @@ var social_settings_controller = {
             $('#diversListContent').html(
                 new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({
                     "divers": divers,
-                    "webVersion": webVersion
+                    "webVersion": webVersion,
+                    "imagesData" : imagesData
                 })
             );
             var i;

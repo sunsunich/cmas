@@ -22,7 +22,6 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
@@ -125,12 +124,6 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
-        for (Diver diver : divers) {
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
-        }
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -144,12 +137,6 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
         }
         List<Diver> divers = diverDao.searchFriendsFast(currentDiver.getId(), input);
-        for (Diver diver : divers) {
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
-        }
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -160,12 +147,6 @@ public class UserSocialSettingsController {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchDivers(formObject);
-        for (Diver diver : divers) {
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
-        }
         return gsonViewFactory.createGsonView(divers);
     }
 

@@ -4,10 +4,10 @@ for(i = 0; i < records.length;i++) {
     var diver = records[i].diver;
     var fullName = diver.firstName + ' ' + diver.lastName;
     var userpicSrc;
-    if (diver.photo == null) {
+    if (diver.userpicUrl == null) {
         userpicSrc = '/i/no_img.png';
     } else {
-        userpicSrc = 'data:image/png;base64,' + diver.photo;
+        userpicSrc = imagesData.userpicRoot + diver.userpicUrl + "?v=" + imagesData.userpicReloadCnt;
     }
 
     var diveSpot;

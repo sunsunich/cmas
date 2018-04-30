@@ -15,7 +15,6 @@ import org.cmas.presentation.model.divespot.DiveSpotFormObject;
 import org.cmas.presentation.model.divespot.LatLngBounds;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.remote.json.IdObject;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,10 +71,6 @@ public class SpotsController {
         Diver diver = null;
         if (role == Role.ROLE_DIVER) {
             diver = (Diver) user.getUser();
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
         }
         if (diver == null) {
             throw new BadRequestException();

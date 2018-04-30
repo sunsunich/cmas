@@ -166,6 +166,9 @@
     <bean id="drawCardService" class="org.cmas.backend.DrawCardServiceImpl">
     </bean>
 
+    <bean id="imageStorageManager" class="org.cmas.backend.LocalFileImageStorageManagerImpl">
+    </bean>
+
     <bean id="rusDiverXlsParser" class="org.cmas.backend.xls.RusDiverXlsParserImpl">
     </bean>
 

@@ -110,10 +110,6 @@ public class LogbookController {
         Diver diver = null;
         if (role == Role.ROLE_DIVER) {
             diver = (Diver) user.getUser();
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
         }
         if (diver == null) {
             throw new BadRequestException();
@@ -332,11 +328,6 @@ public class LogbookController {
 
     private static List<LogbookEntry> setPhotos(List<LogbookEntry> logbookEntries) {
         for (LogbookEntry logbookEntry : logbookEntries) {
-            Diver diver = logbookEntry.getDiver();
-            byte[] userpic = diver.getUserpic();
-            if (userpic != null) {
-                diver.setPhoto(Base64Coder.encodeString(userpic));
-            }
             byte[] photo = logbookEntry.getPhoto();
             if (photo != null) {
                 logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));

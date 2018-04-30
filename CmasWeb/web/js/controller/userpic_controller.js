@@ -33,7 +33,6 @@ var userpic_controller = {
             self.selectUserpicFromDrive();
         });
         $("#userpicFileInput").change(function () {
-            profile_model.isFileUpload = true;
             self.loadFileToPreview(this);
         });
         $("#selectUserpicOk").click(function () {
@@ -64,23 +63,22 @@ var userpic_controller = {
             $('#cameraPreview').hide();
             $('#selectUserpic').show();
         });
-
-        self.loadUserpic();
     },
 
-    loadUserpic: function () {
-        profile_model.loadUserpic(
-            function (json) {
-                $('#userpic').attr("src", "data:image/png;base64," + json.base64);
-            }
-            , function () {
-                $('#userpic').attr("src", '/i/no_img.png');
-            });
+    userpicUpdated: function () {
+        imagesData.userpicReloadCnt++;
+        $('#userpic').attr("src", imagesData.userpicRoot + diverUserpicUrl + "?v=" + imagesData.userpicReloadCnt);
+        if(profile_controller){
+            profile_controller.resetFeed();
+        }
     },
 
     resetUserPicChooser: function () {
+        profile_model.isFileUpload = true;
+        $('#selectUserpic_error_file').html('');
         $('#userpicPreview').attr('src', $('#userpic').attr("src")).show();
         $('#userpicFileInput').hide();
+        $("#userpicFileForm")[0].reset();
     },
 
     stream: null,
@@ -159,7 +157,7 @@ var userpic_controller = {
         var imageData = $('#userpicPreview').attr("src");
         profile_model.changeUserpic(imageData.substring(imageData.indexOf(',') + 1),
             function (/*json*/) {
-                self.loadUserpic();
+                self.userpicUpdated();
                 $('#selectUserpic').hide();
             },
             function (json) {
@@ -193,15 +191,15 @@ var userpic_controller = {
     validateFile: function (input) {
         $('#selectUserpic_error_file').html('');
         if (!(input.files && input.files[0])) {
-            $('#selectUserpic_error_file').html(error_codes["validation.emptyField"]);
+            $('#selectUserpic_error_file').html(error_codes["validation.noFile"]);
             return false;
         }
         var file = input.files[0];
         if (file.name.length < 1) {
-            $('#selectUserpic_error_file').html(error_codes["validation.emptyField"]);
+            $('#selectUserpic_error_file').html(error_codes["validation.noFile"]);
             return false;
         }
-        else if (file.size > 256000) {
+        else if (file.size > 10 * 1024 * 1024 * 1024) {
             $('#selectUserpic_error_file').html(error_codes["validation.imageSize"]);
             return false;
         }
@@ -223,7 +221,7 @@ var userpic_controller = {
         var self = this;
         profile_model.uploadFileUserpic(formData,
             function (/*json*/) {
-                self.loadUserpic();
+                self.userpicUpdated();
                 $('#selectUserpic').hide();
             },
             function (json) {

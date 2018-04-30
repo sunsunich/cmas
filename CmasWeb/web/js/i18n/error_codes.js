@@ -56,6 +56,7 @@ var error_codes = {
     "validation.logbookEmptyEndPressure": "end pressure is missing",
     "validation.logbookEmptyOxygenPercent": "oxygen percent is missing",
 
+    "validation.noFile": "No file selected",
     "validation.imageFormat": "Uploaded image has incorrect file format",
     "validation.imageSize": "Uploaded image is too big. Maximum image size is 250KB",
     "validation.logbookImageSize": "Uploaded image is too big. Maximum image size is 1MB",

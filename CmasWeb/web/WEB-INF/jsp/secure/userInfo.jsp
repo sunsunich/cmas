@@ -12,6 +12,7 @@
 >
     <script type="application/javascript">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
+        var diverUserpicUrl = "${diver.userpicUrl}";
     </script>
 
     <div class="content-left" id="mainContent">
@@ -22,7 +23,15 @@
         <div id="privateSettings">
             <div class="panel">
                 <div class="userpic-selection" id="userpicSelectButton">
-                    <img id="userpic" src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"
+                    <c:choose>
+                        <c:when test="${diver.userpicUrl == null}">
+                            <c:set var="diverUserpicUrl" value="/i/no_img.png?v=${webVersion}"/>
+                        </c:when>
+                        <c:otherwise>
+                            <c:set var="diverUserpicUrl" value="${userpicRoot}${diver.userpicUrl}"/>
+                        </c:otherwise>
+                    </c:choose>
+                    <img id="userpic" src="${pageContext.request.contextPath}${diverUserpicUrl}"
                          class="userpic userpicPreview userpic-selection-left"/>
 
                     <div class="userpic-selection-right">
@@ -282,7 +291,9 @@
                title="cmas.face.client.profile.selectUserpic"
                buttonText="cmas.face.client.profile.dialog.submitText">
         <div class="dialog-form-row">
-            <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
+            <form id="userpicFileForm">
+                <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
+            </form>
             <img id="userpicPreview" class="userpicPreview"
                  src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
         </div>

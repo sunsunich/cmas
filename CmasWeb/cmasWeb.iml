@@ -53,7 +53,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://D:/Tomcat8.5/lib/mail.jar!/" />
+          <root url="jar://$USER_HOME$/apache-tomcat-8.0.28/lib/mail.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

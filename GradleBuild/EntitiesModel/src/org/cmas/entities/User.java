@@ -14,7 +14,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
@@ -90,17 +89,18 @@ public abstract class User implements Serializable, HasId {
     protected Country country;
 
     @Expose
-    @Column(nullable = true)
+    @Column
     protected Date dob;
 
+    @Deprecated
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
     private byte[] userpic;
 
     @Expose
-    @Transient
-    private String photo;
+    @Column
+    private String userpicUrl;
 
     //end set by user from mobile
 
@@ -156,12 +156,12 @@ public abstract class User implements Serializable, HasId {
         this.userBalance = userBalance;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getUserpicUrl() {
+        return userpicUrl;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setUserpicUrl(String userpicUrl) {
+        this.userpicUrl = userpicUrl;
     }
 
     @Override
@@ -173,10 +173,12 @@ public abstract class User implements Serializable, HasId {
         this.id = id;
     }
 
+    @Deprecated
     public byte[] getUserpic() {
         return userpic;
     }
 
+    @Deprecated
     public void setUserpic(byte[] userpic) {
         this.userpic = userpic;
     }

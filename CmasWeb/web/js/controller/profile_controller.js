@@ -220,6 +220,10 @@ var profile_controller = {
         $("#changeEmailForm").hide();
         $("#changeEmailOk").hide();
         $("#changeEmailSuccessMessage").show();
+    },
+
+    resetFeed: function () {
+        this.myFriendsFeedController.resetFeed();
     }
 };
 
