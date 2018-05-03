@@ -1,6 +1,7 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.Globals;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.DiveSpec;
@@ -23,6 +24,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -67,9 +71,12 @@ public class LogbookServiceImpl implements LogbookService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
     @Transactional
     @Override
-    public long createOrUpdateRecord(Diver diver, LogbookEntry formObject) throws ParseException, StaleObjectStateException {
+    public long createOrUpdateRecord(Diver diver, LogbookEntry formObject) throws ParseException, StaleObjectStateException, IOException {
         Long spotId = null;
         if (formObject.getDiveSpot() != null) {
             spotId = formObject.getDiveSpot().getId();
@@ -251,7 +258,7 @@ public class LogbookServiceImpl implements LogbookService {
         return logbookEntryId;
     }
 
-    private static void transfer(LogbookEntry logbookEntry, LogbookEntry formObject) {
+    private void transfer(LogbookEntry logbookEntry, LogbookEntry formObject) throws IOException {
         logbookEntry.setDiveDate(formObject.getDiveDate());
         logbookEntry.setPrevDiveDate(formObject.getPrevDiveDate());
         logbookEntry.setName(formObject.getName());
@@ -262,11 +269,12 @@ public class LogbookServiceImpl implements LogbookService {
         logbookEntry.setVisibility(formObject.getVisibility());
         logbookEntry.setState(formObject.getState());
 
-        String photo = formObject.getPhotoBase64();
+        String photo = formObject.getPhotoBase64fromClient();
         if (StringUtil.isTrimmedEmpty(photo)) {
-            logbookEntry.setPhoto(null);
+            logbookEntry.setPhotoUrl(null);
         } else {
-            logbookEntry.setPhoto(Base64Coder.decode(photo));
+            imageStorageManager.storeLogbookEntryImage(logbookEntry,
+                                                       ImageIO.read(new ByteArrayInputStream(Base64Coder.decode(photo))));
         }
     }
 

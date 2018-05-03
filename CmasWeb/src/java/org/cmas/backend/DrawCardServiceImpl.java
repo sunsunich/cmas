@@ -57,7 +57,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
-    public synchronized BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
+    public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
         String fileName = getFileName(card);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();

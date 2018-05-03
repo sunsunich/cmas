@@ -16,10 +16,10 @@
     </script>
 
     <div class="content" id="content">
-
-
+        <c:forEach items="${cards}" var="card">
+            <img class="content-card" id="${card.id}" src = "${cardsRoot}${card.imageUrl}"/>
+        </c:forEach>
     </div>
-
 </my:securepage>
 
 

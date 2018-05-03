@@ -7,7 +7,7 @@ for(i = 0; i < records.length;i++) {
     if (diver.userpicUrl == null) {
         userpicSrc = '/i/no_img.png?v=' + webVersion;
     } else {
-        userpicSrc = imagesData.userpicRoot + diver.userpicUrl + "?v=" + imagesData.userpicReloadCnt;
+        userpicSrc = imagesData.userpicRoot + diver.userpicUrl;
     }
 
     var diveSpot;
@@ -63,9 +63,10 @@ for(i = 0; i < records.length;i++) {
                             class="panelFeed-href"><&lt;<%= labels["cmas.face.feed.less"] %></span></a>
             </span>
         </p>
-        <% if(records[i].photoBase64){
+        <% if(records[i].photoUrl){
+            var fullPhotoUrl = imagesData.logbookPicRoot + records[i].photoUrl;
         %>
-        <img class="photoFeed" src="data:image/png;base64,<%= records[i].photoBase64 %>"/>
+        <img class="photoFeed" src="<%= fullPhotoUrl %>"/>
         <% } %>
         <a href="#" id="<%= recordsInfo.containerId %>SpecOpen_<%= records[i].id %>">
             <span class="panelFeed-href"><%= labels["cmas.face.feed.spec"] %>&gt;</span>

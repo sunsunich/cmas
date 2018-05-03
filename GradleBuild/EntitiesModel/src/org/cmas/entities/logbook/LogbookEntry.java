@@ -92,6 +92,7 @@ public class LogbookEntry extends DictionaryEntity {
     @ManyToOne
     private Diver instructor;
 
+    @Deprecated
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
@@ -99,7 +100,11 @@ public class LogbookEntry extends DictionaryEntity {
 
     @Expose
     @Transient
-    private String photoBase64;
+    private String photoBase64fromClient;
+
+    @Expose
+    @Column
+    private String photoUrl;
 
     @Expose
     @ManyToMany
@@ -146,20 +151,30 @@ public class LogbookEntry extends DictionaryEntity {
         this.diveSpec = diveSpec;
     }
 
+    @Deprecated
     public byte[] getPhoto() {
         return photo;
     }
 
+    @Deprecated
     public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
-    public String getPhotoBase64() {
-        return photoBase64;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhotoBase64(String photoBase64) {
-        this.photoBase64 = photoBase64;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getPhotoBase64fromClient() {
+        return photoBase64fromClient;
+    }
+
+    public void setPhotoBase64fromClient(String photoBase64fromClient) {
+        this.photoBase64fromClient = photoBase64fromClient;
     }
 
     public LogbookVisibility getVisibility() {

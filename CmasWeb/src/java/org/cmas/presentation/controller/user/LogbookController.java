@@ -30,7 +30,6 @@ import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.user.LogbookEntryValidator;
 import org.cmas.remote.json.SuccessIdObject;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
@@ -167,10 +166,6 @@ public class LogbookController {
             mm.addAttribute("spotJson", gsonViewFactory.getLogbookEntryEditGson().toJson(diveSpot));
         }
         if (logbookEntry != null) {
-            byte[] photo = logbookEntry.getPhoto();
-            if (photo != null) {
-                logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
-            }
             mm.addAttribute("logbookEntryJson", gsonViewFactory.getLogbookEntryEditGson().toJson(logbookEntry));
             mm.addAttribute("logbookEntry", logbookEntry);
         }
@@ -246,10 +241,6 @@ public class LogbookController {
         if (logbookEntry == null) {
             throw new BadRequestException();
         }
-        byte[] photo = logbookEntry.getPhoto();
-        if (photo != null) {
-            logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
-        }
         return gsonViewFactory.createGsonFeedView(Arrays.asList(logbookEntry));
     }
 
@@ -279,7 +270,7 @@ public class LogbookController {
     ) throws IOException {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
-                setPhotos(logbookEntryDao.getDiverLogbookFeed(diver, formObject))
+                logbookEntryDao.getDiverLogbookFeed(diver, formObject)
         );
     }
 
@@ -301,7 +292,7 @@ public class LogbookController {
             countries = null;
         }
         return gsonViewFactory.createGsonFeedView(
-                setPhotos(logbookEntryDao.getDiverPublicLogbookFeed(diver, countries, formObject))
+                logbookEntryDao.getDiverPublicLogbookFeed(diver, countries, formObject)
         );
     }
 
@@ -312,7 +303,7 @@ public class LogbookController {
         //todo filters ?
         List<Country> countries = null;
         return gsonViewFactory.createGsonFeedView(
-                setPhotos(logbookEntryDao.getPublicLogbookFeed(countries, formObject))
+                logbookEntryDao.getPublicLogbookFeed(countries, formObject)
         );
     }
 
@@ -322,17 +313,7 @@ public class LogbookController {
     ) throws IOException {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
-                setPhotos(logbookEntryDao.getDiverFriendsLogbookFeed(diver, formObject))
+                logbookEntryDao.getDiverFriendsLogbookFeed(diver, formObject)
         );
-    }
-
-    private static List<LogbookEntry> setPhotos(List<LogbookEntry> logbookEntries) {
-        for (LogbookEntry logbookEntry : logbookEntries) {
-            byte[] photo = logbookEntry.getPhoto();
-            if (photo != null) {
-                logbookEntry.setPhotoBase64(Base64Coder.encodeString(photo));
-            }
-        }
-        return logbookEntries;
     }
 }

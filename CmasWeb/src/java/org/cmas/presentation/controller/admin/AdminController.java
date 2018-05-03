@@ -7,8 +7,11 @@ import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.AmateurDao;
+import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -283,12 +286,29 @@ public class AdminController {
 
     @Autowired
     private ImageStorageManager imageStorageManager;
+    @Autowired
+    private LogbookEntryDao logbookEntryDao;
+    @Autowired
+    private PersonalCardDao personalCardDao;
 
-    @RequestMapping(value = "/admin/userpicsToFiles.html", method = RequestMethod.GET)
-    public ModelAndView userpicsToFiles() throws IOException {
+    @RequestMapping(value = "/admin/dbBlobsToFiles.html", method = RequestMethod.GET)
+    public ModelAndView dbBlobsToFiles() throws IOException {
         List<Diver> divers = diverDao.createCriteria().add(Restrictions.isNotNull("userpic")).list();
         for (Diver diver : divers) {
             imageStorageManager.storeUserpic(diver, ImageIO.read(new ByteArrayInputStream(diver.getUserpic())));
+        }
+        List<PersonalCard> personalCards = personalCardDao.createCriteria()
+                                                          .add(Restrictions.isNotNull("image")).list();
+        for (PersonalCard personalCard : personalCards) {
+            imageStorageManager.storeCardImage(personalCard,
+                                               ImageIO.read(new ByteArrayInputStream(personalCard.getImage())));
+        }
+        List<LogbookEntry> LogbookEntries = logbookEntryDao.createCriteria()
+                                                           .add(Restrictions.isNotNull("photo"))
+                                                           .list();
+        for (LogbookEntry logbookEntry : LogbookEntries) {
+            imageStorageManager.storeLogbookEntryImage(logbookEntry,
+                                                       ImageIO.read(new ByteArrayInputStream(logbookEntry.getPhoto())));
         }
         return new ModelAndView("redirect:/admin/index.html");
     }

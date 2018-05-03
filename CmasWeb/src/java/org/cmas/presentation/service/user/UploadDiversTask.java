@@ -114,7 +114,7 @@ public class UploadDiversTask implements Runnable {
                                     dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
                                     diverService.diverDao.updateModel(dbDiver);
                                 } else {
-                                    dbCard.setImage(null);
+                                    dbCard.setImageUrl(null);
                                     dbCard.setNumber(newNumber);
                                     diverService.personalCardDao.updateModel(dbCard);
                                 }

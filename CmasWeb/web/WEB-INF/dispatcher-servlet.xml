@@ -41,6 +41,7 @@
                 <value>/secure/profile/getUser.html</value>
                 <value>/secure/processEditPasswd.html</value>
                 <value>/secure/processEditEmail.html</value>
+                <value>/secure/profile/getUserpicUrl.html</value>
                 <value>/secure/processEditUserpic.html</value>
                 <value>/secure/uploadFileUserpic.html</value>
 

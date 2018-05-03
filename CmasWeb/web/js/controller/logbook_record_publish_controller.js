@@ -185,7 +185,7 @@ var logbook_record_publish_controller = {
             }
         }
 
-        logbook_record_model.logbookEntry.photoBase64 = imageData;
+        logbook_record_model.logbookEntry.photoBase64fromClient = imageData;
     },
 
     validateCreateForm: function () {
@@ -239,7 +239,7 @@ var logbook_record_publish_controller = {
             $('#create_error_photo').html(error_codes["validation.emptyField"]);
             return false;
         }
-        else if (file.size > 1048576) {
+        else if (file.size > 10 * 1024 * 1024 * 1024) {
             $('#create_error_photo').html(error_codes["validation.logbookImageSize"]);
             return false;
         }

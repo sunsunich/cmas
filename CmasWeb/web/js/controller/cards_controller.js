@@ -2,15 +2,16 @@ var cards_controller = {
 
     init: function () {
         this.setListeners();
-        // this.loadCard(cmas_primaryCardId);
-        for (var i = 0; i < cmas_cardIds.length; i++) {
-          //  if (cmas_cardIds[i] != cmas_primaryCardId) {
-                this.loadCard(cmas_cardIds[i]);
-         //   }
-        }
     },
 
     setListeners: function () {
+        var self = this;
+        for (var i = 0; i < cmas_cardIds.length; i++) {
+            var cardId = cmas_cardIds[i];
+            $('#' + cardId).click(function () {
+                self.changeCardWidth($(this));
+            });
+        }
     },
 
     changeCardWidth: function (cardImg) {
@@ -21,21 +22,6 @@ var cards_controller = {
         else {
             cardImg.width('100%');
         }
-    },
-
-    loadCard: function (cardId) {
-        var self = this;
-        profile_model.loadCard(
-            cardId
-            , function (json) {
-                $('#content').append('<img class="content-card" id="' + cardId + '" src = "data:image/png;base64,' + json.base64 + '"/>');
-                $('#' + cardId).click(function () {
-                    self.changeCardWidth($(this));
-                });
-
-            }
-            , function () {
-            });
     }
 };
 

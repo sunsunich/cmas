@@ -33,6 +33,8 @@ public class JspModelConributeFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         servletRequest.setAttribute("webVersion", 10);
         servletRequest.setAttribute("userpicRoot", imageStorageManager.getUserpicRoot());
+        servletRequest.setAttribute("cardsRoot", imageStorageManager.getCardImagesRoot());
+        servletRequest.setAttribute("logbookEntryImagesRoot", imageStorageManager.getLogbookEntryImagesRoot());
         String path = ((HttpServletRequest) servletRequest).getServletPath();
         if (!(path.startsWith("/secure/") || path.startsWith("/admin/"))) {
 

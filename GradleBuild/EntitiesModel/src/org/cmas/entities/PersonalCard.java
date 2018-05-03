@@ -46,10 +46,15 @@ public class PersonalCard implements Serializable {
     @ManyToOne
     private Diver diver;
 
+    @Deprecated
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @Column(length = Globals.DB_PIC_MAX_BYTE_SIZE)
     private byte[] image;
+
+    @Expose
+    @Column
+    private String imageUrl;
 
     @Expose
     @Column
@@ -174,11 +179,21 @@ public class PersonalCard implements Serializable {
         this.diverLevel = diverLevel;
     }
 
+    @Deprecated
     public byte[] getImage() {
         return image;
     }
 
+    @Deprecated
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -7,7 +7,7 @@ for(i = 0; i < records.length;i++) {
     if (diver.userpicUrl == null) {
         userpicSrc = '/i/no_img.png';
     } else {
-        userpicSrc = imagesData.userpicRoot + diver.userpicUrl + "?v=" + imagesData.userpicReloadCnt;
+        userpicSrc = imagesData.userpicRoot + diver.userpicUrl;
     }
 
     var diveSpot;
@@ -31,8 +31,7 @@ for(i = 0; i < records.length;i++) {
         visibleNote = note;
         invisibleNote = null;
     }
-
-    var showPanelFeed = note.length > 0 || records[i].photoBase64;
+    var showPanelFeed = note.length > 0 || records[i].photoUrl;
 %>
 <div class="panelFeed-full clearfix"
      id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
@@ -269,9 +268,10 @@ for(i = 0; i < records.length;i++) {
             <!-- 4 and 5 -->
             <div>
                 <br/>
-                <% if(records[i].photoBase64){
+                <% if(records[i].photoUrl){
+                    var fullPhotoUrl = imagesData.logbookPicRoot + records[i].photoUrl;
                 %>
-                <img class="photoFeed" src="data:image/png;base64,<%= records[i].photoBase64 %>"/>
+                <img class="photoFeed" src="<%= fullPhotoUrl %>"/>
                 <% } %>
                 <p>
                     <span class="panelFeed-text"><%= visibleNote %></span>

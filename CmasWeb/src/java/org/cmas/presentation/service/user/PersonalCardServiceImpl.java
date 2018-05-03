@@ -2,6 +2,7 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.Globals;
 import org.cmas.backend.DrawCardService;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.CardUser;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
@@ -16,9 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +35,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
 
     @Autowired
     private DrawCardService drawCardService;
+
+    @Autowired
+    private ImageStorageManager imageStorageManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -86,14 +88,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         try {
             //todo better synchronization
             BufferedImage image = drawCardService.drawDiverCard(personalCard);
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-                ImageIO.write(image, "png", baos);
-                baos.flush();
-                byte[] imageInByte = baos.toByteArray();
-                personalCard.setImage(imageInByte);
-                personalCardDao.updateModel(personalCard);
-            }
-
+            imageStorageManager.storeCardImage(personalCard, image);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

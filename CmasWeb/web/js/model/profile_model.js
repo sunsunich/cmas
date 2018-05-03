@@ -6,7 +6,7 @@ var profile_model = {
         loader_controller.startwait();
         $.ajax({
             type: "Get",
-            url: "/secure/profile/getCardImage.html",
+            url: "/secure/profile/getCardImageUrl.html",
             dataType: "json",
             data: {
                 cardId: cardId
@@ -64,6 +64,27 @@ var profile_model = {
             },
             error: function () {
                 window.location.reload();
+            }
+        });
+    },
+
+    loadUserpic: function (successHandler, errorHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type: "GET",
+            url: "/secure/profile/getUserpicUrl.html",
+            dataType: "json",
+            data: {},
+            success: function (json) {
+                if (json.success) {
+                    successHandler(json);
+                } else {
+                    errorHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function (e) {
+                loader_controller.stopwait();
             }
         });
     },

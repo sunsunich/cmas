@@ -481,12 +481,12 @@
                     </c:when>
                     <c:otherwise>
                         <c:choose>
-                            <c:when test="${logbookEntry.photoBase64 == null}">
+                            <c:when test="${logbookEntry.photoUrl == null}">
                                 <c:set var="photoSrc"
                                        value="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
                             </c:when>
                             <c:otherwise>
-                                <c:set var="photoSrc" value="data:image/png;base64,${logbookEntry.photoBase64}"/>
+                                <c:set var="photoSrc" value="${logbookEntryImagesRoot}${logbookEntry.photoUrl}"/>
                             </c:otherwise>
                         </c:choose>
                     </c:otherwise>

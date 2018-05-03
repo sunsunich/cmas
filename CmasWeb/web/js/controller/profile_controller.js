@@ -95,7 +95,7 @@ var profile_controller = {
             cmas_primaryCardId
             , function (json) {
                 $('#noCard').hide();
-                $('#cardImg').attr("src", "data:image/png;base64," + json.base64);
+                $('#cardImg').attr("src", imagesData.cardsPicRoot + json.imageUrl);
                 $('#card').show();
             }
             , function () {

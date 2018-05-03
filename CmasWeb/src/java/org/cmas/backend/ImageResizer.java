@@ -17,9 +17,23 @@ public final class ImageResizer {
     private ImageResizer() {
     }
 
-    public static BufferedImage scaleDownSavingProportions(BufferedImage imageToScale, float newHeight) {
-        float newWidth = newHeight / (float) imageToScale.getHeight() * (float) imageToScale.getWidth();
-        return scaleDown(imageToScale, newWidth, newHeight);
+    public static BufferedImage scaleDownSavingProportions(BufferedImage imageToScale, float maxWidth, float maxHeight) {
+        float initHeight = (float) imageToScale.getHeight();
+        float initWidth = (float) imageToScale.getWidth();
+        if (initHeight < maxHeight && initWidth < maxWidth) {
+            return imageToScale;
+        }
+        float scaledWidth = initWidth;
+        float scaledHeight = initHeight;
+        if (initHeight > maxHeight) {
+            scaledHeight = maxHeight;
+            scaledWidth = maxHeight / initHeight * initWidth;
+        }
+        if (scaledWidth > maxWidth) {
+            scaledHeight = maxWidth / scaledWidth * scaledHeight;
+            scaledWidth = maxWidth;
+        }
+        return scaleDown(imageToScale, scaledWidth, scaledHeight);
     }
 
     public static BufferedImage scaleDown(BufferedImage imageToScale, float newWidth, float newHeight) {

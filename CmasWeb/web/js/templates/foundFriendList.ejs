@@ -6,7 +6,7 @@ for(i = 0; i < divers.length;i++) {
     if (diver.userpicUrl == null) {
         userpicSrc = '/i/no_img.png?v=' + webVersion;
     } else {
-        userpicSrc = imagesData.userpicRoot + diver.userpicUrl + "?v=" + imagesData.userpicReloadCnt;
+        userpicSrc = imagesData.userpicRoot + diver.userpicUrl;
     }
     var starCnt = 0;
     if (diver.diverLevel == 'ONE_STAR') {

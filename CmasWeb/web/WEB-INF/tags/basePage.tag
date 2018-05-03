@@ -153,9 +153,8 @@
         var webVersion = ${webVersion};
         var imagesData = {
             userpicRoot : "${userpicRoot}",
-            userpicReloadCnt : 0,
-            logbookPicRoot : "${userpicRoot}",
-            cardsPicRoot : "${cardsPicRoot}"
+            logbookPicRoot : "${logbookEntryImagesRoot}",
+            cardsPicRoot : "${cardsRoot}"
         };
     </script>
 

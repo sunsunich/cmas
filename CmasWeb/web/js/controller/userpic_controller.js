@@ -66,8 +66,13 @@ var userpic_controller = {
     },
 
     userpicUpdated: function () {
-        imagesData.userpicReloadCnt++;
-        $('#userpic').attr("src", imagesData.userpicRoot + diverUserpicUrl + "?v=" + imagesData.userpicReloadCnt);
+        profile_model.loadUserpic(
+            function (json) {
+                $('#userpic').attr("src",  imagesData.userpicRoot + json.imageUrl);
+            }
+            , function () {
+                $('#userpic').attr("src", '/i/no_img.png');
+            });
         if(profile_controller){
             profile_controller.resetFeed();
         }

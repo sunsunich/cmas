@@ -13,7 +13,7 @@ import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
-import org.cmas.presentation.model.ImageDTO;
+import org.cmas.presentation.model.ImageUrlDTO;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.AuthenticationService;
@@ -144,19 +144,18 @@ public class UserProfileController {
         return new ModelAndView("/secure/cards");
     }
 
-    @RequestMapping("/secure/profile/getCardImage.html")
-    public View getUserCard(@RequestParam(AccessInterceptor.CARD_ID) long cardId) throws IOException {
+    @RequestMapping("/secure/profile/getCardImageUrl.html")
+    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) throws IOException {
         PersonalCard personalCard = personalCardDao.getById(cardId);
-        byte[] imageBytes = personalCard.getImage();
-        if (imageBytes == null || imageBytes.length == 0) {
+        if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {
             personalCard = personalCardService.generateAndSaveCardImage(cardId);
         }
-        imageBytes = personalCard.getImage();
-        if (imageBytes == null || imageBytes.length == 0) {
+        String imageUrl = personalCard.getImageUrl();
+        if (StringUtil.isTrimmedEmpty(imageUrl)) {
             return gsonViewFactory.createErrorGsonView("error.card.not.ready");
         } else {
             return gsonViewFactory.createGsonView(
-                    new ImageDTO(true, Base64Coder.encodeString(imageBytes)));
+                    new ImageUrlDTO(true, imageUrl));
         }
     }
 
@@ -193,6 +192,21 @@ public class UserProfileController {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {
             return gsonViewFactory.createSuccessGsonView();
+        }
+    }
+
+    @RequestMapping("/secure/profile/getUserpicUrl.html")
+    public View getUserpicUrl() throws IOException {
+        Diver user = getCurrentDiver();
+        if (user == null) {
+            throw new BadRequestException();
+        }
+        String userpicUrl = user.getUserpicUrl();
+        if (StringUtil.isTrimmedEmpty(userpicUrl)) {
+            return gsonViewFactory.createErrorGsonView("error.no.image");
+        } else {
+            return gsonViewFactory.createGsonView(
+                    new ImageUrlDTO(true, userpicUrl));
         }
     }
 

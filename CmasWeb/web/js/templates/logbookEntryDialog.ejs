@@ -33,9 +33,10 @@ else {
                                                              id="<%= record.instructor.id %>_logbookRecordDialog_<%= record.id %>_showDiver"><%= fullName %></a></span>
     </p>
     <% } %>
-    <% if(record.photoBase64){
+    <% if(record.photoUrl){
+        var fullPhotoUrl = imagesData.logbookPicRoot + record.photoUrl;
     %>
-    <img class="photoFeed" src="data:image/png;base64,<%= record.photoBase64 %>"/>
+    <img class="photoFeed" src="<%= fullPhotoUrl %>"/>
     <% } %>
     <% if(record.buddies.length > 0){
     %>
