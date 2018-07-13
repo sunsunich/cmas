@@ -1,7 +1,43 @@
 var recovery_controller = {
 
+    isInit: false,
+    validationController: null,
+
     init: function () {
+        this.validationController = simpleClone(validation_controller);
+        this.validationController.prefix = 'changePassword';
+        this.validationController.fields = [
+            {
+                id: 'password',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.passwordEmpty';
+                    }
+                }
+            },
+            {
+                id: 'checkPassword',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.checkPasswordEmpty';
+                    }
+                }
+            }
+        ];
+        this.validationController.fromValidator = function (form) {
+            if (isStringTrimmedEmpty(form.password) || isStringTrimmedEmpty(form.checkPassword)) {
+                return null;
+            }
+            if (form.password != form.checkPassword) {
+                return 'validation.passwordMismatch';
+            }
+            return null;
+        };
+        this.validationController.submitButton = $('#changePasswordButton');
+        this.validationController.form.code = $('#changePassword_code').val();
+        this.validationController.init();
         this.setListeners();
+        this.isInit = true;
     },
 
     setListeners: function () {
@@ -10,95 +46,24 @@ var recovery_controller = {
             self.changePassword();
             return false;
         });
-        $("#changePasswordOk").click(function () {
-            window.location = "/";
-            return false;
-        });
-        $("#changePasswordClose").click(function () {
-            window.location = "/";
+        $('#backToLoginButton').click(function () {
+            window.location.href = '/login-form.html';
             return false;
         });
     },
 
     changePassword: function () {
-        var changePasswordForm = {
-            password: $('#password').val(),
-            checkPassword: $('#checkPassword').val(),
-            code : $('#code').val()
-        };
-        this.cleanChangePasswordErrors();
-        var formErrors = this.validateChangePasswordForm(changePasswordForm);
-        if (formErrors.success) {
-            var self = this;
+        var self = this;
+        if (this.validationController.validateForm()) {
             recovery_model.changePassword(
-                changePasswordForm
+                self.validationController.form
                 , function (/*json*/) {
-                    self.changePasswordOk();
+                    registration_flow_controller.toggleMode('changePasswordSuccess');
                 }
                 , function (json) {
-                    self.showChangePasswordErrors(json);
-                });
-        }
-        else {
-            this.showChangePasswordErrors(formErrors);
-        }
-    },
-
-    validateChangePasswordForm: function (form) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = [];
-        if (isStringTrimmedEmpty(form.password)) {
-            result.fieldErrors["password"] = 'validation.passwordEmpty';
-        }
-        if (isStringTrimmedEmpty(form.checkPassword)) {
-            result.fieldErrors["checkPassword"] = 'validation.checkPasswordEmpty';
-        }
-        if (jQuery.isEmptyObject(result.fieldErrors)) {
-            if (form.password != form.checkPassword) {
-                result.errors[0] = 'validation.passwordMismatch';
-            }
-        }
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-        return result;
-    },
-
-    showChangePasswordErrors: function (formErrors) {
-        if (!formErrors.success) {
-            if (formErrors.fieldErrors) {
-                for (var fieldError in formErrors.fieldErrors) {
-                    if (formErrors.fieldErrors.hasOwnProperty(fieldError)) {
-                        $('#error_' + fieldError).html(error_codes[formErrors.fieldErrors[fieldError]]);
-                    }
+                    self.validationController.showErrors(json);
                 }
-            }
-            if (jQuery.isEmptyObject(formErrors.fieldErrors)
-                && formErrors.errors && formErrors.errors.length > 0) {
-                var message = '';
-                for (var error in formErrors.errors) {
-                    if (formErrors.errors.hasOwnProperty(error)) {
-                        message += error_codes[formErrors.errors[error]];
-                    }
-                }
-                $('#error').html(message).show();
-            }
+            );
         }
-    },
-
-
-    cleanChangePasswordErrors: function () {
-        $("#error").empty().hide();
-        $('#error_password').empty();
-        $('#error_checkPassword').empty();
-    },
-
-    changePasswordOk: function () {
-        $('#password').val('');
-        $('#checkPassword').val('');
-        $("#changePassword").show();
     }
 };
-
-$(document).ready(function () {
-    recovery_controller.init();
-});

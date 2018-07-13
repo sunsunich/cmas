@@ -9,92 +9,47 @@ var spots_model = {
     currentBounds: null,
     delta: 0.0005, // 50 meters
 
-    getSpots: function (bounds, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/getSpots.html",
-            dataType: "json",
-            data: bounds,
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    getSpots: function (bounds, successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/getSpots.html",
+            bounds,
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     },
 
-    getSpotByCoords: function (latitude, longitude, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/getSpotByCoords.html",
-            dataType: "json",
-            data: {"latitude": latitude, "longitude": longitude},
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    getSpotByCoords: function (latitude, longitude, successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/getSpotByCoords.html",
+            {"latitude": latitude, "longitude": longitude},
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     },
 
-    createSpot: function (editSpotForm, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/createSpot.html",
-            dataType: "json",
-            data: editSpotForm,
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    createSpot: function (editSpotForm, successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/createSpot.html",
+            editSpotForm,
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     },
 
-    deleteSpot: function (successHandler, errorHandler) {
-        var self = this;
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/deleteSpot.html",
-            dataType: "json",
-            data: {"spotId": self.currentSpotIdToDelete},
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    deleteSpot: function (successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/deleteSpot.html",
+            {"spotId": this.currentSpotIdToDelete},
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     }
 };

@@ -10,13 +10,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ attribute name="title" required="true" %>
 <%@ attribute name="lightHeader" required="false" %>
-<%@ attribute name="indexpage" required="false" %>
 <%@ attribute name="intrenal" required="false" %>
 <%@ attribute name="customScripts" required="false" %>
 <%@ attribute name="customCSSFiles" required="false" %>
 <%@ attribute name="doNotDoAuth" required="false" %>
 <%@ attribute name="bodyId" required="false" %>
-<%@ attribute name="hideMenu" required="false" %>
+<%@ attribute name="hideFooter" required="false" %>
 
 <c:if test="${empty bodyId}">
     <c:set var="bodyId" value="body"/>
@@ -26,8 +25,8 @@
     <c:set var="intrenal" value="false"/>
 </c:if>
 
-<c:if test="${empty hideMenu}">
-    <c:set var="hideMenu" value="true"/>
+<c:if test="${empty hideFooter}">
+    <c:set var="hideFooter" value="false"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -48,11 +47,7 @@
     <meta name="robots" content="index, follow"/>
     <base href="/"/>
     <meta itemprop="name" content="World Underwater Federation - Quality in diving"/>
-
-    <link rel="stylesheet" type="text/css" href="c/loader.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/styles.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/logbook.css?v=${webVersion}" media="all"/>
-
+    <%--<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">--%>
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=${webVersion}">
     <link rel="icon" type="image/png" href="/favicon-32x32.png?v=${webVersion}" sizes="32x32">
@@ -89,6 +84,17 @@
 <meta name="theme-color" content="#ffffff">
 
     --%>
+
+
+    <link rel="stylesheet" type="text/css" href="c/select2.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/select2-bootstrap.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/jquery.timepicker.min.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/checkbox.css?v=${webVersion}" media="all"/>
+
+    <link rel="stylesheet" type="text/css" href="c/print.css?v=${webVersion}" media="print"/>
     <c:choose>
         <c:when test="${intrenal}">
             <link rel="stylesheet" type="text/css" href="c/internal-form.css?v=${webVersion}" media="all"/>
@@ -97,22 +103,25 @@
             <link rel="stylesheet" type="text/css" href="c/form.css?v=${webVersion}" media="all"/>
         </c:otherwise>
     </c:choose>
-
     <link rel="stylesheet" type="text/css" href="c/buttons.css?v=${webVersion}" media="all"/>
     <link rel="stylesheet" type="text/css" href="c/feed.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/select2.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.min.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.structure.min.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery-ui.theme.min.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/jquery.timepicker.min.css?v=${webVersion}" media="all"/>
-    <link rel="stylesheet" type="text/css" href="c/print.css?v=${webVersion}" media="print"/>
+    <link rel="stylesheet" type="text/css" href="c/menu.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/loader.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/styles.css?v=${webVersion}" media="all"/>
+    <link rel="stylesheet" type="text/css" href="c/logbook.css?v=${webVersion}" media="all"/>
+
+    <c:forEach items="${customCSSFiles}" var="customCSSFile">
+        <link type="text/css" rel="stylesheet" href="${customCSSFile}?v=${webVersion}"/>
+    </c:forEach>
+
     <meta name="google-site-verification" content="Xaw1kGm7_ZeykPyMuWwVpY8t9_tOTAkWEaKu6aOv6i0"/>
     <meta name="creator" content="dotindot">
     <!--[if IE]>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <![endif]-->
     <!--[if lt IE 9]>
-    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="js/lib/html5shiv.min.js?v=${webVersion}"></script>
+    <script src="js/lib/html5shiv-printshiv.min.js?v=${webVersion}"></script>
     <![endif]-->
     <script type="text/javascript">
         function PrintMail(argName) {
@@ -128,21 +137,28 @@
     <script type="text/javascript" src="js/lib/jquery-ui.min.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/lib/jquery.timepicker.min.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/lib/ejs_production.js?v=${webVersion}"></script>
-    <script type="text/javascript" src="js/lib/select2.full.min.js"?v=${webVersion}></script>
+    <script type="text/javascript" src="js/lib/select2.full.min.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/lib/checkbox_patch.js?v=${webVersion}"></script>
+
+    <script type="text/javascript">
+        // Picture element HTML5 shiv
+        document.createElement("picture");
+    </script>
+    <script type="text/javascript" src="js/lib/pf.intrinsic.min.js?v=${webVersion}" async=""></script>
+    <script type="text/javascript" src="js/lib/picturefill.js?v=${webVersion}" async=""></script>
 
     <script type="text/javascript" src="js/i18n/error_codes.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/i18n/labels.js?v=${webVersion}"></script>
 
     <script type="text/javascript" src="js/util.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/model/basic_client.js?v=${webVersion}"></script>
 
     <script type="text/javascript" src="js/controller/cookie_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/controller/loader_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/controller/validation_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="js/controller/error_dialog_controller.js?v=${webVersion}"></script>
-
-    <c:forEach items="${customCSSFiles}" var="customCSSFile">
-        <link type="text/css" rel="stylesheet" href="${customCSSFile}?v=${webVersion}"/>
-    </c:forEach>
+    <script type="text/javascript" src="js/controller/util_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="js/controller/menu_controller.js?v=${webVersion}"></script>
 
     <c:forEach items="${customScripts}" var="customScript">
         <script type="text/javascript" src="${customScript}?v=${webVersion}"></script>
@@ -150,11 +166,13 @@
 
     <script type="application/javascript">
         labels["cmas.face.findDiver.form.page.title"] = '<s:message code="cmas.face.findDiver.form.page.title"/>';
+        <c:if test="${webVersion != null}">
         var webVersion = ${webVersion};
+        </c:if>
         var imagesData = {
-            userpicRoot : "${userpicRoot}",
-            logbookPicRoot : "${logbookEntryImagesRoot}",
-            cardsPicRoot : "${cardsRoot}"
+            userpicRoot: "${userpicRoot}",
+            logbookPicRoot: "${logbookEntryImagesRoot}",
+            cardsPicRoot: "${cardsRoot}"
         };
     </script>
 
@@ -166,26 +184,36 @@
 </c:if>
 
 <div id="Wrapper" class="wrapper">
-
-    <div class="page-header" id="header">
-    </div>
-
-    <div id="Wrapper-content">
-        <div id="loading" class="loader" title="Please wait..."></div>
-        <jsp:doBody/>
-        <div id="Footer" class="footer_wrapper">
-            <c:if test="${hideMenu}">
-                <a href="${pageContext.request.contextPath}/faq.html">
-                    <span><b><s:message code="cmas.face.client.faq"/></b></span>
-                </a>
-            </c:if>
-        </div>
-        <my:dialog id="errorDialog"
-                   title="cmas.face.error.title"
-                   buttonText="cmas.face.error.submitText">
-            <div id="errorDialogText"></div>
-        </my:dialog>
-    </div>
+    <jsp:doBody/>
 </div>
+<c:if test="${!hideFooter}">
+    <div id="footer" class="footer_wrapper">
+        <div class="menu-link menu-item-left menu-item footer-item-first">
+            <a href="${pageContext.request.contextPath}/faq.html"><s:message code="cmas.face.client.faq"/></a>
+        </div>
+        <div class="menu-link menu-item-left menu-item">
+            <a href="${pageContext.request.contextPath}/paymentInfo.html">
+                <s:message code="cmas.face.client.paymentInfo"/>
+            </a>
+        </div>
+        <div class="menu-link menu-item-left menu-item" id="termsAndCond">
+            <a href="${pageContext.request.contextPath}/termsAndCond.html">
+                <s:message code="cmas.face.client.termsAndCond"/>
+            </a>
+        </div>
+            <%--todo implement--%>
+        <div class="menu-link menu-item-left menu-item" id="languageChange">
+            <a style="color: #FFFFFF" href="${pageContext.request.contextPath}/termsAndCond.html">
+                ENGLISH
+            </a>
+        </div>
+        <div class="menu-text menu-item menu-item-right" id="credits">
+                <span class="secondary-large-text footer-large-text">
+                    <s:message code="cmas.face.client.creditsCMAS"/>
+                </span><br/>
+            <span class="secondary-text footer-text"><s:message code="cmas.face.client.credits"/></span>
+        </div>
+    </div>
+</c:if>
 </body>
 </html>

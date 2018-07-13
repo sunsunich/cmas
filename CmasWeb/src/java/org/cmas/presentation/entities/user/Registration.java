@@ -1,5 +1,6 @@
 package org.cmas.presentation.entities.user;
 
+import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.Role;
 import org.cmas.presentation.entities.InternetAddressOwner;
@@ -28,11 +29,10 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // Дата регистрации
+
     @Column(nullable = false)
     private Date dateReg;
 
-    // E-mail пользователя
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     @NotEmpty(message = "validation.emptyField")
     @Column(nullable = false)
@@ -59,17 +59,18 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Column(nullable = false)
     private String role;
 
-    // Пароль
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyField")
     private String password;
-    // Для подтверждения регистрации
+
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
     private String md5;
 
-    //локаль с которрой регился
     @Column(nullable = false)
     private Locale locale;
+
+    @Expose
+    @Column
+    private String areaOfInterest;
 
     public Registration() {
     }
@@ -81,6 +82,14 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Override
     public void validate(Errors errors) {
         ValidatorUtils.validateEnum(errors, role, Role.class, "role", "validation.incorrectField");
+    }
+
+    public String getAreaOfInterest() {
+        return areaOfInterest;
+    }
+
+    public void setAreaOfInterest(String areaOfInterest) {
+        this.areaOfInterest = areaOfInterest;
     }
 
     @Override

@@ -199,7 +199,7 @@ var logbook_feed_controller = {
     doRecordDelete: function () {
         $('#recordDeleteDialog').hide();
         var self = this;
-        this.model.deletetRecord(
+        this.model.deleteRecord(
             function () {
                 $('#' + self.model.containerId + 'logbookRecord_' + self.model.deleteRecordId).remove();
                 self.model.deleteRecordId = 0;

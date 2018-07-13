@@ -14,11 +14,9 @@ import org.cmas.presentation.dao.logbook.DiverFriendRequestDao;
 import org.cmas.presentation.dao.logbook.LogbookBuddieRequestDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.logbook.LogbookEntryRequestFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.social.SocialUpdates;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
@@ -31,10 +29,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import java.io.Serializable;
@@ -47,12 +47,9 @@ import java.util.List;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class UserSocialSettingsController {
+public class UserSocialSettingsController extends DiverAwareController{
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -81,24 +78,34 @@ public class UserSocialSettingsController {
     @Autowired
     private MailService mailService;
 
+    @RequestMapping("/secure/social.html")
+    public ModelAndView getUser(Model model) {
+        try {
+            model.addAttribute("countries", countryDao.getAll());
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
+        return new ModelAndView("/secure/social");
+    }
+
     @RequestMapping("/secure/social/getFriends.html")
     public View getFriends() {
-        return gsonViewFactory.createGsonView(diverDao.getFriends(getDiver()));
+        return gsonViewFactory.createGsonView(diverDao.getFriends(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/getFromRequests.html")
     public View getFromRequests() {
-        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsFromDiver(getDiver()));
+        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsFromDiver(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/getToRequests.html")
     public View getToRequests() {
-        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsToDiver(getDiver()));
+        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsToDiver(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/getSocialUpdates.html")
     public View getSocialUpdates(@RequestParam("version") long version) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         SocialUpdates socialUpdates = new SocialUpdates();
         long currentVersion = diver.getSocialUpdatesVersion();
         if (currentVersion > version) {
@@ -113,12 +120,12 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/getNewsCountries.html")
     public View getNewsCountries() {
-        return gsonViewFactory.createGsonView(getDiver().getNewsFromCountries());
+        return gsonViewFactory.createGsonView(getCurrentDiver().getNewsFromCountries());
     }
 
     @RequestMapping("/secure/social/searchNewFriends.html")
     public View searchNewFriends(@ModelAttribute("command") FindDiverFormObject formObject, Errors result) {
-        Diver currentDiver = getDiver();
+        Diver currentDiver = getCurrentDiver();
         validator.validate(formObject, result);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
@@ -129,7 +136,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/searchFriendsFast.html")
     public View searchFriendsFast(@RequestParam String input) {
-        Diver currentDiver = getDiver();
+        Diver currentDiver = getCurrentDiver();
         if (StringUtil.isTrimmedEmpty(input)) {
             return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.empty");
         }
@@ -152,7 +159,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/sendFriendRequest.html")
     public View sendFriendRequest(@RequestParam("diverId") long diverId) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         Diver friend = diverDao.getModel(diverId);
         if (friend == null) {
             throw new BadRequestException();
@@ -172,17 +179,13 @@ public class UserSocialSettingsController {
         }
         Serializable requestId = diverFriendRequestDao.save(new DiverFriendRequest(diver, friend));
         updateSocialVersions(diver, friend);
-        try {
-            mailService.sendFriendRequest(diverFriendRequestDao.getById(requestId));
-        } catch (Exception e) {
-            log.error("error send email for user " + friend, e);
-        }
+        mailService.sendFriendRequest(diverFriendRequestDao.getById(requestId));
         return gsonViewFactory.createSuccessGsonView();
     }
 
     private <T extends Request> FriendRequestValidationResult<T> validateFriendRequest(
             long requestId, boolean isFromCurrentDiver, boolean isLogbookRequest) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         @SuppressWarnings("unchecked")
         T request = isLogbookRequest
                 ? (T) logbookBuddieRequestDao.getModel(requestId)
@@ -264,7 +267,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/removeFriend.html")
     public View removeFriend(@RequestParam("diverId") long diverId) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         Diver friend = diverDao.getModel(diverId);
         if (friend == null) {
             throw new BadRequestException();
@@ -316,11 +319,7 @@ public class UserSocialSettingsController {
                 log.error(e.getMessage(), e);
                 return gsonViewFactory.createErrorGsonView("validation.internal");
             }
-            try {
-                mailService.sendInstructorApproved(request);
-            } catch (Exception e) {
-                log.error("error send email for user " + request.getTo(), e);
-            }
+            mailService.sendInstructorApproved(request);
         }
         logbookBuddieRequestDao.deleteModel(request);
         updateSocialVersions(request.getFrom(), to);
@@ -363,7 +362,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/addCountryToNews.html")
     public View addCountryToNews(@RequestParam("countryCode") String countryCode) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         Country country = countryDao.getByCode(countryCode);
         if (country == null) {
             throw new BadRequestException();
@@ -375,7 +374,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/removeCountryFromNews.html")
     public View removeCountryFromNews(@RequestParam("countryCode") String countryCode) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         Country country = countryDao.getByCode(countryCode);
         if (country == null) {
             throw new BadRequestException();
@@ -387,7 +386,7 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/setAddTeamToLogbook.html")
     public View setAddTeamToLogbook(@RequestParam("addTeamToLogbook") boolean addTeamToLogbook) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         diver.setIsAddFriendsToLogbookEntries(addTeamToLogbook);
         diverDao.save(diver);
         return gsonViewFactory.createSuccessGsonView();
@@ -401,7 +400,7 @@ public class UserSocialSettingsController {
         } catch (Exception ignored) {
             return gsonViewFactory.createErrorGsonView("validation.incorrectField");
         }
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         diver.setDefaultVisibility(visibility);
         diverDao.save(diver);
         return gsonViewFactory.createSuccessGsonView();
@@ -409,18 +408,10 @@ public class UserSocialSettingsController {
 
     @RequestMapping("/secure/social/setAddLocationCountryToNewsFeed.html")
     public View setAddLocationCountryToNewsFeed(@RequestParam("addLocationCountryToNewsFeed") boolean addLocationCountryToNewsFeed) {
-        Diver diver = getDiver();
+        Diver diver = getCurrentDiver();
         diver.setIsNewsFromCurrentLocation(addLocationCountryToNewsFeed);
         diverDao.save(diver);
         return gsonViewFactory.createSuccessGsonView();
-    }
-
-    private Diver getDiver() {
-        BackendUser<Diver> currentDiver = authenticationService.getCurrentDiver();
-        if (currentDiver == null) {
-            throw new BadRequestException();
-        }
-        return currentDiver.getUser();
     }
 
     private static final class FriendRequestValidationResult<T extends Request> {

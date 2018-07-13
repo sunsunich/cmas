@@ -25,7 +25,8 @@
 
     <http auto-config="false" entry-point-ref="ajaxEntryPoint">
 		<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-		<intercept-url pattern="/secure/**" access="ROLE_AMATEUR,ROLE_ATHLETE,ROLE_DIVER,ROLE_DIVER_INSTRUCTOR"/>
+		<intercept-url pattern="/secure/**" access="ROLE_AMATEUR,ROLE_ATHLETE,ROLE_DIVER"/>
+		<intercept-url pattern="/fed/**" access="ROLE_FEDERATION_ADMIN"/>
 		<!--<intercept-url pattern="/sports/**" access="ROLE_ATHLETE"/>-->
 
 

@@ -1,15 +1,17 @@
 package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
+import org.cmas.entities.fin.PaidFeature;
 import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.model.billing.PaymentAddData;
-import org.cmas.presentation.model.billing.PaymentAddFormObject;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface BillingService {
 
-    Invoice createInvoice(PaymentAddFormObject fo, User user);
+    Invoice createInvoice(List<PaidFeature> features, User user, InvoiceType type);
 
     boolean paymentAdd(PaymentAddData data, String ip, boolean isConfirmEmail);
 

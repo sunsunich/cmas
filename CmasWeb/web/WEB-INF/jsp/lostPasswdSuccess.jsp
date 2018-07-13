@@ -6,21 +6,44 @@
 
 <jsp:useBean id="user" scope="request" type="org.cmas.entities.User"/>
 
-<my:basePage title="cmas.face.lostPasswd.success.title" indexpage="false">
+<my:nonsecurepage title="cmas.face.lostPasswd.success.title"
+                  customScripts="js/controller/registration_flow_controller.js">
+    <script type="application/javascript">
+        $(document).ready(function () {
+            registration_flow_controller.init('simple', {backgroundImageId: 'lostPasswordImageBackground'});
+        });
+    </script>
     <div class="content" id="Content">
-        <div class="form-logo">
-            <a href="${pageContext.request.contextPath}/">
-                <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
-            </a>
+        <div id="formImage" class="formImage">
+
         </div>
-        <div class="text">
-            <s:message code="cmas.face.lostPasswd.success.message"/>:
-            <div class="header">${user.email}</div>
-        </div>
-        <div class="pass_link">
-            <a class="link" href="${pageContext.request.contextPath}/">
-                <s:message code="cmas.face.link.back.text"/>
-            </a>
+        <div class="formWrapper" id="formWrapper">
+            <div id="lostPasswordBlock">
+                <div class="form-description">
+                    <s:message code="cmas.face.lostPasswd.success.message"/>:
+                    <div class="header3-text">${user.email}</div>
+                </div>
+                <button class="positive-button form-item-right form-button-smaller" onclick="window.location='/'">
+                    <s:message code="cmas.face.link.back.home.text"/>
+                </button>
+            </div>
         </div>
     </div>
-</my:basePage>
+
+    <picture>
+        <!--[if IE 9]>
+        <video style="display: none;">
+        <![endif]-->
+        <source srcset="/i/requestImage@3x.png 1x"
+                media="(min-width: 3000px)">
+        <source srcset="/i/requestImage@2x.png"
+                media="(min-width: 2000px)">
+        <source srcset="/i/requestImage.png 1x, /i/requestImage@2x.png 2x, /i/requestImage@3x.png 3x"
+                media="(min-width: 631px)">
+        <source srcset="/i/requestImageMob@2x.png" media="(min-width: 500px)">
+        <source srcset="/i/requestImageMob.png 1x, /i/requestImageMob@2x.png 2x, /i/requestImageMob@3x.png 3x">
+
+        <!--[if IE 9]></video><![endif]-->
+        <img id="lostPasswordImageBackground" alt="lost password background" style="display: none">
+    </picture>
+</my:nonsecurepage>

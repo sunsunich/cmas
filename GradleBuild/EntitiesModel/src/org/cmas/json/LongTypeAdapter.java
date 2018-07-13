@@ -17,19 +17,19 @@ import java.io.IOException;
 public class LongTypeAdapter extends TypeAdapter<Long> {
 
     @Override
-    public void write(JsonWriter out, Long value)
+    public void write(JsonWriter jsonWriter, Long value)
             throws IOException {
-        out.value(String.valueOf(value));
+        jsonWriter.value(String.valueOf(value));
     }
 
     @Override
-    public Long read(JsonReader in) throws IOException {
-        if (in.peek() == JsonToken.NULL) {
-            in.nextNull();
+    public Long read(JsonReader jsonReader) throws IOException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
             return null;
         }
         try {
-            String result = in.nextString();
+            String result = jsonReader.nextString();
             if (StringUtil.isTrimmedEmpty(result)) {
                 return null;
             }

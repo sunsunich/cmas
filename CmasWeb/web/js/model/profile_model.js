@@ -2,94 +2,25 @@ var profile_model = {
 
     isFileUpload: true,
 
-    loadCard: function (cardId, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "Get",
-            url: "/secure/profile/getCardImageUrl.html",
-            dataType: "json",
-            data: {
-                cardId: cardId
-            },
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
-                loader_controller.stopwait();
-                errorHandler();
-            }
-        });
+    loadCard: function (cardId, successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/profile/getCardImageUrl.html",
+            {"cardId": cardId},
+            successHandler, unSuccessHandler
+        );
     },
 
-    changePassword: function (form, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "POST",
-            url: "/secure/processEditPasswd.html",
-            dataType: "json",
-            data: form,
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
-                window.location.reload();
+    loadUserpic: function (successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/profile/getUserpicUrl.html",
+            {},
+            successHandler, unSuccessHandler,
+            function () {
             }
-        });
+        );
     },
 
-    changeEmail: function (form, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "POST",
-            url: "/secure/processEditEmail.html",
-            dataType: "json",
-            data: form,
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
-                window.location.reload();
-            }
-        });
-    },
-
-    loadUserpic: function (successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "GET",
-            url: "/secure/profile/getUserpicUrl.html",
-            dataType: "json",
-            data: {},
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function (e) {
-                loader_controller.stopwait();
-            }
-        });
-    },
-
-    uploadFileUserpic: function (form, successHandler, errorHandler) {
+    uploadFileUserpic: function (form, successHandler, unSuccessHandler) {
         loader_controller.startwait();
         $.ajax({
             type: "POST",
@@ -104,7 +35,7 @@ var profile_model = {
                 if (json.success) {
                     successHandler(json);
                 } else {
-                    errorHandler(json);
+                    unSuccessHandler(json);
                 }
                 loader_controller.stopwait();
             },
@@ -114,26 +45,14 @@ var profile_model = {
         });
     },
 
-    changeUserpic: function (imageBase64Bytes, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "POST",
-            url: "/secure/processEditUserpic.html",
-            dataType: "json",
-            data: {
-                imageBase64Bytes: imageBase64Bytes
-            },
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    changeUserpic: function (imageBase64Bytes, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/secure/processEditUserpic.html",
+            {imageBase64Bytes: imageBase64Bytes},
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     }
 };

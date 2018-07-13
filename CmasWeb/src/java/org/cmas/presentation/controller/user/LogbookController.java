@@ -1,8 +1,6 @@
 package org.cmas.presentation.controller.user;
 
 import org.cmas.entities.Country;
-import org.cmas.entities.Role;
-import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.CurrentType;
@@ -23,9 +21,7 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
-import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.user.LogbookEntryValidator;
@@ -65,12 +61,9 @@ import java.util.Set;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class LogbookController {
+public class LogbookController extends DiverAwareController{
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @Autowired
     private LogbookService logbookService;
@@ -92,29 +85,6 @@ public class LogbookController {
 
     @Autowired
     private LogbookEntryValidator logbookEntryValidator;
-
-    @ModelAttribute("user")
-    public BackendUser getUser() {
-        BackendUser<? extends User> user = authenticationService.getCurrentUser();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-        return user;
-    }
-
-    @ModelAttribute("diver")
-    public Diver getCurrentDiver() {
-        BackendUser<? extends User> user = getUser();
-        Role role = user.getUser().getRole();
-        Diver diver = null;
-        if (role == Role.ROLE_DIVER) {
-            diver = (Diver) user.getUser();
-        }
-        if (diver == null) {
-            throw new BadRequestException();
-        }
-        return diver;
-    }
 
     @RequestMapping(value = "/secure/createLogbookRecordForm.html", method = RequestMethod.GET)
     public ModelAndView createLogbookRecordForm(

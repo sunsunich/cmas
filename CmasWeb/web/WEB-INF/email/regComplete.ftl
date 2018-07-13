@@ -1,9 +1,13 @@
 <#import "macro.ftl" as mailer/>
 <@mailer.mail title="Registration at CMASDATA is successful">
-<p style="color: #3a3a3a; font-size: 18px;">Dear, ${user.email}!</p>
+<p>Dear ${user.firstName} ${user.lastName},</p>
 <p>
-    You have successfully registered at www.cmasdata.org<br>
+    You have successfully registered at ${siteName}<br>
     <br>
+
+    Welcome! <br/>
+    <br/>
+    CMASDATA <br/>
 </p>
 </@mailer.mail>
 

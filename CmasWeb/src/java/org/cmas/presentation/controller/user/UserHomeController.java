@@ -1,19 +1,23 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.entities.Role;
+import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.presentation.controller.user.billing.PaySystemSettings;
+import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.fin.PaidFeature;
+import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.text.StringUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,16 +30,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
 
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class UserHomeController {
-
-    @Autowired
-    private AuthenticationService authenticationService;
+public class UserHomeController extends DiverAwareController {
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -47,75 +49,42 @@ public class UserHomeController {
     private RegistrationService registrationService;
 
     @Autowired
-    private PaySystemSettings paySystemSettings;
+    private GsonViewFactory gsonViewFactory;
+
+    @Autowired
+    private PaidFeatureDao paidFeatureDao;
 
     @Autowired
     private DiverDao diverDao;
 
-    @ModelAttribute("user")
-    public BackendUser<? extends User> getUser() {
-        BackendUser<? extends User> user = authenticationService.getCurrentUser();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-        return user;
-    }
-
-    @ModelAttribute("diver")
-    public Diver getCurrentDiver() {
-        BackendUser<? extends User> user = getUser();
-        Role role = user.getUser().getRole();
-        Diver diver = null;
-        if (role == Role.ROLE_DIVER) {
-            diver = (Diver) user.getUser();
-        }
-        if (diver == null) {
-            throw new BadRequestException();
-        }
-        return diver;
-    }
-
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() throws IOException {
         Diver diver = getCurrentDiver();
-        if (diver.isHasPayed()) {
-            if (diver.getPrimaryPersonalCard() == null) {
-                if (diver.getDateReg() == null) {
-                    diver.setDateReg(new Date());
-                    diverDao.updateModel(diver);
-                }
-                registrationService.createDiverPrimaryCard(diver);
+        if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
+            return new ModelAndView("redirect:/secure/firstLogin.html");
+        }
+        if (diver.getPrimaryPersonalCard() == null) {
+            if (diver.getDateReg() == null) {
+                diver.setDateReg(new Date());
+                diverDao.updateModel(diver);
             }
-            return new ModelAndView("redirect:/secure/profile/getUser.html");
-        } else {
-            return new ModelAndView("redirect:/secure/welcome.html");
+            registrationService.createDiverPrimaryCard(diver);
         }
-    }
-
-    @RequestMapping(value = "/secure/welcome.html", method = RequestMethod.GET)
-    public ModelAndView showWelcome() throws IOException {
-        Diver diver = getCurrentDiver();
-        boolean isFree = registrationService.isFreeRegistration(diver);
-        if (isFree) {
-            diver.setHasPayed(true);
-            diverDao.updateModel(diver);
-            return new ModelAndView("redirect:/secure/welcome-continue.html");
-        }
-        ModelMap mm = new ModelMap();
-        mm.addAttribute("isFree", false);
-        mm.addAttribute("firstPayment", paySystemSettings.getFirstPayment());
-        return new ModelAndView("/secure/welcome", mm);
-    }
-
-    @RequestMapping(value = "/secure/welcome-continue.html", method = RequestMethod.GET)
-    public ModelAndView continueWelcome() throws IOException {
-        Diver diver = getCurrentDiver();
-        diver.setDateReg(new Date());
-        diverDao.updateModel(diver);
-        registrationService.createDiverPrimaryCard(diver);
         return new ModelAndView("redirect:/secure/profile/getUser.html");
     }
 
+    @RequestMapping(value = "/secure/firstLogin.html", method = RequestMethod.GET)
+    public ModelAndView showFirstLogin() throws IOException {
+        return new ModelAndView("/secure/welcome");
+    }
+
+    @RequestMapping(value = "/secure/chooseNoPayment.html", method = RequestMethod.GET)
+    public ModelAndView chooseNoPayment() throws IOException {
+        Diver diver = getCurrentDiver();
+        diver.setPreviousRegistrationStatus(diver.getDiverRegistrationStatus());
+        diverDao.updateModel(diver);
+        return new ModelAndView("redirect:/secure/profile/getUser.html");
+    }
 
     @RequestMapping("/secure/pay.html")
     @Transactional
@@ -126,16 +95,34 @@ public class UserHomeController {
         if (user == null) {
             throw new BadRequestException();
         }
-        if (StringUtil.isEmpty(fo.getAmount()) ||
+        if (StringUtil.isEmpty(fo.getFeaturesIdsJson()) ||
             StringUtil.isEmpty(fo.getPaymentType())) {
-            return new ModelAndView("/secure/pay", mm);
+            return createPayForm(mm);
         }
         validator.validate(fo, errors);
         if (errors.hasErrors()) {
-            return new ModelAndView("/secure/pay", mm);
+            return createPayForm(mm);
         }
-        Invoice invoice = billingService.createInvoice(fo, user.getUser());
+        List<Long> featureIds = gsonViewFactory.getCommonGson()
+                                               .fromJson(fo.getFeaturesIdsJson(), Globals.LONG_LIST_TYPE);
+        List<PaidFeature> features = paidFeatureDao.getByIds(featureIds);
+        if (features.isEmpty()) {
+            errors.reject("validation.noPaidFeatureSelected");
+            return createPayForm(mm);
+        }
+        Invoice invoice = billingService.createInvoice(features,
+                                                       user.getUser(),
+                                                       InvoiceType.valueOf(fo.getPaymentType())
+        );
         mm.addAttribute("invoiceId", invoice.getExternalInvoiceNumber());
         return new ModelAndView("redirect:/secure/billing/systempay/accept.html", mm);
+    }
+
+    @NotNull
+    private ModelAndView createPayForm(ModelMap mm) {
+        List<PaidFeature> features = paidFeatureDao.getAll();
+        mm.addAttribute("features", features);
+        mm.addAttribute("featuresJson", gsonViewFactory.getCommonGson().toJson(features));
+        return new ModelAndView("/secure/pay", mm);
     }
 }

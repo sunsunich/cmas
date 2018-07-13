@@ -2,7 +2,7 @@ var fileUpload_model = {
     uploadUrl: "",
     processingProgressUrl: "",
 
-    uploadFile: function (formData, progressListener, successHandler, errorHandler) {
+    uploadFile: function (formData, progressListener, successHandler, unSuccessHandler) {
         var self = this;
         $.ajax({
             type: "Post",
@@ -25,32 +25,21 @@ var fileUpload_model = {
                 if (success) {
                     successHandler(json);
                 } else {
-                    errorHandler(json);
+                    unSuccessHandler(json);
                 }
             },
             error: function () {
-                errorHandler();
+                unSuccessHandler();
             }
         });
     },
 
-    getFileProcessingProgress: function (successHandler, errorHandler) {
-        var self = this;
-        $.ajax({
-            type: "Get",
-            url: self.processingProgressUrl,
-            dataType: "json",
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-            },
-            error: function () {
-                errorHandler();
-            }
-        });
+    getFileProcessingProgress: function (successHandler, unSuccessHandler) {
+        basicClient.sendGetRequest(
+            false,
+            this.processingProgressUrl,
+            {},
+            successHandler, unSuccessHandler
+        );
     }
 };

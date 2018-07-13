@@ -11,42 +11,29 @@ import javax.servlet.http.HttpSession;
 
 public class WithAjaxAuthenticationProcessingFilterEntryPoint extends AuthenticationProcessingFilterEntryPoint {
 
-	public static final String AJAX_HEADER = "X-Requested-With";
-    public static final String XMLHttpRequest = "XMLHttpRequest";
-	public static final String XML_HTTP_REQUEST = "XML_HTTP_REQUEST";
-    //private String redirectT
+    private static final String AJAX_HEADER = "X-Requested-With";
+    private static final String XML_HTTP_REQUEST = "XMLHttpRequest";
+
     private String ajaxLoginForm;
 
-//    @Override
-//	protected String determineUrlToUseForThisRequest (
-//			final HttpServletRequest request, final HttpServletResponse response,
-//			final AuthenticationException exception) {
-//
-//        String ajaxHeaderValue = request.getHeader(AJAX_HEADER);
-//        if (ajaxHeaderValue != null && XMLHttpRequest.equals(ajaxHeaderValue)) {
-//            HttpSession session = request.getSession(false);
-//            if (session != null) {
-//                session.removeAttribute(AbstractProcessingFilter.SPRING_SECURITY_SAVED_REQUEST_KEY);
-//            }
-//            return ajaxLoginForm;
-//        }
-//		return getLoginFormUrl();
-//	}
-	@Override
-	protected String determineUrlToUseForThisRequest(
-			final HttpServletRequest request, final HttpServletResponse response,
-			final AuthenticationException exception) {
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        String ajaxHeaderValue = request.getHeader(AJAX_HEADER);
+        return ajaxHeaderValue != null && XML_HTTP_REQUEST.equals(ajaxHeaderValue);
+    }
 
-		String ajaxHeaderValue = request.getHeader(AJAX_HEADER);
-		if (ajaxHeaderValue != null && XML_HTTP_REQUEST.equals(ajaxHeaderValue)) {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				session.removeAttribute(AbstractProcessingFilter.SPRING_SECURITY_SAVED_REQUEST_KEY);
-			}
-			return ajaxLoginForm;
-		}
-		return getLoginFormUrl();
-	}
+    @Override
+    protected String determineUrlToUseForThisRequest(
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+        if (isAjaxRequest(request)) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.removeAttribute(AbstractProcessingFilter.SPRING_SECURITY_SAVED_REQUEST_KEY);
+            }
+            return ajaxLoginForm;
+        }
+        return getLoginFormUrl();
+    }
+
     @Required
     public void setAjaxLoginForm(String ajaxLoginForm) {
         this.ajaxLoginForm = ajaxLoginForm;

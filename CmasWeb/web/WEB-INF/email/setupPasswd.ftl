@@ -7,7 +7,9 @@
     Email: ${diver.email}<br />
     Password: ${diver.generatedPassword}<br />
     <br />
-    Please login here: <@mailer.href url="${context_path}"/> <br />
+    Please login here: <@mailer.href url="${context_path}/login-form.html"/> <br />
+    <br/>
+    If the link does not open, copy it to the browser command line.<br />
     <br />
     You can change your password under MY PROFILE. <br />
     <br />

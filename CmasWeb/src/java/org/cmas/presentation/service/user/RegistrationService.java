@@ -2,35 +2,38 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.model.registration.DiverRegistrationDTO;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import java.util.List;
+import java.util.Locale;
 
 public interface RegistrationService {
 
-    void validate(DiverRegistrationFormObject formObject, BindingResult errors);
+    void validate(DiverRegistrationFormObject formObject, Errors errors);
 
-    void validateEmail(Registration formObject, Errors errors);
+    void validateEmail(FullDiverRegistrationFormObject formObject, Errors errors);
 
-    void validateConfirm(RegistrationConfirmFormObject formObject, BindingResult errors);
+    void validateConfirm(RegistrationConfirmFormObject formObject, Errors errors);
+
+    void setupCMASDiver(Diver diver, Locale locale);
 
     void createDiverPrimaryCard(Diver diver);
 
-    boolean isFreeRegistration(Diver diver);
+    @Transactional
+    Registration add(FullDiverRegistrationFormObject formObject);
 
-    /**
-     * @return список желающих регистрироваться
-     */
     @Transactional
     List<Registration> getReadyToRegister();
 
     @Nullable
-    Diver setupDiver(DiverRegistrationFormObject formObject);
+    @Transactional
+    List<DiverRegistrationDTO> getDiversForRegistration(DiverRegistrationFormObject formObject);
 
     void delete(long id);
 

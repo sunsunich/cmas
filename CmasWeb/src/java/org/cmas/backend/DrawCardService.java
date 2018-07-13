@@ -12,4 +12,6 @@ import java.awt.image.BufferedImage;
 public interface DrawCardService {
 
     BufferedImage drawDiverCard(PersonalCard card) throws Exception;
+
+    String getFileName(PersonalCard card);
 }

@@ -4,63 +4,60 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<jsp:useBean id="isFree" scope="request" type="java.lang.Boolean"/>
-<jsp:useBean id="firstPayment" scope="request" type="java.lang.String"/>
+<jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
-<my:securepage title="cmas.face.index.header" hideMenu="true">
+<my:securepage title="cmas.face.index.header"
+               customScripts="js/controller/registration_flow_controller.js"
+               hideMenu="true"
+>
 
+    <script type="application/javascript">
+        $(document).ready(function () {
+            registration_flow_controller.init('simple', {backgroundImageId: 'regImageBackground'});
+        });
+    </script>
     <div class="content" id="Content">
-    <div class="form-logo">
-        <img src="${pageContext.request.contextPath}/i/logo.png?v=${webVersion}">
-    </div>
-    <div class="welcome-header"><s:message code="cmas.face.welcome.title"/></div>
-    <div class="welcome-text">
-        <s:message code="cmas.face.welcome.text"/>
-    </div>
-    <div class="header">
-        <c:choose>
-            <c:when test="${isFree}">
-                <s:message code="cmas.face.welcome.free.title"/>
-            </c:when>
-            <c:otherwise>
-                <s:message code="cmas.face.welcome.payment.title"/>
-            </c:otherwise>
-        </c:choose>
-    </div>
-    <div class="text">
-        <c:choose>
-            <c:when test="${isFree}">
-                <s:message code="cmas.face.welcome.free.text"/>
-            </c:when>
-            <c:otherwise>
-                <s:message code="cmas.face.welcome.payment.text"/>&nbsp;${firstPayment}&nbsp;<s:message code="cmas.face.welcome.payment.currency"/>
-            </c:otherwise>
-        </c:choose>
+        <div id="formImage" class="formImage">
+            <my:advert diverRegistrationStatus="${diver.diverRegistrationStatus.name}"/>
+        </div>
+        <div class="formWrapper" id="formWrapper">
+            <div id="welcomeBlock">
+                <div class="header1-text">
+                    <s:message code="cmas.face.first.login.form.header"/>
+                </div>
+                <div class="form-description">
+                    <s:message code="cmas.face.first.login.form.account.created"/>
+                </div>
+                <div class="form-description">
+                    <s:message code="cmas.face.first.login.form.getFullAccess"/>
+                </div>
+                <button class="white-button form-item-left form-button-bigger"
+                        onclick="return window.location = '/secure/chooseNoPayment.html'">
+                    <s:message code="cmas.face.first.login.form.link.cmas_basic"/>
+                </button>
+                <button class="positive-button form-item-right form-button-smaller"
+                        onclick="return window.location = '/secure/pay.html'">
+                    <s:message code="cmas.face.first.login.form.link.cmas_full"/>
+                </button>
+            </div>
+        </div>
     </div>
 
-    <div class="button-container">
-        <c:choose>
-            <c:when test="${isFree}">
-                <a href="${pageContext.request.contextPath}/secure/welcome-continue.html">
-                    <button class="form-button enter-button">
-                        <s:message code="cmas.face.welcome.free.button"/>
-                    </button>
-                </a>
-            </c:when>
-            <c:otherwise>
-                <a href="${pageContext.request.contextPath}/secure/pay.html?amount=${firstPayment}">
-                    <button class="form-button enter-button">
-                        <s:message code="cmas.face.welcome.payment.button"/>
-                    </button>
-                </a>
-                <a href="${pageContext.request.contextPath}/logout.html">
-                    <button class="form-button reg-button">
-                        <s:message code="cmas.face.welcome.cancel.button"/>
-                    </button>
-                </a>
-            </c:otherwise>
-        </c:choose>
-    </div>
+    <picture>
+        <!--[if IE 9]>
+        <video style="display: none;">
+        <![endif]-->
+        <source srcset="/i/regImage@3x.png 1x"
+                media="(min-width: 3000px)">
+        <source srcset="/i/regImage@2x.png"
+                media="(min-width: 2000px)">
+        <source srcset="/i/regImage.png 1x, /i/regImage@2x.png 2x, /i/regImage@3x.png 3x" media="(min-width: 631px)">
+        <source srcset="/i/regImageMob@2x.png" media="(min-width: 500px)">
+        <source srcset="/i/regImageMob.png 1x, /i/regImageMob@2x.png 2x, /i/regImageMob@3x.png 3x">
+
+        <!--[if IE 9]></video><![endif]-->
+        <img id="regImageBackground" alt="registration background" style="display: none">
+    </picture>
 
 </my:securepage>
 

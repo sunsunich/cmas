@@ -32,6 +32,7 @@ public class TransactionalBillingServiceImpl {
     @Autowired
     private InvoiceDao invoiceDao;
 
+    // todo fix Transactional
     @Transactional
     boolean canPaymentAdd(String ip, BigDecimal amount, long invoiceId) throws
             StaleObjectStateException {

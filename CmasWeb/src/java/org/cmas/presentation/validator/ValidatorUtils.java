@@ -95,6 +95,18 @@ public final class ValidatorUtils {
         }
     }
 
+    public static void validateEmpty(Errors errors, String value, String fieldName, String validationMessage) {
+        if (StringUtil.isTrimmedEmpty(value)) {
+            errors.rejectValue(fieldName, validationMessage);
+        }
+    }
+
+    public static void validateLength(Errors errors, String value, String fieldName, String validationMessage, int maxLength) {
+        if (!StringUtil.isTrimmedEmpty(value) && value.length() > maxLength) {
+            errors.rejectValue(fieldName, validationMessage);
+        }
+    }
+
     public static void validateWithAction(Errors errors, ValidationAction validationAction, String value, String fieldName, String validationMessage) {
         if (!StringUtil.isTrimmedEmpty(value)) {
             try {

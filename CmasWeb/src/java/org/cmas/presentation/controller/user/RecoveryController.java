@@ -70,9 +70,9 @@ public class RecoveryController {
 
     private final SecureRandom rnd = new SecureRandom();
 
-    public static final String SALT = "Wfdf$%@T#@c)(";
+    private static final String SALT = "Wfdf$%@T#@c)(";
 
-    @RequestMapping(value = "/lostPasswdForm.html", method = RequestMethod.GET)
+    @RequestMapping(value = "/lostPasswordForm.html", method = RequestMethod.GET)
     public ModelAndView setupLostPasswdInitial(Model model) {
         LostPasswordFormObject formObject = new LostPasswordFormObject();
         model.addAttribute("command", formObject);
@@ -82,12 +82,13 @@ public class RecoveryController {
     private ModelAndView buildLostPasswordForm(Model model, boolean isCaptchaCorrect) {
         model.addAttribute("captchaError", !isCaptchaCorrect);
         model.addAttribute("reCaptchaPublicKey", captchaService.getReCaptchaPublicKey());
-        return new ModelAndView("lostPasswdForm");
+        return new ModelAndView("lostPasswordForm");
     }
 
     @RequestMapping(value = "/lostPasswd.html", method = RequestMethod.POST)
     @Transactional
-    public ModelAndView submitLostPasswd(HttpServletRequest servletRequest, HttpServletResponse servletResponse, @ModelAttribute("command") LostPasswordFormObject formObject,
+    public ModelAndView submitLostPasswd(HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+                                         @ModelAttribute("command") LostPasswordFormObject formObject,
                                          Errors result, Model model) throws AddressException, UnsupportedEncodingException {
         passwordValidator.validate(formObject, result);
         boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
@@ -108,10 +109,10 @@ public class RecoveryController {
     }
 
     @RequestMapping(value = "/toChangePasswd.html", method = RequestMethod.GET)
-    public String prepareRegData(@RequestParam("code") String code, Model model) {
+    public String toChangePasswd(@RequestParam("code") String code, Model model) {
         Diver user = diverDao.getBylostPasswdCode(code);
         if (user == null) {
-            return "redirect:/lostPasswdForm.html";
+            return "redirect:/lostPasswordForm.html";
         }
         PasswordChangeFormObject formObject = new PasswordChangeFormObject();
         formObject.setCode(code);
@@ -144,10 +145,6 @@ public class RecoveryController {
         }
     }
 
-    /**
-     * Подтверждение пользователем смены e-mail`а
-     *
-     */
     @RequestMapping("/changeEmail.html")
     @Transactional
     public String changeEmailComplete(HttpServletRequest request, @RequestParam("sec") String sec, Model mm) {

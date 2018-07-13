@@ -1,28 +1,24 @@
 package org.cmas.presentation.controller.user;
 
-import com.google.myjson.Gson;
 import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.PersonalCard;
-import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
-import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
-import org.cmas.presentation.model.ImageUrlDTO;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
+import org.cmas.util.json.ImageUrlDTO;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
@@ -52,12 +48,9 @@ import java.util.List;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class UserProfileController {
+public class UserProfileController extends DiverAwareController{
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @Autowired
     private DiverService diverService;
@@ -75,33 +68,7 @@ public class UserProfileController {
     private GsonViewFactory gsonViewFactory;
 
     @Autowired
-    private CountryDao countryDao;
-
-    @Autowired
     private ImageStorageManager imageStorageManager;
-
-    @ModelAttribute("user")
-    public BackendUser getUser() {
-        BackendUser<? extends User> user = authenticationService.getCurrentUser();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-        return user;
-    }
-
-    @ModelAttribute("diver")
-    public Diver getCurrentDiver() {
-        BackendUser<? extends User> user = getUser();
-        Role role = user.getUser().getRole();
-        Diver diver = null;
-        if (role == Role.ROLE_DIVER) {
-            diver = (Diver) user.getUser();
-        }
-        if (diver == null) {
-            throw new BadRequestException();
-        }
-        return diver;
-    }
 
     @RequestMapping("/secure/getDiver.html")
     public View getDiver(@RequestParam("diverId") long diverId) throws IOException {
@@ -116,7 +83,7 @@ public class UserProfileController {
     public View showSpots(@RequestParam("diverIdsJson") String diverIdsJson) {
         List<Long> diverIds = null;
         try {
-            diverIds = new Gson().fromJson(diverIdsJson, Globals.LONG_LIST_TYPE);
+            diverIds = gsonViewFactory.getCommonGson().fromJson(diverIdsJson, Globals.LONG_LIST_TYPE);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -128,11 +95,6 @@ public class UserProfileController {
 
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
-        try {
-            model.addAttribute("countries", countryDao.getAll());
-        } catch (Exception e) {
-            throw new BadRequestException(e);
-        }
         return new ModelAndView("/secure/userInfo");
     }
 
@@ -159,11 +121,15 @@ public class UserProfileController {
         }
     }
 
-    /*
-     * Submit формы редактирования пароля
-     */
-    @RequestMapping("/secure/processEditPasswd.html")
-    public View userEditPasswd(
+    @RequestMapping("/secure/editPassword.html")
+    public ModelAndView editPassword(Model model) {
+        PasswordEditFormObject formObject = new PasswordEditFormObject();
+        model.addAttribute("command", formObject);
+        return new ModelAndView("/secure/changePasswordForm");
+    }
+
+    @RequestMapping("/secure/processEditPassword.html")
+    public View processEditPassword(
             HttpServletRequest request
             , @ModelAttribute("command") PasswordEditFormObject formObject
             , BindingResult result
@@ -180,9 +146,16 @@ public class UserProfileController {
         }
     }
 
+    @RequestMapping("/secure/editEmail.html")
+    public ModelAndView editEmail(Model model) {
+        EmailEditFormObject formObject = new EmailEditFormObject();
+        model.addAttribute("command", formObject);
+        return new ModelAndView("/secure/changeEmailForm");
+    }
+
     @RequestMapping("/secure/processEditEmail.html")
-    public View userEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
-                              BindingResult result, Model mm) {
+    public View processEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
+                                 BindingResult result, Model mm) {
         BackendUser<? extends User> user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();

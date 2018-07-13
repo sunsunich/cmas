@@ -4,7 +4,6 @@
 <%--
 	ROLE_ATHLETE(Role.ROLE_ATHLETE),
 	ROLE_DIVER(Role.ROLE_DIVER),
-	ROLE_DIVER_INSTRUCTOR(Role.ROLE_DIVER_INSTRUCTOR),
 --%>
 <authz:authorize ifAnyGranted="ROLE_DIVER" ifNotGranted="ROLE_ADMIN">
     <script type="text/javascript">

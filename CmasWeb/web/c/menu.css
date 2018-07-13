@@ -1,36 +1,232 @@
-#cssmenu {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    width: auto;
+.page-header {
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px 0 rgba(20, 57, 62, 0.16);
 }
 
-#cssmenu ul,
-#cssmenu li {
+.footer_wrapper {
+    width: 100%;
+    overflow: auto;
+    background-color: #ffffff;
+}
+
+.logo-ico {
+    height: 50px;
+    width: 50px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-left: 1.1%;
+}
+
+.username-text {
+    font-size: 16px;
+    /*font-weight: 300;*/
+    color: #5c6264;
+}
+
+.userpic-ico, .no-userpic-ico {
+    width: 40px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+    background-color: #f8fafb;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.no-userpic-ico img {
+    display: block;
+    margin: 0 auto;
+    height: 20px;
+    width: 20px;
+    padding: 10px;
+}
+
+.userpic-ico img {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: 100%;
+}
+
+.userpic-button-off, .userpic-button-on {
+    height: 16px;
+    width: 16px;
+    background-image: url(/i/arrow-down-ico.png);
+}
+
+.userpic-button-on {
+    background-image: url(/i/arrow-up-ico.png);
+}
+
+.menu-item-first {
+    margin-left: 16px;
+}
+
+.menu-item {
+    margin-right: 16px;
+}
+
+.menu-item-left {
+    float: left;
+}
+
+.menu-item-right {
+    float: right;
+}
+
+.menu-link {
+    margin-top: 25px;
+}
+
+.menu-button {
+    margin-top: 15px;
+}
+
+.menu-small-button {
+    margin-top: 30px;
+}
+
+.menu-text {
+    margin-top: 25px;
+    margin-bottom: 16px;
+    margin-left: 0.11%;
+}
+
+.menu-link a, .menu-link a:visited {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #a1a4a5;
+    text-decoration: none;
+}
+
+.menu-link a:hover {
+    color: #11c7dd;
+}
+
+.menu-link a:active {
+    text-decoration: underline;
+    color: #0d95b5;
+}
+
+.usermenu {
+    float: right;
+    position: relative;
+    z-index: 597;
+    width: 170px;
+    left: 32px;
+    top: 78px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.usermenu ul,
+.usermenu li {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-#cssmenu ul {
+.usermenu ul {
+    width: 170px;
+    position: absolute;
+    z-index: 598;
+    box-shadow: 0 2px 5px 0 rgba(20, 57, 62, 0.16);
+}
+
+.usermenu ul li {
+    padding-top: 11px;
+    padding-left: 25px;
+    padding-bottom: 11px;
+    background-color: #ffffff;
+    color: #cbd0d1;
+}
+
+.usermenu ul li.first-list-item {
+    border-radius: 5px 5px 0 0;
+}
+
+.usermenu ul li.last-list-item {
+    border-radius: 0 0 5px 5px;
+}
+
+.usermenu ul li a {
+    color: #cbd0d1;
+    text-decoration: none;
+}
+
+.usermenu ul li:hover {
+    background-color: #f7f9fa;
+}
+
+.usermenu ul li:hover > a {
+    color: #5c6264;
+}
+
+.usermenu ul li.active > a {
+    color: #5c6264;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid #eff2f4;
+}
+
+/*.cssmenu {*/
+/*padding: 0;*/
+/*margin: 0;*/
+/*border: 0;*/
+/*width: auto;*/
+/*}*/
+
+#menuButton {
+    overflow: auto;
+    width: 32px;
+    height: 32px;
+    background-image: url("/i/ic_menu_normal.png");
+
+    margin-top: 20px;
+}
+
+#menuButton:hover {
+    background-image: url("/i/ic_menu_hover.png");
+}
+
+#menuButton:active {
+    background-image: url("/i/ic_menu_click.png");
+}
+
+.cssmenu ul,
+.cssmenu li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cssmenu ul {
     position: relative;
     z-index: 597;
 }
 
-#cssmenu ul li {
+.cssmenu ul li {
     float: left;
     min-height: 1px;
     vertical-align: middle;
 }
 
-#cssmenu ul li.hover,
-#cssmenu ul li:hover {
+.cssmenu ul li.hover,
+.cssmenu ul li:hover {
     position: relative;
     z-index: 599;
     cursor: default;
 }
 
-#cssmenu ul ul {
+.cssmenu ul ul {
     visibility: hidden;
     position: absolute;
     top: 100%;
@@ -39,93 +235,93 @@
     width: 100%;
 }
 
-#cssmenu ul ul li {
+.cssmenu ul ul li {
     float: none;
 }
 
-#cssmenu ul ul ul {
+.cssmenu ul ul ul {
     top: 0;
     left: 190px;
     width: 190px;
 }
 
-#cssmenu ul li:hover > ul {
+.cssmenu ul li:hover > ul {
     visibility: visible;
 }
 
-#cssmenu ul ul {
+.cssmenu ul ul {
     bottom: 0;
     left: 0;
 }
 
-#cssmenu ul ul {
+.cssmenu ul ul {
     margin-top: 0;
 }
 
-#cssmenu ul ul li {
+.cssmenu ul ul li {
     font-weight: normal;
 }
 
-#cssmenu a {
+.cssmenu a {
     display: block;
     line-height: 1em;
     text-decoration: none;
 }
 
 /* Custom CSS Styles */
-#cssmenu {
-    background: #06394e;
-    font-size: 16px;
+.cssmenu {
+    /*background: #06394e;*/
+    font-size: 14px;
 }
 
-#cssmenu > ul {
+.cssmenu > ul {
     *display: inline-block;
 }
 
-#cssmenu:after,
-#cssmenu ul:after {
-    content: '';
+.cssmenu:after,
+.cssmenu ul:after {
+    /*content: '';*/
     display: block;
     clear: both;
 }
 
-#cssmenu ul {
-    text-transform: uppercase;
-}
+/*.cssmenu ul {*/
+/*text-transform: uppercase;*/
+/*}*/
 
-#cssmenu ul ul {
-    border-top: 1px solid #d5d5d5;
+.cssmenu ul ul {
+    /*border-top: 1px solid #d5d5d5;*/
     text-transform: none;
     min-width: 190px;
 }
 
-#cssmenu ul ul a {
-    background: #e8e8e8;
-    color: #666666;
-    border: 1px solid #d5d5d5;
-    border-top: 0 none;
+.cssmenu ul ul a {
+    background: #ffffff;
+    color: #cbd0d1;
+    /*border: 1px solid #d5d5d5;*/
+    /*border-top: 0 none;*/
     line-height: 150%;
     padding: 16px 20px;
-    font-size: 16px;
+    font-size: 14px;
 }
 
-#cssmenu ul ul ul {
-    border-top: 0 none;
+.cssmenu ul ul ul {
+    /*border-top: 0 none;*/
 }
 
-#cssmenu ul ul li {
+.cssmenu ul ul li {
     position: relative;
 }
 
-#cssmenu ul ul li:first-child > a {
-    border-top: 1px solid #d5d5d5;
+.cssmenu ul ul li:first-child > a {
+    /*border-top: 1px solid #d5d5d5;*/
 }
 
-#cssmenu ul ul li:hover > a {
+.cssmenu ul ul li:hover > a {
     background: #d5d5d5;
 }
 
-#cssmenu ul ul li:last-child > a {
+.cssmenu ul ul li:last-child > a {
     -moz-border-radius: 0 0 3px 3px;
     -webkit-border-radius: 0 0 3px 3px;
     border-radius: 0 0 3px 3px;
@@ -137,7 +333,7 @@
     box-shadow: 0 1px 0 #d5d5d5;
 }
 
-#cssmenu ul ul li:last-child:hover > a {
+.cssmenu ul ul li:last-child:hover > a {
     -moz-border-radius: 0 0 0 3px;
     -webkit-border-radius: 0 0 0 3px;
     border-radius: 0 0 0 3px;
@@ -146,107 +342,68 @@
     background-clip: padding-box;
 }
 
-#cssmenu ul li:hover > a,
-#cssmenu ul li.active > a {
-    background: #d5d5d5;
-    color: #666666;
+.cssmenu ul li:hover > a,
+.cssmenu ul li.active > a {
+    background: #f7f9fa;
+    color: #5c6264;
 }
 
-#cssmenu ul li.last ul {
+.cssmenu ul li.last ul {
     left: auto;
     right: 0;
 }
 
-#cssmenu ul li.last ul ul {
+.cssmenu ul li.last ul ul {
     left: auto;
     right: 99.5%;
 }
 
-#cssmenu a {
+.cssmenu a {
     padding: 0 20px;
 }
 
-#cssmenu > ul > li > a {
+.cssmenu > ul > li > a {
     /*line-height: 48px;*/
     font-size: 16px;
     padding-top: 16px;
     padding-bottom: 16px;
 }
 
-#cssmenu.align-center > ul {
+.cssmenu.align-center > ul {
     text-align: center;
     font-size: 0;
 }
 
-#cssmenu.align-center > ul > li {
+.cssmenu.align-center > ul > li {
     display: inline-block;
     float: none;
 }
 
-#cssmenu.align-center ul ul {
+.cssmenu.align-center ul ul {
     text-align: left;
 }
 
-#cssmenu.align-right > ul > li {
+.cssmenu.align-right > ul > li {
     float: right;
 }
 
-#cssmenu.align-right ul ul {
+.cssmenu.align-right ul ul {
     left: auto;
     right: 0;
     text-align: right;
 }
 
-#cssmenu.align-right ul ul ul {
+.cssmenu.align-right ul ul ul {
     left: auto;
     right: 190px;
 }
 
-#cssmenu.align-right ul ul li.has-sub > a:after {
+.cssmenu.align-right ul ul li.has-sub > a:after {
     left: 15px;
     right: auto;
 }
 
-#cssmenu span{
+.cssmenu span {
     padding-left: 28px;
 }
 
-.logo-ico {
-    display: inline-block;
-    height: 28px;
-    padding: 7px 20px;
-}
-.menu-ico {
-    display: inline-block;
-    height: 20px;
-    position: absolute;
-    top: 12px;
-}
-
-.menu-ico-logout {
-    content: url("/i/logout.png");
-}
-
-.menu-ico-menu {
-    content: url("/i/menu_ico.png");
-}
-
-.menu-ico-my-account {
-    top: 16px;
-    content: url("/i/account.png");
-}
-
-.menu-ico-logbook {
-    top: 16px;
-    content: url("/i/log.png");
-}
-
-.menu-ico-diving-spots {
-    top: 16px;
-    content: url("/i/spot.png");
-}
-
-.menu-ico-my-cards {
-    top: 16px;
-    content: url("/i/cards.png");
-}

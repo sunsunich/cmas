@@ -2,18 +2,13 @@ package org.cmas.presentation.controller.user;
 
 import org.cmas.Globals;
 import org.cmas.entities.Country;
-import org.cmas.entities.Role;
 import org.cmas.entities.Toponym;
-import org.cmas.entities.User;
-import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.ToponymDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
-import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.divespot.DiveSpotFormObject;
 import org.cmas.presentation.model.divespot.LatLngBounds;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.remote.json.IdObject;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
@@ -38,10 +33,7 @@ import java.util.List;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class SpotsController {
-
-    @Autowired
-    private AuthenticationService authenticationService;
+public class SpotsController extends DiverAwareController{
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -54,29 +46,6 @@ public class SpotsController {
 
     @Autowired
     private ToponymDao toponymDao;
-
-    @ModelAttribute("user")
-    public BackendUser getUser() {
-        BackendUser<? extends User> user = authenticationService.getCurrentUser();
-        if (user == null) {
-            throw new BadRequestException();
-        }
-        return user;
-    }
-
-    @ModelAttribute("diver")
-    public Diver getCurrentDiver() {
-        BackendUser<? extends User> user = getUser();
-        Role role = user.getUser().getRole();
-        Diver diver = null;
-        if (role == Role.ROLE_DIVER) {
-            diver = (Diver) user.getUser();
-        }
-        if (diver == null) {
-            throw new BadRequestException();
-        }
-        return diver;
-    }
 
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
     public ModelAndView showSpotsPage(@RequestParam(value = "logbookEntryId", required = false) Long logbookEntryId) throws IOException {

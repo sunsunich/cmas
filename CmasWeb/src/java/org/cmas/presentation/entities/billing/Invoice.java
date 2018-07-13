@@ -2,6 +2,7 @@ package org.cmas.presentation.entities.billing;
 
 import org.cmas.Globals;
 import org.cmas.entities.UserAwareEntity;
+import org.cmas.entities.fin.PaidFeature;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -9,13 +10,18 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -30,36 +36,36 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
     @Version
     private long version;
 
-    // тип счета.
     @Column
     @Enumerated(EnumType.STRING)
     private InvoiceType invoiceType;
 
-    // Скока денег
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal amount;
 
-    // Дата создания документа
     @Column(nullable=false)
     private Date createDate;
 
-    @Column(nullable=true)
+    @Column
     private Date transactionDate;
 
-    // Статус счёта: оплачен, частично оплачен, не оплачен
     @Column(columnDefinition = "int(11) NOT NULL DEFAULT '0'")
     private InvoiceStatus invoiceStatus;
 
     @Column
     private String description;
 
-    /**
-     * счета удалять нельзя, ибо бухгалтения против.
-     */
     @Column(columnDefinition = "tinyint(1) NOT NULL DEFAULT '0'")
     private boolean deleted;
 
     private String externalInvoiceNumber;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "invoice_requested_paid_features",
+            joinColumns = @JoinColumn(name = "invoiceId"),
+            inverseJoinColumns = @JoinColumn(name = "paidFeatureId")
+    )
+    private List<PaidFeature> requestedPaidFeatures;
 
     public Invoice() {
         invoiceStatus = InvoiceStatus.NOT_PAID;
@@ -127,6 +133,14 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
 
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public List<PaidFeature> getRequestedPaidFeatures() {
+        return requestedPaidFeatures;
+    }
+
+    public void setRequestedPaidFeatures(List<PaidFeature> requestedPaidFeatures) {
+        this.requestedPaidFeatures = requestedPaidFeatures;
     }
 
     @SuppressWarnings({"CallToSimpleGetterFromWithinClass"})

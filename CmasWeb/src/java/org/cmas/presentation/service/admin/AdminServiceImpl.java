@@ -6,10 +6,10 @@ import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
-import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -17,10 +17,10 @@ import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
-import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.user.AthleteService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.http.BadRequestException;
 import org.slf4j.Logger;
@@ -46,6 +46,10 @@ public class AdminServiceImpl implements AdminService {
     private UserService<Amateur> amateurService;
 
     @Autowired
+    @Qualifier("diverService")
+    private DiverService diverService;
+
+    @Autowired
     private AthleteDao athleteDao;
 
     @Autowired
@@ -58,18 +62,17 @@ public class AdminServiceImpl implements AdminService {
     private PersonalCardDao personalCardDao;
 
     @Autowired
-    private RegistrationDao registrationDao;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     // @Transactional
-    public BackendUser processConfirmRegistration(RegistrationConfirmFormObject formObject, String ip) {
-        Registration registration = registrationDao.getById(formObject.getRegId());
+    public BackendUser processConfirmRegistration(Registration registration, String ip) {
         UserService userService = null;
         Role role = Role.valueOf(registration.getRole());
         switch (role) {
+            case ROLE_DIVER:
+                userService = diverService;
+                break;
             case ROLE_AMATEUR:
                 userService = amateurService;
                 break;
@@ -83,12 +86,7 @@ public class AdminServiceImpl implements AdminService {
             throw new IllegalStateException();
         }
         User user = userService.add(registration, ip);
-        try {
-            mailer.regCompleteNotify(user);
-        } catch (Exception e) {
-            log.error("error send email for new user " + user, e);
-        }
-
+        mailer.regCompleteNotify(user);
         return new BackendUser(user);
     }
 
@@ -102,6 +100,8 @@ public class AdminServiceImpl implements AdminService {
         newDiver.setRole(Role.ROLE_DIVER);
         newDiver.setDateReg(diver.getDateReg());
         newDiver.setDefaultVisibility(LogbookVisibility.FRIENDS);
+        newDiver.setDiverRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
+        newDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
 
         UserBalance userBalance = new UserBalance();
         userBalance.setBalance(diver.getUserBalance().getBalance());
@@ -114,7 +114,6 @@ public class AdminServiceImpl implements AdminService {
         newDiver.setDiverType(diver.getDiverType());
         newDiver.setDiverLevel(diver.getDiverLevel());
         newDiver.setInstructor(diver.getInstructor());
-        newDiver.setHasPayed(diver.isHasPayed());
         newDiver.setEmail(diver.getEmail() + "@mailinator.com");
 
         Long id = (Long) diverDao.save(newDiver);

@@ -5,6 +5,8 @@ import com.google.myjson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings({"MultipleTopLevelClassesInFile", "ClassNameDiffersFromFileName"})
@@ -59,7 +61,7 @@ interface GlobalsStaticContainer {
 
     long ONE_DAY_IN_MS = 1000L * 60L * 60L * 24L;
 
-    long ONE_WEEK_IN_MS = 1000L * 60L * 60L * 24L * 7L;
+    long ONE_WEEK_IN_MS = ONE_DAY_IN_MS * 7L;
 
     String SIMPLE_EMAIL_REGEXP = ".+@.+\\..+";
 
@@ -69,7 +71,7 @@ interface GlobalsStaticContainer {
     BigDecimal HUNDRED_PERCENT = new BigDecimal(100);
 
     double DIVE_SPOT_DELTA_DEGREES = 0.0005; //50 meters
-    double HALF_DIVE_SPOT_DELTA_DEGREES =DIVE_SPOT_DELTA_DEGREES / 2.0;
+    double HALF_DIVE_SPOT_DELTA_DEGREES = DIVE_SPOT_DELTA_DEGREES / 2.0;
 
     int FAST_SEARCH_MIN_INPUT = 3;
     int FAST_SEARCH_MAX_RESULT = 10;
@@ -100,4 +102,10 @@ public final class Globals implements GlobalsStaticContainer {
     }
 
     public static final Type LONG_LIST_TYPE = new LongListTypeToken().getType();
+
+    public static long getMsInYear() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        return (long) calendar.getActualMaximum(Calendar.DAY_OF_YEAR) * Globals.ONE_DAY_IN_MS;
+    }
 }

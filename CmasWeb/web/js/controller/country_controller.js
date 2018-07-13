@@ -2,7 +2,6 @@ var country_controller = {
 
     defaultValue: "",
     inputId: "country",
-    drawIcon: true,
 
     init: function () {
         this.setListeners();
@@ -13,26 +12,13 @@ var country_controller = {
         var options = {
             escapeMarkup: function (m) {
                 return m;
-            }
+            },
+            theme: "bootstrap"
         };
-        if (this.drawIcon) {
-            options.placeholder = '<img class="country-input-ico">' + labels["cmas.face.registration.form.label.country"];
-            options.templateSelection = self.formatCountry;
-        }
-        else {
-            options.placeholder = labels["cmas.face.registration.form.label.country"];
-        }
 
-        $("#" + this.inputId).select2(options);
-        $("#" + this.inputId).val(this.defaultValue).trigger("change");
-    },
+        options.placeholder = labels["cmas.face.registration.form.label.country"];
 
-    formatCountry: function (state) {
-        if (!state.id) {
-            return state.text;
-        }
-        return $(
-            '<span><img class="country-input-ico">' + state.text + '</span>'
-        );
+        $("#" + this.inputId).select2(options)
+            .val(this.defaultValue).trigger("change");
     }
 };

@@ -1,5 +1,6 @@
 package org.cmas.entities;
 
+import org.cmas.Globals;
 import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.Athlete;
@@ -39,14 +40,15 @@ public class UserBalance implements Serializable {
     @OneToOne(mappedBy = "userBalance", optional = true, fetch = FetchType.LAZY, targetEntity = Diver.class)
     private Diver diver;
 
-    @Column
+    @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal balance;
 
-    @Column
+    @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal discountPercent;
 
     public UserBalance() {
         balance = BigDecimal.ZERO;
+        discountPercent = BigDecimal.ZERO;
     }
 
     public Long getId() {

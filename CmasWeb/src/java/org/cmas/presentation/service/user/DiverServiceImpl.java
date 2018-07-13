@@ -1,6 +1,7 @@
 package org.cmas.presentation.service.user;
 
 import org.apache.commons.lang.LocaleUtils;
+import org.cmas.Globals;
 import org.cmas.backend.xls.DiverXlsParser;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
@@ -9,16 +10,20 @@ import org.cmas.entities.Role;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.entities.user.Registration;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
 import org.cmas.util.schedule.Scheduler;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -40,7 +46,9 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author Alexander Petukhov
  */
-public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverService {
+public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverService, InitializingBean {
+
+    private int demoTimeDays;
 
     @Autowired
     private Scheduler scheduler;
@@ -95,6 +103,33 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         return new ArrayList<>(result.values());
     }
 
+    @Override
+    public Diver add(Registration registration, String ip) {
+        Diver diver = super.add(registration, ip);
+        diver.setDiverType(DiverType.DIVER);
+        diver.setDateLicencePaymentIsDue(
+                new Date(System.currentTimeMillis() + (long) demoTimeDays * Globals.ONE_DAY_IN_MS)
+        );
+        diver.setDiverRegistrationStatus(DiverRegistrationStatus.DEMO);
+        diver.setAreaOfInterest(registration.getAreaOfInterest());
+        diverDao.updateModel(diver);
+        return diver;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        scheduleDiverRegistrationStatusUpdate();
+    }
+
+    private void scheduleDiverRegistrationStatusUpdate() {
+        scheduler.scheduleDaily(new Runnable() {
+            @Override
+            public void run() {
+                diverDao.updateDiverRegistrationStatusOnPaymentDueDate();
+            }
+        }, 2, 0, TimeZone.getDefault());
+    }
+
     private final Map<Long, UploadDiversTask> fedAdminIdToUploadTask = new ConcurrentHashMap<>();
     private final Map<Long, Lock> fedAdminIdToLock = new ConcurrentHashMap<>();
 
@@ -145,12 +180,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         return fedAdminIdToUploadTask.get(fedAdminId);
     }
 
-    void setDiverInstructor(Diver dbDiver, Diver instructor) {
+    void setDiverInstructor(NationalFederation federation, Diver dbDiver, Diver instructor) {
         Diver dbInstructor = null;
         if (instructor != null) {
-            dbInstructor = diverDao.getDiverByCardNumber(
-                    instructor.getCards().get(0).getNumber()
-            );
+            dbInstructor = diverDao.getDiverByCardNumber(federation, instructor.getCards().get(0).getNumber());
         }
         if (dbDiver.getInstructor() == null && dbInstructor != null) {
             dbDiver.setInstructor(dbInstructor);
@@ -213,7 +246,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         } else {
             diverDao.updateModel(dbDiver);
         }
-        setDiverInstructor(dbDiver, diver.getInstructor());
+        setDiverInstructor(federation, dbDiver, diver.getInstructor());
         List<PersonalCard> cards = diver.getCards();
         if (overrideCards) {
             personalCardDao.deleteDiverCards(dbDiver);
@@ -286,5 +319,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         public int hashCode() {
             return Objects.hash(diverType, diverLevel, cardType);
         }
+    }
+
+    @Required
+    public void setDemoTimeDays(int demoTimeDays) {
+        this.demoTimeDays = demoTimeDays;
     }
 }

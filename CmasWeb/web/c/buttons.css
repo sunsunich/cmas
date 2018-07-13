@@ -39,6 +39,66 @@
     margin-bottom: 0;
 }
 
+.positive-button, .negative-button, .inverse-positive-button, .white-button {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    font-size: 12px;
+    /*font-weight: 500;*/
+    font-weight: 600;
+    background: #3ec9da;
+    padding: 16px 24px 16px 24px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+}
+
+.positive-button:hover {
+    background-color: #3ec9da;
+    box-shadow: 0 7px 14px 0 rgba(62, 201, 218, 0.32);
+}
+
+.positive-button:active {
+    background-color: #0d95b5;
+    box-shadow: none;
+}
+
+.positive-button:disabled {
+    color: #cbd0d1;
+    background-color: #eff2f4;
+    box-shadow: none;
+}
+
+.inverse-positive-button {
+    color: #3ec9da;
+    background: #ffffff;
+}
+
+.inverse-positive-button:hover {
+    color: #3ec9da;
+    box-shadow: 0 7px 14px 0 rgba(20, 57, 62, 0.32);;
+}
+
+.inverse-positive-button:active {
+    color: #0d95b5;
+    box-shadow: none;
+}
+
+.white-button {
+    color: #a1a4a5;
+    background: #ffffff;
+}
+
+.white-button:hover {
+    color: #11c7dd;
+}
+
+.white-button:active {
+    color: #0d95b5;
+    box-shadow: none;
+}
+
 .enter-button {
     background-color: #6CA3E9;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#6CA3E9), to(#4084C4));

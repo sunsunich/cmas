@@ -1,37 +1,44 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.Globals;
+import org.cmas.backend.DrawCardService;
 import org.cmas.entities.Country;
+import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.model.registration.DiverRegistrationDTO;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class RegistrationServiceImpl implements RegistrationService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
     @Autowired
     private MailService mailer;
 
@@ -57,102 +64,179 @@ public class RegistrationServiceImpl implements RegistrationService {
     private DiverDao diverDao;
 
     @Autowired
+    private PersonalCardDao personalCardDao;
+
+    @Autowired
     private NationalFederationService federationService;
 
     @Autowired
     private PersonalCardService personalCardService;
 
-    private int freeDiversRegistrationsAmount;
+    @Autowired
+    private DrawCardService drawCardService;
 
     @Override
-    public void validate(DiverRegistrationFormObject formObject, BindingResult errors) {
+    public void validate(DiverRegistrationFormObject formObject, Errors errors) {
         validator.validate(formObject, errors);
-        if (errors.hasErrors()) {
-            return;
-        }
-        Country country = countryDao.getByCode(formObject.getCountry());
-        if (country == null) {
-            errors.rejectValue("country", "validation.incorrectField");
-            return;
-        }
-        try {
-            Diver diver = federationService.getDiver(
-                    formObject.getFirstName(),
-                    formObject.getLastName(),
-                    Globals.getDTF().parse(formObject.getDob()),
-                    country
-            );
-
-            if (diver == null) {
-                errors.reject("validation.noPersonInFederation");
+        String certificateNumber = formObject.getCertificate();
+        List<Diver> divers;
+        if (StringUtil.isTrimmedEmpty(certificateNumber)) {
+            Country country = countryDao.getByCode(formObject.getCountry());
+            if (country == null) {
+                errors.rejectValue("country", "validation.incorrectField");
+            }
+            if (errors.hasErrors()) {
                 return;
             }
-            if (diver.isHasPayed()) {
-                errors.reject("validation.diverAlreadyRegistered");
+            try {
+                divers = federationService.searchDivers(
+                        formObject.getFirstName(),
+                        formObject.getLastName(),
+                        Globals.getDTF().parse(formObject.getDob()),
+                        country, false
+                );
+            } catch (ParseException ignored) {
+                errors.rejectValue("dob", "validation.incorrectField");
+                return;
             }
-
-        } catch (ParseException ignored) {
-            errors.rejectValue("dob", "validation.incorrectField");
+        } else {
+            if (errors.hasErrors()) {
+                return;
+            }
+            divers = federationService.searchDivers(certificateNumber, false);
         }
+        if (divers.isEmpty()) {
+            if (!StringUtil.isTrimmedEmpty(certificateNumber)) {
+                errors.rejectValue("certificate", "validation.certificateUnknown");
+            }
+            return;
+        }
+        for (Diver diver : divers) {
+            if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
+                return;
+            }
+        }
+        errors.reject("validation.diverAlreadyRegistered");
     }
 
     @Override
-    public void validateEmail(Registration formObject, Errors errors) {
+    public void validateEmail(FullDiverRegistrationFormObject formObject, Errors errors) {
         // проверяем на уникальность email
         String emailFieldName = "email";
         if (!errors.hasFieldErrors(emailFieldName)) {
             String emailValue = formObject.getEmail();
-            if (!allUsersService.isEmailUnique(Role.valueOf(formObject.getRole()), null, emailValue)) {
+            if (!allUsersService.isEmailUnique(Role.ROLE_DIVER, null, emailValue)) {
                 errors.rejectValue(emailFieldName, ErrorCodes.EMAIL_ALREADY_EXISTS);
             }
         }
     }
 
     @Override
-    public void validateConfirm(RegistrationConfirmFormObject formObject, BindingResult errors) {
+    public void validateConfirm(RegistrationConfirmFormObject formObject, Errors errors) {
         validator.validate(formObject, errors);
-        Long id = formObject.getRegId();
-        String sec = formObject.getSec();
-
-        Registration reg = registrationDao.getByIdAndSec(id, sec);
+        if (errors.hasErrors()) {
+            return;
+        }
+        Registration reg = registrationDao.getBySec(formObject.getSec());
         if (reg == null) {
             errors.rejectValue("sec", "validation.incorrectField");
         }
     }
 
-    @Nullable
     @Override
+    @Nullable
     @Transactional
-    public Diver setupDiver(DiverRegistrationFormObject formObject) {
-        Country country = countryDao.getByCode(formObject.getCountry());
-        try {
-            Diver diver = federationService.getDiver(
-                    formObject.getFirstName(),
-                    formObject.getLastName(),
-                    Globals.getDTF().parse(formObject.getDob()),
-                    country
-            );
-            String generatedPassword = passwordService.generatePassword();
-            String newPasswd = passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT);
-            diver.setGeneratedPassword(generatedPassword);
-            diver.setPassword(newPasswd);
-            if (diver.getLocale() == null) {
-                diver.setLocale(formObject.getLocale());
-            }
-
-            diverDao.updateModel(diver);
-
+    public List<DiverRegistrationDTO> getDiversForRegistration(DiverRegistrationFormObject formObject) {
+        String certificateNumber = formObject.getCertificate();
+        List<Diver> divers;
+        if (StringUtil.isTrimmedEmpty(certificateNumber)) {
+            Country country = countryDao.getByCode(formObject.getCountry());
             try {
-                mailer.sendDiverPassword(diver);
-            } catch (Exception e) {
-                log.error("error send setup email for diver " + diver.getId(), e);
-                return null;
+                divers = federationService.searchDivers(
+                        formObject.getFirstName(),
+                        formObject.getLastName(),
+                        Globals.getDTF().parse(formObject.getDob()),
+                        country, true
+                );
+            } catch (ParseException e) {
+                throw new IllegalStateException(e);
             }
-
-            return diver;
-        } catch (ParseException e) {
-            throw new IllegalStateException(e);
+        } else {
+            divers = federationService.searchDivers(certificateNumber, true);
         }
+        if (divers.isEmpty()) {
+            return Collections.emptyList();
+        }
+        boolean isSendEmail = divers.size() == 1;
+        if (isSendEmail) {
+            setupCMASDiver(divers.get(0), formObject.getLocale());
+        }
+        List<DiverRegistrationDTO> dtos = new ArrayList<>(divers.size());
+        for (Diver diver : divers) {
+            dtos.add(evalDTO(diver, isSendEmail, certificateNumber));
+        }
+        return dtos;
+    }
+
+    private DiverRegistrationDTO evalDTO(Diver diver, boolean isEvalEmail, String certificateNumber) {
+        DiverRegistrationDTO dto = new DiverRegistrationDTO();
+        dto.setFirstName(diver.getFirstName());
+        dto.setLastName(diver.getLastName());
+        if (isEvalEmail) {
+            String email = diver.getEmail();
+            if (!StringUtil.isTrimmedEmpty(email)) {
+                dto.setMaskedEmail(email.charAt(0) + "..." + email.substring(email.indexOf('@')));
+            }
+        } else {
+            dto.setDiverId(diver.getId());
+        }
+        PersonalCard mostValuableCard = null;
+        List<PersonalCard> cards = diver.getCards();
+        if (cards != null) {
+            for (PersonalCard card : cards) {
+                if (StringUtil.isTrimmedEmpty(certificateNumber)) {
+                    if (mostValuableCard == null) {
+                        mostValuableCard = card;
+                    } else {
+                        if (card.getDiverType() == mostValuableCard.getDiverType()) {
+                            if (card.getDiverLevel() == null) {
+                                continue;
+                            }
+                            if (mostValuableCard.getDiverLevel() == null
+                                || mostValuableCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                                mostValuableCard = card;
+                            }
+                        } else if (card.getDiverType() == DiverType.INSTRUCTOR) {
+                            mostValuableCard = card;
+                        }
+                    }
+                } else {
+                    if (certificateNumber.equals(card.getNumber())) {
+                        mostValuableCard = card;
+                        break;
+                    }
+                }
+            }
+        }
+        if (mostValuableCard != null) {
+            dto.setCardNumber(mostValuableCard.getPrintNumber());
+            dto.setCardImageUrl("/i/" + drawCardService.getFileName(mostValuableCard));
+        }
+        return dto;
+    }
+
+    @Override
+    public void setupCMASDiver(Diver diver, Locale locale) {
+        String generatedPassword = passwordService.generatePassword();
+        String newPasswd = passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT);
+        diver.setGeneratedPassword(generatedPassword);
+        diver.setPassword(newPasswd);
+        if (diver.getLocale() == null) {
+            diver.setLocale(locale);
+        }
+        diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        diverDao.updateModel(diver);
+        mailer.sendDiverPassword(diver);
     }
 
     @Override
@@ -165,8 +249,29 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public boolean isFreeRegistration(Diver diver) {
-        return diverDao.getFullyRegisteredDiverCnt() <= freeDiversRegistrationsAmount;
+    @Transactional
+    public Registration add(FullDiverRegistrationFormObject formObject) {
+        Registration entity = new Registration(new Date());
+        entity.setEmail(formObject.getEmail());
+        entity.setAreaOfInterest(formObject.getAreaOfInterest());
+        entity.setCountry(formObject.getCountry());
+        entity.setFirstName(formObject.getFirstName());
+        entity.setLastName(formObject.getFirstName());
+        try {
+            entity.setDob(Globals.getDTF().parse(formObject.getDob()));
+        } catch (ParseException e) {
+            throw new IllegalStateException(e);
+        }
+        entity.setLocale(formObject.getLocale());
+        entity.setRole(Role.ROLE_DIVER.getName());
+
+        Long id = (Long) registrationDao.save(entity);
+        entity.setMd5(passwordEncoder.encodePassword(id + formObject.getEmail(), UserDetails.SALT));
+        registrationDao.updateModel(entity);
+
+        mailer.sendRegistration(entity);
+
+        return entity;
     }
 
     /**
@@ -190,10 +295,5 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (reg != null) {
             registrationDao.deleteModel(reg);
         }
-    }
-
-    @Required
-    public void setFreeDiversRegistrationsAmount(int freeDiversRegistrationsAmount) {
-        this.freeDiversRegistrationsAmount = freeDiversRegistrationsAmount;
     }
 }

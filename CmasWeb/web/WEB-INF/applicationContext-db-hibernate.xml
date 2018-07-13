@@ -45,6 +45,8 @@
                 <value>org.cmas.entities.Toponym</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
 
+                <value>org.cmas.entities.fin.PaidFeature</value>
+
                 <value>org.cmas.presentation.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
                 <value>org.cmas.presentation.entities.billing.OperationType</value>
@@ -145,6 +147,10 @@
     </bean>
 
     <bean id="invoiceDao" class="org.cmas.presentation.dao.billing.InvoiceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="paidFeatureDao" class="org.cmas.presentation.dao.billing.PaidFeatureDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

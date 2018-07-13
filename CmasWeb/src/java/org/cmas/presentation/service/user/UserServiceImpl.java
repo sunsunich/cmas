@@ -67,20 +67,20 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
 //        userBalance.setDiscountPercent(finSettings.getDefaultDiscountPercent());
 //        user.setUserBalance(userBalance);
 
-        user.setEmail(registration.getEmail());
-        // Устанавливаем дату подтверждения регистрации
         user.setDateReg(new Date());
         //String realPassword = passwordEncoder.encodePassword(entity.getPassword(), UserDetails.SALT);
         String realPassword = registration.getPassword();
         user.setPassword(realPassword);
-        user.setEnabled(true);
+        user.setLastAction(new Date());
         user.setRole(Role.valueOf(registration.getRole()));
-        user.setFirstName(registration.getFirstName());
-        user.setLastName(registration.getLastName());
         user.setLocale(registration.getLocale());
 
+        user.setEmail(registration.getEmail());
+        user.setFirstName(registration.getFirstName());
+        user.setLastName(registration.getLastName());
         Country country = countryDao.getByCode(registration.getCountry());
         user.setCountry(country);
+        user.setDob(registration.getDob());
 
         UserBalance userBalance = new UserBalance();
         userBalanceDao.save(userBalance);

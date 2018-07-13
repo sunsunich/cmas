@@ -113,8 +113,25 @@ var util_controller = {
             escapeMarkup: function (m) {
                 return m;
             },
+            theme: "bootstrap",
             placeholder: placeholder
         }).val(chosenOption).trigger("change");
+    },
+
+    setErrorSelect2: function (elemId) {
+        //todo improve basing on elemId
+        $('.select2-container--bootstrap .select2-selection,' +
+            ' .select2-container--bootstrap .select2-selection__rendered,' +
+            ' .select2-container--bootstrap .select2-selection--multiple,' +
+            '.select2-container--bootstrap .select2-selection--single').css('border-color', '#f4225b');
+    },
+
+    removeErrorSelect2: function (elemId) {
+        //todo improve basing on elemId
+        $('.select2-container--bootstrap .select2-selection,' +
+            ' .select2-container--bootstrap .select2-selection__rendered,' +
+            ' .select2-container--bootstrap .select2-selection--multiple,' +
+            '.select2-container--bootstrap .select2-selection--single').css('border-color', '');
     },
 
     setupDate: function (elemId) {

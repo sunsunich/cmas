@@ -1,44 +1,24 @@
 var recovery_model = {
 
-    changePassword: function (form, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "POST",
-            url: "/changePasswd.html",
-            dataType: "json",
-            data: form,
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    changePassword: function (form, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/changePasswd.html",
+            form,
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     },
 
-    changeEmail: function (form, successHandler, errorHandler) {
-        loader_controller.startwait();
-        $.ajax({
-            type: "POST",
-            url: "/secure/processEditEmail.html",
-            dataType: "json",
-            data: form,
-            success: function (json) {
-                if (json.success) {
-                    successHandler(json);
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function () {
+    changeEmail: function (form, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/secure/processEditEmail.html",
+            form,
+            successHandler, unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     }
 };

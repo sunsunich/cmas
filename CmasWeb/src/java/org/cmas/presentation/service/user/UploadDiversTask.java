@@ -139,7 +139,7 @@ public class UploadDiversTask implements Runnable {
                 return;
             }
             Diver dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
-            diverService.setDiverInstructor(dbDiver, diver.getInstructor());
+            diverService.setDiverInstructor(federation, dbDiver, diver.getInstructor());
             workDone++;
             progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
         }

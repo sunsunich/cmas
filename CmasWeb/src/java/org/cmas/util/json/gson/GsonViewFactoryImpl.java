@@ -38,8 +38,8 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     }
 
     @Override
-    public Gson getPersonalCardsGson() {
-        return createCommonGsonBuilder().create();
+    public Gson getCommonGson() {
+        return createCommonGsonBuilder().setDateFormat(Globals.DTF).create();
     }
 
     @Override

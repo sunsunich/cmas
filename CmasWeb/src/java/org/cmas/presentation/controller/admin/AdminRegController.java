@@ -2,7 +2,6 @@ package org.cmas.presentation.controller.admin;
 
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,10 +55,7 @@ public class AdminRegController {
     @RequestMapping("/admin/registration/add.html")
     public String addRegistration(@RequestParam("regId") Long id) {
         Registration registration = registrationDao.getById(id);
-        RegistrationConfirmFormObject formObject = new RegistrationConfirmFormObject();
-        formObject.setRegId(registration.getNullableId());
-        formObject.setSec(registration.getMd5());
-        adminService.processConfirmRegistration(formObject,"");
+        adminService.processConfirmRegistration(registration,"");
         return "redirect:/admin/registration/readyToCreate.html";
     }
 

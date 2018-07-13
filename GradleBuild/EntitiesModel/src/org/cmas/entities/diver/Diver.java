@@ -1,6 +1,7 @@
 package org.cmas.entities.diver;
 
 import com.google.myjson.annotations.Expose;
+import org.cmas.Globals;
 import org.cmas.entities.CardUser;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -83,7 +85,21 @@ public class Diver extends CardUser {
 
     @Expose
     @Column
-    private boolean hasPayed;
+    private Date dateLicencePaymentIsDue;
+
+    @Expose
+    @Column
+    @Enumerated(EnumType.STRING)
+    private DiverRegistrationStatus previousRegistrationStatus;
+
+    @Expose
+    @Column
+    @Enumerated(EnumType.STRING)
+    private DiverRegistrationStatus diverRegistrationStatus;
+
+    @Expose
+    @Column(length = Globals.HALF_MAX_LENGTH)
+    private String areaOfInterest;
 
     @Expose
     @Column
@@ -100,6 +116,38 @@ public class Diver extends CardUser {
     public Diver(long id) {
         super(id);
         defaultVisibility = LogbookVisibility.PRIVATE;
+    }
+
+    public String getAreaOfInterest() {
+        return areaOfInterest;
+    }
+
+    public void setAreaOfInterest(String areaOfInterest) {
+        this.areaOfInterest = areaOfInterest;
+    }
+
+    public DiverRegistrationStatus getPreviousRegistrationStatus() {
+        return previousRegistrationStatus;
+    }
+
+    public void setPreviousRegistrationStatus(DiverRegistrationStatus previousRegistrationStatus) {
+        this.previousRegistrationStatus = previousRegistrationStatus;
+    }
+
+    public Date getDateLicencePaymentIsDue() {
+        return dateLicencePaymentIsDue;
+    }
+
+    public void setDateLicencePaymentIsDue(Date dateLicencePayment) {
+        this.dateLicencePaymentIsDue = dateLicencePayment;
+    }
+
+    public DiverRegistrationStatus getDiverRegistrationStatus() {
+        return diverRegistrationStatus;
+    }
+
+    public void setDiverRegistrationStatus(DiverRegistrationStatus diverRegistrationStatus) {
+        this.diverRegistrationStatus = diverRegistrationStatus;
     }
 
     public long getSocialUpdatesVersion() {
@@ -156,14 +204,6 @@ public class Diver extends CardUser {
 
     public void setDiverType(DiverType diverType) {
         this.diverType = diverType;
-    }
-
-    public boolean isHasPayed() {
-        return hasPayed;
-    }
-
-    public void setHasPayed(boolean hasPayed) {
-        this.hasPayed = hasPayed;
     }
 
     public List<PersonalCard> getCards() {

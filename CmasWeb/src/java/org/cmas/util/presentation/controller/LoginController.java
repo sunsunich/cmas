@@ -1,8 +1,14 @@
 package org.cmas.util.presentation.controller;
 
+import org.cmas.entities.diver.AreaOfInterest;
+import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.Cookies;
+import org.cmas.util.json.RedirectResponse;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.spring.LogoutEventBroadcaster;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.ui.AbstractProcessingFilter;
 import org.springframework.security.ui.webapp.AuthenticationProcessingFilter;
@@ -23,31 +29,53 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private GsonViewFactory gsonViewFactory;    
+    private GsonViewFactory gsonViewFactory;
+
+    @Autowired
+    private CountryDao countryDao;
+
+    @RequestMapping(value = "/login-form.html", method = RequestMethod.GET)
+    public ModelAndView showLoginForm(ModelMap model) {
+        return buildLoginForm(model);
+    }
+
+    @NotNull
+    private ModelAndView buildLoginForm(ModelMap model) {
+        model.addAttribute("command", new DiverRegistrationFormObject());
+        try {
+            model.addAttribute("countries", countryDao.getAll());
+            model.addAttribute("mode", "login");
+            model.addAttribute("areas", AreaOfInterest.values());
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
+        return new ModelAndView("registration");
+    }
 
     @RequestMapping(value = "/login.html", method = RequestMethod.GET)
-    public View showLogin(ModelMap model,
-                          HttpSession sess,
-                          @RequestParam(required = false, value = "login_error") Boolean hasError,
-                          @RequestParam(required = false, value = "redirectUrl") String redirectUrl
+    public View login(ModelMap model,
+                      HttpSession sess,
+                      @RequestParam(required = false, value = "login_error") Boolean hasError,
+                      @RequestParam(required = false, value = "redirectUrl") String redirectUrl
     ) {
         if (hasError != null && hasError) {
-            return gsonViewFactory.createErrorGsonView("cmas.badcredentials");
+            return gsonViewFactory.createErrorGsonView("validation.badCredentials");
         }
-        if(redirectUrl != null){
-            return gsonViewFactory.createGsonView(new LoginRedirectGsonResponse(true, redirectUrl));
+        if (redirectUrl != null) {
+            return gsonViewFactory.createGsonView(new RedirectResponse(true, redirectUrl));
         }
-        return gsonViewFactory. createSuccessGsonView();
+        return gsonViewFactory.createSuccessGsonView();
     }
 
 
-    @RequestMapping(value = "/login-redirect.html",method = RequestMethod.GET)
+    @RequestMapping(value = "/login-redirect.html", method = RequestMethod.GET)
     public ModelAndView loginRedirect(ModelMap model, HttpSession sess, HttpServletRequest request, HttpServletResponse response,
-                            @RequestParam(required = false, value = "login_error") Boolean hasError) {
+                                      @RequestParam(required = false, value = "login_error") Boolean hasError) {
         if (hasError != null && hasError) {
-            Throwable thread = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
-            if (thread != null) {
-                model.addAttribute("loginError", thread.getMessage());
+            Throwable throwable
+                    = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+            if (throwable != null) {
+                model.addAttribute("loginError", throwable.getMessage());
             }
             Object obj = sess.getAttribute(AuthenticationProcessingFilter.SPRING_SECURITY_LAST_USERNAME_KEY);
             if (obj != null) {
@@ -59,24 +87,26 @@ public class LoginController {
                 , ""
                 , 0);
         response.addCookie(cookie);
-        return new ModelAndView("redirect:/");
+        return buildLoginForm(model);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView showLogin(ModelMap model, HttpSession sess,
-                            @RequestParam(required = false, value = "login_error") Boolean hasError) {
-        if (hasError != null && hasError) {
-            Throwable thread = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
-            if (thread != null) {
-                model.addAttribute("loginError", thread.getMessage());
-            }
-            Object obj = sess.getAttribute(AuthenticationProcessingFilter.SPRING_SECURITY_LAST_USERNAME_KEY);
-            if (obj != null) {
-                model.addAttribute("lastLogin", obj);
-            }
-        }
-        return new ModelAndView("redirect:/");
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public ModelAndView showLogin(ModelMap model, HttpSession sess,
+//                                  @RequestParam(required = false, value = "login_error") Boolean hasError) {
+//        if (hasError != null && hasError) {
+//            Throwable
+//                    thread
+//                    = (Throwable) sess.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+//            if (thread != null) {
+//                model.addAttribute("loginError", thread.getMessage());
+//            }
+//            Object obj = sess.getAttribute(AuthenticationProcessingFilter.SPRING_SECURITY_LAST_USERNAME_KEY);
+//            if (obj != null) {
+//                model.addAttribute("lastLogin", obj);
+//            }
+//        }
+//        return new ModelAndView("redirect:/login.html");
+//    }
 
     /*
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {

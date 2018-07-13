@@ -50,12 +50,12 @@ public class FreemarkerRenderer implements TemplateRenderer<ModelAttr> {
     }
 
     @Override
-    public String renderText(String template, Locale locale, ModelAttr[] modelMembers) {
+    public String renderText(String templateName, Locale locale, ModelAttr[] modelMembers) {
         Map<String, Object> model = createCommonLocalizedModel(locale);
         for (ModelAttr modelMember : modelMembers) {
             model.put(modelMember.name, modelMember.data);
         }
-        return renderTextInternal(model, template, locale);
+        return renderTextInternal(model, templateName, locale);
     }
 
     private String renderTextInternal(Map<String, Object> model, String template, Locale locale) {

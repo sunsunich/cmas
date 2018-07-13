@@ -5,8 +5,7 @@
 <jsp:useBean id="email" scope="request" type="java.lang.String"/>
 <jsp:useBean id="passwordStrength" scope="request" type="java.lang.String"/>
 
-<my:basePage title="РЕГИСТРАЦИЯ" indexpage="false"
-        >
+<my:basePage title="РЕГИСТРАЦИЯ">
 
 
     <!-- end of Navigation menu -->

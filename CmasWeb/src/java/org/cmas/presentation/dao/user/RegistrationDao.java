@@ -13,11 +13,10 @@ public interface RegistrationDao extends HibernateDao<Registration> {
 
     /**
      * Ищем регистрацию клиента
-     * @param id - идентификатор клиента
      * @param sec - md5 - код регистрации
      * @return данные клиента
      */
-    Registration getByIdAndSec(Long id, String sec);
+    Registration getBySec(String sec);
 
     /**
      * Возвращает список клиентов, готовых к прохождению регистрации

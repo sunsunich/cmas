@@ -41,17 +41,6 @@ public interface Scheduler {
     @NotNull
     Date scheduleDaily(@NotNull Runnable command, int hours, int minutes, @Nullable TimeZone zone);
 
-    /**
-     * Запускает ежедневное выполнение команды
-     *
-     * @param command Команда
-     * @param hours   Время запуска, в часах
-     * @param minutes Время запуска, в минутах
-     * @return Время, когда команда запустится в первый раз
-     */
-    @NotNull
-    Date scheduleDaily(@NotNull Runnable command, int hours, int minutes);
-
     @NotNull
     Date scheduleWeekly(@NotNull Runnable command, int dayOfWeek, int hours, int minutes, TimeZone zone);
 

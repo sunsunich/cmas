@@ -9,7 +9,7 @@
     <div class="content">
         <div class="pass_link">
             <a class="link" href="${pageContext.request.contextPath}/">
-                <s:message code="cmas.face.link.back.text"/>
+                <s:message code="cmas.face.link.back.home.text"/>
             </a>
         </div>
         <c:forEach items="${divers}" var="diver">
@@ -64,7 +64,7 @@
         </c:forEach>
         <div class="pass_link">
             <a class="link" href="${pageContext.request.contextPath}/">
-                <s:message code="cmas.face.link.back.text"/>
+                <s:message code="cmas.face.link.back.home.text"/>
             </a>
         </div>
     </div>

@@ -1,7 +1,33 @@
 var login_controller = {
 
+    isInit: false,
+    validationController: null,
+
     init: function () {
+        this.validationController = simpleClone(validation_controller);
+        this.validationController.prefix = 'login';
+        this.validationController.fields = [
+            {
+                id: 'email',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emailEmpty';
+                    }
+                }
+            },
+            {
+                id: 'password',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.passwordEmpty';
+                    }
+                }
+            }
+        ];
+        //this.validationController.submitButton = $('#loginSubmit');
+        this.validationController.init();
         this.setListeners();
+        this.isInit = true;
     },
 
     setListeners: function () {
@@ -10,45 +36,35 @@ var login_controller = {
             self.sendLogin();
             return false;
         });
-        $('#passField').keydown(function (e) {
+        $('#login_password').keydown(function (e) {
             if (e.which == 13) {
                 self.sendLogin();
                 return false;
             }
             return true;
         });
-        $('#regLink').click(function () {
-            window.location.href = "/diver-registration.html";
-            return false;
-        });
-        $('#verifyLink').click(function () {
-            window.location.href = "/diver-verification.html";
+        $('#forgotPassword').click(function () {
+            window.location.href = '/lostPasswordForm.html';
             return false;
         });
     },
 
     sendLogin: function () {
-        $("#error").hide();
-        var username = $('#loginField').val();
-        var password = $('#passField').val();
-        var rememberMe = '';
-        if ($('#rememberLogin').prop("checked")) {
-            rememberMe = 'on';
-        }
-        login_model.login(
-            username
-            , password
-            , rememberMe
-            , function (json) {
-                window.location.href = json.redirectUrl;
+        if (this.validationController.validateForm()) {
+            var rememberMe = '';
+            if ($('#rememberLogin').prop("checked")) {
+                rememberMe = 'on';
             }
-            , function (message) {
-                $("#error").show();
-            });
-        // this.overlay.hide();
+            var self = this;
+            login_model.login(
+                self.validationController.form.email, self.validationController.form.password, rememberMe
+                , function (json) {
+                    window.location.href = json.redirectUrl;
+                }
+                , function (/*json*/) {
+                    self.validationController.showErrors({errors: {error: "validation.badCredentials"}});
+                }
+            );
+        }
     }
 };
-
-$(document).ready(function () {
-    login_controller.init();
-});

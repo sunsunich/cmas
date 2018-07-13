@@ -1,0 +1,14 @@
+<% var i = 0;
+for(i = 0;i < divers.length;i++) {
+    var fullName = divers[i].firstName + ' ' + divers[i].lastName;
+%>
+<div class="diver-to-choose-list-item" id="<%= divers[i].diverId %>_diverToChoose">
+    <div class="choose-diver-text">
+        <span class="choose-diver-name"><%= fullName %></span><br/>
+        <span class="choose-diver-card-number"><%= divers[i].cardNumber %></span>
+    </div>
+    <div class="choose-diver-image">
+        <img src="<%= divers[i].cardImageUrl %>?v=<%= webVersion %>"/>
+    </div>
+</div>
+<% } %>

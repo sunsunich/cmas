@@ -4,6 +4,6 @@
 <%@ attribute name="enumItems" required="true" type="java.lang.Enum[]"%>
 <%@ attribute name="arrayVarName" required="true" type="java.lang.String"%>
 
-<c:forEach items="${enumItems}" var="enumItem" varStatus="st">
-  ${arrayVarName}[${st.index}] = '${enumItem.name}';
+<c:forEach items="${enumItems}" var="enumItem">
+  ${arrayVarName}.push('${enumItem.name}');
 </c:forEach>

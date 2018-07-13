@@ -1,23 +1,27 @@
 package org.cmas.presentation.service.billing;
 
+import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.fin.PaidFeature;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.model.billing.PaymentAddData;
-import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.mail.MailService;
 import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.List;
 
 public class BillingServiceImpl implements BillingService {
 
@@ -40,6 +44,7 @@ public class BillingServiceImpl implements BillingService {
     private static final int MAX_ATTEMPTS_CNT = 2;
 
 
+    @Transactional
     @Override
     public boolean paymentAdd(PaymentAddData data, String ip, boolean isConfirmEmail) {
         BigDecimal amount = new BigDecimal(data.getAmount());
@@ -62,7 +67,7 @@ public class BillingServiceImpl implements BillingService {
 //            Invoice invoice = invoiceDao.getById(invoiceId);
 
 //            try {
-                //todo fix hibernate session here
+            //todo fix hibernate session here
 //                mailService.paymentFailed(invoice);
 //            } catch (Exception ex) {
 //                LOG.error("error while sending email to user", ex);
@@ -71,14 +76,37 @@ public class BillingServiceImpl implements BillingService {
         }
         Invoice invoice = invoiceDao.getById(invoiceId);
         Diver diver = invoice.getDiver();
-        diver.setHasPayed(true);
-        diverDao.updateModel(diver);
-        if (isConfirmEmail) {
-            try {
-                mailService.confirmPayment(invoice);
-            } catch (Exception e) {
-                LOG.error("error while sending email to user", e);
+        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC ||
+            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_FULL ||
+            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
+            boolean hasCmasLicenceFeature = false;
+            for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
+                if (paidFeature.getId() == 1L) {
+                    hasCmasLicenceFeature = true;
+                    break;
+                }
             }
+            if (hasCmasLicenceFeature) {
+                Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
+                long startTime;
+                if (dateLicencePaymentIsDue == null || dateLicencePaymentIsDue.getTime() < System.currentTimeMillis()) {
+                    startTime = System.currentTimeMillis();
+                } else {
+                    startTime = dateLicencePaymentIsDue.getTime();
+                }
+                diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
+                if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC) {
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                } else if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.DEMO);
+                }
+                diverDao.updateModel(diver);
+            }
+        }
+        if (isConfirmEmail) {
+            mailService.confirmPayment(invoice);
         }
         return true;
     }
@@ -144,9 +172,11 @@ public class BillingServiceImpl implements BillingService {
     }
 
     @Override
-    public Invoice createInvoice(PaymentAddFormObject fo, User user) {
-        BigDecimal amount = new BigDecimal(fo.getAmount());
-        InvoiceType type = InvoiceType.valueOf(fo.getPaymentType());
+    public Invoice createInvoice(List<PaidFeature> features, User user, InvoiceType type) {
+        BigDecimal amount = BigDecimal.ZERO;
+        for (PaidFeature paidFeature : features) {
+            amount = amount.add(paidFeature.getPrice());
+        }
         Invoice invoice = new Invoice();
 
         invoice.setAmount(amount);
@@ -154,6 +184,7 @@ public class BillingServiceImpl implements BillingService {
         invoice.setInvoiceStatus(InvoiceStatus.NOT_PAID);
         invoice.setInvoiceType(type);
         invoice.setUser(user);
+        invoice.setRequestedPaidFeatures(features);
         saveInvoiceAndSetExtId(invoice);
         return invoice;
     }

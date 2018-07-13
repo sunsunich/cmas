@@ -7,7 +7,7 @@
 
     <h2><s:message code="cmas.face.changePasswd.form.description"/></h2>
 
-    <div><s:message code="cmas.face.changePasswd.success.message"/>. <a href="/fed/index.html">Back to Divers management</a></div>
+    <div><s:message code="cmas.face.changePasswd.success.text"/>. <a href="/fed/index.html">Back to Divers management</a></div>
 
     <!-- end of Content -->
 </my:fed_adminpage>

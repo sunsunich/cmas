@@ -2,9 +2,9 @@ package org.cmas.presentation.service.admin;
 
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.BackendUser;
+import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
-import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
 
 
 public interface AdminService {
@@ -51,7 +51,7 @@ public interface AdminService {
 //     userRegistration createRegistration(userRegistrationFormObject data);
 
 
-    BackendUser processConfirmRegistration(RegistrationConfirmFormObject formObject, String ip);
+    BackendUser processConfirmRegistration(Registration registration, String ip);
 
 
 }

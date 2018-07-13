@@ -2,7 +2,7 @@
 <@mailer.mail title="Payment at CMASDATA failed">
 <p>Dear ${invoice.diver.firstName} ${invoice.diver.lastName},</p>
 <p>
-    your one time payment of membership fee failed! Please try again. <br />
+    your payment for membership fee has failed! Please try again. <br />
 </p>
 </@mailer.mail>
 

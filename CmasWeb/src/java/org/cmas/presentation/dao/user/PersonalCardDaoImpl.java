@@ -20,7 +20,7 @@ public class PersonalCardDaoImpl extends HibernateDaoImpl<PersonalCard> implemen
     }
 
     @Override
-    public void  deleteDiverCards(Diver diver) {
+    public void deleteDiverCards(Diver diver) {
         String hql = "delete from org.cmas.entities.PersonalCard c where c.diver = :diver and c.cardType != :cardType";
         createQuery(hql).setEntity("diver", diver).setParameter("cardType", PersonalCardType.PRIMARY)
                         .executeUpdate();

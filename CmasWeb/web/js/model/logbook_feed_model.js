@@ -38,25 +38,25 @@ var logbook_feed_model = {
         this.lastElemId = null;
     },
 
-    getNewRecords: function (successHandler, errorHandler) {
+    getNewRecords: function (successHandler, unSuccessHandler) {
         var self = this;
         var form = {
             fromDateTimestamp: self.latestDate, toDateTimestamp: "", limit: self.limit
         };
 
-        this.getRecords(form, successHandler, errorHandler);
+        this.getRecords(form, successHandler, unSuccessHandler);
     },
 
-    getOldRecords: function (successHandler, errorHandler) {
+    getOldRecords: function (successHandler, unSuccessHandler) {
         var self = this;
         var form = {
             fromDateTimestamp: "", toDateTimestamp: self.earliestDate, limit: self.limit
         };
 
-        this.getRecords(form, successHandler, errorHandler);
+        this.getRecords(form, successHandler, unSuccessHandler);
     },
 
-    searchForRecords: function (successHandler, errorHandler) {
+    searchForRecords: function (successHandler, unSuccessHandler) {
         var self = this;
         var form = {
             country: self.country,
@@ -69,70 +69,45 @@ var logbook_feed_model = {
             limit: this.limit
         };
 
-        this.getRecords(form, successHandler, errorHandler);
+        this.getRecords(form, successHandler, unSuccessHandler);
     },
 
-    getRecords: function (form, successHandler, errorHandler) {
-        if (this.isFirstLoad) {
-            loader_controller.startwait();
-        }
+    getRecords: function (form, successHandler, unSuccessHandler) {
         var self = this;
-        $.ajax({
-            type: "GET",
-            url: self.url,
-            dataType: "json",
-            data: form,
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    self.setState(json);
-                    successHandler({
-                        records: json,
-                        isMyRecords: self.isMyRecords,
-                        containerId: self.containerId
-                    });
-
-                    if (self.isFirstLoad) {
-                        loader_controller.stopwait();
-                        self.isFirstLoad = false;
-                    }
-                } else {
-                    if (self.isFirstLoad) {
-                        loader_controller.stopwait();
-                        self.isFirstLoad = false;
-                    }
-                    errorHandler(json);
+        basicClient.sendGetRequest(this.isFirstLoad, self.url, form, function (json) {
+                self.setState(json);
+                successHandler({
+                    records: json,
+                    isMyRecords: self.isMyRecords,
+                    containerId: self.containerId
+                });
+                if (self.isFirstLoad) {
+                    self.isFirstLoad = false;
                 }
             },
-            error: function (e) {
+            function (json) {
                 if (self.isFirstLoad) {
-                    loader_controller.stopwait();
+                    self.isFirstLoad = false;
+                }
+                unSuccessHandler(json);
+            },
+            function () {
+                if (self.isFirstLoad) {
                     self.isFirstLoad = false;
                 }
             }
-        });
+        );
     },
 
-    deletetRecord: function (successHandler, errorHandler) {
-        loader_controller.startwait();
-        var self = this;
-        $.ajax({
-            type: "GET",
-            url: "/secure/deleteRecord.html",
-            dataType: "json",
-            data: {logbookEntryId: self.deleteRecordId},
-            success: function (json) {
-                var success = !json.hasOwnProperty('success') || json.success;
-                if (success) {
-                    successHandler();
-                } else {
-                    errorHandler(json);
-                }
-                loader_controller.stopwait();
-            },
-            error: function (e) {
+    deleteRecord: function (successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/deleteRecord.html",
+            {logbookEntryId: this.deleteRecordId},
+            successHandler,
+            unSuccessHandler,
+            function () {
                 window.location.reload();
             }
-        });
+        );
     }
 };

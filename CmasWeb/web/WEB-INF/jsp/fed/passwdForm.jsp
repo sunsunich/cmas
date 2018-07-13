@@ -7,8 +7,8 @@
 
 <my:fed_adminpage title="cmas.face.changePasswd.form.page.title">
 
-    <h2><s:message code="cmas.face.changePasswd.form.description"/></h2>
-    <ff:form submitText="cmas.face.changePasswd.form.submitText" action="/fed/processEditPasswd.html" method="POST"
+    <h2><s:message code="cmas.face.changePasswd.form.header"/></h2>
+    <ff:form submitText="cmas.face.changePasswd.form.submitText" action="/fed/processEditPassword.html" method="POST"
              noRequiredText="true">
         <ff:password path="oldPassword" label="cmas.face.changePasswd.form.label.oldPassword"/>
         <ff:password path="password" label="cmas.face.changePasswd.form.label.password"/>

@@ -21,6 +21,6 @@ public class MessageRenderer implements TemplateRenderer<Object> {
 
     @Override
     public String renderText(String templateName, Locale locale, Object[] modelMembers) {
-        return msgSource.getMessage(codePrefix+templateName, modelMembers, locale);
+        return msgSource.getMessage(codePrefix + templateName, modelMembers, locale);
     }
 }

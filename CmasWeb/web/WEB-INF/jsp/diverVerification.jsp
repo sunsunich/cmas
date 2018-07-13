@@ -11,7 +11,7 @@
 <jsp:useBean id="hasUsers" scope="request" type="java.lang.Boolean"/>
 <jsp:useBean id="reCaptchaPublicKey" scope="request" type="java.lang.String"/>
 
-<my:basePage title="cmas.face.index.header" indexpage="false"
+<my:basePage title="cmas.face.index.header"
              customScripts="js/controller/country_controller.js,https://www.google.com/recaptcha/api.js"
         >
     <script type="application/javascript">

@@ -30,9 +30,9 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private static final int MAX_USER_PIC_WIDTH_PX = 90;
+    private static final int MAX_USER_PIC_WIDTH_PX = 344;
 
-    private static final int MAX_USER_PIC_HEIGHT_PX = 120;
+    private static final int MAX_USER_PIC_HEIGHT_PX = 360;
 
     private static final int MAX_LOGBOOK_ENTRY_IMAGE_WIDTH_PX = 1330;
 

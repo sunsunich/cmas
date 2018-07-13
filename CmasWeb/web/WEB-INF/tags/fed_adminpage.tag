@@ -35,6 +35,7 @@
     <script type="text/javascript" src="/js/i18n/error_codes.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/i18n/labels.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/util.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="/js/model/basic_client.js?v=${webVersion}"></script>
 
     <script type="text/javascript" src="/js/controller/loader_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/controller/validation_controller.js?v=${webVersion}"></script>

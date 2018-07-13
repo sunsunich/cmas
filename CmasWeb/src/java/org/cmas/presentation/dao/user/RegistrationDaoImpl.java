@@ -13,7 +13,7 @@ import java.util.List;
 @SuppressWarnings({"unchecked"})
 public class RegistrationDaoImpl extends HibernateDaoImpl<Registration> implements RegistrationDao {
 
-    public RegistrationDaoImpl(Class<Registration> modelClass){
+    public RegistrationDaoImpl(Class<Registration> modelClass) {
         super(modelClass);
     }
 
@@ -31,10 +31,8 @@ public class RegistrationDaoImpl extends HibernateDaoImpl<Registration> implemen
 
     @Override
     @Transactional
-    public Registration getByIdAndSec(@NotNull Long id, @NotNull String sec) {
-        Criteria crit = createCriteria();
-        return (Registration) crit.add(Restrictions.eq("id", id))
-                .add(Restrictions.eq("md5", sec)).uniqueResult();
+    public Registration getBySec(@NotNull String sec) {
+        return (Registration) createCriteria().add(Restrictions.eq("md5", sec)).uniqueResult();
     }
 
     @Transactional

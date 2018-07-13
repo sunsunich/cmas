@@ -1,17 +1,12 @@
 var social_settings_controller = {
 
-    newsCountryController: {},
     timeout: null,
 
     init: function () {
-        this.newsCountryController = simpleClone(country_controller);
-        this.newsCountryController.inputId = "countryToNews";
-        this.newsCountryController.drawIcon = false;
-        this.newsCountryController.init();
         country_controller.inputId = "findDiverCountry";
         country_controller.drawIcon = false;
         country_controller.init();
-        this.refreshNewsCountries();
+        this.start();
         this.setListeners();
     },
 
@@ -137,46 +132,6 @@ var social_settings_controller = {
         );
     },
 
-    refreshNewsCountries: function () {
-        var self = this;
-        social_model.getNewsCountries(
-            function (json) {
-                if (json.length > 0) {
-                    $('#newsCountries').html(
-                        new EJS({url: '/js/templates/newsCountries.ejs?v=' + webVersion}).render({
-                            "countries": json,
-                            "webVersion": webVersion
-                        })
-                    ).show();
-                    for (var i = 0; i < json.length; i++) {
-                        $('#' + json[i].code + '_removeNewsCountry').click(function () {
-                            var code = $(this)[0].id.split('_')[0];
-                            social_model.removeCountryFromNews(code,
-                                function () {
-                                    self.refreshNewsCountries();
-                                },
-                                function (json) {
-                                    if (json && json.hasOwnProperty("message")) {
-                                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                                    }
-                                    else {
-                                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                                    }
-                                }
-                            );
-                        });
-                    }
-                }
-                else {
-                    $('#newsCountries').hide();
-                }
-            }
-            , function () {
-                $('#newsCountries').hide();
-            }
-        );
-    },
-
     setListeners: function () {
         var self = this;
 
@@ -244,82 +199,6 @@ var social_settings_controller = {
         $('#showLogbookEntryOk').click(function () {
             $('#showLogbookEntry').hide();
         });
-        //$('#addTeamToLogbook').click(function () {
-        //    var checked = $(this).prop("checked");
-        //    social_model.setAddTeamToLogbook(
-        //        checked,
-        //        function (/*json*/) {
-        //        },
-        //        function (json) {
-        //            if (json && json.hasOwnProperty("message")) {
-        //                error_dialog_controller.showErrorDialog(error_codes[json.message]);
-        //            }
-        //            else {
-        //                error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-        //            }
-        //        }
-        //    );
-        //});
-
-        $('#addLocationCountryToNewsFeed').click(function () {
-            var checked = $(this).prop("checked");
-            social_model.setAddLocationCountryToNewsFeed(
-                checked,
-                function (/*json*/) {
-                },
-                function (json) {
-                    if (json && json.hasOwnProperty("message")) {
-                        error_dialog_controller.showErrorDialog(error_codes[json.message]);
-                    }
-                    else {
-                        error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-                    }
-                }
-            );
-        });
-        $('#addCountryClose').click(function () {
-            $('#addCountry').hide();
-        });
-        $('#addCountryOk').click(function () {
-            self.addCountryToNews();
-        });
-        $('#addCountryButton').click(function () {
-            $('#addCountry').show();
-        });
-    },
-
-    addCountryToNews: function () {
-        var self = this;
-        var countryCode = $('#countryToNews').val();
-        $('#addCountryForm_error_countryCode').empty();
-        $('#addCountryForm_error').empty().hide();
-        var formErrors = {};
-        formErrors.fieldErrors = {};
-        formErrors.errors = [];
-        if (isStringTrimmedEmpty(countryCode)) {
-            formErrors.fieldErrors["countryCode"] = 'validation.emptyCountry';
-        }
-        formErrors.success = jQuery.isEmptyObject(formErrors.fieldErrors) && jQuery.isEmptyObject(formErrors.errors);
-        if (formErrors.success) {
-            social_model.addCountryToNews(
-                countryCode,
-                function (/*json*/) {
-                    self.refreshNewsCountries();
-                    $('#addCountry').hide();
-                }
-                , function (json) {
-                    if (json) {
-                        validation_controller.showErrors('addCountryForm', json);
-                    }
-                    else {
-                        $('#addCountryForm_error').html(error_codes["validation.internal"]);
-                    }
-                }
-            );
-        }
-        else {
-            validation_controller.showErrors('addCountryForm', formErrors);
-        }
     },
 
     findDiver: function () {

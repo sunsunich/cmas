@@ -1,7 +1,11 @@
 var error_codes = {
+    "validation.badCredentials": "E-mail and Password mismatch",
+
+    "validation.loggedOut": "You were logged out. Please login again",
     "validation.emailExists": "email already exists in the system",
     "validation.emailEmpty": "email is missing",
     "validation.cantFindEmail": "cannot find a user with such an email",
+    "validation.captcha": "reCAPTCHA challenge is not passed",
 
     "validation.passwordEmpty": "password is missing",
     "validation.checkPasswordEmpty": "password is missing",
@@ -14,6 +18,7 @@ var error_codes = {
     "validation.emptyField": "empty field",
     "validation.maxLength": "message length is over the maximum length allowed",
 
+    "validation.emptyCertificate": "Please enter CMAS card number or tick the box below",
     "validation.emptyCountry": "Please enter value for country",
     "validation.emptyFirstName": "Please enter value for first name",
     "validation.emptyLastName": "Please enter value for last name",
@@ -31,8 +36,12 @@ var error_codes = {
     "validation.toponym": "Please enter a local hydronym, e.g. bay, strait or lake",
     "validation.emptyDivingSpotName": "Please enter value for diving spot name",
 
-    "validation.noPersonInFederation": "You are not found within the database of your country. Please contact your federation",
-    "validation.diverAlreadyRegistered": "You have already registered at Cmas Data",
+    "validation.noDiverInFederation": "You are not found within the database of your country. Please contact your federation",
+    "validation.certificateUnknown": "We can’t find CMAS certificate with this number",
+    "validation.diverAlreadyRegistered": "You have already registered at Cmas Data. Please Sign In using your email and password",
+    "validation.registrationEmailMismatch": "Entered email does not match the email of the chosen diver. Please enter another email or choose another diver",
+    "validation.noPaidFeatureSelected": "Please select at least one paid feature",
+
     "validation.friendAlready": "You are already a friend to this person",
     "validation.friendRequestAlreadyExists": "You have already send a friend requests to this person",
     "validation.friendRequestAlreadyProcessed": "You have already processed this requests",

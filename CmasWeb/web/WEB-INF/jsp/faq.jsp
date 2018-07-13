@@ -5,13 +5,13 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-<my:basePage title="cmas.face.index.header" indexpage="false" doNotDoAuth="true" >
+<my:basePage title="cmas.face.index.header" doNotDoAuth="true" >
 
     <div class="content" id="Content">
         <div class="header"><span><b><s:message code="cmas.face.client.faq"/></b></span></div>
         <div class="return">
             <a href="${pageContext.request.contextPath}/">
-                <s:message code="cmas.face.link.back.text"/>
+                <s:message code="cmas.face.link.back.home.text"/>
             </a>
         </div>
         <div class="question">

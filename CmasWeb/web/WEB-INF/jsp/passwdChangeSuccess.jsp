@@ -4,7 +4,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <jsp:useBean id="passwordStrength" scope="request" type="java.lang.String"/>
 
-<my:basePage title="ИЗМЕНЕНИЕ ПАРОЛЯ" indexpage="false"
+<my:basePage title="ИЗМЕНЕНИЕ ПАРОЛЯ"
         >
 
     <!-- end of Navigation menu -->

@@ -5,21 +5,10 @@ import org.springframework.beans.factory.annotation.Required;
 
 public class PaySystemSettings {
 
-    private String firstPayment;
-
     private String systempayMode;
     private String systempayCurrencyCode;
     private String systempaySiteId;
     private String systempayCertificate;
-
-    public String getFirstPayment() {
-        return firstPayment;
-    }
-
-    @Required
-    public void setFirstPayment(String firstPayment) {
-        this.firstPayment = firstPayment;
-    }
 
     public String getSystempayMode() {
         return systempayMode;

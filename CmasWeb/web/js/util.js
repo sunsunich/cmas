@@ -100,7 +100,7 @@ function mapSize(obj) {
         if (obj.hasOwnProperty(key)) size++;
     }
     return size;
-};
+}
 
 function removeFromArrayByIndex(array, index) {
     if (null == array || "object" != typeof array) return array;
@@ -114,4 +114,36 @@ function removeFromArrayByIndex(array, index) {
         }
     }
     return newArray;
+}
+
+function replaceBackgroundFullWindow(containerId, imgId, deltaHeight) {
+    replaceBackground(containerId, imgId);
+    $("#" + containerId).css('height', $(window).height() - deltaHeight);
+}
+
+function replaceBackground(containerId, imgId) {
+    var imgElem = $("#" + imgId).get(0); //retrieve DOM element from background Img
+    //test currentSrc support, if not supported, use the old src
+    var src = imgElem.currentSrc ? imgElem.currentSrc : imgElem.src;
+    $("#" + containerId).css("backgroundImage", 'url("' + src + '")');
+}
+
+function adjustTextFont(containerId, compressor, minFont, maxFont) {
+    adjustCssProperty('font-size', "#" + containerId, $("#" + containerId).width(), compressor, minFont, maxFont);
+}
+
+function adjustTextFontHorizontalViewPort(containerId, compressor, minFont, maxFont) {
+    adjustCssProperty('font-size', "#" + containerId, $(window).width(), compressor, minFont, maxFont);
+}
+
+function adjustCssProperty(propertyName, jquerySelector, valueToAdjustTo, compressor, minValue, maxValue) {
+    $(jquerySelector).css(propertyName, Math.max(
+        Math.min(valueToAdjustTo / (10 * compressor), parseFloat(maxValue)), parseFloat(minValue))
+    );
+}
+
+function reverseAdjustCssProperty(propertyName, jquerySelector, valueToAdjustTo, compressor, minValue, maxValue) {
+    $(jquerySelector).css(propertyName, Math.max(
+        Math.min((10 * compressor) / valueToAdjustTo, parseFloat(maxValue)), parseFloat(minValue))
+    );
 }

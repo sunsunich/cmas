@@ -219,11 +219,7 @@ public class LogbookServiceImpl implements LogbookService {
 
             instructor.setSocialUpdatesVersion(instructor.getSocialUpdatesVersion() + 1L);
             diverDao.updateModel(instructor);
-            try {
-                mailService.sendToInstructorToApprove(logbookBuddieRequestDao.getById(requestId));
-            } catch (Exception e) {
-                log.error("error send email for user " + request.getTo(), e);
-            }
+            mailService.sendToInstructorToApprove(logbookBuddieRequestDao.getById(requestId));
         }
 
         if (buddies != null) {

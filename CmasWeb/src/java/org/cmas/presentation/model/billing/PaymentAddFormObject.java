@@ -1,51 +1,31 @@
 package org.cmas.presentation.model.billing;
 
+import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.validator.Validatable;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.hibernate.validator.Pattern;
 import org.springframework.validation.Errors;
-
-import java.math.BigDecimal;
 
 
 public class PaymentAddFormObject implements Validatable {
 
-    @Pattern(regex = "[1-9][0-9]*(\\.[0-9]{1,2})?", message = "validation.incorrectNumber")
-    private String amount;
+    @SuppressWarnings("HardcodedFileSeparator")
+    @Pattern(regex = "\\[['\"\\d\\s,]+\\]", message = "validation.incorrectField")
+    private String featuresIdsJson;
 
     private String paymentType = "SYSTEMPAY";
 
-//	private String currencyType;
-//
-//	public String getCurrencyType() {
-//		return currencyType;
-//	}
-
-//	public void setCurrencyType(String currencyType) {
-//		this.currencyType = currencyType;
-//	}
-
     @Override
     public void validate(Errors errors) {
-        if (!errors.hasFieldErrors("amount")) {
-            try {
-
-                BigDecimal bdAmount = new BigDecimal(amount);
-                if (bdAmount.compareTo(BigDecimal.ZERO) <= 0) {
-                    errors.rejectValue("amount", "validation.incorrectNumber");
-                }
-            }
-            catch (Exception e) {
-                errors.rejectValue("amount", "validation.incorrectNumber");
-            }
-        }
+        ValidatorUtils.validateEnum(errors, paymentType, InvoiceType.class, "paymentType", "validation.incorrectField");
     }
 
-    public String getAmount() {
-        return amount;
+    public String getFeaturesIdsJson() {
+        return featuresIdsJson;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setFeaturesIdsJson(String featuresIdsJson) {
+        this.featuresIdsJson = featuresIdsJson;
     }
 
     public String getPaymentType() {

@@ -1,8 +1,10 @@
 package org.cmas.presentation.controller.filter;
 
+import com.google.myjson.Gson;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
@@ -10,15 +12,21 @@ import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.util.json.RedirectResponse;
+import org.cmas.util.presentation.spring.WithAjaxAuthenticationProcessingFilterEntryPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AccessInterceptor extends HandlerInterceptorAdapter {
@@ -46,24 +54,75 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     /**
      * урлы-исключения, к которым не применяются проверки значений параметров.
      */
-    protected List<String> exceptions = new ArrayList<>();
-    protected List<String> freePages = new ArrayList<>();
+    private List<String> exceptions = new ArrayList<>();
+    private List<String> freePages = new ArrayList<>();
+    private List<String> cmasBasicPages = new ArrayList<>();
+    private List<String> demoPages = new ArrayList<>();
 
     @Override
-    public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object controllerObj) throws Exception {
-        // общая проверка параметров висит только на /secure/ части сайта.
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (authenticationService.isAdmin()) {
             return true;
         }
-
-        boolean forbidden = req.getRequestURI().startsWith("/secure/") &&
-                            !commonValidation(req);
-        if (forbidden) {
-            res.sendError(HttpServletResponse.SC_FORBIDDEN);
-            log.warn("cannot access url" + req.getRequestURI());
-            return false;
-        } else {
+        String requestURI = request.getRequestURI();
+        // общая проверка параметров висит только на /secure/ части сайта.
+        if (!requestURI.startsWith("/secure/")) {
             return true;
+        }
+        if (freePages.contains(requestURI)) {
+            return true;
+        }
+        if (authenticationService.isDiver()) {
+            BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
+            Diver diver = (Diver) currentUser.getUser();
+            DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+            if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_BASIC) {
+                if (cmasBasicPages.contains(requestURI)) {
+                    return true;
+                } else {
+                    redirectForPayment(request, response);
+                    return false;
+                }
+            } else {
+                if ((diverRegistrationStatus == DiverRegistrationStatus.DEMO ||
+                     diverRegistrationStatus == DiverRegistrationStatus.GUEST ||
+                     diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL)
+                    && diver.getDateLicencePaymentIsDue().after(new Date())
+                        ) {
+                    if (diverRegistrationStatus == DiverRegistrationStatus.DEMO) {
+                        if (demoPages.contains(requestURI)) {
+                            return true;
+                        } else {
+                            redirectForPayment(request, response);
+                            return false;
+                        }
+                    } else {
+                        return true;
+                    }
+                } else {
+                    redirectForPayment(request, response);
+                    return false;
+                }
+            }
+        }
+        if (commonValidation(request)) {
+            return true;
+        } else {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            log.warn("cannot access url{}", requestURI);
+            return false;
+        }
+    }
+
+    private static void redirectForPayment(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (WithAjaxAuthenticationProcessingFilterEntryPoint.isAjaxRequest(request)) {
+            response.setContentType("application/json;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setStatus(HttpURLConnection.HTTP_OK);
+            new Gson().toJson(new RedirectResponse(false, "/secure/pay.html"), response.getWriter());
+        } else {
+            response.sendRedirect("/secure/pay.html");
         }
     }
 
@@ -74,30 +133,17 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
      * @return false, если пользователя не пускаем
      */
     private boolean commonValidation(HttpServletRequest req) {
-        if (freePages.contains(req.getRequestURI())) {
-            return true;
-        }
-
-        if (!checkDiverPayed()) {
-            return false;
-        }
-
-        if (exceptions.contains(req.getRequestURI())) {
-            return true;
-        }
-        if (!containsId(req)) {
-            return false;
-        }
-        return checkInvoice(req) && checkCard(req) && checkLogbookEntry(req);
+        return exceptions.contains(req.getRequestURI())
+               || containsId(req) && checkInvoice(req) && checkCard(req) && checkLogbookEntry(req);
     }
 
     /**
      * проверяет что реквест содержит хотя бы один непустой параметр с именем из некоторого множества.
      *
-     * @param req
-     * @return
+     * @param req - request
+     * @return true, if request contains ids from some list
      */
-    private static boolean containsId(HttpServletRequest req) {
+    private static boolean containsId(ServletRequest req) {
         for (String param : PARAMS) {
             if (req.getParameter(param) != null) {
                 return true;
@@ -106,23 +152,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
-    private boolean checkDiverPayed() {
-        if (!authenticationService.isDiver()) {
-            return true;
-        }
-        BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
-        if (((Diver) currentUser.getUser()).isHasPayed()) {
-            return true;
-        }
-
-        return false;
-    }
-
-
     /**
      * если в запросе есть параметр invoiceId, проверяем, что invoice с таким id принадлежит залогиненному пользователю
      */
-    private boolean checkInvoice(HttpServletRequest req) {
+    private boolean checkInvoice(ServletRequest req) {
         String invoiceIdStr = req.getParameter(INVOICE_ID);
         if (invoiceIdStr != null && !invoiceIdStr.isEmpty()) {
             Long invoiceId;
@@ -138,7 +171,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean checkLogbookEntry(HttpServletRequest req) {
+    private boolean checkLogbookEntry(ServletRequest req) {
         String logbookEntryIdStr = req.getParameter(LOGBOOK_ENTRY_ID);
         if (logbookEntryIdStr != null && !logbookEntryIdStr.isEmpty()) {
             Long logbookEntryId;
@@ -166,7 +199,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean checkCard(HttpServletRequest req) {
+    private boolean checkCard(ServletRequest req) {
         String cardIdStr = req.getParameter(CARD_ID);
         if (cardIdStr != null && !cardIdStr.isEmpty()) {
             Long cardId;
@@ -189,11 +222,9 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                 case ROLE_ADMIN:
                     return false;
             }
-
         }
         return true;
     }
-
 
     @Required
     public void setExceptions(List<String> exceptions) {
@@ -203,5 +234,15 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     @Required
     public void setFreePages(List<String> freePages) {
         this.freePages = freePages;
+    }
+
+    @Required
+    public void setCmasBasicPages(List<String> cmasBasicPages) {
+        this.cmasBasicPages = cmasBasicPages;
+    }
+
+    @Required
+    public void setDemoPages(List<String> demoPages) {
+        this.demoPages = demoPages;
     }
 }

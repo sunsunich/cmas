@@ -2,6 +2,7 @@ package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
@@ -13,12 +14,14 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -32,13 +35,41 @@ import java.util.List;
 public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
     @Override
-    public Diver searchDiver(NationalFederation federation, String firstName, String lastName, Date dob) {
-        return (Diver) createCriteria()
+    public List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
+                                    DiverRegistrationStatus registrationStatus) {
+        Criteria criteria = createCriteria()
                 .add(Restrictions.eq("dob", dob))
                 .add(Restrictions.eq("firstName", firstName))
                 .add(Restrictions.eq("lastName", lastName))
-                .add(Restrictions.eq("federation", federation))
-                .uniqueResult();
+                .add(Restrictions.eq("federation", federation));
+        if (registrationStatus != null) {
+            criteria.add(Restrictions.eq("previousRegistrationStatus", registrationStatus));
+        }
+        return criteria.list();
+    }
+
+    @Override
+    public List<Diver> getDiversByCardNumber(String cardNumber, DiverRegistrationStatus registrationStatus) {
+        String hql = "select d from org.cmas.entities.diver.Diver d"
+                     + " inner join d.cards c where c.number = :number";
+        if (registrationStatus != null) {
+            hql += " and d.previousRegistrationStatus = :status";
+        }
+        Query query = createQuery(hql);
+        if (registrationStatus != null) {
+            query.setParameter("status", registrationStatus);
+        }
+        return query.setString("number", cardNumber).list();
+    }
+
+    @Override
+    public Diver getDiverByCardNumber(NationalFederation federation, String cardNumber) {
+        String hql = "select d from org.cmas.entities.diver.Diver d"
+                     + " inner join d.cards c"
+                     + " where c.number = :number and d.federation = :federation";
+        return (Diver) createQuery(hql).setString("number", cardNumber)
+                                       .setEntity("federation", federation)
+                                       .uniqueResult();
     }
 
     @Override
@@ -55,21 +86,6 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                     .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
         }
         return criteria;
-    }
-
-    @Override
-    public int getFullyRegisteredDiverCnt() {
-        Object result = createCriteria().add(Restrictions.isNotNull("primaryPersonalCard"))
-                                        .setProjection(Projections.rowCount())
-                                        .uniqueResult();
-        return result == null ? 0 : ((Number) result).intValue();
-    }
-
-    @Override
-    public Diver getDiverByCardNumber(String cardNumber) {
-        String hql = "select d from org.cmas.entities.diver.Diver d"
-                     + " inner join d.cards c where c.number = :number";
-        return (Diver) createQuery(hql).setString("number", cardNumber).uniqueResult();
     }
 
     @NotNull
@@ -292,5 +308,20 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .setLong("diverId", diver.getId())
                 .setLong("friendId", friend.getId())
                 .executeUpdate();
+    }
+
+    @Transactional
+    @Override
+    public void updateDiverRegistrationStatusOnPaymentDueDate() {
+        String hql = "update org.cmas.entities.diver.Diver d "
+                     + "set d.previousRegistrationStatus = d.diverRegistrationStatus, d.diverRegistrationStatus = :newStatus "
+                     + "where d.diverRegistrationStatus in (:statusList) and d.dateLicencePaymentIsDue <= :date";
+        createQuery(hql).setParameterList("statusList", Collections.singletonList(DiverRegistrationStatus.CMAS_FULL))
+                        .setParameter("newStatus", DiverRegistrationStatus.CMAS_BASIC)
+                        .setDate("date", new Date()).executeUpdate();
+        createQuery(hql).setParameterList("statusList",
+                                          Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
+                        .setParameter("newStatus", DiverRegistrationStatus.INACTIVE)
+                        .setDate("date", new Date()).executeUpdate();
     }
 }

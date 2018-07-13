@@ -3,11 +3,10 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 
-<my:basePage title="cmas.face.404.title" indexpage="false"
-        >
+<my:basePage title="cmas.face.404.title">
 
     <div id="content" class="content" style="padding: 270px 0 !important">           <!-- Content -->
-        <div class="page404"><s:message code="cmas.face.404.message"/></div>
+        <div class="backgroundContainer"><s:message code="cmas.face.404.message"/></div>
     </div>
     <!-- end of Content -->
 

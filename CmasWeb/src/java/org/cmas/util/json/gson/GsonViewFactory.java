@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GsonViewFactory {
 
-    Gson getPersonalCardsGson();
+    Gson getCommonGson();
 
     GsonView createSocialUpdatesGsonView(Object toSerialize);
 

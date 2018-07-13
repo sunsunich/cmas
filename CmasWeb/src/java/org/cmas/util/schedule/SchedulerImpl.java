@@ -64,12 +64,6 @@ public class SchedulerImpl implements DisposableBean, InitializingBean, Schedule
 
     @NotNull
     @Override
-    public Date scheduleDaily(@NotNull Runnable command, int hours, int minutes) {
-        return scheduleDaily(command, hours, minutes, null);
-    }
-
-    @NotNull
-    @Override
     public Date scheduleWeekly(@NotNull Runnable command, int dayOfWeek, int hours, int minutes, TimeZone zone) {
         WeeklyScheduledTask task = new WeeklyScheduledTask(scheduler, command, (short)dayOfWeek, (short)hours, (short)minutes, zone);
         return task.scheduledTime;

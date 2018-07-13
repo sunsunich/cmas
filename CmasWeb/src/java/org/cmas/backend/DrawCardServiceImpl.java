@@ -186,7 +186,8 @@ public class DrawCardServiceImpl implements DrawCardService {
         return sb.toString();
     }
 
-    private static String getFileName(PersonalCard card) {
+    @Override
+    public String getFileName(PersonalCard card) {
         String fileName = "cmas_card.png";
         switch (card.getCardType()) {
             case CHILDREN_DIVING:

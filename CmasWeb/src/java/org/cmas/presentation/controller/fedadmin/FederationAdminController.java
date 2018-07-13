@@ -1,6 +1,5 @@
 package org.cmas.presentation.controller.fedadmin;
 
-import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import org.cmas.Globals;
 import org.cmas.backend.xls.XlsParseException;
@@ -167,8 +166,7 @@ public class FederationAdminController {
     public View getCardPrintName(
             @RequestParam("cardJson") String cardJson
     ) {
-        Gson gson = new Gson();
-        PersonalCard card = gson.fromJson(cardJson, PersonalCard.class);
+        PersonalCard card = gsonViewFactory.getCommonGson().fromJson(cardJson, PersonalCard.class);
         return gsonViewFactory.createGsonView(new SimpleGsonResponse(true, card.getPrintName()));
     }
 
@@ -242,7 +240,7 @@ public class FederationAdminController {
         mmap.addAttribute("natFedInstructorCard", natFedInstructorCard);
 
         mmap.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
-        mmap.addAttribute("cardsJson", gsonViewFactory.getPersonalCardsGson().toJson(diverCards));
+        mmap.addAttribute("cardsJson", gsonViewFactory.getCommonGson().toJson(diverCards));
 
         return new ModelAndView("fed/userInfo", mmap);
     }
@@ -282,7 +280,7 @@ public class FederationAdminController {
     /*
      * Submit формы редактирования пароля
      */
-    @RequestMapping(value = "/fed/processEditPasswd.html", method = RequestMethod.POST)
+    @RequestMapping(value = "/fed/processEditPassword.html", method = RequestMethod.POST)
     public ModelAndView userEditPasswd(
             HttpServletRequest request
             , @ModelAttribute("command") PasswordEditFormObject formObject

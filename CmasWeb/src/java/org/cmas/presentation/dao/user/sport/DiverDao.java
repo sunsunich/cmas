@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
@@ -16,11 +17,12 @@ import java.util.List;
  */
 public interface DiverDao extends UserDao<Diver> {
 
-    Diver searchDiver(NationalFederation federation, String firstName, String lastName, Date dob);
+    List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
+                             DiverRegistrationStatus registrationStatus);
 
-    int getFullyRegisteredDiverCnt();
+    List<Diver> getDiversByCardNumber(String cardNumber, DiverRegistrationStatus registrationStatus);
 
-    Diver getDiverByCardNumber(String cardNumber);
+    Diver getDiverByCardNumber(NationalFederation federation, String cardNumber);
 
     List<Diver> searchForVerification(DiverVerificationFormObject formObject);
 
@@ -37,4 +39,6 @@ public interface DiverDao extends UserDao<Diver> {
     boolean isFriend(Diver diver, Diver friend);
 
     void removeFriend(Diver diver, Diver friend);
+
+    void updateDiverRegistrationStatusOnPaymentDueDate();
 }
