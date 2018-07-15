@@ -46,7 +46,7 @@
                 </button>
             </div>
         </div>
-        <div id="interfaceExamples" class="landingPageInterfaceExamples">
+        <div id="interfaceExamples" class="landingPageInterfaceExamples" style="display: none">
             <picture>
                 <!--[if IE 9]>
                 <video style="display: none;"><![endif]-->
@@ -58,7 +58,7 @@
                         media="(min-width: 600px)">
 
                 <!--[if IE 9]></video><![endif]-->
-                <img id="bigExampleBackground" alt="big example background">
+                <img id="bigExampleBackground" src="/i/big-screen-1.png" alt="big example background">
             </picture>
             <div id="smallExampleBackgroundWrapper">
                 <picture>
@@ -72,7 +72,7 @@
                             media="(min-width: 600px)">
 
                     <!--[if IE 9]></video><![endif]-->
-                    <img id="smallExampleBackground" alt="small example background">
+                    <img id="smallExampleBackground" src="/i/small-screen-1.png" alt="small example background">
                 </picture>
             </div>
 
