@@ -140,7 +140,7 @@
                     <s:message code="cmas.face.landing.third.screen.text"/>
                 </div>
                 <div id="insuranceLink" class="landingPageText">
-                    <a href="#"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.sevencorners.com/cmas"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
                         <img id="insuranceLinkArrow" src="/i/ic_see-more.png" alt="see more image"/>
                     </a>
                 </div>
