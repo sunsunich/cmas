@@ -10,7 +10,7 @@
              customScripts="/js/controller/country_controller.js,/js/controller/menu_controller.js,/js/controller/landing_page_controller.js"
              hideFooter="true"
 >
-    <div id="firstScreen" class="backgroundContainer landingPageFirstScreen">
+    <div id="firstScreen" class="backgroundContainer landingPageFirstScreen" style="background-image: url(/i/firstScreenBackground_land_480.png)">
         <div class="landingPageTextPart" id="landingPageTextPart">
             <div class="imageContainer">
                 <picture>

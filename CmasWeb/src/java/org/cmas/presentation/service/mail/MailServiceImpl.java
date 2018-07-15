@@ -38,7 +38,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         String subj = subjects.renderText("Registration", locale, addresses.getSiteName(locale));
         InternetAddress from = getSiteReplyAddress(locale);
-        InternetAddress to = addresses.getAdminMailAddress();
+        InternetAddress to = getInternetAddress(reg);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 

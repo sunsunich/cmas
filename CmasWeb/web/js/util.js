@@ -125,7 +125,7 @@ function replaceBackground(containerId, imgId) {
     var imgElem = $("#" + imgId).get(0); //retrieve DOM element from background Img
     //test currentSrc support, if not supported, use the old src
     var src = imgElem.currentSrc ? imgElem.currentSrc : imgElem.src;
-    $("#" + containerId).css("backgroundImage", 'url("' + src + '")');
+    $("#" + containerId).css("background-image", 'url("' + src + '")');
 }
 
 function adjustTextFont(containerId, compressor, minFont, maxFont) {
