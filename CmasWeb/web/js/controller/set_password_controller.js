@@ -1,8 +1,10 @@
 var set_password_controller = {
 
     validationController: null,
+    setPasswordAction: null,
 
-    init: function () {
+    init: function (config) {
+        this.setPasswordAction = config.setPasswordAction;
         this.validationController = simpleClone(validation_controller);
         this.validationController.prefix = 'setPassword';
         this.validationController.fields = [
@@ -23,6 +25,20 @@ var set_password_controller = {
                 }
             }
         ];
+        if (config.hasOldPassword) {
+            this.validationController.fields.push(
+                {
+                    id: 'oldPassword',
+                    validateField: function (value) {
+                        if (isStringTrimmedEmpty(value)) {
+                            return 'validation.passwordEmpty';
+                        }
+                    }
+                }
+            );
+        } else {
+            this.validationController.form.code = $('#setPassword_code').val();
+        }
         this.validationController.fromValidator = function (form) {
             if (isStringTrimmedEmpty(form.password) || isStringTrimmedEmpty(form.checkPassword)) {
                 return null;
@@ -33,7 +49,7 @@ var set_password_controller = {
             return null;
         };
         this.validationController.submitButton = $('#setPasswordButton');
-        this.validationController.form.code = $('#setPassword_code').val();
+
         this.validationController.init();
         this.setListeners();
         registration_flow_controller.init('setPassword');
@@ -45,17 +61,15 @@ var set_password_controller = {
             self.setPassword();
             return false;
         });
+        $('#backToLoginButton').click(function () {
+            window.location.href = '/login-form.html';
+            return false;
+        });
     },
 
     setPassword: function () {
         if (this.validationController.validateForm()) {
-            var form = this.validationController.form;
-            window.location = "/setPasswordSubmit.html?code=" + form.code +
-                "&password=" + form.password + "&checkPassword=" + form.checkPassword;
+            this.setPasswordAction(this.validationController.form);
         }
     }
 };
-
-$(document).ready(function () {
-    set_password_controller.init();
-});

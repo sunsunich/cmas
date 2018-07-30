@@ -37,6 +37,7 @@ import org.springframework.web.servlet.View;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -131,6 +132,7 @@ public class UserProfileController extends DiverAwareController{
     @RequestMapping("/secure/processEditPassword.html")
     public View processEditPassword(
             HttpServletRequest request
+            , HttpServletResponse response
             , @ModelAttribute("command") PasswordEditFormObject formObject
             , BindingResult result
             , Model mm) {
@@ -142,6 +144,7 @@ public class UserProfileController extends DiverAwareController{
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         } else {
+            authenticationService.logout(request, response);
             return gsonViewFactory.createSuccessGsonView();
         }
     }

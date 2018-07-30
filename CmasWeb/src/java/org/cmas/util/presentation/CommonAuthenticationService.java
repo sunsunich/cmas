@@ -9,6 +9,9 @@ import org.springframework.security.Authentication;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public interface CommonAuthenticationService<T extends UserDetails> extends UserDetailsService{
 
     void loginAs(T user, SpringRole[] roles);
@@ -21,6 +24,8 @@ public interface CommonAuthenticationService<T extends UserDetails> extends User
 
     @Nullable
     BackendUser<? extends User> getCurrentUser();
+
+    void logout(HttpServletRequest request, HttpServletResponse response);
 
     Authentication getCurrentAuthentication();
 

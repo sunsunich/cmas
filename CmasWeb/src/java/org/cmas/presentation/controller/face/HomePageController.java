@@ -39,5 +39,11 @@ public class HomePageController {
         ModelMap mm = new ModelMap();
         return new ModelAndView("termsAndCond", mm);
     }
+
+    @RequestMapping(value = "/paymentInfo.html", method = RequestMethod.GET)
+    public ModelAndView paymentInfo() {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("paymentInfo", mm);
+    }
 }
 

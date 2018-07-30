@@ -9,43 +9,20 @@
 <my:nonsecurepage title="cmas.face.registration.setPassword.page.title"
                   customScripts="js/controller/set_password_controller.js,js/controller/registration_flow_controller.js"
 >
-    <div class="content" id="Content">
-        <div id="formImage" class="formImage">
+    <script type="application/javascript">
+        $(document).ready(function () {
+            set_password_controller.init({
+                hasOldPassword: false,
+                setPasswordAction: function (form) {
+                    window.location = "/setPasswordSubmit.html?code=" + form.code +
+                        "&password=" + form.password + "&checkPassword=" + form.checkPassword;
+                }
+            });
+        });
+    </script>
 
-        </div>
-        <div class="formWrapper" id="formWrapper">
-            <form id="setPasswordForm" action="">
-                <div id="setPasswordBlock">
-                    <div class="header1-text">
-                        <s:message code="cmas.face.registration.setPassword.header"/>
-                    </div>
-                    <div class="form-row"></div>
-                    <div class="form-row">
-                        <input id="setPassword_password" type="password"
-                               placeholder="<s:message code="cmas.face.changePasswd.form.label.password"/>"/>
-                        <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_password"
-                             style="display: none">
-                        <div class="error" id="setPassword_error_password"></div>
-                    </div>
-                    <div class="form-row">
-                        <input id="setPassword_checkPassword" type="password"
-                               placeholder="<s:message code="cmas.face.changePasswd.form.label.checkPassword"/>"/>
-                        <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_checkPassword"
-                             style="display: none">
-                        <div class="error" id="setPassword_error_checkPassword"></div>
-                    </div>
-                    <div class="form-row">
-                        <input type="hidden" id="setPassword_code" name="code" value="${command.code}"/>
-                        <div class="error" id="setPassword_error">
-                        </div>
-                    </div>
-                    <button class="positive-button form-item-right form-button-single" id="setPasswordButton">
-                        <s:message code="cmas.face.changePasswd.form.submitText"/>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <my:setPassword headerCode="cmas.face.registration.setPassword.header"
+                    command="${command}" hasCode="true" hasSuccessBlock="false"/>
 
     <picture>
         <!--[if IE 9]>

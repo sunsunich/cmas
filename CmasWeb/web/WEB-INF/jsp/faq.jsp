@@ -5,46 +5,57 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-<my:basePage title="cmas.face.index.header" doNotDoAuth="true" >
+<my:nonsecurepage title="cmas.face.index.header" doNotDoAuth="true">
+    <%--todo mobile version--%>
+    <div class="content-center">
+        <div class="help-center-panel">
+            <div class="header2-text faq-header"><s:message code="cmas.face.client.faq"/></div>
 
-    <div class="content" id="Content">
-        <div class="header"><span><b><s:message code="cmas.face.client.faq"/></b></span></div>
-        <div class="return">
-            <a href="${pageContext.request.contextPath}/">
-                <s:message code="cmas.face.link.back.home.text"/>
-            </a>
-        </div>
-        <div class="question">
-            <s:message code="cmas.face.faq.q1"/>
-        </div>
-        <div class="answer">
-            <s:message code="cmas.face.faq.a1"/>
-        </div>
-        <div class="question">
-            <s:message code="cmas.face.faq.q2"/>
-        </div>
-        <div class="answer">
-            <s:message code="cmas.face.faq.a2"/>
-        </div>
-        <div class="question">
-            <s:message code="cmas.face.faq.q3"/>
-        </div>
-        <div class="answer">
-            <s:message code="cmas.face.faq.a3"/>
-            <ul>
-                <li><s:message code="cmas.face.faq.a3.point1"/></li>
-                <li><s:message code="cmas.face.faq.a3.point2"/></li>
-                <li><s:message code="cmas.face.faq.a3.point3"/></li>
-                <li><s:message code="cmas.face.faq.a3.point4"/></li>
-                <li><s:message code="cmas.face.faq.a3.point5"/></li>
-            </ul>
-        </div>
-        <div class="question">
-            <s:message code="cmas.face.faq.q4"/>
-        </div>
-        <div class="answer">
-            <s:message code="cmas.face.faq.a4"/>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q1"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a1"/>
+            </div>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q2"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a2"/>
+            </div>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q3"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a3"/>
+            </div>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q4"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a4"/>
+            </div>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q5"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a5"/>
+                <%--todo change li to stars--%>
+                <ul class="purchased-feature-list">
+                    <li><s:message code="cmas.face.faq.a5.point1"/></li>
+                    <li><s:message code="cmas.face.faq.a5.point2"/></li>
+                    <li><s:message code="cmas.face.faq.a5.point3"/></li>
+                    <li><s:message code="cmas.face.faq.a5.point4"/></li>
+                    <li><s:message code="cmas.face.faq.a5.point5"/></li>
+                </ul>
+            </div>
+            <div class="header3-text question">
+                <s:message code="cmas.face.faq.q6"/>
+            </div>
+            <div class="basic-text answer">
+                <s:message code="cmas.face.faq.a6"/>
+            </div>
         </div>
     </div>
 
-</my:basePage>
+</my:nonsecurepage>

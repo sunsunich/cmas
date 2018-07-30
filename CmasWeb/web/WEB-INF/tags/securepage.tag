@@ -106,17 +106,16 @@
                     </a>
                 </li>
                 <c:if test="${!hideMenu}">
-                    <%--todo implement--%>
-                    <%--<li>--%>
-                        <%--<a href="${pageContext.request.contextPath}/secure/editPassword.html">--%>
-                            <%--<span><s:message code="cmas.face.client.menu.changePass"/></span>--%>
-                        <%--</a>--%>
-                    <%--</li>--%>
-                    <%--<li class="bottomBorder">--%>
-                        <%--<a href="${pageContext.request.contextPath}/secure/editEmail.html">--%>
-                            <%--<span><s:message code="cmas.face.client.menu.changeEmail"/></span>--%>
-                        <%--</a>--%>
-                    <%--</li>--%>
+                    <li>
+                        <a href="${pageContext.request.contextPath}/secure/editPassword.html">
+                            <span><s:message code="cmas.face.client.menu.changePass"/></span>
+                        </a>
+                    </li>
+                    <li class="bottomBorder">
+                        <a href="${pageContext.request.contextPath}/secure/editEmail.html">
+                            <span><s:message code="cmas.face.client.menu.changeEmail"/></span>
+                        </a>
+                    </li>
                 </c:if>
                 <li class="last-list-item">
                     <a href="${pageContext.request.contextPath}/logout.html">
@@ -153,7 +152,7 @@
 
     </my:header>
 
-    <div id="Wrapper-content" class="clearfix">
+    <div id="Wrapper-content">
         <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
         <my:dialog id="errorDialog"

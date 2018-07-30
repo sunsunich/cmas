@@ -259,65 +259,6 @@
         </div>
     </my:dialog>
 
-    <my:dialog id="changePassword"
-               title="cmas.face.changePasswd.form.page.title"
-               buttonText="cmas.face.client.profile.dialog.password.submitText">
-        <div id="changePasswordForm">
-            <div class="dialog-form-row">
-                <input id="oldPassword" type="password"
-                       placeholder="<s:message code="cmas.face.changePasswd.form.label.oldPassword"/>"/>
-            </div>
-            <div class="error" id="changePassword_error_oldPassword"></div>
-            <div class="dialog-form-row">
-                <input id="password" type="password"
-                       placeholder="<s:message code="cmas.face.changePasswd.form.label.password"/>"/>
-            </div>
-            <div class="error" id="changePassword_error_password"></div>
-            <div class="dialog-form-row">
-                <input id="checkPassword" type="password"
-                       placeholder="<s:message code="cmas.face.changePasswd.form.label.checkPassword"/>"/>
-            </div>
-            <div class="error" id="changePassword_error_checkPassword"></div>
-            <div class="error" style="display: none" id="changePassword_error">
-            </div>
-        </div>
-        <div id="changePasswordSuccessMessage">
-            <div class="dialog-form-row"><s:message code="cmas.face.changePasswd.success.text"/></div>
-            <div class="button-container">
-                <button class="form-button enter-button" id="changePasswordFinishedOk">
-                    <s:message code="cmas.face.dialog.ok"/>
-                </button>
-            </div>
-        </div>
-    </my:dialog>
-
-    <my:dialog id="changeEmail"
-               title="cmas.face.changeEmail.form.page.title"
-               buttonText="cmas.face.client.profile.dialog.email.submitText">
-        <div id="changeEmailForm">
-            <div class="dialog-form-row">
-                <input id="changeEmailPassword" type="password"
-                       placeholder="<s:message code="cmas.face.changeEmail.form.label.password"/>"/>
-            </div>
-            <div class="error" id="changeEmail_error_password"></div>
-            <div class="dialog-form-row">
-                <input id="email" type="email"
-                       placeholder="<s:message code="cmas.face.changeEmail.form.label.newEmail"/>"/>
-            </div>
-            <div class="error" id="changeEmail_error_email"></div>
-            <div class="error" style="display: none" id="changeEmail_error">
-            </div>
-        </div>
-        <div id="changeEmailSuccessMessage">
-            <div class="dialog-form-row"><s:message code="cmas.face.changeEmail.sent.message"/></div>
-            <div class="button-container">
-                <button class="form-button enter-button" id="changeEmailFinishedOk">
-                    <s:message code="cmas.face.dialog.ok"/>
-                </button>
-            </div>
-        </div>
-    </my:dialog>
-
     <my:dialog id="friendRequestSuccessDialog"
                title="cmas.face.friendRequest.success"
                buttonText="cmas.face.friendRequest.success.button">

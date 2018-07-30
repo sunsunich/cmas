@@ -140,7 +140,8 @@
                     <s:message code="cmas.face.landing.third.screen.text"/>
                 </div>
                 <div id="insuranceLink" class="landingPageText">
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.sevencorners.com/cmas"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
+                    <%--https://www.sevencorners.com/cmas--%>
+                    <a target="_blank" rel="noopener noreferrer" href="#"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
                         <img id="insuranceLinkArrow" src="/i/ic_see-more.png" alt="see more image"/>
                     </a>
                 </div>
@@ -374,7 +375,7 @@
         <div class="footer-link footer-item-left footer-item footer-item-first">
             <a href="${pageContext.request.contextPath}/faq.html"><s:message code="cmas.face.client.faq"/></a>
         </div>
-        <div class="footer-link footer-item-left footer-item">
+        <div class="footer-link footer-item-left footer-item" style="visibility: hidden">
             <a href="${pageContext.request.contextPath}/paymentInfo.html">
                 <s:message code="cmas.face.client.paymentInfo"/>
             </a>

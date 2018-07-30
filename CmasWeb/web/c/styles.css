@@ -250,13 +250,19 @@ html, body {
     line-height: 1;
 }
 
-.content-left, .content-right {
-    margin-top: 50px;
-    margin-bottom: 30px;
+.content-left, .content-right, .content-center {
+    padding-top: 50px;
+    padding-bottom: 30px;
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
     /*width: 460px;*/
+}
+
+.content-center {
+    width: 60%;
+    padding-top: 16px;
+    padding-bottom: 40px;
 }
 
 .content-right, .content-left {
@@ -357,22 +363,16 @@ html, body {
     /*color: #16a9d4;*/
 }
 
+.faq-header {
+    /*margin-bottom: 8px;*/
+}
+
 .question {
-    margin-top: 10px;
-    text-align: left;
-    font-size: 20px;
-    color: #ffcc00;
+    margin-top: 32px;
 }
 
 .answer {
-    margin-bottom: 30px;
-    text-align: left;
-    color: #f8f8f8;
-    font-size: 16px;
-}
-
-.answer a {
-    color: black;
+    margin-top: 16px;
 }
 
 .return {
@@ -484,7 +484,7 @@ html, body {
     color: #f8f8f8;
 }
 
-.panel, .panel-header {
+.panel, .panel-header, .help-center-panel {
     margin-bottom: 8px;
     padding: 40px 56px;
     border-radius: 5px;
@@ -492,6 +492,11 @@ html, body {
     box-shadow: 0 2px 4px 0 rgba(20, 57, 62, 0.05);
     /*height: auto;*/
     /*width: 425px;*/
+}
+
+.help-center-panel {
+    padding-top: 42px;
+    padding-bottom: 42px;
 }
 
 .panel-header {

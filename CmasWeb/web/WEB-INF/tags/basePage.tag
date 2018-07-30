@@ -191,7 +191,8 @@
         <div class="menu-link menu-item-left menu-item footer-item-first">
             <a href="${pageContext.request.contextPath}/faq.html"><s:message code="cmas.face.client.faq"/></a>
         </div>
-        <div class="menu-link menu-item-left menu-item">
+            <%--todo content--%>
+        <div class="menu-link menu-item-left menu-item" style="visibility: hidden">
             <a href="${pageContext.request.contextPath}/paymentInfo.html">
                 <s:message code="cmas.face.client.paymentInfo"/>
             </a>

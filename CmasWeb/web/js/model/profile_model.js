@@ -54,5 +54,28 @@ var profile_model = {
                 window.location.reload();
             }
         );
+    },
+
+    changeEmail: function (form, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/secure/processEditEmail.html",
+            form,
+            successHandler, unSuccessHandler,
+            function () {
+                window.location.reload();
+            }
+        );
+    },
+
+    changePassword: function (form, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/secure/processEditPassword.html",
+            form,
+            successHandler, unSuccessHandler,
+            function () {
+                window.location.reload();
+            }
+        );
     }
+
 };

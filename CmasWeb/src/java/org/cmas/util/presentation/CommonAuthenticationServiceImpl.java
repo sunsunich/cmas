@@ -8,7 +8,11 @@ import org.springframework.security.context.SecurityContext;
 import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
 import org.springframework.security.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 public abstract class CommonAuthenticationServiceImpl<T extends UserDetails> implements CommonAuthenticationService<T> {
@@ -19,6 +23,16 @@ public abstract class CommonAuthenticationServiceImpl<T extends UserDetails> imp
         SecurityContext ctx = SecurityContextHolder.getContext();
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user, "", gas);
         ctx.setAuthentication(token);
+    }
+
+    @Override
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        SecurityContextHolder.clearContext();
+        String cookieName = "SPRING_SECURITY_REMEMBER_ME_COOKIE";
+        Cookie cookie = new Cookie(cookieName, null);
+        cookie.setMaxAge(0);
+        cookie.setPath(StringUtils.hasLength(request.getContextPath()) ? request.getContextPath() : "/");
+        response.addCookie(cookie);
     }
 
     @Nullable

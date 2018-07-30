@@ -41,20 +41,17 @@ var registration_flow_controller = {
             case "lostPassword" :
                 this.toggleLostPassword();
                 break;
-            case "changePassword" :
-                this.toggleChangePassword();
+            case "setPassword" :
+                this.toggleSetPassword();
                 break;
-            case "changePasswordSuccess" :
-                this.toggleChangePasswordSuccess();
+            case "setPasswordSuccess" :
+                this.toggleSetPasswordSuccess();
                 break;
             case "chooseDivers" :
                 this.toggleChooseDivers(config);
                 break;
             case "emailConfirmation":
                 this.toggleEmailConfirmation(config);
-                break;
-            case "setPassword" :
-                this.toggleSetPassword();
                 break;
             case "simple" :
                 this.toggleSimple(config);
@@ -113,34 +110,6 @@ var registration_flow_controller = {
         this.backgroundImageId = 'lostPasswordImageBackground';
     },
 
-    toggleChangePassword: function () {
-        if (!recovery_controller.isInit) {
-            recovery_controller.init();
-        }
-        $('#headerLoginButton').show();
-        $('#headerAdvertButton').hide();
-        $('#headerAdvertText').hide();
-
-        $('#changePasswordBlock').show();
-
-        this.visibleInputElem = $('#changePassword_password');
-        this.backgroundImageId = 'changePasswordImageBackground';
-    },
-
-    toggleChangePasswordSuccess: function () {
-        if (!recovery_controller.isInit) {
-            recovery_controller.init();
-        }
-        $('#headerLoginButton').show();
-        $('#headerAdvertButton').hide();
-        $('#headerAdvertText').hide();
-
-        $('#changePasswordSuccessBlock').show();
-
-        this.visibleInputElem = null;
-        this.backgroundImageId = 'changePasswordSuccessImageBackground';
-    },
-
     toggleSetPassword: function () {
         $('#headerLoginButton').show();
         $('#headerAdvertButton').hide();
@@ -150,8 +119,20 @@ var registration_flow_controller = {
         this.backgroundImageId = 'setPasswordImageBackground';
     },
 
-    toggleSimple: function (config) {
+    toggleSetPasswordSuccess: function () {
+        $('#setPasswordBlock').hide();
+        $('#setPasswordSuccessBlock').show();
+
         this.visibleInputElem = null;
+        this.backgroundImageId = 'setPasswordSuccessImageBackground';
+    },
+
+    toggleSimple: function (config) {
+        if (config.visibleInputElemId) {
+            this.visibleInputElem = $('#' + config.visibleInputElemId);
+        } else {
+            this.visibleInputElem = null;
+        }
         this.backgroundImageId = config.backgroundImageId;
     },
 
@@ -226,9 +207,8 @@ var registration_flow_controller = {
             this.mode != 'registration' &&
             this.mode != 'chooseDivers' &&
             this.mode != 'emailConfirmation' &&
-            this.mode != 'changePassword' &&
-            this.mode != 'changePasswordSuccess' &&
             this.mode != 'setPassword' &&
+            this.mode != 'setPasswordSuccess' &&
             this.mode != 'message') {
             $('#headerAdvertText').show();
         } else {
