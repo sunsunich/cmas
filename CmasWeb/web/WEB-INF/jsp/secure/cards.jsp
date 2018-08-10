@@ -20,14 +20,16 @@
         <div class="panel-header">
             <span class="header2-text"><s:message code="cmas.face.client.certificates.header"/></span>
         </div>
-        <div class="panel-cards" style="display: inline-block">
-            <c:forEach items="${cards}" var="card">
-                <div class="content-card">
-                    <div class="card-container">
-                        <img id="${card.id}" src="${cardsRoot}${card.imageUrl}"/>
+        <div class="panel-cards">
+            <div class="clearfix">
+                <c:forEach items="${cards}" var="card">
+                    <div class="content-card">
+                        <div class="card-container">
+                            <img id="${card.id}" src="${cardsRoot}${card.imageUrl}"/>
+                        </div>
                     </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
+            </div>
         </div>
     </div>
 </my:securepage>
