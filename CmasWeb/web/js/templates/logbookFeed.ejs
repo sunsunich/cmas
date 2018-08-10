@@ -32,57 +32,35 @@ for(i = 0; i < records.length;i++) {
         invisibleNote = null;
     }
 %>
-<div class="logbookRecord" id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
+<div class="panel" id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
     <div class="clearfix">
-        <div class="logbookFeed-elem-left">
-            <img class="userpic userpicFeed" src="<%= userpicSrc %>"/>
-
-            <div class="dialog-triangle"></div>
-        </div>
-        <div class="logbookFeed-elem-right">
-            <p><span class="logbookFeed-elem-right-line panelFeed-text"><%= fullName %></span></p>
-
-            <p><span class="text"><%= diveSpot %></span></p>
-
-            <p><span class="panelFeed-label"><%= records[i].diveDate %></span></p>
-        </div>
+        <div class="header3-text"><%= diveSpot %></div>
+        <div class="feed-label"><%= records[i].diveDate %></div>
     </div>
-
-    <div class="panelFeed">
-        <p>
-            <span class="panelFeed-text"><%= visibleNote %></span>
-            <% if(invisibleNote){
-            %>
-            <a href="#" id="<%= recordsInfo.containerId %>more_<%= records[i].id %>">
-                <span class="panelFeed-href"><%= labels["cmas.face.feed.more"] %>&gt;</span>
-            </a>
-            <% } %>
-            <span id="<%= recordsInfo.containerId %>invisibleNote_<%= records[i].id %>" style="display: none">
-                <span class="panelFeed-text"><%= invisibleNote %></span><br/>
-                <a href="#" id="<%= recordsInfo.containerId %>less_<%= records[i].id %>"><span
-                            class="panelFeed-href"><&lt;<%= labels["cmas.face.feed.less"] %></span></a>
-            </span>
-        </p>
+    <div>
         <% if(records[i].photoUrl){
             var fullPhotoUrl = imagesData.logbookPicRoot + records[i].photoUrl;
         %>
         <img class="photoFeed" src="<%= fullPhotoUrl %>"/>
         <% } %>
-        <a href="#" id="<%= recordsInfo.containerId %>SpecOpen_<%= records[i].id %>">
-            <span class="panelFeed-href"><%= labels["cmas.face.feed.spec"] %>&gt;</span>
-        </a>
-        <span id="<%= recordsInfo.containerId %>Spec_<%= records[i].id %>" style="display: none">
-                <span class="panelFeed-label"><%= labels["cmas.face.feed.depth"] %>: </span>
-                <span class="text"><%= records[i].diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></span><br/>
-                <span class="panelFeed-label"><%= labels["cmas.face.feed.duration"] %>: </span>
-                <span class="text"><%= records[i].diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></span><br/>
+    </div>
+    <div class="clearfix">
+        <div class="clearfix">
+            <div class="feed-spec-label"><%= labels["cmas.face.feed.depth"] %>:</div>
+            <div class="feed-spec-text basic-text"><%= records[i].diveSpec.maxDepthMeters %> <%= labels["cmas.face.feed.meters"] %></div>
+        </div>
+        <div class="clearfix">
+            <div class="feed-spec-label"><%= labels["cmas.face.feed.duration"] %>:</div>
+            <div class="feed-spec-text basic-text"><%= records[i].diveSpec.durationMinutes %> <%= labels["cmas.face.feed.minutes"] %></div>
+        </div>
+        <div>
             <% if(records[i].instructor){
                 fullName = records[i].instructor.firstName + ' ' + records[i].instructor.lastName;
             %>
             <span class="panelFeed-label"><%= labels["cmas.face.diver.instructor"] %>:</span>
-                <a class="panelFeed-href" href="#"
-                   id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
-                <br/>
+            <a class="panelFeed-href" href="#"
+               id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
+            <br/>
             <% } %>
             <% if(records[i].buddies.length > 0){
             %>
@@ -94,12 +72,36 @@ for(i = 0; i < records.length;i++) {
             %>
             <a class="panelFeed-href" href="#"
                id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %></a>
-               &nbsp;
+            &nbsp;
             <% } %>
-            <br/>
-                <a href="#" id="<%= recordsInfo.containerId %>SpecClose_<%= records[i].id %>"><span
-                            class="panelFeed-href"><&lt;<%= labels["cmas.face.feed.close"] %></span></a>
-            </span>
+        </div>
+    </div>
+
+    <div>
+        <a href="#" id="<%= recordsInfo.containerId %>SpecOpen_<%= records[i].id %>" class="link-in-text-flow">
+            <%= labels["cmas.face.feed.spec"] %>
+        </a>
+    </div>
+    <div id="<%= recordsInfo.containerId %>Spec_<%= records[i].id %>" style="display: none">
+        <!-- full spec with tanks-->
+        <a href="#" id="<%= recordsInfo.containerId %>SpecClose_<%= records[i].id %>" class="link-in-text-flow">
+            <%= labels["cmas.face.feed.close"] %>
+        </a>
+    </div>
+    <div>
+        <span class="basic-text"><%= visibleNote %></span>
+        <% if(invisibleNote){
+        %>
+        <a href="#" id="<%= recordsInfo.containerId %>more_<%= records[i].id %>" class="link-in-text-flow">
+            <%= labels["cmas.face.feed.more"] %>
+        </a>
+        <% } %>
+        <span id="<%= recordsInfo.containerId %>invisibleNote_<%= records[i].id %>" style="display: none">
+            <span class="basic-text"><%= invisibleNote %></span><br/>
+            <a href="#" id="<%= recordsInfo.containerId %>less_<%= records[i].id %>" class="link-in-text-flow">
+                <%= labels["cmas.face.feed.less"] %>
+            </a>
+        </span>
     </div>
 </div>
 <% } %>

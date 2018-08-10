@@ -24,7 +24,7 @@ public class LogbookEntrySerializer implements JsonSerializer<LogbookEntry> {
         Gson gson = new GsonBuilder()
                 .setLongSerializationPolicy(LongSerializationPolicy.STRING)
                 .excludeFieldsWithoutExposeAnnotation()
-                .setDateFormat(Globals.DTF)
+                .setDateFormat(Globals.FEED_DTF)
                 .create();
         JsonObject jObj = (JsonObject) gson.toJsonTree(t);
         jObj.remove("dateEdit");

@@ -107,11 +107,13 @@
 }
 
 .form-row input,
+.form-row textarea,
 .dialog-form-row input,
 .select2-container--bootstrap .select2-selection {
     min-width: 257px;
     color: #5c6264;
     font-size: 14px;
+    text-align: left;
     /*font-weight: 300;*/
     padding-top: 11px;
     padding-bottom: 11px;
@@ -226,7 +228,7 @@
     color: #cbd0d1;
 }
 
-.form-row input:focus {
+.form-row input:focus, .form-row textarea:focus {
     border-color: #11c7dd;
     color: #2b2b2b;
     outline: none;
@@ -234,62 +236,62 @@
     box-shadow: none;
 }
 
-.form-row input:disabled {
+.form-row input:disabled, .form-row textarea:disabled{
     color: #cbd0d1;
     background-color: #f7f9fa;
     border-color: #FFFFFF;
 }
 
-.form-row input::-webkit-input-placeholder {
+.form-row input::-webkit-input-placeholder, .form-row textarea::-webkit-input-placeholder{
     opacity: 1;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     color: #cbd0d1
 }
 
-.form-row input::-moz-placeholder {
+.form-row input::-moz-placeholder, .form-row textarea::-moz-placeholder {
     opacity: 1;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     color: #cbd0d1
 }
 
-.form-row input:-moz-placeholder {
+.form-row input:-moz-placeholder, .form-row textarea:-moz-placeholder {
     opacity: 1;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     color: #cbd0d1
 }
 
-.form-row input:-ms-input-placeholder {
+.form-row input:-ms-input-placeholder, .form-row textarea:-ms-input-placeholder {
     opacity: 1;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     color: #cbd0d1
 }
 
-.form-row input:focus::-webkit-input-placeholder {
+.form-row input:focus::-webkit-input-placeholder, .form-row textarea:focus::-webkit-input-placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     border: solid 1px #11c7dd;
 }
 
-.form-row input:focus::-moz-placeholder {
+.form-row input:focus::-moz-placeholder, .form-row textarea:focus::-moz-placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     border: solid 1px #11c7dd;
 }
 
-.form-row input:focus:-moz-placeholder {
+.form-row input:focus:-moz-placeholder, .form-row textarea:focus:-moz-placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
     border: solid 1px #11c7dd;
 }
 
-.form-row input:focus:-ms-input-placeholder {
+.form-row input:focus:-ms-input-placeholder, .form-row textarea:focus:-ms-input-placeholder {
     opacity: 0;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;

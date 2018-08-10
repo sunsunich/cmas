@@ -20,7 +20,7 @@
     </div>
 
     <div class="button-container">
-        <button class="form-button enter-button" id="${id}Ok">
+        <button class="positive-button" id="${id}Ok">
             <s:message code="${buttonText}"/>
         </button>
     </div>

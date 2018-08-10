@@ -23,7 +23,7 @@ var logbook_record_diveProfile_controller = {
         $('#waterTemp').keypress(function () {
             util_controller.filterFloatNumberChars($(this), 2, 1);
         });
-        $('#addWeight').keypress(function () {
+        $('#additionalWeightKg').keypress(function () {
             util_controller.filterPositiveFloatNumberChars($(this), 2, 1);
         });
         $('#duration').keypress(function (event) {
@@ -32,7 +32,7 @@ var logbook_record_diveProfile_controller = {
         $('#depth').keypress(function (event) {
             util_controller.filterNumbers(event, $(this).val(), 3);
         });
-        $('#avgDepth').keypress(function (event) {
+        $('#avgDepthMeters').keypress(function (event) {
             util_controller.filterNumbers(event, $(this).val(), 3);
         });
         $('#cnsToxicity').keypress(function () {
@@ -78,50 +78,31 @@ var logbook_record_diveProfile_controller = {
             'diveSuit', logbook_record_model.diveSuitTypes, logbook_record_model.logbookEntry.diveSpec.diveSuit,
             labels["cmas.face.logbook.diveSuit"]
         );
-        if (logbook_record_model.logbookEntry.id) {
-            this.restoreTanks();
-        }
+
+        this.restoreTanks();
+
         if (logbook_record_model.logbookEntry.diveSpec.isApnea) {
             $('#tanksSection').hide();
+            $('#addTankButton').hide();
         }
         else {
             $('#tanksSection').show();
+            $('#addTankButton').show();
         }
         $('#isApnea').change(
             function () {
                 if ($(this).prop('checked')) {
                     $('#tanksSection').hide();
+                    $('#addTankButton').hide();
                 } else {
                     $('#tanksSection').show();
+                    $('#addTankButton').show();
                 }
             }
         );
         $('#addTankButton').click(
             function () {
-                var tank = {
-                    "isDecoTank": false,
-                    "size": "",
-                    "volumeMeasureUnit": "",
-                    "startPressure": "",
-                    "endPressure": "",
-                    "pressureMeasureUnit": "",
-                    "supplyType": "",
-                    "isAir": false,
-                    "oxygenPercent": "",
-                    "heliumPercent": ""
-                };
-                var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
-                tanks.push(tank);
-                $('#tanks').append(
-                    new EJS({url: '/js/templates/tanksList.ejs?v=' + webVersion}).render({
-                        data: {
-                            "tanks": [tank],
-                            "index": tanks.length
-                        },
-                        "webVersion": webVersion
-                    })
-                );
-                self.setupTank(tank, tanks.length);
+                self.addTank();
             }
         );
         if (navigator.geolocation) {
@@ -136,8 +117,44 @@ var logbook_record_diveProfile_controller = {
         }
     },
 
+    addTank: function () {
+        var tank = {
+            "isDecoTank": false,
+            "size": "",
+            "volumeMeasureUnit": "",
+            "startPressure": "",
+            "endPressure": "",
+            "pressureMeasureUnit": "",
+            "supplyType": "",
+            "isAir": false,
+            "oxygenPercent": "",
+            "heliumPercent": ""
+        };
+        var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
+        tanks.push(tank);
+        $('#tanks').append(
+            new EJS({url: '/js/templates/tanksList.ejs?v=' + webVersion}).render({
+                data: {
+                    "tanks": [tank],
+                    "index": tanks.length
+                },
+                "webVersion": webVersion
+            })
+        );
+        this.setupTank(tank, tanks.length);
+    },
+
     setupTank: function (tank, i) {
         var self = this;
+        $('#tank_' + i).hover(
+            function () {
+                if (logbook_record_model.logbookEntry.diveSpec.scubaTanks.length > 1) {
+                    $('#removeTank_' + i).show();
+                }
+            }, function () {
+                $('#removeTank_' + i).hide();
+            }
+        );
         $('#removeTank_' + i).click(function () {
             var index = $(this)[0].id.split('_')[1];
             self.collectTanks();
@@ -211,7 +228,6 @@ var logbook_record_diveProfile_controller = {
         $('#heliumPercent_' + i).keypress(function (event) {
             util_controller.filterNumbers(event, $(this).val(), 2);
         });
-        //}
     },
 
     restoreTanks: function () {
@@ -228,7 +244,9 @@ var logbook_record_diveProfile_controller = {
                 this.setupTank(tank, i + 1);
             }
         } else {
-            $('#tanks').empty();
+            if (!$('#isApnea').prop('checked')) {
+                this.addTank();
+            }
         }
     },
 
@@ -243,7 +261,7 @@ var logbook_record_diveProfile_controller = {
 
         logbook_record_model.logbookEntry.diveSpec.durationMinutes = $('#duration').val();
         logbook_record_model.logbookEntry.diveSpec.maxDepthMeters = $('#depth').val();
-        logbook_record_model.logbookEntry.diveSpec.avgDepthMeters = $('#avgDepth').val();
+        logbook_record_model.logbookEntry.diveSpec.avgDepthMeters = $('#avgDepthMeters').val();
 
         logbook_record_model.logbookEntry.diveSpec.weather = $('#weather').val();
         logbook_record_model.logbookEntry.diveSpec.surface = $('#surface').val();
@@ -257,7 +275,7 @@ var logbook_record_diveProfile_controller = {
         logbook_record_model.logbookEntry.diveSpec.divePurpose = $('#divePurpose').val();
         logbook_record_model.logbookEntry.diveSpec.entryType = $('#entryType').val();
 
-        logbook_record_model.logbookEntry.diveSpec.additionalWeightKg = $('#addWeight').val();
+        logbook_record_model.logbookEntry.diveSpec.additionalWeightKg = $('#additionalWeightKg').val();
         logbook_record_model.logbookEntry.diveSpec.diveSuit = $('#diveSuit').val();
 
         logbook_record_model.logbookEntry.diveSpec.decoStepsComments = $('#decoStepsComments').val();
@@ -267,6 +285,7 @@ var logbook_record_diveProfile_controller = {
         logbook_record_model.logbookEntry.diveSpec.isApnea = $('#isApnea').prop("checked");
         if (logbook_record_model.logbookEntry.diveSpec.isApnea) {
             logbook_record_model.logbookEntry.diveSpec.scubaTanks = [];
+            $('#tanks').empty();
         }
         this.collectTanks();
     },
@@ -327,6 +346,14 @@ var logbook_record_diveProfile_controller = {
 
         logbook_record_model.logbookEntry.diveSpec.additionalWeightKg = util_controller.maskInvalidFloat(
             logbook_record_model.logbookEntry.diveSpec.additionalWeightKg
+        );
+
+        logbook_record_model.logbookEntry.note = util_controller.maskTooLongString(
+            logbook_record_model.logbookEntry.note, 2048
+        );
+
+        logbook_record_model.logbookEntry.diveSpec.decoStepsComments = util_controller.maskTooLongString(
+            logbook_record_model.logbookEntry.diveSpec.decoStepsComments, 2048
         );
 
         var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
@@ -395,10 +422,19 @@ var logbook_record_diveProfile_controller = {
         ) {
             result.fieldErrors["temperatureMeasureUnit"] = 'validation.logbookEmptyMeasureUnit';
         }
-
         if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.additionalWeightKg)) {
             if (!is_positive_float(logbook_record_model.logbookEntry.diveSpec.additionalWeightKg)) {
                 result.fieldErrors["additionalWeightKg"] = 'validation.incorrectNumber';
+            }
+        }
+        if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.diveSpec.decoStepsComments)) {
+            if (logbook_record_model.logbookEntry.diveSpec.decoStepsComments.length > 2048) {
+                result.fieldErrors["decoStepsComments"] = 'validation.maxLength';
+            }
+        }
+        if (!isStringTrimmedEmpty(logbook_record_model.logbookEntry.note)) {
+            if (logbook_record_model.logbookEntry.note.length > 2048) {
+                result.fieldErrors["note"] = 'validation.maxLength';
             }
         }
         var tanks = logbook_record_model.logbookEntry.diveSpec.scubaTanks;
@@ -409,27 +445,27 @@ var logbook_record_diveProfile_controller = {
                 result.fieldErrors["supplyType_" + index] = 'validation.logbookEmptySupplyType';
             }
             if (isStringTrimmedEmpty(tank.size)) {
-                result.fieldErrors["size_" + index] = 'validation.logbookEmptyTankSize';
+                result.fieldErrors["volumeMeasureUnit_" + index] = 'validation.logbookEmptyTankSize';
             } else if (!is_positive_float(tank.size)) {
-                result.fieldErrors["size_" + index] = 'validation.incorrectNumber';
+                result.fieldErrors["volumeMeasureUnit_" + index] = 'validation.incorrectNumber';
             }
             if (isStringTrimmedEmpty(tank.volumeMeasureUnit)) {
                 result.fieldErrors["volumeMeasureUnit_" + index] = 'validation.logbookEmptyMeasureUnit';
             }
             if (isStringTrimmedEmpty(tank.startPressure)) {
-                result.fieldErrors["startPressure_" + index] = 'validation.logbookEmptyStartPressure';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbookEmptyStartPressure';
             } else if (!is_positive_float(tank.startPressure)) {
-                result.fieldErrors["startPressure_" + index] = 'validation.incorrectNumber';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.incorrectNumber';
             }
             if (isStringTrimmedEmpty(tank.endPressure)) {
-                result.fieldErrors["endPressure_" + index] = 'validation.logbookEmptyEndPressure';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbookEmptyEndPressure';
             } else if (!is_non_negative_float(tank.endPressure)) {
-                result.fieldErrors["endPressure_" + index] = 'validation.incorrectNumber';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.incorrectNumber';
             }
-            if (!result.fieldErrors["startPressure_" + index] && !result.fieldErrors["endPressure_" + index]
+            if (!result.fieldErrors["pressureMeasureUnit_" + index] && !result.fieldErrors["endPressure_" + index]
                 && parseFloat(tank.startPressure) < parseFloat(tank.endPressure)
             ) {
-                result.fieldErrors["startPressure_" + index] = 'validation.logbook.start.pressure.less.end.pressure';
+                result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbook.start.pressure.less.end.pressure';
             }
             if (isStringTrimmedEmpty(tank.pressureMeasureUnit)) {
                 result.fieldErrors["pressureMeasureUnit_" + index] = 'validation.logbookEmptyMeasureUnit';
@@ -478,7 +514,3 @@ var logbook_record_diveProfile_controller = {
         }
     }
 };
-
-$(document).ready(function () {
-    logbook_record_diveProfile_controller.init();
-});

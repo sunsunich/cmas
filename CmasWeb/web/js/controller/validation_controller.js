@@ -91,6 +91,14 @@ var validation_controller = {
         return result;
     },
 
+    cleanErrors: function () {
+        for (var i = 0; i < this.fields.length; i++) {
+            const field = this.fields[i];
+            this.clearFieldError(field.id);
+        }
+        $('#' + this.prefix + '_error').empty();
+    },
+
     clearFieldError: function (fieldId) {
         $('#' + this.prefix + '_error_' + fieldId).empty();
         $('#' + this.prefix + '_error_ico_' + fieldId).hide();
@@ -142,6 +150,28 @@ var validation_controller = {
                     }
                 }
                 $('#' + this.prefix + '_error').html(message);
+            }
+        }
+    },
+
+    simpleShowErrors: function (prefix, formErrors) {
+        if (!formErrors.success) {
+            if (formErrors.fieldErrors) {
+                for (var fieldError in formErrors.fieldErrors) {
+                    if (formErrors.fieldErrors.hasOwnProperty(fieldError)) {
+                        $('#'+ prefix + '_error_' + fieldError).html(error_codes[formErrors.fieldErrors[fieldError]]);
+                    }
+                }
+            }
+            if (jQuery.isEmptyObject(formErrors.fieldErrors)
+                && formErrors.errors && formErrors.errors.length > 0) {
+                var message = '';
+                for (var error in formErrors.errors) {
+                    if (formErrors.errors.hasOwnProperty(error)) {
+                        message += error_codes[formErrors.errors[error]];
+                    }
+                }
+                $('#'+ prefix + '_error').html(message).show();
             }
         }
     }

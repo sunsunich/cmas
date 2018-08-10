@@ -1,7 +1,9 @@
 package org.cmas.presentation.validator.user;
 
+import org.cmas.Globals;
 import org.cmas.entities.logbook.DiveSpec;
 import org.cmas.entities.logbook.ScubaTank;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -32,6 +34,10 @@ public class DiveSpecValidator implements Validator {
         if (diveSpec.getDurationMinutes() <= 0) {
             errors.rejectValue("durationMinutes", "validation.incorrectNumber");
         }
+        ValidatorUtils.validateLength(
+                errors, diveSpec.getDecoStepsComments(), "decoStepsComments",
+                "validation.maxLength", Globals.VERY_BIG_MAX_LENGTH
+        );
         List<ScubaTank> scubaTanks = diveSpec.getScubaTanks();
         boolean hasScubaTanks = scubaTanks != null && !scubaTanks.isEmpty();
         if (diveSpec.getIsApnea()) {

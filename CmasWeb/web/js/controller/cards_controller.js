@@ -16,11 +16,11 @@ var cards_controller = {
 
     changeCardWidth: function (cardImg) {
         var width = cardImg.width();
-        if (width != '640') {
-            cardImg.width('640');
+        if (width != '546') {
+            cardImg.width('546');
         }
         else {
-            cardImg.width('100%');
+            cardImg.css("width", "");
         }
     }
 };

@@ -120,6 +120,15 @@ var logbook_feed_controller = {
         for (i = 0; i < records.length; i++) {
             record = records[i];
             if (self.model.isMyRecords) {
+                $('#' + self.model.containerId + 'logbookRecord_' + record.id).hover(
+                    function () {
+                        var elemId = $(this)[0].id;
+                        $('#' + self.model.containerId + 'logbookRecordButtons_' + elemId.split('_')[1]).show();
+                    }, function () {
+                        var elemId = $(this)[0].id;
+                        $('#' + self.model.containerId + 'logbookRecordButtons_' + elemId.split('_')[1]).hide();
+                    }
+                );
                 $('#' + self.model.containerId + 'edit_' + record.id).click(function (event) {
                     event.preventDefault();
                     var elemId = $(this)[0].id;

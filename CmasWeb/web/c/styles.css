@@ -132,8 +132,12 @@ html, body {
     padding: 0;
 }
 
-#map, #Wrapper, #Wrapper-content {
+#Wrapper, #Wrapper-content {
     /*height: 100%;*/
+}
+
+#map {
+    height: 100%;
 }
 
 #Wrapper-content {
@@ -250,7 +254,7 @@ html, body {
     line-height: 1;
 }
 
-.content-left, .content-right, .content-center {
+.content-left, .content-right, .content-center, .content-center-wide, .content-create-logbook {
     padding-top: 50px;
     padding-bottom: 30px;
     position: relative;
@@ -261,6 +265,18 @@ html, body {
 
 .content-center {
     width: 60%;
+    padding-top: 16px;
+    padding-bottom: 40px;
+}
+
+.content-center-wide {
+    width: 84%;
+    padding-top: 56px;
+    padding-bottom: 40px;
+}
+
+.content-create-logbook {
+    width: 83%;
     padding-top: 16px;
     padding-bottom: 40px;
 }
@@ -333,8 +349,9 @@ html, body {
 }
 
 .content-card {
-    padding-bottom: 20px;
-    width: 100%;;
+    float: left;
+    margin-right: 2%;
+    margin-bottom: 40px;
 }
 
 .header,
@@ -400,11 +417,12 @@ html, body {
 }
 
 .dialog {
-    background: #f8f8f8;
+    background: #ffffff;
     height: auto;
-    width: 320px;
+    width: 290px;
+    padding: 16px;
     margin: 0 auto;
-    border-radius: 6px;
+    border-radius: 5px;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -427,7 +445,7 @@ html, body {
     padding-top: 25px;
     padding-left: 16px;
     padding-right: 16px;
-    margin-bottom: 16px;
+    margin-bottom: 40px;
 }
 
 .dialog-sub-title {
@@ -484,7 +502,7 @@ html, body {
     color: #f8f8f8;
 }
 
-.panel, .panel-header, .help-center-panel {
+.panel, .panel-header, .help-center-panel, .panel-cards {
     margin-bottom: 8px;
     padding: 40px 56px;
     border-radius: 5px;
@@ -502,6 +520,11 @@ html, body {
 .panel-header {
     padding-top: 26px;
     padding-bottom: 26px;
+}
+
+.panel-cards {
+    padding-right: 21px;
+    padding-bottom: 0px;
 }
 
 .panel-row {
@@ -561,16 +584,44 @@ html, body {
 }
 
 .userpic {
-    width: 344px;
+    max-width: 344px;
+    height: auto;
+    position: relative;
+    overflow: hidden;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+    width: 344px;
+    height: 360px;
+    background: center no-repeat;
+    background-size: cover;
+}
+
+.card-container img {
+    width: 344px;
 }
 
 .star {
     width: 30px;
     height: 30px;
     margin-left: 5px;
+}
+
+.logbook-button-right {
+    float: right;
+    margin-bottom: 24px;
+}
+
+.logbook-form-checkbox-label {
+    font-size: 14px;
+    color: #a1a4a5;
+    line-height: 2.3;
+    margin-right: 16px;
 }
 
 .diverList-elem-right, .diverList-elem-left {
@@ -642,6 +693,19 @@ html, body {
 .clearfix {
     width: 100%;
     display: inline-block;
+}
+
+.clearfix-no-width {
+    display: inline-block;
+}
+
+.clearfix-no-width:after {
+    /*content: ".";*/
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
 }
 
 html[xmlns] .clearfix {

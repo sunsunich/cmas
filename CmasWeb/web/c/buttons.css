@@ -77,7 +77,7 @@
 
 .inverse-positive-button:hover {
     color: #3ec9da;
-    box-shadow: 0 7px 14px 0 rgba(20, 57, 62, 0.32);;
+    box-shadow: 0 7px 14px 0 rgba(20, 57, 62, 0.32);
 }
 
 .inverse-positive-button:active {
@@ -97,6 +97,49 @@
 .white-button:active {
     color: #0d95b5;
     box-shadow: none;
+}
+
+.add-button {
+    overflow: auto;
+    width: 32px;
+    height: 32px;
+    background-image: url("/i/button_add_normal.png");
+    box-shadow: none;
+}
+
+.add-button:hover {
+    box-shadow: 0 7px 14px 0 rgba(62, 201, 218, 0.32);
+    border-radius: 50%;
+}
+
+.add-button:active {
+    background-image: url("/i/button_add_click.png");
+    box-shadow: none;
+}
+
+.add-button:disabled {
+    background-image: url("/i/button_add_inactive.png");
+    box-shadow: none;
+}
+
+.button-delete, .button-edit {
+    overflow: auto;
+    width: 24px;
+    height: 24px;
+    background-image: url("/i/button_delete.png");
+    box-shadow: none;
+}
+
+.button-delete:hover {
+    background-image: url("/i/button_delete_hover.png");
+}
+
+.button-edit {
+    background-image: url("/i/button_edit.png");
+}
+
+.button-edit:hover {
+    background-image: url("/i/button_edit_hover.png");
 }
 
 .enter-button {

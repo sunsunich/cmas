@@ -41,21 +41,21 @@
                     </div>
                 </c:if>
                     <%--todo implement--%>
-                <%--<div class="menu-link menu-item-left menu-item">--%>
+                    <%--<div class="menu-link menu-item-left menu-item">--%>
                     <%--<a href="/secure/social.html">--%>
-                        <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+                    <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
                     <%--</a>--%>
-                <%--</div>--%>
-                <%--<div class="menu-link menu-item-left menu-item">--%>
-                    <%--<a href="/secure/showLogbook.html">--%>
-                        <%--<span><s:message code="cmas.face.client.menu.logbook"/></span>--%>
-                    <%--</a>--%>
-                <%--</div>--%>
-                <%--<div class="menu-link menu-item-left menu-item ">--%>
-                    <%--<a href="/secure/showSpots.html">--%>
-                        <%--<span><s:message code="cmas.face.client.menu.divingSpots"/></span>--%>
-                    <%--</a>--%>
-                <%--</div>--%>
+                    <%--</div>--%>
+                    <div class="menu-link menu-item-left menu-item">
+                    <a href="/secure/showLogbook.html">
+                    <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                    </a>
+                    </div>
+                <div class="menu-link menu-item-left menu-item ">
+                    <a href="/secure/showSpots.html">
+                        <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
+                    </a>
+                </div>
             </div>
             <div class="cssmenu" id="cssMenu" style="display: none">
                 <ul>
@@ -75,21 +75,21 @@
                                 </li>
                             </c:if>
                                 <%--todo implement--%>
-                            <%--<li>--%>
+                                <%--<li>--%>
                                 <%--<a href="/secure/social.html">--%>
-                                    <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+                                <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
                                 <%--</a>--%>
-                            <%--</li>--%>
-                            <%--<li>--%>
-                                <%--<a href="/secure/showLogbook.html">--%>
-                                    <%--<span><s:message code="cmas.face.client.menu.logbook"/></span>--%>
-                                <%--</a>--%>
-                            <%--</li>--%>
-                            <%--<li>--%>
-                                <%--<a href="/secure/showSpots.html">--%>
-                                    <%--<span><s:message code="cmas.face.client.menu.divingSpots"/></span>--%>
-                                <%--</a>--%>
-                            <%--</li>--%>
+                                <%--</li>--%>
+                                <li>
+                                <a href="/secure/showLogbook.html">
+                                <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                                </a>
+                                </li>
+                            <li>
+                                <a href="/secure/showSpots.html">
+                                    <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -131,20 +131,12 @@
                 </div>
             </c:when>
             <c:otherwise>
-                <div class="menu-item-right menu-button userpic-ico">
-                    <img src="${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}"/>
+                <div class=" menu-item-right menu-button userpic-ico">
+                    <div class="rounded"
+                         style='background : url("${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}") center no-repeat; background-size: cover'>
+                    </div>
                 </div>
             </c:otherwise>
-            <%--<div class="menu-item-right menu-item menu-button userpic-ico" style="background-image: url(--%>
-            <%--<c:choose>--%>
-            <%--<c:when test="${diver.userpicUrl == null}">--%>
-            <%--/i/no-userpic-ico.png--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
-            <%--${diver.userpicUrl}--%>
-            <%--</c:otherwise>--%>
-            <%--</c:choose>--%>
-            <%--)"></div>--%>
         </c:choose>
         <span class="menu-item-right menu-text menu-item username-text">
             <b>${diver.firstName}</b>
@@ -152,7 +144,7 @@
 
     </my:header>
 
-    <div id="Wrapper-content">
+    <div id="Wrapper-content" class="clearfix">
         <div id="loading" class="loader" title="Please wait..."></div>
         <jsp:doBody/>
         <my:dialog id="errorDialog"

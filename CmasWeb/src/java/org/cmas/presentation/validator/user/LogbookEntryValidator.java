@@ -1,9 +1,11 @@
 package org.cmas.presentation.validator.user;
 
+import org.cmas.Globals;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.DiveSpec;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -41,6 +43,10 @@ public class LogbookEntryValidator implements Validator {
         if (logbookEntry.getState() == null) {
             errors.rejectValue("state", "validation.emptyField");
         }
+        ValidatorUtils.validateLength(
+                errors, logbookEntry.getNote(), "note",
+                "validation.maxLength", Globals.VERY_BIG_MAX_LENGTH
+        );
         DiveSpec diveSpec = logbookEntry.getDiveSpec();
         if (diveSpec == null) {
             errors.rejectValue("diveSpec", "validation.emptyField");

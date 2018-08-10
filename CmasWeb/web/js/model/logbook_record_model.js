@@ -26,6 +26,12 @@ var logbook_record_model = {
     instructorId: "",
     visibilityTypes: [],
 
+    additionalFieldIds: [
+        "prevDiveDate", "prevDiveTime", "avgDepthMeters", "note", "weather", "surface", "waterType", "current",
+        "underWaterVisibility", "airTemp", "waterTemp", "temperatureMeasureUnit", "divePurpose", "entryType",
+        "additionalWeightKg", "diveSuit", "decoStepsComments", "cnsToxicity"
+    ],
+
     createDraftRecord: function (successHandler, unSuccessHandler) {
         basicClient.sendPostRequestCommonCase(
             "/secure/saveDraftRecord.html",

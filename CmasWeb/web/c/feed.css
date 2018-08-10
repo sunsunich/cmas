@@ -1,10 +1,115 @@
-.userpicFeed {
-    max-height: 90px;
-    max-width: 90px;
+.feed-header-section, .feed-image-section {
+    margin-bottom: 16px;
+}
+
+.feed-image-section {
+
+}
+
+.feed-basic-section {
+    margin-bottom: 24px;
+}
+
+.feed-additional-section, .feed-note-section {
+    margin-top: 24px;
+    margin-bottom: 32px;
+}
+
+/*.feed-note-section {*/
+/*margin-top: 24px;*/
+/*margin-bottom: 32px;*/
+/*}*/
+
+.feed-label {
+    font-size: 14px;
+    color: #5c6264;
 }
 
 .photoFeed {
-    max-width: 425px;
+    width: 100%;
+}
+
+.feed-spec-section {
+    float: left;
+    width: 48%;
+    min-width: 308px;
+}
+
+.feed-spec-label, .feed-spec-row-label, .feed-tank-label {
+    color: #2b2b2b;
+    font-weight: 600;
+    line-height: 24px;
+    font-size: 16px;
+}
+
+.feed-spec-label, .feed-tank-label {
+    float: left;
+    width: 49%;
+    min-width: 155px;
+}
+
+.feed-tank-label {
+    width: 24%;
+}
+
+.feed-spec-row-label {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.feed-tank-sub-label {
+    color: #5c6264;
+    line-height: 24px;
+    font-size: 16px;
+}
+
+.feed-tank-elem {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.feed-spec-text, .feed-tank-spec-text {
+    float: left;
+}
+
+.feed-tank-spec-text {
+    width: 29%;
+}
+
+.feed-link a, .feed-link a:visited {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #a1a4a5;
+    text-decoration: none;
+}
+
+.feed-link a:hover {
+    color: #11c7dd;
+}
+
+.feed-link a:active {
+    text-decoration: underline;
+    color: #0d95b5;
+}
+
+.feed-button-container {
+    float: right;
+}
+
+.feed-button {
+    float: left;
+    margin-right: 16px;
+}
+
+.feed-margin {
+    margin-right: 4px;
+}
+
+.userpicFeed {
+    max-height: 90px;
+    max-width: 90px;
 }
 
 .logbookFeed-elem-right, .logbookFeed-elem-left {

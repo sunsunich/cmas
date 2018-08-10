@@ -70,7 +70,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         if (freePages.contains(requestURI)) {
-            return true;
+            return rejectIfCommonValidationNotPassed(request, response, requestURI);
         }
         if (authenticationService.isDiver()) {
             BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
@@ -78,7 +78,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
             if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_BASIC) {
                 if (cmasBasicPages.contains(requestURI)) {
-                    return true;
+                    return rejectIfCommonValidationNotPassed(request, response, requestURI);
                 } else {
                     redirectForPayment(request, response);
                     return false;
@@ -91,13 +91,13 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                         ) {
                     if (diverRegistrationStatus == DiverRegistrationStatus.DEMO) {
                         if (demoPages.contains(requestURI)) {
-                            return true;
+                            return rejectIfCommonValidationNotPassed(request, response, requestURI);
                         } else {
                             redirectForPayment(request, response);
                             return false;
                         }
                     } else {
-                        return true;
+                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     }
                 } else {
                     redirectForPayment(request, response);
@@ -105,6 +105,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                 }
             }
         }
+        return rejectIfCommonValidationNotPassed(request, response, requestURI);
+    }
+
+    private boolean rejectIfCommonValidationNotPassed(HttpServletRequest request, HttpServletResponse response, String requestURI) throws IOException {
         if (commonValidation(request)) {
             return true;
         } else {
@@ -158,13 +162,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private boolean checkInvoice(ServletRequest req) {
         String invoiceIdStr = req.getParameter(INVOICE_ID);
         if (invoiceIdStr != null && !invoiceIdStr.isEmpty()) {
-            Long invoiceId;
-            try {
-                invoiceId = Long.valueOf(invoiceIdStr);
-            } catch (Exception ignored) {
-                return false;
-            }
-            Invoice invoice = invoiceDao.getById(invoiceId);
+            Invoice invoice = invoiceDao.getByExternalInvoiceNumber(invoiceIdStr);
             BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
             return invoice.getUser().equals(currentUser.getUser());
         }

@@ -49,6 +49,7 @@ interface GlobalsStaticContainer {
     String MOBILE_DB_PASS = "oT98{7s%{7oQg$";
 
     String DTF = "dd/MM/yyyy";
+    String FEED_DTF = "dd MMM yyyy, HH:mm";
     String DTF_WEB_CONTROLS = "dd/MM/yyyy HH:mm";
     String FULL_DTF = "YYYY-MM-DDTHH:mm:ss.sssZ";
 

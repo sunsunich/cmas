@@ -80,371 +80,386 @@
         </c:if>
     </script>
 
-    <div id="createLogbookEntry">
-
-        <div class="createEntryHeader">
-            <div class="createEntryHeaderTitle"><s:message code="cmas.face.logbook.create.title"/></div>
-            <div class="content">
-                <div id="tabs" class="tabs clearfix">
-                <span class="firstTab" id="diveProfileTab">
-                    <s:message code="cmas.face.logbook.diveProfile"/>
-                </span>
-                    <span class="secondTab" id="publishTab" class="inactive">
-                    <s:message code="cmas.face.logbook.publish"/>
-                </span>
+    <div id="createLogbookEntry" class="content-create-logbook">
+        <div id="diveProfile" class="panel panel-wider">
+            <div class="createEntryHeader header1-text sub-panel-narrow">
+                <s:message code="cmas.face.logbook.create.title"/>
+                <div class="logbook-button-right">
+                    <span class="logbook-tab-chosen logbook-tab-left" id="requiredTab">
+                            <s:message code="cmas.face.logbook.requiredFields"/>
+                    </span>
+                    <span class="logbook-tab logbook-tab-right" id="certificationTab">
+                        <s:message code="cmas.face.logbook.forCertificationFields"/>
+                    </span>
                 </div>
             </div>
-        </div>
-        <div id="diveProfile" class="clearfix">
-            <div class="white-form-left">
-                <div class="white-form-row white-form-top-row clearfix">
-                    <div class="white-form-row-date">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.diveDate"/></label>
-                        <img class="date-form-calendar-input-ico white-form-row-img">
-                        <input class="white-form-date-input" id="diveDate" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.diveDate"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="dd/MM/yyyy"/>"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_diveDate"></label>
-                    </div>
-
-                    <div class="white-form-row-time">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.diveTime"/></label>
-                        <input class="white-form-time-input" id="diveTime" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.diveTime"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="HH:mm"/>"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_diveTime"></label>
-                    </div>
-
-                </div>
-
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-date">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.prevDiveDate"/></label>
-                        <img class="date-form-calendar-input-ico white-form-row-img">
-                        <input class="white-form-date-input" id="prevDiveDate" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.prevDiveDate"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="<fmt:formatDate value="${logbookEntry.prevDiveDate}" pattern="dd/MM/yyyy"/>"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_prevDiveDate"></label>
-                    </div>
-                    <div class="white-form-row-time">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.prevDiveTime"/></label>
-                        <input class="white-form-time-input" id="prevDiveTime" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.prevDiveTime"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="<fmt:formatDate value="${logbookEntry.prevDiveDate}" pattern="HH:mm"/>"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_prevDiveTime"></label>
-                    </div>
-                </div>
-
-                <div class="form-row center">
-                    <a class="white-form-href link" id="chooseSpot" href="#">
-                        <s:message code="cmas.face.spots.chooseSpot"/>
-                    </a>
-                </div>
-
-                <div class="white-form-row">
-                    <label class="white-form-label"><s:message code="cmas.face.logbook.spotName"/></label>
-                    <input class="white-form-row-input" id="spotName" type="text"
-                           placeholder="<s:message code="cmas.face.logbook.spotName"/>"
-                            <c:choose>
-                                <c:when test="${spot == null}">
+            <div class="sub-panel-narrow clearfix">
+                <div class="logbookHeader header2-text "><s:message code="cmas.face.logbook.dive.info.title"/></div>
+                <div class="logbook-section-left">
+                    <div>
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.diveDate"/></div>
+                        <div class="form-row white-form-row-date">
+                            <input id="diveDate" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.diveDate"/>"
                                     <c:if test="${logbookEntry != null}">
-                                        value="${logbookEntry.name}"
+                                        value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="dd/MM/yyyy"/>"
                                     </c:if>
-                                </c:when>
-                                <c:otherwise>
-                                    value="${spot.name}"
-                                </c:otherwise>
-                            </c:choose>
-                    />
-                    <label class="error" id="create_error_name"></label>
-                </div>
+                            />
+                            <img src="/i/ic_calendar.png" class="error-input-ico" id="create_ico_diveDate">
+                            <img src="/i/ic_error.png" class="error-input-ico" id="create_error_ico_diveDate"
+                                 style="display: none">
+                            <div class="error" id="create_error_diveDate"></div>
+                        </div>
+                        <div class="form-row white-form-row-time">
+                            <input id="diveTime" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.diveTime"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="<fmt:formatDate value="${logbookEntry.diveDate}" pattern="HH:mm"/>"
+                                    </c:if>
+                            />
+                            <img src="/i/ic_error.png" class="error-input-ico" id="create_error_ico_diveTime"
+                                 style="display: none">
+                            <div class="error" id="create_error_diveTime"></div>
+                        </div>
+                    </div>
 
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-half">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.latitude"/></label>
-                        <input class="white-form-row-input" id="latitude" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.latitude"/>"
-                                <c:choose>
-                                    <c:when test="${spot == null}">
-                                        <c:if test="${logbookEntry != null}">
-                                            value="${logbookEntry.latitude}"
-                                        </c:if>
-                                    </c:when>
-                                    <c:otherwise>
-                                        value="${spot.latitude}"
-                                    </c:otherwise>
-                                </c:choose>
-                        />
-                        <label class="error" id="create_error_latitude"></label>
+                    <div>
+                        <div class="form-row white-form-row-third">
+                            <label class="logbook-form-label"><s:message code="cmas.face.logbook.duration"/></label>
+                            <input id="duration" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="${logbookEntry.diveSpec.durationMinutes}"
+                                    </c:if>
+                            />
+                            <label class="error" id="create_error_durationMinutes"></label>
+                        </div>
+                        <div class="form-row white-form-row-third">
+                            <label class="logbook-form-label"><s:message code="cmas.face.logbook.depth"/></label>
+                            <input id="depth" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="${logbookEntry.diveSpec.maxDepthMeters}"
+                                    </c:if>
+                            />
+                            <label class="error" id="create_error_maxDepthMeters"></label>
+                        </div>
+                        <div class="form-row white-form-row-third-right" id="avgDepthMeters_container">
+                            <label class="logbook-form-label"><s:message code="cmas.face.logbook.avgDepthMeters"/></label>
+                            <input id="avgDepthMeters" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.avgDepthMeters.placeholder"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="${logbookEntry.diveSpec.avgDepthMeters}"
+                                    </c:if>
+                            />
+                            <label class="error" id="create_error_avgDepthMeters"></label>
+                        </div>
                     </div>
-                    <div class="white-form-row-half-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.longitude"/></label>
-                        <input class="white-form-row-input" id="longitude" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.longitude"/>"
-                                <c:choose>
-                                    <c:when test="${spot == null}">
-                                        <c:if test="${logbookEntry != null}">
-                                            value="${logbookEntry.longitude}"
-                                        </c:if>
-                                    </c:when>
-                                    <c:otherwise>
-                                        value="${spot.longitude}"
-                                    </c:otherwise>
-                                </c:choose>
-                        />
-                        <label class="error" id="create_error_longitude"></label>
-                    </div>
-                </div>
 
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.duration"/></label>
-                        <input class="white-form-row-input" id="duration" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.duration.placeholder"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="${logbookEntry.diveSpec.durationMinutes}"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_durationMinutes"></label>
-                    </div>
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.depth"/></label>
-                        <input class="white-form-row-input" id="depth" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.depth.placeholder"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="${logbookEntry.diveSpec.maxDepthMeters}"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_maxDepthMeters"></label>
-                    </div>
-                    <div class="white-form-row-third-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.avgDepth"/></label>
-                        <input class="white-form-row-input" id="avgDepth" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.avgDepth.placeholder"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="${logbookEntry.diveSpec.avgDepthMeters}"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_avgDepthMeters"></label>
-                    </div>
-                </div>
-
-                <div class="white-form-row white-form-top-row clearfix">
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.weather"/></label>
-                        <select name="weather" id="weather" style="width: 100%" size=1 onChange="">
-                        </select>
-                        <label class="error" id="create_error_weather"></label>
-                    </div>
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.surface"/></label>
-                        <select name="surface" id="surface" style="width: 100%" size=1 onChange="">
-                        </select>
-                        <label class="error" id="create_error_surface"></label>
-                    </div>
-                    <div class="white-form-row-third-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.waterType"/></label>
-                        <select name="waterType" id="waterType" style="width: 100%" size=1 onChange="">
-                        </select>
-                        <label class="error" id="create_error_waterType"></label>
+                    <div id="prevDiveDate_container">
+                        <div class="logbook-form-label">
+                            <label><s:message code="cmas.face.logbook.prevDiveDate"/></label>
+                            <label class="logbook-optional"><s:message code="cmas.face.logbook.optional"/></label>
+                        </div>
+                        <div class="form-row white-form-row-date">
+                            <input id="prevDiveDate" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.prevDiveDate"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="<fmt:formatDate value="${logbookEntry.prevDiveDate}"
+                                                               pattern="dd/MM/yyyy"/>"
+                                    </c:if>
+                            />
+                            <img src="/i/ic_calendar.png" class="error-input-ico" id="create_ico_prevDiveDate">
+                            <img src="/i/ic_error.png" class="error-input-ico" id="create_error_ico_prevDiveDate"
+                                 style="display: none">
+                            <div class="error" id="create_error_prevDiveDate"></div>
+                        </div>
+                        <div class="form-row white-form-row-time">
+                            <input id="prevDiveTime" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.prevDiveTime"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="<fmt:formatDate value="${logbookEntry.prevDiveDate}" pattern="HH:mm"/>"
+                                    </c:if>
+                            />
+                            <img src="/i/ic_error.png" class="error-input-ico" id="create_error_ico_prevDiveTime"
+                                 style="display: none">
+                            <div class="error" id="create_error_prevDiveTime"></div>
+                        </div>
                     </div>
                 </div>
+                <div class="logbook-section-right">
+                    <div class="logbookHeader header2-text"><s:message code="cmas.face.spots.chooseSpot"/></div>
+                    <div class="center">
+                        <a id="chooseSpot" href="#">
+                            <s:message code="cmas.face.spots.chooseSpot"/>
+                        </a>
+                    </div>
+                    <div class="logbook-spot-data">
+                        <div class="form-row logbook-spot-name">
+                            <input id="spotName" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.spotName"/>"
+                                    <c:choose>
+                                        <c:when test="${spot == null}">
+                                            <c:if test="${logbookEntry != null}">
+                                                value="${logbookEntry.name}"
+                                            </c:if>
+                                        </c:when>
+                                        <c:otherwise>
+                                            value="${spot.name}"
+                                        </c:otherwise>
+                                    </c:choose>
+                            />
+                        </div>
+                        <div class="logbook-spot-coord-block">
+                            <div class="form-row logbook-spot-coord">
+                                <input id="latitude" type="text"
+                                       placeholder="<s:message code="cmas.face.logbook.latitude"/>"
+                                        <c:choose>
+                                            <c:when test="${spot == null}">
+                                                <c:if test="${logbookEntry != null}">
+                                                    value="${logbookEntry.latitude}"
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                value="${spot.latitude}"
+                                            </c:otherwise>
+                                        </c:choose>
+                                />
+                            </div>
+                            <div class="form-row logbook-spot-coord">
+                                <input id="longitude" type="text"
+                                       placeholder="<s:message code="cmas.face.logbook.longitude"/>"
+                                        <c:choose>
+                                            <c:when test="${spot == null}">
+                                                <c:if test="${logbookEntry != null}">
+                                                    value="${logbookEntry.longitude}"
+                                                </c:if>
+                                            </c:when>
+                                            <c:otherwise>
+                                                value="${spot.longitude}"
+                                            </c:otherwise>
+                                        </c:choose>
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-half">
-                        <label class="white-form-label">
-                            <s:message code="cmas.face.logbook.underWaterVisibility"/>
+                <div class="logbook-section-left">
+                        <%--todo buddies section--%>
+                </div>
+            </div>
+            <div class="sub-panel-narrow">
+                    <%--tanks--%>
+                <div class="logbookHeader header2-text"><s:message code="cmas.face.logbook.tanks.title"/></div>
+                <div class="form-row">
+                    <input type="checkbox" name="isApnea" id="isApnea" class="css-checkbox"
+                    <c:if test="${logbookEntry != null}">
+                           <c:if test="${logbookEntry.diveSpec.isApnea}">checked="checked"</c:if>
+                    </c:if>
+                    >
+                    <label for="isApnea"
+                           class="css-label radGroup1 clr">
+                            <span class="form-checkbox-label">
+                                <s:message code="cmas.face.logbook.apnea"/>
+                            </span>
+                    </label>
+                    <b id="addTankButton">
+                        <div class="add-button logbook-button-right"></div>
+                        <label class="logbook-form-checkbox-label logbook-button-right">
+                            <s:message code="cmas.face.logbook.addTank"/>
                         </label>
-                        <select name="underWaterVisibility" id="underWaterVisibility" style="width: 100%" size=1
-                                onChange="">
-                        </select>
-                        <label class="error" id="create_error_underWaterVisibility"></label>
-                    </div>
-                    <div class="white-form-row-half-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.current"/></label>
-                        <select name="current" id="current" style="width: 100%" size=1 onChange="">
-                        </select>
-                        <label class="error" id="create_error_current"></label>
-                    </div>
+                    </b>
+                    <div class="error" id="create_error_scubaTanks"></div>
                 </div>
+            </div>
+            <div id="tanksSection">
+                <div id="tanks" class="clearfix">
 
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.airTemp"/></label>
-                        <input class="white-form-row-input" id="airTemp" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.airTemp"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="${logbookEntry.diveSpec.airTemp}"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_airTemp"></label>
-                    </div>
-                    <div class="white-form-row-third">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.waterTemp"/></label>
-                        <input class="white-form-row-input" id="waterTemp" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.waterTemp"/>"
-                                <c:if test="${logbookEntry != null}">
-                                    value="${logbookEntry.diveSpec.waterTemp}"
-                                </c:if>
-                        />
-                        <label class="error" id="create_error_waterTemp"></label>
-                    </div>
-                    <div class="white-form-row-third-right">
-                        <label class="white-form-label"><s:message
-                                code="cmas.face.logbook.temperatureMeasureUnit"/></label>
-                        <select name="temperatureMeasureUnit" id="temperatureMeasureUnit" style="width: 100%" size=1
-                                onChange="">
-                        </select>
-                        <label class="error" id="create_error_temperatureMeasureUnit"></label>
-                    </div>
                 </div>
-
-                <div class="white-form-row white-form-top-row clearfix">
-                    <div class="white-form-row-half">
-                        <label class="white-form-label">
-                            <s:message code="cmas.face.logbook.divePurpose"/>
-                        </label>
-                        <select name="divePurpose" id="divePurpose" style="width: 100%" size=1 onChange="">
-                        </select>
-                        <label class="error" id="create_error_divePurpose"></label>
-                    </div>
-                    <div class="white-form-row-half-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.entryType"/></label>
-                        <select name="entryType" id="entryType" style="width: 100%" size=1 onChange="">
+            </div>
+            <div id="additional_container" class="sub-panel-narrow">
+                <div class="logbookHeader header2-text">
+                    <label><s:message code="cmas.face.logbook.additional.title"/></label>
+                    <label class="logbook-optional"><s:message code="cmas.face.logbook.optional"/></label>
+                </div>
+                <div class="logbook-additional-section">
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.entryType"/></div>
+                        <select name="entryType" id="entryType" style="width: 272px" size=1 onChange="">
                         </select>
                         <label class="error" id="create_error_entryType"></label>
                     </div>
-                </div>
-
-                <div class="white-form-row clearfix">
-                    <div class="white-form-row-half">
-                        <label class="white-form-label">
-                            <s:message code="cmas.face.logbook.addWeight"/>
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.diveSuit"/></div>
+                        <select name="diveSuit" id="diveSuit" size=1 style="width: 272px" onChange="">
+                        </select>
+                        <label class="error" id="create_error_diveSuit"></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="logbook-form-label">
+                            <s:message code="cmas.face.logbook.divePurpose"/>
+                        </div>
+                        <select name="divePurpose" id="divePurpose" style="width: 272px" size=1 onChange="">
+                        </select>
+                        <label class="error" id="create_error_divePurpose"></label>
+                    </div>
+                    <div class="form-row">
+                        <label class="logbook-form-label logbook-elem-margin">
+                            <s:message code="cmas.face.logbook.additionalWeightKg"/>
                         </label>
-                        <input class="white-form-row-input" id="addWeight" type="text"
-                               placeholder="<s:message code="cmas.face.logbook.addWeight"/>"
+                        <input id="additionalWeightKg" type="text" class="logbook-form-middle-elem"
+                               placeholder="<s:message code="cmas.face.logbook.additionalWeightKg.placeholder"/>"
                                 <c:if test="${logbookEntry != null}">
                                     value="${logbookEntry.diveSpec.additionalWeightKg}"
                                 </c:if>
                         />
                         <label class="error" id="create_error_additionalWeightKg"></label>
                     </div>
-                    <div class="white-form-row-half-right">
-                        <label class="white-form-label"><s:message code="cmas.face.logbook.diveSuit"/></label>
-                        <select name="diveSuit" id="diveSuit" style="width: 100%" size=1 onChange="">
+                </div>
+                <div class="logbook-additional-section">
+                    <div class="logbook-form-label">
+                        <s:message code="cmas.face.logbook.airAndWaterTemp"/>
+                    </div>
+                    <div>
+                        <div class="form-row logbook-elem-margin" style="display: inline-block">
+                            <input class="logbook-form-middle-elem" id="airTemp" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.airTemp"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="${logbookEntry.diveSpec.airTemp}"
+                                    </c:if>
+                            />
+                            <label class="error" id="create_error_airTemp"></label>
+                        </div>
+                        <div class="form-row logbook-elem-margin" style="display: inline-block">
+                            <input class="logbook-form-middle-elem" id="waterTemp" type="text"
+                                   placeholder="<s:message code="cmas.face.logbook.waterTemp"/>"
+                                    <c:if test="${logbookEntry != null}">
+                                        value="${logbookEntry.diveSpec.waterTemp}"
+                                    </c:if>
+                            />
+                            <label class="error" id="create_error_waterTemp"></label>
+                        </div>
+                        <div class="form-row" style="display: inline-block">
+                            <select name="temperatureMeasureUnit" id="temperatureMeasureUnit" style="width: 75px" size=1
+                                    onChange="">
+                            </select>
+                            <label class="error" id="create_error_temperatureMeasureUnit"></label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.surface"/></div>
+                        <select name="surface" id="surface" style="width: 100%" size=1 onChange="">
                         </select>
-                        <label class="error" id="create_error_diveSuit"></label>
+                        <label class="error" id="create_error_surface"></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="logbook-form-label">
+                            <s:message code="cmas.face.logbook.underWaterVisibility"/>
+                        </div>
+                        <select name="underWaterVisibility" id="underWaterVisibility" style="width: 100%" size=1
+                                onChange="">
+                        </select>
+                        <label class="error" id="create_error_underWaterVisibility"></label>
+                    </div>
+                    <div class="form-row">
+                        <label class="logbook-form-label logbook-elem-margin">
+                            <s:message code="cmas.face.logbook.cnsToxicity"/>
+                        </label>
+                        <input class="logbook-form-middle-elem" id="cnsToxicity" type="text"
+                               placeholder="<s:message code="cmas.face.logbook.cnsToxicity"/>"
+                                <c:if test="${logbookEntry != null}">
+                                    value="${logbookEntry.diveSpec.cnsToxicity}"
+                                </c:if>
+                        />
+                        <label class="error" id="create_error_cnsToxicity"></label>
                     </div>
                 </div>
-
-                <div class="white-form-row">
-                    <input id="hasSafetyStop" type="checkbox"
-                            <c:if test="${logbookEntry != null}">
-                                <c:if test="${logbookEntry.diveSpec.hasSafetyStop}">checked="checked"</c:if>
-                            </c:if>
-                    />
-                    <label class="white-form-checkbox-label">
-                        <s:message code="cmas.face.logbook.hasSafetyStop"/>
-                    </label>
+                <div class="logbook-additional-section">
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.weather"/></div>
+                        <select name="weather" id="weather" style="width: 272px" size=1 onChange="">
+                        </select>
+                        <label class="error" id="create_error_weather"></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.current"/></div>
+                        <select name="current" id="current" style="width: 272px" size=1 onChange="">
+                        </select>
+                        <label class="error" id="create_error_current"></label>
+                    </div>
+                    <div class="form-row">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.waterType"/></div>
+                        <select name="waterType" id="waterType" style="width: 272px" size=1 onChange="">
+                        </select>
+                        <label class="error" id="create_error_waterType"></label>
+                    </div>
+                    <div class="form-row">
+                        <input id="hasSafetyStop" name="hasSafetyStop" type="checkbox" class="css-checkbox"
+                                <c:if test="${logbookEntry != null}">
+                                    <c:if test="${logbookEntry.diveSpec.hasSafetyStop}">checked="checked"</c:if>
+                                </c:if>
+                        />
+                        <label for="hasSafetyStop"
+                               class="css-label radGroup1 clr">
+                            <span class="form-checkbox-label">
+                               <s:message code="cmas.face.logbook.hasSafetyStop"/>
+                            </span>
+                        </label>
+                    </div>
                 </div>
-                <div class="white-form-row">
-                    <label class="white-form-label"><s:message code="cmas.face.logbook.cnsToxicity"/></label>
-                    <input class="white-form-row-input" id="cnsToxicity" type="text"
-                           placeholder="<s:message code="cmas.face.logbook.cnsToxicity"/>"
-                            <c:if test="${logbookEntry != null}">
-                                value="${logbookEntry.diveSpec.cnsToxicity}"
-                            </c:if>
-                    />
-                    <label class="error" id="create_error_cnsToxicity"></label>
-                </div>
-
-                <div class="white-form-row">
-                    <label class="white-form-label"><s:message code="cmas.face.logbook.decoStepsComments"/></label>
-                    <c:choose>
-                        <c:when test="${logbookEntry == null}">
-                        <textarea class="white-form-textarea" id="decoStepsComments" rows="6"
+                <div class="clearfix">
+                    <div class="logbook-additional-section">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.decoStepsComments"/></div>
+                        <div class="form-row">
+                            <c:choose>
+                                <c:when test="${logbookEntry == null}">
+                        <textarea id="decoStepsComments" rows="6"
                                   placeholder="<s:message code="cmas.face.logbook.decoStepsComments"/>"></textarea>
-                        </c:when>
-                        <c:otherwise>
-                <textarea class="white-form-textarea" id="decoStepsComments" rows="6"
-                          placeholder="<s:message code="cmas.face.logbook.decoStepsComments"/>">${logbookEntry.diveSpec.decoStepsComments}</textarea>
-                        </c:otherwise>
-                    </c:choose>
-                    <label class="error" id="create_error_decoStepsComments"></label>
-                </div>
-
-
-                <div class="white-form-row">
-                    <label class="white-form-label"><s:message code="cmas.face.logbook.comments"/></label>
-                    <c:choose>
-                        <c:when test="${logbookEntry == null}">
-                        <textarea class="white-form-textarea" id="comments" rows="6"
+                                </c:when>
+                                <c:otherwise>
+                        <textarea id="decoStepsComments" rows="6"
+                                  placeholder="<s:message code="cmas.face.logbook.decoStepsComments"/>">${logbookEntry.diveSpec.decoStepsComments}</textarea>
+                                </c:otherwise>
+                            </c:choose>
+                            <label class="error" id="create_error_decoStepsComments"></label>
+                        </div>
+                    </div>
+                    <div class="logbook-additional-section-big">
+                        <div class="logbook-form-label"><s:message code="cmas.face.logbook.comments"/></div>
+                        <div class="form-row">
+                            <c:choose>
+                                <c:when test="${logbookEntry == null}">
+                        <textarea id="comments" rows="6"
                                   placeholder="<s:message code="cmas.face.logbook.comments"/>"></textarea>
-                        </c:when>
-                        <c:otherwise>
-                <textarea class="white-form-textarea" id="comments" rows="6"
-                          placeholder="<s:message code="cmas.face.logbook.comments"/>">${logbookEntry.note}</textarea>
-                        </c:otherwise>
-                    </c:choose>
-                    <label class="error" id="create_error_note"></label>
-                </div>
-
-                <div class="white-form-row white-form-top-row">
-                    <div class="button-container">
-                        <button class="form-button reg-button" id="saveDraftLogbookEntryButton">
-                            <s:message code="cmas.face.logbook.saveDraft"/>
-                        </button>
-                        <button class="the-only-button enter-button" id="saveLogbookEntryButton">
-                            <s:message code="cmas.face.logbook.submit"/>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="white-form-left">
-                <div class="dialog-title"><s:message code="cmas.face.logbook.tanks.title"/></div>
-                <div class="white-form-row">
-                    <input id="isApnea" type="checkbox"
-                            <c:if test="${logbookEntry != null}">
-                                <c:if test="${logbookEntry.diveSpec.isApnea}">checked="checked"</c:if>
-                            </c:if>
-                    />
-                    <label class="white-form-checkbox-label">
-                        <s:message code="cmas.face.logbook.isApnea"/>
-                    </label>
-                </div>
-                <div class="error white-form-row" id="create_error_scubaTanks"></div>
-                <div id="tanksSection">
-                    <div id="tanks">
-
-                    </div>
-                    <div class="white-form-row">
-                        <div class="button-container">
-                            <button class="form-button enter-button" id="addTankButton">
-                                <s:message code="cmas.face.logbook.addTank"/>
-                            </button>
+                                </c:when>
+                                <c:otherwise>
+                        <textarea id="comments" rows="6"
+                                  placeholder="<s:message code="cmas.face.logbook.comments"/>">${logbookEntry.note}</textarea>
+                                </c:otherwise>
+                            </c:choose>
+                            <label class="error" id="create_error_note"></label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="publish" class="clearfix">
+        <div class="sub-panel-narrow">
+            <div class="button-container">
+                <button class="white-button logbook-button logbook-button-margin" id="saveDraftLogbookEntryButton">
+                    <s:message code="cmas.face.logbook.saveDraft"/>
+                </button>
+                <button class="positive-button logbook-button" id="saveLogbookEntryButton">
+                    <s:message code="cmas.face.logbook.submit"/>
+                </button>
+            </div>
+        </div>
+
+        <div id="publish" class="clearfix" style="display: none">
             <div class="white-form-left">
                 <div class="white-form-row white-form-top-row">
-                    <label class="white-form-label"><s:message code="cmas.face.logbook.visibility"/></label>
+                    <label class="logbook-form-label"><s:message code="cmas.face.logbook.visibility"/></label>
                     <select name="visibility" id="visibility" style="width: 100%" size=1 onChange="">
                     </select>
                     <label class="error" id="create_error_visibility"></label>

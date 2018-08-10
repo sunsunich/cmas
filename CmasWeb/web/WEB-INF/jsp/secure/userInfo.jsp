@@ -31,12 +31,17 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <img id="userpic" src="${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}"
-                                 class="userpic userpicPreview userpic-selection-left"/>
+                        <div class="userpic">
+                            <div class="centered" id="userpic" style='background : url("${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}") center no-repeat; background-size: cover'>
+                            </div>
+                        </div>
                         </c:otherwise>
                     </c:choose>
-
+                    <div class="error" id="selectUserpic_error_file"></div>
                 </div>
+                <form id="userpicFileForm" style="visibility: hidden">
+                    <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
+                </form>
                 <div class="panel-row">
                     <div class="header1-text">${diver.firstName} ${diver.lastName}</div>
                 </div>
@@ -47,7 +52,7 @@
             </div>
             <c:if test="${isCMAS}">
                 <div class="panel">
-                    <div class="button-container" id="noCard">
+                    <div class="card-container" id="noCard">
                         <div>
                 <span class="panel-text">
                     <s:message code="cmas.face.client.profile.noCard"/>
@@ -57,8 +62,8 @@
                             <s:message code="cmas.face.client.profile.cardReload"/>
                         </button>
                     </div>
-                    <div class="button-container" id="card">
-                        <img id="cardImg" width="90%"/>
+                    <div class="card-container" id="card">
+                        <img id="cardImg"/>
                     </div>
                     <div class="pass_link">
                         <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">
@@ -73,6 +78,12 @@
     <div class="content-right content-large">
         <div class="panel-header">
             <span class="header2-text"><s:message code="cmas.face.client.profile.mylogbook"/></span>
+            <b id="addLogbookEntryButton" onclick="window.location='/secure/createLogbookRecordForm.html'">
+                <div class="add-button logbook-button-right"></div>
+                <label class="logbook-form-checkbox-label logbook-button-right">
+                    <s:message code="cmas.face.logbook.addLogbookEntry"/>
+                </label>
+            </b>
         </div>
         <div id="accountFeed"></div>
     </div>
@@ -80,6 +91,12 @@
     <my:dialog id="showDiver"
                title="cmas.face.showDiver.title"
                buttonText="cmas.face.showDiver.submitText">
+    </my:dialog>
+
+    <my:dialog id="recordDeleteDialog"
+               title="cmas.face.logbook.delete.title"
+               buttonText="cmas.face.logbook.delete.ok">
+        <div class="dialog-form-row"><s:message code="cmas.face.logbook.delete.question"/></div>
     </my:dialog>
 
     <div id="showLogbookEntry" class="logbookEntry" style="display: none">
@@ -98,47 +115,30 @@
         </div>
     </div>
 
-    <my:dialog id="selectUserpic"
-               title="cmas.face.client.profile.selectUserpic"
-               buttonText="cmas.face.client.profile.dialog.submitText">
-        <div class="dialog-form-row">
-            <form id="userpicFileForm">
-                <input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">
-            </form>
-            <img id="userpicPreview" class="userpicPreview"
-                 src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>
-        </div>
-        <div class="error" id="selectUserpic_error_file"></div>
-        <div class="dialog-form-row" id="cameraSelect">
-            <img src="${pageContext.request.contextPath}/i/photo_ico_gray.png?v=${webVersion}"/>
-            <a href="#">
-                <s:message code="cmas.face.client.profile.selectUserpic.camera"/>
-            </a>
-        </div>
-        <div class="dialog-form-row" id="fileFromDiscSelect">
-            <img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png?v=${webVersion}"/>
-            <a href="#">
-                <s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>
-            </a>
-        </div>
-    </my:dialog>
-
-    <my:dialog id="cameraPreview"
-               title="cmas.face.client.profile.selectUserpic.camera.preview.title"
-               buttonText="cmas.face.dialog.ok">
-        <video autoplay id="cameraPreviewWindow">
-        </video>
-        <img id="cameraPreviewImg" src="">
-        <canvas style="display:none;"></canvas>
-        <div class="button-container">
-            <button class="form-button enter-button" id="takePicture">
-                <s:message code="cmas.face.client.profile.selectUserpic.camera.preview.takePicture"/>
-            </button>
-            <button class="form-button enter-button" id="takePictureAgain">
-                <s:message code="cmas.face.client.profile.selectUserpic.camera.preview.takePictureAgain"/>
-            </button>
-        </div>
-    </my:dialog>
+    <%--<my:dialog id="selectUserpic"--%>
+    <%--title="cmas.face.client.profile.selectUserpic"--%>
+    <%--buttonText="cmas.face.client.profile.dialog.submitText">--%>
+    <%--<div class="dialog-form-row">--%>
+    <%--<form id="userpicFileForm">--%>
+    <%--<input id="userpicFileInput" name="userpicFileInput" type="file" accept="image/*">--%>
+    <%--</form>--%>
+    <%--<img id="userpicPreview" class="userpicPreview"--%>
+    <%--src="${pageContext.request.contextPath}/i/no_img.png?v=${webVersion}"/>--%>
+    <%--</div>--%>
+    <%--<div class="error" id="selectUserpic_error_file"></div>--%>
+    <%--<div class="dialog-form-row" id="cameraSelect">--%>
+    <%--<img src="${pageContext.request.contextPath}/i/photo_ico_gray.png?v=${webVersion}"/>--%>
+    <%--<a href="#">--%>
+    <%--<s:message code="cmas.face.client.profile.selectUserpic.camera"/>--%>
+    <%--</a>--%>
+    <%--</div>--%>
+    <%--<div class="dialog-form-row" id="fileFromDiscSelect">--%>
+    <%--<img src="${pageContext.request.contextPath}/i/mobile_ico_gray.png?v=${webVersion}"/>--%>
+    <%--<a href="#">--%>
+    <%--<s:message code="cmas.face.client.profile.selectUserpic.fromDisc"/>--%>
+    <%--</a>--%>
+    <%--</div>--%>
+    <%--</my:dialog>--%>
 
 </my:securepage>
 

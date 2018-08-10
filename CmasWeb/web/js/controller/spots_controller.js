@@ -1,9 +1,12 @@
 var spots_controller = {
 
+    validationController: null,
+
     init: function () {
         var self = this;
-        country_controller.inputId = "createSpotCountry";
-        country_controller.drawIcon = false;
+        $('#Wrapper').height("100%");
+        $('#Wrapper-content').height("100%");
+        country_controller.inputId = "createSpot_countryCode";
         country_controller.init();
 
         spots_model.map = new google.maps.Map(document.getElementById('map'), {
@@ -37,22 +40,52 @@ var spots_controller = {
             self.showSpotOnMap(event.latLng.lat(), event.latLng.lng(), false);
         });
 
-        $('#createSpotOk').click(function () {
-            self.submitSpot();
-        });
+        if (isCmasFull) {
+            this.validationController = simpleClone(validation_controller);
+            this.validationController.prefix = 'createSpot';
+            this.validationController.fields = [
+                {
+                    id: 'name',
+                    validateField: function (value) {
+                        if (isStringTrimmedEmpty(value)) {
+                            return 'validation.emptyDivingSpotName';
+                        }
+                    }
+                },
+                {
+                    id: 'toponymName',
+                    validateField: function (value) {
+                        if (isStringTrimmedEmpty(value)) {
+                            return 'validation.toponym';
+                        }
+                    }
+                },
+                {
+                    id: 'countryCode',
+                    validateField: function (value) {
+                        if (isStringTrimmedEmpty(value)) {
+                            return 'validation.emptyCountry';
+                        }
+                    }
+                }
+            ];
+            this.validationController.submitButton = $('#createSpotOk');
+            this.validationController.init();
+            $('#createSpotOk').click(function () {
+                self.submitSpot();
+            });
+            $('#createSpotClose').click(function () {
+                $('#createSpot').hide();
+            });
 
-        $('#createSpotClose').click(function () {
-            $('#createSpot').hide();
-        });
+            $('#deleteSpotOk').click(function () {
+                self.deleteSpot();
+            });
 
-        $('#deleteSpotOk').click(function () {
-            self.deleteSpot();
-        });
-
-        $('#deleteSpotClose').click(function () {
-            $('#deleteSpot').hide();
-        });
-
+            $('#deleteSpotClose').click(function () {
+                $('#deleteSpot').hide();
+            });
+        }
     },
 
     refreshSpots: function () {
@@ -101,6 +134,9 @@ var spots_controller = {
         };
         var foundSpot = this.findSpotOnMap(spot);
         if (foundSpot == null) {
+            if (!isCmasFull) {
+                return;
+            }
             if (spot.id in spots_model.spotMap) {
                 //handling new spot creation in other place
                 self.deleteSpotFromMap(spot.id);
@@ -138,15 +174,20 @@ var spots_controller = {
         $('#createSpot').show();
     },
 
-    submitSpot: function () {
-        spots_model.currentEditSpot.name = $('#createSpotName').val();
-        spots_model.currentEditSpot.toponymName = $('#createSpotToponymName').val();
-        spots_model.currentEditSpot.countryCode = $('#createSpotCountry').val();
-        spots_model.currentEditSpot.countryName = $('#createSpotCountry :selected').text();
+    cleanEditSpotForm: function (spot) {
+        $('#createSpotName').val(spot && spot.name ? spot.name : "");
+        $('#createSpotToponymName').val(spot && spot.toponymName ? spot.toponymName : "");
+        $('#createSpotCountry').val(spot && spot.countryCode ? spot.countryCode : "").trigger("change");
+        this.validationController.cleanErrors();
+        this.validationController.checkForm();
+    },
 
-        this.cleanEditSpotErrors();
-        var formErrors = this.validateEditSpotForm(spots_model.currentEditSpot);
-        if (formErrors.success) {
+    submitSpot: function () {
+        spots_model.currentEditSpot.name = this.validationController.form.name;
+        spots_model.currentEditSpot.toponymName = this.validationController.form.toponymName;
+        spots_model.currentEditSpot.countryCode = this.validationController.form.countryCode;
+        spots_model.currentEditSpot.countryName = $('#createSpot_countryCode :selected').text();
+        if (this.validationController.validateForm()) {
             $('#createSpot').hide();
             this.createSpotMarker(spots_model.currentEditSpot);
             this.updateFoundSpots();
@@ -157,37 +198,6 @@ var spots_controller = {
         }
     },
 
-    validateEditSpotForm: function (form) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = [];
-        if (isStringTrimmedEmpty(form.name)) {
-            result.fieldErrors["name"] = 'validation.emptyDivingSpotName';
-        }
-        if (isStringTrimmedEmpty(form.countryCode)) {
-            result.fieldErrors["countryCode"] = 'validation.emptyCountry';
-        }
-        if (isStringTrimmedEmpty(form.toponymName)) {
-            result.fieldErrors["toponymName"] = 'validation.toponym';
-        }
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-        return result;
-    },
-
-    cleanEditSpotForm: function (spot) {
-        $('#createSpotName').val(spot && spot.name ? spot.name : "");
-        $('#createSpotToponymName').val(spot && spot.toponymName ? spot.toponymName : "");
-        $('#createSpotCountry').val(spot && spot.countryCode ? spot.countryCode : "").trigger("change");
-        this.cleanEditSpotErrors();
-    },
-
-    cleanEditSpotErrors: function () {
-        $("#createSpot_error").empty().hide();
-        $('#createSpot_error_name').empty();
-        $('#createSpot_error_toponymName').empty();
-        $('#createSpot_error_countryCode').empty();
-    },
-
     createSpotMarker: function (spot) {
         var self = this;
         var latLng = {lat: spot.latitude, lng: spot.longitude};
@@ -196,7 +206,7 @@ var spots_controller = {
             map: spots_model.map
         });
         var content;
-        if (spot.isApproved) {
+        if (spot.isApproved || !isCmasFull) {
             content = '<span>' + spot.name + '</span> <br />' +
                 '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button>';
         } else {
@@ -228,7 +238,7 @@ var spots_controller = {
 
         infoWindow.open(spots_model.map, marker);
         spots_model.map.lastOpenInfoWindow = infoWindow;
-        if (!spotMapElem.isApproved) {
+        if (!spotMapElem.isApproved && isCmasFull) {
             $("body").off("click", '#' + spotId + '_editSpotInfoWindow');
             $('#' + spotId + '_editSpotInfoWindow').click(function () {
                     var spotId = $(this)[0].id.split('_')[0];
@@ -285,7 +295,8 @@ var spots_controller = {
             $('#foundSpots').html(
                 new EJS({url: '/js/templates/spots.ejs?v=' + webVersion}).render({
                     "spotMap": spots_model.spotMap,
-                    "webVersion": webVersion
+                    "webVersion": webVersion,
+                    "isCmasFull": isCmasFull
                 })
             ).show();
             for (var key in spots_model.spotMap) {
@@ -297,7 +308,7 @@ var spots_controller = {
                     $("#" + spot.id + "_chooseSpotArrow").click(function () {
                         self.createLogbookEntry($(this)[0].id);
                     });
-                    if (!spot.isApproved) {
+                    if (!spot.isApproved && isCmasFull) {
                         $('#' + spot.id + '_editSpot').click(function (e) {
                                 e.preventDefault();
                                 var spotId = $(this)[0].id.split('_')[0];
@@ -340,19 +351,27 @@ var spots_controller = {
 
     deleteSpot: function () {
         var self = this;
-        spots_model.deleteSpot(
-            function (json) {
-                self.deleteSpotFromMap(spots_model.currentSpotIdToDelete);
-                self.updateFoundSpots();
-                spots_model.currentSpotIdToDelete = "";
-                $('#deleteSpot').hide();
-            },
-            function () {
-                spots_model.currentSpotIdToDelete = "";
-                $('#deleteSpot').hide();
-                error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
-            }
-        );
+        if (spots_model.currentSpotIdToDelete == 'new') {
+            self.successfulSpotDelete();
+        } else {
+            spots_model.deleteSpot(
+                function (json) {
+                    self.successfulSpotDelete();
+                },
+                function () {
+                    spots_model.currentSpotIdToDelete = "";
+                    $('#deleteSpot').hide();
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            );
+        }
+    },
+
+    successfulSpotDelete: function () {
+        this.deleteSpotFromMap(spots_model.currentSpotIdToDelete);
+        this.updateFoundSpots();
+        spots_model.currentSpotIdToDelete = "";
+        $('#deleteSpot').hide();
     },
 
     deleteSpotFromMap: function (spotId) {
@@ -372,7 +391,7 @@ var spots_controller = {
         }
         var spotId = elemId.split('_')[0];
         var spot = spots_model.spotMap[spotId].spot;
-        if (!spot.isApproved) {
+        if (!spot.isApproved && isCmasFull) {
             spots_model.createSpot(
                 spot,
                 function (json) {

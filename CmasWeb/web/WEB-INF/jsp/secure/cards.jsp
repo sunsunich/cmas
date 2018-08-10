@@ -7,7 +7,7 @@
 
 <my:securepage title="cmas.face.index.header"
                customScripts="js/model/profile_model.js,js/controller/cards_controller.js"
-        >
+>
     <script type="application/javascript">
         var cmas_cardIds = [];
         <c:forEach items="${cards}" var="card" varStatus="st">
@@ -15,10 +15,20 @@
         </c:forEach>
     </script>
 
-    <div class="content" id="content">
-        <c:forEach items="${cards}" var="card">
-            <img class="content-card" id="${card.id}" src = "${cardsRoot}${card.imageUrl}"/>
-        </c:forEach>
+    <div class="content-center-wide" id="content">
+
+        <div class="panel-header">
+            <span class="header2-text"><s:message code="cmas.face.client.certificates.header"/></span>
+        </div>
+        <div class="panel-cards" style="display: inline-block">
+            <c:forEach items="${cards}" var="card">
+                <div class="content-card">
+                    <div class="card-container">
+                        <img id="${card.id}" src="${cardsRoot}${card.imageUrl}"/>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </my:securepage>
 

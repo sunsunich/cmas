@@ -4,103 +4,109 @@ var index = data.index;
 for(i = 0; i < data.tanks.length;i++) {
     var tank = data.tanks[i];
 %>
-<div id="tank_<%= index %>">
-    <div class="white-form-row clearfix">
-        <div class="white-form-title-left"><%= labels["cmas.face.logbook.tank.title"] + ' ' + index %></div>
-        <div class="white-form-title-right"><img id="removeTank_<%= index %>" src="/i/close.png?v=<%= webVersion %>"/>
+<div id="tank_<%= index %>" class="tank-elem sub-panel-narrow clearfix">
+    <div id="removeTank_<%= index %>" class="tank-button-right button-delete" style="display: none"></div>
+    <div class="tank-section">
+        <div class="logbook-elem tank-label">
+            <label class="logbook-form-label"><%= labels["cmas.face.logbook.tank.title"] + index %></label>
         </div>
-    </div>
-    <div class="white-form-row clearfix">
-        <div class="white-form-row-third">
-            <label class="white-form-label">
-                <%= labels["cmas.face.logbook.supplyType"] %>
-            </label>
-            <select name="supplyType_<%= index %>" id="supplyType_<%= index %>" style="width: 100%" size=1
-                    onChange="">
-            </select>
-            <label class="error" id="create_error_supplyType_<%= index %>"></label>
-        </div>
-        <div class="white-form-row-third">
-            <label class="white-form-label">
-                <%= labels["cmas.face.logbook.tankSize"] %>
-            </label>
-            <input class="white-form-row-input" id="size_<%= index %>" type="text"
-                   placeholder="<%= labels["cmas.face.logbook.tankSize"] %>" value="<%= tank.size %>"
-            />
-            <label class="error" id="create_error_size_<%= index %>"></label>
-        </div>
-        <div class="white-form-row-third-right">
-            <label class="white-form-label"><%= labels["cmas.face.logbook.volumeMeasureUnit"] %></label>
-            <select name="volumeMeasureUnit_<%= index %>" id="volumeMeasureUnit_<%= index %>" style="width: 100%"
-                    size=1
-                    onChange="">
-            </select>
-            <label class="error" id="create_error_volumeMeasureUnit_<%= index %>"></label>
-        </div>
-    </div>
-
-    <div class="white-form-row clearfix">
-        <div class="white-form-row-third">
-            <label class="white-form-label"><%= labels["cmas.face.logbook.tankStartPressure"] %></label>
-            <input class="white-form-row-input" id="startPressure_<%= index %>" type="text"
-                   placeholder="<%= labels["cmas.face.logbook.tankStartPressure"] %>" value="<%= tank.startPressure %>"
-            />
-            <label class="error" id="create_error_startPressure_<%= index %>"></label>
-        </div>
-        <div class="white-form-row-third">
-            <label class="white-form-label"><%= labels["cmas.face.logbook.tankEndPressure"] %></label>
-            <input class="white-form-row-input" id="endPressure_<%= index %>" type="text"
-                   value="<%= tank.endPressure %>"
-                   placeholder="<%= labels["cmas.face.logbook.tankEndPressure"] %>"
-            />
-            <label class="error" id="create_error_endPressure_<%= index %>"></label>
-        </div>
-        <div class="white-form-row-third-right">
-            <label class="white-form-label"><%= labels["cmas.face.logbook.pressureMeasureUnit"] %></label>
-            <select name="pressureMeasureUnit_<%= index %>" id="pressureMeasureUnit_<%= index %>"
-                    style="width: 100%"
-                    size=1
-                    onChange="">
-            </select>
-            <label class="error" id="create_error_pressureMeasureUnit_<%= index %>"></label>
-        </div>
-    </div>
-
-    <div class="white-form-row" id="isDecoRow_<%= index %>">
-        <input id="isDecoTank_<%= index %>" type="checkbox"
-                <% if(tank.isDecoTank){ %>
-               checked
-                <% } %>
-        />
-        <label class="white-form-checkbox-label">
-            <%= labels["cmas.face.logbook.isDecoTank"] %>
-        </label>
-    </div>
-    <div class="white-form-row" id="isAirRow_<%= index %>">
-        <input id="isAir_<%= index %>" type="checkbox"
-                <% if(tank.isAir){ %>
-               checked
-                <% } %>
-        />
-        <label class="white-form-checkbox-label">
-            <%= labels["cmas.face.logbook.isAir"] %>
-        </label>
-    </div>
-    <div id="gasMix_<%= index %>">
-        <div class="white-form-row clearfix">
-            <div class="white-form-row-half">
-                <label class="white-form-label"><%= labels["cmas.face.logbook.oxygenPercent"] %></label>
-                <input class="white-form-row-input" id="oxygenPercent_<%= index %>" type="text"
-                       placeholder="<%= labels["cmas.face.logbook.oxygenPercent"] %>" value="<%= tank.oxygenPercent %>"
-                />
-                <label class="error" id="create_error_oxygenPercent_<%= index %>"></label>
+        <div class="logbook-elem logbook-elem-margin">
+            <div class="form-row">
+                <select name="supplyType_<%= index %>" id="supplyType_<%= index %>" size=1 style="width: 200px"
+                        onChange="">
+                </select>
+                <label class="error" id="create_error_supplyType_<%= index %>"></label>
             </div>
-            <div class="white-form-row-half-right">
-                <label class="white-form-label"><%= labels["cmas.face.logbook.heliumPercent"] %></label>
-                <input class="white-form-row-input" id="heliumPercent_<%= index %>" type="text"
-                       placeholder="<%= labels["cmas.face.logbook.heliumPercent"] %>" value="<%= tank.heliumPercent %>"
+        </div>
+        <div class="logbook-elem">
+            <div class="form-row">
+                <input id="size_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
+                       placeholder="<%= labels["cmas.face.logbook.tankSize"] %>" value="<%= tank.size %>"
                 />
-                <label class="error" id="create_error_heliumPercent_<%= index %>"></label>
+                <label class="error" id="create_error_size_<%= index %>"></label>
+                <select name="volumeMeasureUnit_<%= index %>" id="volumeMeasureUnit_<%= index %>"
+                        size=1
+                        onChange="" style="width: 100px">
+                </select>
+                <label class="error" id="create_error_volumeMeasureUnit_<%= index %>"></label>
+            </div>
+        </div>
+    </div>
+
+    <div class="tank-section-last">
+        <div class="logbook-elem logbook-elem-margin">
+            <label class="logbook-form-label"><%= labels["cmas.face.logbook.tankPressure"] %></label>
+        </div>
+        <div class="logbook-elem">
+            <div class="form-row">
+                <input id="startPressure_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
+                       placeholder="<%= labels["cmas.face.logbook.tankStartPressure"] %>"
+                       value="<%= tank.startPressure %>"
+                />
+                <label class="error" id="create_error_startPressure_<%= index %>"></label>
+                <input id="endPressure_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
+                       value="<%= tank.endPressure %>"
+                       placeholder="<%= labels["cmas.face.logbook.tankEndPressure"] %>"
+                />
+                <label class="error" id="create_error_endPressure_<%= index %>"></label>
+                <select name="pressureMeasureUnit_<%= index %>" id="pressureMeasureUnit_<%= index %>"
+                        style="width: 100px"
+                        size=1
+                        onChange="">
+                </select>
+                <label class="error" id="create_error_pressureMeasureUnit_<%= index %>"></label>
+            </div>
+        </div>
+
+        <div id="gasMix_<%= index %>">
+            <div class="logbook-elem">
+                <div class="form-row">
+                    <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.oxygenPercent"] %></label>
+                    <input id="oxygenPercent_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
+                           value="<%= tank.oxygenPercent %>"
+                    />
+                    <label class="error" id="create_error_oxygenPercent_<%= index %>"></label>
+                </div>
+            </div>
+            <div class="logbook-elem">
+                <div class="form-row">
+                    <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.heliumPercent"] %></label>
+                    <input id="heliumPercent_<%= index %>" type="text" class="logbook-form-middle-elem"
+                           value="<%= tank.heliumPercent %>"
+                    />
+                    <label class="error" id="create_error_heliumPercent_<%= index %>"></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="logbook-elem">
+            <div class="form-row">
+            <span id="isDecoRow_<%= index %>">
+                <input type="checkbox" name="isDecoTank_<%= index %>" id="isDecoTank_<%= index %>" class="css-checkbox"
+                        <% if(tank.isDecoTank){ %>
+                       checked
+                        <% } %>
+                />
+                <label for="isDecoTank_<%= index %>"
+                       class="css-label radGroup1 clr logbook-elem-margin">
+                            <span class="form-checkbox-label">
+                               <%= labels["cmas.face.logbook.isDecoTank"] %>
+                            </span>
+                </label>
+            </span>
+                <span id="isAirRow_<%= index %>" class="logbook-elem-margin-left">
+                <input id="isAir_<%= index %>" name="isAir_<%= index %>" type="checkbox" class="css-checkbox"
+                        <% if(tank.isAir){ %>
+                       checked
+                        <% } %>
+                />
+                <label for="isAir_<%= index %>"
+                       class="css-label radGroup1 clr">
+                            <span class="form-checkbox-label">
+                               <%= labels["cmas.face.logbook.isAir"] %>
+                            </span>
+                </label>
+            </span>
             </div>
         </div>
     </div>

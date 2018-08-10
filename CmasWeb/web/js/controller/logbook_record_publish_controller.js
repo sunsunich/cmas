@@ -239,7 +239,7 @@ var logbook_record_publish_controller = {
             $('#create_error_photo').html(error_codes["validation.emptyField"]);
             return false;
         }
-        else if (file.size > 10 * 1024 * 1024 * 1024) {
+        else if (file.size > 10 * 1024 * 1024) {
             $('#create_error_photo').html(error_codes["validation.logbookImageSize"]);
             return false;
         }
@@ -427,7 +427,3 @@ var logbook_record_publish_controller = {
         }
     }
 };
-
-$(document).ready(function () {
-    logbook_record_publish_controller.init();
-});

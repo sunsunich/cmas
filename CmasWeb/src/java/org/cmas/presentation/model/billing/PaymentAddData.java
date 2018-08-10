@@ -3,25 +3,15 @@ package org.cmas.presentation.model.billing;
 import java.util.Date;
 
 public class PaymentAddData {
-    /**
-     * клиент. 
-     */
+
     private long userId;
-    /**
-     * клиент.
-     */
+
     private long invoiceId;
-    /**
-     * количество денег c НДС
-     */
+
     private String amount;
-    /**
-     * дата, чуть попозже станет понятно в каком формате.
-     */
+
     private Date incomeDate;
-    /**
-     * коммент
-     */
+
     private String comment;
 
     private String documentNumber;

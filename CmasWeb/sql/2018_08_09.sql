@@ -1,0 +1,1 @@
+ALTER TABLE dive_specs MODIFY decoStepsComments VARCHAR(2048);

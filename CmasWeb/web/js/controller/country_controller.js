@@ -8,7 +8,6 @@ var country_controller = {
     },
 
     setListeners: function () {
-        var self = this;
         var options = {
             escapeMarkup: function (m) {
                 return m;

@@ -17,7 +17,9 @@ var profile_controller = {
         }
 
         var my_friends_logbook_feed_model = simpleClone(logbook_feed_model);
-        my_friends_logbook_feed_model.url = "/secure/getMyFriendsLogbookFeed.html";
+        my_friends_logbook_feed_model.isMyRecords = true;
+        my_friends_logbook_feed_model.templateName = "logbookFeedFull";
+        my_friends_logbook_feed_model.url = "/secure/getMyLogbookFeed.html";
         my_friends_logbook_feed_model.containerId = 'accountFeed';
         this.myFriendsFeedController = simpleClone(logbook_feed_controller);
         this.myFriendsFeedController.model = my_friends_logbook_feed_model;

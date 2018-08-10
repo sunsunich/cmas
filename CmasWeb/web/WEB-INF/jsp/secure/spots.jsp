@@ -5,14 +5,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
+<jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
-<my:securepage title="cmas.face.index.header"
+<my:securepage title="cmas.face.index.header" hideFooter="true"
                customScripts="js/model/spots_model.js,js/controller/country_controller.js,js/controller/spots_controller.js">
 
     <script type="application/javascript">
         <c:if test="${logbookEntryId != null}">
         spots_model.logbookEntryId = "${logbookEntryId}";
         </c:if>
+        <c:choose>
+        <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+        var isCmasFull = true;
+        </c:when>
+        <c:otherwise>
+        var isCmasFull = false;
+        </c:otherwise>
+        </c:choose>
     </script>
 
     <div class="menu-left" id="spotsMenu">
@@ -24,9 +33,11 @@
         </div>
 
         <div id="foundSpots"></div>
-        <div class="dialog-content">
-            <s:message code="cmas.face.spots.hint"/>
-        </div>
+        <c:if test="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+            <div class="dialog-content">
+                <s:message code="cmas.face.spots.hint"/>
+            </div>
+        </c:if>
         <c:if test="${logbookEntryId != null}">
             <div class="menu-row clearfix">
                 <div class="menuElemLeft">
@@ -51,28 +62,33 @@
                title="cmas.face.spots.create.title"
                buttonText="cmas.face.spots.create.sumbit">
 
-        <div class="dialog-form-row">
-            <input id="createSpotName" type="text"
+        <div class="form-row">
+            <input id="createSpot_name" type="text"
                    placeholder="<s:message code="cmas.face.spots.create.name.label"/>"/>
+            <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_name"
+                 style="display: none">
+            <div class="error" id="createSpot_error_name"></div>
         </div>
-        <div class="error" id="createSpot_error_name"></div>
-
-        <div class="dialog-form-row">
-            <input id="createSpotToponymName" type="text"
+        <div class="form-row"></div>
+        <div class="form-row">
+            <input id="createSpot_toponymName" type="text"
                    placeholder="<s:message code="cmas.face.spots.create.toponym.label"/>"/>
+            <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_toponymName"
+                 style="display: none">
+            <div class="error" id="createSpot_error_toponymName"></div>
         </div>
-        <div class="error" id="createSpot_error_toponymName"></div>
-
-        <div class="dialog-form-row">
-            <select name="createSpotCountry" id="createSpotCountry" style="width: 100%" size=1 onChange="">
+        <div class="form-row"></div>
+        <div class="form-row">
+            <select name="createSpot_countryCode" id="createSpot_countryCode" size=1 onChange="">
                 <c:forEach items="${countries}" var="country">
                     <option value='${country.code}'>${country.name}</option>
                 </c:forEach>
             </select>
-        </div>
-        <div class="error" id="createSpot_error_countryCode"></div>
-
-        <div class="error" style="display: none" id="createSpot_error">
+            <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_countryCode"
+                 style="display: none">
+            <div class="error" id="createSpot_error_countryCode"></div>
+            <div class="error" style="display: none" id="createSpot_error">
+            </div>
         </div>
     </my:dialog>
 

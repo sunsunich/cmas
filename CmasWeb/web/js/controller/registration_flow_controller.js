@@ -8,6 +8,7 @@ var registration_flow_controller = {
     init: function (mode, config) {
         this.toggleMode(mode, config);
         this.setListeners();
+        $("#Wrapper-content").removeClass("clearfix");
     },
 
     setListeners: function () {

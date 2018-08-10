@@ -42,7 +42,7 @@
                         <div class="error" id="reg_error_certificate"></div>
                     </div>
                     <div class="form-row">
-                        <input type="checkbox" name="noCertificate" id="reg_noCertificate" class="css-checkbox">
+                        <input type="checkbox" name="noCertificate" id="reg_noCertificate" class="css-checkbox"/>
                         <label for="reg_noCertificate"
                                class="css-label radGroup1 clr">
                             <span class="form-checkbox-label">

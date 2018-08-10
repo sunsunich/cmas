@@ -31,6 +31,15 @@ var util_controller = {
             });
     },
 
+    maskTooLongString: function (str, maxLength) {
+        if (str.length > maxLength) {
+            return str.substring(0, maxLength);
+        }
+        else {
+            return str;
+        }
+    },
+
     maskInvalidInt: function (str) {
         var number = parseInt(str);
         if (isNaN(number)) {
