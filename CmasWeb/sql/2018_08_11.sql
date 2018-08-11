@@ -1,0 +1,1 @@
+update divers set previousRegistrationStatus='CMAS_FULL' where diverRegistrationStatus = 'CMAS_FULL'

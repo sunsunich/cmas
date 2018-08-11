@@ -97,7 +97,26 @@
                 <value>/secure/registerDevice.html</value>
                 <value>/secure/unregisterDevice.html</value>
 
-                <!--todo remove these-->
+                <value>/secure/firstLogin.html</value>
+                <value>/secure/chooseNoPayment.html</value>
+
+                <value>/secure/editEmail.html</value>
+                <value>/secure/editPassword.html</value>
+                <value>/secure/processEditPassword.html</value>
+                <value>/secure/processEditEmail.html</value>
+
+                <value>/secure/getDiver.html</value>
+                <value>/secure/getDivers.html</value>
+                <value>/secure/profile/getUser.html</value>
+                <value>/secure/profile/getUserpicUrl.html</value>
+                <value>/secure/processEditUserpic.html</value>
+                <value>/secure/uploadFileUserpic.html</value>
+
+                <value>/secure/social/getFriends.html</value>
+                <value>/secure/social/getFromRequests.html</value>
+                <value>/secure/social/getToRequests.html</value>
+                <value>/secure/social/getSocialUpdates.html</value>
+
                 <value>/secure/finstat.html</value>
                 <value>/secure/faq.html</value>
                 <value>/secure/social/addCountryToNews.html</value>
@@ -107,24 +126,7 @@
                 <value>/secure/social/setAddLocationCountryToNewsFeed.html</value>
                 <value>/secure/social/getNewsCountries.html</value>
 
-                <value>/secure/pageErrorLoad.html</value>
-
-                <value>/secure/getDiver.html</value>
-                <value>/secure/getDivers.html</value>
-                <value>/secure/profile/getUser.html</value>
-                <value>/secure/editEmail.html</value>
-                <value>/secure/editPassword.html</value>
-                <value>/secure/processEditPassword.html</value>
-                <value>/secure/processEditEmail.html</value>
-                <value>/secure/profile/getUserpicUrl.html</value>
-                <value>/secure/processEditUserpic.html</value>
-                <value>/secure/uploadFileUserpic.html</value>
-
-                <value>/secure/social/getFriends.html</value>
-                <value>/secure/social/getFromRequests.html</value>
-                <value>/secure/social/getToRequests.html</value>
                 <value>/secure/social/getNewsCountries.html</value>
-                <value>/secure/social/getSocialUpdates.html</value>
 
                 <value>/secure/social/searchNewFriends.html</value>
                 <value>/secure/social/searchDivers.html</value>
