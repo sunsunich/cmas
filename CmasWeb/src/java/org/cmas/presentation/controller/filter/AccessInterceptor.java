@@ -65,7 +65,6 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String requestURI = request.getRequestURI();
-        // общая проверка параметров висит только на /secure/ части сайта.
         if (!requestURI.startsWith("/secure/")) {
             return true;
         }
@@ -77,7 +76,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             Diver diver = (Diver) currentUser.getUser();
             DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
             if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_BASIC) {
-                if (cmasBasicPages.contains(requestURI)) {
+                if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
                     return rejectIfCommonValidationNotPassed(request, response, requestURI);
                 } else {
                     redirectForPayment(request, response);
@@ -89,15 +88,15 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                      diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL)
                     && diver.getDateLicencePaymentIsDue().after(new Date())
                         ) {
-                    if (diverRegistrationStatus == DiverRegistrationStatus.DEMO) {
+                    if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL) {
+                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                    } else {
                         if (demoPages.contains(requestURI)) {
                             return rejectIfCommonValidationNotPassed(request, response, requestURI);
                         } else {
                             redirectForPayment(request, response);
                             return false;
                         }
-                    } else {
-                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     }
                 } else {
                     redirectForPayment(request, response);

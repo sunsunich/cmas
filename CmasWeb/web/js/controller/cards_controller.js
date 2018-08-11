@@ -1,7 +1,23 @@
 var cards_controller = {
 
     init: function () {
+        var self = this;
+        $(".card-container img").each(function () {
+            if ($(this).attr("src").endsWith("/")) {
+                self.loadCard(this.id);
+            }
+        });
         this.setListeners();
+    },
+
+    loadCard: function (id) {
+        profile_model.loadCard(
+            id
+            , function (json) {
+                $('#' + id).attr("src", imagesData.cardsPicRoot + json.imageUrl);
+            }
+            , function () {
+            });
     },
 
     setListeners: function () {
