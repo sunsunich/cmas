@@ -12,7 +12,6 @@ import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.billing.BillingService;
-import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,9 +44,6 @@ public class UserHomeController extends DiverAwareController {
     private BillingService billingService;
 
     @Autowired
-    private RegistrationService registrationService;
-
-    @Autowired
     private GsonViewFactory gsonViewFactory;
 
     @Autowired
@@ -62,13 +57,6 @@ public class UserHomeController extends DiverAwareController {
         Diver diver = getCurrentDiver();
         if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
             return new ModelAndView("redirect:/secure/firstLogin.html");
-        }
-        if (diver.getPrimaryPersonalCard() == null) {
-            if (diver.getDateReg() == null) {
-                diver.setDateReg(new Date());
-                diverDao.updateModel(diver);
-            }
-            registrationService.createDiverPrimaryCard(diver);
         }
         return new ModelAndView("redirect:/secure/profile/getUser.html");
     }

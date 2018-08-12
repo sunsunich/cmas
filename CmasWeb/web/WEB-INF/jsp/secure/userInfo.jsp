@@ -54,11 +54,11 @@
                 <div class="panel">
                     <div class="card-container" id="noCard">
                         <div>
-                <span class="panel-text">
+                <span class="header2-text">
                     <s:message code="cmas.face.client.profile.noCard"/>
                 </span>
                         </div>
-                        <button class="form-button reg-button" id="cardReload">
+                        <button class="positive-button" id="cardReload">
                             <s:message code="cmas.face.client.profile.cardReload"/>
                         </button>
                     </div>

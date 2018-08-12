@@ -9,7 +9,6 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.CountryDao;
-import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.Registration;
@@ -62,9 +61,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Autowired
     private DiverDao diverDao;
-
-    @Autowired
-    private PersonalCardDao personalCardDao;
 
     @Autowired
     private NationalFederationService federationService;
