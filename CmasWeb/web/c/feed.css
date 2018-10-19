@@ -48,6 +48,10 @@
     min-width: 155px;
 }
 
+.feed-spec-right {
+    float: right;
+}
+
 .feed-tank-label {
     width: 24%;
 }

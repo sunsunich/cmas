@@ -2,12 +2,12 @@
 for(i = 0;i < divers.length;i++) {
     var fullName = divers[i].firstName + ' ' + divers[i].lastName;
 %>
-<div class="clearfix">
-    <div class="buddieElemLeft">
-        <a class="white-form-href link" href="#" id="<%= divers[i].id %>_showDiver"><%= fullName %></a>
-    </div>
-    <div class="buddieElemRight">
-        <img id="<%= divers[i].id %>_removeBuddie" src="/i/close.png?v=<%= webVersion %>"/>
+<div class="buddieElem">
+    <span class="buddieElemLeft" id="<%= divers[i].id %>_showDiver">
+       <%= fullName %>
+    </span>
+    <div class="buddieElemRight" id="<%= divers[i].id %>_removeBuddie" src="/i/ic_clean_grey.png?v=<%= webVersion %>">
+
     </div>
 </div>
 <% } %>

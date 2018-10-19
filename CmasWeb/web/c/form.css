@@ -126,6 +126,10 @@
     -moz-box-sizing: border-box;
 }
 
+.search-row input {
+    width: 100%;
+}
+
 .error-input-ico, .date-form-calendar-input-ico {
     top: 9px;
     left: 225px;

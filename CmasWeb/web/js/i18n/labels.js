@@ -28,7 +28,6 @@ var labels = {
     "cmas.face.client.social.buddieRequests.spot.label": "Spot",
     "cmas.face.client.social.signatureRequests.text": "Please approve that this logbook entry is valid",
     "cmas.face.client.social.buddieRequests.sign": "Verify",
-    "cmas.face.friendList.notRegistered": "Not registered at CMAS Data",
     "cmas.face.diver.instructor": "Instructor",
     "cmas.face.feed.delete": "Delete",
     "cmas.face.feed.edit": "Edit",
@@ -157,5 +156,12 @@ var labels = {
     "OPEN_CIRCUIT": "Open circuit",
     "SCR": "SCR",
     "CCR": "CCR",
-    "": ""
+    "": "",
+
+    "NEVER_REGISTERED": "Not registered",
+    "INACTIVE": "Inactive",
+    "DEMO": "Demo",
+    "GUEST": "Guest",
+    "CMAS_BASIC": "CMAS Basic",
+    "CMAS_FULL": "CMAS Full"
 };

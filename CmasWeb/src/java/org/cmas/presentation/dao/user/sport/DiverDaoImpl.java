@@ -178,7 +178,16 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    public List<Diver> searchDiversFast(long diverId, String input, DiverType diverType) {
+        return searchFastNotSelf(diverId, input, false, diverType);
+    }
+
+    @Override
     public List<Diver> searchFriendsFast(long diverId, String input) {
+        return searchFastNotSelf(diverId, input, true, null);
+    }
+
+    private List<Diver> searchFastNotSelf(long diverId, String input, boolean isSearchingFriends, DiverType diverType) {
         List<String> filteredNames = filterNames(input);
         if (filteredNames.isEmpty()) {
             return new ArrayList<>();
@@ -191,16 +200,25 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
             numberClause.append("c.number like :template").append(i);
         }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
-                     " inner join d.cards c" +
-                     " left outer join d.friendOf fr" +
-                     " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))" +
-                     " and (fr.id != :diverId or fr.id is null)" +
-                     " and d.id != :diverId";
-
+                     " inner join d.cards c";
+        if (isSearchingFriends) {
+            hql += " left outer join d.friendOf fr";
+        }
+        hql += " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
+        if (isSearchingFriends) {
+            hql += " and (fr.id != :diverId or fr.id is null)";
+        }
+        hql += " and d.id != :diverId";
+        if (diverType != null) {
+            hql += " and d.diverType = :diverType";
+        }
         Query query = createQuery(hql);
         for (int i = 0; i < filteredNames.size(); i++) {
             String name = filteredNames.get(i);
             query.setString("template" + i, name + '%');
+        }
+        if (diverType != null) {
+            query.setParameter("diverType", diverType);
         }
         return query.setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }

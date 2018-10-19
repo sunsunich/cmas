@@ -100,7 +100,7 @@
         </div>
     </div>
     <div id="thirdScreen" class="thirdScreen">
-        <div id="insurance">
+        <div id="insurance" style="display: none">
             <div class="imageContainer">
                 <picture>
                     <!--[if IE 9]>

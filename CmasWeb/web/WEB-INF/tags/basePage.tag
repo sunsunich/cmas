@@ -182,7 +182,7 @@
 <c:if test="${doNotDoAuth == null || !doNotDoAuth}">
     <my:authorize/>
 </c:if>
-
+<div id="overlay" class="overlay" style="display: none"></div>
 <div id="Wrapper" class="wrapper">
     <jsp:doBody/>
 </div>

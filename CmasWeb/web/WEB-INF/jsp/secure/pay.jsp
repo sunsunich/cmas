@@ -57,28 +57,28 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-                <div class="form-description">
-                    <s:message code="cmas.face.payment.features.description"/>
-                </div>
-                <div class="featuresList">
-                    <c:forEach var="feature" varStatus="step" items="${features}">
-                        <c:if test="${!isFree && !isGuest || step.index != 0}">
-                            <div class="form-row">
-                                <input type="checkbox" name="paidFeature_${feature.id}" id="paidFeature_${feature.id}"
-                                       class="css-checkbox">
-                                <label for="paidFeature_${feature.id}"
-                                       class="css-label radGroup1 clr">
-                                    <span class="form-checkbox-label"><s:message code="${feature.name}"/></span>
-                                    <span class="form-payment-price"><s:message
-                                            code="cmas.face.payment.currency"/> ${feature.price}</span>
-                                    <br/>
-                                    <span class="form-feature-description secondary-text"><s:message
-                                            code="${feature.descriptionCode}"/></span>
-                                </label>
-                            </div>
-                        </c:if>
-                    </c:forEach>
-                </div>
+                <%--<div class="form-description">--%>
+                    <%--<s:message code="cmas.face.payment.features.description"/>--%>
+                <%--</div>--%>
+                <%--<div class="featuresList">--%>
+                    <%--<c:forEach var="feature" varStatus="step" items="${features}">--%>
+                        <%--<c:if test="${!isFree && !isGuest || step.index != 0}">--%>
+                            <%--<div class="form-row">--%>
+                                <%--<input type="checkbox" name="paidFeature_${feature.id}" id="paidFeature_${feature.id}"--%>
+                                       <%--class="css-checkbox">--%>
+                                <%--<label for="paidFeature_${feature.id}"--%>
+                                       <%--class="css-label radGroup1 clr">--%>
+                                    <%--<span class="form-checkbox-label"><s:message code="${feature.name}"/></span>--%>
+                                    <%--<span class="form-payment-price"><s:message--%>
+                                            <%--code="cmas.face.payment.currency"/> ${feature.price}</span>--%>
+                                    <%--<br/>--%>
+                                    <%--<span class="form-feature-description secondary-text"><s:message--%>
+                                            <%--code="${feature.descriptionCode}"/></span>--%>
+                                <%--</label>--%>
+                            <%--</div>--%>
+                        <%--</c:if>--%>
+                    <%--</c:forEach>--%>
+                <%--</div>--%>
                 <div class="form-payment-total">
                     <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/> <span
                         id="total">0</span>

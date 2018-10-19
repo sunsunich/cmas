@@ -15,7 +15,6 @@ import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.logbook.ScubaTankDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.ShaEncoder;
 import org.cmas.util.StringUtil;
 import org.hibernate.StaleObjectStateException;
@@ -24,8 +23,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.ImageIO;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -175,6 +172,18 @@ public class LogbookServiceImpl implements LogbookService {
                 logbookEntry.setBuddies(buddies);
             }
         }
+        if (oldBuddies == null) {
+            oldBuddies = Collections.emptySet();
+        }
+        for (Diver buddie : oldBuddies) {
+            if (buddies == null || !buddies.contains(buddie)) {
+                LogbookBuddieRequest request =
+                        logbookBuddieRequestDao.getLogbookBuddieRequest(logbookEntry, diver, buddie);
+                if (request != null) {
+                    logbookBuddieRequestDao.deleteModel(request);
+                }
+            }
+        }
 
         if (isNew) {
             diveSpecDao.save(diveSpec);
@@ -223,9 +232,6 @@ public class LogbookServiceImpl implements LogbookService {
         }
 
         if (buddies != null) {
-            if (oldBuddies == null) {
-                oldBuddies = Collections.emptySet();
-            }
             for (Diver buddie : buddies) {
                 if (!oldBuddies.contains(buddie)) {
                     @SuppressWarnings("ObjectAllocationInLoop")
@@ -238,15 +244,6 @@ public class LogbookServiceImpl implements LogbookService {
                     buddie.setSocialUpdatesVersion(buddie.getSocialUpdatesVersion() + 1L);
                     //todo send notification to buddies
                     diverDao.updateModel(buddie);
-                }
-            }
-            for (Diver buddie : oldBuddies) {
-                if (!buddies.contains(buddie)) {
-                    LogbookBuddieRequest request =
-                            logbookBuddieRequestDao.getLogbookBuddieRequest(logbookEntry, diver, buddie);
-                    if (request != null) {
-                        logbookBuddieRequestDao.deleteModel(request);
-                    }
                 }
             }
         }
@@ -264,14 +261,6 @@ public class LogbookServiceImpl implements LogbookService {
         logbookEntry.setNote(formObject.getNote());
         logbookEntry.setVisibility(formObject.getVisibility());
         logbookEntry.setState(formObject.getState());
-
-        String photo = formObject.getPhotoBase64fromClient();
-        if (StringUtil.isTrimmedEmpty(photo)) {
-            logbookEntry.setPhotoUrl(null);
-        } else {
-            imageStorageManager.storeLogbookEntryImage(logbookEntry,
-                                                       ImageIO.read(new ByteArrayInputStream(Base64Coder.decode(photo))));
-        }
     }
 
     private static void transfer(DiveSpec diveSpec, DiveSpec formObject) {

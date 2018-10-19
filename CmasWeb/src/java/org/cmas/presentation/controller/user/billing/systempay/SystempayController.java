@@ -2,6 +2,7 @@ package org.cmas.presentation.controller.user.billing.systempay;
 
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
@@ -58,7 +59,7 @@ public class SystempayController {
 
     @RequestMapping("/secure/billing/systempay/accept.html")
     public ModelAndView systempayAccept(
-            @RequestParam("invoiceId") String externalInvoiceNumber
+            @RequestParam(AccessInterceptor.INVOICE_ID) String externalInvoiceNumber
     ) {
         if (systempayValidator.isExternalInvoiceNumberValid(externalInvoiceNumber)) {
             Invoice invoice = invoiceDao.getByExternalInvoiceNumber(externalInvoiceNumber);

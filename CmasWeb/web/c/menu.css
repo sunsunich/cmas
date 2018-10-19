@@ -51,6 +51,7 @@
     height: auto;
     position: relative;
     overflow: hidden;
+    margin-right: 8px;
 }
 .rounded {
     display: block;

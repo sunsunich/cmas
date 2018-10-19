@@ -2,6 +2,7 @@ package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
@@ -27,6 +28,8 @@ public interface DiverDao extends UserDao<Diver> {
     List<Diver> searchForVerification(DiverVerificationFormObject formObject);
 
     List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject);
+
+    List<Diver> searchDiversFast(long diverId, String input, DiverType diverType);
 
     List<Diver> searchFriendsFast(long diverId, String input);
 

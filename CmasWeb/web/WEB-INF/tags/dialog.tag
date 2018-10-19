@@ -11,17 +11,19 @@
 </c:if>
 
 <div id="${id}" class="dialog" style="display: none">
-    <img id="${id}Close" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}" class="dialogClose"/>
-
-    <div class="dialog-title" id="${id}Title"><s:message code="${title}"/></div>
-
+    <div class="dialog-title">
+        <span id="${id}Title"><s:message code="${title}"/></span>
+        <div id="${id}Close" class="dialogClose"></div>
+    </div>
     <div class="dialog-content" id="${id}Content">
         <jsp:doBody/>
     </div>
 
     <div class="button-container">
-        <button class="positive-button" id="${id}Ok">
-            <s:message code="${buttonText}"/>
-        </button>
+        <c:if test="${buttonText}">
+            <button class="positive-button dialog-button" id="${id}Ok">
+                <s:message code="${buttonText}"/>
+            </button>
+        </c:if>
     </div>
 </div>

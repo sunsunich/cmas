@@ -199,8 +199,6 @@ public class UserProfileController extends DiverAwareController{
         }
     }
 
-    private static final long MAX_IMAGE_SIZE = 10L * 1024L * 1024L * 1024L;
-
     @RequestMapping(value = "/secure/uploadFileUserpic.html", method = RequestMethod.POST)
     public View userEditUserpicFile(@ModelAttribute FileUploadBean fileBean) {
         MultipartFile file = fileBean.getFile();
@@ -210,7 +208,7 @@ public class UserProfileController extends DiverAwareController{
         if (!file.getContentType().startsWith("image")) {
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
-        if (file.getSize() > MAX_IMAGE_SIZE) {
+        if (file.getSize() > Globals.MAX_IMAGE_SIZE) {
             return gsonViewFactory.createErrorGsonView("validation.imageSize");
         }
         Diver diver = getCurrentDiver();
@@ -234,7 +232,7 @@ public class UserProfileController extends DiverAwareController{
         Diver diver = getCurrentDiver();
         try {
             byte[] imageBytes = Base64Coder.decode(imageBase64Bytes);
-            if ((long) imageBytes.length > MAX_IMAGE_SIZE) {
+            if ((long) imageBytes.length > Globals.MAX_IMAGE_SIZE) {
                 return gsonViewFactory.createErrorGsonView("validation.imageSize");
             }
             BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));

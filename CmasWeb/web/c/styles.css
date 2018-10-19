@@ -419,33 +419,58 @@ html, body {
 .dialog {
     background: #ffffff;
     height: auto;
-    width: 290px;
-    padding: 16px;
+    width: 30%;
+    min-width: 304px;
     margin: 0 auto;
-    border-radius: 5px;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 900;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    -o-border-radius: 6px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+}
+
+.overlay {
+    position: fixed;
+    z-index: 890;
+    height: 100%;
+    width: 100%;
+    background: rgba(4, 34, 46, 0.55);
 }
 
 .dialogClose {
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    float: right;
+    width: 24px;
+    height: 24px;
+    background-image: url("/i/ic_shut.png");
+}
+
+.dialogClose:active {
+    background-image: url("/i/ic_shut_active.png");
 }
 
 .dialog-title {
     font-size: 22px;
+    font-weight: 700;
+    color: #2b2b2b;
+
+    padding: 24px 9%;
+    background-color: #f7f9fa;
+}
+
+.dialog-button {
     text-align: center;
-    padding-top: 25px;
-    padding-left: 16px;
-    padding-right: 16px;
-    margin-bottom: 40px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    width: 48%;
+}
+
+.dialog-button-margin {
+    margin-right: 2%;
 }
 
 .dialog-sub-title {
@@ -454,13 +479,16 @@ html, body {
 }
 
 .dialog-content {
-    padding-bottom: 25px;
+    padding: 24px 7% 16px;
 }
 
-.dialog-content {
-    text-align: center;
-    padding-left: 16px;
-    padding-right: 16px;
+.found-friend-list {
+    margin-bottom: 24px;
+}
+
+.found-friend-list-content {
+    overflow: auto;
+    height: 360px;
 }
 
 .specifications .header {
@@ -669,12 +697,29 @@ html, body {
     margin-bottom: 5px;
 }
 
+.buddieElem {
+    float: left;
+    border-radius: 4px;
+    background-color: #eff2f4;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
 .buddieElemLeft {
+    font-size: 12px;
+    color: #5c6264;
+    vertical-align: middle;
+    padding: 4px 12px 4px 8px;
     float: left;
 }
 
 .buddieElemRight {
+    width: 24px;
+    height: 24px;
+    background-image: url("/i/ic_clean_grey.png");
+    vertical-align: middle;
     float: right;
+    padding-right: 4px;
 }
 
 .center {

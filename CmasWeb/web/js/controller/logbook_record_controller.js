@@ -15,6 +15,9 @@ var logbook_record_controller = {
                 break;
             }
         }
+        if (logbook_record_model.instructorId) {
+            tabName = 'Certification';
+        }
         if ($('#hasSafetyStop').prop("checked")) {
             tabName = 'Certification';
         }
@@ -78,6 +81,8 @@ var logbook_record_controller = {
             $('#hasSafetyStop').prop('checked', false);
             $('label[for="hasSafetyStop"]').addClass("clr").removeClass('chk');
             $('#additional_container').hide();
+            $('#instructor').hide();
+            //todo remove instructor
         } else {
             $('#certificationTab').addClass("logbook-tab-chosen").removeClass("logbook-tab");
             $('#requiredTab').addClass("logbook-tab").removeClass("logbook-tab-chosen");
@@ -85,6 +90,7 @@ var logbook_record_controller = {
             $('#prevDiveDate_container').show();
             $('#avgDepthMeters_container').show();
             $('#additional_container').show();
+            $('#instructor').show();
         }
     },
 
@@ -97,8 +103,7 @@ var logbook_record_controller = {
         this.buildLogbookEntryForm();
         logbook_record_diveProfile_controller.maskInvalidValues();
         logbook_record_model.createDraftRecord(
-            function (json) {
-                logbook_record_model.logbookEntry.id = json.id;
+            function (/*json*/) {
                 $('#saveDraftSuccess').show();
             }, function () {
                 error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
@@ -127,11 +132,10 @@ var logbook_record_controller = {
             const oldState = logbook_record_model.logbookEntry.state;
             logbook_record_model.logbookEntry.state = futureState;
             logbook_record_model.createRecord(
-                function (json) {
+                function (/*json*/) {
                     if (logbook_record_model.logbookEntry.state == "PUBLISHED") {
                         window.location = "/secure/showLogbook.html";
                     } else {
-                        logbook_record_model.logbookEntry.id = json.id;
                         $('#submitSuccess').show();
                     }
                 }

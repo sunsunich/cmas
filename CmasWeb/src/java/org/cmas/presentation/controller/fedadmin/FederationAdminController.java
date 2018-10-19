@@ -91,7 +91,7 @@ public class FederationAdminController {
         return showIndexPage(model, fileBean);
     }
 
-    private ModelAndView showIndexPage(@ModelAttribute UserSearchFormObject model, @ModelAttribute("xlsFileFormObject") FileUploadBean fileBean) {
+    private ModelAndView showIndexPage(UserSearchFormObject model, FileUploadBean fileBean) {
         BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
         if (currentFedAdmin == null) {
             throw new BadRequestException();

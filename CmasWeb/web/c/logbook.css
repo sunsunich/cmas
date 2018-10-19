@@ -14,11 +14,11 @@
     -o-border-radius: 6px;
 }
 
-.createEntryHeader, .logbookHeader {
+.logbookHeader {
     margin-bottom: 24px;
 }
 
-.logbook-tab-left{
+.logbook-tab-left {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     -webkit-border-top-left-radius: 5px;
@@ -27,7 +27,7 @@
     -moz-border-radius-bottomleft: 5px;
 }
 
-.logbook-tab-right{
+.logbook-tab-right {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     -webkit-border-top-right-radius: 5px;
@@ -43,7 +43,7 @@
     padding: 10px 32px 10px 32px;
     text-decoration: none;
     outline: none;
-    width : 13.3%;
+    width: 13.3%;
     min-width: 136px;
 
     color: #ffffff;
@@ -77,25 +77,10 @@
     padding-left: 40px;
     padding-right: 40px;
 }
+
 .sub-panel-narrow {
     padding-left: 16px;
     padding-right: 16px;
-}
-
-.createEntryHeaderTitle {
-    font-size: 28px;
-    text-align: center;
-    padding-left: 16px;
-    padding-right: 16px;
-}
-
-.white-form, .white-form-right, .white-form-left, .white-elem-left {
-    margin-top: 20px;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    width: 460px;
-    background: #f8f8f8;
 }
 
 .form-row input,
@@ -109,55 +94,6 @@
     min-width: 20px;
 }
 
-.white-elem {
-    background: #f8f8f8;
-}
-
-.white-form-right, .white-form-left, .white-elem-left {
-    float: left;
-    left: 10%;
-    transform: translate(0%, 0%);
-}
-
-.white-form-right {
-    float: right;
-}
-
-.white-form-left {
-    margin-right: 10%;
-}
-
-.white-elem-left {
-    margin-top: 50px;
-}
-
-.logbookParent {
-    min-width: 500px;
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.white-elem-label {
-    color: #aaaaaa;
-    font-size: 20px;
-    width: 100%;
-}
-
-.white-elem-text {
-    color: #666666;
-    font-size: 20px;
-    width: 100%;
-}
-
-.white-form-title-left {
-    font-size: 22px;
-    float: left;
-}
-
-.white-form-title-right {
-    float: right;
-}
-
 .logbook-form-label {
     color: #2b2b2b;
     width: 100%;
@@ -166,25 +102,11 @@
     margin-bottom: 8px;
 }
 
-.white-form-text {
-    color: #666666;
-    margin-right: 6px;
-    font-size: 24px;
-}
-
 .white-form-href {
     font-size: 20px;
     color: #04c8ff;
     padding-left: 5px;
     text-decoration: underline;
-}
-
-.white-form-textarea {
-    width: 100%;
-    background-color: rgb(234, 234, 234);
-    border: 0;
-    font-size: 16px;
-    line-height: normal;
 }
 
 .logbook-optional {
@@ -229,7 +151,25 @@
 }
 
 .logbook-button {
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
     width: 140px;
+}
+
+.logbook-inline-button {
+    position: relative;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.logbook-inline-button-icon {
+    position: absolute;
+    top: 8px;
+}
+
+.logbook-inline-button-icon-text {
+    padding-left: 30px;
 }
 
 .logbook-button-margin {
@@ -295,8 +235,51 @@
     float: left;
 }
 
+.logbook-elem-right {
+    width: 66%;
+    float: right;
+}
+
 .logbook-elem-margin {
     margin-right: 16px;
+}
+
+.logbook-names-container, .logbook-names-container-full {
+    display: inline-block;
+    padding: 8px;
+
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: solid 1px;
+    border-color: #cbd0d1;
+}
+
+.logbook-names-container {
+    float: right;
+    width: 66%;
+}
+
+.logbook-names-container-full {
+    width: 100%;
+}
+
+.logbook-names-container:active, .logbook-names-container-full:active {
+    border-color: #11c7dd;
+    color: #2b2b2b;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.logbook-names-container-holder {
+    float: left;
+}
+
+.logbook-add-diver-button {
+    float: right;
+    width: 24px;
+    height: 24px;
+    background-image: url("/i/ic_plus_grey.png");
 }
 
 .logbook-elem-margin-left {
@@ -316,6 +299,28 @@
 
 .logbook-additional-section textarea, .logbook-additional-section-big textarea {
     width: 100%;
+}
+
+.logbook-photo-panel {
+    position: relative;
+}
+
+.logbook-photo-header {
+    float: left;
+    margin-right: 5%;
+    margin-bottom: 24px;
+}
+
+.logbook-no-photo-text {
+    color: #606060;
+    float: left;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.logbook-photo {
+    width: 205px;
+    border-radius: 5px;
 }
 
 .white-form-top-row {
@@ -572,27 +577,47 @@
     z-index: 100;
 }
 
-.foundFriendList-elem-right, .foundFriendList-elem-left {
+.foundFriendList-elem-right, .foundFriendList-elem-left, .foundFriendList-elem-checkbox {
     float: left;
+}
+
+.foundFriendList-elem-checkbox {
+    padding-top: 16px;
 }
 
 .foundFriendList-elem-right {
     padding-left: 10px;
 }
 
+.foundFriendList-elem {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #eff2f4;;
+}
+
 .foundFriendList-text {
-    color: #666666;
-    font-size: 16px;
+    vertical-align: middle;
 }
 
 .foundFriendList-star {
-    width: 20px;
-    height: 20px;
-    margin-left: 3px;
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
 }
 
-.foundFriendList-userpic {
-    max-height: 70px;
+.foundFriendList-ico {
+    vertical-align: middle;
+}
+
+.foundFriendList-userpic, .foundFriendList-no-userpic {
+    max-width: 56px;
+    max-height: 56px;
+    height: 56px;
+    width: 56px;
+}
+
+.foundFriendList-no-userpic img {
+    padding: 16px;
 }
 
 .searchFriendsButton {

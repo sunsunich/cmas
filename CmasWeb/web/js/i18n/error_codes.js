@@ -84,6 +84,7 @@ var error_codes = {
     "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks",
     "validation.logbook.start.pressure.less.end.pressure": "Start pressure cannot be less that end pressure",
     "validation.diver.fast.search.empty": "Please enter friend name or card number",
+    "validation.diver.fast.search.diverType": "Invalid diver type",
     "validation.diver.fast.search.tooSmall": "Please enter at least 3 characters",
 
     "validation.xlsFileFormat": "Unsupported xls file format",

@@ -1,5 +1,7 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.Globals;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
@@ -18,9 +20,11 @@ import org.cmas.entities.logbook.VolumeMeasureUnit;
 import org.cmas.entities.logbook.WaterType;
 import org.cmas.entities.logbook.WeatherType;
 import org.cmas.entities.sport.NationalFederation;
+import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
+import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.LogbookService;
@@ -42,9 +46,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +67,7 @@ import java.util.Set;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class LogbookController extends DiverAwareController{
+public class LogbookController extends DiverAwareController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -86,6 +92,9 @@ public class LogbookController extends DiverAwareController{
     @Autowired
     private LogbookEntryValidator logbookEntryValidator;
 
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
     @RequestMapping(value = "/secure/createLogbookRecordForm.html", method = RequestMethod.GET)
     public ModelAndView createLogbookRecordForm(
             @RequestParam(value = "spotId", required = false) Long spotId
@@ -100,7 +109,7 @@ public class LogbookController extends DiverAwareController{
     @RequestMapping(value = "/secure/editLogbookRecordForm.html", method = RequestMethod.GET)
     public ModelAndView editLogbookRecordForm(
             @RequestParam(value = "spotId", required = false) Long spotId,
-            @RequestParam("logbookEntryId") Long logbookEntryId
+            @RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId
     ) throws IOException {
         DiveSpot diveSpot = null;
         if (spotId != null) {
@@ -204,8 +213,35 @@ public class LogbookController extends DiverAwareController{
         }
     }
 
+    @RequestMapping(value = "/secure/addPhotoToRecord.html", method = RequestMethod.POST)
+    public View addPhotoToRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId, @ModelAttribute FileUploadBean fileBean) {
+        MultipartFile file = fileBean.getFile();
+        if (file == null) {
+            return gsonViewFactory.createErrorGsonView("validation.emptyField");
+        }
+        if (!file.getContentType().startsWith("image")) {
+            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
+        }
+        if (file.getSize() > Globals.MAX_IMAGE_SIZE) {
+            return gsonViewFactory.createErrorGsonView("validation.imageSize");
+        }
+        LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
+        if (logbookEntry == null) {
+            throw new BadRequestException();
+        }
+        try {
+            imageStorageManager.storeLogbookEntryImage(
+                    logbookEntry, ImageIO.read(file.getInputStream()));
+
+            return gsonViewFactory.createSuccessGsonView();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
+        }
+    }
+
     @RequestMapping(value = "/secure/getRecord.html", method = RequestMethod.GET)
-    public View getRecord(@RequestParam("logbookEntryId") Long logbookEntryId
+    public View getRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId
     ) {
         LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
         if (logbookEntry == null) {
@@ -216,7 +252,7 @@ public class LogbookController extends DiverAwareController{
 
     @RequestMapping(value = "/secure/deleteRecord.html", method = RequestMethod.GET)
     public View deleteRecord(
-            @RequestParam("logbookEntryId") Long logbookEntryId
+            @RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId
     ) {
         LogbookEntry logbookEntry = logbookEntryDao.getById(logbookEntryId);
         if (logbookEntry == null) {

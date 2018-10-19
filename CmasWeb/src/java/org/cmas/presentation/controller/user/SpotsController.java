@@ -4,6 +4,7 @@ import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Toponym;
 import org.cmas.entities.divespot.DiveSpot;
+import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.ToponymDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
@@ -48,7 +49,7 @@ public class SpotsController extends DiverAwareController{
     private ToponymDao toponymDao;
 
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
-    public ModelAndView showSpotsPage(@RequestParam(value = "logbookEntryId", required = false) Long logbookEntryId) throws IOException {
+    public ModelAndView showSpotsPage(@RequestParam(value = AccessInterceptor.LOGBOOK_ENTRY_ID, required = false) Long logbookEntryId) throws IOException {
         ModelMap mm = new ModelMap();
         mm.addAttribute("countries", countryDao.getAll());
         mm.addAttribute("logbookEntryId", logbookEntryId);

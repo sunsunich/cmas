@@ -78,6 +78,8 @@ interface GlobalsStaticContainer {
     int FAST_SEARCH_MAX_RESULT = 10;
     int ADVANCED_SEARCH_MAX_RESULT = 20;
 
+    long MAX_IMAGE_SIZE = 10L * 1024L * 1024L;
+
 }
 
 public final class Globals implements GlobalsStaticContainer {

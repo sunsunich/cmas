@@ -69,8 +69,8 @@ for(i = 0; i < records.length;i++) {
             %>
             <div class="clearfix">
                 <div class="feed-spec-label"><%= labels["cmas.face.diver.instructor"] %>:</div>
-                <div class="feed-spec-text basic-text">
-                    <a class="link-in-text-flow" href="#"
+                <div class="feed-link basic-text">
+                    <a href="#"
                        id="<%= records[i].instructor.id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %>
                     </a>
                 </div>
@@ -80,19 +80,20 @@ for(i = 0; i < records.length;i++) {
             %>
             <div class="clearfix">
                 <div class="feed-spec-label"><%= labels["cmas.face.feed.buddies.label"] %>:</div>
-                <% } %>
+                <div class="feed-spec-right">
                 <% var j = 0;
                 for(j = 0;j < records[i].buddies.length;j++) {
                     fullName = records[i].buddies[j].firstName + ' ' + records[i].buddies[j].lastName;
                 %>
-                <div class="feed-spec-text basic-text">
-                    <a class="link-in-text-flow" href="#"
+                <div class="feed-link basic-text">
+                    <a href="#"
                        id="<%= records[i].buddies[j].id %>_<%= recordsInfo.containerId %>_<%= records[i].id %>_showDiver"><%= fullName %>
                     </a>
                 </div>
+                <% } %>
+                </div>
             </div>
             <% } %>
-
             <% if(records[i].prevDiveDate){ %>
             <div class="clearfix">
                 <div class="feed-spec-label"><%= labels["cmas.face.logbook.prevDiveDate"] %>:</div>

@@ -3,6 +3,7 @@ package org.cmas.presentation.controller.user;
 import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.logbook.LogbookEntry;
@@ -144,6 +145,28 @@ public class UserSocialSettingsController extends DiverAwareController{
             return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
         }
         List<Diver> divers = diverDao.searchFriendsFast(currentDiver.getId(), input);
+        return gsonViewFactory.createGsonView(divers);
+    }
+
+    @RequestMapping("/secure/social/searchDiversFast.html")
+    public View searchDiversFast(@RequestParam String input, @RequestParam(required = false) String diverType) {
+        Diver currentDiver = getCurrentDiver();
+        if (StringUtil.isTrimmedEmpty(input)) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.empty");
+        }
+        if (input.length() < Globals.FAST_SEARCH_MIN_INPUT) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
+        }
+        DiverType parsedDiverType = null;
+        if (!StringUtil.isTrimmedEmpty(diverType)) {
+            try {
+                parsedDiverType = DiverType.valueOf(diverType);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.diverType");
+            }
+        }
+        List<Diver> divers = diverDao.searchDiversFast(currentDiver.getId(), input, parsedDiverType);
         return gsonViewFactory.createGsonView(divers);
     }
 
