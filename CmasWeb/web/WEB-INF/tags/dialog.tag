@@ -20,7 +20,7 @@
     </div>
 
     <div class="button-container">
-        <c:if test="${buttonText}">
+        <c:if test="${not empty buttonText}">
             <button class="positive-button dialog-button" id="${id}Ok">
                 <s:message code="${buttonText}"/>
             </button>

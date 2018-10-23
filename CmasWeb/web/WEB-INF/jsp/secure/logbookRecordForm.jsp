@@ -595,8 +595,7 @@
     </my:dialog>
 
     <my:dialog id="showDiver"
-               title="cmas.face.showDiver.title"
-               buttonText="cmas.face.showDiver.submitText">
+               title="cmas.face.showDiver.title">
     </my:dialog>
 
 </my:securepage>

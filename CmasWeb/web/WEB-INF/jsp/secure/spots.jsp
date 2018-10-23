@@ -63,23 +63,21 @@
                buttonText="cmas.face.spots.create.sumbit">
 
         <div class="form-row">
-            <input id="createSpot_name" type="text"
+            <input id="createSpot_name" type="text" class="clearfix"
                    placeholder="<s:message code="cmas.face.spots.create.name.label"/>"/>
             <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_name"
                  style="display: none">
             <div class="error" id="createSpot_error_name"></div>
         </div>
-        <div class="form-row"></div>
         <div class="form-row">
-            <input id="createSpot_toponymName" type="text"
+            <input id="createSpot_toponymName" type="text" class="clearfix"
                    placeholder="<s:message code="cmas.face.spots.create.toponym.label"/>"/>
             <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_toponymName"
                  style="display: none">
             <div class="error" id="createSpot_error_toponymName"></div>
         </div>
-        <div class="form-row"></div>
         <div class="form-row">
-            <select name="createSpot_countryCode" id="createSpot_countryCode" size=1 onChange="">
+            <select name="createSpot_countryCode" id="createSpot_countryCode" size=1 onChange="" style="width: 100%">
                 <c:forEach items="${countries}" var="country">
                     <option value='${country.code}'>${country.name}</option>
                 </c:forEach>

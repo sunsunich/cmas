@@ -25,41 +25,43 @@ if (diver.primaryPersonalCard == null) {
 var dob = diver.dob;
 %>
 <div class="foundFriendList-elem clearfix">
-    <div class="foundFriendList-elem-left">
-        <% if(diver.userpicUrl == null){
-        %>
-        <div class="no-userpic-ico foundFriendList-no-userpic">
-            <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
-        </div>
-        <% } else { %>
-        <div class="userpic-ico foundFriendList-userpic">
-            <div class="rounded foundFriendList-userpic"
-                 style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
-            </div>
-        </div>
-        <% } %>
-    </div>
-    <div class="foundFriendList-elem-left">
-        <div><span class="basic-text foundFriendList-text"><b><%= fullName %></b></span></div>
-        <div>
-            <% var j;
-            for(j = 0;j < starCnt;j++) {
+    <div class="clearfix">
+        <div class="foundFriendList-elem-left">
+            <% if(diver.userpicUrl == null){
             %>
-            <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+            <div class="no-userpic-ico foundFriendList-no-userpic">
+                <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
+            </div>
+            <% } else { %>
+            <div class="userpic-ico foundFriendList-userpic">
+                <div class="rounded foundFriendList-userpic"
+                     style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+                </div>
+            </div>
             <% } %>
-            <span class="secondary-large-text foundFriendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
         </div>
         <div class="foundFriendList-elem-left">
-            <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
-            <span class="secondary-large-text foundFriendList-text"><%= dob %></span>
-        </div>
-        <div class="foundFriendList-elem-right">
-            <span class="secondary-large-text foundFriendList-text"><%= diver.country.name %></span>
+            <div><span class="basic-text foundFriendList-text"><b><%= fullName %></b></span></div>
+            <div>
+                <% var j;
+                for(j = 0;j < starCnt;j++) {
+                %>
+                <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+                <% } %>
+                <span class="secondary-large-text foundFriendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
+            </div>
+            <div class="foundFriendList-elem-left">
+                <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
+                <span class="secondary-large-text foundFriendList-text"><%= dob %></span>
+            </div>
+            <div class="foundFriendList-elem-right">
+                <span class="secondary-large-text foundFriendList-text"><%= diver.country.name %></span>
+            </div>
         </div>
     </div>
     <% if(cardNumber != null){
     %>
-    <div class="foundFriendList-elem-left">
+    <div>
         <span class="basic-text foundFriendList-text"><b><%= cardNumber %></b></span>
     </div>
     <% } %>

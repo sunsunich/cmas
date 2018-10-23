@@ -114,6 +114,7 @@
                 <value>/secure/processEditUserpic.html</value>
                 <value>/secure/uploadFileUserpic.html</value>
 
+                <value>/secure/social.html</value>
                 <value>/secure/social/getFriends.html</value>
                 <value>/secure/social/getFromRequests.html</value>
                 <value>/secure/social/getToRequests.html</value>
