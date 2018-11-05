@@ -40,6 +40,18 @@ public class HomePageController {
         return new ModelAndView("termsAndCond", mm);
     }
 
+    @RequestMapping(value = "/cookies.html", method = RequestMethod.GET)
+    public ModelAndView cookies() {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("cookies", mm);
+    }
+
+    @RequestMapping(value = "/contacts.html", method = RequestMethod.GET)
+    public ModelAndView contacts() {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("contacts", mm);
+    }
+
     @RequestMapping(value = "/paymentInfo.html", method = RequestMethod.GET)
     public ModelAndView paymentInfo() {
         ModelMap mm = new ModelMap();

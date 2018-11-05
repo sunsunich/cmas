@@ -6,6 +6,21 @@ var cookie_controller = {
      * Инициализация
      */
     init: function () {
+        var self = this;
+        if (this.isCookieExists('COOKIE_AGREE')) {
+            $('#cookieWarning').hide();
+        } else {
+            $('#cookieWarningClose').hide();
+            $('#cookieWarningOk').click(function () {
+                self.createCookie("COOKIE_AGREE", "", new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 5);
+                $('#cookieWarning').hide();
+            });
+            $('#cookieWarning').show();
+        }
+    },
+
+    accpetCookiePolicy: function () {
+
     },
 
     /**

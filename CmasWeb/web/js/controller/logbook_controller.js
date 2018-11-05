@@ -27,7 +27,7 @@ var logbook_controller = {
     setListeners: function () {
         var self = this;
 
-        var tabName = cookie_controller.readCookie("LOGBOOK_TAB");
+        var tabName = "";
         if (tabName) {
             self.showTab(tabName);
         } else {
@@ -60,7 +60,6 @@ var logbook_controller = {
             $('#myLogbook').hide();
             $('#friendsLogbook').show();
         }
-        cookie_controller.createCookie("LOGBOOK_TAB", tabName, 0);
     }
 };
 

@@ -5,12 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-<my:nonsecurepage title="cmas.face.index.header" doNotDoAuth="true">
+<my:helppage>
 
-    <div class="content-center">
-        <div class="help-center-panel">
-
-        </div>
-    </div>
-
-</my:nonsecurepage>
+</my:helppage>

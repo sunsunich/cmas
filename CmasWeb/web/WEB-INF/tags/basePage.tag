@@ -178,7 +178,14 @@
 
 </head>
 <body id="${bodyId}">
-
+<div class="cookieWarning clearfix" id="cookieWarning">
+     <span class="cookieWarningText menu-item-left menu-item menu-item-first basic-text">
+         <s:message code="cmas.face.client.cookies.warning.text"/>
+     </span>
+    <span class="cookieWarningAccept positive-button menu-item menu-item-right" id="cookieWarningOk">
+        <s:message code="cmas.face.client.cookies.accept"/>
+    </span>
+</div>
 <c:if test="${doNotDoAuth == null || !doNotDoAuth}">
     <my:authorize/>
 </c:if>
