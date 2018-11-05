@@ -12,7 +12,7 @@ var cookie_controller = {
         } else {
             $('#cookieWarningClose').hide();
             $('#cookieWarningOk').click(function () {
-                self.createCookie("COOKIE_AGREE", "", new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 5);
+                self.createCookie("COOKIE_AGREE", "", 365 * 5);
                 $('#cookieWarning').hide();
             });
             $('#cookieWarning').show();
