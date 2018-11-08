@@ -7,7 +7,8 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.PasswordEditFormObject"/>
 
 <my:securepage title="cmas.face.changePasswd.form.page.title"
-                  customScripts="js/model/profile_model.js,js/controller/registration_flow_controller.js,js/controller/set_password_controller.js"
+               activeMenuItem="editPassword"
+               customScripts="js/model/profile_model.js,js/controller/registration_flow_controller.js,js/controller/set_password_controller.js"
 >
     <script type="application/javascript">
         $(document).ready(function () {

@@ -53,6 +53,7 @@
     overflow: hidden;
     margin-right: 8px;
 }
+
 .rounded {
     display: block;
     margin: 0 auto;
@@ -64,7 +65,7 @@
     -o-border-radius: 50%;
     border-radius: 50%;
     background: center no-repeat;
-    background-size:cover;
+    background-size: cover;
 }
 
 .userpic-button-off, .userpic-button-on {
@@ -111,9 +112,10 @@
     margin-left: 0.11%;
 }
 
-.menu-link a, .menu-link a:visited {
+.menu-link a {
     font-size: 14px;
     font-weight: 600;
+    line-height: 1.5;
     letter-spacing: 1px;
     text-align: center;
     color: #a1a4a5;
@@ -124,8 +126,9 @@
     color: #11c7dd;
 }
 
-.menu-link a:active {
-    text-decoration: underline;
+.menu-link a:active, .menu-link-active a {
+    padding-bottom: 3px;
+    border-bottom: 1px solid currentColor;
     color: #0d95b5;
 }
 
@@ -158,7 +161,14 @@
     padding-top: 11px;
     padding-left: 25px;
     padding-bottom: 11px;
+}
+
+.user-menu-inactive {
     background-color: #ffffff;
+
+}
+
+.user-menu-inactive a {
     color: #cbd0d1;
 }
 
@@ -171,7 +181,6 @@
 }
 
 .usermenu ul li a {
-    color: #cbd0d1;
     text-decoration: none;
 }
 
@@ -183,8 +192,12 @@
     color: #5c6264;
 }
 
-.usermenu ul li.active > a {
-    color: #5c6264;
+.user-menu-active, .usermenu ul li:active {
+    background: #0d95b5;
+}
+
+.user-menu-active > a, .usermenu ul li:active > a {
+    color: #FFFFFF;
 }
 
 .bottomBorder {
@@ -310,8 +323,6 @@
 }
 
 .cssmenu ul ul a {
-    background: #ffffff;
-    color: #cbd0d1;
     /*border: 1px solid #d5d5d5;*/
     /*border-top: 0 none;*/
     line-height: 150%;
@@ -327,12 +338,22 @@
     position: relative;
 }
 
-.cssmenu ul ul li:first-child > a {
-    /*border-top: 1px solid #d5d5d5;*/
+.menu-inactive a {
+    background: #ffffff;
+    color: #cbd0d1;
 }
 
 .cssmenu ul ul li:hover > a {
     background: #d5d5d5;
+}
+
+.menu-active a, .cssmenu ul ul li:active > a {
+    background: #0d95b5;
+    color: #FFFFFF;
+}
+
+.cssmenu ul ul li:first-child > a {
+    /*border-top: 1px solid #d5d5d5;*/
 }
 
 .cssmenu ul ul li:last-child > a {
@@ -419,5 +440,11 @@
 
 .cssmenu span {
     padding-left: 28px;
+}
+
+.menu-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eff2f4;
+    margin-bottom: 16px;
 }
 

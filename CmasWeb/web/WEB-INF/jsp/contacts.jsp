@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="header3-text question">
-        CMAS Dive Center technical Support
+        CMAS Family technical Support
     </div>
     <div class="answer">
         <div class="header3-text">

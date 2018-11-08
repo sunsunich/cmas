@@ -6,6 +6,7 @@
 <jsp:useBean id="cards" scope="request" type="java.util.List<org.cmas.entities.PersonalCard>"/>
 
 <my:securepage title="cmas.face.index.header"
+               activeMenuItem="cards"
                customScripts="js/model/profile_model.js,js/controller/cards_controller.js"
 >
     <script type="application/javascript">

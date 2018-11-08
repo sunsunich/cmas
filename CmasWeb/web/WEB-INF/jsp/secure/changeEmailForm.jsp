@@ -7,6 +7,7 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.EmailEditFormObject"/>
 
 <my:securepage title="cmas.face.changeEmail.form.page.title"
+               activeMenuItem="editEmail"
                customScripts="js/model/profile_model.js,js/controller/registration_flow_controller.js,js/controller/change_email_controller.js"
 >
     <div class="content" id="Content">

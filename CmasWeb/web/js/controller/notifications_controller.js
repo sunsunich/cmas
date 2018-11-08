@@ -37,9 +37,8 @@ var social_settings_controller = {
                     $('#noFriendsText').hide();
                     $('#friendsPanel').html(
                         new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
-                            "divers": friends,
-                            "webVersion": webVersion,
-                            "imagesData" : imagesData
+                            "friends": friends,
+                            "webVersion": webVersion
                         })
                     );
                     for (var i = 0; i < friends.length; i++) {
@@ -193,6 +192,12 @@ var social_settings_controller = {
                     }
                 });
         });
+        $('#showLogbookEntryClose').click(function () {
+            $('#showLogbookEntry').hide();
+        });
+        $('#showLogbookEntryOk').click(function () {
+            $('#showLogbookEntry').hide();
+        });
     },
 
     renderFriends: function (divers) {
@@ -201,24 +206,144 @@ var social_settings_controller = {
         if (divers && divers.length > 0) {
             $('#noDiversFoundMessage').hide();
             $('#foundFriendListContent').html(
-                new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
+                new EJS({url: '/js/templates/foundFriendList.ejs?v=' + webVersion}).render({
                     "divers": divers,
                     "webVersion": webVersion,
                     "imagesData" : imagesData
                 })
             ).show();
-            for (var i = 0; i < divers.length; i++) {
-                $('#' + divers[i].id + '_showFriendDiver').click(function (e) {
-                    e.preventDefault();
-                    util_controller.showDiver($(this)[0].id);
-                });
-                $('#' + divers[i].id + '_removeFriend').click(function () {
-                    self.removeFriend($(this)[0].id);
+            var i;
+            for (i = 0; i < divers.length; i++) {
+                $('#' + divers[i].id + '_foundFriend').click(function () {
+                    self.sendFriendRequest($(this)[0].id);
                 });
             }
         } else {
             $('#foundFriendListContent').empty();
             $('#noDiversFoundMessage').show();
+        }
+    },
+
+    findDiver: function () {
+        var self = this;
+        var findDiverForm = {
+            diverType: $("input[name=findDiverType]:checked").val(),
+            country: $('#findDiverCountry').val(),
+            name: $('#findDiverName').val()
+        };
+
+        this.cleanFindDiverErrors();
+        var formErrors = this.validateFindDiverForm(findDiverForm);
+        if (formErrors.success) {
+            social_model.searchNewFriends(
+                findDiverForm
+                , function (json) {
+                    self.showFoundDivers(json);
+                }
+                , function (json) {
+                    validation_controller.showErrors('findDiver', json);
+                });
+        }
+        else {
+            validation_controller.showErrors('findDiver', formErrors);
+        }
+    },
+
+    validateFindDiverForm: function (form) {
+        var result = {};
+        result.fieldErrors = {};
+        result.errors = [];
+        if (isStringTrimmedEmpty(form.diverType)) {
+            result.fieldErrors["diverType"] = 'validation.diverTypeEmpty';
+        }
+        if (isStringTrimmedEmpty(form.country)) {
+            result.fieldErrors["country"] = 'validation.emptyCountry';
+        }
+        if (isStringTrimmedEmpty(form.name)) {
+            result.fieldErrors["name"] = 'validation.emptyName';
+        }
+        else if (form.name.length < 3) {
+            result.fieldErrors["name"] = 'validation.searchNameTooShort';
+        }
+
+        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
+        return result;
+    },
+
+    cleanFindDiverForm: function () {
+        $("input[name=findDiverType]:checked").attr('checked', false);
+        $('#findDiverCountry').val('').trigger("change");
+        $('#findDiverName').val('');
+        this.cleanFindDiverErrors();
+    },
+
+    cleanFindDiverErrors: function () {
+        $("#findDiver_error").empty().hide();
+        $('#findDiver_error_diverType').empty();
+        $('#findDiver_error_country').empty();
+        $('#findDiver_error_name').empty();
+    },
+
+    showLogbookEntry: function (elemId) {
+        var logbookEntryId = elemId.split('_')[0];
+        social_model.getLogbookEntry(
+            logbookEntryId
+            , function (json) {
+                var record = json[0];
+                $('#showLogbookEntryContent').html(
+                    new EJS({url: '/js/templates/logbookEntryDialog.ejs?v=' + webVersion}).render({"record": record})
+                );
+                $('#' + record.diver.id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
+                    e.preventDefault();
+                    util_controller.showDiver($(this)[0].id);
+                });
+                if (record.instructor) {
+                    $('#' + record.instructor.id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
+                        e.preventDefault();
+                        util_controller.showDiver($(this)[0].id);
+                    });
+                }
+                if (record.buddies) {
+                    for (var i = 0; i < record.buddies.length; i++) {
+                        $('#' + record.buddies[i].id + '_logbookRecordDialog' + '_' + record.id + '_showDiver').click(function (e) {
+                            e.preventDefault();
+                            util_controller.showDiver($(this)[0].id);
+                        });
+                    }
+                }
+                $('#showLogbookEntry').show();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    showFoundDivers: function (divers) {
+        var self = this;
+        $('#findDiver').hide();
+        if (divers.length > 0) {
+            $('#diversListContent').html(
+                new EJS({url: '/js/templates/diversList.ejs?v=' + webVersion}).render({
+                    "divers": divers,
+                    "webVersion": webVersion,
+                    "imagesData": imagesData
+                })
+            );
+            var i;
+            for (i = 0; i < divers.length; i++) {
+                $('#' + divers[i].id + '_addFriend').click(function () {
+                    self.sendFriendRequest($(this)[0].id);
+                });
+            }
+            $('#mainContent').hide();
+            $('#diversList').show();
+        } else {
+            $('#noDiversFound').show();
         }
     },
 
@@ -284,6 +409,44 @@ var social_settings_controller = {
         var requestId = elemId.split('_')[0];
         var self = this;
         social_model.rejectFriendRequest(
+            requestId
+            , function (/*json*/) {
+                self.getSocialUpdates();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    acceptLogbookRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
+        var logbookEntry = social_model.logbookEntriesToProcessMap[requestId].logbookEntry;
+        logbookEntry.requestId = requestId;
+        var self = this;
+        social_model.acceptLogbookEntryRequest(
+            logbookEntry
+            , function (/*json*/) {
+                self.getSocialUpdates();
+            }
+            , function (json) {
+                if (json && json.hasOwnProperty("message")) {
+                    error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                }
+                else {
+                    error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
+                }
+            });
+    },
+
+    rejectLogbookRequest: function (elemId) {
+        var requestId = elemId.split('_')[0];
+        var self = this;
+        social_model.rejectLogbookEntryRequest(
             requestId
             , function (/*json*/) {
                 self.getSocialUpdates();

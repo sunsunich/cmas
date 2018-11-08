@@ -93,10 +93,11 @@ var fast_search_friends_controller = {
 
 $(document).ready(function () {
     fast_search_friends_controller.init();
-}).click(function (event) {
-    if (!$(event.target).closest('#foundFriendList').length) {
-        if ($('#foundFriendList').is(":visible")) {
-            $('#foundFriendList').hide();
-        }
-    }
 });
+// .click(function (event) {
+//     if (!$(event.target).closest('#foundFriendList').length) {
+//         if ($('#foundFriendList').is(":visible")) {
+//             $('#foundFriendList').hide();
+//         }
+//     }
+// });

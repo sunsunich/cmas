@@ -9,6 +9,7 @@
 
 
 <my:securepage title="cmas.face.index.header"
+               activeMenuItem="logbook"
                customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/model/fast_search_friends_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_search_controller.js,js/controller/logbook_controller.js,js/controller/fast_search_friends_controller.js"
 >
 

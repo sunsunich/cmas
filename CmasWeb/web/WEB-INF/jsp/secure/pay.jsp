@@ -13,6 +13,7 @@
 <jsp:useBean id="featuresJson" scope="request" type="java.lang.String"/>
 
 <my:securepage title="cmas.face.payment.title"
+               activeMenuItem="pay"
                customScripts="js/controller/registration_flow_controller.js,js/controller/payment_controller.js">
 
     <c:set var="isFree"

@@ -6,6 +6,7 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
 <my:securepage title="cmas.face.index.header"
+               activeMenuItem="personal"
                customScripts="js/model/util_model.js,js/model/profile_model.js,js/model/logbook_feed_model.js,js/controller/util_controller.js,js/controller/logbook_feed_controller.js,js/controller/profile_controller.js,js/controller/userpic_controller.js"
 >
     <c:set var="isCMAS"

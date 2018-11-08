@@ -8,6 +8,7 @@
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 <my:securepage title="cmas.face.index.header"
+               activeMenuItem="social"
                customScripts="js/model/util_model.js,js/model/social_model.js,js/model/fast_search_friends_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/social_settings_controller.js,js/controller/fast_search_friends_controller.js"
 >
     <div class="content-left content-large">
@@ -15,7 +16,7 @@
             <span class="header2-text"><s:message code="cmas.face.client.social.team.header"/></span>
         </div>
 
-        <div class="panel">
+        <div class="panel-header">
             <div id="findDiverByNameForm">
                 <div class="form-row search-row">
                     <input id="searchFriendInput" type="text"
@@ -25,120 +26,140 @@
             </div>
         </div>
 
-        <div class="panel">
-            <div id="foundFriendList" class="found-friend-list" >
+        <div class="panel-header panel-wider">
+            <div class="sub-panel-narrow menu-header" id="listHeader">
+                <span class="header2-text"><s:message code="cmas.face.client.social.lists.allFriends.header"/></span>
+            </div>
+            <div id="foundFriendList" class="found-friend-list clearfix">
                 <div id="noDiversFoundMessage" style="display: none">
                 <span class="foundFriendList-text">
                     <s:message code="cmas.face.diver.fast.search.notFound"/>
                 </span>
                 </div>
-                <div id="foundFriendListContent" class="found-friend-list-content"></div>
+                <div id="foundFriendListContent" class="found-friend-list-content clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-right">
+        <div class="panel-header panel-wider">
+            <div class="sub-panel-narrow menu-header">
+                <span class="header2-text"><s:message code="cmas.face.client.social.lists"/></span>
+            </div>
+            <div class="panel-menu-item panel-menu-item-active" id="allFriends">
+                <s:message code="cmas.face.client.social.lists.allFriends.header"/>
+            </div>
+            <div class="panel-menu-item" id="friendRequestsTo">
+                <s:message code="cmas.face.client.social.friendRequestsTo.header"/>
+            </div>
+            <div class="panel-menu-item" id="friendRequestsFrom">
+                <s:message code="cmas.face.client.social.friendRequestsFrom.header"/>
             </div>
         </div>
     </div>
 
     <%--<div class="content-left" id="mainContent" style="display: none">--%>
-        <%--<div id="socialSettings">--%>
-            <%--<div class="panel" style="display: none" id="buddieRequestsPanel">--%>
-                <%--<div class="header">--%>
-                    <%--<s:message code="cmas.face.client.social.buddieRequests.header"/>--%>
-                <%--</div>--%>
-                <%--<div id="buddieRequests">--%>
-                <%--</div>--%>
-            <%--</div>--%>
+    <%--<div id="socialSettings">--%>
+    <%--<div class="panel" style="display: none" id="buddieRequestsPanel">--%>
+    <%--<div class="header">--%>
+    <%--<s:message code="cmas.face.client.social.buddieRequests.header"/>--%>
+    <%--</div>--%>
+    <%--<div id="buddieRequests">--%>
+    <%--</div>--%>
+    <%--</div>--%>
 
-            <%--<div class="panel" style="display: none" id="toRequestsPanel">--%>
-                <%--<div class="header">--%>
-                    <%--<s:message code="cmas.face.client.social.friendRequestsTo.header"/>--%>
-                <%--</div>--%>
-                <%--<div id="toRequests">--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<form name="searchFriends">--%>
-                <%--<div class="search-friend-form-logbook">--%>
-                    <%--<input type="text" id="searchFriendInput"--%>
-                           <%--placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>">--%>
-                    <%--<div id="foundFriendList" class="foundFriendList">--%>
-                        <%--<div id="foundFriendListContent"></div>--%>
-                        <%--<div id="noDiversFoundMessage" style="display: none">--%>
-                        <%--<span class="foundFriendList-text">--%>
-                            <%--<s:message code="cmas.face.diver.fast.search.notFound"/>--%>
-                        <%--</span>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                    <%--<div>--%>
-                        <%--<label class="error" id="searchFriends_error_input"></label>--%>
-                    <%--</div>--%>
-                    <%--<div>--%>
-                        <%--<button type="button" class="form-button enter-button searchFriendsButton"--%>
-                                <%--id="searchFriendsButton">--%>
-                            <%--<s:message code="cmas.face.diver.fast.search.buttonText"/>--%>
-                        <%--</button>--%>
-                    <%--</div>--%>
-                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-            <%--</form>--%>
+    <%--<div class="panel" style="display: none" id="toRequestsPanel">--%>
+    <%--<div class="header">--%>
+    <%--<s:message code="cmas.face.client.social.friendRequestsTo.header"/>--%>
+    <%--</div>--%>
+    <%--<div id="toRequests">--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<form name="searchFriends">--%>
+    <%--<div class="search-friend-form-logbook">--%>
+    <%--<input type="text" id="searchFriendInput"--%>
+    <%--placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>">--%>
+    <%--<div id="foundFriendList" class="foundFriendList">--%>
+    <%--<div id="foundFriendListContent"></div>--%>
+    <%--<div id="noDiversFoundMessage" style="display: none">--%>
+    <%--<span class="foundFriendList-text">--%>
+    <%--<s:message code="cmas.face.diver.fast.search.notFound"/>--%>
+    <%--</span>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div>--%>
+    <%--<label class="error" id="searchFriends_error_input"></label>--%>
+    <%--</div>--%>
+    <%--<div>--%>
+    <%--<button type="button" class="form-button enter-button searchFriendsButton"--%>
+    <%--id="searchFriendsButton">--%>
+    <%--<s:message code="cmas.face.diver.fast.search.buttonText"/>--%>
+    <%--</button>--%>
+    <%--</div>--%>
+    <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+    <%--</form>--%>
 
-            <%--<div class="panel">--%>
-                <%--<div class="header">--%>
-                    <%--<s:message code="cmas.face.client.social.team.header"/>--%>
-                <%--</div>--%>
-                <%--<div id="friendsPanel">--%>
-                <%--</div>--%>
-                <%--<div class="panel-row text" id="noFriendsText">--%>
-                    <%--<s:message code="cmas.face.client.social.team.empty"/>--%>
-                <%--</div>--%>
+    <%--<div class="panel">--%>
+    <%--<div class="header">--%>
+    <%--<s:message code="cmas.face.client.social.team.header"/>--%>
+    <%--</div>--%>
+    <%--<div id="friendsPanel">--%>
+    <%--</div>--%>
+    <%--<div class="panel-row text" id="noFriendsText">--%>
+    <%--<s:message code="cmas.face.client.social.team.empty"/>--%>
+    <%--</div>--%>
 
-                <%--<div class="panel-row button-container">--%>
+    <%--<div class="panel-row button-container">--%>
 
-                    <%--<button class="centerUserInfo-button reg-button" id="findDiverButton">--%>
-                        <%--<s:message code="cmas.face.client.social.advancedSearch"/>--%>
-                    <%--</button>--%>
+    <%--<button class="centerUserInfo-button reg-button" id="findDiverButton">--%>
+    <%--<s:message code="cmas.face.client.social.advancedSearch"/>--%>
+    <%--</button>--%>
 
-                <%--</div>--%>
-            <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
 
-            <%--<div class="panel" style="display: none" id="fromRequestsPanel">--%>
-                <%--<div class="header">--%>
-                    <%--<s:message code="cmas.face.client.social.friendRequestsFrom.header"/>--%>
-                <%--</div>--%>
-                <%--<div id="fromRequests">--%>
-                <%--</div>--%>
-            <%--</div>--%>
+    <%--<div class="panel" style="display: none" id="fromRequestsPanel">--%>
+    <%--<div class="header">--%>
+    <%--<s:message code="cmas.face.client.social.friendRequestsFrom.header"/>--%>
+    <%--</div>--%>
+    <%--<div id="fromRequests">--%>
+    <%--</div>--%>
+    <%--</div>--%>
 
-            <%--<div class="panel">--%>
-                <%--<div class="header">--%>
-                    <%--<s:message code="cmas.face.client.social.newsfeed.header"/>--%>
-                <%--</div>--%>
-                <%--<div class="panel-row panel-row-bottom-margin">--%>
-                    <%--<input type="checkbox" id="addLocationCountryToNewsFeed"--%>
-                           <%--<c:if test="${diver.newsFromCurrentLocation}">checked="checked"</c:if>--%>
-                    <%--/>--%>
-                    <%--<span class="text"><s:message code="cmas.face.client.social.newfeed.currentLocation"/></span>--%>
-                <%--</div>--%>
-                <%--<div id="newsCountries">--%>
-                <%--</div>--%>
-                <%--<div class="panel-row">--%>
-                    <%--<div class="button-container">--%>
-                        <%--<button class="centerUserInfo-button reg-button" id="addCountryButton">--%>
-                            <%--<s:message code="cmas.face.client.social.addCountry"/>--%>
-                        <%--</button>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
+    <%--<div class="panel">--%>
+    <%--<div class="header">--%>
+    <%--<s:message code="cmas.face.client.social.newsfeed.header"/>--%>
+    <%--</div>--%>
+    <%--<div class="panel-row panel-row-bottom-margin">--%>
+    <%--<input type="checkbox" id="addLocationCountryToNewsFeed"--%>
+    <%--<c:if test="${diver.newsFromCurrentLocation}">checked="checked"</c:if>--%>
+    <%--/>--%>
+    <%--<span class="text"><s:message code="cmas.face.client.social.newfeed.currentLocation"/></span>--%>
+    <%--</div>--%>
+    <%--<div id="newsCountries">--%>
+    <%--</div>--%>
+    <%--<div class="panel-row">--%>
+    <%--<div class="button-container">--%>
+    <%--<button class="centerUserInfo-button reg-button" id="addCountryButton">--%>
+    <%--<s:message code="cmas.face.client.social.addCountry"/>--%>
+    <%--</button>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--</div>--%>
     <%--</div>--%>
 
     <%--<div class="content-left" id="diversList" style="display: none">--%>
-        <%--<div id="diversListContent">--%>
+    <%--<div id="diversListContent">--%>
 
-        <%--</div>--%>
-        <%--<div class="panel">--%>
-            <%--<div class="button-container">--%>
-                <%--<button class="form-button enter-button" id="newDiverSearch">--%>
-                    <%--<s:message code="cmas.face.diverList.submitText"/>--%>
-                <%--</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="panel">--%>
+    <%--<div class="button-container">--%>
+    <%--<button class="form-button enter-button" id="newDiverSearch">--%>
+    <%--<s:message code="cmas.face.diverList.submitText"/>--%>
+    <%--</button>--%>
+    <%--</div>--%>
+    <%--</div>--%>
     <%--</div>--%>
 
     <%--<div class="content-right" id="accountFeed"></div>--%>

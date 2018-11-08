@@ -8,6 +8,7 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
 <my:securepage title="cmas.face.index.header" hideFooter="true"
+               activeMenuItem="spots"
                customScripts="js/model/spots_model.js,js/controller/country_controller.js,js/controller/spots_controller.js">
 
     <script type="application/javascript">

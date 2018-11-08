@@ -6,20 +6,29 @@
 
 <my:nonsecurepage title="cmas.face.index.header" doNotDoAuth="true">
     <div class="content-left">
-        <div class="panel">
-            <div class="panel-menu-item" id="faqLink">
+        <div class="panel-header">
+            <div class="panel-menu-item" id="faqLink"
+                 onclick="window.location = '${pageContext.request.contextPath}/faq.html';"
+            >
                 <a href="${pageContext.request.contextPath}/faq.html"><s:message code="cmas.face.client.faq"/></a>
             </div>
-            <div class="panel-menu-item" id="termsAndCondLink">
+            <div class="panel-menu-item" id="termsAndCondLink"
+                 onclick="window.location = '${pageContext.request.contextPath}/termsAndCond.html';"
+            >
                 <a href="${pageContext.request.contextPath}/termsAndCond.html">
-                    <s:message code="cmas.face.client.termsAndCondHeader"/></a>
-            </div class="panel-menu-item">
-            <div class="panel-menu-item" id="cookiesLink">
+                    <s:message code="cmas.face.client.termsAndCondHeader"/>
+                </a>
+            </div>
+            <div class="panel-menu-item" id="cookiesLink"
+                 onclick="window.location='${pageContext.request.contextPath}/cookies.html';"
+            >
                 <a href="${pageContext.request.contextPath}/cookies.html">
                     <s:message code="cmas.face.client.cookies"/>
                 </a>
             </div>
-            <div class="panel-menu-item" id="contactsLink">
+            <div class="panel-menu-item" id="contactsLink"
+                 onclick=" window.location='${pageContext.request.contextPath}/contacts.html';"
+            >
                 <a href="${pageContext.request.contextPath}/contacts.html">
                     <s:message code="cmas.face.client.contact"/>
                 </a>

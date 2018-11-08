@@ -7,6 +7,7 @@
 <%@ attribute name="hideFooter" required="false" %>
 <%@ attribute name="hideMenu" required="false" %>
 <%@ attribute name="customScripts" required="false" %>
+<%@ attribute name="activeMenuItem" required="false" %>
 
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 
@@ -28,64 +29,133 @@
     <my:header>
         <c:if test="${!hideMenu}">
             <div id="headerMenu">
-                <div class="menu-link menu-item-left menu-item menu-item-first">
-                    <a href="/secure/profile/getUser.html">
-                        <span><s:message code="cmas.face.client.menu.personalData"/></span>
-                    </a>
+            <c:choose>
+                <c:when test="${activeMenuItem == 'personal'}">
+                    <div class="menu-link menu-item-left menu-item menu-item-first menu-link-active">
+                </c:when>
+                <c:otherwise>
+                    <div class="menu-link menu-item-left menu-item menu-item-first">
+                </c:otherwise>
+            </c:choose>
+            <a href="/secure/profile/getUser.html">
+                <span><s:message code="cmas.face.client.menu.personalData"/></span>
+            </a>
+            </div>
+            <c:if test="${isCMAS}">
+                <c:choose>
+                    <c:when test="${activeMenuItem == 'cards'}">
+                        <div class="menu-link menu-item-left menu-item menu-link-active">
+                    </c:when>
+                    <c:otherwise>
+                        <div class="menu-link menu-item-left menu-item">
+                    </c:otherwise>
+                </c:choose>
+                <a href="/secure/cards.html">
+                    <span><s:message code="cmas.face.client.menu.myCards"/></span>
+                </a>
                 </div>
-                <c:if test="${isCMAS}">
-                    <div class="menu-link menu-item-left menu-item">
-                        <a href="/secure/cards.html">
-                            <span><s:message code="cmas.face.client.menu.myCards"/></span>
-                        </a>
-                    </div>
-                </c:if>
-                    <%--todo implement--%>
+            </c:if>
+            <%--todo implement--%>
+            <%--<c:choose>--%>
+                <%--<c:when test="${activeMenuItem == 'social'}">--%>
+                    <%--<div class="menu-link menu-item-left menu-item menu-link-active">--%>
+                <%--</c:when>--%>
+                <%--<c:otherwise>--%>
                     <%--<div class="menu-link menu-item-left menu-item">--%>
-                    <%--<a href="/secure/social.html">--%>
-                    <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
-                    <%--</a>--%>
-                    <%--</div>--%>
+                <%--</c:otherwise>--%>
+            <%--</c:choose>--%>
+            <%--<a href="/secure/social.html">--%>
+                <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+            <%--</a>--%>
+            <%--</div>--%>
+            <c:choose>
+                <c:when test="${activeMenuItem == 'logbook'}">
+                    <div class="menu-link menu-item-left menu-item menu-link-active">
+                </c:when>
+                <c:otherwise>
                     <div class="menu-link menu-item-left menu-item">
-                    <a href="/secure/showLogbook.html">
-                    <span><s:message code="cmas.face.client.menu.logbook"/></span>
-                    </a>
-                    </div>
-                <div class="menu-link menu-item-left menu-item ">
-                    <a href="/secure/showSpots.html">
-                        <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
-                    </a>
-                </div>
+                </c:otherwise>
+            </c:choose>
+            <a href="/secure/showLogbook.html">
+                <span><s:message code="cmas.face.client.menu.logbook"/></span>
+            </a>
+            </div>
+            <c:choose>
+                <c:when test="${activeMenuItem == 'spots'}">
+                    <div class="menu-link menu-item-left menu-item menu-link-active">
+                </c:when>
+                <c:otherwise>
+                    <div class="menu-link menu-item-left menu-item">
+                </c:otherwise>
+            </c:choose>
+            <a href="/secure/showSpots.html">
+                <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
+            </a>
+            </div>
             </div>
             <div class="cssmenu" id="cssMenu" style="display: none">
                 <ul>
                     <li class="has-sub">
                         <div id="menuButton"></div>
                         <ul id="menuItems">
-                            <li>
+                            <c:choose>
+                            <c:when test="${activeMenuItem == 'personal'}">
+                            <li class="menu-active">
+                                </c:when>
+                                <c:otherwise>
+                            <li class="menu-inactive">
+                                </c:otherwise>
+                                </c:choose>
                                 <a href="/secure/profile/getUser.html">
                                     <span><s:message code="cmas.face.client.menu.personalData"/></span>
                                 </a>
                             </li>
                             <c:if test="${isCMAS}">
-                                <li>
-                                    <a href="/secure/cards.html">
-                                        <span><s:message code="cmas.face.client.menu.myCards"/></span>
-                                    </a>
-                                </li>
-                            </c:if>
-                                <%--todo implement--%>
-                                <%--<li>--%>
-                                <%--<a href="/secure/social.html">--%>
-                                <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
-                                <%--</a>--%>
-                                <%--</li>--%>
-                                <li>
-                                <a href="/secure/showLogbook.html">
-                                <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                                <c:choose>
+                                    <c:when test="${activeMenuItem == 'cards'}">
+                                        <li class="menu-active">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="menu-inactive">
+                                    </c:otherwise>
+                                </c:choose>
+                                <a href="/secure/cards.html">
+                                    <span><s:message code="cmas.face.client.menu.myCards"/></span>
                                 </a>
                                 </li>
-                            <li>
+                            </c:if>
+                            <%--<c:choose>--%>
+                            <%--<c:when test="${activeMenuItem == 'social'}">--%>
+                            <%--<li class="menu-active">--%>
+                                <%--</c:when>--%>
+                                <%--<c:otherwise>--%>
+                            <%--<li class="menu-inactive">--%>
+                                <%--</c:otherwise>--%>
+                                <%--</c:choose>--%>
+                                <%--<a href="/secure/social.html">--%>
+                                    <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+                                <%--</a>--%>
+                            <%--</li>--%>
+                            <c:choose>
+                            <c:when test="${activeMenuItem == 'logbook'}">
+                            <li class="menu-active">
+                                </c:when>
+                                <c:otherwise>
+                            <li class="menu-inactive">
+                                </c:otherwise>
+                                </c:choose>
+                                <a href="/secure/showLogbook.html">
+                                    <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                                </a>
+                            </li>
+                            <c:choose>
+                            <c:when test="${activeMenuItem == 'spots'}">
+                            <li class="menu-active">
+                                </c:when>
+                                <c:otherwise>
+                            <li class="menu-inactive">
+                                </c:otherwise>
+                                </c:choose>
                                 <a href="/secure/showSpots.html">
                                     <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                                 </a>
@@ -100,24 +170,55 @@
 
         <div class="usermenu" id="userMenu" style="display: none">
             <ul>
-                <li class="bottomBorder first-list-item">
+                <li
+                        <c:choose>
+                            <c:when test="${activeMenuItem == 'pay'}">
+                                class="bottomBorder first-list-item user-menu-active"
+                            </c:when>
+                            <c:otherwise>
+                                class="bottomBorder first-list-item user-menu-inactive"
+                            </c:otherwise>
+                        </c:choose>
+                        onclick="window.location = '${pageContext.request.contextPath}/secure/pay.html';"
+                >
                     <a href="${pageContext.request.contextPath}/secure/pay.html">
                         <span><s:message code="cmas.face.client.menu.payment"/></span>
                     </a>
                 </li>
                 <c:if test="${!hideMenu}">
-                    <li>
+                    <li
+                            <c:choose>
+                                <c:when test="${activeMenuItem == 'editPassword'}">
+                                    class="user-menu-active"
+                                </c:when>
+                                <c:otherwise>
+                                    class="user-menu-inactive"
+                                </c:otherwise>
+                            </c:choose>
+                            onclick="window.location = '${pageContext.request.contextPath}/secure/editPassword.html';"
+                    >
                         <a href="${pageContext.request.contextPath}/secure/editPassword.html">
                             <span><s:message code="cmas.face.client.menu.changePass"/></span>
                         </a>
                     </li>
-                    <li class="bottomBorder">
+                    <li
+                            <c:choose>
+                                <c:when test="${activeMenuItem == 'editEmail'}">
+                                    class="bottomBorder user-menu-active"
+                                </c:when>
+                                <c:otherwise>
+                                    class="bottomBorder user-menu-inactive"
+                                </c:otherwise>
+                            </c:choose>
+                            onclick="window.location = '${pageContext.request.contextPath}/secure/editEmail.html';"
+                    >
                         <a href="${pageContext.request.contextPath}/secure/editEmail.html">
                             <span><s:message code="cmas.face.client.menu.changeEmail"/></span>
                         </a>
                     </li>
                 </c:if>
-                <li class="last-list-item">
+                <li class="last-list-item user-menu-inactive"
+                    onclick="window.location = '${pageContext.request.contextPath}/logout.html';">
                     <a href="${pageContext.request.contextPath}/logout.html">
                         <span><s:message code="cmas.face.client.exit"/></span>
                     </a>
