@@ -78,7 +78,7 @@
 
         </div>
     </div>
-    <div id="secondScreen" class="secondScreen" style="display: none">
+    <div id="secondScreen" class="secondScreen">
         <div class="secondScreenHeader" id="secondScreenHeader"><s:message
                 code="cmas.face.landing.second.screen.header"/></div>
         <div class="landingPageText adjustableText"><s:message code="cmas.face.landing.second.screen.text"/></div>

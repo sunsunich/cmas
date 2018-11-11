@@ -53,6 +53,7 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -100,10 +101,18 @@ public class RegistrationController {
     @RequestMapping("/diver-verification.html")
     public ModelAndView verifyDiver(Model model, @ModelAttribute("command") DiverVerificationFormObject formObject) {
         //  model.addAttribute("command", new DiverVerificationFormObject());
-        return buildDiverVerificationForm(model, true, true);
+        return buildDiverVerificationForm(model, true);
     }
 
-    private ModelAndView buildDiverVerificationForm(Model model, boolean isCaptchaCorrect, boolean hasUsers) {
+    private ModelAndView buildDiverVerificationForm(
+            Model model, boolean isCaptchaCorrect
+    ) {
+        return buildDiverVerificationForm(model, isCaptchaCorrect, false, Collections.<Diver>emptyList());
+    }
+
+    private ModelAndView buildDiverVerificationForm(
+            Model model, boolean isCaptchaCorrect, boolean isSuccessFormSubmit, List<Diver> divers
+    ) {
         try {
             model.addAttribute("countries", countryDao.getAll());
         } catch (Exception e) {
@@ -111,7 +120,8 @@ public class RegistrationController {
         }
         model.addAttribute("captchaError", !isCaptchaCorrect);
         model.addAttribute("reCaptchaPublicKey", captchaService.getReCaptchaPublicKey());
-        model.addAttribute("hasUsers", hasUsers);
+        model.addAttribute("isSuccessFormSubmit", isSuccessFormSubmit);
+        model.addAttribute("divers", divers);
         return new ModelAndView("diverVerification");
     }
 
@@ -124,14 +134,10 @@ public class RegistrationController {
         validator.validate(formObject, result);
         boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
         if (result.hasErrors() || !isCaptchaCorrect) {
-            return buildDiverVerificationForm(model, isCaptchaCorrect, true);
+            return buildDiverVerificationForm(model, isCaptchaCorrect);
         } else {  // submit form
             List<Diver> divers = diverDao.searchForVerification(formObject);
-            if (divers.isEmpty()) {
-                return buildDiverVerificationForm(model, true, false);
-            }
-            model.addAttribute("divers", divers);
-            return new ModelAndView("diversList");
+            return buildDiverVerificationForm(model, true, true, divers);
         }
     }
 

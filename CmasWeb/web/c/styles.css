@@ -546,7 +546,7 @@ html, body {
     color: #f8f8f8;
 }
 
-.panel, .panel-header, .help-center-panel, .panel-cards {
+.panel, .panel-cards {
     margin-bottom: 8px;
     padding: 40px 56px;
     border-radius: 5px;
@@ -568,7 +568,17 @@ html, body {
 
 .panel-cards {
     padding-right: 21px;
-    padding-bottom: 0px;
+    padding-bottom: 0;
+}
+
+.panel-wider {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.sub-panel-narrow {
+    padding-left: 16px;
+    padding-right: 16px;
 }
 
 .panel-row {
@@ -706,6 +716,10 @@ html, body {
     padding: 16px;
 }
 
+.found-diver-list-elem {
+    padding: 16px;
+}
+
 .friendList-text {
     vertical-align: middle;
 }
@@ -746,6 +760,10 @@ html, body {
     height: 48px;
     width: 48px;
     padding-top: 22px;
+}
+
+.friendList-userpic-margin {
+    margin-right: 16px;
 }
 
 .buddieElem {

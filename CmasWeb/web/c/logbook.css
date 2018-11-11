@@ -73,16 +73,6 @@
     box-shadow: none;
 }
 
-.panel-wider {
-    padding-left: 40px;
-    padding-right: 40px;
-}
-
-.sub-panel-narrow {
-    padding-left: 16px;
-    padding-right: 16px;
-}
-
 .form-row input,
 .dialog-form-row input,
 .select2-container--bootstrap .select2-selection {

@@ -14,6 +14,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+
+import static org.cmas.entities.diver.DiverRegistrationStatus.DEMO;
+import static org.cmas.entities.diver.DiverRegistrationStatus.GUEST;
+import static org.cmas.entities.diver.DiverRegistrationStatus.INACTIVE;
+import static org.cmas.entities.diver.DiverRegistrationStatus.NEVER_REGISTERED;
 
 /**
  * Created on Feb 05, 2016
@@ -129,11 +135,21 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
+                .add(Restrictions.not(
+                        Restrictions.in("diverRegistrationStatus",
+                                        new DiverRegistrationStatus[]{NEVER_REGISTERED, INACTIVE})
+                     )
+                )
+                //remove bots
+                .add(Restrictions.not(
+                        Restrictions.like("email", "@mailinator.com", MatchMode.END)
+                     )
+                )
                 .list();
     }
 
     @NotNull
-    private static StringBuilder getNameClause(List<String> filteredNames) {
+    private static StringBuilder getNameClause(Collection<String> filteredNames) {
         StringBuilder nameClause = new StringBuilder();
         if (filteredNames.size() == 2) {
             nameClause.append("d.firstName like :template0 and d.lastName like :template1 or ")
@@ -338,7 +354,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                         .setParameter("newStatus", DiverRegistrationStatus.CMAS_BASIC)
                         .setDate("date", new Date()).executeUpdate();
         createQuery(hql).setParameterList("statusList",
-                                          Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
+                                          Arrays.asList(GUEST, DEMO))
                         .setParameter("newStatus", DiverRegistrationStatus.INACTIVE)
                         .setDate("date", new Date()).executeUpdate();
     }

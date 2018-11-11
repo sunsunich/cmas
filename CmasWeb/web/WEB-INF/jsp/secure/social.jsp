@@ -12,11 +12,11 @@
                customScripts="js/model/util_model.js,js/model/social_model.js,js/model/fast_search_friends_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/social_settings_controller.js,js/controller/fast_search_friends_controller.js"
 >
     <div class="content-left content-large">
-        <div class="panel-header">
+        <div class="panel panel-header">
             <span class="header2-text"><s:message code="cmas.face.client.social.team.header"/></span>
         </div>
 
-        <div class="panel-header">
+        <div class="panel panel-header">
             <div id="findDiverByNameForm">
                 <div class="form-row search-row">
                     <input id="searchFriendInput" type="text"
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="panel-header panel-wider">
+        <div class="panel panel-header panel-wider">
             <div class="sub-panel-narrow menu-header" id="listHeader">
                 <span class="header2-text"><s:message code="cmas.face.client.social.lists.allFriends.header"/></span>
             </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="content-right">
-        <div class="panel-header panel-wider">
+        <div class="panel panel-header panel-wider">
             <div class="sub-panel-narrow menu-header">
                 <span class="header2-text"><s:message code="cmas.face.client.social.lists"/></span>
             </div>

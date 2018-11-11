@@ -21,8 +21,8 @@
         });
     </script>
 
-    <script src="https://www.google.com/recaptcha/api.js?onload=reCaptchaOnLoadCallback&render=explicit"
-            defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=reCaptchaOnLoadCallback&render=explicit" defer>
+    </script>
 
     <div class="content" id="Content">
         <div id="formImage" class="formImage">

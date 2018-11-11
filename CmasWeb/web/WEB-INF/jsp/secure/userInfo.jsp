@@ -77,7 +77,7 @@
     </div>
 
     <div class="content-right content-large">
-        <div class="panel-header">
+        <div class="panel panel-header">
             <span class="header2-text"><s:message code="cmas.face.client.profile.mylogbook"/></span>
             <b id="addLogbookEntryButton" onclick="window.location='/secure/createLogbookRecordForm.html'">
                 <div class="add-button logbook-button-right"></div>

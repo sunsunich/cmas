@@ -19,7 +19,7 @@ var error_codes = {
     "validation.maxLength": "message length is over the maximum length allowed",
 
     "validation.emptyCertificate": "Please enter CMAS card number or tick the box below",
-    "validation.emptyCountry": "Please enter value for country",
+    "validation.emptyCountry": "Please enter diver's country",
     "validation.emptyFirstName": "Please enter value for first name",
     "validation.emptyLastName": "Please enter value for last name",
     "validation.emptyDob": "Please enter date of birth",

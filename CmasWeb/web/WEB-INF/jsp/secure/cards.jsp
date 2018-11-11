@@ -18,7 +18,7 @@
 
     <div class="content-center-wide" id="content">
 
-        <div class="panel-header">
+        <div class="panel panel-header">
             <span class="header2-text"><s:message code="cmas.face.client.certificates.header"/></span>
         </div>
         <div class="panel-cards">

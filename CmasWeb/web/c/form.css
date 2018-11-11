@@ -80,6 +80,15 @@
     height: 56px;
 }
 
+.found-diver-card-image {
+    position: relative;
+    float: right;
+}
+
+.found-diver-card-image img {
+    height: 88px;
+}
+
 .form-logo {
     margin-bottom: 25px;
     margin-left: 25%;
@@ -97,6 +106,12 @@
 .dialog-form-row {
     padding-bottom: 24px;
     position: relative;
+}
+
+.form-elem-large {
+    width: 48%;
+    min-width: 145px;
+    margin-right: 2%;
 }
 
 .dialog-form-row a {
@@ -240,13 +255,13 @@
     box-shadow: none;
 }
 
-.form-row input:disabled, .form-row textarea:disabled{
+.form-row input:disabled, .form-row textarea:disabled {
     color: #cbd0d1;
     background-color: #f7f9fa;
     border-color: #FFFFFF;
 }
 
-.form-row input::-webkit-input-placeholder, .form-row textarea::-webkit-input-placeholder{
+.form-row input::-webkit-input-placeholder, .form-row textarea::-webkit-input-placeholder {
     opacity: 1;
     transition: opacity 0.3s ease;
     text-overflow: ellipsis;
