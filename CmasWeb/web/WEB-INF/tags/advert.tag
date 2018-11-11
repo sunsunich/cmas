@@ -36,19 +36,8 @@
             </li>
         </ul>
     </c:when>
-    <c:when test="${diverRegistrationStatus == 'GUEST'}">
-        <%--Insurance desciprion--%>
-        <div class="advert-header">
-            <s:message code="cmas.face.advert.guest.header"/>
-        </div>
-        <ul class="advert-list">
-            <li>
-                <s:message code="cmas.face.advert.guest.insurance"/>
-            </li>
-        </ul>
-    </c:when>
     <c:otherwise>
-        <%--Demo--%>
+        <%--Guest and Demo--%>
         <div class="advert-header">
             <s:message code="cmas.face.advert.guest.header"/>
         </div>
