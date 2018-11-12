@@ -54,6 +54,14 @@ var social_model = {
         );
     },
 
+    sendFriendRequest: function (diverId, successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/social/sendFriendRequest.html",
+            {"diverId": diverId},
+            successHandler, unSuccessHandler
+        );
+    },
+
     acceptFriendRequest: function (friendRequestId, successHandler, unSuccessHandler) {
         basicClient.sendGetRequestCommonCase(
             "/secure/social/acceptFriendRequest.html",

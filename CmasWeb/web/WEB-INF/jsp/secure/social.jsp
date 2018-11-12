@@ -16,27 +16,53 @@
             <span class="header2-text"><s:message code="cmas.face.client.social.team.header"/></span>
         </div>
 
-        <div class="panel panel-header">
-            <div id="findDiverByNameForm">
+        <div id="allFriendsBlock" style="display: none">
+            <div class="panel panel-header">
                 <div class="form-row search-row">
-                    <input id="searchFriendInput" type="text"
+                    <input id="allFriends_input" type="text"
                            placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>"/>
-                    <div class="error" id="searchFriends_error_input"></div>
+                    <div class="error" id="allFriends_error_input"></div>
+                </div>
+            </div>
+
+            <div class="panel panel-header panel-wider">
+                <div class="sub-panel-narrow menu-header">
+                    <span class="header2-text"><s:message
+                            code="cmas.face.client.social.lists.allFriends.header"/></span>
+                </div>
+                <div id="allFriends_container" class="found-friend-list clearfix">
+                    <div id="allFriends_notFound" style="display: none">
+                <span class="foundFriendList-text">
+                    <s:message code="cmas.face.diver.fast.search.notFound"/>
+                </span>
+                    </div>
+                    <div id="allFriends_list" class="clearfix"></div>
                 </div>
             </div>
         </div>
 
-        <div class="panel panel-header panel-wider">
-            <div class="sub-panel-narrow menu-header" id="listHeader">
-                <span class="header2-text"><s:message code="cmas.face.client.social.lists.allFriends.header"/></span>
+        <div id="findFriendsBlock">
+            <div class="panel panel-header">
+                <div class="form-row search-row">
+                    <input id="searchFriends_input" type="text"
+                           placeholder="<s:message code="cmas.face.diver.fast.search.placeholderText"/>"/>
+                    <div class="error" id="searchFriends_error_input"></div>
+                </div>
             </div>
-            <div id="foundFriendList" class="found-friend-list clearfix">
-                <div id="noDiversFoundMessage" style="display: none">
+
+            <div class="panel panel-header panel-wider">
+                <div class="sub-panel-narrow menu-header">
+                    <span class="header2-text"><s:message
+                            code="cmas.face.client.social.lists.findFriends.header"/></span>
+                </div>
+                <div id="searchFriends_container" class="found-friend-list clearfix">
+                    <div id="searchFriends_notFound" style="display: none">
                 <span class="foundFriendList-text">
                     <s:message code="cmas.face.diver.fast.search.notFound"/>
                 </span>
+                    </div>
+                    <div id="searchFriends_list" class="clearfix"></div>
                 </div>
-                <div id="foundFriendListContent" class="found-friend-list-content clearfix"></div>
             </div>
         </div>
     </div>
@@ -46,8 +72,11 @@
             <div class="sub-panel-narrow menu-header">
                 <span class="header2-text"><s:message code="cmas.face.client.social.lists"/></span>
             </div>
-            <div class="panel-menu-item panel-menu-item-active" id="allFriends">
+            <div class="panel-menu-item" id="allFriends">
                 <s:message code="cmas.face.client.social.lists.allFriends.header"/>
+            </div>
+            <div class="panel-menu-item panel-menu-item-active" id="findFriends">
+                <s:message code="cmas.face.client.social.lists.findFriends.header"/>
             </div>
             <div class="panel-menu-item" id="friendRequestsTo">
                 <s:message code="cmas.face.client.social.friendRequestsTo.header"/>
@@ -211,7 +240,7 @@
     <my:dialog id="friendRemove"
                title="cmas.face.friendRemove.title"
                buttonText="cmas.face.friendRemove.submitText">
-        <div>
+        <div class="dialog-form-row">
             <s:message code="cmas.face.friendRemove.question"/>
             <span> <b id="removeDiverName"></b>?</span>
         </div>
@@ -220,7 +249,7 @@
     <my:dialog id="friendRequestRemove"
                title="cmas.face.friendRequestRemove.title"
                buttonText="cmas.face.friendRequestRemove.submitText">
-        <div>
+        <div class="dialog-form-row">
             <s:message code="cmas.face.friendRequestRemove.question"/>
         </div>
     </my:dialog>
@@ -307,8 +336,11 @@
     </my:dialog>
 
     <my:dialog id="friendRequestSuccessDialog"
-               title="cmas.face.friendRequest.success"
+               title="cmas.face.friendRequest.success.header"
                buttonText="cmas.face.friendRequest.success.button">
+        <div class="dialog-form-row">
+            <s:message code="cmas.face.friendRequest.success.text"/>
+        </div>
     </my:dialog>
 
 </my:securepage>

@@ -22,6 +22,7 @@ for(i = 0; i < divers.length;i++) {
 %>
 
 <div id="<%= diver.id %>_foundFriend" class="friendList-elem clearfix">
+    <div id="<%= diver.id %>_removeFriend" class="tank-button-right button-delete" style="display: none"></div>
     <div class="friendList-elem-left">
         <% if(diver.userpicUrl == null){
         %>
@@ -37,7 +38,8 @@ for(i = 0; i < divers.length;i++) {
         <% } %>
     </div>
     <div class="friendList-elem-left">
-        <div><span class="basic-text friendList-text"><b><%= fullName %></b></span></div>
+        <div><span id="<%= diver.id %>_showFriendDiver" class="basic-text friendList-text"><b><%= fullName %></b></span>
+        </div>
         <div>
             <% var j;
             for(j = 0;j < starCnt;j++) {

@@ -57,15 +57,15 @@
             </c:if>
             <%--todo implement--%>
             <%--<c:choose>--%>
-                <%--<c:when test="${activeMenuItem == 'social'}">--%>
-                    <%--<div class="menu-link menu-item-left menu-item menu-link-active">--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                    <%--<div class="menu-link menu-item-left menu-item">--%>
-                <%--</c:otherwise>--%>
+            <%--<c:when test="${activeMenuItem == 'social'}">--%>
+            <%--<div class="menu-link menu-item-left menu-item menu-link-active">--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+            <%--<div class="menu-link menu-item-left menu-item">--%>
+            <%--</c:otherwise>--%>
             <%--</c:choose>--%>
             <%--<a href="/secure/social.html">--%>
-                <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+            <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
             <%--</a>--%>
             <%--</div>--%>
             <c:choose>
@@ -124,18 +124,18 @@
                                 </a>
                                 </li>
                             </c:if>
-                            <%--<c:choose>--%>
-                            <%--<c:when test="${activeMenuItem == 'social'}">--%>
-                            <%--<li class="menu-active">--%>
+                                <%--<c:choose>--%>
+                                <%--<c:when test="${activeMenuItem == 'social'}">--%>
+                                <%--<li class="menu-active">--%>
                                 <%--</c:when>--%>
                                 <%--<c:otherwise>--%>
-                            <%--<li class="menu-inactive">--%>
+                                <%--<li class="menu-inactive">--%>
                                 <%--</c:otherwise>--%>
                                 <%--</c:choose>--%>
                                 <%--<a href="/secure/social.html">--%>
-                                    <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
+                                <%--<span><s:message code="cmas.face.client.menu.friends"/></span>--%>
                                 <%--</a>--%>
-                            <%--</li>--%>
+                                <%--</li>--%>
                             <c:choose>
                             <c:when test="${activeMenuItem == 'logbook'}">
                             <li class="menu-active">
@@ -251,7 +251,7 @@
         <my:dialog id="errorDialog"
                    title="cmas.face.error.title"
                    buttonText="cmas.face.error.submitText">
-            <div id="errorDialogText"></div>
+            <div class="dialog-form-row" id="errorDialogText"></div>
         </my:dialog>
     </div>
     <c:if test="${!hideMenu}">

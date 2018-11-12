@@ -45,7 +45,7 @@
         <my:dialog id="errorDialog"
                    title="cmas.face.error.title"
                    buttonText="cmas.face.error.submitText">
-            <div id="errorDialogText"></div>
+            <div class="dialog-form-row" id="errorDialogText"></div>
         </my:dialog>
     </div>
 

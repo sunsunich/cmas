@@ -503,8 +503,8 @@ html, body {
 }
 
 .found-friend-list-content {
-    /*overflow: auto;*/
-    /*height: 360px;*/
+    overflow: auto;
+    height: 360px;
 }
 
 .specifications .header {
@@ -713,7 +713,12 @@ html, body {
 }
 
 .friendList-elem {
+    box-sizing: border-box;
     padding: 16px;
+}
+
+.friendList-elem:hover {
+    background: #f7f9fa;
 }
 
 .found-diver-list-elem {

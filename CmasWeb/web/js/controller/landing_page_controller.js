@@ -39,7 +39,7 @@ var landing_page_controller = {
         var self = this;
         this.textChangeInterval = setTimeout(function run() {
             self.toggleTextVisibility(true);
-        }, 3000);
+        }, 5000);
     },
 
     toggleTextVisibility: function (resetInterval) {

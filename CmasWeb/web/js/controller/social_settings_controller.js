@@ -2,13 +2,30 @@ var social_settings_controller = {
 
     timeout: 0,
     listSelection: null,
+    findFriendsController: null,
+    showFriendsController: null,
 
     init: function () {
         country_controller.inputId = "findDiverCountry";
         country_controller.drawIcon = false;
         country_controller.init();
+        var self = this;
+        this.findFriendsController = simpleClone(fast_search_friends_controller);
+        this.findFriendsController.setupFoundElem = function (diverId) {
+            self.setupFoundDiver(diverId);
+        };
+        this.findFriendsController.init();
+
+        this.showFriendsController = simpleClone(fast_search_friends_controller);
+        this.showFriendsController.fastSearchUrl = "/secure/social/searchFriendsFast.html"
+        this.showFriendsController.prefix = "allFriends";
+        this.showFriendsController.listElemEjs = "friends";
+        this.showFriendsController.setupFoundElem = function (diverId) {
+            self.setupFoundFriend(diverId);
+        };
+
         this.start();
-        this.setList("allFriends");
+        this.setList("findFriends");
         this.setListeners();
     },
 
@@ -39,7 +56,7 @@ var social_settings_controller = {
                         new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
                             "divers": friends,
                             "webVersion": webVersion,
-                            "imagesData" : imagesData
+                            "imagesData": imagesData
                         })
                     );
                     for (var i = 0; i < friends.length; i++) {
@@ -144,7 +161,7 @@ var social_settings_controller = {
                 $('#allFriends').addClass('panel-menu-item-active');
                 social_model.getFriends(
                     function (json) {
-                        self.renderFriends(json);
+                        self.showFriendsController.renderFriends(json);
                     }
                     , function (json) {
                     }
@@ -157,6 +174,12 @@ var social_settings_controller = {
 
     setListeners: function () {
         var self = this;
+        $("#friendRequestSuccessDialogOk").click(function () {
+            $('#friendRequestSuccessDialog').hide();
+        });
+        $("#friendRequestSuccessDialogClose").click(function () {
+            $('#friendRequestSuccessDialog').hide();
+        });
         $('#friendRemoveClose').click(function () {
             $('#friendRemove').hide();
         });
@@ -195,37 +218,36 @@ var social_settings_controller = {
         });
     },
 
-    renderFriends: function (divers) {
+    setupFoundFriend: function (diverId) {
         var self = this;
-        $('#foundFriendList').show();
-        if (divers && divers.length > 0) {
-            $('#noDiversFoundMessage').hide();
-            $('#foundFriendListContent').html(
-                new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
-                    "divers": divers,
-                    "webVersion": webVersion,
-                    "imagesData" : imagesData
-                })
-            ).show();
-            for (var i = 0; i < divers.length; i++) {
-                $('#' + divers[i].id + '_showFriendDiver').click(function (e) {
-                    e.preventDefault();
-                    util_controller.showDiver($(this)[0].id);
-                });
-                $('#' + divers[i].id + '_removeFriend').click(function () {
-                    self.removeFriend($(this)[0].id);
-                });
+        $('#' + diverId + '_showFriendDiver').click(function (e) {
+            e.preventDefault();
+            util_controller.showDiver($(this)[0].id);
+        });
+
+        const removeFriendId = '#' + diverId + '_removeFriend';
+        $('#' + diverId + '_foundFriend').hover(
+            function () {
+                $(removeFriendId).show();
+            }, function () {
+                $(removeFriendId).hide();
             }
-        } else {
-            $('#foundFriendListContent').empty();
-            $('#noDiversFoundMessage').show();
-        }
+        );
+        $(removeFriendId).click(function () {
+            self.removeFriend($(this)[0].id);
+        });
+    },
+
+    setupFoundDiver: function (diverId) {
+        $('#' + diverId + '_foundFriend').click(function () {
+            self.sendFriendRequest($(this)[0].id);
+        });
     },
 
     sendFriendRequest: function (elemId) {
         var diverId = elemId.split('_')[0];
         var self = this;
-        fast_search_friends_model.sendFriendRequest(
+        social_model.sendFriendRequest(
             diverId
             , function (json) {
                 self.getSocialUpdates();

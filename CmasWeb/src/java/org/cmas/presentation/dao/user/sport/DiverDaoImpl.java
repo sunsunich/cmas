@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.cmas.entities.diver.DiverRegistrationStatus.DEMO;
 import static org.cmas.entities.diver.DiverRegistrationStatus.GUEST;
@@ -177,10 +178,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
-                     " left outer join d.friendOf fr" +
                      " where (" + getNameClause(filteredNames) + ')' +
                      " and d.diverType = :diverType and c.code = :country" +
-                     " and (fr.id != :diverId or fr.id is null)" +
+                     " and d.id not in (:friendIds)" +
                      " and d.id != :diverId";
 
         Query query = createQuery(hql);
@@ -188,9 +188,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
             String name = filteredNames.get(i);
             query.setString("template" + i, name + '%');
         }
-        return query.setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
-                    .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
-                    .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
+        return query.setParameterList("friendIds", getFriendsIds(diverId))
+                .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
+                .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
+                .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
     }
 
     @Override
@@ -217,12 +218,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.cards c";
-        if (isSearchingFriends) {
-            hql += " left outer join d.friendOf fr";
-        }
         hql += " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
         if (isSearchingFriends) {
-            hql += " and (fr.id != :diverId or fr.id is null)";
+            hql += " and d.id not in (:friendIds)";
         }
         hql += " and d.id != :diverId";
         if (diverType != null) {
@@ -235,6 +233,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         }
         if (diverType != null) {
             query.setParameter("diverType", diverType);
+        }
+        if (isSearchingFriends) {
+            query.setParameterList("friendIds", getFriendsIds(diverId));
         }
         return query.setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }
@@ -295,15 +296,13 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .list();
     }
 
-    @Override
-    public List<Diver> getFriends(Diver diver) {
+    private Set<Long> getFriendsIds(long diverId) {
         String sql = "select diverId, friendId from diver_friends where friendId = :diverId or diverId = :diverId";
-        long diverId = diver.getId();
         List<Object[]> diverIdPairs = createSQLQuery(sql).setLong("diverId", diverId).list();
         if (diverIdPairs.isEmpty()) {
-            return new ArrayList<>();
+            return Collections.emptySet();
         }
-        Collection<Long> diverIds = new HashSet<>(diverIdPairs.size());
+        Set<Long> diverIds = new HashSet<>(diverIdPairs.size());
         for (Object[] pair : diverIdPairs) {
             long pairElem1 = ((Number) pair[0]).longValue();
             long pairElem2 = ((Number) pair[1]).longValue();
@@ -312,6 +311,15 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
             } else {
                 diverIds.add(pairElem1);
             }
+        }
+        return diverIds;
+    }
+
+    @Override
+    public List<Diver> getFriends(Diver diver) {
+        Set<Long> diverIds = getFriendsIds(diver.getId());
+        if (diverIds.isEmpty()) {
+            return new ArrayList<>();
         }
         return createCriteria().add(Restrictions.in("id", diverIds)).list();
     }

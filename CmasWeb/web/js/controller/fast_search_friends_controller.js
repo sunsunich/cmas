@@ -1,29 +1,29 @@
 var fast_search_friends_controller = {
 
+    prefix: "searchFriends",
+    fastSearchUrl: "/secure/social/searchFriendsFast.html",
+    listElemEjs: "foundFriendList",
+    setupFoundElem: null, /*function*/
+
     init: function () {
         var self = this;
-        $('#searchFriendInput').keyup(function () {
+        $('#' + this.prefix + '_input').keyup(function () {
             self.search();
         });
-        $('#searchFriendsButton').click(function () {
+        $('#' + this.prefix + '_button').click(function () {
             self.search();
-        });
-        $("#friendRequestSuccessDialogOk").click(function () {
-            $('#friendRequestSuccessDialog').hide();
-        });
-        $("#friendRequestSuccessDialogClose").click(function () {
-            $('#friendRequestSuccessDialog').hide();
         });
     },
 
     search: function () {
-        var input = $('#searchFriendInput').val();
+        var input = $('#' + this.prefix + '_input').val();
         if (!input || input.length < 3) {
             this.showError("validation.diver.fast.search.tooSmall");
         } else {
             this.hideError();
             var self = this;
-            fast_search_friends_model.fastSearchFriends(
+            fast_search_friends_model.fastSearch(
+                this.fastSearchUrl,
                 input,
                 function (json) {
                     self.hideError();
@@ -37,63 +37,60 @@ var fast_search_friends_controller = {
     },
 
     showError: function (code) {
-        $('#foundFriendList').hide();
-        $('#searchFriends_error_input').html(error_codes[code]);
+        $('#' + this.prefix + '_container').hide();
+        $('#' + this.prefix + '_error_input').html(error_codes[code]);
     },
 
     hideError: function () {
-        $('#searchFriends_error_input').empty();
+        $('#' + this.prefix + '_error_input').empty();
     },
 
     renderFriends: function (divers) {
-        var self = this;
-        $('#foundFriendList').show();
+        $('#' + this.prefix + '_container').show();
         if (divers && divers.length > 0) {
-            $('#noDiversFoundMessage').hide();
-            $('#foundFriendListContent').html(
-                new EJS({url: '/js/templates/foundFriendList.ejs?v=' + webVersion}).render({
+            $('#' + this.prefix + '_notFound').hide();
+            $('#' + this.prefix + '_list').html(
+                new EJS({url: '/js/templates/' + this.listElemEjs + '.ejs?v=' + webVersion}).render({
                     "divers": divers,
                     "webVersion": webVersion,
-                    "imagesData" : imagesData
+                    "imagesData": imagesData
                 })
             ).show();
             var i;
             for (i = 0; i < divers.length; i++) {
-                $('#' + divers[i].id + '_foundFriend').click(function () {
-                    self.sendFriendRequest($(this)[0].id);
-                });
+                this.setupFoundElem(divers[i].id);
             }
         } else {
-            $('#foundFriendListContent').empty();
-            $('#noDiversFoundMessage').show();
+            $('#' + this.prefix + '_list').empty();
+            $('#' + this.prefix + '_notFound').show();
         }
-    },
-
-    sendFriendRequest: function (elemId) {
-        var diverId = elemId.split('_')[0];
-        fast_search_friends_model.sendFriendRequest(
-            diverId
-            , function (json) {
-                if (isStringTrimmedEmpty(json.message)) {
-                    $('#friendRequestSuccessDialog').show();
-                }
-                else {
-                    error_dialog_controller.showErrorDialog(
-                        labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message]
-                    );
-                }
-            }
-            , function (json) {
-                error_dialog_controller.showErrorDialog(
-                    labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message]
-                );
-            });
     }
+
+    // sendFriendRequest: function (elemId) {
+    //     var diverId = elemId.split('_')[0];
+    //     fast_search_friends_model.sendFriendRequest(
+    //         diverId
+    //         , function (json) {
+    //             if (isStringTrimmedEmpty(json.message)) {
+    //                 $('#friendRequestSuccessDialog').show();
+    //             }
+    //             else {
+    //                 error_dialog_controller.showErrorDialog(
+    //                     labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message]
+    //                 );
+    //             }
+    //         }
+    //         , function (json) {
+    //             error_dialog_controller.showErrorDialog(
+    //                 labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message]
+    //             );
+    //         });
+    // }
 };
 
-$(document).ready(function () {
-    fast_search_friends_controller.init();
-});
+// $(document).ready(function () {
+//     fast_search_friends_controller.init();
+// });
 // .click(function (event) {
 //     if (!$(event.target).closest('#foundFriendList').length) {
 //         if ($('#foundFriendList').is(":visible")) {

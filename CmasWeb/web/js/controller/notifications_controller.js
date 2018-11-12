@@ -1,4 +1,4 @@
-var social_settings_controller = {
+var notifications_controller = {
 
     timeout: 0,
     listSelection: null,
@@ -463,5 +463,5 @@ var social_settings_controller = {
 };
 
 $(document).ready(function () {
-    social_settings_controller.init();
+    notifications_controller.init();
 });
