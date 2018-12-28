@@ -41,20 +41,22 @@ var diver_verification_controller = {
     },
 
     renderRecaptcha: function (reCaptchaPublicKey) {
-        var viewPortWidth = $(window).width();
-        var reCaptchaSize;
-        if (viewPortWidth > 400) {
-            reCaptchaSize = 'normal';
-        } else {
-            reCaptchaSize = 'compact';
-        }
-        grecaptcha.render(
-            'diverVerification_captcha',
-            {
-                'sitekey': reCaptchaPublicKey,
-                'size': reCaptchaSize
+        if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
+            var viewPortWidth = $(window).width();
+            var reCaptchaSize;
+            if (viewPortWidth > 400) {
+                reCaptchaSize = 'normal';
+            } else {
+                reCaptchaSize = 'compact';
             }
-        );
+            grecaptcha.render(
+                'diverVerification_captcha',
+                {
+                    'sitekey': reCaptchaPublicKey,
+                    'size': reCaptchaSize
+                }
+            );
+        }
     },
 
     setListeners: function () {

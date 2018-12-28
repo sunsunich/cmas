@@ -108,7 +108,7 @@ INSERT into countries (id, deleted, name, code, version) values (107, false, 'Se
 INSERT into countries (id, deleted, name, code, version) values (108, false, 'Singapore', 'SIN', 1);
 INSERT into countries (id, deleted, name, code, version) values (109, false, 'Slovakia', 'SVK', 1);
 INSERT into countries (id, deleted, name, code, version) values (110, false, 'Slovenia', 'SLO', 1);
-INSERT into countries (id, deleted, name, code, version) values (111, false, 'Dudan', 'SUD', 1);
+INSERT into countries (id, deleted, name, code, version) values (111, false, 'Sudan', 'SUD', 1);
 INSERT into countries (id, deleted, name, code, version) values (112, false, 'Sri Lanka', 'SRI', 1);
 INSERT into countries (id, deleted, name, code, version) values (113, false, 'Sweden', 'SWE', 1);
 INSERT into countries (id, deleted, name, code, version) values (114, false, 'Switzerland', 'SUI', 1);
@@ -119,7 +119,7 @@ INSERT into countries (id, deleted, name, code, version) values (118, false, 'Cz
 INSERT into countries (id, deleted, name, code, version) values (119, false, 'Thailand', 'THA', 1);
 INSERT into countries (id, deleted, name, code, version) values (120, false, 'Tunisia', 'TUN', 1);
 INSERT into countries (id, deleted, name, code, version) values (121, false, 'Turkey', 'TUR', 1);
-INSERT into countries (id, deleted, name, code, version) values (122, false, 'Ukrainia', 'UKR', 1);
+INSERT into countries (id, deleted, name, code, version) values (122, false, 'Ukraine', 'UKR', 1);
 INSERT into countries (id, deleted, name, code, version) values (123, false, 'USSR', 'URS', 1);
 INSERT into countries (id, deleted, name, code, version) values (124, false, 'Uruguay', 'URU', 1);
 INSERT into countries (id, deleted, name, code, version) values (125, false, 'Venezuela', 'VEN', 1);
@@ -159,8 +159,8 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`)
+ `primaryPersonalCard_id`
+)
 VALUES
   (2,
    null,
@@ -182,8 +182,7 @@ VALUES
    60,
    NULL ,
    2,
-   null,
-  false);
+   null);
 
 
 INSERT INTO divers
@@ -207,8 +206,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
  (3,
@@ -231,8 +229,7 @@ VALUES
   6,
   NULL ,
   3,
-  null,
-  false
+  null
  );
 
 INSERT INTO divers
@@ -256,8 +253,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
  (4,
@@ -280,8 +276,7 @@ VALUES
   102,
   NULL ,
   1,
-  null,
-  false
+  null
  );
 
 INSERT INTO divers
@@ -305,8 +300,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
  (5,
@@ -329,8 +323,7 @@ VALUES
   102,
   NULL ,
   1,
-  null,
-  false
+  null
  );
 
 CREATE TABLE `transaction_settings` (

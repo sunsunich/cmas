@@ -23,7 +23,7 @@ var error_codes = {
     "validation.emptyFirstName": "Please enter value for first name",
     "validation.emptyLastName": "Please enter value for last name",
     "validation.emptyDob": "Please enter date of birth",
-    "validation.termsAndCondNotAccepted": "Please tick the box to accept CMAS Terms and Conditions",
+    "validation.termsAndCondNotAccepted": "Please tick the box to accept CMAS Privacy Policy",
 
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",

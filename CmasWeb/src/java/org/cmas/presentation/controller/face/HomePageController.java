@@ -34,16 +34,17 @@ public class HomePageController {
         return new ModelAndView("faq", mm);
     }
 
-    @RequestMapping(value = "/termsAndCond.html", method = RequestMethod.GET)
-    public ModelAndView termsAndCond() {
+    @RequestMapping(value = "/privacyPolicy.html", method = RequestMethod.GET)
+    public ModelAndView privacyPolicy() {
         ModelMap mm = new ModelMap();
-        return new ModelAndView("termsAndCond", mm);
+        return new ModelAndView("privacyPolicy", mm);
     }
 
     @RequestMapping(value = "/cookies.html", method = RequestMethod.GET)
     public ModelAndView cookies() {
         ModelMap mm = new ModelMap();
-        return new ModelAndView("cookies", mm);
+        mm.addAttribute("section", "cookies");
+        return new ModelAndView("privacyPolicy", mm);
     }
 
     @RequestMapping(value = "/contacts.html", method = RequestMethod.GET)

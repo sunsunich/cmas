@@ -20,7 +20,7 @@
         <div class="answer">
             This policy explains how CMAS Family uses cookies. Except as otherwise stated in this policy,
             CMAS Family <a class='link-in-text-flow'
-                                href="${pageContext.request.contextPath}/termsAndCond.html"><s:message
+                                href="${pageContext.request.contextPath}/privacyPolicy.html"><s:message
                 code="cmas.face.client.termsAndCondHeader"/></a> will apply to CMAS Family processing of
             the data that is being collected by CMAS Family using cookies.
         </div>

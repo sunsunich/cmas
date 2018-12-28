@@ -32,8 +32,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (17,
@@ -56,8 +55,7 @@ VALUES
     106,
     NULL,
     16,
-    null,
-   false
+    null
   );
 
 UPDATE `divers` SET `defaultVisibility`='PRIVATE', `isAddFriendsToLogbookEntries`=0, `isNewsFromCurrentLocation`=0, `socialUpdatesVersion`=0 WHERE `id`='17';
