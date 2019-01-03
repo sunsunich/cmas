@@ -17,20 +17,28 @@ var social_settings_controller = {
         this.findFriendsController.init();
 
         this.showFriendsController = simpleClone(fast_search_friends_controller);
-        this.showFriendsController.fastSearchUrl = "/secure/social/searchFriendsFast.html"
+        this.showFriendsController.fastSearchUrl = "/secure/social/searchInFriendsFast.html";
         this.showFriendsController.prefix = "allFriends";
         this.showFriendsController.listElemEjs = "friends";
         this.showFriendsController.setupFoundElem = function (diverId) {
             self.setupFoundFriend(diverId);
         };
-
+        this.showFriendsController.emptyInputCallback = function () {
+            social_model.getFriends(
+                function (json) {
+                    self.showFriendsController.renderFriends(json);
+                }
+                , function (json) {
+                }
+            );
+        };
+        this.showFriendsController.init();
         this.start();
-        this.setList("findFriends");
         this.setListeners();
     },
 
     start: function () {
-        this.getSocialUpdates();
+        this.getSocialUpdates(true);
         var self = this;
         this.timeout = setTimeout(function run() {
             self.getSocialUpdates();
@@ -45,106 +53,70 @@ var social_settings_controller = {
         }
     },
 
-    getSocialUpdates: function () {
+    getSocialUpdates: function (firstCall) {
         var self = this;
         social_model.getSocialUpdates(
             function (json) {
                 var friends = json.friends;
-                if (friends.length > 0) {
-                    $('#noFriendsText').hide();
-                    $('#friendsPanel').html(
-                        new EJS({url: '/js/templates/friends.ejs?v=' + webVersion}).render({
-                            "divers": friends,
-                            "webVersion": webVersion,
-                            "imagesData": imagesData
-                        })
-                    );
-                    for (var i = 0; i < friends.length; i++) {
-                        $('#' + friends[i].id + '_showFriendDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                        $('#' + friends[i].id + '_removeFriend').click(function () {
-                            self.removeFriend($(this)[0].id);
-                        });
+                if (firstCall) {
+                    if (friends && friends.length > 0) {
+                        self.setList("allFriends");
+                        self.showFriendsController.renderFriends(friends);
+                    } else {
+                        self.setList("findFriends");
                     }
-                }
-                else {
-                    $('#friendsPanel').empty();
-                    $('#noFriendsText').show();
+                } else {
+                    if (!$('#allFriends_input').val()) {
+                        self.showFriendsController.renderFriends(friends);
+                    }
                 }
                 var toRequests = json.toRequests;
                 if (toRequests.length > 0) {
-                    $('#toRequestsPanel').show();
-                    $('#toRequests').html(
+                    $('#friendRequestsTo_notFound').hide();
+                    $('#friendRequestsTo_list').html(
                         new EJS({url: '/js/templates/toRequests.ejs?v=' + webVersion}).render({
                             "requests": toRequests,
-                            "webVersion": webVersion
+                            "webVersion": webVersion,
+                            "suffix": ""
                         })
                     );
-                    for (i = 0; i < toRequests.length; i++) {
-                        $('#' + toRequests[i].from.id + '_showFromDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                        $('#' + toRequests[i].id + '_acceptRequest').click(function () {
-                            self.acceptFriendRequest($(this)[0].id);
-                        });
-                        $('#' + toRequests[i].id + '_rejectRequest').click(function () {
-                            self.rejectFriendRequest($(this)[0].id);
-                        });
+                    for (var i = 0; i < toRequests.length; i++) {
+                        self.setupFriendRequestTo(toRequests[i]);
                     }
+                    $('#friendRequestOne').show();
+                    $('#friendRequestsOne_list').html(
+                        new EJS({url: '/js/templates/toRequests.ejs?v=' + webVersion}).render({
+                            "requests": [toRequests[0]],
+                            "webVersion": webVersion,
+                            "suffix": "_one"
+                        })
+                    );
+                    self.setupFriendRequestTo(toRequests[0], "_one");
+                    $('#friendRequestsTo_one').click(function () {
+                        self.setList('friendRequestsTo');
+                    });
                 }
                 else {
-                    $('#toRequestsPanel').hide();
+                    $('#friendRequestOne').hide();
+                    $('#friendRequestsTo_list').empty();
+                    $('#friendRequestsTo_notFound').show();
                 }
                 var fromRequests = json.fromRequests;
                 if (fromRequests.length > 0) {
-                    $('#fromRequestsPanel').show();
-                    $('#fromRequests').html(
+                    $('#friendRequestsFrom_notFound').hide();
+                    $('#friendRequestsFrom_list').html(
                         new EJS({url: '/js/templates/fromRequests.ejs?v=' + webVersion}).render({
                             "requests": fromRequests,
                             "webVersion": webVersion
                         })
                     );
                     for (i = 0; i < fromRequests.length; i++) {
-                        $('#' + fromRequests[i].to.id + '_showToDiver').click(function (e) {
-                            e.preventDefault();
-                            util_controller.showDiver($(this)[0].id);
-                        });
-                        $('#' + fromRequests[i].id + '_removeFromRequest').click(function () {
-                            self.removeFriendRequest($(this)[0].id);
-                        });
+                        self.setupFriendRequestFrom(fromRequests[i]);
                     }
                 }
                 else {
-                    $('#fromRequestsPanel').hide();
-                }
-                var buddieRequests = json.buddieRequests;
-                if (buddieRequests.length > 0) {
-                    $('#buddieRequestsPanel').show();
-                    $('#buddieRequests').html(
-                        new EJS({url: '/js/templates/logbookRequests.ejs?v=' + webVersion}).render({
-                            "requests": buddieRequests,
-                            "webVersion": webVersion
-                        })
-                    );
-                    for (i = 0; i < buddieRequests.length; i++) {
-                        social_model.logbookEntriesToProcessMap[buddieRequests[i].id] = buddieRequests[i];
-                        $('#' + buddieRequests[i].logbookEntry.id + '_showLogbookRequest').click(function (e) {
-                            e.preventDefault();
-                            self.showLogbookEntry($(this)[0].id);
-                        });
-                        $('#' + buddieRequests[i].id + '_acceptLogbookRequest').click(function () {
-                            self.acceptLogbookRequest($(this)[0].id);
-                        });
-                        $('#' + buddieRequests[i].id + '_rejectLogbookRequest').click(function () {
-                            self.rejectLogbookRequest($(this)[0].id);
-                        });
-                    }
-                }
-                else {
-                    $('#buddieRequestsPanel').hide();
+                    $('#friendRequestsFrom_list').empty();
+                    $('#friendRequestsFrom_notFound').show();
                 }
             }
             , function () {
@@ -153,27 +125,57 @@ var social_settings_controller = {
     },
 
     setList: function (listSelection) {
-        var self = this;
         this.listSelection = listSelection;
         switch (this.listSelection) {
             case 'allFriends' :
+                this.hideAllBlocks();
+                $('#allFriendsBlock').show();
                 $('.panel-menu-item').removeClass('panel-menu-item-active');
                 $('#allFriends').addClass('panel-menu-item-active');
-                social_model.getFriends(
-                    function (json) {
-                        self.showFriendsController.renderFriends(json);
-                    }
-                    , function (json) {
-                    }
-                );
+                break;
+            case 'findFriends' :
+                this.hideAllBlocks();
+                $('#findFriendsBlock').show();
+                $('.panel-menu-item').removeClass('panel-menu-item-active');
+                $('#findFriends').addClass('panel-menu-item-active');
                 break;
             case 'friendRequestsTo' :
+                this.hideAllBlocks();
+                $('#friendRequestsToBlock').show();
+                $('.panel-menu-item').removeClass('panel-menu-item-active');
+                $('#friendRequestsTo').addClass('panel-menu-item-active');
+                break;
+            case 'friendRequestsFrom':
+                this.hideAllBlocks();
+                $('#friendRequestsFromBlock').show();
+                $('.panel-menu-item').removeClass('panel-menu-item-active');
+                $('#friendRequestsFrom').addClass('panel-menu-item-active');
                 break;
         }
     },
 
+    hideAllBlocks: function () {
+        $('#allFriendsBlock').hide();
+        $('#findFriendsBlock').hide();
+        $('#friendRequestsToBlock').hide();
+        $('#friendRequestsFromBlock').hide();
+    },
+
     setListeners: function () {
         var self = this;
+        $("#findFriends").click(function () {
+            self.setList('findFriends');
+        });
+        $("#allFriends").click(function () {
+            self.setList('allFriends');
+        });
+        $("#friendRequestsTo").click(function () {
+            self.setList('friendRequestsTo');
+        });
+        $("#friendRequestsFrom").click(function () {
+            self.setList('friendRequestsFrom');
+        });
+
         $("#friendRequestSuccessDialogOk").click(function () {
             $('#friendRequestSuccessDialog').hide();
         });
@@ -224,24 +226,70 @@ var social_settings_controller = {
             e.preventDefault();
             util_controller.showDiver($(this)[0].id);
         });
-
-        const removeFriendId = '#' + diverId + '_removeFriend';
         $('#' + diverId + '_foundFriend').hover(
             function () {
-                $(removeFriendId).show();
+                var elemId = $(this)[0].id;
+                var diverId = elemId.split('_')[0];
+                $('#' + diverId + '_removeFriend').show();
             }, function () {
-                $(removeFriendId).hide();
+                var elemId = $(this)[0].id;
+                var diverId = elemId.split('_')[0];
+                $('#' + diverId + '_removeFriend').hide();
             }
         );
-        $(removeFriendId).click(function () {
+        $('#' + diverId + '_removeFriend').click(function () {
             self.removeFriend($(this)[0].id);
         });
     },
 
     setupFoundDiver: function (diverId) {
-        $('#' + diverId + '_foundFriend').click(function () {
+        var self = this;
+        $('#' + diverId + '_showFoundDiver').click(function (e) {
+            e.preventDefault();
+            util_controller.showDiver($(this)[0].id);
+        });
+        $('#' + diverId + '_addFriend').click(function () {
             self.sendFriendRequest($(this)[0].id);
         });
+    },
+
+    setupFriendRequestTo: function (toRequest, suffix) {
+        if (!suffix) {
+            suffix = "";
+        }
+        var self = this;
+        $('#' + toRequest.from.id + '_showRequestToDiver' + suffix).click(function (e) {
+            e.preventDefault();
+            util_controller.showDiver($(this)[0].id);
+        });
+        $('#' + toRequest.id + '_acceptRequest' + suffix).click(function () {
+            self.acceptFriendRequest($(this)[0].id);
+        });
+        $('#' + toRequest.id + '_rejectRequest' + suffix).click(function () {
+            self.rejectFriendRequest($(this)[0].id);
+        });
+    },
+
+    setupFriendRequestFrom: function (fromRequest) {
+        var self = this;
+        $('#' + fromRequest.to.id + '_showRequestFromDiver').click(function (e) {
+            e.preventDefault();
+            util_controller.showDiver($(this)[0].id);
+        });
+        $('#' + fromRequest.id + '_removeFromRequest').click(function () {
+            self.removeFriendRequest($(this)[0].id);
+        });
+        $('#' + fromRequest.id + '_requestFrom').hover(
+            function () {
+                var elemId = $(this)[0].id;
+                var fromRequestId = elemId.split('_')[0];
+                $('#' + fromRequestId + '_removeFromRequest').show();
+            }, function () {
+                var elemId = $(this)[0].id;
+                var fromRequestId = elemId.split('_')[0];
+                $('#' + fromRequestId + '_removeFromRequest').hide();
+            }
+        );
     },
 
     sendFriendRequest: function (elemId) {
@@ -252,22 +300,31 @@ var social_settings_controller = {
             , function (json) {
                 self.getSocialUpdates();
                 var notification;
+                var textClass;
                 if (isStringTrimmedEmpty(json.message)) {
                     notification = labels["cmas.face.friendRequest.success"];
+                    textClass = 'friendList-floating-elem-notification-positive';
                 }
                 else {
-                    self.getSocialUpdates();
+                    $('#' + diverId + '_addFriendNotificationImg')
+                        .prop('src', '/i/button_clean_click.png?v=' + webVersion);
+                    textClass = 'friendList-floating-elem-notification-negative';
                     notification = error_codes[json.message];
                 }
                 $('#' + diverId + '_addFriend').hide();
-                $('#' + diverId + '_addFriendNotification')
-                    .html(notification)
-                    .show();
+                $('#' + diverId + '_addFriendNotification').addClass(textClass).html(notification);
+                $('#' + diverId + '_addFriendNotificationContainer').show();
             }
             , function (json) {
+                if (json.message == "validation.friendRequestAlreadyExists") {
+                    $('#' + diverId + '_addFriend').hide();
+                }
+                $('#' + diverId + '_addFriendNotificationImg')
+                    .prop('src', '/i/button_clean_click.png?v=' + webVersion);
                 $('#' + diverId + '_addFriendNotification')
-                    .html(labels["cmas.face.friendRequest.failure"] + ' ' + error_codes[json.message])
-                    .show();
+                    .addClass('friendList-floating-elem-notification-negative')
+                    .html(error_codes[json.message]);
+                $('#' + diverId + '_addFriendNotificationContainer').show();
             });
     },
 

@@ -33,6 +33,8 @@ public interface DiverDao extends UserDao<Diver> {
 
     List<Diver> searchFriendsFast(long diverId, String input);
 
+    List<Diver> searchInFriendsFast(long diverId, String input);
+
     List<Diver> searchDivers(FindDiverFormObject formObject);
 
     List<Diver> getFriends(Diver diver);

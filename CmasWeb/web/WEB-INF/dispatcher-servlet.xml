@@ -63,6 +63,7 @@
                 <value>/secure/social/acceptLogbookBuddieRequest.html</value>
                 <value>/secure/social/rejectLogbookBuddieRequest.html</value>
                 <value>/secure/social/searchFriendsFast.html</value>
+                <value>/secure/social/searchInFriendsFast.html</value>
                 <value>/secure/social/searchDiversFast.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
@@ -142,6 +143,7 @@
                 <value>/secure/social/rejectLogbookBuddieRequest.html</value>
 
                 <value>/secure/social/searchFriendsFast.html</value>
+                <value>/secure/social/searchInFriendsFast.html</value>
                 <value>/secure/social/searchDiversFast.html</value>
 
                 <value>/secure/cards.html</value>

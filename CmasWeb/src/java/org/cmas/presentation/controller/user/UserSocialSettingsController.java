@@ -94,6 +94,19 @@ public class UserSocialSettingsController extends DiverAwareController{
         return gsonViewFactory.createGsonView(diverDao.getFriends(getCurrentDiver()));
     }
 
+    @RequestMapping("/secure/social/searchInFriendsFast.html")
+    public View searchInFriendsFast(@RequestParam String input) {
+        Diver currentDiver = getCurrentDiver();
+        if (StringUtil.isTrimmedEmpty(input)) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.empty");
+        }
+        if (input.length() < Globals.FAST_SEARCH_MIN_INPUT) {
+            return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
+        }
+        List<Diver> divers = diverDao.searchInFriendsFast(currentDiver.getId(), input);
+        return gsonViewFactory.createGsonView(divers);
+    }
+
     @RequestMapping("/secure/social/getFromRequests.html")
     public View getFromRequests() {
         return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsFromDiver(getCurrentDiver()));

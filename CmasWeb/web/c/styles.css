@@ -712,6 +712,55 @@ html, body {
     padding-left: 10px;
 }
 
+.friendList-floating-elem-right, .friendList-floating-elem-right-first {
+    font-size: 12px;
+    font-weight: bold;
+    color: #a1a4a5;
+    margin-right: 8px;
+    float: right;
+}
+
+.friendList-floating-elem-right:hover, .friendList-floating-elem-right-first:hover {
+    cursor: pointer;
+}
+
+.friendList-floating-elem-right-first {
+    margin-right: 32px;
+}
+
+.friendList-floating-elem-vertical-middle {
+    position: relative;
+    top: 36px;
+}
+
+.friendList-floating-elem-header {
+    position: relative;
+    top: 12px;
+}
+
+.friendList-floating-elem-notification {
+    font-size: 14px;
+    line-height: 1.29;
+    height: 18px;
+    vertical-align: middle;
+}
+
+.friendList-floating-elem-notification-positive {
+    color: #11c7dd;
+}
+
+.friendList-floating-elem-notification-negative {
+    color: #f4225b;
+}
+
+.friendList-floating-elem-notification-neutral {
+    color: #a1a4a5;
+}
+
+.friendList-floating-elem-notification-ico {
+    vertical-align: middle;
+}
+
 .friendList-elem {
     box-sizing: border-box;
     padding: 16px;

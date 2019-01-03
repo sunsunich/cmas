@@ -122,6 +122,53 @@
     box-shadow: none;
 }
 
+.choose-button {
+    overflow: auto;
+    width: 32px;
+    height: 32px;
+    background-image: url("/i/button_choose_normal.png");
+    box-shadow: none;
+}
+
+.choose-button:hover {
+    box-shadow: 0 7px 14px 0 rgba(62, 201, 218, 0.32);
+    border-radius: 50%;
+}
+
+.choose-button:active {
+    background-image: url("/i/button_choose_click.png");
+    box-shadow: none;
+}
+
+.choose-button:disabled {
+    background-image: url("/i/button_choose_inactive.png");
+    box-shadow: none;
+}
+
+.reject-button {
+    overflow: auto;
+    width: 32px;
+    height: 32px;
+    background-image: url("/i/button_reject_normal.png");
+    box-shadow: none;
+}
+
+.reject-button:hover {
+    /*f2 20 59*/
+    box-shadow: 0 7px 14px 0 rgba(242, 32, 89, 0.32);
+    border-radius: 50%;
+}
+
+.reject-button:active {
+    background-image: url("/i/button_reject_click.png");
+    box-shadow: none;
+}
+
+.reject-button:disabled {
+    background-image: url("/i/button_choose_inactive.png");
+    box-shadow: none;
+}
+
 .button-delete, .button-edit {
     overflow: auto;
     width: 24px;

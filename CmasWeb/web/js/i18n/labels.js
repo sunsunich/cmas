@@ -14,7 +14,7 @@ var labels = {
     "cmas.face.registration.complete": "Thank you very much for joining CMAS Family!",
     "cmas.face.registration.email": "Please check the email address you have entered:",
 
-    "cmas.face.friendRequest.success": "Friend request has been sent. Please wait for the other diver's reply",
+    "cmas.face.friendRequest.success": "Friend request sent",
     "cmas.face.friendRequest.failure": "Friend request failed. Reason:",
     "cmas.face.client.social.friendRequest.accept": "Accept",
     "cmas.face.client.social.friendRequest.reject": "Reject",

@@ -143,7 +143,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 )
                 //remove bots
                 .add(Restrictions.not(
-                        Restrictions.like("email", "@mailinator.com", MatchMode.END)
+                        Restrictions.and(
+                                Restrictions.like("email", "@mailinator.com", MatchMode.END),
+                                Restrictions.like("firstName", "Bot", MatchMode.END))
                      )
                 )
                 .list();
@@ -176,35 +178,48 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (filteredNames.isEmpty()) {
             return new ArrayList<>();
         }
+        Set<Long> friendsIds = getFriendsIds(diverId);
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
                      " where (" + getNameClause(filteredNames) + ')' +
                      " and d.diverType = :diverType and c.code = :country" +
-                     " and d.id not in (:friendIds)" +
                      " and d.id != :diverId";
-
+        if (friendsIds != null && !friendsIds.isEmpty()) {
+            hql += " and d.id not in (:friendIds)";
+        }
         Query query = createQuery(hql);
         for (int i = 0; i < filteredNames.size(); i++) {
             String name = filteredNames.get(i);
             query.setString("template" + i, name + '%');
         }
-        return query.setParameterList("friendIds", getFriendsIds(diverId))
-                .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
-                .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
-                .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
+        if (friendsIds != null && !friendsIds.isEmpty()) {
+            query.setParameterList("friendIds", friendsIds);
+        }
+        return query.setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
+                    .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
+                    .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
+    }
+
+    private enum SearchMode {
+        ALL, IN_FRIENDS, NEW_FRIENDS
     }
 
     @Override
     public List<Diver> searchDiversFast(long diverId, String input, DiverType diverType) {
-        return searchFastNotSelf(diverId, input, false, diverType);
+        return searchFastNotSelf(diverId, input, SearchMode.ALL, diverType);
     }
 
     @Override
     public List<Diver> searchFriendsFast(long diverId, String input) {
-        return searchFastNotSelf(diverId, input, true, null);
+        return searchFastNotSelf(diverId, input, SearchMode.NEW_FRIENDS, null);
     }
 
-    private List<Diver> searchFastNotSelf(long diverId, String input, boolean isSearchingFriends, DiverType diverType) {
+    @Override
+    public List<Diver> searchInFriendsFast(long diverId, String input) {
+        return searchFastNotSelf(diverId, input, SearchMode.IN_FRIENDS, null);
+    }
+
+    private List<Diver> searchFastNotSelf(long diverId, String input, SearchMode searchMode, DiverType diverType) {
         List<String> filteredNames = filterNames(input);
         if (filteredNames.isEmpty()) {
             return new ArrayList<>();
@@ -219,8 +234,20 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.cards c";
         hql += " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
-        if (isSearchingFriends) {
-            hql += " and d.id not in (:friendIds)";
+        Set<Long> friendsIds = searchMode == SearchMode.ALL ? null : getFriendsIds(diverId);
+        switch (searchMode) {
+            case ALL:
+                break;
+            case IN_FRIENDS:
+                if (friendsIds != null && !friendsIds.isEmpty()) {
+                    hql += " and d.id in (:friendIds)";
+                }
+                break;
+            case NEW_FRIENDS:
+                if (friendsIds != null && !friendsIds.isEmpty()) {
+                    hql += " and d.id not in (:friendIds)";
+                }
+                break;
         }
         hql += " and d.id != :diverId";
         if (diverType != null) {
@@ -234,8 +261,8 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (diverType != null) {
             query.setParameter("diverType", diverType);
         }
-        if (isSearchingFriends) {
-            query.setParameterList("friendIds", getFriendsIds(diverId));
+        if (friendsIds != null && !friendsIds.isEmpty()) {
+            query.setParameterList("friendIds", friendsIds);
         }
         return query.setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }

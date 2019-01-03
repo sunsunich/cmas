@@ -42,9 +42,9 @@ var error_codes = {
     "validation.registrationEmailMismatch": "Entered email does not match the email of the chosen diver. Please enter another email or choose another diver",
     "validation.noPaidFeatureSelected": "Please select at least one paid feature",
 
-    "validation.friendAlready": "You are already a friend to this person",
-    "validation.friendRequestAlreadyExists": "You have already send a friend requests to this person",
-    "validation.friendRequestAlreadyProcessed": "You have already processed this requests",
+    "validation.friendAlready": "Already a friend",
+    "validation.friendRequestAlreadyExists": "Friend request already sent",
+    "validation.friendRequestAlreadyProcessed": "Friend request already processed",
     "validation.friendRequestSentToYou": "This diver has previously sent friend request to you. Now you are friends",
     "validation.buddieAlready": "You have already added this person as a buddie",
     "validation.instructorAlready": "You have already added this person as an instructor",

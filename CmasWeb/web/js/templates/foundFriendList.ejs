@@ -21,7 +21,15 @@ for(i = 0; i < divers.length;i++) {
     var dob = diver.dob;
 %>
 
-<div id="<%= diver.id %>_foundFriend" class="friendList-elem clearfix">
+<div id="<%= diver.id %>_foundDiver" class="friendList-elem clearfix">
+    <div id="<%= diver.id %>_addFriend" class="friendList-floating-elem-right friendList-floating-elem-vertical-middle add-button"></div>
+    <div id="<%= diver.id %>_addFriendNotificationContainer"
+         class="friendList-floating-elem-right friendList-floating-elem-vertical-middle" style="display: none">
+        <img id="<%= diver.id %>_addFriendNotificationImg"
+             class="friendList-floating-elem-notification-ico"
+             src="/i/ic_tick_selection.png?v=<%= webVersion %>">
+        <span id="<%= diver.id %>_addFriendNotification" class="friendList-floating-elem-notification"></span>
+    </div>
     <div class="friendList-elem-left">
         <% if(diver.userpicUrl == null){
         %>
@@ -37,7 +45,8 @@ for(i = 0; i < divers.length;i++) {
         <% } %>
     </div>
     <div class="friendList-elem-left">
-        <div><span class="basic-text friendList-text"><b><%= fullName %></b></span></div>
+        <div><span id="<%= diver.id %>_showFoundDiver" class="basic-text friendList-text"><b><%= fullName %></b></span>
+        </div>
         <div>
             <% var j;
             for(j = 0;j < starCnt;j++) {

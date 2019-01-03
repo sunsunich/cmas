@@ -26,6 +26,19 @@
             </div>
 
             <div class="panel panel-header panel-wider">
+                <div id="friendRequestOne" style="display: none">
+                    <div class="sub-panel-narrow menu-header">
+                        <span class="header2-text"><s:message
+                                code="cmas.face.client.social.friendRequestsTo.header"/></span>
+                        <div id="friendRequestsTo_one"
+                             class="friendList-floating-elem-right friendList-floating-elem-header">
+                            <s:message code="cmas.face.client.social.friendRequestsTo.viewAll"/>
+                        </div>
+                    </div>
+                    <div class="found-friend-list clearfix">
+                        <div id="friendRequestsOne_list" class="clearfix"></div>
+                    </div>
+                </div>
                 <div class="sub-panel-narrow menu-header">
                     <span class="header2-text"><s:message
                             code="cmas.face.client.social.lists.allFriends.header"/></span>
@@ -62,6 +75,40 @@
                 </span>
                     </div>
                     <div id="searchFriends_list" class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="friendRequestsToBlock" style="display: none">
+            <div class="panel panel-header panel-wider">
+                <div class="sub-panel-narrow menu-header">
+                    <span class="header2-text"><s:message
+                            code="cmas.face.client.social.friendRequestsTo.header"/></span>
+                </div>
+                <div id="friendRequestsTo_container" class="found-friend-list clearfix">
+                    <div id="friendRequestsTo_notFound" style="display: none">
+                <span class="foundFriendList-text">
+                    <s:message code="cmas.face.diver.fast.search.notFound"/>
+                </span>
+                    </div>
+                    <div id="friendRequestsTo_list" class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="friendRequestsFromBlock" style="display: none">
+            <div class="panel panel-header panel-wider">
+                <div class="sub-panel-narrow menu-header">
+                    <span class="header2-text"><s:message
+                            code="cmas.face.client.social.friendRequestsFrom.header"/></span>
+                </div>
+                <div id="friendRequestsFrom_container" class="found-friend-list clearfix">
+                    <div id="friendRequestsFrom_notFound" style="display: none">
+                <span class="foundFriendList-text">
+                    <s:message code="cmas.face.diver.fast.search.notFound"/>
+                </span>
+                    </div>
+                    <div id="friendRequestsFrom_list" class="clearfix"></div>
                 </div>
             </div>
         </div>

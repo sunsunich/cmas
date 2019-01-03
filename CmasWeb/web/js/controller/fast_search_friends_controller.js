@@ -4,6 +4,7 @@ var fast_search_friends_controller = {
     fastSearchUrl: "/secure/social/searchFriendsFast.html",
     listElemEjs: "foundFriendList",
     setupFoundElem: null, /*function*/
+    emptyInputCallback: null, /*function*/
 
     init: function () {
         var self = this;
@@ -17,22 +18,30 @@ var fast_search_friends_controller = {
 
     search: function () {
         var input = $('#' + this.prefix + '_input').val();
-        if (!input || input.length < 3) {
-            this.showError("validation.diver.fast.search.tooSmall");
+        if (input) {
+            if (input.length < 3) {
+                this.showError("validation.diver.fast.search.tooSmall");
+            } else {
+                this.hideError();
+                var self = this;
+                fast_search_friends_model.fastSearch(
+                    this.fastSearchUrl,
+                    input,
+                    function (json) {
+                        self.hideError();
+                        self.renderFriends(json);
+                    }
+                    , function (json) {
+                        self.showError(json.message);
+                    }
+                );
+            }
         } else {
-            this.hideError();
-            var self = this;
-            fast_search_friends_model.fastSearch(
-                this.fastSearchUrl,
-                input,
-                function (json) {
-                    self.hideError();
-                    self.renderFriends(json);
-                }
-                , function (json) {
-                    self.showError(json.message);
-                }
-            );
+            if (this.emptyInputCallback) {
+                this.emptyInputCallback();
+            } else {
+                this.showError("validation.diver.fast.search.tooSmall");
+            }
         }
     },
 
