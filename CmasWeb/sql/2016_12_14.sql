@@ -20,8 +20,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (14,
@@ -44,8 +43,7 @@ VALUES
    121,
    NULL ,
    14,
-   null,
-   false
+   null
   );
 
 INSERT INTO divers
@@ -69,8 +67,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (15,
@@ -93,8 +90,7 @@ VALUES
    46,
    NULL ,
    4,
-   null,
-   false
+   null
   );
 
 delete from countries where id in (1, 7, 8, 123, 127);

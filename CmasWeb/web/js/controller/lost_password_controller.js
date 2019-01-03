@@ -23,20 +23,22 @@ var lost_password_controller = {
     },
 
     renderRecaptcha: function (reCaptchaPublicKey) {
-        var viewPortWidth = $(window).width();
-        var reCaptchaSize;
-        if (viewPortWidth > 904) {
-            reCaptchaSize = 'normal';
-        } else {
-            reCaptchaSize = 'compact';
-        }
-        grecaptcha.render(
-            'lostPassword_captcha',
-            {
-                'sitekey': reCaptchaPublicKey,
-                'size': reCaptchaSize
+        if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
+            var viewPortWidth = $(window).width();
+            var reCaptchaSize;
+            if (viewPortWidth > 904) {
+                reCaptchaSize = 'normal';
+            } else {
+                reCaptchaSize = 'compact';
             }
-        );
+            grecaptcha.render(
+                'lostPassword_captcha',
+                {
+                    'sitekey': reCaptchaPublicKey,
+                    'size': reCaptchaSize
+                }
+            );
+        }
     },
 
     setListeners: function () {

@@ -23,8 +23,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (6,
@@ -47,8 +46,7 @@ VALUES
    59,
    NULL ,
    8,
-   null,
-   false
+   null
   );
 
 INSERT into national_federations (id, deleted, name, version, country_id) values (9, false, 'Ireland', 1, 58);
@@ -73,8 +71,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (7,
@@ -97,8 +94,7 @@ VALUES
    58,
    NULL ,
    9,
-   null,
-   false
+   null
   );
 
 INSERT into national_federations (id, deleted, name, version, country_id) values (10, false, 'Tunisia', 1, 120);
@@ -123,8 +119,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (8,
@@ -147,8 +142,7 @@ VALUES
    120,
    NULL ,
    10,
-   null,
-   false
+   null
   );
 
 INSERT into national_federations (id, deleted, name, version, country_id) values (11, false, 'Denmark', 1, 36);
@@ -173,8 +167,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (9,
@@ -197,8 +190,7 @@ VALUES
    36,
    NULL ,
    11,
-   null,
-   false
+   null
   );
 
 INSERT into national_federations (id, deleted, name, version, country_id) values (12, false, 'Finland', 1, 44);
@@ -223,8 +215,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (10,
@@ -247,8 +238,7 @@ VALUES
    44,
    NULL ,
    12,
-   null,
-   false
+   null
   );
 
 INSERT into national_federations (id, deleted, name, version, country_id) values (13, false, 'Portugal', 1, 99);
@@ -273,8 +263,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (11,
@@ -297,8 +286,7 @@ VALUES
    99,
    NULL ,
    13,
-   null,
-   false
+   null
   );
 
 INSERT INTO divers
@@ -322,8 +310,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (12,
@@ -346,8 +333,7 @@ VALUES
    6,
    NULL ,
    3,
-   null,
-   false
+   null
   );
 
 INSERT INTO divers
@@ -371,8 +357,7 @@ INSERT INTO divers
  `country_id`,
  `userBalance_id`,
  `federation_id`,
- `primaryPersonalCard_id`,
- `hasPayed`
+ `primaryPersonalCard_id`
 )
 VALUES
   (13,
@@ -395,8 +380,7 @@ VALUES
    17,
    NULL ,
    7,
-   null,
-   false
+   null
   );
 
 update divers set isAddFriendsToLogbookEntries = false;

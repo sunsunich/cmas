@@ -381,13 +381,13 @@
             </a>
         </div>
         <div class="footer-link footer-item-left footer-item" id="termsAndCond">
-            <a href="${pageContext.request.contextPath}/termsAndCond.html">
+            <a href="${pageContext.request.contextPath}/privacyPolicy.html">
                 <s:message code="cmas.face.client.termsAndCond"/>
             </a>
         </div>
             <%--todo implement--%>
         <div class="footer-link footer-item-left footer-item" id="languageChange" style="color: #FFFFFF">
-            <a style="visibility: hidden" href="${pageContext.request.contextPath}/termsAndCond.html">
+            <a style="visibility: hidden" href="${pageContext.request.contextPath}/privacyPolicy.html">
                 ENGLISH
             </a>
         </div>

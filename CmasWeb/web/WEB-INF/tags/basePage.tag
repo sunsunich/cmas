@@ -205,13 +205,13 @@
             </a>
         </div>
         <div class="menu-link menu-item-left menu-item" id="termsAndCond">
-            <a href="${pageContext.request.contextPath}/termsAndCond.html">
+            <a href="${pageContext.request.contextPath}/privacyPolicy.html">
                 <s:message code="cmas.face.client.termsAndCond"/>
             </a>
         </div>
             <%--todo implement--%>
         <div class="menu-link menu-item-left menu-item" id="languageChange">
-            <a style="color: #FFFFFF" href="${pageContext.request.contextPath}/termsAndCond.html">
+            <a style="color: #FFFFFF" href="${pageContext.request.contextPath}/privacyPolicy.html">
                 ENGLISH
             </a>
         </div>

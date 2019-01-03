@@ -13,9 +13,9 @@
                 <a href="${pageContext.request.contextPath}/faq.html"><s:message code="cmas.face.client.faq"/></a>
             </div>
             <div class="panel-menu-item" id="termsAndCondLink"
-                 onclick="window.location = '${pageContext.request.contextPath}/termsAndCond.html';"
+                 onclick="window.location = '${pageContext.request.contextPath}/privacyPolicy.html';"
             >
-                <a href="${pageContext.request.contextPath}/termsAndCond.html">
+                <a href="${pageContext.request.contextPath}/privacyPolicy.html">
                     <s:message code="cmas.face.client.termsAndCondHeader"/>
                 </a>
             </div>
@@ -46,7 +46,7 @@
             $('#Wrapper-content').addClass("clearfix");
             if (window.location.href.indexOf("faq.html") != -1) {
                 $('#faqLink').addClass('panel-menu-item-active')
-            } else if (window.location.href.indexOf("termsAndCond.html") != -1) {
+            } else if (window.location.href.indexOf("privacyPolicy.html") != -1) {
                 $('#termsAndCondLink').addClass('panel-menu-item-active')
             } else if (window.location.href.indexOf("cookies.html") != -1) {
                 $('#cookiesLink').addClass('panel-menu-item-active')

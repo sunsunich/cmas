@@ -19,7 +19,7 @@ var cookie_controller = {
         }
     },
 
-    accpetCookiePolicy: function () {
+    acceptCookiePolicy: function () {
 
     },
 

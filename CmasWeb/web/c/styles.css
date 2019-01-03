@@ -906,4 +906,9 @@ html[xmlns] .clearfix {
     height: 1%;
 }
 
+.cookie-table td{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
 
