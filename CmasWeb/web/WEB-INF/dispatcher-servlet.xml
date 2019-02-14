@@ -70,6 +70,7 @@
                 <value>/secure/saveDraftRecord.html</value>
                 <value>/secure/createRecord.html</value>
                 <value>/secure/addPhotoToRecord.html</value>
+                <value>/secure/deletePhotoFromRecord.html</value>
                 <value>/secure/getRecord.html</value>
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
@@ -81,6 +82,8 @@
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
+
+                <value>/secure/loyaltyProgram.html</value>
             </list>
         </property>
 
@@ -153,6 +156,9 @@
                 <value>/secure/getSpotByCoords.html</value>
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
+
+                <value>/secure/loyaltyProgram.html</value>
+                <value>/secure/createCameraOrder.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/saveDraftRecord.html</value>

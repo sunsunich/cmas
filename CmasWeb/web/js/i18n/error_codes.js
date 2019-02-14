@@ -24,6 +24,7 @@ var error_codes = {
     "validation.emptyLastName": "Please enter value for last name",
     "validation.emptyDob": "Please enter date of birth",
     "validation.termsAndCondNotAccepted": "Please tick the box to accept CMAS Privacy Policy",
+    "validation.cameraOrderTermsAndCondNotAccepted": "Please tick the box to place the order with our partners",
 
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
@@ -88,5 +89,7 @@ var error_codes = {
     "validation.diver.fast.search.tooSmall": "Please enter at least 3 characters",
 
     "validation.xlsFileFormat": "Unsupported xls file format",
-    "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}"
+    "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}",
+    "error.logbook.deletePhotoFailed": "Failed to delete logbook photo. Please try again later",
+    "error.loyalty.program.camera.orderFailed" : "Failed to place an order. Please try again later"
 };

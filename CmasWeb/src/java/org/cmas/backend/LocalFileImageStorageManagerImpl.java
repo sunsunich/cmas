@@ -104,6 +104,14 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         deleteOldFile(getImageStoreLocationForLogbook() + oldImagePath);
     }
 
+    @Override
+    public void deleteImage(LogbookEntry logbookEntry) {
+        String photoUrl = logbookEntry.getPhotoUrl();
+        deleteOldFile(getImageStoreLocationForLogbook() + photoUrl);
+        logbookEntry.setPhotoUrl(null);
+        logbookEntryDao.updateModel(logbookEntry);
+    }
+
     @NotNull
     private String getImageStoreLocationForUserpic() {
         return imageStorageRootLocation

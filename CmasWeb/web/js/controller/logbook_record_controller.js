@@ -66,6 +66,9 @@ var logbook_record_controller = {
         $('#publishLogbookEntryButton').click(function () {
             self.saveLogbookEntry('PUBLISHED');
         });
+        $('#deletePhoto').click(function () {
+            self.deletePhoto();
+        });
     },
 
     showTab: function (tabName) {
@@ -143,6 +146,20 @@ var logbook_record_controller = {
                     logbook_record_model.logbookEntry.state = oldState;
                     validation_controller.simpleShowErrors('create', json);
                 });
+        }
+    },
+
+    deletePhoto: function () {
+        if (logbook_record_model.logbookEntry.photoUrl) {
+            logbook_record_model.deletePhotoFromRecord(
+                function (/*json*/) {
+                    $('#logbookEntryPhotoContainer').hide();
+                }
+                , function (/*json*/) {
+                    error_dialog_controller.showErrorDialog(error_codes["error.logbook.deletePhotoFailed"]);
+                });
+        } else {
+            $('#logbookEntryPhotoContainer').hide();
         }
     },
 

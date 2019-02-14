@@ -240,6 +240,16 @@ public class LogbookController extends DiverAwareController {
         }
     }
 
+    @RequestMapping(value = "/secure/deletePhotoFromRecord.html", method = RequestMethod.GET)
+    public View deletePhotoFromRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId){
+        LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
+        if (logbookEntry == null) {
+            throw new BadRequestException();
+        }
+        imageStorageManager.deleteImage(logbookEntry);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
     @RequestMapping(value = "/secure/getRecord.html", method = RequestMethod.GET)
     public View getRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId
     ) {

@@ -208,4 +208,6 @@
     <bean id="cardDisplayManager" class="org.cmas.presentation.controller.CardDisplayManager">
     </bean>
 
+    <bean id="cameraOrderService" class="org.cmas.presentation.service.CameraOrderServiceImpl"/>
+
 </beans>

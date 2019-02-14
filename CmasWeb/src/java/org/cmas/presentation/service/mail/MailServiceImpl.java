@@ -5,6 +5,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
+import org.cmas.presentation.entities.CameraOrder;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -14,6 +15,7 @@ import org.cmas.util.mail.ModelAttr;
 import org.jetbrains.annotations.Nullable;
 
 import javax.mail.internet.InternetAddress;
+import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 public class MailServiceImpl extends CommonMailServiceImpl implements MailService {
@@ -195,5 +197,40 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         return internetAddress;
     }
 
+    @Override
+    public void sendCameraOrderMailToDiver(CameraOrder cameraOrder) {
+        Diver diver = cameraOrder.getDiver();
+        Locale locale = diver.getLocale();
+        String cameraName = cameraOrder.getCameraName();
+        String subj = subjects.renderText("CameraOrderConfirmed", locale, cameraName);
+        String text = textRenderer.renderText("cameraOrderConfirmed.ftl", locale,
+                                              new ModelAttr("diver", diver),
+                                              new ModelAttr("sendToEmail", cameraOrder.getSendToEmail()),
+                                              new ModelAttr("cameraName", cameraName)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendCameraOrderMailToSubal(CameraOrder cameraOrder) {
+        Diver diver = cameraOrder.getDiver();
+        Locale locale = new Locale("eng");
+        String subj = subjects.renderText("CameraOrderRequest", locale, diver.getPrimaryPersonalCard().getPrintNumber());
+        String text = textRenderer.renderText("cameraOrderRequest.ftl", locale,
+                                              new ModelAttr("diver", diver),
+                                              new ModelAttr("cameraName", cameraOrder.getCameraName()),
+                                              new ModelAttr("country", diver.getFederation().getCountry())
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        try {
+            InternetAddress to = new InternetAddress(cameraOrder.getSendToEmail(), "SUBAL representative");
+            mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+        } catch (UnsupportedEncodingException e) {
+            log.error("cant create site reply address for locale " + locale +
+                      " site address=" + addresses.getSiteAddress(), e);
+        }
+    }
 }
 

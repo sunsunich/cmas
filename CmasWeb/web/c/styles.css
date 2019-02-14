@@ -495,7 +495,7 @@ html, body {
 }
 
 .dialog-content {
-    padding: 24px 7% 0;
+    padding: 24px 7% 24px;
 }
 
 .found-friend-list {

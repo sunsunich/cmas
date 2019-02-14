@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Registration at CMASDATA is successful">
+<@mailer.mail title="Registration at CMAS Aqua link is successful">
 <p>Dear ${user.firstName} ${user.lastName},</p>
 <p>
     You have successfully registered at ${siteName}<br>
@@ -7,7 +7,7 @@
 
     Welcome! <br/>
     <br/>
-    CMASDATA <br/>
+    CMAS Aqua link <br/>
 </p>
 </@mailer.mail>
 

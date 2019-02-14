@@ -308,6 +308,10 @@
     margin-bottom: 24px;
 }
 
+.logbook-photo-container {
+    width: 235px;
+}
+
 .logbook-photo {
     width: 205px;
     border-radius: 5px;

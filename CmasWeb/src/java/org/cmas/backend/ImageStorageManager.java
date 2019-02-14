@@ -21,6 +21,8 @@ public interface ImageStorageManager {
 
     void storeLogbookEntryImage(LogbookEntry logbookEntry, BufferedImage initImage) throws IOException;
 
+    void deleteImage(LogbookEntry logbookEntry);
+
     //to be used in web client
     @NotNull
     String getUserpicRoot();

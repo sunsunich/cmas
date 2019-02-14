@@ -15,7 +15,7 @@
     <br />
     Welcome! <br />
     <br />
-    CMASDATA <br />
+    CMAS Aqua link <br />
 </p>
 </@mailer.mail>        
 

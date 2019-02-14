@@ -74,6 +74,17 @@ var logbook_record_model = {
         });
     },
 
+    deletePhotoFromRecord: function (successHandler, unSuccessHandler) {
+        basicClient.sendGetRequestCommonCase(
+            "/secure/deletePhotoFromRecord.html",
+            {"logbookEntryId": this.logbookEntry.id},
+            successHandler, unSuccessHandler,
+            function () {
+                window.location.reload();
+            }
+        );
+    },
+
     createRecord: function (successHandler, unSuccessHandler) {
         var self = this;
         basicClient.sendPostRequestCommonCase(

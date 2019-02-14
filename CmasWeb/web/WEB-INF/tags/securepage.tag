@@ -29,68 +29,38 @@
     <my:header>
         <c:if test="${!hideMenu}">
             <div id="headerMenu">
-            <c:choose>
-                <c:when test="${activeMenuItem == 'personal'}">
-                    <div class="menu-link menu-item-left menu-item menu-item-first menu-link-active">
-                </c:when>
-                <c:otherwise>
-                    <div class="menu-link menu-item-left menu-item menu-item-first">
-                </c:otherwise>
-            </c:choose>
-            <a href="/secure/profile/getUser.html">
-                <span><s:message code="cmas.face.client.menu.personalData"/></span>
-            </a>
-            </div>
-            <c:if test="${isCMAS}">
-                <c:choose>
-                    <c:when test="${activeMenuItem == 'cards'}">
-                        <div class="menu-link menu-item-left menu-item menu-link-active">
-                    </c:when>
-                    <c:otherwise>
-                        <div class="menu-link menu-item-left menu-item">
-                    </c:otherwise>
-                </c:choose>
-                <a href="/secure/cards.html">
-                    <span><s:message code="cmas.face.client.menu.myCards"/></span>
-                </a>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'personal'}">menu-link-active</c:if>">
+                    <a href="/secure/profile/getUser.html">
+                        <span><s:message code="cmas.face.client.menu.personalData"/></span>
+                    </a>
                 </div>
-            </c:if>
-            <c:choose>
-                <c:when test="${activeMenuItem == 'social'}">
-                    <div class="menu-link menu-item-left menu-item menu-link-active">
-                </c:when>
-                <c:otherwise>
-                    <div class="menu-link menu-item-left menu-item">
-                </c:otherwise>
-            </c:choose>
-            <a href="/secure/social.html">
-                <span><s:message code="cmas.face.client.menu.friends"/></span>
-            </a>
-            </div>
-            <c:choose>
-                <c:when test="${activeMenuItem == 'logbook'}">
-                    <div class="menu-link menu-item-left menu-item menu-link-active">
-                </c:when>
-                <c:otherwise>
-                    <div class="menu-link menu-item-left menu-item">
-                </c:otherwise>
-            </c:choose>
-            <a href="/secure/showLogbook.html">
-                <span><s:message code="cmas.face.client.menu.logbook"/></span>
-            </a>
-            </div>
-            <c:choose>
-                <c:when test="${activeMenuItem == 'spots'}">
-                    <div class="menu-link menu-item-left menu-item menu-link-active">
-                </c:when>
-                <c:otherwise>
-                    <div class="menu-link menu-item-left menu-item">
-                </c:otherwise>
-            </c:choose>
-            <a href="/secure/showSpots.html">
-                <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
-            </a>
-            </div>
+                <c:if test="${isCMAS}">
+                    <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'cards'}">menu-link-active</c:if>">
+                        <a href="/secure/cards.html">
+                            <span><s:message code="cmas.face.client.menu.myCards"/></span>
+                        </a>
+                    </div>
+                </c:if>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'social'}">menu-link-active</c:if>">
+                    <a href="/secure/social.html">
+                        <span><s:message code="cmas.face.client.menu.friends"/></span>
+                    </a>
+                </div>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'logbook'}">menu-link-active</c:if>">
+                    <a href="/secure/showLogbook.html">
+                        <span><s:message code="cmas.face.client.menu.logbook"/></span>
+                    </a>
+                </div>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'spots'}">menu-link-active</c:if>">
+                    <a href="/secure/showSpots.html">
+                        <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
+                    </a>
+                </div>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'loyaltyProgram'}">menu-link-active</c:if>">
+                    <a href="/secure/loyaltyProgram.html">
+                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>
+                    </a>
+                </div>
             </div>
             <div class="cssmenu" id="cssMenu" style="display: none">
                 <ul>
@@ -159,6 +129,18 @@
                                     <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                                 </a>
                             </li>
+                                <c:choose>
+                                <c:when test="${activeMenuItem == 'loyaltyProgram'}">
+                                <li class="menu-active">
+                                    </c:when>
+                                    <c:otherwise>
+                                <li class="menu-inactive">
+                                    </c:otherwise>
+                                    </c:choose>
+                                    <a href="/secure/loyaltyProgram.html">
+                                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>
+                                    </a>
+                                </li>
                         </ul>
                     </li>
                 </ul>

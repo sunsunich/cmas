@@ -506,11 +506,14 @@
 
         <div class="panel logbook-photo-panel">
             <div class="clearfix">
-                <div class="header2-text logbook-photo-header"><s:message code="cmas.face.logbook.selectPic.header"/></div>
+                <div class="header2-text logbook-photo-header"><s:message
+                        code="cmas.face.logbook.selectPic.header"/></div>
                 <c:if test="${!hasPhoto}">
-                    <div class="logbook-no-photo-text"><s:message code="cmas.face.logbook.selectPic.hint"/></div>
+                    <div id="noPhotoText" class="logbook-no-photo-text"><s:message
+                            code="cmas.face.logbook.selectPic.hint"/></div>
                 </c:if>
-                <div id="fileFromDiscSelect" class="logbook-button-right positive-button logbook-button logbook-inline-button">
+                <div id="fileFromDiscSelect"
+                     class="logbook-button-right positive-button logbook-button logbook-inline-button">
                     <img class="logbook-inline-button-icon" src="/i/ic_plus_white.png"></img>
                     <span class="logbook-inline-button-icon-text"><s:message code="cmas.face.logbook.selectPic"/></span>
                 </div>
@@ -518,11 +521,18 @@
                        accept="image/*"
                        style="display: none">
             </div>
-            <img id="logbookEntryPhoto" class="logbook-photo"
-            <c:if test="${hasPhoto}">
-                 src="${logbookEntryImagesRoot}${logbookEntry.photoUrl}"
-            </c:if>
-            >
+            <div id="logbookEntryPhotoContainer" class="logbook-photo-container">
+                <img id="logbookEntryPhoto" class="logbook-photo"
+                <c:if test="${hasPhoto}">
+                     src="${logbookEntryImagesRoot}${logbookEntry.photoUrl}"
+                </c:if>
+                >
+                <div id="deletePhoto" class="tank-button-right button-delete"
+                        <c:if test="${!hasPhoto}">
+                            style="display: none"
+                        </c:if>
+                ></div>
+            </div>
             <div class="error" id="create_error_photo"></div>
         </div>
 
@@ -558,7 +568,7 @@
                 <div class="error" id="searchFriends_error_input"></div>
             </div>
         </div>
-        <div id="foundFriendList" class="found-friend-list" >
+        <div id="foundFriendList" class="found-friend-list">
             <div id="noDiversFoundMessage" style="display: none">
                 <span class="foundFriendList-text">
                     <s:message code="cmas.face.diver.fast.search.notFound"/>

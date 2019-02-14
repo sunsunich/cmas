@@ -10,9 +10,9 @@
             <s:message code="cmas.face.advert.cmasFull.header"/>
         </div>
         <ul class="advert-list">
-            <%--<li>--%>
-                <%--<s:message code="cmas.face.advert.guest.elem1"/>--%>
-            <%--</li>--%>
+            <li>
+                <s:message code="cmas.face.advert.guest.elem1"/>
+            </li>
             <li>
                 <s:message code="cmas.face.advert.cmasFull.elem1"/>
             </li>
@@ -42,9 +42,9 @@
             <s:message code="cmas.face.advert.guest.header"/>
         </div>
         <ul class="advert-list">
-            <%--<li>--%>
-                <%--<s:message code="cmas.face.advert.guest.elem1"/>--%>
-            <%--</li>--%>
+            <li>
+                <s:message code="cmas.face.advert.guest.elem1"/>
+            </li>
             <li>
                 <s:message code="cmas.face.advert.demo.elem1"/>
             </li>

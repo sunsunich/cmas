@@ -172,13 +172,18 @@
                                     <div class="friendList-elem-right">
                                         <span class="secondary-large-text friendList-text">${diver.country.name}</span>
                                     </div>
+                                    <c:if test="${diver.primaryPersonalCard != null}">
+                                        <div>
+                                            <div class="friendList-elem-left">
+                                                <span class="secondary-large-text friendList-text">${diver.primaryPersonalCard.printNumber}</span>
+                                            </div>
+                                        </div>
+                                    </c:if>
                                 </div>
                                 <c:if test="${diver.primaryPersonalCard != null}">
-
                                     <div class="found-diver-card-image">
                                         <img src="${cardsRoot}${diver.primaryPersonalCard.imageUrl}"/>
                                     </div>
-
                                 </c:if>
                             </div>
                         </c:forEach>

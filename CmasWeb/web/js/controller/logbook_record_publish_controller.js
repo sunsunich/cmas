@@ -100,11 +100,13 @@ var logbook_record_publish_controller = {
             var reader = new FileReader();
             reader.onload = function (e) {
                 $('#logbookEntryPhoto').attr('src', e.target.result);
+                $('#logbookEntryPhotoContainer').show();
+                $('#deletePhoto').show();
             };
             reader.readAsDataURL(file);
         }
         catch (err) {
-            $('#logbookEntryPhoto').hide();
+            $('#logbookEntryPhotoContainer').hide();
             $('#photoFileInput').show();
         }
     },

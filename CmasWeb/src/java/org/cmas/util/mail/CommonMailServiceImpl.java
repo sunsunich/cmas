@@ -13,10 +13,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
 public abstract class CommonMailServiceImpl {
-    
+
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    
-   /**
+
+    /**
      * логика реальной отправки мейлов уехала туда.
      */
     protected MailTransport mailTransport;
@@ -36,25 +36,26 @@ public abstract class CommonMailServiceImpl {
     // Набор заголовков писем
     protected static final Object[] EMPTY_ARGS = {};
     protected MessageSource msgSource;
-        
+
     // обернул InternetAddress
     @Nullable
     protected InternetAddress getInternetAddress(String addr) {
         try {
             return new InternetAddress(addr);
         } catch (AddressException e) {
-            log.warn("cant convert sting "+addr+" to address", e);
+            log.warn("cant convert sting " + addr + " to address", e);
         }
         return null;
     }
+
     // локализованный вариант sitename
     @Nullable
     protected InternetAddress getSiteReplyAddress(Locale locale) {
         try {
             return new InternetAddress(addresses.getSiteAddress(), addresses.getFromText());
         } catch (UnsupportedEncodingException e) {
-            log.error("cant create site reply address for locale "+locale+
-                    " site address="+addresses.getSiteAddress(), e);
+            log.error("cant create site reply address for locale " + locale +
+                      " site address=" + addresses.getSiteAddress(), e);
         }
         return null;
     }
@@ -63,7 +64,7 @@ public abstract class CommonMailServiceImpl {
         return msgSource.getMessage(MsgKey.MAIL_ENC, null, locale);
     }
 
-     @Required
+    @Required
     public void setAddresses(MailerConfig addresses) {
         this.addresses = addresses;
     }
@@ -80,7 +81,7 @@ public abstract class CommonMailServiceImpl {
     public void setSubjRenderer(TemplateRenderer subjRenderer) {
         subjects = subjRenderer;
     }
- 
+
     @Required
     public void setMsgSource(MessageSource msgSource) {
         this.msgSource = msgSource;

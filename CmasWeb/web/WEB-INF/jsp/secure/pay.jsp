@@ -16,7 +16,7 @@
                activeMenuItem="pay"
                customScripts="js/controller/registration_flow_controller.js,js/controller/payment_controller.js">
 
-    <c:set var="isFree"
+    <c:set var="isCmasFull"
            value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
     <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST'}"/>
@@ -24,7 +24,7 @@
     <script type="application/javascript">
         var features = ${featuresJson};
         <c:choose>
-        <c:when test="${!isFree && !isGuest}">
+        <c:when test="${!isCmasFull && !isGuest}">
         var selectedFeatureIds = [];
         </c:when>
         <c:otherwise>
@@ -46,7 +46,7 @@
                     <s:message code="cmas.face.payment.header"/>
                 </div>
                 <c:choose>
-                    <c:when test="${isFree}">
+                    <c:when test="${isCmasFull}">
                         <div class="form-description form-payment-licence">
                             <b><s:message code="cmas.face.payment.cmasLicence.price"/> ${features[0].price}</b>
                         </div>

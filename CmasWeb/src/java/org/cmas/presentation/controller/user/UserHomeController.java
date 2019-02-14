@@ -5,18 +5,23 @@ import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.fin.PaidFeature;
+import org.cmas.presentation.dao.CameraOrderDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.entities.CameraOrder;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
+import org.cmas.presentation.service.CameraOrderService;
 import org.cmas.presentation.service.billing.BillingService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +42,8 @@ import java.util.List;
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class UserHomeController extends DiverAwareController {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private HibernateSpringValidator validator;
@@ -51,6 +59,12 @@ public class UserHomeController extends DiverAwareController {
 
     @Autowired
     private DiverDao diverDao;
+
+    @Autowired
+    private CameraOrderDao cameraOrderDao;
+
+    @Autowired
+    private CameraOrderService cameraOrderService;
 
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() throws IOException {
@@ -112,5 +126,32 @@ public class UserHomeController extends DiverAwareController {
         mm.addAttribute("features", features);
         mm.addAttribute("featuresJson", gsonViewFactory.getCommonGson().toJson(features));
         return new ModelAndView("/secure/pay", mm);
+    }
+
+    @RequestMapping(value = "/secure/loyaltyProgram.html", method = RequestMethod.GET)
+    public ModelAndView showLoyaltyProgram(ModelMap mm) throws IOException {
+        mm.addAttribute("marketPriceEuro", cameraOrderService.getMarketPriceEuro());
+        mm.addAttribute("discountPriceEuro", cameraOrderService.getDiscountPriceEuro());
+        return new ModelAndView("/secure/loyaltyProgram", mm);
+    }
+
+    @RequestMapping(value = "/secure/createCameraOrder.html", method = RequestMethod.GET)
+    public View createCameraOrder() throws IOException {
+        Diver diver = getCurrentDiver();
+        try {
+            CameraOrder cameraOrder = new CameraOrder();
+            cameraOrder.setDiver(diver);
+            cameraOrder.setCameraName(cameraOrderService.getCameraName());
+            cameraOrder.setSendToEmail(cameraOrderService.getSendToEmail());
+            cameraOrder.setMarketPriceEuro(cameraOrderService.getMarketPriceEuro());
+            cameraOrder.setDiscountPriceEuro(cameraOrderService.getDiscountPriceEuro());
+            cameraOrderDao.save(cameraOrder);
+
+            cameraOrderService.sendCameraOrderEmails(cameraOrder);
+            return gsonViewFactory.createSuccessGsonView();
+        } catch (Exception e) {
+            log.error("Error while creating camera order", e);
+            return gsonViewFactory.createErrorGsonView("error.loyalty.program.camera.orderFailed");
+        }
     }
 }

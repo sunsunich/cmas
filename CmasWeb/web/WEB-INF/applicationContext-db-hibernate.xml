@@ -58,6 +58,7 @@
                 <value>org.cmas.presentation.entities.user.UserEvent</value>
                 <value>org.cmas.presentation.entities.user.Device</value>
 
+                <value>org.cmas.presentation.entities.CameraOrder</value>
 
             </list>
         </property>
@@ -177,6 +178,10 @@
     </bean>
 
     <bean id="userEventDao" class="org.cmas.presentation.dao.user.UserEventDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="cameraOrderDao" class="org.cmas.presentation.dao.CameraOrderDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>
