@@ -9,7 +9,7 @@
     <br />
     Please address all your enquiries regarding this order to SUBAL representatives using this email: ${sendToEmail}<br />
     <br />
-    Your reference number for this order is you CMAS number: ${diver.primaryPersonalCard.printNumber}<br />
+    Your reference number for this order is your CMAS number: ${diver.primaryPersonalCard.printNumber}<br />
     <br />
     Sincerely yours, <br />
     CMAS Aqua link <br />
