@@ -10,7 +10,7 @@
 <jsp:useBean id="marketPriceEuro" scope="request" type="java.math.BigDecimal"/>
 <jsp:useBean id="discountPriceEuro" scope="request" type="java.math.BigDecimal"/>
 
-<my:securepage title="cmas.face.payment.title"
+<my:securepage title="cmas.face.loyalty.title"
                activeMenuItem="loyaltyProgram"
                customScripts="js/controller/registration_flow_controller.js,js/model/loyalty_program_model.js,js/controller/loyalty_program_controller.js">
 

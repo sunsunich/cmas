@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Order from CMAS mamber">
+<@mailer.mail title="Order from CMAS member">
 <p>Dear Sirs,</p>
 <p>
     CMAS member ${diver.firstName} from CMAS national federation of ${country.name} has placed an order for ${cameraName}. <br/>
