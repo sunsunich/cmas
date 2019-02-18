@@ -39,6 +39,20 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
     }
 
     @Override
+    public List<LogbookEntry> getFriendsOnlyLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject) {
+        String hql = "select distinct le from org.cmas.entities.logbook.LogbookEntry le"
+                     + " inner join le.diver d"
+                     + " left outer join d.friends f"
+                     + " left outer join d.friendOf fof"
+                     + " where (f.id = :diverId and le.visibility != :visibility"
+                     + " or fof.id = :diverId and le.visibility != :visibility)"
+                     + " and le.deleted = :deleted"
+                     + " and le.state = :state";
+        Query query = addSearchFormObjectToQuery(formObject, hql, true, true);
+        return query.setLong("diverId", diver.getId()).list();
+    }
+
+    @Override
     public List<LogbookEntry> getDiverFriendsLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject) {
         String hql = "select distinct le from org.cmas.entities.logbook.LogbookEntry le"
                      + " inner join le.diver d"

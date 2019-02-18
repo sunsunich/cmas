@@ -18,6 +18,8 @@ public interface LogbookEntryDao extends DictionaryDataDao<LogbookEntry> {
 
     List<LogbookEntry> getDiverLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject);
 
+    List<LogbookEntry> getFriendsOnlyLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject);
+
     List<LogbookEntry> getDiverFriendsLogbookFeed(Diver diver, SearchLogbookEntryFormObject formObject);
 
     List<LogbookEntry> getDiverPublicLogbookFeed(Diver diver, Collection<Country> countries, SearchLogbookEntryFormObject formObject);

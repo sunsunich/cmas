@@ -13,18 +13,9 @@
                customScripts="js/model/util_model.js,js/model/logbook_feed_model.js,js/model/fast_search_friends_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_feed_controller.js,js/controller/logbook_search_controller.js,js/controller/logbook_controller.js,js/controller/fast_search_friends_controller.js"
 >
 
-    <%--<div class="content">--%>
-        <%--<div class="tabs clearfix">--%>
-            <%--<span class="firstTab" id="myTab"><s:message code="cmas.face.logbook.tab.me"/></span>--%>
-            <%--<span class="secondTab inactive" id="friendsTab">--%>
-                <%--<s:message code="cmas.face.logbook.tab.friends"/>--%>
-            <%--</span>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-
     <div id="myLogbook" class="content-left content-large">
         <div class="panel panel-header">
-            <span class="header2-text"><s:message code="cmas.face.client.profile.mylogbook"/></span>
+            <span class="header2-text"><s:message code="cmas.face.logbook.header"/></span>
             <b id="createLogbookEntryButton" onclick="window.location='/secure/createLogbookRecordForm.html'">
                 <div class="add-button logbook-button-right"></div>
                 <label class="logbook-form-checkbox-label logbook-button-right">
@@ -113,13 +104,28 @@
             <%--</form>--%>
 
         </div>
-        <div class="myLogbookFeed" id="myLogbookFeed"></div>
+        <div id="myLogbookRecordsBlock"></div>
+        <div id="myFriendsLogbookRecordsBlock"></div>
+        <div id="allLogbookRecordsBlock"></div>
+    </div>
+    <div class="content-right">
+        <div class="panel panel-header panel-wider">
+            <div class="sub-panel-narrow menu-header">
+                <span class="header2-text"><s:message code="cmas.face.client.social.lists"/></span>
+            </div>
+            <div class="panel-menu-item panel-menu-item-active" id="myLogbookRecords">
+                <s:message code="cmas.face.logbook.list.my"/>
+            </div>
+            <div class="panel-menu-item" id="myFriendsLogbookRecords">
+                <s:message code="cmas.face.logbook.list.friends"/>
+            </div>
+            <div class="panel-menu-item" id="allLogbookRecords">
+                <s:message code="cmas.face.logbook.list.all"/>
+            </div>
+        </div>
     </div>
 
     <div id="friendsLogbook" style="display: none">
-        <div class="content-left">
-            <div id="friendsLogbookFeed" class="clearfix"></div>
-        </div>
         <div class="content-left">
             <form name="searchFriends">
                 <div class="search-friend-form-logbook">

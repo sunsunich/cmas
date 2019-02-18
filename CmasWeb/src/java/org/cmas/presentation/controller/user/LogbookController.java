@@ -332,4 +332,14 @@ public class LogbookController extends DiverAwareController {
                 logbookEntryDao.getDiverFriendsLogbookFeed(diver, formObject)
         );
     }
+
+    @RequestMapping(value = "/secure/getFriendsOnlyLogbookFeed.html", method = RequestMethod.GET)
+    public View getFriendsOnlyLogbookFeed(
+            @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
+    ) throws IOException {
+        Diver diver = getCurrentDiver();
+        return gsonViewFactory.createGsonFeedView(
+                logbookEntryDao.getFriendsOnlyLogbookFeed(diver, formObject)
+        );
+    }
 }

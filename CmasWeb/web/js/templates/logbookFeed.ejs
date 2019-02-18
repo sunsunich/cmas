@@ -5,10 +5,21 @@ for(i = 0; i < records.length;i++) {
     var fullName = diver.firstName + ' ' + diver.lastName;
     var userpicSrc;
     if (diver.userpicUrl == null) {
-        userpicSrc = '/i/no_img.png?v=' + webVersion;
+        userpicSrc = '/i/no-userpic-ico.png?v=' + webVersion;
     } else {
         userpicSrc = imagesData.userpicRoot + diver.userpicUrl;
     }
+    var starCnt = 0;
+    if (diver.diverLevel == 'ONE_STAR') {
+        starCnt = 1;
+    } else if (diver.diverLevel == 'TWO_STAR') {
+        starCnt = 2;
+    } else if (diver.diverLevel == 'THREE_STAR') {
+        starCnt = 3;
+    } else if (diver.diverLevel == 'FOUR_STAR') {
+        starCnt = 4;
+    }
+    var dob = diver.dob.split(',')[0];
 
     var diveSpot;
     if (records[i].diveSpot) {
@@ -33,6 +44,40 @@ for(i = 0; i < records.length;i++) {
     }
 %>
 <div class="panel" id="<%= recordsInfo.containerId %>logbookRecord_<%= records[i].id %>">
+    <div id="<%= diver.id %>_foundFriend" class="foundFriendList-elem clearfix">
+        <div class="foundFriendList-elem-left">
+            <% if(diver.userpicUrl == null){
+            %>
+            <div class="no-userpic-ico foundFriendList-no-userpic">
+                <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
+            </div>
+            <% } else { %>
+            <div class="userpic-ico foundFriendList-userpic">
+                <div class="rounded foundFriendList-userpic"
+                     style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <div class="foundFriendList-elem-left">
+            <div><span class="basic-text foundFriendList-text"><b><%= fullName %></b></span></div>
+            <div>
+                <% var j;
+                for(j = 0;j < starCnt;j++) {
+                %>
+                <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+                <% } %>
+                <span class="secondary-large-text foundFriendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
+            </div>
+            <div class="foundFriendList-elem-left">
+                <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
+                <span class="secondary-large-text foundFriendList-text"><%= dob %></span>
+            </div>
+            <div class="foundFriendList-elem-right">
+                <span class="secondary-large-text foundFriendList-text"><%= diver.country.name %></span>
+            </div>
+        </div>
+    </div>
     <div class="clearfix">
         <div class="header3-text"><%= diveSpot %></div>
         <div class="feed-label"><%= records[i].diveDate %></div>

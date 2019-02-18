@@ -75,9 +75,10 @@
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
                 <value>/secure/getMyFriendsLogbookFeed.html</value>
+                <value>/secure/getFriendsOnlyLogbookFeed.html</value>
+                <value>/secure/getMyPublicLogbookFeed.html</value>
                 <value>/secure/editLogbookRecordForm.html</value>
                 <value>/secure/logbookRecordForm.html</value>
-                <value>/secure/getMyPublicLogbookFeed.html</value>
 
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
@@ -168,6 +169,8 @@
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
                 <value>/secure/getMyFriendsLogbookFeed.html</value>
+                <value>/secure/getFriendsOnlyLogbookFeed.html</value>
+                <value>/secure/getMyPublicLogbookFeed.html</value>
             </list>
         </property>
     </bean>
