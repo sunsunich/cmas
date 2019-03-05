@@ -407,19 +407,12 @@ var spots_controller = {
     },
 
     handleLocationError: function (browserHasGeolocation, pos) {
-        var infoWindow = new google.maps.InfoWindow({map: spots_model.map});
-        infoWindow.setPosition(pos);
-        infoWindow.setContent(browserHasGeolocation ?
-            error_codes["error.geolocation.service.failed"] :
-            error_codes["error.geolocation.support"]
-        );
-        /*
-         error_dialog_controller.showErrorDialog(
-         browserHasGeolocation ?
-         error_codes["error.geolocation.service.failed"] :
-         error_codes["error.geolocation.support"]
-         )
-         */
+        // var infoWindow = new google.maps.InfoWindow({map: spots_model.map});
+        // infoWindow.setPosition(pos);
+        // infoWindow.setContent(browserHasGeolocation ?
+        //     error_codes["error.geolocation.service.failed"] :
+        //     error_codes["error.geolocation.support"]
+        // );
     }
 };
 
