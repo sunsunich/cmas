@@ -41,7 +41,7 @@
     <meta name="description"
           content="In addition to organizing international underwater sport events it is at the forefront of technical and scientific research and development. It can be associated with elaborating one of the oldest and most extensive dive training system."/>
     <meta name="distribution" content="local"/>
-    <meta name="keywords" content="cmas, diving, finswimming, apnea, sport diving, sport, underwater"/>
+    <meta name="keywords" content="cmas, diving, finswimming, free diving, sport diving, sport, underwater"/>
     <meta name="copyright" content="All rights reserved"/>
 
     <meta name="robots" content="index, follow"/>

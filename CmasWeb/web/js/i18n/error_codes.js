@@ -81,8 +81,8 @@ var error_codes = {
     "error.geolocation.support": "Error: Your browser doesn't support geolocation.",
     "error.spot.creation": "Error while adding the diving spot into the database. Please try again later",
 
-    "validation.logbook.gasTanksEmpty": "please add gas tanks or set the dive as apnea",
-    "validation.logbook.gasTanksAndApnea": "apnea dive could not have gas tanks",
+    "validation.logbook.gasTanksEmpty": "please add gas tanks or set the dive as a free dive",
+    "validation.logbook.gasTanksAndApnea": "free diving dive could not have gas tanks",
     "validation.logbook.start.pressure.less.end.pressure": "Start pressure cannot be less that end pressure",
     "validation.diver.fast.search.empty": "Please enter friend name or card number",
     "validation.diver.fast.search.diverType": "Invalid diver type",
