@@ -178,6 +178,54 @@
 
 </head>
 <body id="${bodyId}">
+
+<div class="banner">
+    CMAS Aqua link - new service for divers
+    <div>Online certificates management and verification, Logbook, Discounts on equipment</div>
+</div>
+<!-- stylesheet for this button -->
+<style type="text/css">
+    .banner {
+        backface-visibility: hidden;
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        background: linear-gradient(180deg, #ffd616 0%, #fda315 100%);
+        border-radius: 64px;
+        border: 0px solid #8c4;
+        padding: 44px 36px 50px 134px;
+        box-shadow: inset 0px 1px 0px rgba(100%, 100%, 100%, 0.6), 0px 1px 2px rgba(0%, 0%, 0%, 0.5);
+        color: #333333;
+        font-size: 28px;
+        font-family: Helvetica Neue;
+        font-weight: 800;
+        font-style: normal;
+        text-shadow: 0 1px 0 rgba(100%, 100%, 100%, 0.5)
+    }
+
+    .banner > div {
+        color: #333333;
+        font-size: 14px;
+        font-family: transcript;
+        font-weight: 200;
+        font-style: normal;
+        text-align: center;
+    }
+
+    .banner > i {
+        font-size: 1em;
+        border-radius: 0;
+        border: 0 solid transparent;
+        position: static
+    }
+
+    .banner > .ld {
+        font-size: initial
+    }
+</style>
+
+
 <div class="cookieWarning clearfix" id="cookieWarning">
      <span class="cookieWarningText menu-item-left menu-item menu-item-first basic-text">
          <s:message code="cmas.face.client.cookies.warning.text"/>
