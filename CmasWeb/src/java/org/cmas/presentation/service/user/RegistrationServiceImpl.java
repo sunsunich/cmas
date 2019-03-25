@@ -148,12 +148,20 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (StringUtil.isTrimmedEmpty(certificateNumber)) {
             Country country = countryDao.getByCode(formObject.getCountry());
             try {
+                Date dob = Globals.getDTF().parse(formObject.getDob());
                 divers = federationService.searchDivers(
                         formObject.getFirstName(),
                         formObject.getLastName(),
-                        Globals.getDTF().parse(formObject.getDob()),
+                        dob,
                         country, true
                 );
+                //todo fix dob for iranian federation
+                if (country.getCode().equals("IRI")) {
+                    for (Diver diver : divers) {
+                        diver.setDob(dob);
+                        diverDao.updateModel(diver);
+                    }
+                }
             } catch (ParseException e) {
                 throw new IllegalStateException(e);
             }

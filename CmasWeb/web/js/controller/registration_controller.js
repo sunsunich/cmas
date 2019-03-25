@@ -173,7 +173,8 @@ var registration_controller = {
             var diver = json[0];
             registration_flow_controller.toggleMode("message", {
                 text: '<p>' + labels['cmas.face.hello'] + ' ' + diver.firstName + '! '
-                + labels['cmas.face.registration.welcome.certificate'] + ' ' + diver.cardNumber + '.' + '</p>'
+                + (diver.cardNumber == null ? "" : labels['cmas.face.registration.welcome.certificate'] + ' ' + diver.cardNumber + '.')
+                + '</p>'
                 + '<p>' + labels['cmas.face.registration.welcome.email'] + ' ' + diver.maskedEmail + ' '
                 + labels['cmas.face.registration.welcome.email2'] + '</p>'
                 + '<p>' + labels['cmas.face.registration.welcome.help'] + '</p>'

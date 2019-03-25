@@ -45,7 +45,13 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     public List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
                                     DiverRegistrationStatus registrationStatus) {
         Criteria criteria = createCriteria()
-                .add(Restrictions.eq("dob", dob))
+                .createAlias("federation", "fed")
+                .createAlias("fed.country", "country")
+                // todo fix dob for iranian federation
+                .add(Restrictions.disjunction()
+                                 .add(Restrictions.eq("country.code", "IRI"))
+                                 .add(Restrictions.eq("dob", dob))
+                )
                 .add(Restrictions.eq("firstName", firstName))
                 .add(Restrictions.eq("lastName", lastName))
                 .add(Restrictions.eq("federation", federation));

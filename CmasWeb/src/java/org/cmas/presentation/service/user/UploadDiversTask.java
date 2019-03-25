@@ -77,6 +77,8 @@ public class UploadDiversTask implements Runnable {
         Collection<Diver> divers;
         if ("RUS".equalsIgnoreCase(countryCode)) {
             divers = diverService.rusDiverXlsParser.getDivers(file, xlsProgressListener);
+        } else if ("IRI".equalsIgnoreCase(countryCode)) {
+            divers = diverService.iranDiverXlsParser.getDivers(file, xlsProgressListener);
         } else {
             divers = diverService.singleTableDiverXlsParser.getDivers(file, xlsProgressListener);
         }

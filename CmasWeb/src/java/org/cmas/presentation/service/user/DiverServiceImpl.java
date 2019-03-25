@@ -61,6 +61,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     DiverXlsParser rusDiverXlsParser;
 
     @Autowired
+    @Qualifier("iranDiverXlsParser")
+    DiverXlsParser iranDiverXlsParser;
+
+    @Autowired
     @Qualifier("singleTableDiverXlsParser")
     DiverXlsParser singleTableDiverXlsParser;
 
@@ -196,10 +200,12 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     public void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards) {
         Country country = federation.getCountry();
         String countryCode = country.getCode();
-        Locale locale = null;
+        Locale locale;
         @SuppressWarnings("unchecked")
         List<Locale> languages = LocaleUtils.languagesByCountry(LocaleMapping.getIso2CountryCode(countryCode));
-        if (!languages.isEmpty()) {
+        if (languages.isEmpty()) {
+            locale = Locale.ENGLISH;
+        } else {
             locale = languages.get(0);
         }
         String email = diver.getEmail();

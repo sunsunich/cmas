@@ -29,7 +29,9 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
 
     @Override
     public Collection<Diver> getDivers(File file, ProgressListener progressListener) throws Exception {
-        return getDivers(new FileInputStream(file), progressListener);
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            return getDivers(fileInputStream, progressListener);
+        }
     }
 
     static int evalTotalWork(Workbook wb) throws XlsParseException {

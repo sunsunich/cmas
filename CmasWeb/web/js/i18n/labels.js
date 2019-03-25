@@ -5,8 +5,8 @@ var labels = {
     "cmas.face.registration.form.label.country": "Choose a country",
     "cmas.face.registration.form.custom.error.text": "Error occurred while processing your registration. Please try again later. Error cause:",
 
-    "cmas.face.registration.welcome.certificate": "Welcome to CMAS Aqua link! We’ve found your certificate",
-    "cmas.face.registration.welcome.email": "Please check the email address attached to this certificate",
+    "cmas.face.registration.welcome.certificate": "Welcome to CMAS Aqua link! We’ve found your CMAS certificate",
+    "cmas.face.registration.welcome.email": "Please check the email address attached to your CMAS certificate",
     "cmas.face.registration.welcome.email2": "and follow the instructions from there.",
     "cmas.face.registration.welcome.help": "If you don’t receive any letter from us, please, contact with us via <a href='/faq.html'>Help Center.</a>",
     "cmas.face.registration.area": "Area of Interest",

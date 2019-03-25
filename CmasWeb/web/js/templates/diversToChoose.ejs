@@ -5,7 +5,9 @@ for(i = 0;i < divers.length;i++) {
 <div class="diver-to-choose-list-item" id="<%= divers[i].diverId %>_diverToChoose">
     <div class="choose-diver-text">
         <span class="choose-diver-name"><%= fullName %></span><br/>
+        <% if(divers[i].cardNumber) { %>
         <span class="choose-diver-card-number"><%= divers[i].cardNumber %></span>
+        <% } %>
     </div>
     <div class="choose-diver-image">
         <img src="<%= divers[i].cardImageUrl %>?v=<%= webVersion %>"/>

@@ -11,6 +11,7 @@ import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
@@ -31,12 +32,17 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @Override
     public Collection<Diver> getDivers(InputStream file, ProgressListener progressListener) throws Exception {
+        return getDivers(file, progressListener, 0);
+    }
+
+    @NotNull
+    protected Collection<Diver> getDivers(InputStream file, ProgressListener progressListener, int startingRow) throws Exception {
         try (Workbook wb = WorkbookFactory.create(file)) {
             int workDone = 0;
             int totalWork = evalTotalWork(wb);
             Map<String, Diver> divers = new HashMap<>();
             Sheet sheet = wb.getSheetAt(0);
-            for (int r = 0; r < sheet.getPhysicalNumberOfRows(); r++) {
+            for (int r = startingRow; r < sheet.getPhysicalNumberOfRows(); r++) {
                 try {
                     Row row = sheet.getRow(r);
                     Diver diver = evalDiver(row);
@@ -81,7 +87,7 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
     @SuppressWarnings("MagicNumber")
     @Nullable
-    private static Diver evalDiver(Row row) {
+    protected Diver evalDiver(Row row) {
         if (row == null || row.getCell(5) == null) {
             return null;
         }
