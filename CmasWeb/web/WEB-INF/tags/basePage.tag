@@ -179,49 +179,82 @@
 </head>
 <body id="${bodyId}">
 
-<div class="banner">
-    CMAS Aqua link - new service for divers
-    <div>Online certificates management and verification, Logbook, Discounts on equipment</div>
+<div class="banner" onclick="window.location = 'http://www.cmasdata.org'">
+    <img src="/i/banner-logo.png" class="banner-logo-image">
+    <div class="banner-header"><span class="banner-left">CMAS Aqua link</span><span class="banner-right">new service for divers</span>
+    </div>
+    <img src="/i/banner-diver.png" class="banner-middle-image">
+    <div class="banner-sub-text"><span class="banner-left">Online certificates management</span><span>and verification, Logbook, Discounts on equipment</span>
+    </div>
 </div>
 <!-- stylesheet for this button -->
 <style type="text/css">
     .banner {
         backface-visibility: hidden;
-        position: relative;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        z-index: 900;
+        margin-top: 22px;
+        margin-bottom: 22px;
         cursor: pointer;
         display: inline-block;
         white-space: nowrap;
         background: linear-gradient(180deg, #ffd616 0%, #fda315 100%);
-        border-radius: 64px;
-        border: 0px solid #8c4;
-        padding: 44px 36px 50px 134px;
-        box-shadow: inset 0px 1px 0px rgba(100%, 100%, 100%, 0.6), 0px 1px 2px rgba(0%, 0%, 0%, 0.5);
+        border-radius: 54px;
+        border: 0;
+        padding: 28px 30px 40px 114px;
+        box-shadow: inset 0 1px 0 rgba(100%, 100%, 100%, 0.6), 0 1px 2px rgba(0%, 0%, 0%, 0.5);
         color: #333333;
-        font-size: 28px;
-        font-family: Helvetica Neue;
-        font-weight: 800;
-        font-style: normal;
-        text-shadow: 0 1px 0 rgba(100%, 100%, 100%, 0.5)
+        font-family: 'Source Sans Pro';
     }
 
-    .banner > div {
-        color: #333333;
-        font-size: 14px;
-        font-family: transcript;
+    .banner:hover {
+        background: linear-gradient(120deg, #fda315 0%, #ffd616 100%);
+    }
+
+    .banner:active {
+        background: linear-gradient(180deg, #ffd616 0%, #fda315 100%);
+        box-shadow: none;
+    }
+
+    .banner-header {
+        font-size: 30px;
+        text-shadow: 0 1px 0 rgba(51, 51, 51, 0.5);
+        letter-spacing: 0.08em;
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    .banner-sub-text {
+        font-size: 16px;
+        text-shadow: 0 1px 0 rgba(125, 96, 44, 0.3);
+        letter-spacing: 0.05em;
         font-weight: 200;
         font-style: normal;
         text-align: center;
     }
 
-    .banner > i {
-        font-size: 1em;
-        border-radius: 0;
-        border: 0 solid transparent;
-        position: static
+    .banner-left {
+        margin-right: 124px;
     }
 
-    .banner > .ld {
-        font-size: initial
+    .banner-right {
+        margin-left: 16px;
+    }
+
+    .banner-middle-image {
+        width: 185px;
+        position: absolute;
+        left: 296px;
+        top: 6px;
+    }
+
+    .banner-logo-image {
+        width: 60px;
+        position: absolute;
+        left: 35px;
+        top: 25px;
     }
 </style>
 
