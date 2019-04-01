@@ -3,6 +3,7 @@ package org.cmas.presentation.service.user;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
+import org.cmas.presentation.entities.billing.Invoice;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -22,4 +23,6 @@ public interface DiverService extends UserService<Diver> {
     UploadDiversTask getUploadDiversTask(long fedAdminId);
 
     void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards);
+
+    void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail);
 }

@@ -68,6 +68,7 @@ public class AuthenticationServiceImpl extends CommonAuthenticationServiceImpl<B
         } else {
             List<GrantedAuthority> authorities = Arrays.asList(details.getAuthorities());
             if (authorities.contains(SpringRole.ROLE_DIVER.getAuthority())
+                || authorities.contains(SpringRole.ROLE_FEDERATION_ADMIN.getAuthority())
                     ) {
                 Diver diver = (Diver) allUsersService.getByEmail(details.getUsername());
                 if (diver != null) {

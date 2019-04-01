@@ -10,7 +10,9 @@
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
-<my:fed_adminpage title="Users" customScripts="/js/model/fileUpload_model.js,/js/controller/fileUpload_controller.js">
+<my:fed_adminpage title="Users"
+                  customScripts="/js/model/fileUpload_model.js,/js/model/fed_billing_model.js,/js/controller/fed_billing_controller.js,/js/controller/fileUpload_controller.js">
+
     <h2>Your federation divers</h2>
 
     <ff:form submitText="Upload" action="/fed/uploadUsers.html" commandName="xlsFileFormObject" method="POST"
@@ -42,18 +44,31 @@
         </div>
     </div>
 
-    <ff:form submitText="Find" action="/fed/index.html" method="GET" noRequiredText="true">
-        <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
-        <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
-        <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
-        <ff:select path="diverType" label="Diver type" options="${diverTypes}" itemValue="name" itemLabel="name"/>
-        <input type="hidden" name="sort" value="${command.sort}"/>
-        <input type="hidden" name="dir" value="${command.dir}"/>
-    </ff:form>
+    <div>
+        <div style="float: left">
+            <ff:form submitText="Find" action="/fed/index.html" method="GET" noRequiredText="true">
+                <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
+                <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
+                <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
+                <ff:select path="diverType" label="Diver type" options="${diverTypes}" itemValue="name"
+                           itemLabel="name"/>
+                <input type="hidden" name="sort" value="${command.sort}"/>
+                <input type="hidden" name="dir" value="${command.dir}"/>
+            </ff:form>
+            <button type="button" style="margin: 0 83px" onclick="window.location = '/fed/addDiver.html'">
+                Add new diver
+            </button>
+        </div>
+        <div style="float: right; margin-right: 20px" id="payForDivers">
+            <div><b>Divers to buy licence</b></div>
+            <div id="diverFromPaymentList" style="margin-top: 16px; margin-bottom: 16px">
 
-    <button type="button" style="margin: 0 83px" onclick="window.location = '/fed/addDiver.html'">
-        Add new diver
-    </button>
+            </div>
+            <button type="button" onclick="window.location = '/fed/payForDivers.html'">
+                Pay for divers
+            </button>
+        </div>
+    </div>
 
 
     <c:choose>
@@ -127,6 +142,9 @@
                                 Edit diver
                             </button>
                             <my:delete url="/fed/deleteDiver.html?userId=${user.id}"/>
+                            <button type="button" class="addDiverToPaymentList" id="addDiverToPaymentList_${user.id}">
+                                Buy licence
+                            </button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -138,12 +156,12 @@
     </c:choose>
     <br><br>
     <%--<c:choose>--%>
-        <%--<c:when test="${urlEmpty}">--%>
-            <%--<c:set var="pagerURL" value="${initURL}"/>--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-            <%--<c:set var="pagerURL" value="${url}"/>--%>
-        <%--</c:otherwise>--%>
+    <%--<c:when test="${urlEmpty}">--%>
+    <%--<c:set var="pagerURL" value="${initURL}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:otherwise>--%>
+    <%--<c:set var="pagerURL" value="${url}"/>--%>
+    <%--</c:otherwise>--%>
     <%--</c:choose>--%>
 
     <pg:pager url="${initURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"

@@ -2,6 +2,8 @@ var logbook_controller = {
 
     myFeedController: null,
     myFriendsFeedController: null,
+    allFeedController: null,
+    isFirstCall: true,
 
     init: function () {
         var my_logbook_feed_model = simpleClone(logbook_feed_model);

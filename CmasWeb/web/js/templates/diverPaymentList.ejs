@@ -1,0 +1,16 @@
+<%
+for (var i = 0; i < divers.length; i++) {
+    var diver = divers[i];
+%>
+<div id="diverInPaymentList_<%= diver.id %>" style="margin-top: 4px; margin-bottom: 4px">
+    <span>
+       <%= diver.firstName + ' ' + diver.lastName %>
+        <% if(diver.dob) { %>
+        <%= diver.dob %>
+        <% } %>
+    </span>
+    <button type="button" style="margin: 0 16px; float: right" id="removeDiverFromPaymentList_<%= diver.id %>">
+        Remove from list
+    </button>
+</div>
+<% } %>

@@ -163,5 +163,7 @@ var labels = {
     "DEMO": "Demo",
     "GUEST": "Guest",
     "CMAS_BASIC": "CMAS Basic",
-    "CMAS_FULL": "CMAS Full"
+    "CMAS_FULL": "CMAS Full",
+
+    "cmas.fed.addDiverFromPaymentList.failed": "Failed to add diver to payment list. Please try again later"
 };

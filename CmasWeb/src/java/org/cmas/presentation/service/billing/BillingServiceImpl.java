@@ -1,17 +1,13 @@
 package org.cmas.presentation.service.billing;
 
-import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.fin.PaidFeature;
 import org.cmas.presentation.dao.billing.InvoiceDao;
-import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.model.billing.PaymentAddData;
-import org.cmas.presentation.service.mail.MailService;
 import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BillingServiceImpl implements BillingService {
 
@@ -33,12 +31,6 @@ public class BillingServiceImpl implements BillingService {
     private InvoiceDao invoiceDao;
 
     @Autowired
-    private DiverDao diverDao;
-
-    @Autowired
-    private MailService mailService;
-
-    @Autowired
     private TransactionalBillingServiceImpl transactionalBillingService;
 
     private static final int MAX_ATTEMPTS_CNT = 2;
@@ -46,7 +38,7 @@ public class BillingServiceImpl implements BillingService {
 
     @Transactional
     @Override
-    public boolean paymentAdd(PaymentAddData data, String ip, boolean isConfirmEmail) {
+    public boolean paymentAdd(PaymentAddData data, String ip) {
         BigDecimal amount = new BigDecimal(data.getAmount());
 
         checkAmount(amount);
@@ -74,40 +66,6 @@ public class BillingServiceImpl implements BillingService {
 //            }
             return false;
         }
-        Invoice invoice = invoiceDao.getById(invoiceId);
-        Diver diver = invoice.getDiver();
-        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC ||
-            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_FULL ||
-            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
-            boolean hasCmasLicenceFeature = false;
-            for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
-                if (paidFeature.getId() == 1L) {
-                    hasCmasLicenceFeature = true;
-                    break;
-                }
-            }
-            if (hasCmasLicenceFeature) {
-                Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
-                long startTime;
-                if (dateLicencePaymentIsDue == null || dateLicencePaymentIsDue.getTime() < System.currentTimeMillis()) {
-                    startTime = System.currentTimeMillis();
-                } else {
-                    startTime = dateLicencePaymentIsDue.getTime();
-                }
-                diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
-                if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC) {
-                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                } else if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
-                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
-                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.DEMO);
-                }
-                diverDao.updateModel(diver);
-            }
-        }
-        if (isConfirmEmail) {
-            mailService.confirmPayment(invoice);
-        }
         return true;
     }
 
@@ -128,10 +86,7 @@ public class BillingServiceImpl implements BillingService {
             }
         }
 
-        LOG.error(
-                "error while returning to user account user:" + user.getEmail()
-                + ", amount:" + amount
-        );
+        LOG.error("error while returning to user account user:{}, amount:{}", user.getEmail(), amount);
 
     }
 
@@ -173,11 +128,23 @@ public class BillingServiceImpl implements BillingService {
 
     @Override
     public Invoice createInvoice(List<PaidFeature> features, User user, InvoiceType type) {
+        return createInvoice(features, user, type, null);
+    }
+
+    @Override
+    public Invoice createInvoice(List<PaidFeature> features,
+                                 User user,
+                                 InvoiceType type,
+                                 Set<Diver> paidForDivers) {
+        Invoice invoice = new Invoice();
         BigDecimal amount = BigDecimal.ZERO;
         for (PaidFeature paidFeature : features) {
             amount = amount.add(paidFeature.getPrice());
         }
-        Invoice invoice = new Invoice();
+        if (paidForDivers != null) {
+            amount = amount.multiply(new BigDecimal(paidForDivers.size()));
+            invoice.setPaidForDivers(new HashSet<>(paidForDivers));
+        }
 
         invoice.setAmount(amount);
         invoice.setCreateDate(new Date());
@@ -234,7 +201,7 @@ public class BillingServiceImpl implements BillingService {
         return PaymentWithdrawResult.OK;
     }
 
-    private void checkAmount(BigDecimal amount) {
+    private static void checkAmount(BigDecimal amount) {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalStateException("amount is less or eq to 0");
         }

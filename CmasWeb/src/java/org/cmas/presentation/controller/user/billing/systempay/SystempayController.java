@@ -7,10 +7,13 @@ import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.model.billing.PaymentAddData;
+import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.HttpLogger;
 import org.cmas.util.http.HttpUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +33,10 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 @SuppressWarnings("HardcodedFileSeparator")
@@ -52,18 +57,36 @@ public class SystempayController {
     private BillingService billingService;
 
     @Autowired
+    private DiverService diverService;
+
+    @Autowired
     private PaySystemSettings paySystemSettings;
 
     @Autowired
     private SystempayValidator systempayValidator;
 
+    @Autowired
+    private AuthenticationService authenticationService;
+
     @RequestMapping("/secure/billing/systempay/accept.html")
     public ModelAndView systempayAccept(
             @RequestParam(AccessInterceptor.INVOICE_ID) String externalInvoiceNumber
     ) {
+        return processInvoice(externalInvoiceNumber, "secure/billing/systempay/accept");
+    }
+
+    //todo security for fed admins
+    @RequestMapping("/fed/billing/systempay/accept.html")
+    public ModelAndView fedAdminSystempayAccept(
+            @RequestParam(AccessInterceptor.INVOICE_ID) String externalInvoiceNumber
+    ) {
+        return processInvoice(externalInvoiceNumber, "fed/billing/systempay/accept");
+    }
+
+    @NotNull
+    private ModelAndView processInvoice(@RequestParam(AccessInterceptor.INVOICE_ID) String externalInvoiceNumber, String viewName) {
         if (systempayValidator.isExternalInvoiceNumberValid(externalInvoiceNumber)) {
             Invoice invoice = invoiceDao.getByExternalInvoiceNumber(externalInvoiceNumber);
-            Map<String, Object> model = new HashMap<String, Object>();
             SystempayPaymentRequest paymentRequest = new SystempayPaymentRequest();
 
             paymentRequest.setVads_ctx_mode(paySystemSettings.getSystempayMode());
@@ -99,10 +122,9 @@ public class SystempayController {
                 return new ModelAndView("errors/typeMismatch");
             }
 
+            Map<String, Object> model = new HashMap<>();
             model.put("data", paymentRequest);
-            return new ModelAndView("secure/billing/systempay/accept", model);
-
-
+            return new ModelAndView(viewName, model);
         } else {
             return new ModelAndView("errors/typeMismatch");
         }
@@ -146,17 +168,31 @@ public class SystempayController {
 
                 PaymentAddData paymentAddData = new PaymentAddData();
                 paymentAddData.setInvoiceId(invoice.getId());
-                Diver user = invoice.getDiver();
-                paymentAddData.setUserId(user.getId());
+                Diver payerDiver = invoice.getDiver();
+                paymentAddData.setUserId(payerDiver.getId());
                 BigDecimal amount = new BigDecimal(data.getVads_amount()).divide(Globals.HUNDRED, RoundingMode.DOWN)
                                                                          .setScale(2, RoundingMode.DOWN);
                 paymentAddData.setAmount(amount.toString());
-                if (!billingService.paymentAdd(paymentAddData, HttpUtil.getIP(request), false)) {
+                String ip = HttpUtil.getIP(request);
+                // add to user's balance
+                if (!billingService.paymentAdd(paymentAddData, ip)) {
                     LOGGER.error(
                             "error while adding payment from systempay,"
                             + " possible cuncurrent data modification, invoiceId="
                             + invoice.getId()
                     );
+                }
+                // pay for feature straight away
+                billingService.paymentWithdraw(payerDiver, amount, ip);
+                Set<Diver> paidForDivers = invoice.getPaidForDivers();
+                boolean isConfirmEmail = false;
+                if (paidForDivers == null || paidForDivers.isEmpty()) {
+                    isConfirmEmail = true;
+                    paidForDivers = new HashSet<>(1);
+                    paidForDivers.add(payerDiver);
+                }
+                for (Diver diver : paidForDivers) {
+                    diverService.diverPaidForFeature(diver, invoice, isConfirmEmail);
                 }
             } catch (Exception e) {
                 LOGGER.error("error while adding payment from systempay", e);

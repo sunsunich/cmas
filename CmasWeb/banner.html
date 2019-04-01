@@ -1,10 +1,56 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet">
 <div class="banner" onclick="window.location = 'http://www.cmasdata.org'">
-    <img src="banner-logo.png" class="banner-logo-image">
+    <img src="logo-black.png" class="banner-logo-image">
     <div class="banner-header">JOIN CMAS AQUA LINK
     </div>
 </div>
 <!-- stylesheet for this button -->
+<style type="text/css">
+    .banner {
+        backface-visibility: hidden;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        z-index: 900;
+        cursor: pointer;
+        display: inline-block;
+        white-space: nowrap;
+        background: #ee324e;
+        border: 0;
+        padding: 28px 32px 32px 114px;
+        box-shadow: #cc352b 4px 4px 4px;
+        border-radius: 5px;
+        color: #000000;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .banner:hover {
+        box-shadow: 0 7px 14px 0 rgba(242, 32, 89, 0.32);
+    }
+
+    .banner:active {
+        background: #ce2150;
+        box-shadow: none;
+    }
+
+    .banner-header {
+        font-size: 30px;
+        text-shadow: 0 1px 0 rgba(51, 51, 51, 0.5);
+        letter-spacing: 0.08em;
+        font-weight: bold;
+        font-style: normal;
+    }
+
+    .banner-logo-image {
+        width: 60px;
+        position: absolute;
+        left: 35px;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+</style>
+<!--
+
 <style type="text/css">
     .banner {
         backface-visibility: hidden;
@@ -47,4 +93,4 @@
         top: 50%;
         transform: translate(0, -50%);
     }
-</style>
+</style>-->

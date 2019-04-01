@@ -51,9 +51,6 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    /**
-     * урлы-исключения, к которым не применяются проверки значений параметров.
-     */
     private List<String> exceptions = new ArrayList<>();
     private List<String> freePages = new ArrayList<>();
     private List<String> cmasBasicPages = new ArrayList<>();

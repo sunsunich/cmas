@@ -80,6 +80,7 @@ interface GlobalsStaticContainer {
 
     long MAX_IMAGE_SIZE = 10L * 1024L * 1024L;
 
+    long CMAS_LICENCE_PAID_FEATURE_DB_ID = 1L;
 }
 
 public final class Globals implements GlobalsStaticContainer {

@@ -2,6 +2,7 @@ package org.cmas.presentation.entities.billing;
 
 import org.cmas.Globals;
 import org.cmas.entities.UserAwareEntity;
+import org.cmas.entities.diver.Diver;
 import org.cmas.entities.fin.PaidFeature;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,6 +23,7 @@ import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -66,6 +68,13 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
             inverseJoinColumns = @JoinColumn(name = "paidFeatureId")
     )
     private List<PaidFeature> requestedPaidFeatures;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "invoice_paid_for_divers",
+            joinColumns = @JoinColumn(name = "invoiceId"),
+            inverseJoinColumns = @JoinColumn(name = "diverId")
+    )
+    private Set<Diver> paidForDivers;
 
     public Invoice() {
         invoiceStatus = InvoiceStatus.NOT_PAID;
@@ -141,6 +150,14 @@ public class Invoice extends UserAwareEntity implements Comparable<Invoice>{
 
     public void setRequestedPaidFeatures(List<PaidFeature> requestedPaidFeatures) {
         this.requestedPaidFeatures = requestedPaidFeatures;
+    }
+
+    public Set<Diver> getPaidForDivers() {
+        return paidForDivers;
+    }
+
+    public void setPaidForDivers(Set<Diver> paidForDivers) {
+        this.paidForDivers = paidForDivers;
     }
 
     @SuppressWarnings({"CallToSimpleGetterFromWithinClass"})

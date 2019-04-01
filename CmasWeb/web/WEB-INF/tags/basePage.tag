@@ -180,7 +180,7 @@
 <body id="${bodyId}">
 
 <%--<div class="banner" onclick="window.location = 'http://www.cmasdata.org'">--%>
-    <%--<img src="/i/banner-logo.png" class="banner-logo-image">--%>
+    <%--<img src="/i/logo-black.png" class="banner-logo-image">--%>
     <%--<div class="banner-header">JOIN CMAS AQUA LINK--%>
     <%--</div>--%>
 <%--</div>--%>
@@ -195,20 +195,21 @@
         cursor: pointer;
         display: inline-block;
         white-space: nowrap;
-        background: linear-gradient(180deg, #ffd616 0%, #fda315 100%);
+        background: #ee324e;
         border: 0;
         padding: 28px 32px 32px 114px;
-        box-shadow: inset 0 1px 0 rgba(100%, 100%, 100%, 0.6), 0 1px 2px rgba(0%, 0%, 0%, 0.5);
-        color: #333333;
-        font-family: 'Source Sans Pro';
+        box-shadow: #cc352b 4px 4px 4px;
+        border-radius: 5px;
+        color: #000000;
+        font-family: 'Source Sans Pro', sans-serif;
     }
 
     .banner:hover {
-        background: linear-gradient(120deg, #fda315 0%, #ffd616 100%);
+        box-shadow: 0 7px 14px 0 rgba(242, 32, 89, 0.32);
     }
 
     .banner:active {
-        background: linear-gradient(180deg, #ffd616 0%, #fda315 100%);
+        background: #ce2150;
         box-shadow: none;
     }
 
@@ -228,7 +229,6 @@
         transform: translate(0, -50%);
     }
 </style>
-
 
 <div class="cookieWarning clearfix" id="cookieWarning">
      <span class="cookieWarningText menu-item-left menu-item menu-item-first basic-text">

@@ -29,14 +29,14 @@ public interface HibernateDao<T> extends AbstractDao<T, Serializable> {
     @Nullable
     T getModel(@NotNull Serializable id);
     /**
-     * session.load - более ленивый вариант.
-     * несколько нервирует тот факт, что этот метод на неправильных входных данных бросает исключение.
+     * session.load - lazy version, throws exception if input is invalid
+     *
      * @param id
      * @return
      */
     T getById(@NotNull Serializable id);
     /**
-     * criteria.uniqResult - менее ленивый вариант.
+     * criteria.uniqResult - less lazy version.
      * @param id
      * @return
      */

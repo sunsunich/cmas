@@ -12,10 +12,13 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.fin.PaidFeature;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
 import org.cmas.util.schedule.Scheduler;
@@ -67,6 +70,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Autowired
     @Qualifier("singleTableDiverXlsParser")
     DiverXlsParser singleTableDiverXlsParser;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     DiverDao diverDao;
@@ -324,6 +330,42 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         @Override
         public int hashCode() {
             return Objects.hash(diverType, diverLevel, cardType);
+        }
+    }
+
+    @Override
+    public void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail) {
+        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC ||
+            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_FULL ||
+            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
+            boolean hasCmasLicenceFeature = false;
+            for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
+                if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
+                    hasCmasLicenceFeature = true;
+                    break;
+                }
+            }
+            if (hasCmasLicenceFeature) {
+                Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
+                long startTime;
+                if (dateLicencePaymentIsDue == null || dateLicencePaymentIsDue.getTime() < System.currentTimeMillis()) {
+                    startTime = System.currentTimeMillis();
+                } else {
+                    startTime = dateLicencePaymentIsDue.getTime();
+                }
+                diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
+                if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC) {
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                } else if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.DEMO);
+                }
+                diverDao.updateModel(diver);
+                if (isConfirmEmail) {
+                    mailService.confirmPayment(invoice);
+                }
+            }
         }
     }
 

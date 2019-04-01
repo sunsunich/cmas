@@ -53,6 +53,7 @@
                 <value>org.cmas.presentation.entities.billing.InvoiceType</value>
                 <value>org.cmas.presentation.entities.billing.InvoiceStatus</value>
                 <value>org.cmas.presentation.entities.billing.FinSettings</value>
+                <value>org.cmas.presentation.entities.billing.DiverPaymentList</value>
 
                 <value>org.cmas.presentation.entities.user.Registration</value>
                 <value>org.cmas.presentation.entities.user.UserEvent</value>
@@ -161,6 +162,10 @@
     </bean>
 
     <bean id="finLogDao" class="org.cmas.presentation.dao.billing.FinLogDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="diverPaymentListDao" class="org.cmas.presentation.dao.billing.DiverPaymentListDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
