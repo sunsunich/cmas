@@ -197,7 +197,7 @@
         white-space: nowrap;
         background: #ee324e;
         border: 0;
-        padding: 28px 32px 32px 114px;
+        padding: 21px 24px 24px 85px;
         box-shadow: #cc352b 4px 4px 4px;
         border-radius: 5px;
         color: #000000;
@@ -214,7 +214,7 @@
     }
 
     .banner-header {
-        font-size: 30px;
+        font-size: 22px;
         text-shadow: 0 1px 0 rgba(51, 51, 51, 0.5);
         letter-spacing: 0.08em;
         font-weight: bold;
@@ -222,9 +222,9 @@
     }
 
     .banner-logo-image {
-        width: 60px;
+        width: 45px;
         position: absolute;
-        left: 35px;
+        left: 27px;
         top: 50%;
         transform: translate(0, -50%);
     }
