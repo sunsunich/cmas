@@ -238,7 +238,13 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (diver.getLocale() == null) {
             diver.setLocale(locale);
         }
-        diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
+        if (dateLicencePaymentIsDue != null && dateLicencePaymentIsDue.after(new Date())) {
+            diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+            diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        } else {
+            diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        }
         diverDao.updateModel(diver);
         mailer.sendDiverPassword(diver);
     }

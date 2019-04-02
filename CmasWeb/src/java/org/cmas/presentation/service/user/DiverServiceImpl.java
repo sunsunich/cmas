@@ -337,36 +337,48 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Override
     public void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail) {
-        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC ||
-            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_FULL ||
-            diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
-            boolean hasCmasLicenceFeature = false;
-            for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
-                if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
-                    hasCmasLicenceFeature = true;
-                    break;
-                }
+        boolean hasCmasLicenceFeature = false;
+        for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
+            if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
+                hasCmasLicenceFeature = true;
+                break;
             }
-            if (hasCmasLicenceFeature) {
-                Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
-                long startTime;
-                if (dateLicencePaymentIsDue == null || dateLicencePaymentIsDue.getTime() < System.currentTimeMillis()) {
-                    startTime = System.currentTimeMillis();
-                } else {
-                    startTime = dateLicencePaymentIsDue.getTime();
-                }
-                diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
-                if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.CMAS_BASIC) {
-                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                } else if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.DEMO) {
+        }
+        if (hasCmasLicenceFeature) {
+            Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
+            long startTime;
+            if (dateLicencePaymentIsDue == null || dateLicencePaymentIsDue.getTime() < System.currentTimeMillis()) {
+                startTime = System.currentTimeMillis();
+            } else {
+                startTime = dateLicencePaymentIsDue.getTime();
+            }
+            diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
+            boolean isSendEmail = false;
+            switch (diver.getDiverRegistrationStatus()) {
+                case NEVER_REGISTERED:
+                    break;
+                case INACTIVE:
+                    break;
+                case GUEST:
+                    break;
+                case DEMO:
                     diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
                     diver.setPreviousRegistrationStatus(DiverRegistrationStatus.DEMO);
-                }
-                diverDao.updateModel(diver);
-                if (isConfirmEmail) {
-                    mailService.confirmPayment(invoice);
-                }
+                    isSendEmail = true;
+                    break;
+                case CMAS_BASIC:
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                    diverDao.updateModel(diver);
+                    isSendEmail = true;
+                    break;
+                case CMAS_FULL:
+                    isSendEmail = true;
+                    break;
+            }
+            diverDao.updateModel(diver);
+            if (isConfirmEmail && isSendEmail) {
+                mailService.confirmPayment(invoice);
             }
         }
     }
