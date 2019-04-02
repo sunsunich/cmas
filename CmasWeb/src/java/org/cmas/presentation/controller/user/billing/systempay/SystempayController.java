@@ -7,7 +7,6 @@ import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.model.billing.PaymentAddData;
-import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.util.StringUtil;
@@ -65,9 +64,6 @@ public class SystempayController {
     @Autowired
     private SystempayValidator systempayValidator;
 
-    @Autowired
-    private AuthenticationService authenticationService;
-
     @RequestMapping("/secure/billing/systempay/accept.html")
     public ModelAndView systempayAccept(
             @RequestParam(AccessInterceptor.INVOICE_ID) String externalInvoiceNumber
@@ -106,7 +102,8 @@ public class SystempayController {
 
             Diver diver = invoice.getDiver();
             paymentRequest.setVads_cust_email(diver.getEmail());
-            paymentRequest.setVads_language(diver.getLocale().getLanguage());
+// if the field has not been sent or is empty, the payment page will be shown in the language of the buyer's browser
+            paymentRequest.setVads_language("");
 
             SimpleDateFormat dateFormat = new SimpleDateFormat(SYSTEMPAY_DATE_TIME_FORMAT, Locale.ENGLISH);
             dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));

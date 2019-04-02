@@ -79,7 +79,7 @@ public class SystempayPaymentRequest {
     private String vads_cust_email;
     private String vads_order_id;
 
-    //de, en, zh, es, fr, it, jp
+    // "de", "en", "zh", "es", "fr", "it", "ja", "nl", "pl", "pt", "ru", "sv", "tr"
     private String vads_language;
 
     private String vads_site_id;

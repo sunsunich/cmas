@@ -4,6 +4,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 
 <my:nonsecurepage title="cmas.face.index.header" doNotDoAuth="true"
                   customScripts="js/controller/registration_flow_controller.js"
@@ -71,10 +72,20 @@
                         </div>
                     </c:otherwise>
                 </c:choose>
-                <button class="positive-button form-item-right form-button-bigger"
-                        onclick="return window.location='/secure/index.html'">
-                    <s:message code="cmas.face.account.back"/>
-                </button>
+                <authz:authorize ifAnyGranted="ROLE_DIVER" ifNotGranted="ROLE_ADMIN">
+                    <button class="positive-button form-item-right form-button-bigger"
+                            onclick="return window.location='/secure/index.html'">
+                        <s:message code="cmas.face.account.back"/>
+                    </button>
+                </authz:authorize>
+
+                <authz:authorize ifAnyGranted="ROLE_FEDERATION_ADMIN" ifNotGranted="ROLE_ADMIN">
+                    <button class="positive-button form-item-right form-button-bigger"
+                            onclick="return window.location='/fed/index.html'">
+                        <s:message code="cmas.face.account.back"/>
+                    </button>
+                </authz:authorize>
+
             </div>
         </div>
     </div>

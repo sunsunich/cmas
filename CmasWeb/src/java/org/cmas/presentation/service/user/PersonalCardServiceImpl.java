@@ -7,8 +7,10 @@ import org.cmas.entities.CardUser;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.dao.HibernateDao;
 import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
@@ -34,6 +36,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     private PersonalCardDao personalCardDao;
 
     @Autowired
+    private DiverDao diverDao;
+
+    @Autowired
     private DrawCardService drawCardService;
 
     @Autowired
@@ -57,7 +62,13 @@ public class PersonalCardServiceImpl implements PersonalCardService {
             case ROLE_DIVER:
                 Diver diver = (Diver) cardUser;
                 personalCard.setDiver(diver);
-                personalCard.setDiverLevel(diver.getDiverLevel());
+                DiverLevel diverLevel = diver.getDiverLevel();
+                if (diverLevel == null) {
+                    diverLevel = DiverLevel.ONE_STAR;
+                    diver.setDiverLevel(diverLevel);
+                    diverDao.updateModel(diver);
+                }
+                personalCard.setDiverLevel(diverLevel);
                 personalCard.setDiverType(diver.getDiverType());
                 scheduler.schedule(new Runnable() {
                     @Override
