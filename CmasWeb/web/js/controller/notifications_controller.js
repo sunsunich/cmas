@@ -241,11 +241,11 @@ var notifications_controller = {
                     self.showFoundDivers(json);
                 }
                 , function (json) {
-                    validation_controller.showErrors('findDiver', json);
+                    validation_controller.simpleShowErrors('findDiver', json);
                 });
         }
         else {
-            validation_controller.showErrors('findDiver', formErrors);
+            validation_controller.simpleShowErrors('findDiver', formErrors);
         }
     },
 

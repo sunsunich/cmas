@@ -224,6 +224,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             dbDiver.setCountry(country);
             dbDiver.setRole(Role.ROLE_DIVER);
             dbDiver.setEmail(email);
+            dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
+            dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
 
             UserBalance userBalance = new UserBalance();
             userBalanceDao.save(userBalance);

@@ -193,9 +193,6 @@ var spots_controller = {
             this.updateFoundSpots();
             //  google.maps.event.trigger(spots_model.spotMap[spots_model.currentEditSpot.id].marker, 'click');
         }
-        else {
-            validation_controller.showErrors('createSpot', formErrors);
-        }
     },
 
     createSpotMarker: function (spot) {

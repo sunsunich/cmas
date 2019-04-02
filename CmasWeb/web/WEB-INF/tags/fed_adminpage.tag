@@ -40,6 +40,7 @@
     <script type="text/javascript" src="/js/controller/loader_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/controller/validation_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/controller/error_dialog_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="/js/controller/util_controller.js?v=${webVersion}"></script>
 
     <c:forEach items="${customScripts}" var="customScript">
         <script type="text/javascript" src="${customScript}?v=${webVersion}"></script>

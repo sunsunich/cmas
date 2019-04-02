@@ -1,8 +1,10 @@
 var logbook_feed_controller = {
 
-    model: null,
-    reloadInterval: null,
-    scrollHandler: null,
+    resetFields: function () {
+        this.model = null;
+        this.reloadInterval = null;
+        this.scrollHandler = null;
+    },
 
     init: function () {
         var self = this;

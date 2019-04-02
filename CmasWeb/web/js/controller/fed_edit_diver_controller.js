@@ -1,6 +1,85 @@
 var fed_edit_diver_controller = {
 
+    validationController: null,
+    cardValidationController: null,
+
     init: function () {
+        this.validationController = simpleClone(validation_controller);
+        this.validationController.prefix = 'diver';
+        this.validationController.fields = [
+            {
+                id: 'email',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emailEmpty';
+                    }
+                }
+            },
+            {
+                id: 'firstName',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'lastName',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'dob',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'diverType',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'diverLevel',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            }
+        ];
+        this.validationController.init();
+
+        this.cardValidationController = simpleClone(validation_controller);
+        this.cardValidationController.prefix = 'card';
+        this.cardValidationController.fields = [
+            {
+                id: 'diverType',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'cardType',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            }
+        ];
+        this.cardValidationController.init();
+
         if (cards == null) {
             cards = [];
         }
@@ -61,16 +140,11 @@ var fed_edit_diver_controller = {
     },
 
     addCard: function () {
-        const card = {
-            number: $('#card_number').val(),
-            diverType: $('#card_diverType').val(),
-            diverLevel: $('#card_diverLevel').val(),
-            cardType: $('#card_cardType').val()
-        };
+        if (this.cardValidationController.validateForm()) {
+            const card = this.cardValidationController.form;
+            card.number = $('#card_number').val();
+            card.diverLevel = $('#card_diverLevel').val();
 
-        this.cleanCardErrors();
-        var formErrors = this.validateCardForm(card);
-        if (formErrors.success) {
             var self = this;
             fed_edit_diver_model.getCardPrintName(card
                 , function (json) {
@@ -78,119 +152,52 @@ var fed_edit_diver_controller = {
                     self.addCardToModel(card);
                 }
                 , function (json) {
-                });
-        }
-        else {
-            validation_controller.showErrors('card', formErrors);
+                }
+            );
         }
     },
-
-    validateCardForm: function (card) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = {};
-        if (isStringTrimmedEmpty(card.diverType)) {
-            result.fieldErrors["diverType"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(card.cardType)) {
-            result.fieldErrors["cardType"] = 'validation.emptyField';
-        }
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-        return result;
-    },
-
-    cleanCardErrors: function () {
-        $('#card_error_diverType').empty();
-        $('#card_error_cardType').empty();
-    },
-
 
     uploadDiver: function () {
-        fed_edit_diver_model.diver.id = $('#diver_id').val();
-        fed_edit_diver_model.diver.email = $('#diver_email').val();
-        fed_edit_diver_model.diver.firstName = $('#diver_firstName').val();
-        fed_edit_diver_model.diver.lastName = $('#diver_lastName').val();
-        fed_edit_diver_model.diver.dob = $('#diver_dob').val();
-        fed_edit_diver_model.diver.diverLevel = $('#diver_diverLevel').val();
-        fed_edit_diver_model.diver.diverType = $('#diver_diverType').val();
-        fed_edit_diver_model.diver.cards = [];
-        for (var attr in fed_edit_diver_model.displayCards) {
-            if (fed_edit_diver_model.displayCards.hasOwnProperty(attr)) {
-                fed_edit_diver_model.diver.cards.push(fed_edit_diver_model.displayCards[attr]);
+        if (this.validationController.validateForm()) {
+            fed_edit_diver_model.diver = this.validationController.form;
+            fed_edit_diver_model.diver.id = $('#diver_id').val();
+            fed_edit_diver_model.diver.cards = [];
+            for (var attr in fed_edit_diver_model.displayCards) {
+                if (fed_edit_diver_model.displayCards.hasOwnProperty(attr)) {
+                    fed_edit_diver_model.diver.cards.push(fed_edit_diver_model.displayCards[attr]);
+                }
             }
-        }
 
-        var natFedCardNumber = $('#diver_natFedCardNumber').val();
-        var natFedInstructorCardNumber = $('#diver_natFedInstructorCardNumber').val();
+            var natFedCardNumber = $('#diver_natFedCardNumber').val();
+            var natFedInstructorCardNumber = $('#diver_natFedInstructorCardNumber').val();
 
-        if (!isStringTrimmedEmpty(natFedCardNumber)) {
-            const card = {
-                number: natFedCardNumber,
-                diverType: fed_edit_diver_model.diver.diverType,
-                diverLevel: fed_edit_diver_model.diver.diverLevel,
-                cardType: 'NATIONAL'
-            };
-            fed_edit_diver_model.diver.cards.push(card);
-        }
-        if (!isStringTrimmedEmpty(natFedInstructorCardNumber)) {
-            const card = {
-                number: natFedInstructorCardNumber
-            };
-            fed_edit_diver_model.diver.instructor = {};
-            fed_edit_diver_model.diver.instructor.cards = [];
-            fed_edit_diver_model.diver.instructor.cards.push(card);
-        }
+            if (!isStringTrimmedEmpty(natFedCardNumber)) {
+                const card = {
+                    number: natFedCardNumber,
+                    diverType: fed_edit_diver_model.diver.diverType,
+                    diverLevel: fed_edit_diver_model.diver.diverLevel,
+                    cardType: 'NATIONAL'
+                };
+                fed_edit_diver_model.diver.cards.push(card);
+            }
+            if (!isStringTrimmedEmpty(natFedInstructorCardNumber)) {
+                const card = {
+                    number: natFedInstructorCardNumber
+                };
+                fed_edit_diver_model.diver.instructor = {};
+                fed_edit_diver_model.diver.instructor.cards = [];
+                fed_edit_diver_model.diver.instructor.cards.push(card);
+            }
 
-        this.cleanDiverErrors();
-        var formErrors = this.validateDiverForm(fed_edit_diver_model.diver);
-        if (formErrors.success) {
             var self = this;
             fed_edit_diver_model.uploadDiver(
-                function (json) {
+                function (/*json*/) {
                     $("#diverSaveSuccess").show();
                 }
                 , function (json) {
-                    validation_controller.showErrors('diver', json);
+                    self.validationController.showErrors(json);
                 });
         }
-        else {
-            validation_controller.showErrors('diver', formErrors);
-        }
-    },
-
-    validateDiverForm: function (diver) {
-        var result = {};
-        result.fieldErrors = {};
-        result.errors = {};
-        if (isStringTrimmedEmpty(diver.email)) {
-            result.fieldErrors["email"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(diver.firstName)) {
-            result.fieldErrors["firstName"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(diver.lastName)) {
-            result.fieldErrors["lastName"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(diver.dob)) {
-            result.fieldErrors["dob"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(diver.diverType)) {
-            result.fieldErrors["diverType"] = 'validation.emptyField';
-        }
-        if (isStringTrimmedEmpty(diver.diverLevel)) {
-            result.fieldErrors["diverLevel"] = 'validation.emptyField';
-        }
-        result.success = jQuery.isEmptyObject(result.fieldErrors) && jQuery.isEmptyObject(result.errors);
-        return result;
-    },
-
-    cleanDiverErrors: function () {
-        $("#diver_error_email").empty();
-        $("#diver_error_firstName").empty();
-        $("#diver_error_lastName").empty();
-        $("#diver_error_dob").empty();
-        $("#diver_error_diverType").empty();
-        $("#diver_error_diverLevel").empty();
     }
 };
 

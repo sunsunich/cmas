@@ -45,11 +45,11 @@ var logbook_search_controller = {
                     self.controller.renderFeed(json, true, true);
                 }
                 , function (json) {
-                    validation_controller.showErrors('search', json);
+                    validation_controller.simpleShowErrors('search', json);
                 });
         }
         else {
-            validation_controller.showErrors('search', formErrors);
+            validation_controller.simpleShowErrors('search', formErrors);
         }
     },
 

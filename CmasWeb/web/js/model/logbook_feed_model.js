@@ -1,23 +1,25 @@
 var logbook_feed_model = {
 
-    isFirstLoad: true,
-    isMyRecords: false,
-    containerId: "",
-    url: "",
-    templateName: "logbookFeed",
-    latestDate: "0",
-    earliestDate: "",
-    lastElemId: null,
-    limit: 10,
-    deleteRecordId: 0,
+    resetFields: function () {
+        this.isFirstLoad = true;
+        this.isMyRecords = false;
+        this.containerId = "";
+        this.url = "";
+        this.templateName = "logbookFeed";
+        this.latestDate = "0";
+        this.earliestDate = "";
+        this.lastElemId = null;
+        this.limit = 10;
+        this.deleteRecordId = 0;
 
-    fromDate: "",
-    toDate: "",
-    country: "",
-    fromMeters: "",
-    toMeters: "",
-    fromMinutes: "",
-    toMinutes: "",
+        this.fromDate = "";
+        this.toDate = "";
+        this.country = "";
+        this.fromMeters = "";
+        this.toMeters = "";
+        this.fromMinutes = "";
+        this.toMinutes = "";
+    },
 
     setState: function (records) {
         if (records.length > 0) {

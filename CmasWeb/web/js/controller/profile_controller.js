@@ -17,7 +17,7 @@ var profile_controller = {
         }
 
         var my_friends_logbook_feed_model = simpleClone(logbook_feed_model);
-        my_friends_logbook_feed_model.isMyRecords = true;
+       // my_friends_logbook_feed_model.isMyRecords = true;
        // my_friends_logbook_feed_model.templateName = "logbookFeedFull";
         my_friends_logbook_feed_model.url = "/secure/getMyPublicLogbookFeed.html";
         my_friends_logbook_feed_model.containerId = 'accountFeed';

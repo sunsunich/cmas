@@ -14,6 +14,7 @@ import org.hibernate.Query;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,8 +33,7 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " left outer join le.diveSpot spot"
                      + " left outer join spot.country country"
                      + " where d.id = :diverId"
-                     + " and le.deleted = :deleted"
-                     ;
+                     + " and le.deleted = :deleted";
         Query query = addSearchFormObjectToQuery(formObject, hql, false, false);
         return query.setLong("diverId", diver.getId()).list();
     }
@@ -59,10 +59,9 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " left outer join d.friends f"
                      + " left outer join d.friendOf fof"
                      + " where (d.id = :diverId"
-                     + " or f.id = :diverId and le.visibility != :visibility"
-                     + " or fof.id = :diverId and le.visibility != :visibility)"
-                     + " and le.deleted = :deleted"
-                     + " and le.state = :state";
+                     + " or f.id = :diverId and le.visibility != :visibility and le.state = :state"
+                     + " or fof.id = :diverId and le.visibility != :visibility and le.state = :state)"
+                     + " and le.deleted = :deleted";
         Query query = addSearchFormObjectToQuery(formObject, hql, true, true);
         return query.setLong("diverId", diver.getId()).list();
     }
@@ -76,20 +75,27 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " left outer join d.friends f"
                      + " left outer join d.friendOf fof"
                      + " where (d.id = :diverId"
-                     + " or f.id = :diverId and le.visibility != :visibility"
-                     + " or fof.id = :diverId and le.visibility != :visibility"
-                     + " or le.visibility = :pubVis)";
+                     + " or f.id = :diverId and le.visibility != :visibility and le.state = :state"
+                     + " or fof.id = :diverId and le.visibility != :visibility and le.state = :state"
+                     + " or le.visibility = :pubVis and le.state = :state)";
         if (countries != null) {
-            hql += " and country in (:countries)";
+            hql += " and country.id in (:countryIds)";
         }
-        hql += " and le.deleted = :deleted"
-               + " and le.state = :state";
+        hql += " and le.deleted = :deleted";
         Query query = addSearchFormObjectToQuery(formObject, hql, true, true);
         query.setParameter("pubVis", LogbookVisibility.PUBLIC);
-        if (countries != null) {
-            query.setParameter("countries", countries);
-        }
+        addCountriesToQuery(countries, query);
         return query.setLong("diverId", diver.getId()).list();
+    }
+
+    private static void addCountriesToQuery(Collection<Country> countries, Query query) {
+        if (countries != null && !countries.isEmpty()) {
+            Collection<Long> countryIds = new HashSet<>();
+            for (Country country : countries) {
+                countryIds.add(country.getId());
+            }
+            query.setParameterList("countryIds", countryIds);
+        }
     }
 
     @Override
@@ -99,15 +105,13 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
                      + " left outer join spot.country country"
                      + " where le.visibility = :pubVis";
         if (countries != null) {
-            hql += " and country in (:countries)";
+            hql += " and country.id in (:countryIds)";
         }
         hql += " and le.deleted = :deleted"
                + " and le.state = :state";
         Query query = addSearchFormObjectToQuery(formObject, hql, false, true);
         query.setParameter("pubVis", LogbookVisibility.PUBLIC);
-        if (countries != null) {
-            query.setParameter("countries", countries);
-        }
+        addCountriesToQuery(countries, query);
         return query.list();
     }
 

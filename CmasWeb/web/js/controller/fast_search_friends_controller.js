@@ -1,10 +1,12 @@
 var fast_search_friends_controller = {
 
-    prefix: "searchFriends",
-    fastSearchUrl: "/secure/social/searchFriendsFast.html",
-    listElemEjs: "foundFriendList",
-    setupFoundElem: null, /*function*/
-    emptyInputCallback: null, /*function*/
+    resetFields: function () {
+        this.prefix = "searchFriends";
+        this.fastSearchUrl = "/secure/social/searchFriendsFast.html";
+        this.listElemEjs = "foundFriendList";
+        this.setupFoundElem = null; // function
+        this.emptyInputCallback = null; // function
+    },
 
     init: function () {
         var self = this;

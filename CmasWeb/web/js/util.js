@@ -63,6 +63,7 @@ function simpleClone(obj) {
     for (var attr in obj) {
         if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
+    copy.resetFields();
     return copy;
 }
 

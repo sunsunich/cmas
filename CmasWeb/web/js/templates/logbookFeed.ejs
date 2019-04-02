@@ -127,8 +127,176 @@ for(i = 0; i < records.length;i++) {
             <%= labels["cmas.face.feed.spec"] %>
         </a>
     </div>
-    <div id="<%= recordsInfo.containerId %>Spec_<%= records[i].id %>" style="display: none">
+    <div id="<%= recordsInfo.containerId %>Spec_<%= records[i].id %>" style="display: none"
+         class="feed-additional-section">
         <!-- full spec with tanks-->
+        <div>
+            <!-- tanks -->
+            <% if(records[i].diveSpec.scubaTanks && records[i].diveSpec.scubaTanks.length > 0) { %>
+            <div class="clearfix">
+                <div class="feed-tank-label"><%= labels["cmas.face.logbook.tanks.title"] %></div>
+            </div>
+            <%
+                var k = 0;
+                var index = 1;
+            for(k = 0; k < records[i].diveSpec.scubaTanks.length;k++) {
+                var tank = records[i].diveSpec.scubaTanks[k];
+            %>
+            <div class="feed-tank-elem">
+                <div class="clearfix">
+                    <div class="feed-tank-label"><%= labels["cmas.face.logbook.tank.title"] + index %></div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.logbook.supplyType"] %>:</span>
+                        <span class="basic-text"><%= labels[tank.supplyType] %></span>
+                    </div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.logbook.tankSize"] %>:</span>
+                        <span class="basic-text"><%= tank.size %> <%= labels[tank.volumeMeasureUnit] %></span>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="feed-tank-label"><%= labels["cmas.face.logbook.tankPressure"] %>:</div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.logbook.tankStartPressure"] %>:</span>
+                        <span class="basic-text"><%= tank.startPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
+                    </div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.logbook.tankEndPressure"] %>:</span>
+                        <span class="basic-text"><%= tank.endPressure %> <%= labels[tank.pressureMeasureUnit] %></span>
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <% if(tank.isAir){ %>
+                    <div class="basic-text"> <%= labels["cmas.face.feed.isAir"] %> </div>
+                    <% } else if(tank.oxygenPercent || tank.heliumPercent){ %>
+                    <div class="feed-tank-label">&nbsp;</div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.feed.oxygenPercent"] %>:</span>
+                        <span class="basic-text"><%= tank.oxygenPercent %><%= labels["cmas.face.feed.percent"] %></span>
+                    </div>
+                    <div class="feed-tank-spec-text">
+                        <span class="feed-tank-sub-label"><%= labels["cmas.face.feed.heliumPercent"] %>:</span>
+                        <span class="basic-text"><%= tank.heliumPercent %><%= labels["cmas.face.feed.percent"] %></span>
+                    </div>
+                    <% if(tank.isDecoTank){
+                    %>
+                    <div class="feed-tank-spec-text">
+                        <span class="basic-text"><%= labels["cmas.face.feed.isDecoTank"] %></span>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+            <% index++} %>
+            <% } else { %>
+            <div class="clearfix">
+                <div class="feed-tank-label"><%= labels["cmas.face.logbook.tanks.title"] %>:</div>
+                <div class="feed-spec-text basic-text"><%= labels["cmas.face.feed.isApnea"] %></div>
+            </div>
+            <% } %>
+        </div>
+        <div class="clearfix">
+            <div class="feed-spec-section">
+                <% if(records[i].diveSpec.entryType){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.entryType"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.entryType] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.diveSuit){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.diveSuit"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.diveSuit] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.divePurpose){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.divePurpose"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.divePurpose] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.additionalWeightKg){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.feed.additionalWeightKg"] %>:</div>
+                    <div class="feed-spec-text basic-text">
+                        <%= records[i].diveSpec.additionalWeightKg %><%= labels["cmas.face.feed.kg"] %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <div class="feed-spec-section">
+                <% if(records[i].diveSpec.weather){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.weather"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.weather] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.current){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.current"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.current] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.waterType){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.waterType"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.waterType] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.hasSafetyStop){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-text basic-text">
+                        <%= labels["cmas.face.logbook.hasSafetyStop"] %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+            <div class="feed-spec-section">
+                <% if(records[i].diveSpec.airTemp || records[i].diveSpec.waterTemp){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.feed.airAndWaterTemp"] %>:</div>
+                    <div class="feed-spec-text basic-text">
+                        <span class="feed-margin">
+                        <%= labels["cmas.face.logbook.airTemp"] %>
+                            : <%= records[i].diveSpec.airTemp %>° <%= labels[records[i].diveSpec.temperatureMeasureUnit] %>
+                        </span>
+                        <span>
+                        <%= labels["cmas.face.logbook.waterTemp"] %>
+                            : <%= records[i].diveSpec.waterTemp %>° <%= labels[records[i].diveSpec.temperatureMeasureUnit] %>
+                        </span>
+                    </div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.surface){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.surface"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.surface] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.underWaterVisibility){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.underWaterVisibility"] %>:</div>
+                    <div class="feed-spec-text basic-text"><%= labels[records[i].diveSpec.underWaterVisibility] %></div>
+                </div>
+                <% } %>
+                <% if(records[i].diveSpec.cnsToxicity){ %>
+                <div class="clearfix">
+                    <div class="feed-spec-label"><%= labels["cmas.face.logbook.cnsToxicity"] %>:</div>
+                    <div class="feed-spec-text basic-text">
+                        <%= records[i].diveSpec.cnsToxicity %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <% if(records[i].diveSpec.decoStepsComments){ %>
+        <div class="feed-note-section clearfix">
+            <div class="feed-spec-row-label"><%= labels["cmas.face.logbook.decoStepsComments"] %></div>
+            <div class="basic-text">
+                <%= records[i].diveSpec.decoStepsComments %>
+            </div>
+        </div>
+        <% } %>
         <a href="#" id="<%= recordsInfo.containerId %>SpecClose_<%= records[i].id %>" class="link-in-text-flow">
             <%= labels["cmas.face.feed.close"] %>
         </a>

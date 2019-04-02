@@ -230,6 +230,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (filteredNames.isEmpty()) {
             return new ArrayList<>();
         }
+        Set<Long> friendsIds = searchMode == SearchMode.ALL ? null : getFriendsIds(diverId);
+        if (searchMode == SearchMode.IN_FRIENDS && (friendsIds == null || friendsIds.isEmpty())) {
+            return new ArrayList<>();
+        }
+
         StringBuilder numberClause = new StringBuilder();
         for (int i = 0; i < filteredNames.size(); i++) {
             if (numberClause.length() > 0) {
@@ -240,14 +245,12 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.cards c";
         hql += " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
-        Set<Long> friendsIds = searchMode == SearchMode.ALL ? null : getFriendsIds(diverId);
+
         switch (searchMode) {
             case ALL:
                 break;
             case IN_FRIENDS:
-                if (friendsIds != null && !friendsIds.isEmpty()) {
-                    hql += " and d.id in (:friendIds)";
-                }
+                hql += " and d.id in (:friendIds)";
                 break;
             case NEW_FRIENDS:
                 if (friendsIds != null && !friendsIds.isEmpty()) {

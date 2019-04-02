@@ -1,12 +1,14 @@
 var validation_controller = {
 
-    prefix: "",
-    fields: [],
-    submitButton: null,
-    fieldIdsToValidate: [],
-    fromValidator: null,
+    resetFields: function () {
+        this.prefix = "";
+        this.fields = [];
+        this.submitButton = null;
+        this.fieldIdsToValidate = [];
+        this.fromValidator = null;
 
-    form: {},
+        this.form = {};
+    },
 
     init: function () {
         var self = this;
@@ -159,7 +161,7 @@ var validation_controller = {
             if (formErrors.fieldErrors) {
                 for (var fieldError in formErrors.fieldErrors) {
                     if (formErrors.fieldErrors.hasOwnProperty(fieldError)) {
-                        $('#'+ prefix + '_error_' + fieldError).html(error_codes[formErrors.fieldErrors[fieldError]]);
+                        $('#' + prefix + '_error_' + fieldError).html(error_codes[formErrors.fieldErrors[fieldError]]);
                     }
                 }
             }
@@ -171,7 +173,7 @@ var validation_controller = {
                         message += error_codes[formErrors.errors[error]];
                     }
                 }
-                $('#'+ prefix + '_error').html(message).show();
+                $('#' + prefix + '_error').html(message).show();
             }
         }
     }
