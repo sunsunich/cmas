@@ -130,6 +130,10 @@ public class UserHomeController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/loyaltyProgram.html", method = RequestMethod.GET)
     public ModelAndView showLoyaltyProgram(ModelMap mm) throws IOException {
+        mm.addAttribute("canOrderThisYear",
+                        cameraOrderDao.getOrderCntForYear(getCurrentDiver())
+                        < cameraOrderService.getAllowedOrdersPerYearCnt());
+
         mm.addAttribute("marketPriceEuro", cameraOrderService.getMarketPriceEuro());
         mm.addAttribute("discountPriceEuro", cameraOrderService.getDiscountPriceEuro());
         return new ModelAndView("/secure/loyaltyProgram", mm);

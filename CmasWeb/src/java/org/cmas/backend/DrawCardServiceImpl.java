@@ -58,6 +58,9 @@ public class DrawCardServiceImpl implements DrawCardService {
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
     public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
+         /*
+    todo fix bug: lazy init error, no hibernate session
+     */
         String fileName = getFileName(card);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
@@ -189,6 +192,9 @@ public class DrawCardServiceImpl implements DrawCardService {
     @Override
     public String getFileName(PersonalCard card) {
         String fileName = "cmas_card.png";
+        /*
+    todo fix bug: lazy init error, no hibernate session
+     */
         switch (card.getCardType()) {
             case CHILDREN_DIVING:
             case PRIMARY:

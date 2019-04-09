@@ -9,16 +9,17 @@
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 <jsp:useBean id="marketPriceEuro" scope="request" type="java.math.BigDecimal"/>
 <jsp:useBean id="discountPriceEuro" scope="request" type="java.math.BigDecimal"/>
+<jsp:useBean id="canOrderThisYear" scope="request" type="java.lang.Boolean"/>
 
 <my:securepage title="cmas.face.loyalty.title"
                activeMenuItem="loyaltyProgram"
                customScripts="js/controller/registration_flow_controller.js,js/model/loyalty_program_model.js,js/controller/loyalty_program_controller.js">
 
-    <c:set var="isCmasFull"
+    <c:set var="isDueToPayCmasFullLicence"
            value="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}"/>
 
     <script type="application/javascript">
-        loyalty_program_model.isDiverAllowedLoyaltyProgram = ${isCmasFull};
+        loyalty_program_model.isDiverAllowedLoyaltyProgram = ${isDueToPayCmasFullLicence};
     </script>
 
     <div class="content" id="Content">
@@ -61,24 +62,35 @@
                         <s:message code="cmas.face.loyalty.camera.description"/>
                     </p>
                 </div>
-                <div><c:choose>
-                    <c:when test="${isCmasFull}">
-                        <div class="form-row"  id="placeOrderContainer">
-                            <span class="header2-text" style="line-height: 47px; padding-right: 16px">
-                                <s:message code="cmas.face.loyalty.camera.order.label"/>:
-                            </span>
-                            <button class="positive-button form-button-smaller" id="placeOrder">
-                                <s:message code="cmas.face.loyalty.camera.order.button"/>
+                <div>
+                    <c:choose>
+                        <c:when test="${isDueToPayCmasFullLicence}">
+                            <c:choose>
+                                <c:when test="${canOrderThisYear}">
+                                    <div class="form-row" id="placeOrderContainer">
+                                        <span class="header2-text" style="line-height: 47px; padding-right: 16px">
+                                            <s:message code="cmas.face.loyalty.camera.order.label"/>:
+                                        </span>
+                                        <button class="positive-button form-button-smaller" id="placeOrder">
+                                            <s:message code="cmas.face.loyalty.camera.order.button"/>
+                                        </button>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="form-row" id="placeOrderContainer">
+                                        <span class="header2-text" style="color: #f4225b;">
+                                            <s:message code="cmas.face.loyalty.camera.order.tooMany"/>
+                                        </span>
+                                    </div>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                        <c:otherwise>
+                            <button class="positive-button form-item-right form-button-smaller" id="placeOrder">
+                                <s:message code="cmas.face.loyalty.become.cmasFull"/>
                             </button>
-                        </div>
-                    </c:when>
-                    <c:otherwise>
-                        <button class="positive-button form-item-right form-button-smaller" id="placeOrder">
-                            <s:message code="cmas.face.loyalty.become.cmasFull"/>
-                        </button>
-                    </c:otherwise>
-                </c:choose>
-
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </div>

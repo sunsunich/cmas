@@ -6,6 +6,7 @@ import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.CardUser;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
+import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.sport.Athlete;
@@ -70,17 +71,6 @@ public class PersonalCardServiceImpl implements PersonalCardService {
                 }
                 personalCard.setDiverLevel(diverLevel);
                 personalCard.setDiverType(diver.getDiverType());
-                scheduler.schedule(new Runnable() {
-                    @Override
-                    public void run() {
-                        new RunInHibernate(sessionFactory) {
-                            @Override
-                            protected void runTaskInHibernate() {
-                                generateAndSaveCardImage(personalCard.getId());
-                            }
-                        }.runTaskInHibernate();
-                    }
-                }, 0L, TimeUnit.MILLISECONDS);
                 break;
             case ROLE_AMATEUR:
             case ROLE_FEDERATION_ADMIN:
@@ -90,6 +80,19 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         personalCardDao.updateModel(personalCard);
         cardUser.setPrimaryPersonalCard(personalCard);
         entityDao.updateModel(cardUser);
+        if (cardUser.getRole() == Role.ROLE_DIVER) {
+            scheduler.schedule(new Runnable() {
+                @Override
+                public void run() {
+                    new RunInHibernate(sessionFactory) {
+                        @Override
+                        protected void runTaskInHibernate() {
+                            generateAndSaveCardImage(personalCard.getId());
+                        }
+                    }.runTaskInHibernate();
+                }
+            }, 0L, TimeUnit.MILLISECONDS);
+        }
         return personalCard;
     }
 
@@ -98,6 +101,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         PersonalCard personalCard = personalCardDao.getById(personalCardId);
         try {
             //todo better synchronization
+             /*
+    todo fix bug: lazy init error, no hibernate session
+     */
             BufferedImage image = drawCardService.drawDiverCard(personalCard);
             imageStorageManager.storeCardImage(personalCard, image);
         } catch (Exception e) {

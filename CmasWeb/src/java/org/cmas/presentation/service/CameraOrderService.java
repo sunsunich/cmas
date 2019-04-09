@@ -19,4 +19,6 @@ public interface CameraOrderService {
     BigDecimal getDiscountPriceEuro();
 
     void sendCameraOrderEmails(CameraOrder cameraOrder);
+
+    int getAllowedOrdersPerYearCnt();
 }

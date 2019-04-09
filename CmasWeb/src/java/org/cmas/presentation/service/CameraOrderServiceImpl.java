@@ -22,6 +22,8 @@ public class CameraOrderServiceImpl implements CameraOrderService {
 
     private BigDecimal discountPriceEuro;
 
+    private int allowedOrdersPerYearCnt;
+
     @Autowired
     private MailService mailService;
 
@@ -51,6 +53,11 @@ public class CameraOrderServiceImpl implements CameraOrderService {
         return discountPriceEuro;
     }
 
+    @Override
+    public int getAllowedOrdersPerYearCnt() {
+        return allowedOrdersPerYearCnt;
+    }
+
     @Required
     public void setMarketPriceEuro(BigDecimal marketPriceEuro) {
         this.marketPriceEuro = marketPriceEuro;
@@ -69,5 +76,10 @@ public class CameraOrderServiceImpl implements CameraOrderService {
     @Required
     public void setCameraName(String cameraName) {
         this.cameraName = cameraName;
+    }
+
+    @Required
+    public void setAllowedOrdersPerYearCnt(int allowedOrdersPerYearCnt) {
+        this.allowedOrdersPerYearCnt = allowedOrdersPerYearCnt;
     }
 }

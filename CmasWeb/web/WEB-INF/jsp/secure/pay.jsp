@@ -16,21 +16,21 @@
                activeMenuItem="pay"
                customScripts="js/controller/registration_flow_controller.js,js/controller/payment_controller.js">
 
-    <c:set var="isCmasFull"
+    <c:set var="isDueToPayCmasFullLicence"
            value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
     <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST'}"/>
 
     <script type="application/javascript">
         var features = ${featuresJson};
-        <c:choose>
-        <c:when test="${!isCmasFull && !isGuest}">
-        var selectedFeatureIds = [];
-        </c:when>
-        <c:otherwise>
+        <%--<c:choose>--%>
+        <%--<c:when test="${!isDueToPayCmasFullLicence && !isGuest}">--%>
+        <%--var selectedFeatureIds = [];--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
         var selectedFeatureIds = ['${features[0].id}'];
-        </c:otherwise>
-        </c:choose>
+        <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
         $(document).ready(function () {
             payment_controller.init(features, selectedFeatureIds);
         });
@@ -38,64 +38,79 @@
 
     <div class="content" id="Content">
         <div id="formImage" class="formImage">
-           <my:advert diverRegistrationStatus="${diver.diverRegistrationStatus.name}"/>
+            <my:advert diverRegistrationStatus="${diver.diverRegistrationStatus.name}"/>
         </div>
         <div class="formWrapper" id="formWrapper">
             <div id="paymentBlock">
                 <div class="header1-text">
                     <s:message code="cmas.face.payment.header"/>
                 </div>
+                <c:if test="${diver.diverRegistrationStatus.name != 'CMAS_BASIC'}">
+                    <div class="form-description">
+                        <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
+                            value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
+                    </div>
+                </c:if>
                 <c:choose>
-                    <c:when test="${isCmasFull}">
-                        <div class="form-description form-payment-licence">
-                            <b><s:message code="cmas.face.payment.cmasLicence.price"/> ${features[0].price}</b>
+                    <c:when test="${isGuest}">
+                        <div class="form-description">
+                            <s:message code="cmas.face.payment.cmasLicence.guest"/>
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <div class="form-description">
-                            <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
-                                value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
+                        <c:if test="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+                            <div class="form-description">
+                            <span class="form-checkbox-label"><s:message
+                                    code="cmas.face.payment.cmasLicence.name"/></span>
+                                <br/>
+                                <span class="form-feature-description secondary-text">
+                            <s:message code="cmas.face.payment.cmasLicence.description"/>
+                        </span>
+                            </div>
+                        </c:if>
+                        <div class="form-description form-payment-licence">
+                            <b><s:message code="cmas.face.payment.cmasLicence.price"/> ${features[0].price}</b>
+                        </div>
+                        <div class="form-payment-total">
+                            <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/>
+                            <span id="total">0</span>
+                            <div class="error" id="payment_error">
+                                <s:hasBindErrors name="command">
+                                    <c:forEach items="${errors.globalErrors}" var="error">
+                                        <span class="error"><s:message message="${error}"/></span><br/>
+                                    </c:forEach>
+                                </s:hasBindErrors>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="positive-button form-item-right form-button-smaller" id="payButton">
+                                <s:message code="cmas.face.payment.button"/>
+                            </button>
                         </div>
                     </c:otherwise>
                 </c:choose>
-                <%--<div class="form-description">--%>
+                    <%--<div class="form-description">--%>
                     <%--<s:message code="cmas.face.payment.features.description"/>--%>
-                <%--</div>--%>
-                <%--<div class="featuresList">--%>
+                    <%--</div>--%>
+                    <%--<div class="featuresList">--%>
                     <%--<c:forEach var="feature" varStatus="step" items="${features}">--%>
-                        <%--<c:if test="${!isFree && !isGuest || step.index != 0}">--%>
-                            <%--<div class="form-row">--%>
-                                <%--<input type="checkbox" name="paidFeature_${feature.id}" id="paidFeature_${feature.id}"--%>
-                                       <%--class="css-checkbox">--%>
-                                <%--<label for="paidFeature_${feature.id}"--%>
-                                       <%--class="css-label radGroup1 clr">--%>
-                                    <%--<span class="form-checkbox-label"><s:message code="${feature.name}"/></span>--%>
-                                    <%--<span class="form-payment-price"><s:message--%>
-                                            <%--code="cmas.face.payment.currency"/> ${feature.price}</span>--%>
-                                    <%--<br/>--%>
-                                    <%--<span class="form-feature-description secondary-text"><s:message--%>
-                                            <%--code="${feature.descriptionCode}"/></span>--%>
-                                <%--</label>--%>
-                            <%--</div>--%>
-                        <%--</c:if>--%>
+                    <%--<c:if test="${!isFree && !isGuest || step.index != 0}">--%>
+                    <%--<div class="form-row">--%>
+                    <%--<input type="checkbox" name="paidFeature_${feature.id}" id="paidFeature_${feature.id}"--%>
+                    <%--class="css-checkbox">--%>
+                    <%--<label for="paidFeature_${feature.id}"--%>
+                    <%--class="css-label radGroup1 clr">--%>
+                    <%--<span class="form-checkbox-label"><s:message code="${feature.name}"/></span>--%>
+                    <%--<span class="form-payment-price"><s:message--%>
+                    <%--code="cmas.face.payment.currency"/> ${feature.price}</span>--%>
+                    <%--<br/>--%>
+                    <%--<span class="form-feature-description secondary-text"><s:message--%>
+                    <%--code="${feature.descriptionCode}"/></span>--%>
+                    <%--</label>--%>
+                    <%--</div>--%>
+                    <%--</c:if>--%>
                     <%--</c:forEach>--%>
-                <%--</div>--%>
-                <div class="form-payment-total">
-                    <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/> <span
-                        id="total">0</span>
-                    <div class="error" id="payment_error">
-                        <s:hasBindErrors name="command">
-                            <c:forEach items="${errors.globalErrors}" var="error">
-                                <span class="error"><s:message message="${error}"/></span><br/>
-                            </c:forEach>
-                        </s:hasBindErrors>
-                    </div>
-                </div>
-                <div>
-                    <button class="positive-button form-item-right form-button-smaller" id="payButton">
-                        <s:message code="cmas.face.payment.button"/>
-                    </button>
-                </div>
+                    <%--</div>--%>
             </div>
         </div>
     </div>
