@@ -1,4 +1,4 @@
-INSERT INTO `cmas`.`loyalty_program_item`
+INSERT INTO `loyalty_program_item`
 (
   `deleted`,
   `name`,
@@ -14,7 +14,7 @@ VALUES
    5,
    479);
 
-INSERT INTO `cmas`.`loyalty_program_item`
+INSERT INTO `loyalty_program_item`
 (
   `deleted`,
   `name`,
