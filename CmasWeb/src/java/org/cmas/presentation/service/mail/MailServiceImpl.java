@@ -219,20 +219,22 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     public void sendCameraOrderMailToSubal(CameraOrder cameraOrder) {
         Diver diver = cameraOrder.getDiver();
         Locale locale = new Locale("eng");
+        String cameraName = cameraOrder.getCameraName();
         String subj = subjects.renderText("CameraOrderRequest",
                                           locale,
+                                          cameraName,
                                           diver.getPrimaryPersonalCard().getPrintNumber());
         String text;
         if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.GUEST) {
             text = textRenderer.renderText("cameraOrderRequestGuest.ftl", locale,
                                            new ModelAttr("diver", diver),
-                                           new ModelAttr("cameraName", cameraOrder.getCameraName()),
+                                           new ModelAttr("cameraName", cameraName),
                                            new ModelAttr("referenceNumber", cameraOrder.getExternalNumber())
             );
         } else {
             text = textRenderer.renderText("cameraOrderRequest.ftl", locale,
                                            new ModelAttr("diver", diver),
-                                           new ModelAttr("cameraName", cameraOrder.getCameraName()),
+                                           new ModelAttr("cameraName", cameraName),
                                            new ModelAttr("country", diver.getFederation().getCountry()),
                                            new ModelAttr("referenceNumber", cameraOrder.getExternalNumber())
             );

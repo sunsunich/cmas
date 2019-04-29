@@ -125,7 +125,10 @@
     <my:dialog id="orderPlaceSuccess"
                title="cmas.face.loyalty.program.successTitle"
                buttonText="cmas.face.dialog.ok">
-        <div><s:message code="cmas.face.loyalty.program.camera.successText" arguments="${diver.email}"/></div>
+        <div><s:message code="cmas.face.loyalty.program.camera.successText"
+                        arguments="${loyaltyProgramItem.name}|${diver.email}"
+                        argumentSeparator="|"
+        /></div>
     </my:dialog>
 
     <!-- end of Content -->
