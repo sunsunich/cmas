@@ -268,11 +268,12 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             for (PersonalCard card : cards) {
                 PersonalCardType cardType = card.getCardType();
                 if (cardType != PersonalCardType.PRIMARY) {
-                    CardEqualityKey key = new CardEqualityKey(
-                            card.getDiverType(), card.getDiverLevel(), cardType
-                    );
-                    cardsToAdd.put(key, card);
+                    continue;
                 }
+                CardEqualityKey key = new CardEqualityKey(
+                        card.getDiverType(), card.getDiverLevel(), cardType
+                );
+                cardsToAdd.put(key, card);
             }
             for (PersonalCard card : cardsToAdd.values()) {
                 card.setDiver(dbDiver);

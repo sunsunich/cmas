@@ -1,12 +1,13 @@
 var loyalty_program_model = {
 
+    itemId : "",
     isDiverAllowedLoyaltyProgram: false,
 
-    placeCameraOrder: function (successHandler, unSuccessHandler) {
+    placeCameraOrder: function (successHandler, unSuccessHandler, errorHandler) {
         basicClient.sendGetRequestCommonCase(
             "/secure/createCameraOrder.html",
-            {},
-            successHandler, unSuccessHandler
+            {"itemId": this.itemId},
+            successHandler, unSuccessHandler, errorHandler
         );
     }
 };

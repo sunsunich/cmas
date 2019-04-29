@@ -2,6 +2,7 @@ package org.cmas.presentation.entities;
 
 import org.cmas.Globals;
 import org.cmas.entities.UserAwareEntity;
+import org.cmas.entities.fin.LoyaltyProgramItem;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -38,6 +40,11 @@ public class CameraOrder extends UserAwareEntity {
 
     @Column(nullable=false, precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal discountPriceEuro;
+
+    private String externalNumber;
+
+    @ManyToOne
+    private LoyaltyProgramItem loyaltyProgramItem;
 
     public CameraOrder() {
         createDate = new Date();
@@ -89,5 +96,21 @@ public class CameraOrder extends UserAwareEntity {
 
     public void setDiscountPriceEuro(BigDecimal discountPrice) {
         this.discountPriceEuro = discountPrice;
+    }
+
+    public String getExternalNumber() {
+        return externalNumber;
+    }
+
+    public void setExternalNumber(String externalNumber) {
+        this.externalNumber = externalNumber;
+    }
+
+    public LoyaltyProgramItem getLoyaltyProgramItem() {
+        return loyaltyProgramItem;
+    }
+
+    public void setLoyaltyProgramItem(LoyaltyProgramItem loyaltyProgramItem) {
+        this.loyaltyProgramItem = loyaltyProgramItem;
     }
 }

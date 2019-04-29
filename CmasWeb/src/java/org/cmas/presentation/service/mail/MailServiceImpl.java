@@ -3,6 +3,7 @@ package org.cmas.presentation.service.mail;
 import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.presentation.entities.CameraOrder;
@@ -206,7 +207,8 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         String text = textRenderer.renderText("cameraOrderConfirmed.ftl", locale,
                                               new ModelAttr("diver", diver),
                                               new ModelAttr("sendToEmail", cameraOrder.getSendToEmail()),
-                                              new ModelAttr("cameraName", cameraName)
+                                              new ModelAttr("cameraName", cameraName),
+                                              new ModelAttr("referenceNumber", cameraOrder.getExternalNumber())
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(diver);
@@ -217,12 +219,24 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     public void sendCameraOrderMailToSubal(CameraOrder cameraOrder) {
         Diver diver = cameraOrder.getDiver();
         Locale locale = new Locale("eng");
-        String subj = subjects.renderText("CameraOrderRequest", locale, diver.getPrimaryPersonalCard().getPrintNumber());
-        String text = textRenderer.renderText("cameraOrderRequest.ftl", locale,
-                                              new ModelAttr("diver", diver),
-                                              new ModelAttr("cameraName", cameraOrder.getCameraName()),
-                                              new ModelAttr("country", diver.getFederation().getCountry())
-        );
+        String subj = subjects.renderText("CameraOrderRequest",
+                                          locale,
+                                          diver.getPrimaryPersonalCard().getPrintNumber());
+        String text;
+        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.GUEST) {
+            text = textRenderer.renderText("cameraOrderRequestGuest.ftl", locale,
+                                           new ModelAttr("diver", diver),
+                                           new ModelAttr("cameraName", cameraOrder.getCameraName()),
+                                           new ModelAttr("referenceNumber", cameraOrder.getExternalNumber())
+            );
+        } else {
+            text = textRenderer.renderText("cameraOrderRequest.ftl", locale,
+                                           new ModelAttr("diver", diver),
+                                           new ModelAttr("cameraName", cameraOrder.getCameraName()),
+                                           new ModelAttr("country", diver.getFederation().getCountry()),
+                                           new ModelAttr("referenceNumber", cameraOrder.getExternalNumber())
+            );
+        }
         InternetAddress from = getSiteReplyAddress(locale);
         try {
             InternetAddress to = new InternetAddress(cameraOrder.getSendToEmail(), "SUBAL representative");

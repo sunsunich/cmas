@@ -8,6 +8,7 @@ import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.model.billing.PaymentAddData;
+import org.cmas.util.random.Randomazer;
 import org.hibernate.StaleObjectStateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.security.SecureRandom;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +25,6 @@ public class BillingServiceImpl implements BillingService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BillingServiceImpl.class);
     private static final int INVOICE_NUMBER_RAND_PART_LENGTH = 7;
-    private static final SecureRandom RND = new SecureRandom();
 
     @Autowired
     private InvoiceDao invoiceDao;
@@ -33,8 +32,10 @@ public class BillingServiceImpl implements BillingService {
     @Autowired
     private TransactionalBillingServiceImpl transactionalBillingService;
 
-    private static final int MAX_ATTEMPTS_CNT = 2;
+    @Autowired
+    private Randomazer randomazer;
 
+    private static final int MAX_ATTEMPTS_CNT = 2;
 
     @Transactional
     @Override
@@ -158,24 +159,9 @@ public class BillingServiceImpl implements BillingService {
 
     private void saveInvoiceAndSetExtId(Invoice invoice) {
         long id = (Long) invoiceDao.save(invoice);
-        String externalInvoiceNumberBeg = genRandom(INVOICE_NUMBER_RAND_PART_LENGTH);
-        String externalInvoiceNumberEnd = genRandom(INVOICE_NUMBER_RAND_PART_LENGTH);
         invoice.setExternalInvoiceNumber(
-                externalInvoiceNumberBeg.substring(0, INVOICE_NUMBER_RAND_PART_LENGTH)
-                + id
-                + externalInvoiceNumberEnd.substring(0, INVOICE_NUMBER_RAND_PART_LENGTH)
-        );
+                randomazer.generateRandomStringByUniqueId(id, INVOICE_NUMBER_RAND_PART_LENGTH));
         invoiceDao.updateModel(invoice);
-    }
-
-    private String genRandom(int minLength) {
-        long minNumber = 10L * (long) (minLength - 1);
-        long number = Math.abs(RND.nextLong());
-        if (number > Long.MAX_VALUE - minNumber) {
-            return String.valueOf(number);
-        } else {
-            return String.valueOf(minNumber + number);
-        }
     }
 
     @Override

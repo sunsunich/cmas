@@ -46,6 +46,7 @@
                 <value>org.cmas.entities.DictionaryEntity</value>
 
                 <value>org.cmas.entities.fin.PaidFeature</value>
+                <value>org.cmas.entities.fin.LoyaltyProgramItem</value>
 
                 <value>org.cmas.presentation.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
@@ -153,6 +154,10 @@
     </bean>
 
     <bean id="paidFeatureDao" class="org.cmas.presentation.dao.billing.PaidFeatureDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="loyaltyProgramItemDao" class="org.cmas.presentation.dao.billing.LoyaltyProgramItemDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

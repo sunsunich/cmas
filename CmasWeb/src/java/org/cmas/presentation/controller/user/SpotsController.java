@@ -34,7 +34,7 @@ import java.util.List;
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class SpotsController extends DiverAwareController{
+public class SpotsController extends DiverAwareController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -49,7 +49,9 @@ public class SpotsController extends DiverAwareController{
     private ToponymDao toponymDao;
 
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
-    public ModelAndView showSpotsPage(@RequestParam(value = AccessInterceptor.LOGBOOK_ENTRY_ID, required = false) Long logbookEntryId) throws IOException {
+    public ModelAndView showSpotsPage(
+            @RequestParam(value = AccessInterceptor.LOGBOOK_ENTRY_ID, required = false) Long logbookEntryId)
+            throws IOException {
         ModelMap mm = new ModelMap();
         mm.addAttribute("countries", countryDao.getAll());
         mm.addAttribute("logbookEntryId", logbookEntryId);
@@ -72,7 +74,8 @@ public class SpotsController extends DiverAwareController{
     }
 
     @RequestMapping(value = "/secure/getSpotByCoords.html", method = RequestMethod.GET)
-    public View getSpotByCoords(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) throws IOException {
+    public View getSpotByCoords(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude)
+            throws IOException {
         List<DiveSpot> diveSpots = getDiveSpotsByCoords(latitude, longitude);
         if (diveSpots.isEmpty()) {
             return gsonViewFactory.createErrorGsonView("validation.spotNotFound");

@@ -91,5 +91,6 @@ var error_codes = {
     "validation.xlsFileFormat": "Unsupported xls file format",
     "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}",
     "error.logbook.deletePhotoFailed": "Failed to delete logbook photo. Please try again later",
-    "error.loyalty.program.camera.orderFailed" : "Failed to place an order. Please try again later"
+    "error.loyalty.program.camera.orderFailed" : "Failed to place an order. Please try again later",
+    "error.loyalty.program..camera.order.tooMany" : "Sorry, you cannot place more orders until your CMAS licence is renewed"
 };

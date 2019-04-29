@@ -23,8 +23,14 @@
     <c:set var="isCMAS"
            value="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
+    <c:set var="hasCmasCard"
+           value="${diver.diverRegistrationStatus.name == 'CMAS_FULL'
+           || diver.diverRegistrationStatus.name == 'CMAS_BASIC'
+           || diver.diverRegistrationStatus.name == 'GUEST'}"/>
+
     <script type="application/javascript">
         var isCMAS = ${isCMAS};
+        var hasCmasCard = ${hasCmasCard};
     </script>
     <my:header>
         <c:if test="${!hideMenu}">

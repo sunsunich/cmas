@@ -4,11 +4,11 @@ import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.fin.LoyaltyProgramItem;
 import org.cmas.entities.fin.PaidFeature;
-import org.cmas.presentation.dao.CameraOrderDao;
+import org.cmas.presentation.dao.billing.LoyaltyProgramItemDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.presentation.entities.CameraOrder;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -30,6 +30,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
@@ -61,10 +62,10 @@ public class UserHomeController extends DiverAwareController {
     private DiverDao diverDao;
 
     @Autowired
-    private CameraOrderDao cameraOrderDao;
+    private CameraOrderService cameraOrderService;
 
     @Autowired
-    private CameraOrderService cameraOrderService;
+    private LoyaltyProgramItemDao loyaltyProgramItemDao;
 
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() throws IOException {
@@ -130,29 +131,45 @@ public class UserHomeController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/loyaltyProgram.html", method = RequestMethod.GET)
     public ModelAndView showLoyaltyProgram(ModelMap mm) throws IOException {
-        mm.addAttribute("canOrderThisYear",
-                        cameraOrderDao.getOrderCntForYear(getCurrentDiver())
-                        < cameraOrderService.getAllowedOrdersPerYearCnt());
-
-        mm.addAttribute("marketPriceEuro", cameraOrderService.getMarketPriceEuro());
-        mm.addAttribute("discountPriceEuro", cameraOrderService.getDiscountPriceEuro());
+        mm.addAttribute("loyaltyProgramItems", loyaltyProgramItemDao.getAll());
         return new ModelAndView("/secure/loyaltyProgram", mm);
     }
 
+    @RequestMapping(value = "/secure/loyaltyProgramItem.html", method = RequestMethod.GET)
+    public ModelAndView showLoyaltyProgramItem(@RequestParam("itemId") Long itemId) throws IOException {
+        LoyaltyProgramItem loyaltyProgramItem = loyaltyProgramItemDao.getModel(itemId);
+        if (loyaltyProgramItem == null) {
+            throw new BadRequestException();
+        }
+        ModelMap mm = new ModelMap();
+        Diver diver = getCurrentDiver();
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL
+            || diverRegistrationStatus == DiverRegistrationStatus.GUEST) {
+            mm.addAttribute("canOrderThisYear",
+                            cameraOrderService.canCreateCameraOrder(diver, loyaltyProgramItem)
+            );
+        } else {
+            mm.addAttribute("canOrderThisYear", false);
+        }
+
+        mm.addAttribute("loyaltyProgramItem", loyaltyProgramItem);
+        return new ModelAndView("/secure/loyaltyProgramItem", mm);
+    }
+
     @RequestMapping(value = "/secure/createCameraOrder.html", method = RequestMethod.GET)
-    public View createCameraOrder() throws IOException {
+    public View createCameraOrder(@RequestParam("itemId") Long itemId) throws IOException {
+        LoyaltyProgramItem loyaltyProgramItem = loyaltyProgramItemDao.getModel(itemId);
+        if (loyaltyProgramItem == null) {
+            throw new BadRequestException();
+        }
         Diver diver = getCurrentDiver();
         try {
-            CameraOrder cameraOrder = new CameraOrder();
-            cameraOrder.setDiver(diver);
-            cameraOrder.setCameraName(cameraOrderService.getCameraName());
-            cameraOrder.setSendToEmail(cameraOrderService.getSendToEmail());
-            cameraOrder.setMarketPriceEuro(cameraOrderService.getMarketPriceEuro());
-            cameraOrder.setDiscountPriceEuro(cameraOrderService.getDiscountPriceEuro());
-            cameraOrderDao.save(cameraOrder);
-
-            cameraOrderService.sendCameraOrderEmails(cameraOrder);
-            return gsonViewFactory.createSuccessGsonView();
+            if (cameraOrderService.createCameraOrder(diver, loyaltyProgramItem)) {
+                return gsonViewFactory.createSuccessGsonView();
+            } else {
+                return gsonViewFactory.createErrorGsonView("error.loyalty.program..camera.order.tooMany");
+            }
         } catch (Exception e) {
             log.error("Error while creating camera order", e);
             return gsonViewFactory.createErrorGsonView("error.loyalty.program.camera.orderFailed");

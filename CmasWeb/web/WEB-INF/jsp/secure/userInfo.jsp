@@ -12,8 +12,13 @@
     <c:set var="isCMAS"
            value="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
+    <c:set var="hasCmasCard"
+           value="${diver.diverRegistrationStatus.name == 'CMAS_FULL'
+           || diver.diverRegistrationStatus.name == 'CMAS_BASIC'
+           || diver.diverRegistrationStatus.name == 'GUEST'}"/>
+
     <script type="application/javascript">
-        <c:if test="${isCMAS}">
+        <c:if test="${hasCmasCard}">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
         </c:if>
         var diverUserpicUrl = "${diver.userpicUrl}";
@@ -32,10 +37,11 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                        <div class="userpic">
-                            <div class="centered" id="userpic" style='background : url("${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}") center no-repeat; background-size: cover'>
+                            <div class="userpic">
+                                <div class="centered" id="userpic"
+                                     style='background : url("${pageContext.request.contextPath}${userpicRoot}${diver.userpicUrl}") center no-repeat; background-size: cover'>
+                                </div>
                             </div>
-                        </div>
                         </c:otherwise>
                     </c:choose>
                     <div class="error" id="selectUserpic_error_file"></div>
@@ -51,13 +57,13 @@
                     <div class="basic-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></div>
                 </div>
             </div>
-            <c:if test="${isCMAS}">
+            <c:if test="${hasCmasCard}">
                 <div class="panel">
                     <div class="card-container" id="noCard">
                         <div>
-                <span class="header2-text">
-                    <s:message code="cmas.face.client.profile.noCard"/>
-                </span>
+                            <span class="header2-text">
+                                <s:message code="cmas.face.client.profile.noCard"/>
+                            </span>
                         </div>
                         <button class="positive-button" id="cardReload">
                             <s:message code="cmas.face.client.profile.cardReload"/>
@@ -66,11 +72,13 @@
                     <div class="card-container" id="card">
                         <img id="cardImg"/>
                     </div>
-                    <div class="pass_link">
-                        <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">
-                            <s:message code="cmas.face.client.profile.showAllCards"/>
-                        </a>
-                    </div>
+                    <c:if test="${isCMAS}">
+                        <div class="pass_link">
+                            <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">
+                                <s:message code="cmas.face.client.profile.showAllCards"/>
+                            </a>
+                        </div>
+                    </c:if>
                 </div>
             </c:if>
         </div>

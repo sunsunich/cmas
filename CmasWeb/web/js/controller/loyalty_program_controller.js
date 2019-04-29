@@ -57,9 +57,13 @@ var loyalty_program_controller = {
             function () {
                 $('#orderPlaceSuccess').show();
                 $('#placeOrderContainer').hide();
+            }, function (json) {
+                error_dialog_controller.showErrorDialog(error_codes[json.message]);
+                $('#placeOrderContainer').hide();
             }, function () {
                 error_dialog_controller.showErrorDialog(error_codes["error.loyalty.program.camera.orderFailed"]);
-            })
+            }
+        );
     }
 };
 

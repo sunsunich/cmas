@@ -28,11 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.cmas.entities.diver.DiverRegistrationStatus.DEMO;
-import static org.cmas.entities.diver.DiverRegistrationStatus.GUEST;
-import static org.cmas.entities.diver.DiverRegistrationStatus.INACTIVE;
-import static org.cmas.entities.diver.DiverRegistrationStatus.NEVER_REGISTERED;
-
 /**
  * Created on Feb 05, 2016
  *
@@ -144,7 +139,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
                 .add(Restrictions.not(
                         Restrictions.in("diverRegistrationStatus",
-                                        new DiverRegistrationStatus[]{NEVER_REGISTERED, INACTIVE})
+                                        new DiverRegistrationStatus[]{
+                                                DiverRegistrationStatus.NEVER_REGISTERED,
+                                                DiverRegistrationStatus.INACTIVE})
                      )
                 )
                 //remove bots
@@ -398,7 +395,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                         .setParameter("newStatus", DiverRegistrationStatus.CMAS_BASIC)
                         .setDate("date", new Date()).executeUpdate();
         createQuery(hql).setParameterList("statusList",
-                                          Arrays.asList(GUEST, DEMO))
+                                          Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
                         .setParameter("newStatus", DiverRegistrationStatus.INACTIVE)
                         .setDate("date", new Date()).executeUpdate();
     }

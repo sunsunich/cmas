@@ -9,7 +9,7 @@ var profile_controller = {
     setListeners: function () {
         var self = this;
 
-        if (isCMAS) {
+        if (hasCmasCard) {
             $("#cardReload").click(function () {
                 self.loadPrimaryCard();
             });

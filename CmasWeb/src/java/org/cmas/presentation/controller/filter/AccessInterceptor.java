@@ -4,7 +4,6 @@ import com.google.myjson.Gson;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
@@ -55,6 +54,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private List<String> freePages = new ArrayList<>();
     private List<String> cmasBasicPages = new ArrayList<>();
     private List<String> demoPages = new ArrayList<>();
+    private List<String> guestPages = new ArrayList<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -71,34 +71,43 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         if (authenticationService.isDiver()) {
             BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
             Diver diver = (Diver) currentUser.getUser();
-            DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
-            if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_BASIC) {
-                if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
-                    return rejectIfCommonValidationNotPassed(request, response, requestURI);
-                } else {
-                    redirectForPayment(request, response);
-                    return false;
-                }
-            } else {
-                if ((diverRegistrationStatus == DiverRegistrationStatus.DEMO ||
-                     diverRegistrationStatus == DiverRegistrationStatus.GUEST ||
-                     diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL)
-                    && diver.getDateLicencePaymentIsDue().after(new Date())
-                        ) {
-                    if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL) {
+            switch (diver.getDiverRegistrationStatus()) {
+                case DEMO:
+                    if (diver.getDateLicencePaymentIsDue().after(new Date())
+                        && demoPages.contains(requestURI)) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     } else {
-                        if (demoPages.contains(requestURI)) {
-                            return rejectIfCommonValidationNotPassed(request, response, requestURI);
-                        } else {
-                            redirectForPayment(request, response);
-                            return false;
-                        }
+                        redirectForPayment(request, response);
+                        return false;
                     }
-                } else {
+                case GUEST:
+                    if (diver.getDateLicencePaymentIsDue().after(new Date())
+                        && (demoPages.contains(requestURI) || guestPages.contains(requestURI))
+                            ) {
+                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                    } else {
+                        redirectForPayment(request, response);
+                        return false;
+                    }
+                case CMAS_BASIC:
+                    if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
+                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                    } else {
+                        redirectForPayment(request, response);
+                        return false;
+                    }
+                case CMAS_FULL:
+                    if (diver.getDateLicencePaymentIsDue().after(new Date())) {
+                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                    } else {
+                        redirectForPayment(request, response);
+                        return false;
+                    }
+                case NEVER_REGISTERED:
+                    // fall through
+                case INACTIVE:
                     redirectForPayment(request, response);
                     return false;
-                }
             }
         }
         return rejectIfCommonValidationNotPassed(request, response, requestURI);
@@ -238,5 +247,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     @Required
     public void setDemoPages(List<String> demoPages) {
         this.demoPages = demoPages;
+    }
+
+    @Required
+    public void setGuestPages(List<String> guestPages) {
+        this.guestPages = guestPages;
     }
 }

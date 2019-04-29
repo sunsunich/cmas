@@ -1,11 +1,13 @@
 package org.cmas.presentation.service;
 
+import org.cmas.entities.diver.Diver;
+import org.cmas.entities.fin.LoyaltyProgramItem;
+import org.cmas.presentation.dao.CameraOrderDao;
 import org.cmas.presentation.entities.CameraOrder;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.util.random.Randomazer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
-
-import java.math.BigDecimal;
 
 /**
  * Created on Feb 13, 2019
@@ -14,68 +16,54 @@ import java.math.BigDecimal;
  */
 public class CameraOrderServiceImpl implements CameraOrderService {
 
-    private String cameraName;
+    private static final int CAMERA_ORDER_NUMBER_RAND_PART_LENGTH = 7;
+
+    private final Object orderCreationLock = new Object();
 
     private String sendToEmail;
-
-    private BigDecimal marketPriceEuro;
-
-    private BigDecimal discountPriceEuro;
 
     private int allowedOrdersPerYearCnt;
 
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private CameraOrderDao cameraOrderDao;
+
+    @Autowired
+    private Randomazer randomazer;
+
     @Override
-    public void sendCameraOrderEmails(CameraOrder cameraOrder) {
+    public boolean createCameraOrder(Diver diver, LoyaltyProgramItem loyaltyProgramItem) {
+        synchronized (orderCreationLock) {
+            if (!canCreateCameraOrder(diver, loyaltyProgramItem)) {
+                return false;
+            }
+        }
+        CameraOrder cameraOrder = new CameraOrder();
+        cameraOrder.setDiver(diver);
+        cameraOrder.setCameraName(loyaltyProgramItem.getName());
+        cameraOrder.setSendToEmail(sendToEmail);
+        cameraOrder.setMarketPriceEuro(loyaltyProgramItem.getMarketPriceEuro());
+        cameraOrder.setDiscountPriceEuro(loyaltyProgramItem.getMarketPriceEuro());
+        cameraOrder.setLoyaltyProgramItem(loyaltyProgramItem);
+        Long id = (Long) cameraOrderDao.save(cameraOrder);
+        cameraOrder.setExternalNumber(
+                randomazer.generateRandomStringByUniqueId(id, CAMERA_ORDER_NUMBER_RAND_PART_LENGTH));
+        cameraOrderDao.updateModel(cameraOrder);
         mailService.sendCameraOrderMailToSubal(cameraOrder);
         mailService.sendCameraOrderMailToDiver(cameraOrder);
+        return true;
     }
 
     @Override
-    public String getCameraName() {
-        return cameraName;
-    }
-
-    @Override
-    public String getSendToEmail() {
-        return sendToEmail;
-    }
-
-    @Override
-    public BigDecimal getMarketPriceEuro() {
-        return marketPriceEuro;
-    }
-
-    @Override
-    public BigDecimal getDiscountPriceEuro() {
-        return discountPriceEuro;
-    }
-
-    @Override
-    public int getAllowedOrdersPerYearCnt() {
-        return allowedOrdersPerYearCnt;
-    }
-
-    @Required
-    public void setMarketPriceEuro(BigDecimal marketPriceEuro) {
-        this.marketPriceEuro = marketPriceEuro;
-    }
-
-    @Required
-    public void setDiscountPriceEuro(BigDecimal discountPriceEuro) {
-        this.discountPriceEuro = discountPriceEuro;
+    public boolean canCreateCameraOrder(Diver diver, LoyaltyProgramItem loyaltyProgramItem) {
+        return cameraOrderDao.getOrderCntForYear(diver, loyaltyProgramItem) < allowedOrdersPerYearCnt;
     }
 
     @Required
     public void setSendToEmail(String sendToEmail) {
         this.sendToEmail = sendToEmail;
-    }
-
-    @Required
-    public void setCameraName(String cameraName) {
-        this.cameraName = cameraName;
     }
 
     @Required

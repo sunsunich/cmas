@@ -96,23 +96,23 @@ public class PersonalCard implements Serializable {
     public String getPrintNumber() {
         if (cardType == PersonalCardType.PRIMARY) {
             StringBuilder result = new StringBuilder();
-            for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length(); i++) {
+            for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - getNumber().length(); i++) {
                 result.append('0');
                 if ((i + 1) % 4 == 0) {
                     result.append(' ');
                 }
             }
-            for (int i = Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - number.length();
+            for (int i = Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - getNumber().length();
                  i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH;
                  i++) {
-                result.append(number.charAt(i + number.length() - Globals.SPORTS_CARD_NUMBER_MAX_LENGTH));
+                result.append(getNumber().charAt(i + getNumber().length() - Globals.SPORTS_CARD_NUMBER_MAX_LENGTH));
                 if ((i + 1) % 4 == 0 && i != Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - 1) {
                     result.append(' ');
                 }
             }
             return result.toString();
         }
-        return number;
+        return getNumber();
     }
 
     public DiverType getDiverType() {

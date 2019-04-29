@@ -196,6 +196,9 @@
     <bean id="billingService" class="org.cmas.presentation.service.billing.BillingServiceImpl">
     </bean>
 
+    <bean id="randomazer" class="org.cmas.util.random.RandomazerImpl">
+    </bean>
+
     <bean id="transactionalBillingService" class="org.cmas.presentation.service.billing.TransactionalBillingServiceImpl">
     </bean>
 

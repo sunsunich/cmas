@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao;
 
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.fin.LoyaltyProgramItem;
 import org.cmas.presentation.entities.CameraOrder;
 import org.cmas.util.dao.HibernateDao;
 
@@ -11,5 +12,5 @@ import org.cmas.util.dao.HibernateDao;
  */
 public interface CameraOrderDao extends HibernateDao<CameraOrder>{
 
-    int getOrderCntForYear(Diver diver);
+    int getOrderCntForYear(Diver diver, LoyaltyProgramItem loyaltyProgramItem);
 }

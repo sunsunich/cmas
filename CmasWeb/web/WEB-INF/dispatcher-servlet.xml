@@ -85,6 +85,7 @@
                 <value>/secure/getSpotByCoords.html</value>
 
                 <value>/secure/loyaltyProgram.html</value>
+                <value>/secure/loyaltyProgramItem.html</value>
             </list>
         </property>
 
@@ -92,6 +93,13 @@
             <list>
                 <value>/secure/profile/getCardImageUrl.html</value>
                 <value>/secure/cards.html</value>
+            </list>
+        </property>
+
+        <property name="guestPages">
+            <list>
+                <value>/secure/profile/getCardImageUrl.html</value>
+                <value>/secure/createCameraOrder.html</value>
             </list>
         </property>
 
@@ -159,6 +167,7 @@
                 <value>/secure/deleteSpot.html</value>
 
                 <value>/secure/loyaltyProgram.html</value>
+                <value>/secure/loyaltyProgramItem.html</value>
                 <value>/secure/createCameraOrder.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
