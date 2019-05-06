@@ -27,14 +27,17 @@
                 </div>
                 <div class="form-description">
                     <s:message code="cmas.face.first.login.form.account.created"/>
+                    <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
+                        <s:message code="cmas.face.first.login.form.account.demo"/>
+                    </c:if>
                 </div>
                 <div class="form-description">
                     <s:message code="cmas.face.first.login.form.getFullAccess"/>
                 </div>
-                <button class="white-button form-item-left form-button-bigger"
-                        onclick="return window.location = '/secure/chooseNoPayment.html'">
-                    <s:message code="cmas.face.first.login.form.link.cmas_basic"/>
-                </button>
+                    <%--<button class="white-button form-item-left form-button-bigger"--%>
+                    <%--onclick="return window.location = '/secure/chooseNoPayment.html'">--%>
+                    <%--<s:message code="cmas.face.first.login.form.link.cmas_basic"/>--%>
+                    <%--</button>--%>
                 <button class="positive-button form-item-right form-button-smaller"
                         onclick="return window.location = '/secure/pay.html'">
                     <s:message code="cmas.face.first.login.form.link.cmas_full"/>

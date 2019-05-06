@@ -4,6 +4,7 @@ import com.google.myjson.Gson;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
@@ -90,6 +91,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                         return false;
                     }
                 case CMAS_BASIC:
+                    if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
+                        redirectForPayment(request, response);
+                        return false;
+                    }
                     if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     } else {

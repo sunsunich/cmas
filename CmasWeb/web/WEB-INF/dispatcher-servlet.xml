@@ -20,6 +20,7 @@
     <bean id="accessInterceptor" class="org.cmas.presentation.controller.filter.AccessInterceptor">
         <property name="freePages">
             <list>
+                <value>/secure/firstLogin.html</value>
                 <value>/secure/index.html</value>
                 <value>/secure/pay.html</value>
                 <value>/secure/billing/systempay/accept.html</value>
@@ -32,7 +33,6 @@
 
         <property name="demoPages">
             <list>
-                <value>/secure/firstLogin.html</value>
                 <value>/secure/chooseNoPayment.html</value>
 
                 <value>/secure/editEmail.html</value>
