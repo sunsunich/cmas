@@ -42,7 +42,7 @@ public class FirstPaymentScreen extends SecureFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(currentUser.isHasPayed()){
+        if(true){
             replaceCurrentMainFragment(getId(), MainScreen.newInstance(null), true);
             return;
         }
@@ -59,7 +59,7 @@ public class FirstPaymentScreen extends SecureFragment {
         buttonProceedToPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentUser.setHasPayed(true);
+               // currentUser.setHasPayed(true);
                 BaseBeanContainer.getInstance().getDiverService().persist(
                         getActivity(), currentUser, false
                 );

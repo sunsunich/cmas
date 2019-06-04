@@ -1,7 +1,7 @@
-package org.cmas.presentation.service;
+package org.cmas.presentation.service.loyalty;
 
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.LoyaltyProgramItem;
+import org.cmas.entities.loyalty.LoyaltyProgramItem;
 
 /**
  * Created on Feb 13, 2019

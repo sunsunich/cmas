@@ -6,16 +6,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 
-<my:adminpage title="Редактирование пользователя в системе">
-<h2>Редактирование пользователя в системе</h2>
-<ff:form submitText="Сохранить" action="/admin/updateUser.html" >
+<my:adminpage title="Edit user">
+<h2>Edit user</h2>
+<ff:form submitText="Save" action="/admin/updateUser.html" >
    
-    <ff:input path="shopName" label="Имя магазина" required="true"/>
-    <ff:input path="email" label="E-Mail (клиента)" required="true"/>
-    <ff:input path="webAddress" label="Адрес в Интернете" required="true"/>
-    <ff:input path="phone" label="Номер телефона" required="true"/>
-    <ff:input path="city" label="Город" required="true"/>
-    <ff:input path="discountPercent" label="Скидка (в %)" required="true"/>
+    <ff:input path="firstName" label="First Name" required="true"/>
+    <ff:input path="email" label="E-Mail" required="true"/>
 
     <ff:hidden path="id" />
 

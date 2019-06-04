@@ -63,4 +63,5 @@
     <bean id="diveSpecValidator" class="org.cmas.presentation.validator.user.DiveSpecValidator"/>
     <bean id="scubaTankValidator" class="org.cmas.presentation.validator.user.ScubaTankValidator"/>
 
+    <bean id="insuranceRequestValidator" class="org.cmas.presentation.validator.loyalty.InsuranceRequestValidator"/>
 </beans>

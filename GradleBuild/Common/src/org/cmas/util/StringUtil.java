@@ -1,14 +1,12 @@
 package org.cmas.util;
 
-import com.sun.istack.internal.Nullable;
-
 public final class StringUtil {
 
     private StringUtil() {
 
     }
 
-    public static boolean isTrimmedEmpty(@Nullable String s) {
+    public static boolean isTrimmedEmpty(String s) {
         return s == null || correctSpaceCharAndTrim(s).isEmpty();
     }
 

@@ -6,7 +6,7 @@
 <%@ taglib prefix="ef" tagdir="/WEB-INF/tags/external-form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
-<jsp:useBean id="loyaltyProgramItems" scope="request" type="java.util.List<org.cmas.entities.fin.LoyaltyProgramItem>"/>
+<jsp:useBean id="loyaltyProgramItems" scope="request" type="java.util.List<org.cmas.entities.loyalty.LoyaltyProgramItem>"/>
 
 <my:securepage title="cmas.face.loyalty.title" activeMenuItem="loyaltyProgram">
 

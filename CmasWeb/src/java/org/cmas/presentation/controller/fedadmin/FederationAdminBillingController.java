@@ -2,7 +2,7 @@ package org.cmas.presentation.controller.fedadmin;
 
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.PaidFeature;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.billing.DiverPaymentListDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;

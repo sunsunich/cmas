@@ -44,9 +44,12 @@
                 <value>org.cmas.entities.Country</value>
                 <value>org.cmas.entities.Toponym</value>
                 <value>org.cmas.entities.DictionaryEntity</value>
+                <value>org.cmas.entities.Address</value>
 
-                <value>org.cmas.entities.fin.PaidFeature</value>
-                <value>org.cmas.entities.fin.LoyaltyProgramItem</value>
+                <value>org.cmas.entities.loyalty.PaidFeature</value>
+                <value>org.cmas.entities.loyalty.LoyaltyProgramItem</value>
+                <value>org.cmas.entities.loyalty.InsuranceRequest</value>
+                <value>org.cmas.entities.loyalty.CameraOrder</value>
 
                 <value>org.cmas.presentation.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
@@ -59,9 +62,6 @@
                 <value>org.cmas.presentation.entities.user.Registration</value>
                 <value>org.cmas.presentation.entities.user.UserEvent</value>
                 <value>org.cmas.presentation.entities.user.Device</value>
-
-                <value>org.cmas.presentation.entities.CameraOrder</value>
-
             </list>
         </property>
         <property name="hibernateProperties">
@@ -141,6 +141,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="addressDao" class="org.cmas.presentation.dao.AddressDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
     <bean id="toponymDao" class="org.cmas.presentation.dao.ToponymDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
@@ -191,7 +195,11 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="cameraOrderDao" class="org.cmas.presentation.dao.CameraOrderDaoImpl">
+    <bean id="cameraOrderDao" class="org.cmas.presentation.dao.loyalty.CameraOrderDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="insuranceRequestDao" class="org.cmas.presentation.dao.loyalty.InsuranceRequestDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

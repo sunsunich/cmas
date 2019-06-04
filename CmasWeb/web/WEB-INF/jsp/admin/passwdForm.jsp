@@ -5,10 +5,10 @@
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 
-<my:adminpage title="Смена пароля клиента">
-<ff:form submitText="Сменить" action="/admin/processPasswdChange.html">
-    <ff:password path="passwd" label="Новый пароль"/>
-    <ff:password path="passwdRe" label="Пароль еще раз"/>
+<my:adminpage title="Change password for user">
+<ff:form submitText="Change" action="/admin/processPasswdChange.html">
+    <ff:password path="passwd" label="New password"/>
+    <ff:password path="passwdRe" label="Repeat new password"/>
     <ff:hidden path="userId" />
 </ff:form>
 </my:adminpage>

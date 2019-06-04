@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.admin;
 
+import com.google.myjson.Gson;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.PersonalCard;
@@ -8,6 +9,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.AmateurDao;
@@ -22,12 +24,16 @@ import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
+import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
+import org.cmas.presentation.validator.loyalty.InsuranceRequestValidator;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
+import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +48,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
@@ -237,9 +244,6 @@ public class AdminController {
         return new ModelAndView("admin/passwdForm", mm);
     }
 
-    /*
-     * Смена пароля пользователя в админ части
-     */
     @RequestMapping("/admin/processPasswdChange.html")
     public ModelAndView processPasswdChange(
             @ModelAttribute("command") PasswordChangeFormObject formObject, BindingResult result) {
@@ -250,6 +254,42 @@ public class AdminController {
         } else {
             adminService.changePassword(formObject);
             return new ModelAndView("redirect:/admin/index.html");
+        }
+    }
+
+    @Autowired
+    private InsuranceRequestValidator insuranceRequestValidator;
+
+    @Autowired
+    private InsuranceRequestService insuranceRequestService;
+
+    @Autowired
+    private GsonViewFactory gsonViewFactory;
+
+    @RequestMapping("/admin/testInsuranceForm.html")
+    public ModelAndView testInsuranceForm(
+            @RequestParam("diverId") Long diverId
+    ) {
+        Diver diver = diverDao.getById(diverId);
+        InsuranceRequest formObject = new InsuranceRequest();
+        formObject.setDiver(diver);
+
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("insuranceRequest", formObject);
+        return new ModelAndView("admin/insuranceTest", mm);
+    }
+
+    @RequestMapping("/admin/testInsurance.html")
+    @Transactional
+    public View sendInsuranceRequest(
+            @RequestParam("insuranceRequestJson") String insuranceRequestJson, BindingResult result) {
+        InsuranceRequest formObject = new Gson().fromJson(insuranceRequestJson, InsuranceRequest.class);
+        insuranceRequestValidator.validate(formObject, result);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        } else {
+            insuranceRequestService.persistAndSendInsuranceRequest(formObject);
+            return gsonViewFactory.createSuccessGsonView();
         }
     }
 

@@ -9,7 +9,7 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.billing.PaymentAddFormObject"/>
 
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
-<jsp:useBean id="features" scope="request" type="java.util.List<org.cmas.entities.fin.PaidFeature>"/>
+<jsp:useBean id="features" scope="request" type="java.util.List<org.cmas.entities.loyalty.PaidFeature>"/>
 <jsp:useBean id="featuresJson" scope="request" type="java.lang.String"/>
 
 <my:securepage title="cmas.face.payment.title"

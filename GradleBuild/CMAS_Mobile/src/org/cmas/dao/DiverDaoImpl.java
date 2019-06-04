@@ -68,7 +68,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 primaryPersonalCard
         );
         i++;
-        entity.setHasPayed(cursor.getInt(i) != 0);
+     //   entity.setHasPayed(cursor.getInt(i) != 0);
         return entity;
     }
 
@@ -78,7 +78,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         values.put(COLUMN_TYPE, entity.getDiverType().name());
         values.put(COLUMN_LEVEL, entity.getDiverLevel().name());
         values.put(COLUMN_CARD_NUMBER, entity.getPrimaryPersonalCard().getNumber());
-        values.put(COLUMN_HAS_PAYED, entity.isHasPayed());
+        values.put(COLUMN_HAS_PAYED, true);//entity.isHasPayed());
         return values;
     }
 

@@ -4,7 +4,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
-import org.cmas.presentation.entities.CameraOrder;
+import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.Registration;
 

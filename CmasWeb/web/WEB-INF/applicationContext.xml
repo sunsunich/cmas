@@ -199,7 +199,8 @@
     <bean id="randomazer" class="org.cmas.util.random.RandomazerImpl">
     </bean>
 
-    <bean id="transactionalBillingService" class="org.cmas.presentation.service.billing.TransactionalBillingServiceImpl">
+    <bean id="transactionalBillingService"
+          class="org.cmas.presentation.service.billing.TransactionalBillingServiceImpl">
     </bean>
 
     <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
@@ -214,6 +215,11 @@
     <bean id="cardDisplayManager" class="org.cmas.presentation.controller.CardDisplayManager">
     </bean>
 
-    <bean id="cameraOrderService" class="org.cmas.presentation.service.CameraOrderServiceImpl"/>
+    <bean id="cameraOrderService" class="org.cmas.presentation.service.loyalty.CameraOrderServiceImpl"/>
+
+    <bean id="insuranceRequestService" class="org.cmas.presentation.service.loyalty.InsuranceRequestServiceImpl"/>
+
+    <bean id="balticFinanceRemoteService" class="org.cmas.presentation.service.loyalty.bf.BalticFinanceRemoteServiceImpl"/>
+
 
 </beans>

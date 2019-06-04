@@ -1,16 +1,24 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.4.1'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
 }
 
@@ -18,12 +26,11 @@ subprojects {
     afterEvaluate {project ->
         if (project.hasProperty("android")) {
             android {
-                compileSdkVersion 24
-                buildToolsVersion "24.0.3"
+                compileSdkVersion 28
 
                 defaultConfig {
                     minSdkVersion 16
-                    targetSdkVersion 24
+                    targetSdkVersion 28
                     versionCode 1
                     versionName "1.0"
                 }
@@ -56,7 +63,7 @@ subprojects {
                         resources {
                             srcDirs = ['src']
                         }
-                        manifest.srcFile 'AndroidManifest.xml'
+                  //      manifest.srcFile 'AndroidManifest.xml'
                         jniLibs.srcDir 'libs'
                         aidl.srcDirs = ['src']
                         renderscript.srcDirs = ['src']
@@ -64,7 +71,7 @@ subprojects {
                         assets.srcDirs = ['assets']
                     }
 
-                    instrumentTest.setRoot('test')
+              //      instrumentTest.setRoot('test')
                 }
             }
         }
@@ -72,7 +79,7 @@ subprojects {
 }
 
 
-// Gradle wrapper task
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.1'
-}
+//// Gradle wrapper task
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '3.1'
+//}

@@ -2,7 +2,7 @@ package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.PaidFeature;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.billing.InvoiceStatus;

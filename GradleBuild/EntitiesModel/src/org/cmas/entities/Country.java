@@ -29,6 +29,9 @@ public class Country extends DictionaryEntity {
     @Expose
     private String code;
 
+    @Expose
+    private String iso3166_1_alpha_2_code;
+
     @ManyToMany
     private List<Toponym> toponyms;
 
@@ -46,5 +49,13 @@ public class Country extends DictionaryEntity {
 
     public void setToponyms(List<Toponym> toponyms) {
         this.toponyms = toponyms;
+    }
+
+    public String getIso3166_1_alpha_2_code() {
+        return iso3166_1_alpha_2_code;
+    }
+
+    public void setIso3166_1_alpha_2_code(String iso3166_1_alpha_2_code) {
+        this.iso3166_1_alpha_2_code = iso3166_1_alpha_2_code;
     }
 }

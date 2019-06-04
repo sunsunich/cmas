@@ -1,9 +1,9 @@
-package org.cmas.presentation.service;
+package org.cmas.presentation.service.loyalty;
 
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.LoyaltyProgramItem;
-import org.cmas.presentation.dao.CameraOrderDao;
-import org.cmas.presentation.entities.CameraOrder;
+import org.cmas.entities.loyalty.CameraOrder;
+import org.cmas.entities.loyalty.LoyaltyProgramItem;
+import org.cmas.presentation.dao.loyalty.CameraOrderDao;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.random.Randomazer;
 import org.springframework.beans.factory.annotation.Autowired;

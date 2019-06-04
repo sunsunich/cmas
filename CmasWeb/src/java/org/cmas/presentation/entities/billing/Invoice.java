@@ -3,7 +3,7 @@ package org.cmas.presentation.entities.billing;
 import org.cmas.Globals;
 import org.cmas.entities.UserAwareEntity;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.PaidFeature;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 

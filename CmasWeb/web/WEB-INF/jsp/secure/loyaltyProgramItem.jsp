@@ -7,7 +7,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
-<jsp:useBean id="loyaltyProgramItem" scope="request" type="org.cmas.entities.fin.LoyaltyProgramItem"/>
+<jsp:useBean id="loyaltyProgramItem" scope="request" type="org.cmas.entities.loyalty.LoyaltyProgramItem"/>
 <jsp:useBean id="canOrderThisYear" scope="request" type="java.lang.Boolean"/>
 
 <my:securepage title="cmas.face.loyalty.title"

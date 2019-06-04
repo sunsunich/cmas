@@ -1,6 +1,6 @@
 package org.cmas.presentation.dao.billing;
 
-import org.cmas.entities.fin.PaidFeature;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.DictionaryDataDaoImpl;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;

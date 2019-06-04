@@ -1,9 +1,9 @@
-package org.cmas.presentation.dao;
+package org.cmas.presentation.dao.loyalty;
 
 import org.cmas.Globals;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.fin.LoyaltyProgramItem;
-import org.cmas.presentation.entities.CameraOrder;
+import org.cmas.entities.loyalty.CameraOrder;
+import org.cmas.entities.loyalty.LoyaltyProgramItem;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;

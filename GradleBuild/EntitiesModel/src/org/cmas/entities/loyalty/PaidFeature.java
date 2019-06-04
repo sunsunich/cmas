@@ -1,4 +1,4 @@
-package org.cmas.entities.fin;
+package org.cmas.entities.loyalty;
 
 import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;

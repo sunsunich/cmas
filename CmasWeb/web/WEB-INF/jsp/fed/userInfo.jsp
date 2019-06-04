@@ -10,11 +10,6 @@
 <jsp:useBean id="diverLevels" scope="request" type="org.cmas.entities.diver.DiverLevel[]"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.entities.diver.Diver"/>
 
-<%--
-mmap.addAttribute("cardsJson", new Gson().toJson(diver.getCards()));
---%>
-<%--<jsp:useBean id="natFedCard" scope="request" type="org.cmas.entities.PersonalCard"/>--%>
-<%--<jsp:useBean id="natFedInstructorCard" scope="request" type="org.cmas.entities.PersonalCard"/>--%>
 <jsp:useBean id="cardGroups" scope="request" type="java.util.Map<java.lang.String, org.cmas.entities.PersonalCard[]>"/>
 <jsp:useBean id="cardsJson" scope="request" type="java.lang.String"/>
 

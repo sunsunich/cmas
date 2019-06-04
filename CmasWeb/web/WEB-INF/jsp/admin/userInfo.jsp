@@ -7,8 +7,8 @@
 
 <jsp:useBean id="user" scope="request" type="org.cmas.entities.User"/>
 
-<my:adminpage title="Информация о пользователе в системе">
-<h2>Информация о пользователе в системе</h2>
+<my:adminpage title="User Info">
+<h2>User Info</h2>
     <table border="0" cellpadding="4" cellspacing="2" bgcolor="white">
         <tr class="info">
             <td align="right">E-Mail</td>

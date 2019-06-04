@@ -109,6 +109,10 @@ public class Diver extends CardUser {
     @Column
     private boolean isNewsFromCurrentLocation;
 
+    @Expose
+    @Column(unique = true)
+    private String extId;
+
     public Diver() {
         defaultVisibility = LogbookVisibility.PRIVATE;
     }
@@ -116,6 +120,14 @@ public class Diver extends CardUser {
     public Diver(long id) {
         super(id);
         defaultVisibility = LogbookVisibility.PRIVATE;
+    }
+
+    public String getExtId() {
+        return extId;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
     }
 
     public String getAreaOfInterest() {

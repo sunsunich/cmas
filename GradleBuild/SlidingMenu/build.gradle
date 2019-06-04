@@ -7,8 +7,8 @@ android {
 dependencies {
 //    compile project(":appcompat")
 //    compile fileTree(dir: new File(project(':appcompat').projectDir, 'libs'), include: ['*.jar'])
-    compile "com.android.support:support-v4:24.2.1"
-    compile "com.android.support:appcompat-v7:24.2.1"
+    api "com.android.support:support-v4:24.2.1"
+    api "com.android.support:appcompat-v7:24.2.1"
   //  compile files('libs/android-support-v7-appcompat.jar')
     sourceCompatibility = 1.7
 }

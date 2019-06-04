@@ -12,7 +12,7 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.entities.fin.PaidFeature;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -21,6 +21,7 @@ import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
+import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -132,9 +133,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     }
 
     private void scheduleDiverRegistrationStatusUpdate() {
-        scheduler.scheduleDaily(new Runnable() {
+        scheduler.scheduleDaily(new RunInHibernate(sessionFactory) {
             @Override
-            public void run() {
+            public void runTaskInHibernate() {
                 diverDao.updateDiverRegistrationStatusOnPaymentDueDate();
             }
         }, 2, 0, TimeZone.getDefault());
@@ -252,7 +253,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         if (diverLevel != null
             && (dbDiverDiverLevel == null
                 || dbDiverDiverLevel.ordinal() < diverLevel.ordinal())
-                ) {
+        ) {
             dbDiver.setDiverLevel(diverLevel);
         }
         if (isNew) {

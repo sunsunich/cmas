@@ -1,6 +1,6 @@
 package org.cmas.presentation.dao.billing;
 
-import org.cmas.entities.fin.LoyaltyProgramItem;
+import org.cmas.entities.loyalty.LoyaltyProgramItem;
 import org.cmas.presentation.dao.DictionaryDataDao;
 
 import java.util.List;

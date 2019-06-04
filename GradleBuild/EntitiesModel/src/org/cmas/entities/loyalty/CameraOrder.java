@@ -1,8 +1,7 @@
-package org.cmas.presentation.entities;
+package org.cmas.entities.loyalty;
 
 import org.cmas.Globals;
 import org.cmas.entities.UserAwareEntity;
-import org.cmas.entities.fin.LoyaltyProgramItem;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
