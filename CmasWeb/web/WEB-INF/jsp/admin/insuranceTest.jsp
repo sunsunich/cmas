@@ -1,10 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
-<%@ taglib prefix="my" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<jsp:useBean id="insuranceRequest" scope="request" type="org.cmas.entities.loyalty.InsuranceRequest"/>
+<jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
 <jsp:useBean id="countries" scope="request" type="org.cmas.entities.Country[]"/>
 <jsp:useBean id="genders" scope="request" type="org.cmas.entities.Gender[]"/>
 
@@ -72,114 +73,84 @@
     <script type="text/javascript" src="/js/controller/error_dialog_controller.js?v=${webVersion}"></script>
     <script type="text/javascript" src="/js/controller/util_controller.js?v=${webVersion}"></script>
 
+    <script type="text/javascript" src="/js/model/insurance_request_model.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="/js/controller/validation_controller.js?v=${webVersion}"></script>
+    <script type="text/javascript" src="/js/controller/insurance_request_controller.js?v=${webVersion}"></script>
 
     <h2>Test insurance</h2>
-    <ff:form submitText="Test" action="/admin/testInsurance.html" >
-        <ff:select path="gender" label="Gender" options="${genders}"/>
 
-<%--        Address --%>
-        <ff:select path="countryCode" label="Country" options="${countries}" itemValue="code" itemLabel="name"/>
-        <ff:input path="region" label="Region/Province/County (optional)" required="false"/>
-        <ff:input path="zipCode" label="Zip/Post code" required="true"/>
-        <ff:input path="city" label="City" required="true"/>
-        <ff:input path="street" label="Street" required="true"/>
-        <ff:input path="number" label="House number or name" required="true"/>
+    <script type="application/javascript">
+        <my:enumToJs enumItems="${genders}" arrayVarName="insurance_request_model.genders"/>
 
-        <ff:hidden path="userId" />
+        insurance_request_model.insuranceRequest.diver.id = "${diver.id}";
+    </script>
 
-    </ff:form>
-
-    <form id="regForm" action="">
-        <div class="reg-block" id="registrationBlock">
+    <form action="">
+        <div class="reg-block">
             <div class="form-row">
-                <select name="gender" id="gender" size=1 onChange="">
+                <select name="insuranceRequest_gender" id="insuranceRequest_gender" size=1 onChange="">
                 </select>
-                <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_country"
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_gender"
                      style="display: none">
-                <div class="error" id="reg_error_country"></div>
+                <div class="error" id="insuranceRequest_error_gender"></div>
             </div>
             <div class="form-row">
-                <input id="reg_firstName" type="text"
-                       placeholder="<s:message code="cmas.face.registration.form.label.firstName"/>"/>
-                <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_firstName"
-                     style="display: none">
-                <div class="error" id="reg_error_firstName"></div>
-            </div>
-            <div class="form-row">
-                <input id="reg_lastName" type="text"
-                       placeholder="<s:message code="cmas.face.registration.form.label.lastName"/>"/>
-                <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_lastName"
-                     style="display: none">
-                <div class="error" id="reg_error_lastName"></div>
-            </div>
-            <div class="form-row">
-                <input id="reg_dob" type="text"
-                       placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"/>
-                <img src="/i/ic_calendar.png" class="error-input-ico" id="reg_ico_dob">
-                <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_dob"
-                     style="display: none">
-                <div class="error" id="reg_error_dob"></div>
-            </div>
-            <div class="form-row">
-                <select name="country" id="reg_country" size=1 onChange="">
+                <select name="insuranceRequest_country" id="insuranceRequest_country" size=1 onChange="">
                     <c:forEach items="${countries}" var="country">
                         <option value='${country.code}'>${country.name}</option>
                     </c:forEach>
                 </select>
-                <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_country"
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_country"
                      style="display: none">
-                <div class="error" id="reg_error_country"></div>
+                <div class="error" id="insuranceRequest_error_country"></div>
             </div>
             <div class="form-row">
-                <input type="checkbox" name="termsAndCondAccepted" id="reg_termsAndCondAccepted"
-                       class="css-checkbox">
-                <label for="reg_termsAndCondAccepted"
-                       class="css-label radGroup1 clr">
-                            <span class="form-checkbox-label">
-                                <s:message code="cmas.face.registration.form.label.termsAndCond"/>
-                            </span>
-                </label>
-                <div class="error" id="reg_error_termsAndCondAccepted"></div>
-                <div class="error" id="reg_error"></div>
+                <input id="insuranceRequest_region" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.region"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_region"
+                     style="display: none">
+                <div class="error" id="insuranceRequest_error_region"></div>
+            </div>
+            <div class="form-row">
+                <input id="insuranceRequest_zipCode" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.zipCode"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_zipCode"
+                     style="display: none">
+                <div class="error" id="insuranceRequest_error_zipCode"></div>
+            </div>
+            <div class="form-row">
+                <input id="insuranceRequest_city" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.city"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_city"
+                     style="display: none">
+                <div class="error" id="insuranceRequest_error_city"></div>
+            </div>
+            <div class="form-row">
+                <input id="insuranceRequest_street" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.street"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_street"
+                     style="display: none">
+                <div class="error" id="insuranceRequest_error_street"></div>
+            </div>
+            <div class="form-row">
+                <input id="insuranceRequest_number" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.number"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_number"
+                     style="display: none">
+                <div class="error" id="insuranceRequest_error_number"></div>
             </div>
             <div class="form-row">
             </div>
-            <button class="positive-button form-item-right form-button-single" id="regSubmit">
+            <button class="positive-button form-item-right form-button-single" id="insuranceRequestSubmit">
                 <s:message code="cmas.face.registration.form.next"/>
             </button>
         </div>
-        <div class="login-block" id="loginBlock" style="display: none">
-            <div class="form-row">
-                <input id="login_email" type="text"
-                       placeholder="<s:message code="cmas.face.login.form.label.login"/>"/>
-                <img src="/i/ic_error.png" class="error-input-ico" id="login_error_ico_email"
-                     style="display: none">
-                <div class="error" id="login_error_email"></div>
-            </div>
-            <div class="form-row">
-                <input id="login_password" type="password"
-                       placeholder="<s:message code="cmas.face.login.form.label.password"/>"/>
-                <img src="/i/ic_error.png" class="error-input-ico" id="login_error_ico_password"
-                     style="display: none">
-                <div class="error" id="login_error_password"></div>
-            </div>
-            <div class="form-row">
-                <input type="checkbox" name="noCertificate" id="login_remember" class="css-checkbox">
-                <label for="login_remember"
-                       class="css-label radGroup1 clr">
-                            <span class="form-checkbox-label">
-                                <s:message code="cmas.face.login.form.label.remember"/>
-                            </span>
-                </label>
-                <div class="error" id="login_error">
-                </div>
-            </div>
-            <button class="white-button form-item-left form-button-bigger" id="forgotPassword">
-                <s:message code="cmas.face.login.form.link.lostPasswd"/>
-            </button>
-            <input type="submit" class="positive-button form-item-right form-button-smaller" id="loginSubmit"
-                   value="<s:message code="cmas.face.login.form.submitText"/>"/>
-        </div>
     </form>
+
+    <my:dialog id="insuranceRequestSuccess"
+               title="cmas.loyalty.insurance.successTitle"
+               buttonText="cmas.face.dialog.ok">
+        <div><s:message code="cmas.loyalty.insurance.success"/></div>
+    </my:dialog>
 
 </my:adminpage>

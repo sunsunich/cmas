@@ -97,6 +97,8 @@ var labels = {
     "cmas.face.file.queued": "Please wait. Processing file queued",
     "cmas.face.file.cancelled": "Processing of file cancelled",
 
+    "cmas.loyalty.insurance.gender": "Gender",
+
     "SCUBA_DIVING": "Scuba diving",
     "FREE_DIVING": "Free diving",
     "BLUE_HELMETS": "Blue helmets",
@@ -164,6 +166,9 @@ var labels = {
     "GUEST": "Guest",
     "CMAS_BASIC": "CMAS Basic",
     "CMAS_FULL": "CMAS Full",
+
+    "MALE": "Male",
+    "FEMALE": "Female",
 
     "cmas.fed.addDiverFromPaymentList.failed": "Failed to add diver to payment list. Please try again later"
 };

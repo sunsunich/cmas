@@ -3,6 +3,7 @@ package org.cmas.presentation.controller.admin;
 import com.google.myjson.Gson;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
+import org.cmas.entities.Gender;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
@@ -271,11 +272,12 @@ public class AdminController {
             @RequestParam("diverId") Long diverId
     ) {
         Diver diver = diverDao.getById(diverId);
-        InsuranceRequest formObject = new InsuranceRequest();
-        formObject.setDiver(diver);
 
         ModelMap mm = new ModelMap();
-        mm.addAttribute("insuranceRequest", formObject);
+        List<Country> countries = countryDao.getAll();
+        mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
+        mm.addAttribute("genders", Gender.values());
+        mm.addAttribute("diver", diver);
         return new ModelAndView("admin/insuranceTest", mm);
     }
 
