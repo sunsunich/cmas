@@ -2,6 +2,7 @@ package org.cmas.util.http;
 
 import com.google.firebase.database.utilities.Pair;
 import org.cmas.Globals;
+import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,9 +147,8 @@ public class SimpleHttpsClient {
                 }
         );
         if (basicUsername != null && basicPassword != null) {
-            urlConnection.setRequestProperty(
-                    "Authorization",
-                    "Basic " + basicUsername + ":" + basicPassword);
+            String credentials = Base64Coder.encodeString(basicUsername + ":" + basicPassword);
+            urlConnection.setRequestProperty("Authorization", "Basic " + credentials);
         }
         if (keyStore != null) {
             TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
