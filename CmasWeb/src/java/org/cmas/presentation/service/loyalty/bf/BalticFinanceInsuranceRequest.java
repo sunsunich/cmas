@@ -4,6 +4,8 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.loyalty.InsuranceRequest;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created on May 31, 2019
@@ -12,7 +14,8 @@ import java.text.SimpleDateFormat;
  */
 public class BalticFinanceInsuranceRequest {
 
-    public static final String BF_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ssX";
+    private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+    private static final String BF_DATE_FORMAT = "YYYY-MM-DD'T'HH:mm:ssX";
     public long id;
     public String firstname;
     public String lastname;
@@ -31,7 +34,9 @@ public class BalticFinanceInsuranceRequest {
 
     BalticFinanceInsuranceRequest(InsuranceRequest insuranceRequest) {
         id = insuranceRequest.getId();
-        signInDate = new SimpleDateFormat(BF_DATE_FORMAT).format(insuranceRequest.getCreateDate());
+        SimpleDateFormat format = new SimpleDateFormat(BF_DATE_FORMAT, Locale.ENGLISH);
+        format.setTimeZone(UTC);
+        signInDate = format.format(insuranceRequest.getCreateDate());
 
         Diver diver = insuranceRequest.getDiver();
         firstname = diver.getFirstName();

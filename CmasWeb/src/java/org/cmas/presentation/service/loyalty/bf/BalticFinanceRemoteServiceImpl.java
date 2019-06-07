@@ -30,6 +30,7 @@ public class BalticFinanceRemoteServiceImpl implements InsuranceCompanyRemoteSer
     @Override
     public BalticFinanceResponse sendInsuranceRequest(InsuranceRequest request) throws Exception {
         String postBody = BF_GSON.toJson(new BalticFinanceInsuranceRequest(request));
+        LOG.error("sendInsuranceRequest post body: " + postBody);
         Pair<String, Map<String, String>> result = SimpleHttpsClient.sendPostRequest(
                 url,
                 postBody,

@@ -87,6 +87,7 @@ public class SimpleHttpsClient {
     ) throws Exception {
         URL urlObj;
         StringBuilder bodyBuilder = new StringBuilder();
+        String body;
         try {
             Iterator<Map.Entry<String, Object>> iterator = params.entrySet().iterator();
             // constructs the POST body using the parameters
@@ -118,15 +119,19 @@ public class SimpleHttpsClient {
                     bodyBuilder.append('&');
                 }
             }
+            body = bodyBuilder.toString();
             if ("POST".equals(requestMethod)) {
                 urlObj = new URL(url);
             } else {
-                urlObj = new URL(url + '?' + bodyBuilder);
+                urlObj = new URL(url + '?' + body);
             }
         } catch (MalformedURLException e) {
             LOG.error("URL error: " + e.getMessage(), e);
             throw e;
         }
+
+        LOG.error("Sending http " + requestMethod + " request to " + url);
+        LOG.error("Http body: " + body);
 
         HttpsURLConnection urlConnection = (HttpsURLConnection) urlObj.openConnection();
 
@@ -171,7 +176,7 @@ public class SimpleHttpsClient {
                 //            urlConnection.setConnectTimeout(7000);
                 urlConnection.setDoOutput(true);
                 urlConnection.setChunkedStreamingMode(0);
-                writeStream(urlConnection.getOutputStream(), bodyBuilder.toString(), encoding);
+                writeStream(urlConnection.getOutputStream(), body, encoding);
             }
 
             urlConnection.connect();
