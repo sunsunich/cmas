@@ -44,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -55,6 +56,7 @@ import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -284,11 +286,12 @@ public class AdminController {
     @RequestMapping("/admin/testInsurance.html")
     @Transactional
     public View sendInsuranceRequest(
-            @RequestParam("insuranceRequestJson") String insuranceRequestJson, BindingResult result) {
+            @RequestParam("insuranceRequestJson") String insuranceRequestJson) {
         InsuranceRequest formObject = new Gson().fromJson(insuranceRequestJson, InsuranceRequest.class);
-        insuranceRequestValidator.validate(formObject, result);
-        if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        Errors errors = new MapBindingResult(new HashMap(), "insuranceRequestJson");
+        insuranceRequestValidator.validate(formObject, errors);
+        if (errors.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
         } else {
             insuranceRequestService.persistAndSendInsuranceRequest(formObject);
             return gsonViewFactory.createSuccessGsonView();

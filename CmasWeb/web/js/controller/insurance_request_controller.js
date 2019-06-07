@@ -8,10 +8,10 @@ var insurance_request_controller = {
 
     setListeners: function () {
         util_controller.setupSelect2(
-            'gender', insurance_request_model.genders, '',
+            'insuranceRequest_gender', insurance_request_model.genders, '',
             labels["cmas.loyalty.insurance.gender"]
         );
-        util_controller.setupSelect2('country', [], '',
+        util_controller.setupSelect2('insuranceRequest_country', [], '',
             labels["cmas.face.registration.form.label.country"]
         );
 
@@ -67,7 +67,7 @@ var insurance_request_controller = {
                 }
             },
             {
-                id: 'number',
+                id: 'house',
                 validateField: function (value) {
                     if (isStringTrimmedEmpty(value)) {
                         return 'validation.emptyField';
@@ -76,10 +76,11 @@ var insurance_request_controller = {
             }
 
         ];
-        this.validationController.fieldIdsToValidate = ['gender', 'country', "zipCode", "city", "street", "number"];
+        this.validationController.fieldIdsToValidate = ['gender', 'country', "zipCode", "city", "street", "house"];
         this.validationController.submitButton = $('#insuranceRequestSubmit');
         this.validationController.init();
 
+        var self = this;
         $('#insuranceRequestSubmit').click(function () {
             self.submitForm();
             return false;

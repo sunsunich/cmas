@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
  */
 public class BalticFinanceInsuranceRequest {
 
-    public static final String BF_DATE_FORMAT = "YYYY-MM-DD";
+    public static final String BF_DATE_FORMAT = "YYYY-MM-DDTHH:mm:ssX";
     public long id;
     public String firstname;
     public String lastname;

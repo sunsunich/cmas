@@ -88,7 +88,7 @@
     <form action="">
         <div class="reg-block">
             <div class="form-row">
-                <select name="insuranceRequest_gender" id="insuranceRequest_gender" size=1 onChange="">
+                <select name="insuranceRequest_gender" style="width: 272px" id="insuranceRequest_gender" size=1 onChange="">
                 </select>
                 <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_gender"
                      style="display: none">
@@ -133,11 +133,11 @@
                 <div class="error" id="insuranceRequest_error_street"></div>
             </div>
             <div class="form-row">
-                <input id="insuranceRequest_number" type="text"
-                       placeholder="<s:message code="cmas.loyalty.insurance.address.number"/>"/>
-                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_number"
+                <input id="insuranceRequest_house" type="text"
+                       placeholder="<s:message code="cmas.loyalty.insurance.address.house"/>"/>
+                <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_house"
                      style="display: none">
-                <div class="error" id="insuranceRequest_error_number"></div>
+                <div class="error" id="insuranceRequest_error_house"></div>
             </div>
             <div class="form-row">
             </div>

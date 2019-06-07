@@ -109,6 +109,8 @@
                             <c:if test="${user.role == 'ROLE_DIVER'}">
                                 <a href="/admin/cloneUser.html?userId=${user.id}&userRole=${user.role.name}">Clone
                                     user</a>
+                                <a href="/admin/testInsuranceForm.html?diverId=${user.id}">Test
+                                    insurance</a>
                             </c:if>
                                 <%--<my:info url="/admin/userInfo.html?userId=${user.id}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--%>
                                 <%--<my:edit url="/admin/loadUser.html?userId=${user.id}"/>&nbsp;--%>
@@ -125,12 +127,12 @@
     </c:choose>
     <br><br>
     <%--<c:choose>--%>
-        <%--<c:when test="${urlEmpty}">--%>
-            <%--<c:set var="pagerURL" value="${initURL}"/>--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-            <%--<c:set var="pagerURL" value="${url}"/>--%>
-        <%--</c:otherwise>--%>
+    <%--<c:when test="${urlEmpty}">--%>
+    <%--<c:set var="pagerURL" value="${initURL}"/>--%>
+    <%--</c:when>--%>
+    <%--<c:otherwise>--%>
+    <%--<c:set var="pagerURL" value="${url}"/>--%>
+    <%--</c:otherwise>--%>
     <%--</c:choose>--%>
 
     <pg:pager url="${initURL}" maxIndexPages="20" maxPageItems="${command.limit}" items="${count}"
