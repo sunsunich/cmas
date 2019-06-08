@@ -117,8 +117,9 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
                 insuranceRequestDao.updateModel(dbRequest);
             } else {
                 //todo write email
+                String message = response.message == null ? response.rawJson : response.message;
                 LOG.error("InsuranceRequestService: validation error insuranceRequestId = " + insuranceRequestId
-                          + ". error message: " + response.rawJson);
+                          + ". error message: " + message);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

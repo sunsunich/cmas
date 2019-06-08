@@ -4,6 +4,7 @@ import com.google.firebase.database.utilities.Pair;
 import org.cmas.Globals;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,9 +46,10 @@ public class SimpleHttpsClient {
             , String encoding
             , Map<String, Object> params
             //nullable
-            , Map<String, String> cookies
+            , Map<String, String> cookies,
+            boolean isJson
     ) throws Exception {
-        return sendRequest(url, keyStore, encoding, params, cookies, null, null, "GET");
+        return sendRequest(url, keyStore, encoding, params, cookies, null, null, "GET", isJson);
     }
 
     public static Pair<String, Map<String, String>> sendPostRequest(
@@ -58,7 +60,7 @@ public class SimpleHttpsClient {
     ) throws Exception {
         Map<String, Object> params = new HashMap<>(1);
         params.put("", postBody);
-        return sendPostRequest(url, null, Globals.UTF_8_ENC, params, null, basicUsername, basicPassword);
+        return sendPostRequest(url, null, Globals.UTF_8_ENC, params, null, basicUsername, basicPassword, true);
     }
 
     public static Pair<String, Map<String, String>> sendPostRequest(
@@ -71,9 +73,10 @@ public class SimpleHttpsClient {
             //nullable
             String basicUsername,
             //nullable
-            String basicPassword
+            String basicPassword,
+            boolean isJson
     ) throws Exception {
-        return sendRequest(url, keyStore, encoding, params, cookies, basicUsername, basicPassword, "POST");
+        return sendRequest(url, keyStore, encoding, params, cookies, basicUsername, basicPassword, "POST", isJson);
     }
 
     public static Pair<String, Map<String, String>> sendRequest(
@@ -84,7 +87,8 @@ public class SimpleHttpsClient {
             Map<String, String> cookies,
             String basicUsername,
             String basicPassword,
-            String requestMethod
+            String requestMethod,
+            boolean isJson
     ) throws Exception {
         URL urlObj;
         StringBuilder bodyBuilder = new StringBuilder();
@@ -169,14 +173,33 @@ public class SimpleHttpsClient {
             }
         }
 
+        urlConnection.setRequestMethod(requestMethod);
+        return sendHttpRequest(encoding, requestMethod, isJson, urlObj, body, urlConnection);
+    }
+
+    private static void writePostBody(String encoding, boolean isJson, String paramEntity, HttpsURLConnection urlConnection) throws IOException {
+        urlConnection.setDoOutput(true);
+        byte[] bytes = paramEntity.getBytes(encoding);
+        if (isJson) {
+            urlConnection.setRequestProperty("Content-Type", "application/json");
+            urlConnection.setRequestProperty("Accept", "application/json");
+            urlConnection.setRequestProperty("Connection", "keep-alive");
+            urlConnection.setRequestProperty("Content-Length", String.valueOf(bytes.length));
+            urlConnection.setFixedLengthStreamingMode(bytes.length);
+            writeStream(urlConnection.getOutputStream(), bytes);
+        } else {
+            urlConnection.setChunkedStreamingMode(0);
+            writeStream(urlConnection.getOutputStream(), paramEntity, encoding);
+        }
+    }
+
+    @NotNull
+    private static Pair<String, Map<String, String>> sendHttpRequest(String encoding, String requestMethod, boolean isJson, URL urlObj, String body, HttpsURLConnection urlConnection) throws Exception {
         try {
-            urlConnection.setRequestMethod(requestMethod);
             if ("POST".equals(requestMethod)) {
                 //            urlConnection.setReadTimeout(7000);
                 //            urlConnection.setConnectTimeout(7000);
-                urlConnection.setDoOutput(true);
-                urlConnection.setChunkedStreamingMode(0);
-                writeStream(urlConnection.getOutputStream(), body, encoding);
+                writePostBody(encoding, isJson, body, urlConnection);
             }
 
             urlConnection.connect();
@@ -214,13 +237,17 @@ public class SimpleHttpsClient {
             }
 
         } catch (Exception e) {
-            String errorStream = readStream(urlConnection.getErrorStream(), encoding);
-            if (!StringUtil.isTrimmedEmpty(errorStream)) {
-                throw new Exception(errorStream);
-            }
             String message = "Fatal transport error: " + e.getMessage();
             LOG.error(message, e);
-            throw e;
+            String errorMessage = readStream(urlConnection.getErrorStream(), encoding);
+            if (StringUtil.isTrimmedEmpty(errorMessage)) {
+                throw e;
+            } else {
+                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST) {
+                    return new Pair<>(errorMessage, null);
+                }
+                throw new Exception(errorMessage, e);
+            }
         } finally {
             urlConnection.disconnect();
         }
@@ -272,68 +299,10 @@ public class SimpleHttpsClient {
                 // .append("Path=/; Domain=");
             }
         }
-        try {
-            //            urlConnection.setReadTimeout(7000);
-            //            urlConnection.setConnectTimeout(7000);
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setDoOutput(true);
-            byte[] bytes = paramEntity.getBytes(encoding);
-            if (isJson) {
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.setRequestProperty("Accept", "application/json");
-                urlConnection.setRequestProperty("Connection", "keep-alive");
-                urlConnection.setRequestProperty("Content-Length", String.valueOf(bytes.length));
-                urlConnection.setFixedLengthStreamingMode(bytes.length);
-                writeStream(urlConnection.getOutputStream(), bytes);
-            } else {
-                urlConnection.setChunkedStreamingMode(0);
-                writeStream(urlConnection.getOutputStream(), paramEntity, encoding);
-            }
-
-            urlConnection.connect();
-            String responseBody = readStream(urlConnection.getInputStream(), encoding);
-
-            String actualHost = urlConnection.getURL().getHost();
-            if (!urlObj.getHost().equals(actualHost)) {
-                String message = "Unexpected redirect to: " + actualHost;
-                LOG.error(message);
-                throw new IllegalStateException(message);
-            }
-            if (urlConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                String errorTxt = readStream(urlConnection.getErrorStream(), encoding);
-                String message = "Method failed: " + errorTxt;
-                LOG.error(message);
-                throw new IllegalStateException(message);
-            }
-
-            List<String> cookiePairs = urlConnection.getHeaderFields().get("Set-Cookie");
-            if (cookiePairs == null) {
-                return new Pair<String, Map<String, String>>(responseBody, new HashMap<String, String>());
-            } else {
-                Map<String, String> cookieMap = new HashMap<String, String>(cookiePairs.size());
-                for (String cookiePair : cookiePairs) {
-                    int firstAttrSeparator = cookiePair.indexOf(COOKIE_NAME_VAL_SEPARATOR);
-                    String cookieName = cookiePair.substring(0, firstAttrSeparator);
-                    String cookieVal = cookiePair.substring(
-                            firstAttrSeparator + 1, cookiePair.indexOf(COOKIE_ATTR_SEPARATOR)
-                    );
-                    cookieMap.put(cookieName, cookieVal);
-                }
-
-                return new Pair<>(responseBody, cookieMap);
-            }
-        } catch (Exception e) {
-            String message = "Fatal transport error: " + e.getMessage();
-            LOG.error(message, e);
-            String errorMessage = readStream(urlConnection.getErrorStream(), encoding);
-            if (!StringUtil.isTrimmedEmpty(errorMessage)) {
-                throw new Exception(errorMessage, e);
-            } else {
-                throw e;
-            }
-        } finally {
-            urlConnection.disconnect();
-        }
+        //            urlConnection.setReadTimeout(7000);
+        //            urlConnection.setConnectTimeout(7000);
+        urlConnection.setRequestMethod("POST");
+        return sendHttpRequest(encoding, "POST", isJson, urlObj, paramEntity, urlConnection);
     }
 
     private static String readStream(InputStream in, String encoding) throws IOException {
