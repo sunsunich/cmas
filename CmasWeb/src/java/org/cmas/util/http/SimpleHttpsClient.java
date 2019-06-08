@@ -115,10 +115,12 @@ public class SimpleHttpsClient {
                 } else {
                     String value = (String) obj;
                     value = value == null ? "" : value;
-                    if (!StringUtil.isTrimmedEmpty(key)) {
+                    if (StringUtil.isTrimmedEmpty(key)) {
+                        bodyBuilder.append(value);
+                    } else {
                         bodyBuilder.append(key).append('=');
+                        bodyBuilder.append(URLEncoder.encode(value, encoding));
                     }
-                    bodyBuilder.append(URLEncoder.encode(value, encoding));
                 }
                 if (iterator.hasNext()) {
                     bodyBuilder.append('&');

@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class BalticFinanceInsuranceRequest {
 
     private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
-    private static final String BF_DATE_FORMAT = "YYYY-MM-DD'T'HH:mm:ssX";
+    private static final String BF_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssX";
     public long id;
     public String firstname;
     public String lastname;
@@ -41,7 +41,7 @@ public class BalticFinanceInsuranceRequest {
         Diver diver = insuranceRequest.getDiver();
         firstname = diver.getFirstName();
         lastname = diver.getLastName();
-        dateOfBirth = new SimpleDateFormat("YYYY-MM-DD").format(diver.getDob());
+        dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(diver.getDob());
         email = diver.getEmail();
         if ("fr".equalsIgnoreCase(diver.getLocale().getLanguage())) {
             language = "FR";

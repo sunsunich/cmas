@@ -51,7 +51,7 @@ interface GlobalsStaticContainer {
     String DTF = "dd/MM/yyyy";
     String FEED_DTF = "dd MMM yyyy, HH:mm";
     String DTF_WEB_CONTROLS = "dd/MM/yyyy HH:mm";
-    String FULL_DTF = "YYYY-MM-DDTHH:mm:ss.sssZ";
+    String FULL_DTF = "yyyy-MM-dd'T'HH:mm:ss.sssX";
 
     int PRICE_INT_DIGITS = 6;
     int PRICE_FRAC_DIGITS = 2;
