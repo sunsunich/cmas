@@ -1,11 +1,12 @@
 package org.cmas.presentation.service.mail;
 
 import org.cmas.entities.User;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.loyalty.CameraOrder;
-import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.entities.user.Registration;
 
 public interface MailService {
@@ -33,4 +34,8 @@ public interface MailService {
     void sendCameraOrderMailToDiver(CameraOrder cameraOrder);
 
     void sendCameraOrderMailToSubal(CameraOrder cameraOrder);
+
+    void noInsuranceRequestForInvoice(Invoice invoice);
+
+    void sendInsuranceRequestFailed(InsuranceRequest insuranceRequest, String message);
 }

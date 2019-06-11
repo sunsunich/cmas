@@ -3,6 +3,7 @@ package org.cmas.entities.loyalty;
 import org.cmas.Globals;
 import org.cmas.entities.Address;
 import org.cmas.entities.Gender;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -15,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -48,6 +50,9 @@ public class InsuranceRequest {
 
     @Column(precision = Globals.PRECISION, scale = Globals.SCALE)
     private BigDecimal insurancePrice;
+
+    @OneToOne
+    private Invoice invoice;
 
     @Column
     private String response;
@@ -117,5 +122,13 @@ public class InsuranceRequest {
 
     public void setInsurancePrice(BigDecimal insurancePrice) {
         this.insurancePrice = insurancePrice;
+    }
+
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

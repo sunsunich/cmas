@@ -50,7 +50,7 @@
             171, Old Bakery Street<br/>
             Valletta, VLT 1455<br/>
             Malta<br/>
-            e-mail: <a href="mailto:ale.petuhov">cmasdata.help@gmail.com</a>
+            e-mail: <a href="mailto:cmasdata.help@gmail.com">cmasdata.help@gmail.com</a>
         </div>
     </div>
 </my:helppage>

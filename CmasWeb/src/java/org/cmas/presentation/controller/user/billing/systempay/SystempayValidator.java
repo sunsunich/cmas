@@ -1,9 +1,9 @@
 package org.cmas.presentation.controller.user.billing.systempay;
 
 import org.cmas.Globals;
+import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.billing.InvoiceStatus;
 import org.cmas.presentation.controller.user.billing.PaySystemValidator;
-import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.util.ShaEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

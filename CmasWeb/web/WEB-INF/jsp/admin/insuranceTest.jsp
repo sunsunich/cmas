@@ -80,6 +80,7 @@
     <h2>Test insurance</h2>
 
     <script type="application/javascript">
+        insurance_request_model.url = '/admin/testInsurance.html';
         <my:enumToJs enumItems="${genders}" arrayVarName="insurance_request_model.genders"/>
 
         insurance_request_model.insuranceRequest.diver.id = "${diver.id}";
@@ -88,7 +89,8 @@
     <form action="">
         <div class="reg-block">
             <div class="form-row">
-                <select name="insuranceRequest_gender" style="width: 272px" id="insuranceRequest_gender" size=1 onChange="">
+                <select name="insuranceRequest_gender" style="width: 272px" id="insuranceRequest_gender" size=1
+                        onChange="">
                 </select>
                 <img src="/i/ic_error.png" class="error-input-ico" id="insuranceRequest_error_ico_gender"
                      style="display: none">

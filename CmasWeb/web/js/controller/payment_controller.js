@@ -11,7 +11,8 @@ var payment_controller = {
         for (i = 0; i < selectedFeatureIds.length; i++) {
             this.selectFeature(selectedFeatureIds[i]);
         }
-        registration_flow_controller.init('simple', {backgroundImageId: 'paymentImageBackground'});
+        registration_flow_controller.init('simple',
+            {backgroundImageId: 'paymentImageBackground', visibleInputElemId: "insuranceRequest_zipCode"});
         this.setListeners();
     },
 
@@ -27,19 +28,51 @@ var payment_controller = {
         });
         for (var key in this.featuresMap) {
             if (this.featuresMap.hasOwnProperty(key)) {
-                $('#paidFeature_' + key).change(function () {
-                    var featureId = $(this)[0].id.split('_')[1];
-                    if (this.checked) {
-                        self.selectFeature(featureId);
-                    } else {
-                        self.removeFeature(featureId);
+                var featureCheckBox = $('#paidFeature_' + key);
+                if (featureCheckBox[0]) {
+                    featureCheckBox.change(function () {
+                        var featureId = $(this)[0].id.split('_')[1];
+                        if (this.checked) {
+                            self.selectFeature(featureId);
+                        } else {
+                            self.removeFeature(featureId);
+                        }
+                    });
+                    if (featureCheckBox[0].checked) {
+                        self.selectFeature(key);
                     }
-                });
+                }
             }
         }
+
+        $('#insuranceRequestCancel').click(function () {
+            self.backToPayForm();
+            $('#paidFeature_2').prop('checked', false);
+            $("label[for='paidFeature_2']").removeClass('chk').addClass('clr');
+            return false;
+        });
+
+        insurance_request_controller.successHandler = function (json) {
+            self.addFeature('2');
+            self.backToPayForm();
+        };
     },
 
     selectFeature: function (featureId) {
+        if (featureId == '2') {
+            $('#insuranceBlock').show();
+            $('#paymentBlock').hide();
+        } else {
+            this.addFeature(featureId);
+        }
+    },
+
+    backToPayForm: function () {
+        $('#insuranceBlock').hide();
+        $('#paymentBlock').show();
+    },
+
+    addFeature: function (featureId) {
         this.selectedFeatureIds.push(featureId);
         this.updateAmount();
     },

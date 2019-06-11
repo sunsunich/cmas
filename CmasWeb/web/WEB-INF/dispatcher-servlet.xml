@@ -23,6 +23,7 @@
                 <value>/secure/firstLogin.html</value>
                 <value>/secure/index.html</value>
                 <value>/secure/pay.html</value>
+                <value>/secure/createInsuranceRequest.html</value>
                 <value>/secure/billing/systempay/accept.html</value>
 
                 <value>/secure/pageErrorLoad.html</value>
@@ -107,6 +108,7 @@
             <list>
                 <value>/secure/index.html</value>
                 <value>/secure/pay.html</value>
+                <value>/secure/createInsuranceRequest.html</value>
 
                 <value>/secure/pageErrorLoad.html</value>
                 <value>/secure/registerDevice.html</value>

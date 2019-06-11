@@ -1,11 +1,11 @@
 package org.cmas.presentation.controller.user.billing.systempay;
 
 import org.cmas.Globals;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.controller.user.billing.PaySystemSettings;
 import org.cmas.presentation.dao.billing.InvoiceDao;
-import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.model.billing.PaymentAddData;
 import org.cmas.presentation.service.billing.BillingService;
 import org.cmas.presentation.service.user.DiverService;

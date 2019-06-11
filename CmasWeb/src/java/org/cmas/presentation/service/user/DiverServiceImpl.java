@@ -8,6 +8,7 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
 import org.cmas.entities.UserBalance;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
@@ -16,8 +17,8 @@ import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
@@ -80,6 +81,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Autowired
     PersonalCardDao personalCardDao;
+
+    @Autowired
+    private InsuranceRequestService insuranceRequestService;
 
     @Override
     public List<PersonalCard> getCardsToShow(Diver diver) {
@@ -343,7 +347,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
             if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
                 hasCmasLicenceFeature = true;
-                break;
+            } else if (paidFeature.getId() == Globals.INSURANCE_PAID_FEATURE_DB_ID) {
+                insuranceRequestService.sendInsuranceRequest(invoice);
             }
         }
         if (hasCmasLicenceFeature) {

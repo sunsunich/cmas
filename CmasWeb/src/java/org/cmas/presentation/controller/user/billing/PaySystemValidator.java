@@ -1,10 +1,10 @@
 package org.cmas.presentation.controller.user.billing;
 
 import org.cmas.entities.User;
+import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.billing.InvoiceStatus;
+import org.cmas.entities.billing.InvoiceType;
 import org.cmas.presentation.dao.billing.InvoiceDao;
-import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.billing.InvoiceStatus;
-import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;

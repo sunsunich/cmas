@@ -1,12 +1,12 @@
 package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
+import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.billing.InvoiceStatus;
+import org.cmas.entities.billing.InvoiceType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.billing.InvoiceDao;
-import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.billing.InvoiceStatus;
-import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.model.billing.PaymentAddData;
 import org.cmas.util.random.Randomazer;
 import org.hibernate.StaleObjectStateException;

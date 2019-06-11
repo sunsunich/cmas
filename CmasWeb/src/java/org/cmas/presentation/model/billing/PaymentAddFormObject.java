@@ -1,6 +1,6 @@
 package org.cmas.presentation.model.billing;
 
-import org.cmas.presentation.entities.billing.InvoiceType;
+import org.cmas.entities.billing.InvoiceType;
 import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
 import org.hibernate.validator.Pattern;

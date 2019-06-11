@@ -1,6 +1,7 @@
 var insurance_request_controller = {
 
     validationController: null,
+    successHandler: null,
 
     init: function () {
         this.setListeners();
@@ -108,7 +109,11 @@ var insurance_request_controller = {
             var self = this;
             insurance_request_model.sendInsuranceRequest(
                 function (json) {
-                    $('#insuranceRequestSuccess').show();
+                    if (self.successHandler) {
+                        self.successHandler(json);
+                    } else {
+                        $('#insuranceRequestSuccess').show();
+                    }
                 }
                 , function (json) {
                     self.validationController.showErrors(json);

@@ -51,11 +51,11 @@
                 <value>org.cmas.entities.loyalty.InsuranceRequest</value>
                 <value>org.cmas.entities.loyalty.CameraOrder</value>
 
-                <value>org.cmas.presentation.entities.billing.Invoice</value>
+                <value>org.cmas.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
                 <value>org.cmas.presentation.entities.billing.OperationType</value>
-                <value>org.cmas.presentation.entities.billing.InvoiceType</value>
-                <value>org.cmas.presentation.entities.billing.InvoiceStatus</value>
+                <value>org.cmas.entities.billing.InvoiceType</value>
+                <value>org.cmas.entities.billing.InvoiceStatus</value>
                 <value>org.cmas.presentation.entities.billing.FinSettings</value>
                 <value>org.cmas.presentation.entities.billing.DiverPaymentList</value>
 

@@ -1,14 +1,14 @@
 package org.cmas.presentation.controller.fedadmin;
 
 import org.cmas.Globals;
+import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.billing.InvoiceType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.billing.DiverPaymentListDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.billing.DiverPaymentList;
-import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.billing.InvoiceType;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.billing.BillingService;

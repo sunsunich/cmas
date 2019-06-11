@@ -1,11 +1,15 @@
 package org.cmas.presentation.service.loyalty;
 
+import org.cmas.Globals;
 import org.cmas.entities.Address;
 import org.cmas.entities.Country;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.loyalty.InsuranceRequest;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.dao.AddressDao;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.loyalty.InsuranceRequestDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.service.loyalty.bf.BalticFinanceResponse;
@@ -13,6 +17,7 @@ import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
 import org.hibernate.SessionFactory;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -46,6 +51,9 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
     private AddressDao addressDao;
 
     @Autowired
+    private PaidFeatureDao paidFeatureDao;
+
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -74,17 +82,89 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
         }, 0L, TimeUnit.MILLISECONDS);
     }
 
+    /*
+    We could say the insurance starts tomorrow at 00:00 CET (the local time zone for Italy where CMAS is based).
+    That way we don't need to worry where the diver currently is when signing up.
+    I have a feeling if we do anything with UTC it will just confuse people.
+    So saying you are covered from 18:55 UTC on the 4th of June 2019
+    doesn't help many people to understand when the insurance starts.
+
+    CMAS being from Italy, I think everybody will understand 5th of June 2019 00:00 Italian time zone.
+     */
+    // todo improve this rough estimate
+    private static final long INSURANCE_LENGTH = 365 * Globals.ONE_DAY_IN_MS;
+
+    @Nullable
+    @Override
+    public Date getDiverInsuranceExpiryDate(Diver diver) {
+        InsuranceRequest insuranceRequest = insuranceRequestDao.getLatestPaidInsuranceRequestForDiver(diver.getId());
+        if (insuranceRequest == null) {
+            return null;
+        } else {
+            long expiryTime = insuranceRequest.getCreateDate().getTime() + INSURANCE_LENGTH;
+            if (expiryTime > System.currentTimeMillis()) {
+                return new Date(expiryTime);
+            } else {
+                return null;
+            }
+        }
+    }
+
+    @Override
+    public boolean canCreateInvoiceWithInsuranceRequest(Diver diver) {
+        return insuranceRequestDao.getDraftByDiver(diver.getId()) != null && getDiverInsuranceExpiryDate(diver) == null;
+    }
+
+    // used by admin only
     @Override
     public void persistAndSendInsuranceRequest(InsuranceRequest rawRequest) {
-        rawRequest.setAddress(getDbAddress(rawRequest.getAddress()));
+        Long insuranceRequestId = saveNewInsuranceRequest(rawRequest);
+        scheduleInsuranceRequest(insuranceRequestId);
+    }
 
+    @Override
+    public void createInsuranceRequest(InsuranceRequest rawRequest) {
+        InsuranceRequest draftRequest = insuranceRequestDao.getDraftByDiver(rawRequest.getDiver().getId());
+        if (draftRequest == null) {
+            saveNewInsuranceRequest(rawRequest);
+        } else {
+            draftRequest.setGender(rawRequest.getGender());
+            updateInsuranceRequest(draftRequest, rawRequest);
+
+            insuranceRequestDao.updateModel(draftRequest);
+        }
+    }
+
+    @Override
+    public void sendInsuranceRequest(Invoice invoice) {
+        InsuranceRequest draftRequest = insuranceRequestDao.getDraftByDiver(invoice.getDiver().getId());
+        if (draftRequest == null) {
+            mailService.noInsuranceRequestForInvoice(invoice);
+            LOG.error(
+                    "InsuranceRequestService.sendInsuranceRequest: no draftInsuranceRequest for ExternalInvoiceNumber = "
+                    + invoice.getExternalInvoiceNumber());
+            return;
+        }
+        draftRequest.setInvoice(invoice);
+        draftRequest.setCreateDate(new Date());
+        insuranceRequestDao.updateModel(draftRequest);
+
+        scheduleInsuranceRequest(draftRequest.getId());
+    }
+
+    private void updateInsuranceRequest(InsuranceRequest draftRequest, InsuranceRequest rawRequest) {
+        draftRequest.setAddress(getDbAddress(rawRequest.getAddress()));
+        draftRequest.setCreateDate(new Date());
+        PaidFeature insurancePaidFeature = paidFeatureDao.getById(Globals.INSURANCE_PAID_FEATURE_DB_ID);
+        draftRequest.setInsurancePrice(insurancePaidFeature.getPrice());
+    }
+
+    private Long saveNewInsuranceRequest(InsuranceRequest rawRequest) {
         Diver diver = diverDao.getModel(rawRequest.getDiver().getId());
         rawRequest.setDiver(diver);
+        updateInsuranceRequest(rawRequest, rawRequest);
 
-        rawRequest.setCreateDate(new Date());
-        Long insuranceRequestId = (Long) insuranceRequestDao.save(rawRequest);
-
-        scheduleInsuranceRequest(insuranceRequestId);
+        return (Long) insuranceRequestDao.save(rawRequest);
     }
 
     private void scheduleInsuranceRequest(final Long insuranceRequestId) {
@@ -103,9 +183,10 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
         }
         Long requestDelay = requestsDelayMap.get(insuranceRequestId);
         if (requestDelay != null && requestDelay > MAX_REQUEST_DELAY) {
-            //todo write email
-            LOG.error("InsuranceRequestService: too many retry attempts for insuranceRequestId = "
-                      + insuranceRequestId);
+            String message = "InsuranceRequestService: too many retry attempts for insuranceRequestId = "
+                       + insuranceRequestId;
+            mailService.sendInsuranceRequestFailed(dbRequest, message);
+            LOG.error(message);
             requestsDelayMap.remove(insuranceRequestId);
             return;
         }
@@ -116,8 +197,8 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
                 dbRequest.setResponse(response.bfId);
                 insuranceRequestDao.updateModel(dbRequest);
             } else {
-                //todo write email
                 String message = response.message == null ? response.rawJson : response.message;
+                mailService.sendInsuranceRequestFailed(dbRequest, message);
                 LOG.error("InsuranceRequestService: validation error insuranceRequestId = " + insuranceRequestId
                           + ". error message: " + message);
             }
@@ -132,7 +213,7 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
             scheduler.schedule(new Runnable() {
                 @Override
                 public void run() {
-                    scheduleInsuranceRequest(dbRequest.getId());
+                    sendInsuranceRequest(dbRequest.getId());
                 }
             }, requestDelay, TimeUnit.MILLISECONDS);
         }

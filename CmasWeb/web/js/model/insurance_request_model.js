@@ -1,6 +1,6 @@
 var insurance_request_model = {
 
-    url: "/admin/testInsurance.html",
+    url: "/secure/createInsuranceRequest.html",
 
     genders: [],
 

@@ -1,6 +1,6 @@
 package org.cmas.presentation.dao.billing;
 
-import org.cmas.presentation.entities.billing.Invoice;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
 import org.hibernate.Criteria;

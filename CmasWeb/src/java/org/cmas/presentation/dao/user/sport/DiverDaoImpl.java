@@ -287,7 +287,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String federationCountry = formObject.getFederationCountry();
         if (!StringUtil.isTrimmedEmpty(federationCardNumber)
             && !StringUtil.isTrimmedEmpty(federationCountry)
-                ) {
+        ) {
             return createCriteria()
                     .createAlias("cards", "card")
                     .createAlias("federation", "federation")

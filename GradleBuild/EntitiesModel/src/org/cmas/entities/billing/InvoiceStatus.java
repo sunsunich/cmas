@@ -1,4 +1,4 @@
-package org.cmas.presentation.entities.billing;
+package org.cmas.entities.billing;
 
 
 public enum InvoiceStatus {

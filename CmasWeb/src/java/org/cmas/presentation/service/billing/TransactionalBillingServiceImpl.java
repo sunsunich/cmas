@@ -2,13 +2,13 @@ package org.cmas.presentation.service.billing;
 
 import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
+import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.billing.InvoiceStatus;
 import org.cmas.presentation.dao.billing.FinLogDao;
 import org.cmas.presentation.dao.billing.InvoiceDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.UserEventDao;
 import org.cmas.presentation.entities.billing.FinLog;
-import org.cmas.presentation.entities.billing.Invoice;
-import org.cmas.presentation.entities.billing.InvoiceStatus;
 import org.cmas.presentation.entities.billing.OperationType;
 import org.cmas.presentation.entities.user.UserEvent;
 import org.cmas.presentation.entities.user.UserEventType;

@@ -1,9 +1,9 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
-import org.cmas.presentation.entities.billing.Invoice;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

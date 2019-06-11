@@ -12,5 +12,9 @@ import java.util.List;
  */
 public interface InsuranceRequestDao extends HibernateDao<InsuranceRequest> {
 
+    InsuranceRequest getDraftByDiver(long diverId);
+
     List<InsuranceRequest> getAllUnsent();
+
+    InsuranceRequest getLatestPaidInsuranceRequestForDiver(long diverId);
 }

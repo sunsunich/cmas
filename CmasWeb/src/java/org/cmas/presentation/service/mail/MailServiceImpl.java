@@ -2,13 +2,14 @@ package org.cmas.presentation.service.mail;
 
 import org.cmas.Globals;
 import org.cmas.entities.User;
+import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.loyalty.CameraOrder;
+import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.entities.InternetAddressOwner;
-import org.cmas.presentation.entities.billing.Invoice;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.util.mail.CommonMailServiceImpl;
@@ -119,7 +120,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         Locale locale = diver.getLocale();
         String siteName = addresses.getSiteName(locale);
         String subj = subjects.renderText("InstructorApproved", locale, siteName);
-        String text = textRenderer.renderText("instructorVerifiedDive.ftl", locale,
+        String text = textRenderer.renderText("instructorVerifiedDiver.ftl", locale,
                                               new ModelAttr("request", instructorRequest),
                                               new ModelAttr("diveDate",
                                                             Globals.getDTF()
@@ -186,7 +187,6 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         return getInternetAddress(new BackendUser(user));
     }
 
-    // обернул UnsupportedEncodingException
     @Nullable
     private InternetAddress getInternetAddress(InternetAddressOwner user) {
         InternetAddress internetAddress = null;
@@ -218,7 +218,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     @Override
     public void sendCameraOrderMailToSubal(CameraOrder cameraOrder) {
         Diver diver = cameraOrder.getDiver();
-        Locale locale = new Locale("eng");
+        Locale locale = Locale.ENGLISH;
         String cameraName = cameraOrder.getCameraName();
         String subj = subjects.renderText("CameraOrderRequest",
                                           locale,
@@ -247,6 +247,35 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
             log.error("cant create site reply address for locale " + locale +
                       " site address=" + addresses.getSiteAddress(), e);
         }
+    }
+
+    @Override
+    public void noInsuranceRequestForInvoice(Invoice invoice) {
+        Locale locale = Locale.ENGLISH;
+        String text = textRenderer.renderText(
+                "noInsuranceRequestForInvoice.ftl", locale,
+                new ModelAttr("invoice", invoice)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        //String from = addresses.getFromText();
+        String subj = subjects.renderText("NoInsuranceRequestForInvoice", locale, invoice.getExternalInvoiceNumber());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendInsuranceRequestFailed(InsuranceRequest insuranceRequest, String message) {
+        Locale locale = Locale.ENGLISH;
+        String text = textRenderer.renderText(
+                "insuranceRequestFailed.ftl", locale,
+                new ModelAttr("insuranceRequest", insuranceRequest),
+                new ModelAttr("reason", message)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        //String from = addresses.getFromText();
+        String subj = subjects.renderText("InsuranceRequestFailed", locale, insuranceRequest.getId());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }
 

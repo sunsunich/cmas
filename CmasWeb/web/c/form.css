@@ -322,11 +322,17 @@
     position: absolute;
 }
 
-.form-checkbox-label {
+.form-checkbox-label,
+.form-checkbox-label-insurance {
     float: left;
     font-size: 14px;
     color: #a1a4a5;
     line-height: 1.57;
+}
+
+.form-checkbox-label-insurance, .form-feature-description-insurance {
+    color: #2b2b2b;
+    font-weight: bold;
 }
 
 .form-absolute {
@@ -358,7 +364,7 @@
     float: right;
 }
 
-.form-feature-description {
+.form-feature-description, .form-feature-description-insurance {
     float: left;
 }
 

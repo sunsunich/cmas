@@ -34,8 +34,8 @@ public class SimpleHttpsClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleHttpsClient.class);
 
-    public static final char COOKIE_NAME_VAL_SEPARATOR = '=';
-    public static final char COOKIE_ATTR_SEPARATOR = ';';
+    private static final char COOKIE_NAME_VAL_SEPARATOR = '=';
+    private static final char COOKIE_ATTR_SEPARATOR = ';';
 
     private SimpleHttpsClient() {
     }
@@ -79,7 +79,7 @@ public class SimpleHttpsClient {
         return sendRequest(url, keyStore, encoding, params, cookies, basicUsername, basicPassword, "POST", isJson);
     }
 
-    public static Pair<String, Map<String, String>> sendRequest(
+    private static Pair<String, Map<String, String>> sendRequest(
             String url,
             KeyStore keyStore,
             String encoding,
@@ -90,10 +90,11 @@ public class SimpleHttpsClient {
             String requestMethod,
             boolean isJson
     ) throws Exception {
-        URL urlObj;
-        StringBuilder bodyBuilder = new StringBuilder();
         String body;
-        try {
+        if (isJson) {
+            body = (String) params.values().iterator().next();
+        } else {
+            StringBuilder bodyBuilder = new StringBuilder();
             Iterator<Map.Entry<String, Object>> iterator = params.entrySet().iterator();
             // constructs the POST body using the parameters
             while (iterator.hasNext()) {
@@ -115,18 +116,17 @@ public class SimpleHttpsClient {
                 } else {
                     String value = (String) obj;
                     value = value == null ? "" : value;
-                    if (StringUtil.isTrimmedEmpty(key)) {
-                        bodyBuilder.append(value);
-                    } else {
-                        bodyBuilder.append(key).append('=');
-                        bodyBuilder.append(URLEncoder.encode(value, encoding));
-                    }
+                    bodyBuilder.append(key).append('=');
+                    bodyBuilder.append(URLEncoder.encode(value, encoding));
                 }
                 if (iterator.hasNext()) {
                     bodyBuilder.append('&');
                 }
             }
             body = bodyBuilder.toString();
+        }
+        URL urlObj;
+        try {
             if ("POST".equals(requestMethod)) {
                 urlObj = new URL(url);
             } else {
@@ -225,7 +225,7 @@ public class SimpleHttpsClient {
             if (cookiePairs == null) {
                 return new Pair<String, Map<String, String>>(responseBody, new HashMap<String, String>());
             } else {
-                Map<String, String> cookieMap = new HashMap<String, String>(cookiePairs.size());
+                Map<String, String> cookieMap = new HashMap<>(cookiePairs.size());
                 for (String cookiePair : cookiePairs) {
                     int firstAttrSeparator = cookiePair.indexOf(COOKIE_NAME_VAL_SEPARATOR);
                     String cookieName = cookiePair.substring(0, firstAttrSeparator);
