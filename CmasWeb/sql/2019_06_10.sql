@@ -5,9 +5,9 @@ INSERT INTO `national_federations`
  `version`,
  `country_id`)
 VALUES
-  (20,
+  (22,
    FALSE,
-   "CONFEDERAÇÃO BRASILEIRA DE PESCA E DESPORTOS SUBAQUÁTICOS",
+   "FEDERACION VENEZOLANA DE ACTIVIDADES SUBACUATICAS",
    1,
    125);
 
@@ -46,7 +46,7 @@ INSERT INTO `divers`
 
 )
 VALUES
-  (21,
+  (23,
     now(),
     NULL,
     "ctetecnicoFVAS.oficial@gmail.com",
@@ -67,7 +67,7 @@ VALUES
     NULL,
     125,
     NULL,
-    20,
+    22,
     NULL,
     NULL,
     'PRIVATE',
@@ -77,3 +77,83 @@ VALUES
     NULL,
     NULL,
     NULL);
+
+INSERT INTO `national_federations`
+(`id`,
+ `deleted`,
+ `name`,
+ `version`,
+ `country_id`)
+VALUES
+(23,
+ FALSE,
+ "Federación Ecuatoriana de Buceo y Actividades Subacuaticas",
+ 1,
+ 40);
+
+INSERT INTO `divers`
+(`id`,
+ `dateReg`,
+ `dob`,
+ `email`,
+ `enabled`,
+ `firstName`,
+ `generatedPassword`,
+ `lastAction`,
+ `lastName`,
+ `locale`,
+ `lostPasswdCode`,
+ `md5newMail`,
+ `mobileLockCode`,
+ `newMail`,
+ `password`,
+ `role`,
+ `userpic`,
+ `diverLevel`,
+ `diverType`,
+ `country_id`,
+ `userBalance_id`,
+ `federation_id`,
+ `primaryPersonalCard_id`,
+ `instructor_id`,
+ `defaultVisibility`,
+ `isAddFriendsToLogbookEntries`,
+ `isNewsFromCurrentLocation`,
+ `socialUpdatesVersion`,
+ `diverRegistrationStatus`,
+ `dateLicencePaymentIsDue`,
+ `previousRegistrationStatus`
+
+)
+VALUES
+(24,
+ now(),
+ NULL,
+ "presidencia@fedasub.com",
+ TRUE,
+ "Federación Ecuatoriana de Buceo y Actividades Subacuaticas",
+ NULL,
+ now(),
+ "",
+ "es_EC",
+ NULL,
+ NULL,
+ NULL,
+ NULL,
+ "36b1f45f0a95d1624734220892f0e7a9",
+ "ROLE_FEDERATION_ADMIN",
+ NULL,
+ NULL,
+ NULL,
+ 40,
+ NULL,
+ 23,
+ NULL,
+ NULL,
+ 'PRIVATE',
+ FALSE,
+ FALSE,
+ 0,
+ NULL,
+ NULL,
+ NULL);
