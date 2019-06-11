@@ -22,7 +22,8 @@
 
     <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST'}"/>
 
-    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>
+<%--    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>--%>
+    <c:set var="hasInsurance" value="true"/>
 
     <script type="application/javascript">
         var features = ${featuresJson};
@@ -58,12 +59,12 @@
                             value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
                     </div>
                 </c:if>
-                <c:if test="${hasInsurance}">
-                    <div class="form-description">
-                        <s:message code="cmas.loyalty.insurance.expireText"/> <fmt:formatDate
-                            value="${insuranceExpiryDate}" pattern="dd/MM/yyyy"/>
-                    </div>
-                </c:if>
+<%--                <c:if test="${hasInsurance}">--%>
+<%--                    <div class="form-description">--%>
+<%--                        <s:message code="cmas.loyalty.insurance.expireText"/> <fmt:formatDate--%>
+<%--                            value="${insuranceExpiryDate}" pattern="dd/MM/yyyy"/>--%>
+<%--                    </div>--%>
+<%--                </c:if>--%>
                 <c:if test="${isGuest}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.cmasLicence.guest"/>
