@@ -445,7 +445,7 @@
                 media="(min-width: 1280px)">
         <source srcset="/i/firstScreenFooter_land_1024.png, /i/firstScreenFooter_land_2560.png 2x"
                 media="(min-width: 1024px)">
-        <source srcset="/i/firstScreenFooter_land_962.png, /i/firstScreenFooter_land_1920.png 2x, /i/firstScreenFooter_land_2840.png 3x"
+        <source srcset="/i/firstScreenFooter_land_962.png, /i/firstScreenFooter_land_1920.png 2x, /i/firstScreenFooter_land_2842.png 3x"
                 media="(min-width: 962px)">
         <source srcset="/i/firstScreenFooter_land_640.png 1x, /i/firstScreenFooter_land_1280.png 2x, /i/firstScreenFooter_land_1920.png 3x, /i/firstScreenFooter_land_2560.png 4x"
                 media="(min-width: 640px)">
