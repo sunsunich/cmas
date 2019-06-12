@@ -145,7 +145,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                 , new ModelAttr("date", Globals.getDTF().format(invoice.getCreateDate().getTime()))
         );
 
-        User user = invoice.getAthlete();
+        User user = invoice.getDiver();
         InternetAddress to = getInternetAddress(user);
         InternetAddress from = getSiteReplyAddress(locale);
         //String from = addresses.getFromText();
