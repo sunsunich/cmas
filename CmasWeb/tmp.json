@@ -1,1 +1,48 @@
-{"diverLevel":"ONE_STAR","diverType":"DIVER","hasPayed":false,"isAddFriendsToLogbookEntries":false,"isNewsFromCurrentLocation":false,"federation":{"id":"1","name":"Russia","version":"1","deleted":false},"id":"920176008241754615","email":"a16@mailinator.com","firstName":"Sidor","lastName":"Sidorov","country":{"code":"RUS","id":"102","name":"Russia","version":"1","deleted":false},"dob":"01/04/1997"}
+{
+  "email": "z6@mailinator.com",
+  "firstName": "z6Bot",
+  "lastName": "z6Bot",
+  "dob": "01/06/1999",
+  "diverType": "DIVER",
+  "diverLevel": "TWO_STAR",
+  "id": "0",
+  "cards": [
+    {
+      "diverType": "DIVER",
+      "cardType": "NITROX",
+      "number": "z6n",
+      "diverLevel": "TWO_STAR",
+      "printName": "NITROX ADVANCED DIVER",
+      "uiId": 3
+    },
+    {
+      "diverType": "DIVER",
+      "cardType": "NITROX",
+      "number": "z6n",
+      "diverLevel": "TWO_STAR",
+      "printName": "NITROX ADVANCED DIVER",
+      "uiId": 3
+    },
+    {
+      "diverType": "DIVER",
+      "cardType": "NITROX",
+      "number": "z6n",
+      "diverLevel": "TWO_STAR",
+      "printName": "NITROX ADVANCED DIVER",
+      "uiId": 3
+    },
+    {
+      "number": "z6",
+      "diverType": "DIVER",
+      "diverLevel": "TWO_STAR",
+      "cardType": "NATIONAL"
+    }
+  ],
+  "instructor": {
+    "cards": [
+      {
+        "number": "ins_z6"
+      }
+    ]
+  }
+}

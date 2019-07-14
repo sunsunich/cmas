@@ -272,7 +272,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             Map<CardEqualityKey, PersonalCard> cardsToAdd = new HashMap<>(cards.size());
             for (PersonalCard card : cards) {
                 PersonalCardType cardType = card.getCardType();
-                if (cardType != PersonalCardType.PRIMARY) {
+                if (cardType == PersonalCardType.PRIMARY) {
                     continue;
                 }
                 CardEqualityKey key = new CardEqualityKey(
