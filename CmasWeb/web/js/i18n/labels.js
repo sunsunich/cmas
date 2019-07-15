@@ -166,6 +166,7 @@ var labels = {
     "GUEST": "Guest",
     "CMAS_BASIC": "CMAS Basic",
     "CMAS_FULL": "CMAS Full",
+    "INSTRUCTOR": "Instructor",
 
     "MALE": "Male",
     "FEMALE": "Female",

@@ -26,6 +26,11 @@
         </c:choose>
 
         var cards = JSON.parse('${cardsJson}');
+        <c:if test="${command.email != null}">
+        $(document).ready(function () {
+            $('#diver_email').prop("disabled", true);
+        });
+        </c:if>
     </script>
 
     <c:choose>

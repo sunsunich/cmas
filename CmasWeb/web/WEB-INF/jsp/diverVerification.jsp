@@ -160,6 +160,9 @@
                                                      src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                                             </c:when>
                                         </c:choose>
+                                        <c:if test="${diver.diverType == 'INSTRUCTOR'}">
+                                            <span class="secondary-large-text friendList-text convert-with-labels">INSTRUCTOR</span>&nbsp;
+                                        </c:if>
                                         <span class="secondary-large-text friendList-text convert-with-labels">${diver.diverRegistrationStatus}</span>
                                     </div>
                                     <div class="friendList-elem-left">
