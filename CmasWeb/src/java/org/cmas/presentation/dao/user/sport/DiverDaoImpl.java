@@ -40,6 +40,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     public List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
                                     DiverRegistrationStatus registrationStatus) {
         Criteria criteria = createCriteria()
+                .add(Restrictions.eq("enabled", true))
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
                 // todo fix dob for iranian federation
@@ -59,7 +60,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     public List<Diver> getDiversByCardNumber(String cardNumber, DiverRegistrationStatus registrationStatus) {
         String hql = "select d from org.cmas.entities.diver.Diver d"
-                     + " inner join d.cards c where c.number = :number";
+                     + " inner join d.cards c where d.enabled = :enabled and c.number = :number";
         if (registrationStatus != null) {
             hql += " and d.previousRegistrationStatus = :status";
         }
@@ -67,15 +68,16 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (registrationStatus != null) {
             query.setParameter("status", registrationStatus);
         }
-        return query.setString("number", cardNumber).list();
+        return query.setBoolean("enabled", true).setString("number", cardNumber).list();
     }
 
     @Override
     public Diver getDiverByCardNumber(NationalFederation federation, String cardNumber) {
         String hql = "select d from org.cmas.entities.diver.Diver d"
                      + " inner join d.cards c"
-                     + " where c.number = :number and d.federation = :federation";
-        return (Diver) createQuery(hql).setString("number", cardNumber)
+                     + " where d.enabled = :enabled and c.number = :number and d.federation = :federation";
+        return (Diver) createQuery(hql).setBoolean("enabled", true)
+                                       .setString("number", cardNumber)
                                        .setEntity("federation", federation)
                                        .uniqueResult();
     }
@@ -133,6 +135,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
             }
         }
         return (List<Diver>) createCriteria()
+                .add(Restrictions.eq("enabled", true))
                 .add(disjunction)
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
@@ -185,7 +188,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.federation f inner join f.country c" +
                      " where (" + getNameClause(filteredNames) + ')' +
-                     " and d.diverType = :diverType and c.code = :country" +
+                     " and d.enabled = :enabled and d.diverType = :diverType and c.code = :country" +
                      " and d.id != :diverId";
         if (friendsIds != null && !friendsIds.isEmpty()) {
             hql += " and d.id not in (:friendIds)";
@@ -198,7 +201,8 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (friendsIds != null && !friendsIds.isEmpty()) {
             query.setParameterList("friendIds", friendsIds);
         }
-        return query.setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
+        return query.setBoolean("enabled", true)
+                    .setString("country", StringUtil.correctSpaceCharAndTrim(formObject.getCountry()))
                     .setParameter("diverType", DiverType.valueOf(formObject.getDiverType()))
                     .setLong("diverId", diverId).setMaxResults(Globals.ADVANCED_SEARCH_MAX_RESULT).list();
     }
@@ -241,7 +245,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         }
         String hql = "select distinct d from org.cmas.entities.diver.Diver d" +
                      " inner join d.cards c";
-        hql += " where ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
+        hql += " where d.enabled = :enabled and ((" + getNameClause(filteredNames) + ") or (" + numberClause + "))";
 
         switch (searchMode) {
             case ALL:
@@ -270,7 +274,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (friendsIds != null && !friendsIds.isEmpty()) {
             query.setParameterList("friendIds", friendsIds);
         }
-        return query.setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
+        return query.setBoolean("enabled", true).setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
     }
 
     @Override
@@ -279,6 +283,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (!StringUtil.isTrimmedEmpty(cmasCardNumber)) {
             return createCriteria()
                     .createAlias("primaryPersonalCard", "card")
+                    .add(Restrictions.eq("enabled", true))
                     .add(Restrictions.eq("card.number",
                                          StringUtil.correctSpaceCharAndTrim(cmasCardNumber)))
                     .list();
@@ -292,6 +297,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                     .createAlias("cards", "card")
                     .createAlias("federation", "federation")
                     .createAlias("federation.country", "country")
+                    .add(Restrictions.eq("enabled", true))
                     .add(Restrictions.eq("card.number",
                                          StringUtil.correctSpaceCharAndTrim(federationCardNumber)))
                     .add(Restrictions.eq("country.code",
@@ -322,6 +328,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         }
         return createCriteria()
                 .createAlias("country", "country")
+                .add(Restrictions.eq("enabled", true))
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
                 .add(Restrictions.eq("diverType", DiverType.valueOf(formObject.getDiverType())))
                 .add(disjunction)
@@ -354,12 +361,14 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (diverIds.isEmpty()) {
             return new ArrayList<>();
         }
-        return createCriteria().add(Restrictions.in("id", diverIds)).list();
+        return createCriteria().add(Restrictions.eq("enabled", true))
+                               .add(Restrictions.in("id", diverIds)).list();
     }
 
     @Override
     public List<Diver> getDiversByIds(List<Long> diverIds) {
-        return createCriteria().add(Restrictions.in("id", diverIds)).list();
+        return createCriteria().add(Restrictions.eq("enabled", true))
+                               .add(Restrictions.in("id", diverIds)).list();
     }
 
     @Override

@@ -86,7 +86,7 @@ public class UserProfileController extends DiverAwareController{
     }
 
     @RequestMapping(value = "/secure/getDivers.html", method = RequestMethod.GET)
-    public View showSpots(@RequestParam("diverIdsJson") String diverIdsJson) {
+    public View getDivers(@RequestParam("diverIdsJson") String diverIdsJson) {
         List<Long> diverIds = null;
         try {
             diverIds = gsonViewFactory.getCommonGson().fromJson(diverIdsJson, Globals.LONG_LIST_TYPE);
