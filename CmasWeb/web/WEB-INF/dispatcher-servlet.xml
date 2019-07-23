@@ -29,17 +29,17 @@
                 <value>/secure/pageErrorLoad.html</value>
                 <value>/secure/registerDevice.html</value>
                 <value>/secure/unregisterDevice.html</value>
+
+                <value>/secure/editEmail.html</value>
+                <value>/secure/editPassword.html</value>
+                <value>/secure/processEditPassword.html</value>
+                <value>/secure/processEditEmail.html</value>
             </list>
         </property>
 
         <property name="demoPages">
             <list>
                 <value>/secure/chooseNoPayment.html</value>
-
-                <value>/secure/editEmail.html</value>
-                <value>/secure/editPassword.html</value>
-                <value>/secure/processEditPassword.html</value>
-                <value>/secure/processEditEmail.html</value>
 
                 <value>/secure/getDiver.html</value>
                 <value>/secure/getDivers.html</value>

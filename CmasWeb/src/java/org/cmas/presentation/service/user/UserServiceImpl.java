@@ -106,6 +106,7 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
         if (!errors.hasErrors()) {
             String newPasswd = passwordEncoder.encodePassword(formObject.getPassword(), UserDetails.SALT);
             user.setPassword(newPasswd);
+            user.setGeneratedPassword(null);
             entityDao.updateModel(user);
             //         userEventDao.save(new UserEvent(UserEventType.PASSWORD_CHANGE, user, ip, ""));
         }

@@ -18,9 +18,9 @@
                activeMenuItem="pay"
                customScripts="/js/model/insurance_request_model.js,js/controller/registration_flow_controller.js,js/controller/payment_controller.js,/js/controller/insurance_request_controller.js">
     <c:set var="isDueToPayCmasFullLicence"
-           value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
+           value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'DEMO'}"/>
 
-    <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST'}"/>
+    <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'GUEST'}"/>
 
 <%--    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>--%>
     <c:set var="hasInsurance" value="true"/>
@@ -28,11 +28,11 @@
     <script type="application/javascript">
         var features = ${featuresJson};
         <c:choose>
-        <c:when test="${!isDueToPayCmasFullLicence}">
-        var selectedFeatureIds = [];
+        <c:when test="${isDueToPayCmasFullLicence}">
+        var selectedFeatureIds = ['${features[0].id}'];
         </c:when>
         <c:otherwise>
-        var selectedFeatureIds = ['${features[0].id}'];
+        var selectedFeatureIds = [];
         </c:otherwise>
         </c:choose>
         $(document).ready(function () {

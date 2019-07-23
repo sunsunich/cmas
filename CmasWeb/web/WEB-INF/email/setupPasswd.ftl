@@ -11,7 +11,7 @@
     <br/>
     If the link does not open, copy it to the browser command line.<br />
     <br />
-    You can change your password under MY PROFILE. <br />
+    You can change your password after the first login. <br />
     <br />
     Welcome! <br />
     <br />

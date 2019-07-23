@@ -105,8 +105,12 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                     if (diver.getDateLicencePaymentIsDue().after(new Date())) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     } else {
-                        redirectForPayment(request, response);
-                        return false;
+                        if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
+                            return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                        } else {
+                            redirectForPayment(request, response);
+                            return false;
+                        }
                     }
                 case NEVER_REGISTERED:
                     // fall through

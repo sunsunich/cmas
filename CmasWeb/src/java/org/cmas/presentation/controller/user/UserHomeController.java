@@ -4,7 +4,9 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.loyalty.LoyaltyProgramItem;
 import org.cmas.presentation.dao.billing.LoyaltyProgramItemDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.service.loyalty.CameraOrderService;
+import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import java.util.Date;
+
 /**
  *
  */
@@ -29,6 +33,12 @@ public class UserHomeController extends DiverAwareController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
+
+    @Autowired
+    private DiverDao diverDao;
+
+    @Autowired
+    private RegistrationService registrationService;
 
     @Autowired
     private CameraOrderService cameraOrderService;
@@ -47,6 +57,14 @@ public class UserHomeController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/firstLogin.html", method = RequestMethod.GET)
     public ModelAndView showFirstLogin() {
+        Diver diver = getCurrentDiver();
+        if (diver.getPrimaryPersonalCard() == null) {
+            if (diver.getDateReg() == null) {
+                diver.setDateReg(new Date());
+                diverDao.updateModel(diver);
+            }
+            registrationService.createDiverPrimaryCard(diver);
+        }
         return new ModelAndView("/secure/welcome");
     }
 

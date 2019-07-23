@@ -172,38 +172,37 @@
                         <span><s:message code="cmas.face.client.menu.payment"/></span>
                     </a>
                 </li>
-                <c:if test="${!hideMenu}">
-                    <li
-                            <c:choose>
-                                <c:when test="${activeMenuItem == 'editPassword'}">
-                                    class="user-menu-active"
-                                </c:when>
-                                <c:otherwise>
-                                    class="user-menu-inactive"
-                                </c:otherwise>
-                            </c:choose>
-                            onclick="window.location = '${pageContext.request.contextPath}/secure/editPassword.html';"
-                    >
-                        <a href="${pageContext.request.contextPath}/secure/editPassword.html">
-                            <span><s:message code="cmas.face.client.menu.changePass"/></span>
-                        </a>
-                    </li>
-                    <li
-                            <c:choose>
-                                <c:when test="${activeMenuItem == 'editEmail'}">
-                                    class="bottomBorder user-menu-active"
-                                </c:when>
-                                <c:otherwise>
-                                    class="bottomBorder user-menu-inactive"
-                                </c:otherwise>
-                            </c:choose>
-                            onclick="window.location = '${pageContext.request.contextPath}/secure/editEmail.html';"
-                    >
-                        <a href="${pageContext.request.contextPath}/secure/editEmail.html">
-                            <span><s:message code="cmas.face.client.menu.changeEmail"/></span>
-                        </a>
-                    </li>
-                </c:if>
+                <li
+                        <c:choose>
+                            <c:when test="${activeMenuItem == 'editPassword'}">
+                                class="user-menu-active"
+                            </c:when>
+                            <c:otherwise>
+                                class="user-menu-inactive"
+                            </c:otherwise>
+                        </c:choose>
+                        onclick="window.location = '${pageContext.request.contextPath}/secure/editPassword.html';"
+                >
+                    <a href="${pageContext.request.contextPath}/secure/editPassword.html">
+                        <span><s:message code="cmas.face.client.menu.changePass"/></span>
+                    </a>
+                </li>
+                <li
+                        <c:choose>
+                            <c:when test="${activeMenuItem == 'editEmail'}">
+                                class="bottomBorder user-menu-active"
+                            </c:when>
+                            <c:otherwise>
+                                class="bottomBorder user-menu-inactive"
+                            </c:otherwise>
+                        </c:choose>
+                        onclick="window.location = '${pageContext.request.contextPath}/secure/editEmail.html';"
+                >
+                    <a href="${pageContext.request.contextPath}/secure/editEmail.html">
+                        <span><s:message code="cmas.face.client.menu.changeEmail"/></span>
+                    </a>
+                </li>
+
                 <li class="last-list-item user-menu-inactive"
                     onclick="window.location = '${pageContext.request.contextPath}/logout.html';">
                     <a href="${pageContext.request.contextPath}/logout.html">

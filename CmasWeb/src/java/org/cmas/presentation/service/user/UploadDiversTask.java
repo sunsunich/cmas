@@ -55,7 +55,7 @@ public class UploadDiversTask implements Runnable {
                         exception = e;
                     }
                 }
-            }.runTaskInHibernate();
+            }.run();
         } finally {
             isRunning = false;
         }

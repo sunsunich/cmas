@@ -14,7 +14,6 @@ import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
-import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
@@ -43,7 +42,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,9 +61,6 @@ public class UserProfileController extends DiverAwareController{
 
     @Autowired
     private PersonalCardService personalCardService;
-
-    @Autowired
-    private RegistrationService registrationService;
 
     @Autowired
     private PersonalCardDao personalCardDao;
@@ -101,14 +96,6 @@ public class UserProfileController extends DiverAwareController{
 
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
-        Diver diver = getCurrentDiver();
-        if (diver.getPrimaryPersonalCard() == null) {
-            if (diver.getDateReg() == null) {
-                diver.setDateReg(new Date());
-                diverDao.updateModel(diver);
-            }
-            registrationService.createDiverPrimaryCard(diver);
-        }
         return new ModelAndView("/secure/userInfo");
     }
 

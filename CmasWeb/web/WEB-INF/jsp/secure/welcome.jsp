@@ -27,17 +27,37 @@
                 </div>
                 <div class="form-description">
                     <s:message code="cmas.face.first.login.form.account.created"/>
-                    <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
-                        <s:message code="cmas.face.first.login.form.account.demo"/>
-                    </c:if>
+                    <c:choose>
+                        <c:when test="${diver.diverRegistrationStatus.name == 'DEMO'}">
+                            <s:message code="cmas.face.first.login.form.account.demo"/>
+                        </c:when>
+                        <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
+                            <s:message code="cmas.face.first.login.form.account.new_cmas_basic"/>
+                        </c:when>
+                    </c:choose>
                 </div>
+                <c:if test="${diver.generatedPassword != null}">
+                    <div class="clearfix">
+                        <div class="form-description">
+                            <s:message code="cmas.face.first.login.form.changePassword"/>
+                        </div>
+                        <button class="positive-button form-item-left form-button-single"
+                                onclick="return window.location = '/secure/editPassword.html'">
+                            <s:message code="cmas.face.client.menu.changePass"/>
+                        </button>
+                    </div>
+                </c:if>
+                <br/>
+                <br/>
                 <div class="form-description">
                     <s:message code="cmas.face.first.login.form.getFullAccess"/>
                 </div>
-                    <%--<button class="white-button form-item-left form-button-bigger"--%>
-                    <%--onclick="return window.location = '/secure/chooseNoPayment.html'">--%>
-                    <%--<s:message code="cmas.face.first.login.form.link.cmas_basic"/>--%>
-                    <%--</button>--%>
+                <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
+                    <button class="white-button form-item-left form-button-bigger"
+                            onclick="return window.location = '/secure/chooseNoPayment.html'">
+                        <s:message code="cmas.face.first.login.form.link.cmas_basic"/>
+                    </button>
+                </c:if>
                 <button class="positive-button form-item-right form-button-smaller"
                         onclick="return window.location = '/secure/pay.html'">
                     <s:message code="cmas.face.first.login.form.link.cmas_full"/>

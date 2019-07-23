@@ -81,29 +81,22 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         cardUser.setPrimaryPersonalCard(personalCard);
         entityDao.updateModel(cardUser);
         if (cardUser.getRole() == Role.ROLE_DIVER) {
-            scheduler.schedule(new Runnable() {
-                @Override
-                public void run() {
+            scheduler.schedule(
                     new RunInHibernate(sessionFactory) {
                         @Override
                         protected void runTaskInHibernate() {
                             generateAndSaveCardImage(personalCard.getId());
                         }
-                    }.runTaskInHibernate();
-                }
-            }, 0L, TimeUnit.MILLISECONDS);
+                    }, 0L, TimeUnit.MILLISECONDS);
         }
         return personalCard;
     }
 
     @Override
     public PersonalCard generateAndSaveCardImage(long personalCardId) {
-        PersonalCard personalCard = personalCardDao.getById(personalCardId);
+        PersonalCard personalCard = personalCardDao.getModel(personalCardId);
         try {
             //todo better synchronization
-             /*
-    todo fix bug: lazy init error, no hibernate session
-     */
             BufferedImage image = drawCardService.drawDiverCard(personalCard);
             imageStorageManager.storeCardImage(personalCard, image);
         } catch (Exception e) {
