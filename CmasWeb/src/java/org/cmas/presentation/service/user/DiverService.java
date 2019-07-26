@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface DiverService extends UserService<Diver> {
 
+    void setupDisplayCardsForDivers(List<Diver> divers);
+
     List<PersonalCard> getCardsToShow(Diver diver);
 
     String scheduleUploadDivers(Diver fedAdmin, MultipartFile file) throws IOException;

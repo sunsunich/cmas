@@ -86,6 +86,14 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     private InsuranceRequestService insuranceRequestService;
 
     @Override
+    public void setupDisplayCardsForDivers(List<Diver> divers) {
+        for (Diver diver : divers) {
+            List<PersonalCard> cardsToShow = getCardsToShow(diver);
+            diver.setCards(cardsToShow);
+        }
+    }
+
+    @Override
     public List<PersonalCard> getCardsToShow(Diver diver) {
         List<PersonalCard> cards = diver.getCards();
         if (cards == null || cards.isEmpty()) {

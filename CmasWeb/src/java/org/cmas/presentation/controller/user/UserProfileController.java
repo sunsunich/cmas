@@ -77,6 +77,7 @@ public class UserProfileController extends DiverAwareController{
         if (diver == null) {
             throw new BadRequestException();
         }
+        diverService.setupDisplayCardsForDivers(Collections.singletonList(diver));
         return gsonViewFactory.createGsonView(diver);
     }
 

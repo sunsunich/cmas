@@ -67,6 +67,7 @@ var labels = {
     "cmas.face.logbook.decoStepsComments": "Comments on deco stops",
     "cmas.face.logbook.tanks.title": "Breathing",
     "cmas.face.logbook.tank.title": "Tank #",
+    "cmas.face.logbook.apnea" : "Free dive",
     "cmas.face.logbook.isApnea": "Is Free dive?",
     "cmas.face.feed.isApnea": "This is a Free dive",
     "cmas.face.logbook.supplyType": "Supply type",

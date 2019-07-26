@@ -20,6 +20,13 @@ for(i = 0; i < requests.length;i++) {
         starCnt = 4;
     }
     var dob = diver.dob;
+    var isApnea = false;
+    var i1;
+    for (i1 = 0; i1 < diver.cards.length; i1++) {
+        if (diver.cards[i1].cardType == 'APNOEA') {
+            isApnea = true;
+        }
+    }
 %>
 
 <div id="<%= request.id %>_requestTo<%= suffix %>" class="friendList-elem clearfix">
@@ -32,20 +39,21 @@ for(i = 0; i < requests.length;i++) {
         <img id="<%= request.id %>_requestToNotificationImg<%= suffix %>"
              class="friendList-floating-elem-notification-ico"
              src="/i/ic_tick_selection.png?v=<%= webVersion %>">
-        <span id="<%= request.id %>_requestToNotification<%= suffix %>" class="friendList-floating-elem-notification"></span>
+        <span id="<%= request.id %>_requestToNotification<%= suffix %>"
+              class="friendList-floating-elem-notification"></span>
     </div>
     <div class="friendList-elem-left">
         <% if(diver.userpicUrl == null){
         %>
-        <div class="friendList-no-userpic friendList-userpic-margin">
-            <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
-        </div>
-        <% } else { %>
-        <div class="userpic-ico friendList-userpic friendList-userpic-margin">
-            <div class="rounded friendList-userpic"
-                 style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+            <div class="friendList-no-userpic friendList-userpic-margin">
+                <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
             </div>
-        </div>
+        <% } else { %>
+            <div class="userpic-ico friendList-userpic friendList-userpic-margin">
+                <div class="rounded friendList-userpic"
+                     style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+                </div>
+            </div>
         <% } %>
     </div>
     <div class="friendList-elem-left">
@@ -56,7 +64,17 @@ for(i = 0; i < requests.length;i++) {
             <% var j;
             for(j = 0;j < starCnt;j++) {
             %>
-            <img class="friendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+                <img class="friendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+            <% } %>
+            <% if(isApnea){
+            %>
+                <span class="secondary-large-text friendList-text convert-with-labels"><%= labels["cmas.face.logbook.apnea"] %></span>
+                &nbsp;
+            <% } %>
+            <% if(diver.diverType == 'INSTRUCTOR'){
+            %>
+                <span class="secondary-large-text friendList-text convert-with-labels"><%= labels[diver.diverType] %></span>
+                &nbsp;
             <% } %>
             <span class="secondary-large-text friendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
         </div>

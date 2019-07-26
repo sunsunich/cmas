@@ -138,11 +138,7 @@ public class AdminController {
         }
         List<? extends User> users = dao.searchUsers(model);
         if (dao instanceof DiverDao) {
-            for (User user : users) {
-                Diver diver = (Diver) user;
-                List<PersonalCard> cardsToShow = diverService.getCardsToShow(diver);
-                diver.setCards(cardsToShow);
-            }
+            diverService.setupDisplayCardsForDivers((List<Diver>)users);
         }
         int count = dao.getMaxCountSearchUsers(model);
         return getIndexPage(model, users, count);

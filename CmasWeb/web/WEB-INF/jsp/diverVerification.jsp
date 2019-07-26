@@ -106,6 +106,15 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${divers}" var="diver">
+
+                            <c:set var="isApnea" value="false"/>
+
+                            <c:forEach items="${diver.cards}" var="card">
+                                <c:if test="${card.cardType.name == 'APNOEA'}">
+                                    <c:set var="isApnea" value="true"/>
+                                </c:if>
+                            </c:forEach>
+
                             <div id="${diver.id}_foundDiver" class="foundFriendList-elem clearfix">
                                 <div class="friendList-elem-left">
                                     <c:choose>
@@ -160,8 +169,13 @@
                                                      src="${pageContext.request.contextPath}/i/star.png?v=${webVersion}"/>
                                             </c:when>
                                         </c:choose>
+                                        <c:if test="${isApnea}">
+                                            <span class="secondary-large-text friendList-text convert-with-labels"><s:message
+                                                    code="cmas.face.logbook.apnea"/></span>&nbsp;
+                                        </c:if>
                                         <c:if test="${diver.diverType == 'INSTRUCTOR'}">
-                                            <span class="secondary-large-text friendList-text convert-with-labels">INSTRUCTOR</span>&nbsp;
+                                            <span class="secondary-large-text friendList-text convert-with-labels"><s:message
+                                                    code="cmas.face.instructor.title"/></span>&nbsp;
                                         </c:if>
                                         <span class="secondary-large-text friendList-text convert-with-labels">${diver.diverRegistrationStatus}</span>
                                     </div>

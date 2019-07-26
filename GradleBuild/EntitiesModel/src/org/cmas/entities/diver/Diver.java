@@ -44,6 +44,7 @@ public class Diver extends CardUser {
     @Enumerated(EnumType.STRING)
     private DiverType diverType;
 
+    @Expose
     @OneToMany(mappedBy = "diver", fetch = FetchType.LAZY)
     private List<PersonalCard> cards;
 

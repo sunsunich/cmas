@@ -19,6 +19,7 @@ import org.cmas.presentation.model.logbook.LogbookEntryRequestFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.social.SocialUpdates;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.StringUtil;
@@ -74,6 +75,9 @@ public class UserSocialSettingsController extends DiverAwareController{
     private LogbookService logbookService;
 
     @Autowired
+    private DiverService diverService;
+
+    @Autowired
     private GsonViewFactory gsonViewFactory;
 
     @Autowired
@@ -104,6 +108,7 @@ public class UserSocialSettingsController extends DiverAwareController{
             return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
         }
         List<Diver> divers = diverDao.searchInFriendsFast(currentDiver.getId(), input);
+        diverService.setupDisplayCardsForDivers(divers);
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -145,6 +150,7 @@ public class UserSocialSettingsController extends DiverAwareController{
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
+        diverService.setupDisplayCardsForDivers(divers);
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -158,6 +164,7 @@ public class UserSocialSettingsController extends DiverAwareController{
             return gsonViewFactory.createErrorGsonView("validation.diver.fast.search.tooSmall");
         }
         List<Diver> divers = diverDao.searchFriendsFast(currentDiver.getId(), input);
+        diverService.setupDisplayCardsForDivers(divers);
         return gsonViewFactory.createGsonView(divers);
     }
 
@@ -180,6 +187,7 @@ public class UserSocialSettingsController extends DiverAwareController{
             }
         }
         List<Diver> divers = diverDao.searchDiversFast(currentDiver.getId(), input, parsedDiverType);
+        diverService.setupDisplayCardsForDivers(divers);
         return gsonViewFactory.createGsonView(divers);
     }
 

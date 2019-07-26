@@ -103,10 +103,7 @@ public class FederationAdminController {
         mm.addAttribute("command", model);
         mm.addAttribute("xlsFileFormObject", fileBean);
         List<Diver> users = diverDao.searchUsers(model);
-        for (Diver user : users) {
-            List<PersonalCard> cardsToShow = diverService.getCardsToShow(user);
-            user.setCards(cardsToShow);
-        }
+        diverService.setupDisplayCardsForDivers(users);
         mm.addAttribute("users", users);
         mm.addAttribute("count", diverDao.getMaxCountSearchUsers(model));
         return new ModelAndView("fed/index", mm);

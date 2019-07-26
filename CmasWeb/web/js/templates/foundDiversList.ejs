@@ -19,6 +19,13 @@ for(i = 0; i < divers.length;i++) {
         starCnt = 4;
     }
     var dob = diver.dob;
+    var isApnea = false;
+    var k;
+    for (k = 0; k < diver.cards.length; k++) {
+        if (diver.cards[k].cardType == 'APNOEA') {
+            isApnea = true;
+        }
+    }
 %>
 
 <div id="<%= diver.id %>_foundFriend" class="foundFriendList-elem clearfix">
@@ -33,15 +40,15 @@ for(i = 0; i < divers.length;i++) {
     <div class="foundFriendList-elem-left">
         <% if(diver.userpicUrl == null){
         %>
-        <div class="no-userpic-ico foundFriendList-no-userpic">
-            <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
-        </div>
-        <% } else { %>
-        <div class="userpic-ico foundFriendList-userpic">
-            <div class="rounded foundFriendList-userpic"
-                 style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+            <div class="no-userpic-ico foundFriendList-no-userpic">
+                <img src="/i/no-userpic-ico.png?v=<%= webVersion %>"/>
             </div>
-        </div>
+        <% } else { %>
+            <div class="userpic-ico foundFriendList-userpic">
+                <div class="rounded foundFriendList-userpic"
+                     style='background : url("<%= userpicSrc %>") center no-repeat; background-size: cover'>
+                </div>
+            </div>
         <% } %>
     </div>
     <div class="foundFriendList-elem-left">
@@ -50,14 +57,24 @@ for(i = 0; i < divers.length;i++) {
             <% var j;
             for(j = 0;j < starCnt;j++) {
             %>
-            <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+                <img class="foundFriendList-star" src="/i/star.png?v=<%= webVersion %>"/>
+            <% } %>
+            <% if(isApnea){
+            %>
+                <span class="secondary-large-text friendList-text convert-with-labels"><%= labels["cmas.face.logbook.apnea"] %></span>
+                &nbsp;
+            <% } %>
+            <% if(diver.diverType == 'INSTRUCTOR'){
+            %>
+                <span class="secondary-large-text friendList-text convert-with-labels"><%= labels[diver.diverType] %></span>
+                &nbsp;
             <% } %>
             <span class="secondary-large-text foundFriendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
         </div>
         <div class="foundFriendList-elem-left">
             <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
             <span class="secondary-large-text foundFriendList-text"><%= dob %></span>
-         </div>
+        </div>
         <div class="foundFriendList-elem-right">
             <span class="secondary-large-text foundFriendList-text"><%= diver.country.name %></span>
         </div>
