@@ -204,8 +204,10 @@ public class DrawCardServiceImpl implements DrawCardService {
             case NITROX_GASBLENDER:
                 fileName = "cmas_card_yellow.png";
                 break;
-            case DRY_SUIT:
             case APNOEA:
+                fileName = "cmas_card_apnoea.png";
+                break;
+            case DRY_SUIT:
             case ICE_DIVING:
             case SIDE_MOUNT:
             case CAVE:

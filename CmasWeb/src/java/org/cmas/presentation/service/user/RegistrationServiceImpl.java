@@ -117,7 +117,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
     @Override
     public void validateEmail(FullDiverRegistrationFormObject formObject, Errors errors) {
-        // проверяем на уникальность email
         String emailFieldName = "email";
         if (!errors.hasFieldErrors(emailFieldName)) {
             String emailValue = formObject.getEmail();
@@ -266,7 +265,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         entity.setAreaOfInterest(formObject.getAreaOfInterest());
         entity.setCountry(formObject.getCountry());
         entity.setFirstName(formObject.getFirstName());
-        entity.setLastName(formObject.getFirstName());
+        entity.setLastName(formObject.getLastName());
         try {
             entity.setDob(Globals.getDTF().parse(formObject.getDob()));
         } catch (ParseException e) {
