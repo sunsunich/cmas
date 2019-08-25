@@ -35,8 +35,8 @@ var logbook_record_controller = {
             self.buildLogbookEntryForm();
             logbook_record_diveProfile_controller.maskInvalidValues();
             logbook_record_model.createDraftRecord(
-                function (json) {
-                    window.location = "/secure/showSpots.html?logbookEntryId=" + json.id;
+                function () {
+                    window.location = "/secure/showSpots.html?logbookEntryId=" + logbook_record_model.logbookEntry.id;
                 }, function () {
                     error_dialog_controller.showErrorDialog(error_codes["validation.internal"]);
                 }
