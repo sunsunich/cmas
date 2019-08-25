@@ -282,20 +282,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         return entity;
     }
 
-    /**
-     * @return список желающих регистрироваться
-     */
     @Override
     @Transactional
     public List<Registration> getReadyToRegister() {
         return registrationDao.getReadyToRegister();
     }
 
-    /**
-     * удаляет регистрацию. что такое регистрация - вопрос отдельного обсуждения.
-     *
-     * @param id - ID регистрации
-     */
     @Override
     @Transactional
     public void delete(long id) {

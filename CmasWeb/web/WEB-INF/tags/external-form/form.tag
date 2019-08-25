@@ -3,7 +3,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<%-- код сообщения из ui.messages, которое надо показать в качестве альта на изображении сабмита. --%>
 <%@ attribute name="submitText" required="true" %>
 <%@ attribute name="submitImg" required="true" %>
 <%@ attribute name="submitImgWidth" required="true" %>

@@ -28,11 +28,6 @@ public class AdminRegController {
     @Autowired
     private AdminService adminService;
 
-    /**
-     * Список клиентов к регистрации
-     * @param mm
-     * @return
-     */
     @RequestMapping("/admin/registration/readyToCreate.html")
     public ModelMap readyToCreate(ModelMap mm) {
         List<Registration> userRegistrations = registrationService.getReadyToRegister();
@@ -40,12 +35,6 @@ public class AdminRegController {
         return mm;
     }
 
-    /**
-     * Удаление регистрации
-     *
-     * @param id
-     * @return
-     */
     @RequestMapping("/admin/registration/deleteReg.html")
     public String deleteRegistration(@RequestParam("regId") Long id) {
         registrationService.delete(id);

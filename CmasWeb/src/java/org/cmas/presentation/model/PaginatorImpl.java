@@ -3,9 +3,7 @@ package org.cmas.presentation.model;
 
 public class PaginatorImpl implements Paginator {
 
-    // количество записей в выдаче
     protected int limit;
-    // с какой записи начинать
     protected int offset;
 
     public PaginatorImpl() {

@@ -8,10 +8,8 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
        ">
-    <!-- настройки хибернейта, общие для всех процессов, запускаемых нами,
-    а также ДАО-классы, которым ничего кроме этого самого хибернейта для работы не нужно. -->
 
-    <!-- требует наличия в контексте датасорса с именем hibernateDataSource -->
+    <!-- requires hibernateDataSource in context-->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="hibernateDataSource"/>
         <property name="annotatedClasses">
@@ -77,7 +75,7 @@
         </property>
     </bean>
 
-    <!--transactions -->
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
@@ -85,14 +83,13 @@
     </bean>
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-    <!--rulezz -->
+
     <bean name="openSessionInViewInterceptor"
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
         <property name="sessionFactory" ref="sessionFactory"/>
 
     </bean>
 
-    <!--hibernate  DAO  classes  -->
     <bean id="athleteDao" class="org.cmas.presentation.dao.user.sport.AthleteDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>

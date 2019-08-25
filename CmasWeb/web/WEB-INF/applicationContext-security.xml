@@ -9,7 +9,6 @@
     <!--<http auto-config="false" entry-point-ref="ajaxEntryPoint">-->
 
 
-        <!-- стандартные урлы клиентского, админского интерфейса -->
         <!--<intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>-->
 
         <!--<intercept-url pattern="/secure/**" access="ROLE_AMATEUR" />-->

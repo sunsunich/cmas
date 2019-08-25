@@ -2,13 +2,9 @@ package org.cmas.presentation.model;
 
 public class CursorData implements SortLimitInfo {
 
-    // направление сортировки
     private SortDirection dir;
-    // столбец по которому сортируем
     private String sort;
-    // количество записей в выдаче
     private int limit;
-    // с какой записи начинать
     private int start;
 
     @Override

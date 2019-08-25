@@ -150,9 +150,7 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
             }
         }
         String email = formObject.getEmail();
-        // Узнаем, а действительно ли пользователь сменил почту?
         if (!errors.hasErrors() && !user.getEmail().equals(email)) {
-            // Сменил, собираем md5 и обновляем user
             try {
                 String md5 = passwordEncoder.encodePassword(email + user.getEmail(), UserDetails.SALT);
                 user.setNewMail(email);

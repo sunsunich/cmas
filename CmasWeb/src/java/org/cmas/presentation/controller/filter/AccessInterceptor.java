@@ -144,23 +144,11 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
-    /**
-     * делает общие для всех запросов проверки
-     *
-     * @param req
-     * @return false, если пользователя не пускаем
-     */
     private boolean commonValidation(HttpServletRequest req) {
         return exceptions.contains(req.getRequestURI())
                || containsId(req) && checkInvoice(req) && checkCard(req) && checkLogbookEntry(req);
     }
 
-    /**
-     * проверяет что реквест содержит хотя бы один непустой параметр с именем из некоторого множества.
-     *
-     * @param req - request
-     * @return true, if request contains ids from some list
-     */
     private static boolean containsId(ServletRequest req) {
         for (String param : PARAMS) {
             if (req.getParameter(param) != null) {
@@ -170,9 +158,6 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
-    /**
-     * если в запросе есть параметр invoiceId, проверяем, что invoice с таким id принадлежит залогиненному пользователю
-     */
     private boolean checkInvoice(ServletRequest req) {
         String invoiceIdStr = req.getParameter(INVOICE_ID);
         if (invoiceIdStr != null && !invoiceIdStr.isEmpty()) {

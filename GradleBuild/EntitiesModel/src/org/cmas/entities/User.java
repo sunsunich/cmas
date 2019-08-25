@@ -33,9 +33,6 @@ public abstract class User implements Serializable, HasId {
     @OneToOne
     protected UserBalance userBalance;
 
-    //служебные данные
-
-    // Дата регистрации
     @Column
     protected Date dateReg;
 
@@ -49,18 +46,15 @@ public abstract class User implements Serializable, HasId {
     @Enumerated(EnumType.STRING)
     protected Role role;
 
-    //локаль с которрой регился
+    //registration locale
     @Column(nullable = false)
     protected Locale locale;
 
-    //служебные и обязательные данные
     @Column
     protected String lostPasswdCode;
 
-    // Новая почта пользователя
     protected String newMail;
 
-    // Код для смены почтового адреса
     @Column(length = 32)
     protected String md5newMail;
 

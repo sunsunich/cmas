@@ -1,10 +1,4 @@
-/**
- * Класс контроллера кук
- */
 var cookie_controller = {
-    /**
-     * Инициализация
-     */
     init: function () {
         var self = this;
         if (this.isCookieExists('COOKIE_AGREE')) {
@@ -23,30 +17,18 @@ var cookie_controller = {
 
     },
 
-    /**
-     * Проверяет наличие куки авторизации
-     * @returns {boolean} true если кука авторизации установлена
-     */
     isAuth: function () {
         return this.isCookieExists('AUTH_COOKIE');
     },
 
-    /**
-     * Добавляет куку авторизации
-     */
     addAuthCookie: function () {
         this.createCookie("AUTH_COOKIE", "", 0);
     },
-    /**
-     * Удаляет куку авторизации
-     */
+
     removeAuthCookie: function () {
         this.eraseCookie("AUTH_COOKIE");
     },
-    /**
-     * Проверяет наличие куки
-     * @param {string} cookieName имя куки
-     */
+
     isCookieExists: function (cookieName) {
         // first we'll split this cookie up into name/value pairs
         // note: document.cookie only returns name=value, not the other components
@@ -63,12 +45,6 @@ var cookie_controller = {
         return false;
     },
 
-    /**
-     * Создает куку
-     * @param {string} name имя куки
-     * @param {string} value значение
-     * @param {Number} days срок годности
-     */
     createCookie: function (name, value, days) {
         var expires;
         if (days) {
@@ -82,11 +58,6 @@ var cookie_controller = {
         document.cookie = name + "=" + value + expires + "; path=/";
     },
 
-    /**
-     * Читает значение куки
-     * @param {string} name имя куки
-     * @returns {string|boolean} возвращает значение куки или null если не найдено
-     */
     readCookie: function (name) {
         var nameEQ = name + "=",
             ca = document.cookie.split(';');
@@ -102,10 +73,6 @@ var cookie_controller = {
         return null;
     },
 
-    /**
-     * Получает куки по имени
-     * @param {string} name имя куки
-     */
     getCookie: function (name) {
         var prefix = name + "=",
             cookieStartIndex = document.cookie.indexOf(prefix),
@@ -119,10 +86,7 @@ var cookie_controller = {
         }
         return unescape(document.cookie.substring(cookieStartIndex + prefix.length, cookieEndIndex));
     },
-    /**
-     * Удаляет куку
-     * @param {string} name имя куки
-     */
+
     eraseCookie: function (name) {
         this.createCookie(name, "", -1);
     }

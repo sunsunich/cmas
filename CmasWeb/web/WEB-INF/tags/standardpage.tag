@@ -1,4 +1,3 @@
-<%-- Стандартная страница с контентом на всю ширину экрана --%>
 <%@ tag body-content="scriptless" pageEncoding="UTF-8"  %>
 
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>

@@ -97,7 +97,6 @@ public class RecoveryController {
         } else {
             String email = StringUtil.correctSpaceCharAndTrim(formObject.getEmail());
             Diver user = diverDao.getByEmail(email);
-            // генерим код для смены пароля
             long rndNum = rnd.nextLong();
             String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
             user.setLostPasswdCode(checkCode);

@@ -34,11 +34,11 @@ public class LocaleBasedViewResolver extends InternalResourceViewResolver {
         log.debug("view name=" + localeViewName);
         return result;
     }
-    // возвращает имя вью, которая рендерится где-нибудь позже.
+
     public String buildLocalizedName(String viewName) {
         return findFirstExisting(localeResolver.buildCandidateNames(viewName, localeResolver.getCurrentLocale()));
     }
-    // возвращает относительный путь к файлу который диспатчер может заинклудить.
+
     public String buildLocalizedPath(String viewName) {
         String s = findFirstExisting(localeResolver.buildCandidateNames(viewName, localeResolver.getCurrentLocale()));
         return getPrefix() + s + getSuffix();

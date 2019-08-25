@@ -61,10 +61,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Работа администратора в системе.
- */
-
 @SuppressWarnings({"HardcodedFileSeparator", "StringConcatenation"})
 @Controller
 public class AdminController {
@@ -171,9 +167,6 @@ public class AdminController {
         return new ModelAndView("admin/userInfo", mmap);
     }
 
-    /*
-     * Переключаемся на обычного пользователя
-     */
     @RequestMapping("/admin/toUser.html")
     @Transactional
     public String switchToUserAsAdmin(
@@ -233,9 +226,6 @@ public class AdminController {
         return new ModelAndView("admin/editUser", mm);
     }
 
-    /*
-     * Загрузка данных для смены пароля клиента
-     */
     @RequestMapping("/admin/passwdForm.html")
     public ModelAndView loadPasswordForm(
             @ModelAttribute("command") PasswordChangeFormObject formObject

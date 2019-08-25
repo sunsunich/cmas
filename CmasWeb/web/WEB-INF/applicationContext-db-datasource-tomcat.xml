@@ -6,9 +6,6 @@
         http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        ">
 
-    <!-- настройки соединения с Mysql для работы из томката -->
-    <!-- объявляет алиасы hibernateDataSource и jdbcDataSource чтобы остальным лучше жилось -->
-    <!-- датасорсы -->
     <bean id="rawUserDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName" value="java:comp/env/jdbc/hiber"/>
     </bean>

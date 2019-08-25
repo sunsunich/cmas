@@ -278,9 +278,6 @@ public class FederationAdminController {
         return buidPassChangeForm(mm, currentFedAdmin.getUser());
     }
 
-    /*
-     * Submit формы редактирования пароля
-     */
     @RequestMapping(value = "/fed/processEditPassword.html", method = RequestMethod.POST)
     public ModelAndView userEditPasswd(
             HttpServletRequest request

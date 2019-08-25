@@ -8,9 +8,9 @@ import java.util.Locale;
 
 public interface CustomLocaleResolver extends LocaleResolver {
 
-     // должно работать всегда.
+     // must always work
     Locale getLocale(BackendUser user);
-    // должно работать в контексте обработки http-запроса.
+    // must always work in context of http-request
     Locale getCurrentLocale();
 
     Locale getDefaultLocale(); // default locale in configuration

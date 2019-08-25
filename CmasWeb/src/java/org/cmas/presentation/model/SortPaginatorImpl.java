@@ -6,14 +6,11 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class SortPaginatorImpl<E extends Enum<E>> extends PaginatorImpl implements SortPaginator{
 
-    // направление сортировки
     private boolean dir;
 
-    //колонка, по которой будем сортировать
     @NotNull
     private E sortColumn;
 
-    //это поле нужно, чтобы jsp нормально работал
     @Nullable
     private String sort;
 

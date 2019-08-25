@@ -14,7 +14,6 @@
     <c:if test="${empty size}">
         <c:set var="size" value="20"/>
     </c:if>
-    <%-- первый шаг на дороге в ад --%>
     <c:if test="${empty id}">
         <form:input maxlength="${maxLen}" path="${path}" htmlEscape="true"
                     cssErrorClass="errorInput" cssClass="blue" cssStyle="width:${size}em" />

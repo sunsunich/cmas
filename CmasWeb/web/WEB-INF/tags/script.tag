@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="path" required="false" %>
 <%@ attribute name="pathList" required="false" type="java.util.Collection" %>
-<%--Тэг который, пордключает скрипт по пути. либо несколько скриптов. 
-если ничего не передать то ничего не подключит.--%>
+
 <c:if test="${not empty path}">
     <script type="text/javascript" src="${path}"></script>
 </c:if>

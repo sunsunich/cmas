@@ -24,12 +24,6 @@ public final class StringUtil {
         return newArray;
     }
 
-    /**
-     * Убирает пробелы до и после строки. При этом позволяет передавать null
-     *
-     * @param str source
-     * @return Trimmed string
-     */
     public static String correctSpaceCharAndTrim(String str) {
         if (str == null) {
             return null;
@@ -37,13 +31,6 @@ public final class StringUtil {
         return str.replace((char) 160, ' ').trim();
     }
 
-    /**
-     * Сравнивает две строки с учетом NULL`ов
-     *
-     * @param str
-     * @param anStr
-     * @return
-     */
     public static boolean equalsFull(String str, String anStr) {
         if (str == null && anStr == null) {
             return true;

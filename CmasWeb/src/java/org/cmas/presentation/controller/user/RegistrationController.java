@@ -312,9 +312,6 @@ public class RegistrationController {
         }
     }
 
-    /**
-     * добавленную в базу регистрацию превращаем в юзера.
-     */
     @RequestMapping("/regConfirm.html")
     public ModelAndView diverAddConfirm(
             @ModelAttribute RegistrationConfirmFormObject formObject

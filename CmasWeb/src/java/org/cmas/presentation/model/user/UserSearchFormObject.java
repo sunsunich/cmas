@@ -28,7 +28,6 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
         }
     }
 
-    // условие отбора
     private String email;
     private String firstName;
     private String lastName;

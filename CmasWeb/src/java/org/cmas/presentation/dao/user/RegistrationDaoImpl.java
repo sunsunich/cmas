@@ -39,8 +39,6 @@ public class RegistrationDaoImpl extends HibernateDaoImpl<Registration> implemen
     @Override
     public List<Registration> getReadyToRegister() {
         Criteria crit = createCriteria();
-        return crit
-                //  .add(Restrictions.eq("confirm", true)) хз что такое поле confirm. 
-                .addOrder(Order.desc("dateReg")).setCacheable(true).list();
+        return crit.addOrder(Order.desc("dateReg")).setCacheable(true).list();
     }
 }

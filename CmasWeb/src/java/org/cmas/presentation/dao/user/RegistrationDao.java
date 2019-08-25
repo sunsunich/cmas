@@ -11,17 +11,7 @@ public interface RegistrationDao extends HibernateDao<Registration> {
     boolean isEmailUnique(String email, Long id);    
     boolean isEmailUnique(String email);
 
-    /**
-     * Ищем регистрацию клиента
-     * @param sec - md5 - код регистрации
-     * @return данные клиента
-     */
     Registration getBySec(String sec);
 
-    /**
-     * Возвращает список клиентов, готовых к прохождению регистрации
-     * @return
-     */
     List<Registration> getReadyToRegister();
-
 }

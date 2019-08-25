@@ -190,7 +190,6 @@ public class HibernateDaoImpl<T> implements HibernateDao<T> {
 
     @Override
     public Serializable findMaxId() {
-        // что он выдаст для нуля элементов?
         List list = createCriteria().setProjection(Projections.max("id")).list();
         return (Serializable) list.get(0);
     }

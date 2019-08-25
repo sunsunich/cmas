@@ -417,11 +417,6 @@ public final class StringUtil {
         }
     }
 
-    /**
-     * кто поменяет эту функцию - тот будет виноват если там sql заинжектят. ха ха ха.
-     * @param buf
-     * @param x
-     */
     public static void appendEscaped(StringBuilder buf, String x) {
 		int stringLength = x.length();
         buf.append('\'');

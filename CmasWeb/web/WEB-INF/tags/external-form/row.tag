@@ -4,7 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ attribute name="path" required="true" %>
-<%-- сообщение --%>
 <%@ attribute name="label" required="false" %>
 
 <%@ attribute name="id" required="false" %>
