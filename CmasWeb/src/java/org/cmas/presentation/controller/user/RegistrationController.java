@@ -24,6 +24,7 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.user.AllUsersService;
+import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
@@ -58,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ *
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
@@ -88,6 +90,9 @@ public class RegistrationController {
 
     @Autowired
     private AllUsersService allUsersService;
+
+    @Autowired
+    private PersonalCardService personalCardService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -137,6 +142,7 @@ public class RegistrationController {
             return buildDiverVerificationForm(model, isCaptchaCorrect);
         } else {  // submit form
             List<Diver> divers = diverDao.searchForVerification(formObject);
+            personalCardService.setupDisplayCardsForDivers(divers);
             return buildDiverVerificationForm(model, true, true, divers);
         }
     }

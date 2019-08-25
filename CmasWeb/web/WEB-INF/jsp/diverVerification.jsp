@@ -106,12 +106,14 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach items="${divers}" var="diver">
-
-                            <c:set var="isApnea" value="false"/>
+                            <c:if test="${diver.primaryPersonalCard !=null}">
+                                <c:set var="cardUrl" value="${diver.primaryPersonalCard.imageUrl}"/>
+                            </c:if>
 
                             <c:forEach items="${diver.cards}" var="card">
                                 <c:if test="${card.cardType.name == 'APNOEA'}">
                                     <c:set var="isApnea" value="true"/>
+                                    <c:set var="cardUrl" value="${card.imageUrl}"/>
                                 </c:if>
                             </c:forEach>
 
@@ -197,10 +199,11 @@
                                         </div>
                                     </c:if>
                                 </div>
-                                <c:if test="${diver.primaryPersonalCard != null}">
+                                <c:if test="${cardUrl != null}">
                                     <div class="found-diver-card-image">
-                                        <img src="${cardsRoot}${diver.primaryPersonalCard.imageUrl}"/>
+                                        <img src="${cardsRoot}${cardUrl}"/>
                                     </div>
+
                                 </c:if>
                             </div>
                         </c:forEach>

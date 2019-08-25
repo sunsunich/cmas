@@ -32,9 +32,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -85,46 +83,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Autowired
     private InsuranceRequestService insuranceRequestService;
 
-    @Override
-    public void setupDisplayCardsForDivers(List<Diver> divers) {
-        for (Diver diver : divers) {
-            List<PersonalCard> cardsToShow = getCardsToShow(diver);
-            diver.setCards(cardsToShow);
-        }
-    }
-
-    @Override
-    public List<PersonalCard> getCardsToShow(Diver diver) {
-        List<PersonalCard> cards = diver.getCards();
-        if (cards == null || cards.isEmpty()) {
-            return new ArrayList<>();
-        }
-        Map<PersonalCardType, PersonalCard> result
-                = new EnumMap<>(PersonalCardType.class);
-        for (PersonalCard card : cards) {
-            PersonalCardType cardType = card.getCardType();
-            if (cardType == PersonalCardType.PRIMARY) {
-                continue;
-            }
-            PersonalCard existingCard = result.get(cardType);
-            if (existingCard == null) {
-                result.put(cardType, card);
-            } else {
-                if (card.getDiverType() == existingCard.getDiverType()) {
-                    if (card.getDiverLevel() == null) {
-                        continue;
-                    }
-                    if (existingCard.getDiverLevel() == null
-                        || existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
-                        result.put(cardType, card);
-                    }
-                } else if (card.getDiverType() == DiverType.INSTRUCTOR) {
-                    result.put(cardType, card);
-                }
-            }
-        }
-        return new ArrayList<>(result.values());
-    }
+    @Autowired
+    private PersonalCardService personalCardService;
 
     @Override
     public Diver add(Registration registration, String ip) {
@@ -291,6 +251,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             for (PersonalCard card : cardsToAdd.values()) {
                 card.setDiver(dbDiver);
                 personalCardDao.save(card);
+            }
+            if (diver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
+                personalCardService.generateNonPrimaryCardsImages(diver);
             }
         } else {
             for (PersonalCard card : cards) {

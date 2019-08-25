@@ -63,7 +63,7 @@ public class UserHomeController extends DiverAwareController {
                 diver.setDateReg(new Date());
                 diverDao.updateModel(diver);
             }
-            registrationService.createDiverPrimaryCard(diver);
+            registrationService.generateAllCardsImages(diver);
         }
         return new ModelAndView("/secure/welcome");
     }

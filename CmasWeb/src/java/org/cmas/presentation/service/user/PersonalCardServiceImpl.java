@@ -9,6 +9,7 @@ import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -22,6 +23,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -50,6 +55,63 @@ public class PersonalCardServiceImpl implements PersonalCardService {
 
     @Autowired
     private Scheduler scheduler;
+
+    @Override
+    public void setupDisplayCardsForDivers(List<Diver> divers) {
+        for (Diver diver : divers) {
+            List<PersonalCard> cardsToShow = getCardsToShow(diver);
+            diver.setCards(cardsToShow);
+        }
+    }
+
+    @Override
+    public List<PersonalCard> getCardsToShow(Diver diver) {
+        List<PersonalCard> cards = diver.getCards();
+        if (cards == null || cards.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Map<PersonalCardType, PersonalCard> result
+                = new EnumMap<>(PersonalCardType.class);
+        for (PersonalCard card : cards) {
+            PersonalCardType cardType = card.getCardType();
+            if (cardType == PersonalCardType.PRIMARY) {
+                continue;
+            }
+            PersonalCard existingCard = result.get(cardType);
+            if (existingCard == null) {
+                result.put(cardType, card);
+            } else {
+                if (card.getDiverType() == existingCard.getDiverType()) {
+                    if (card.getDiverLevel() == null) {
+                        continue;
+                    }
+                    if (existingCard.getDiverLevel() == null
+                        || existingCard.getDiverLevel().ordinal() < card.getDiverLevel().ordinal()) {
+                        result.put(cardType, card);
+                    }
+                } else if (card.getDiverType() == DiverType.INSTRUCTOR) {
+                    result.put(cardType, card);
+                }
+            }
+        }
+        return new ArrayList<>(result.values());
+    }
+
+    @Override
+    public void generateNonPrimaryCardsImages(CardUser cardUser) {
+        if (cardUser.getRole() == Role.ROLE_DIVER) {
+            final Diver diver = (Diver) cardUser;
+            scheduler.schedule(
+                    new RunInHibernate(sessionFactory) {
+                        @Override
+                        protected void runTaskInHibernate() {
+                            for (PersonalCard card : getCardsToShow(diver)) {
+                                generateAndSaveCardImage(card.getId());
+                            }
+                        }
+                    }, 0L, TimeUnit.MILLISECONDS);
+        }
+    }
 
     @Override
     public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao) {

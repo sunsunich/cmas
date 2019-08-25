@@ -23,7 +23,7 @@ public interface RegistrationService {
 
     void setupCMASDiver(Diver diver, Locale locale);
 
-    void createDiverPrimaryCard(Diver diver);
+    void generateAllCardsImages(Diver diver);
 
     @Transactional
     Registration add(FullDiverRegistrationFormObject formObject);

@@ -18,6 +18,7 @@ import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.user.DiverService;
+import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.service.user.UploadDiversTask;
 import org.cmas.presentation.service.user.UploadDiversTaskStatus;
 import org.cmas.presentation.validator.fedadmin.DiverUploadValidator;
@@ -68,6 +69,9 @@ public class FederationAdminController {
     private DiverService diverService;
 
     @Autowired
+    private PersonalCardService personalCardService;
+
+    @Autowired
     private DiverUploadValidator diverUploadValidator;
 
     @Autowired
@@ -103,7 +107,7 @@ public class FederationAdminController {
         mm.addAttribute("command", model);
         mm.addAttribute("xlsFileFormObject", fileBean);
         List<Diver> users = diverDao.searchUsers(model);
-        diverService.setupDisplayCardsForDivers(users);
+        personalCardService.setupDisplayCardsForDivers(users);
         mm.addAttribute("users", users);
         mm.addAttribute("count", diverDao.getMaxCountSearchUsers(model));
         return new ModelAndView("fed/index", mm);

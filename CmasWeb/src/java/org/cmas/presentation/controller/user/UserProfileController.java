@@ -72,12 +72,12 @@ public class UserProfileController extends DiverAwareController{
     private ImageStorageManager imageStorageManager;
 
     @RequestMapping("/secure/getDiver.html")
-    public View getDiver(@RequestParam("diverId") long diverId) throws IOException {
+    public View getDiver(@RequestParam("diverId") long diverId) {
         Diver diver = diverDao.getModel(diverId);
         if (diver == null) {
             throw new BadRequestException();
         }
-        diverService.setupDisplayCardsForDivers(Collections.singletonList(diver));
+        personalCardService.setupDisplayCardsForDivers(Collections.singletonList(diver));
         return gsonViewFactory.createGsonView(diver);
     }
 
@@ -103,13 +103,13 @@ public class UserProfileController extends DiverAwareController{
     @RequestMapping("/secure/cards.html")
     public ModelAndView getCards(Model model) {
         Diver diver = getCurrentDiver();
-        List<PersonalCard> cards = diverService.getCardsToShow(diver);
+        List<PersonalCard> cards = personalCardService.getCardsToShow(diver);
         model.addAttribute("cards", cards);
         return new ModelAndView("/secure/cards");
     }
 
     @RequestMapping("/secure/profile/getCardImageUrl.html")
-    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) throws IOException {
+    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) {
         PersonalCard personalCard = personalCardDao.getById(cardId);
         if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {
             personalCard = personalCardService.generateAndSaveCardImage(cardId);

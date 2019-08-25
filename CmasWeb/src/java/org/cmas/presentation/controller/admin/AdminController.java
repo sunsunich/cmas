@@ -5,9 +5,11 @@ import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.InsuranceRequest;
@@ -26,7 +28,7 @@ import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.loyalty.InsuranceRequestService;
-import org.cmas.presentation.service.user.DiverService;
+import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
@@ -78,7 +80,7 @@ public class AdminController {
     @Autowired
     private DiverDao diverDao;
     @Autowired
-    private DiverService diverService;
+    private PersonalCardService personalCardService;
 
     @Autowired
     private CountryDao countryDao;
@@ -138,7 +140,7 @@ public class AdminController {
         }
         List<? extends User> users = dao.searchUsers(model);
         if (dao instanceof DiverDao) {
-            diverService.setupDisplayCardsForDivers((List<Diver>)users);
+            personalCardService.setupDisplayCardsForDivers((List<Diver>) users);
         }
         int count = dao.getMaxCountSearchUsers(model);
         return getIndexPage(model, users, count);
@@ -331,6 +333,21 @@ public class AdminController {
     private LogbookEntryDao logbookEntryDao;
     @Autowired
     private PersonalCardDao personalCardDao;
+
+
+    @RequestMapping(value = "/admin/regenerateApnoeaCards.html", method = RequestMethod.GET)
+    public ModelAndView regenerateApnoeaCards() {
+        List<PersonalCard> cardsToRegenerate = personalCardDao
+                .createCriteria()
+                .createAlias("diver", "d")
+                .add(Restrictions.ne("d.diverRegistrationStatus", DiverRegistrationStatus.NEVER_REGISTERED))
+                .add(Restrictions.eq("cardType", PersonalCardType.APNOEA))
+                .list();
+        for (PersonalCard card : cardsToRegenerate) {
+            personalCardService.generateAndSaveCardImage(card.getId());
+        }
+        return new ModelAndView("redirect:/admin/index.html");
+    }
 
     @RequestMapping(value = "/admin/dbBlobsToFiles.html", method = RequestMethod.GET)
     public ModelAndView dbBlobsToFiles() throws IOException {
