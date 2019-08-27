@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -400,11 +399,12 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         String hql = "update org.cmas.entities.diver.Diver d "
                      + "set d.previousRegistrationStatus = d.diverRegistrationStatus, d.diverRegistrationStatus = :newStatus "
                      + "where d.diverRegistrationStatus in (:statusList) and d.dateLicencePaymentIsDue <= :date";
-        createQuery(hql).setParameterList("statusList", Collections.singletonList(DiverRegistrationStatus.CMAS_FULL))
-                        .setParameter("newStatus", DiverRegistrationStatus.CMAS_BASIC)
-                        .setDate("date", new Date()).executeUpdate();
+//        createQuery(hql).setParameterList("statusList", Collections.singletonList(DiverRegistrationStatus.CMAS_FULL))
+//                        .setParameter("newStatus", DiverRegistrationStatus.CMAS_BASIC)
+//                        .setDate("date", new Date()).executeUpdate();
         createQuery(hql).setParameterList("statusList",
-                                          Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
+                                          Collections.singletonList(DiverRegistrationStatus.DEMO))
+//        Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
                         .setParameter("newStatus", DiverRegistrationStatus.INACTIVE)
                         .setDate("date", new Date()).executeUpdate();
     }

@@ -18,9 +18,9 @@
                activeMenuItem="pay"
                customScripts="/js/model/insurance_request_model.js,js/controller/registration_flow_controller.js,js/controller/payment_controller.js,/js/controller/insurance_request_controller.js">
     <c:set var="isDueToPayCmasFullLicence"
-           value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
+           value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'INACTIVE'}"/>
 
-    <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST'}"/>
+    <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'GUEST'}"/>
 
     <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>
 
@@ -52,7 +52,7 @@
                 <div class="header1-text">
                     <s:message code="cmas.face.payment.header"/>
                 </div>
-                <c:if test="${diver.diverRegistrationStatus.name != 'CMAS_BASIC'}">
+                <c:if test="${diver.diverRegistrationStatus.name == 'CMAS_DEMO'}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
                             value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
