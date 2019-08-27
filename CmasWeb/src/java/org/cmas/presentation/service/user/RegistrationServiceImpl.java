@@ -249,11 +249,10 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public void createDiverPrimaryCard(Diver diver) {
+    public void generateAllCardsImages(Diver diver) {
         if (diver.getPrimaryPersonalCard() == null) {
-            personalCardService.generatePrimaryCard(
-                    diver, diverDao
-            );
+            personalCardService.generatePrimaryCard(diver, diverDao);
+            personalCardService.generateNonPrimaryCardsImages(diver);
         }
     }
 

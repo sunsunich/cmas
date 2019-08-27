@@ -70,6 +70,7 @@
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/saveDraftRecord.html</value>
                 <value>/secure/createRecord.html</value>
+                <value>/secure/deleteRecord.html</value>
                 <value>/secure/addPhotoToRecord.html</value>
                 <value>/secure/deletePhotoFromRecord.html</value>
                 <value>/secure/getRecord.html</value>
@@ -135,15 +136,13 @@
                 <value>/secure/social/getToRequests.html</value>
                 <value>/secure/social/getSocialUpdates.html</value>
 
+                <!-- unused -->
                 <value>/secure/finstat.html</value>
-                <value>/secure/faq.html</value>
                 <value>/secure/social/addCountryToNews.html</value>
                 <value>/secure/social/removeCountryFromNews.html</value>
                 <value>/secure/social/setDefaultLogbookVisibility.html</value>
                 <value>/secure/social/setAddTeamToLogbook.html</value>
                 <value>/secure/social/setAddLocationCountryToNewsFeed.html</value>
-                <value>/secure/social/getNewsCountries.html</value>
-
                 <value>/secure/social/getNewsCountries.html</value>
 
                 <value>/secure/social/searchNewFriends.html</value>
@@ -162,6 +161,7 @@
 
                 <value>/secure/cards.html</value>
 
+                <!-- CMAS_FULL only  -->
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
