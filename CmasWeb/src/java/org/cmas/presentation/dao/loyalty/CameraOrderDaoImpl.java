@@ -23,7 +23,7 @@ public class CameraOrderDaoImpl extends HibernateDaoImpl<CameraOrder> implements
                 .add(Restrictions.eq("diver", diver))
                 .add(Restrictions.eq("loyaltyProgramItem", loyaltyProgramItem))
                 .add(Restrictions.ge("createDate",
-                                     new Date(diver.getDateLicencePaymentIsDue().getTime() - Globals.getMsInYear())))
+                                     new Date(System.currentTimeMillis() - Globals.getMsInYear())))
                 .setProjection(Projections.rowCount()).uniqueResult();
     }
 }

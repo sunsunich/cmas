@@ -105,7 +105,7 @@
                     <th>Diver Level</th>
                     <th>CMAS card number</th>
                     <th>Certificates</th>
-                    <th>CMAS certificate expires</th>
+<%--                    <th>CMAS certificate expires</th>--%>
                     <th><my:sort url="${url}" title="Registration date" dir="${command.dir}"
                                  columnNumber="${command.sort}" sortColumn="dateReg"/>
                     </th>
@@ -135,9 +135,9 @@
                                 <br/>
                             </c:forEach>
                         </td>
-                        <td>
-                            <fmt:formatDate value="${user.dateLicencePaymentIsDue}" pattern="dd.MM.yyyy HH:mm"/>
-                        </td>
+<%--                        <td>--%>
+<%--                            <fmt:formatDate value="${user.dateLicencePaymentIsDue}" pattern="dd.MM.yyyy HH:mm"/>--%>
+<%--                        </td>--%>
                         <td>
                             <fmt:formatDate value="${user.dateReg}" pattern="dd.MM.yyyy HH:mm"/>
                         </td>

@@ -238,7 +238,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             diver.setLocale(locale);
         }
         Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
-        if (dateLicencePaymentIsDue != null && dateLicencePaymentIsDue.after(new Date())) {
+        if (dateLicencePaymentIsDue != null
+//            && dateLicencePaymentIsDue.after(new Date())
+        ) {
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
             diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
         } else {

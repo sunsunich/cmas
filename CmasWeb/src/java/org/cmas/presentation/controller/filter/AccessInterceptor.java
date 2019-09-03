@@ -82,9 +82,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                         return false;
                     }
                 case GUEST:
-                    if (diver.getDateLicencePaymentIsDue().after(new Date())
-                        && (demoPages.contains(requestURI) || guestPages.contains(requestURI))
-                            ) {
+                    if (demoPages.contains(requestURI) || guestPages.contains(requestURI)) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     } else {
                         redirectForPayment(request, response);
@@ -102,16 +100,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                         return false;
                     }
                 case CMAS_FULL:
-                    if (diver.getDateLicencePaymentIsDue().after(new Date())) {
-                        return rejectIfCommonValidationNotPassed(request, response, requestURI);
-                    } else {
-                        if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
-                            return rejectIfCommonValidationNotPassed(request, response, requestURI);
-                        } else {
-                            redirectForPayment(request, response);
-                            return false;
-                        }
-                    }
+                    return rejectIfCommonValidationNotPassed(request, response, requestURI);
                 case NEVER_REGISTERED:
                     // fall through
                 case INACTIVE:

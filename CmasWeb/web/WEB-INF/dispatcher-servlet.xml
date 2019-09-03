@@ -161,10 +161,10 @@
 
                 <value>/secure/cards.html</value>
 
-                <!-- CMAS_FULL only  -->
-                <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
+
+                <!-- CMAS_FULL only  -->
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
 
@@ -175,7 +175,6 @@
                 <value>/secure/createLogbookRecordForm.html</value>
                 <value>/secure/saveDraftRecord.html</value>
                 <value>/secure/createRecord.html</value>
-                <value>/secure/deleteRecord.html</value>
                 <value>/secure/getRecord.html</value>
                 <value>/secure/showLogbook.html</value>
                 <value>/secure/getMyLogbookFeed.html</value>
