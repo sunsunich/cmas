@@ -50,7 +50,8 @@
                 <br/>
                 <br/>
                 <div class="form-description">
-                    <s:message code="cmas.face.first.login.form.getFullAccess"/>
+                    <p><s:message code="cmas.face.first.login.form.getFullAccess.describtion"/></p>
+                    <p><s:message code="cmas.face.first.login.form.getFullAccess"/></p>
                 </div>
                 <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
                     <button class="white-button form-item-left form-button-bigger"

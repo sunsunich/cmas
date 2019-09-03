@@ -1,13 +1,22 @@
 <%@ tag body-content="scriptless" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
-<%@ attribute name="diverRegistrationStatus" required="true" type="java.lang.String"%>
+<%@ attribute name="diverRegistrationStatus" required="true" type="java.lang.String" %>
 
 <c:choose>
     <c:when test="${diverRegistrationStatus == 'CMAS_FULL' || diverRegistrationStatus == 'CMAS_BASIC'}">
-        <div class="advert-header">
-            <s:message code="cmas.face.advert.cmasFull.header"/>
-        </div>
+        <c:choose>
+            <c:when test="${diverRegistrationStatus == 'CMAS_FULL'}">
+                <div class="advert-header">
+                    <s:message code="cmas.face.advert.cmasFull.header"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="advert-header">
+                    <s:message code="cmas.face.advert.cmasBasic.header"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <ul class="advert-list">
             <li>
                 <s:message code="cmas.face.advert.guest.elem1"/>
@@ -37,9 +46,18 @@
     </c:when>
     <c:otherwise>
         <%--Guest and Demo--%>
-        <div class="advert-header">
-            <s:message code="cmas.face.advert.guest.header"/>
-        </div>
+        <c:choose>
+            <c:when test="${diverRegistrationStatus == 'GUEST'}">
+                <div class="advert-header">
+                    <s:message code="cmas.face.advert.guest.header"/>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="advert-header">
+                    <s:message code="cmas.face.advert.demo.header"/>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <ul class="advert-list">
             <li>
                 <s:message code="cmas.face.advert.guest.elem1"/>

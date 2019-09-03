@@ -52,7 +52,7 @@
                 <div class="header1-text">
                     <s:message code="cmas.face.payment.header"/>
                 </div>
-                <c:if test="${diver.diverRegistrationStatus.name == 'CMAS_DEMO'}">
+                <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
                             value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
