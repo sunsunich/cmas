@@ -14,7 +14,7 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
 <my:adminpage title="Users of AquaLink">
-    <h2>Users of AquaLink
+    <h2>Users of AquaLink</h2>
     <ff:form submitText="Find" action="/admin/index.html" method="GET" noRequiredText="true">
 
         <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
