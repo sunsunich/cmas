@@ -48,7 +48,7 @@ public class SystempayController {
     static final String SYSTEMPAY_DATE_TIME_FORMAT = "yyyyMMddHHmmss";
 
     private static final Set<String> NO_PAYMENT_USERS_EMAILS = new HashSet<>(Arrays.asList(
-            "t.petersen@balticfinance.com", "kilian@balticfinance.com", "cmasdata.help@gnail.com"
+            "t.petersen@balticfinance.com", "kilian@balticfinance.com", "cmasdata.help@gmail.com"
     ));
 
     @Autowired
