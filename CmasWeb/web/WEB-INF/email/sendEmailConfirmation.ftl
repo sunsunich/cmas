@@ -12,7 +12,7 @@
     If the link does not open, copy it to the browser command line.<br />
     <br />
     Sincerely yours, <br />
-    CMAS Aqua link <br />
+    AquaLink <br />
 </p>
 </@mailer.mail>
 

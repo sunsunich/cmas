@@ -12,7 +12,7 @@
     Your reference number for this order is: ${referenceNumber}<br />
     <br />
     Sincerely yours, <br />
-    CMAS Aqua link <br />
+    AquaLink <br />
 </p>
 </@mailer.mail>        
 

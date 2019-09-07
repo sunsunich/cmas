@@ -1,6 +1,6 @@
 <#import "macro.ftl" as mailer/>
 <@mailer.mail title="Failed to deliver InsuranceRequest">
-    <p>Dear CMAS Aqua link support,</p>
+    <p>Dear AquaLink support,</p>
     <p>
         User ${insuranceRequest.diver.firstName} ${insuranceRequest.diver.lastName} <br/>
         email: ${insuranceRequest.diver.email} <br/>
@@ -21,7 +21,7 @@
     InsuranceRequest id: ${insuranceRequest.id} <br/>
     <br/>
     Sincerely yours, <br/>
-    CMAS Aqua link <br/>
+    AquaLink <br/>
     </p>
 </@mailer.mail>
 
