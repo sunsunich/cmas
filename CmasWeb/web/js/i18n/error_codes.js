@@ -42,7 +42,7 @@ var error_codes = {
     "validation.diverAlreadyRegistered": "You have already registered at AquaLink. Please Sign In using your email and password",
     "validation.registrationEmailMismatch": "Entered email does not match the email of the chosen diver. Please enter another email or choose another diver",
     "validation.noPaidFeatureSelected": "Please select at least one paid feature",
-    "validation.guestCmasLicence": "Guests cannot purchase CMAS licences",
+    "validation.guestCmasLicence": "Non CMAS AquaLink member cannot purchase CMAS licences",
     "validation.errorInsuranceRequest": " Error while processing GOLD MEMBERSHIP request. Please try again later",
     "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include payments for one time AquaLink registration fee",
 

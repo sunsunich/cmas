@@ -164,7 +164,7 @@ var labels = {
     "NEVER_REGISTERED": "Not registered",
     "INACTIVE": "Inactive",
     "DEMO": "Demo",
-    "GUEST": "AquaLink Guest",
+    "GUEST": "AquaLink",
     "CMAS_BASIC": "CMAS Basic",
     "CMAS_FULL": "CMAS AquaLink",
     "INSTRUCTOR": "Instructor",

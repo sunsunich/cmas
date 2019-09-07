@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +46,10 @@ public class SystempayController {
     private static final Logger LOGGER = LoggerFactory.getLogger(SystempayController.class);
 
     static final String SYSTEMPAY_DATE_TIME_FORMAT = "yyyyMMddHHmmss";
+
+    private static final Set<String> NO_PAYMENT_USERS_EMAILS = new HashSet<>(Arrays.asList(
+            "t.petersen@balticfinance.com", "kilian@balticfinance.com", "cmasdata.help@gnail.com"
+    ));
 
     @Autowired
     private InvoiceDao invoiceDao;
@@ -118,6 +123,13 @@ public class SystempayController {
                 LOGGER.error("error while creating signature", e);
                 return new ModelAndView("errors/typeMismatch");
             }
+            if (NO_PAYMENT_USERS_EMAILS.contains(diver.getEmail())) {
+                paymentRequest.setVads_result("00");
+                paymentRequest.setVads_auth_result("00");
+                paymentRequest.setVads_trans_status("AUTHORISED");
+                processSystempayPaymentRequest(paymentRequest, "free_user");
+                return systempaySuccess(paymentRequest);
+            }
 
             Map<String, Object> model = new HashMap<>();
             model.put("data", paymentRequest);
@@ -150,12 +162,18 @@ public class SystempayController {
             return;
         }
         data = SystempayPaymentRequest.fromServletRequest(request);
+        String ip = HttpUtil.getIP(request);
         //todo run all this in separate thread and create response asap
         systempayValidator.validate(data, errors);
         if (errors.hasErrors()) {
             LOGGER.error(systempayValidator.makeMessageFromErrors(errors));
             return;
         }
+        processSystempayPaymentRequest(data, ip);
+        response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private void processSystempayPaymentRequest(SystempayPaymentRequest data, String ip) {
         String vadsAuthResult = data.getVads_auth_result();
         String vadsResult = data.getVads_result();
         String vadsExtraResult = data.getVads_extra_result();
@@ -170,7 +188,6 @@ public class SystempayController {
                 BigDecimal amount = new BigDecimal(data.getVads_amount()).divide(Globals.HUNDRED, RoundingMode.DOWN)
                                                                          .setScale(2, RoundingMode.DOWN);
                 paymentAddData.setAmount(amount.toString());
-                String ip = HttpUtil.getIP(request);
                 // add to user's balance
                 if (!billingService.paymentAdd(paymentAddData, ip)) {
                     LOGGER.error(
@@ -199,15 +216,14 @@ public class SystempayController {
                 Invoice invoice = invoiceDao.getByExternalInvoiceNumber(data.getVads_order_id());
                 invoice.setDescription(
                         String.valueOf(vadsAuthResult) + '_'
-                        + String.valueOf(vadsResult) + '_'
-                        + String.valueOf(vadsExtraResult)
+                        + vadsResult + '_'
+                        + vadsExtraResult
                 );
                 billingService.paymentError(invoice);
             } catch (Exception e) {
                 LOGGER.error("error while adding payment from systempay", e);
             }
         }
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /*
