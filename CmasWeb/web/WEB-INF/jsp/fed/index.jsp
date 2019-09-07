@@ -122,7 +122,7 @@
                         <td style="white-space: nowrap;">
                             <c:choose>
                                 <c:when test="${user.primaryPersonalCard == null}">
-                                    Not registered at CMAS Data
+                                    Not registered at AquaLink
                                 </c:when>
                                 <c:otherwise>
                                     ${user.primaryPersonalCard.printNumber}

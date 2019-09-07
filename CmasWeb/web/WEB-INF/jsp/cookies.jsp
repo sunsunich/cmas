@@ -12,38 +12,38 @@
             <div class="answer">
                 Cookies are text values stored on web browsers on computers, phones and other devices.
                 <br/>
-                CMAS Aqua link uses <a id="viewCookies" class='link-in-text-flow' href="#">cookies</a>
+                AquaLink uses <a id="viewCookies" class='link-in-text-flow' href="#">cookies</a>
                 to deliver some of the divers' services: determine whether or not you
-                are registered or logged in. Enabling cookies is required to use CMAS Aqua link.
+                are registered or logged in. Enabling cookies is required to use AquaLink.
             </div>
         </div>
         <div class="answer">
-            This policy explains how CMAS Aqua link uses cookies. Except as otherwise stated in this policy,
-            CMAS Aqua link <a class='link-in-text-flow'
+            This policy explains how AquaLink uses cookies. Except as otherwise stated in this policy,
+            AquaLink <a class='link-in-text-flow'
                                 href="${pageContext.request.contextPath}/privacyPolicy.html"><s:message
-                code="cmas.face.client.termsAndCondHeader"/></a> will apply to CMAS Aqua link processing of
-            the data that is being collected by CMAS Aqua link using cookies.
+                code="cmas.face.client.termsAndCondHeader"/></a> will apply to AquaLink processing of
+            the data that is being collected by AquaLink using cookies.
         </div>
         <div class="answer">
-            CMAS Aqua link uses cookies to determine when you are logged in.
-            This is required to navigate through CMAS Aqua link pages an give you access to your personal page
+            AquaLink uses cookies to determine when you are logged in.
+            This is required to navigate through AquaLink pages an give you access to your personal page
             and data.
         </div>
         <div class="answer">
-            CMAS Aqua link may place cookies on your computer or device, and receive information stored in
-            cookies, when you visit CMAS Aqua link website.
-            CMAS Aqua link uses cookies and receives information when you visit CMAS Aqua link website, including
+            AquaLink may place cookies on your computer or device, and receive information stored in
+            cookies, when you visit AquaLink website.
+            AquaLink uses cookies and receives information when you visit AquaLink website, including
             device information and information about your activity, without any further action from you. This
-            occurs whether or not you are registered with CMAS Aqua link or are logged in.
+            occurs whether or not you are registered with AquaLink or are logged in.
         </div>
         <div class="answer">
-            No third parties use or have access to cookies created by CMAS Aqua link
+            No third parties use or have access to cookies created by AquaLink
             unless you explicitly provide them with this data.
         </div>
         <div class="answer">
-            Even though cookies are required to use CMAS Aqua link, your browser or device may offer settings
+            Even though cookies are required to use AquaLink, your browser or device may offer settings
             to enable and disable browser cookies and to delete them. For more information
-            about these controls, see your browser or device's manuals. Please note that CMAS Aqua link
+            about these controls, see your browser or device's manuals. Please note that AquaLink
             will not work properly if you have disabled cookies in your browser.
         </div>
         <div class="answer">

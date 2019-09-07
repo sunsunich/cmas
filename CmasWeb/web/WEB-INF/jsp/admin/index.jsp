@@ -13,9 +13,8 @@
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
-<my:adminpage title="Users of CMAS Data">
-    <h2>Users of CMAS Data</h2>
-
+<my:adminpage title="Users of AquaLink">
+    <h2>Users of AquaLink
     <ff:form submitText="Find" action="/admin/index.html" method="GET" noRequiredText="true">
 
         <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
@@ -82,7 +81,7 @@
                         <td>
                             <c:choose>
                                 <c:when test="${user.primaryPersonalCard == null}">
-                                    Not registered at CMAS Data
+                                    Not registered at AquaLink
                                 </c:when>
                                 <c:otherwise>
                                     ${user.primaryPersonalCard.number}

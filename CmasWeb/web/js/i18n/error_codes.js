@@ -23,7 +23,7 @@ var error_codes = {
     "validation.emptyFirstName": "Please enter value for first name",
     "validation.emptyLastName": "Please enter value for last name",
     "validation.emptyDob": "Please enter date of birth",
-    "validation.termsAndCondNotAccepted": "Please tick the box to accept CMAS Privacy Policy",
+    "validation.termsAndCondNotAccepted": "Please tick the box to accept AquaLink Privacy Policy",
     "validation.cameraOrderTermsAndCondNotAccepted": "Please tick the box to place the order with our partners",
 
     "validation.incorrectDate": "date is incorrect",
@@ -44,7 +44,7 @@ var error_codes = {
     "validation.noPaidFeatureSelected": "Please select at least one paid feature",
     "validation.guestCmasLicence": "Guests cannot purchase CMAS licences",
     "validation.errorInsuranceRequest": " Error while processing GOLD MEMBERSHIP request. Please try again later",
-    "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include AquaLink membership purchase",
+    "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include payments for one time AquaLink registration fee",
 
     "validation.friendAlready": "Already a friend",
     "validation.friendRequestAlreadyExists": "Friend request already sent",
@@ -95,5 +95,5 @@ var error_codes = {
     "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}",
     "error.logbook.deletePhotoFailed": "Failed to delete logbook photo. Please try again later",
     "error.loyalty.program.camera.orderFailed": "Failed to place an order. Please try again later",
-    "error.loyalty.program..camera.order.tooMany": "Sorry, you cannot place more orders until your CMAS licence is renewed"
+    "error.loyalty.program.camera.order.tooMany": "Sorry, you have already placed too many orders this year"
 };
