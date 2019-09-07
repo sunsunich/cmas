@@ -23,8 +23,7 @@
     <c:set var="isGuest"
            value="${diver.diverRegistrationStatus.name == 'GUEST' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'GUEST'}"/>
 
-    <%--    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>--%>
-    <c:set var="hasInsurance" value="true"/>
+    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>
 
     <script type="application/javascript">
         var features = ${featuresJson};
@@ -65,12 +64,12 @@
                             value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
                     </div>
                 </c:if>
-                    <%--                <c:if test="${hasInsurance}">--%>
-                    <%--                    <div class="form-description">--%>
-                    <%--                        <s:message code="cmas.loyalty.insurance.expireText"/> <fmt:formatDate--%>
-                    <%--                            value="${insuranceExpiryDate}" pattern="dd/MM/yyyy"/>--%>
-                    <%--                    </div>--%>
-                    <%--                </c:if>--%>
+                <c:if test="${hasInsurance}">
+                    <div class="form-description">
+                        <s:message code="cmas.loyalty.insurance.expireText"/> <fmt:formatDate
+                            value="${insuranceExpiryDate}" pattern="dd/MM/yyyy"/>
+                    </div>
+                </c:if>
                 <c:if test="${isGuest}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.cmasLicence.guest"/>
@@ -88,29 +87,30 @@
                     <div class="form-description">
                         <s:message code="cmas.face.payment.features.description"/>
                     </div>
-                    <%--                    <div class="featuresList">--%>
-                    <%--                        <c:forEach var="feature" varStatus="step" items="${features}">--%>
-                    <%--                            <c:if test="${step.index == 0 && !isDueToPayCmasFullLicence && !isGuest--%>
-                    <%--                                         || step.index == 1 && !hasInsurance--%>
-                    <%--                                         || step.index > 1}">--%>
-                    <%--                                <div class="form-row">--%>
-                    <%--                                    <input type="checkbox" name="paidFeature_${feature.id}"--%>
-                    <%--                                           id="paidFeature_${feature.id}"--%>
-                    <%--                                           class="css-checkbox">--%>
-                    <%--                                    <label for="paidFeature_${feature.id}"--%>
-                    <%--                                           class="css-label radGroup1 clr">--%>
-                    <%--                                    <span class="form-checkbox-label-insurance"><s:message--%>
-                    <%--                                            code="${feature.name}"/></span>--%>
-                    <%--                                        <span class="form-payment-price"><s:message--%>
-                    <%--                                                code="cmas.face.payment.currency"/> ${feature.price}</span>--%>
-                    <%--                                        <br/>--%>
-                    <%--                                        <span class="form-feature-description-insurance"><s:message--%>
-                    <%--                                                code="${feature.descriptionCode}"/></span>--%>
-                    <%--                                    </label>--%>
-                    <%--                                </div>--%>
-                    <%--                            </c:if>--%>
-                    <%--                        </c:forEach>--%>
-                    <%--                    </div>--%>
+                    <div class="featuresList">
+                        <c:forEach var="feature" varStatus="step" items="${features}">
+<%--                            step.index == 0 && !isDueToPayCmasFullLicence && !isGuest
+                                                             || --%>
+                            <c:if test="${step.index == 1 && !hasInsurance
+                                                             || step.index > 1}">
+                                <div class="form-row">
+                                    <input type="checkbox" name="paidFeature_${feature.id}"
+                                           id="paidFeature_${feature.id}"
+                                           class="css-checkbox">
+                                    <label for="paidFeature_${feature.id}"
+                                           class="css-label radGroup1 clr">
+                                                        <span class="form-checkbox-label-insurance"><s:message
+                                                                code="${feature.name}"/></span>
+                                        <span class="form-payment-price"><s:message
+                                                code="cmas.face.payment.currency"/> ${feature.price}</span>
+                                        <br/>
+                                        <span class="form-feature-description-insurance"><s:message
+                                                code="${feature.descriptionCode}"/></span>
+                                    </label>
+                                </div>
+                            </c:if>
+                        </c:forEach>
+                    </div>
                 </c:if>
                 <c:if test="${!((isGuest || diver.diverRegistrationStatus.name == 'CMAS_FULL') && hasInsurance )}">
                     <div class="form-payment-total">

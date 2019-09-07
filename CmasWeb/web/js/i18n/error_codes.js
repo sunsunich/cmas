@@ -39,12 +39,12 @@ var error_codes = {
 
     "validation.noDiverInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.certificateUnknown": "We can’t find CMAS certificate with this number",
-    "validation.diverAlreadyRegistered": "You have already registered at Cmas Data. Please Sign In using your email and password",
+    "validation.diverAlreadyRegistered": "You have already registered at AquaLink. Please Sign In using your email and password",
     "validation.registrationEmailMismatch": "Entered email does not match the email of the chosen diver. Please enter another email or choose another diver",
     "validation.noPaidFeatureSelected": "Please select at least one paid feature",
     "validation.guestCmasLicence": "Guests cannot purchase CMAS licences",
-    "validation.errorInsuranceRequest": " Error while processing CMAS GOLD status request. Please try again later",
-    "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include CMAS licence purchase",
+    "validation.errorInsuranceRequest": " Error while processing GOLD MEMBERSHIP request. Please try again later",
+    "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include AquaLink membership purchase",
 
     "validation.friendAlready": "Already a friend",
     "validation.friendRequestAlreadyExists": "Friend request already sent",

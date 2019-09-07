@@ -80,8 +80,7 @@
                     </div>
                     <div class="featuresList">
                         <c:forEach var="feature" varStatus="step" items="${features}">
-                            <c:if test="${step.index == 0 && !isDueToPayCmasFullLicence && !isGuest
-                                         || step.index == 1 && !hasInsurance
+                            <c:if test="${ step.index == 1 && !hasInsurance
                                          || step.index > 1}">
                                 <div class="form-row">
                                     <input type="checkbox" name="paidFeature_${feature.id}"

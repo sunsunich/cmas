@@ -362,6 +362,7 @@
     color: #2b2b2b;
     font-size: 16px;
     float: right;
+    margin-left: 16px;
 }
 
 .form-feature-description, .form-feature-description-insurance {

@@ -22,6 +22,9 @@
                 <s:message code="cmas.face.advert.guest.elem1"/>
             </li>
             <li>
+                <s:message code="cmas.face.advert.guest.elem2"/>
+            </li>
+            <li>
                 <s:message code="cmas.face.advert.cmasFull.elem1"/>
             </li>
             <li>
@@ -61,6 +64,9 @@
         <ul class="advert-list">
             <li>
                 <s:message code="cmas.face.advert.guest.elem1"/>
+            </li>
+            <li>
+                <s:message code="cmas.face.advert.guest.elem2"/>
             </li>
             <li>
                 <s:message code="cmas.face.advert.demo.elem1"/>

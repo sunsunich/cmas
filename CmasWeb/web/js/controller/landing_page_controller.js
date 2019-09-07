@@ -92,8 +92,8 @@ var landing_page_controller = {
         adjustCssProperty("padding-left", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
         adjustCssProperty("padding-right", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
 
-        frontText1Elem.css('width', landingPageHeaderTextElem.width());
-        $('#frontText2').css('width', landingPageHeaderTextElem.width());
+        frontText1Elem.css('width', landingPageHeaderTextElem.width() * 1.9);
+        $('#frontText2').css('width', landingPageHeaderTextElem.width() * 1.9);
 
         $('#frontTextContainer').css('height', frontText1Elem.height())
             .css('width', landingPageHeaderTextElem.width());

@@ -161,6 +161,7 @@
 
                 <value>/secure/cards.html</value>
 
+                <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
 
