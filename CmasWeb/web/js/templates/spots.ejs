@@ -8,7 +8,7 @@ if (spotMap.hasOwnProperty(key)) {
         <span><%= spot.name %></span>
     </div>
     <div class="menuElemRight">
-        <% if(!spot.isApproved && isCmasFull){ %>
+        <% if(!spot.isApproved && isPaid){ %>
         <a href="#" id="<%= spot.id %>_deleteSpot">
             <%= labels['cmas.face.spots.delete'] %>
         </a>

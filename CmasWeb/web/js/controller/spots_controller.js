@@ -40,7 +40,7 @@ var spots_controller = {
             self.showSpotOnMap(event.latLng.lat(), event.latLng.lng(), false);
         });
 
-        if (isCmasFull) {
+        if (isPaid) {
             this.validationController = simpleClone(validation_controller);
             this.validationController.prefix = 'createSpot';
             this.validationController.fields = [
@@ -134,7 +134,7 @@ var spots_controller = {
         };
         var foundSpot = this.findSpotOnMap(spot);
         if (foundSpot == null) {
-            if (!isCmasFull) {
+            if (!isPaid) {
                 return;
             }
             if (spot.id in spots_model.spotMap) {
@@ -203,7 +203,7 @@ var spots_controller = {
             map: spots_model.map
         });
         var content;
-        if (spot.isApproved || !isCmasFull) {
+        if (spot.isApproved || !isPaid) {
             content = '<span>' + spot.name + '</span> <br />' +
                 '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button>';
         } else {
@@ -235,7 +235,7 @@ var spots_controller = {
 
         infoWindow.open(spots_model.map, marker);
         spots_model.map.lastOpenInfoWindow = infoWindow;
-        if (!spotMapElem.isApproved && isCmasFull) {
+        if (!spotMapElem.isApproved && isPaid) {
             $("body").off("click", '#' + spotId + '_editSpotInfoWindow');
             $('#' + spotId + '_editSpotInfoWindow').click(function () {
                     var spotId = $(this)[0].id.split('_')[0];
@@ -293,7 +293,7 @@ var spots_controller = {
                 new EJS({url: '/js/templates/spots.ejs?v=' + webVersion}).render({
                     "spotMap": spots_model.spotMap,
                     "webVersion": webVersion,
-                    "isCmasFull": isCmasFull
+                    "isPaid": isPaid
                 })
             ).show();
             for (var key in spots_model.spotMap) {
@@ -305,7 +305,7 @@ var spots_controller = {
                     $("#" + spot.id + "_chooseSpotArrow").click(function () {
                         self.createLogbookEntry($(this)[0].id);
                     });
-                    if (!spot.isApproved && isCmasFull) {
+                    if (!spot.isApproved && isPaid) {
                         $('#' + spot.id + '_editSpot').click(function (e) {
                                 e.preventDefault();
                                 var spotId = $(this)[0].id.split('_')[0];
@@ -388,7 +388,7 @@ var spots_controller = {
         }
         var spotId = elemId.split('_')[0];
         var spot = spots_model.spotMap[spotId].spot;
-        if (!spot.isApproved && isCmasFull) {
+        if (!spot.isApproved && isPaid) {
             spots_model.createSpot(
                 spot,
                 function (json) {

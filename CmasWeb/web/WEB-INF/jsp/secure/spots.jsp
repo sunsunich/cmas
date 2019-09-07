@@ -16,11 +16,11 @@
         spots_model.logbookEntryId = "${logbookEntryId}";
         </c:if>
         <c:choose>
-        <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
-        var isCmasFull = true;
+        <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'GUEST'}">
+        var isPaid = true;
         </c:when>
         <c:otherwise>
-        var isCmasFull = false;
+        var isPaid = false;
         </c:otherwise>
         </c:choose>
     </script>

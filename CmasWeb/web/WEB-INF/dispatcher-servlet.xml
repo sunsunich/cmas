@@ -102,6 +102,8 @@
             <list>
                 <value>/secure/profile/getCardImageUrl.html</value>
                 <value>/secure/createCameraOrder.html</value>
+                <value>/secure/createSpot.html</value>
+                <value>/secure/deleteSpot.html</value>
             </list>
         </property>
 
@@ -164,13 +166,13 @@
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>
                 <value>/secure/getSpotByCoords.html</value>
-
-                <!-- CMAS_FULL only  -->
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
 
                 <value>/secure/loyaltyProgram.html</value>
                 <value>/secure/loyaltyProgramItem.html</value>
+
+                <!-- CMAS_FULL only  -->
                 <value>/secure/createCameraOrder.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>
