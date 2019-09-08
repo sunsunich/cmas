@@ -13,6 +13,7 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.util.dao.HibernateDao;
 import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
 
     @Autowired
     private DrawCardService drawCardService;
+
+    @Autowired
+    private InsuranceRequestService insuranceRequestService;
 
     @Autowired
     private ImageStorageManager imageStorageManager;
@@ -159,7 +164,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         PersonalCard personalCard = personalCardDao.getModel(personalCardId);
         try {
             //todo better synchronization
-            BufferedImage image = drawCardService.drawDiverCard(personalCard);
+            Date diverInsuranceExpiryDate
+                    = insuranceRequestService.getDiverInsuranceExpiryDate(personalCard.getDiver());
+            BufferedImage image = drawCardService.drawDiverCard(personalCard, diverInsuranceExpiryDate != null);
             imageStorageManager.storeCardImage(personalCard, image);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

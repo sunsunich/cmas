@@ -8,6 +8,7 @@ import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 
@@ -34,6 +35,7 @@ public final class MockUtil {
         instructor.setDob(new Date());
         instructor.setFirstName("Christopher");
         instructor.setLastName("Wolfeschlegelsteinhausenbergerdorff");
+        instructor.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
 
         instructor.setDiverLevel(DiverLevel.THREE_STAR);
         instructor.setDiverType(DiverType.INSTRUCTOR);
@@ -53,7 +55,7 @@ public final class MockUtil {
     private MockUtil() {
     }
 
-    public static Diver getDiver(){
+    public static Diver getDiver() {
         return users.values().iterator().next();
     }
 
@@ -73,8 +75,8 @@ public final class MockUtil {
         String lowerCaseQuery = query.toLowerCase();
         List<Diver> result = new ArrayList<>();
         for (Diver diver : users.values()) {
-            if (   diver.getDiverType() == diverType
-                && (   diver.getFirstName().toLowerCase().startsWith(lowerCaseQuery)
+            if (diver.getDiverType() == diverType
+                && (diver.getFirstName().toLowerCase().startsWith(lowerCaseQuery)
                     || diver.getLastName().toLowerCase().startsWith(lowerCaseQuery))
             ) {
                 result.add(diver);
@@ -104,7 +106,7 @@ public final class MockUtil {
         String json = gson.toJson(diver);
         System.out.println(json);
         Gson gson2 = new GsonBuilder()
-               // .setLongSerializationPolicy(LongSerializationPolicy.STRING)
+                // .setLongSerializationPolicy(LongSerializationPolicy.STRING)
                 .excludeFieldsWithoutExposeAnnotation()
                 .setDateFormat(Globals.DTF)
                 .create();

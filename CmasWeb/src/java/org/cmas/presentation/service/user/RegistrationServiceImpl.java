@@ -223,7 +223,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         if (mostValuableCard != null) {
             dto.setCardNumber(mostValuableCard.getPrintNumber());
-            dto.setCardImageUrl("/i/" + drawCardService.getFileName(mostValuableCard));
+            dto.setCardImageUrl("/i/" + drawCardService.getFileName(mostValuableCard, false));
         }
         return dto;
     }

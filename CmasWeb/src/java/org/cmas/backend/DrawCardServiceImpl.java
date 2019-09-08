@@ -9,6 +9,7 @@ import org.cmas.entities.CardPrintUtil;
 import org.cmas.entities.PersonalCard;
 import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.util.barcode.BarcodeEncoder;
 import org.cmas.util.barcode.Pixels;
 
@@ -33,7 +34,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     private static final float QR_SCALE_FACTOR = 136.0f / CARD_WIDTH;
     private static final float QR_X = 480.0f / CARD_WIDTH;
-    private static final float QR_Y = 69.0f / 414.0f;
+    private static final float QR_Y = 69.0f / CARD_HEIGHT;
 
     private static final int CARD_NUMBER_FONT_SIZE = 56;
     private static final float CARD_NUMBER_Y = 210.0f / CARD_HEIGHT;
@@ -46,19 +47,21 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float NAME_LEFT_X = 200.0f / CARD_WIDTH;
     private static final float LONG_NAME_LEFT_X = 130.0f / CARD_WIDTH;
     private static final float NAME_RIGHT_X = 468.0f / CARD_WIDTH;
-    private static final float FIRST_NAME_Y = 90.0f / 414.0f;
-    private static final float LAST_NAME_Y = 115.0f / 414.0f;
-    private static final float DIVER_TYPE_Y_1 = 140.0f / 414.0f;
-    private static final float DIVER_TYPE_Y_2 = 165.0f / 414.0f;
+    private static final float FIRST_NAME_Y = 90.0f / CARD_HEIGHT;
+    private static final float LAST_NAME_Y = 115.0f / CARD_HEIGHT;
+    private static final float GUEST_FIRST_NAME_Y = 150.0f / CARD_HEIGHT;
+    private static final float GUEST_LAST_NAME_Y = 175.0f / CARD_HEIGHT;
+    private static final float DIVER_TYPE_Y_1 = 140.0f / CARD_HEIGHT;
+    private static final float DIVER_TYPE_Y_2 = 165.0f / CARD_HEIGHT;
 
-    private static final float STAR_SCALE_FACTOR = 40.0f / 414.0f;
-    private static final float STAR_Y = 140.0f / 414.0f;
+    private static final float STAR_SCALE_FACTOR = 40.0f / CARD_HEIGHT;
+    private static final float STAR_Y = 140.0f / CARD_HEIGHT;
     private static final float STAR_X_SPACE = 10.0f / CARD_WIDTH;
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
-    public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
-        String fileName = getFileName(card);
+    public BufferedImage drawDiverCard(PersonalCard card, boolean isGold) throws WriterException, IOException {
+        String fileName = getFileName(card, isGold);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
@@ -74,6 +77,7 @@ public class DrawCardServiceImpl implements DrawCardService {
         g2d.drawImage(initImage, 0, 0, null);
 
         Diver diver = card.getDiver();
+        boolean isGuest = diver.getDiverRegistrationStatus() == DiverRegistrationStatus.GUEST;
         String cardNumber = diver.getPrimaryPersonalCard().getNumber();
         String cardNumberToDraw = addLeadingZeors(cardNumber);
         if (card.getCardType() == PersonalCardType.PRIMARY) {
@@ -86,17 +90,19 @@ public class DrawCardServiceImpl implements DrawCardService {
             );
         }
 
-        @SuppressWarnings("NumericCastThatLosesPrecision")
-        int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
-        Pixels qrCode = BarcodeEncoder.createQRCode(
-                cardNumber, qrSize, qrSize
-        );
-        BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
-        qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
-        //noinspection NumericCastThatLosesPrecision
-        g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
-
-        g2d.setPaint(new Color(0x25456c));
+        if (!isGuest) {
+            @SuppressWarnings("NumericCastThatLosesPrecision")
+            int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
+            Pixels qrCode = BarcodeEncoder.createQRCode(
+                    cardNumber, qrSize, qrSize
+            );
+            BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
+            qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
+            //noinspection NumericCastThatLosesPrecision
+            g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
+        }
+        Color nameColor = isGuest ? Color.BLACK : new Color(0x25456c);
+        g2d.setPaint(nameColor);
         g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
         float leftX = NAME_LEFT_X * (float) width;
         float rightX = NAME_RIGHT_X * (float) width;
@@ -105,72 +111,83 @@ public class DrawCardServiceImpl implements DrawCardService {
         String fullName = firstName + ' ' + lastName;
         int fullNameWidth = g2d.getFontMetrics().stringWidth(fullName);
         if ((float) fullNameWidth > rightX - leftX) {
-            drawWithCenterAlign(g2d, firstName, leftX, rightX, FIRST_NAME_Y * (float) height);
-            drawWithCenterAlign(g2d, lastName, leftX, rightX, LAST_NAME_Y * (float) height);
-        } else {
-            drawWithCenterAlign(g2d, fullName, leftX, rightX, FIRST_NAME_Y * (float) height);
-        }
-        CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(card);
-        int cardPrintNameWidth = g2d.getFontMetrics().stringWidth(cardPrintInfo.printName);
-        if ((float) cardPrintNameWidth > rightX - leftX) {
-            String[] parts = cardPrintInfo.printName.split(" ");
-            float longLeftX = LONG_NAME_LEFT_X * (float) width;
-            if (parts.length > 1) {
-                String[] rows = evalOptimalTwoRowsByMinLength(g2d, parts);
-                boolean isLong = false;
-                for (String row : rows) {
-                    isLong = (float) g2d.getFontMetrics().stringWidth(row) > rightX - leftX;
-                }
-                if (isLong) {
-                    drawWithCenterAlign(g2d, rows[0], longLeftX, rightX, DIVER_TYPE_Y_1 * (float) height);
-                    drawWithCenterAlign(g2d, rows[1], longLeftX, rightX, DIVER_TYPE_Y_2 * (float) height);
-                } else {
-                    drawWithCenterAlign(g2d, rows[0], leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
-                    drawWithCenterAlign(g2d, rows[1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
-                }
+            if (isGuest) {
+                g2d.drawString(firstName, CARD_NUMBER_X_1 * (float) width, GUEST_FIRST_NAME_Y * (float) height);
+                g2d.drawString(lastName, CARD_NUMBER_X_1 * (float) width, GUEST_LAST_NAME_Y * (float) height);
             } else {
-                drawWithCenterAlign(g2d,
-                                    cardPrintInfo.printName,
-                                    longLeftX,
-                                    rightX,
-                                    DIVER_TYPE_Y_1 * (float) height);
+                drawWithCenterAlign(g2d, firstName, leftX, rightX, FIRST_NAME_Y * (float) height);
+                drawWithCenterAlign(g2d, lastName, leftX, rightX, LAST_NAME_Y * (float) height);
             }
         } else {
-            drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+            if (isGuest) {
+                g2d.drawString(fullName, CARD_NUMBER_X_1 * (float) width, GUEST_FIRST_NAME_Y * (float) height);
+            } else {
+                drawWithCenterAlign(g2d, fullName, leftX, rightX, FIRST_NAME_Y * (float) height);
+            }
         }
-        if (cardPrintInfo.drawStars) {
-            float fullStarWidth;
-            float startPoint;
-            float starSize = (float) width * STAR_SCALE_FACTOR;
-            float starSpace = STAR_X_SPACE * (float) width;
-            float middlePoint = (leftX + rightX) / 2.0f;
-            //noinspection NumericCastThatLosesPrecision
-            BufferedImage starImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream("star.png"));
-            switch (card.getDiverLevel()) {
-                case ONE_STAR:
-                    drawStar(starSize, height, g2d, starImage, middlePoint - starSize / 2.0f);
-                    break;
-                case TWO_STAR:
-                    fullStarWidth = starSize * 2.0f + starSpace;
-                    startPoint = middlePoint - fullStarWidth / 2.0f;
-                    drawStar(starSize, height, g2d, starImage, startPoint);
-                    drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
-                    break;
-                case THREE_STAR:
-                    fullStarWidth = starSize * 3.0f + 2.0f * starSpace;
-                    startPoint = middlePoint - fullStarWidth / 2.0f;
-                    drawStar(starSize, height, g2d, starImage, startPoint);
-                    drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
-                    drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
-                    break;
-                case FOUR_STAR:
-                    fullStarWidth = starSize * 4.0f + 2.0f * starSpace;
-                    startPoint = middlePoint - fullStarWidth / 2.0f;
-                    drawStar(starSize, height, g2d, starImage, startPoint);
-                    drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
-                    drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
-                    drawStar(starSize, height, g2d, starImage, startPoint + 3.0f * starSize + 3.0f * starSpace);
-                    break;
+        if (!isGuest) {
+            CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(card);
+            int cardPrintNameWidth = g2d.getFontMetrics().stringWidth(cardPrintInfo.printName);
+            if ((float) cardPrintNameWidth > rightX - leftX) {
+                String[] parts = cardPrintInfo.printName.split(" ");
+                float longLeftX = LONG_NAME_LEFT_X * (float) width;
+                if (parts.length > 1) {
+                    String[] rows = evalOptimalTwoRowsByMinLength(g2d, parts);
+                    boolean isLong = false;
+                    for (String row : rows) {
+                        isLong = (float) g2d.getFontMetrics().stringWidth(row) > rightX - leftX;
+                    }
+                    if (isLong) {
+                        drawWithCenterAlign(g2d, rows[0], longLeftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                        drawWithCenterAlign(g2d, rows[1], longLeftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                    } else {
+                        drawWithCenterAlign(g2d, rows[0], leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                        drawWithCenterAlign(g2d, rows[1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                    }
+                } else {
+                    drawWithCenterAlign(g2d,
+                                        cardPrintInfo.printName,
+                                        longLeftX,
+                                        rightX,
+                                        DIVER_TYPE_Y_1 * (float) height);
+                }
+            } else {
+                drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+            }
+            if (cardPrintInfo.drawStars) {
+                float fullStarWidth;
+                float startPoint;
+                float starSize = (float) width * STAR_SCALE_FACTOR;
+                float starSpace = STAR_X_SPACE * (float) width;
+                float middlePoint = (leftX + rightX) / 2.0f;
+                //noinspection NumericCastThatLosesPrecision
+                BufferedImage starImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream("star.png"));
+                switch (card.getDiverLevel()) {
+                    case ONE_STAR:
+                        drawStar(starSize, height, g2d, starImage, middlePoint - starSize / 2.0f);
+                        break;
+                    case TWO_STAR:
+                        fullStarWidth = starSize * 2.0f + starSpace;
+                        startPoint = middlePoint - fullStarWidth / 2.0f;
+                        drawStar(starSize, height, g2d, starImage, startPoint);
+                        drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
+                        break;
+                    case THREE_STAR:
+                        fullStarWidth = starSize * 3.0f + 2.0f * starSpace;
+                        startPoint = middlePoint - fullStarWidth / 2.0f;
+                        drawStar(starSize, height, g2d, starImage, startPoint);
+                        drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
+                        drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
+                        break;
+                    case FOUR_STAR:
+                        fullStarWidth = starSize * 4.0f + 2.0f * starSpace;
+                        startPoint = middlePoint - fullStarWidth / 2.0f;
+                        drawStar(starSize, height, g2d, starImage, startPoint);
+                        drawStar(starSize, height, g2d, starImage, startPoint + starSize + starSpace);
+                        drawStar(starSize, height, g2d, starImage, startPoint + 2.0f * starSize + 2.0f * starSpace);
+                        drawStar(starSize, height, g2d, starImage, startPoint + 3.0f * starSize + 3.0f * starSpace);
+                        break;
+                }
             }
         }
         g2d.dispose();
@@ -187,7 +204,11 @@ public class DrawCardServiceImpl implements DrawCardService {
     }
 
     @Override
-    public String getFileName(PersonalCard card) {
+    public String getFileName(PersonalCard card, boolean isGold) {
+        DiverRegistrationStatus diverRegistrationStatus = card.getDiver().getDiverRegistrationStatus();
+        if (diverRegistrationStatus == DiverRegistrationStatus.GUEST) {
+            return isGold ? "aqualink_gold.png" : "aqualink_silver.png";
+        }
         String fileName = "cmas_card.png";
         switch (card.getCardType()) {
             case CHILDREN_DIVING:
@@ -304,7 +325,8 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     public static void main(String[] args) {
         try {
-            BufferedImage image = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard());
+            BufferedImage image = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard(),
+                                                                          true);
             ImageIO.write(image, "png", new File("/Users/sunsunich/workplace/сmas/tmp.png"));
         } catch (Exception e) {
             e.printStackTrace();

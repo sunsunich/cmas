@@ -83,14 +83,12 @@
                         <b><s:message code="cmas.face.payment.cmasLicence.price"/> ${features[0].price}</b>
                     </div>
                 </c:if>
-                <c:if test="${!hasInsurance || isGuest || diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+                <c:if test="${!hasInsurance}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.features.description"/>
                     </div>
                     <div class="featuresList">
                         <c:forEach var="feature" varStatus="step" items="${features}">
-<%--                            step.index == 0 && !isDueToPayCmasFullLicence && !isGuest
-                                                             || --%>
                             <c:if test="${step.index == 1 && !hasInsurance
                                                              || step.index > 1}">
                                 <div class="form-row">
@@ -112,7 +110,7 @@
                         </c:forEach>
                     </div>
                 </c:if>
-                <c:if test="${!((isGuest || diver.diverRegistrationStatus.name == 'CMAS_FULL') && hasInsurance )}">
+                <c:if test="${isDueToPayCmasFullLicence || !hasInsurance}">
                     <div class="form-payment-total">
                         <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/>
                         <span id="total">0</span>

@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
  */
 public interface DrawCardService {
 
-    BufferedImage drawDiverCard(PersonalCard card) throws Exception;
+    BufferedImage drawDiverCard(PersonalCard card, boolean isGold) throws Exception;
 
-    String getFileName(PersonalCard card);
+    String getFileName(PersonalCard card, boolean isGold);
 }

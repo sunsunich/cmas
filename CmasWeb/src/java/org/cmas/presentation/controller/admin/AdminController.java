@@ -339,6 +339,23 @@ public class AdminController {
         return new ModelAndView("redirect:/admin/index.html");
     }
 
+    @RequestMapping(value = "/admin/regenerateGuestCards.html", method = RequestMethod.GET)
+    public ModelAndView regenerateGuestCards() {
+        List<PersonalCard> cardsToRegenerate = personalCardDao
+                .createCriteria()
+                .createAlias("diver", "d")
+                .add(Restrictions.or(
+                        Restrictions.eq("d.diverRegistrationStatus", DiverRegistrationStatus.GUEST),
+                        Restrictions.eq("d.diverRegistrationStatus", DiverRegistrationStatus.DEMO)
+                     )
+                )
+                .list();
+        for (PersonalCard card : cardsToRegenerate) {
+            personalCardService.generateAndSaveCardImage(card.getId());
+        }
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
     @RequestMapping(value = "/admin/dbBlobsToFiles.html", method = RequestMethod.GET)
     public ModelAndView dbBlobsToFiles() throws IOException {
         List<Diver> divers = diverDao.createCriteria().add(Restrictions.isNotNull("userpic")).list();
