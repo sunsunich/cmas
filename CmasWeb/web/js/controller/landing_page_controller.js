@@ -5,7 +5,6 @@ var landing_page_controller = {
     init: function () {
         country_controller.init();
         this.setListeners();
-        this.resetTextChangeInterval();
     },
 
     setListeners: function () {
@@ -19,48 +18,20 @@ var landing_page_controller = {
         $('#findDiver').click(function () {
             window.location = "/diver-verification.html?name=" + $('#name').val() + '&country=' + $('#country').val();
         });
-        $('#frontText1, #frontText2').each(function () {
-            $(this).hover(function () {
-                if (self.textChangeInterval) {
-                    clearTimeout(self.textChangeInterval);
-                    self.textChangeInterval = null;
-                }
-            }, function () {
-                if (!self.textChangeInterval) {
-                    self.resetTextChangeInterval();
-                }
-            }).click(function () {
-                self.toggleTextVisibility();
-            });
+        $('#insuranceFeature').hover(function () {
+            $('#interfaceExamples').hide();
+        }, function () {
+            $('#interfaceExamples').show();
+        }).click(function () {
+            $('#interfaceExamples').toggle();
         });
     },
-
-    resetTextChangeInterval: function () {
-        var self = this;
-        this.textChangeInterval = setTimeout(function run() {
-            self.toggleTextVisibility(true);
-        }, 5000);
-    },
-
-    toggleTextVisibility: function (resetInterval) {
-        if ($('#frontText1').is(":visible")) {
-            $('#frontText1').hide();
-            $('#frontText2').fadeToggle("slow");
-        } else {
-            $('#frontText2').hide();
-            $('#frontText1').fadeToggle("slow");
-        }
-        if (resetInterval) {
-            this.resetTextChangeInterval();
-        }
-    },
-
 
     onResize: function () {
         var firstScreenElem = $('#firstScreen');
         var landingPageTextPartElem = $('#landingPageTextPart');
         var landingPageHeaderTextElem = $('#landingPageHeaderText');
-        var frontText1Elem = $('#frontText1');
+        var frontTextElem = $('#frontText');
         var joinButtonElem = $('#joinButton');
         var interfaceExamplesElem = $('#interfaceExamples');
         var bigExampleBackgroundElem = $('#bigExampleBackground');
@@ -76,6 +47,8 @@ var landing_page_controller = {
         firstScreenViewPortHeight -= pagePaddingTop;
         minViewPortSize = Math.min(parseFloat(firstScreenViewPortHeight), parseFloat(viewPortWidth));
 
+        var firstPageFontCompressor = 0.4;
+
         var fontCompressor = 3.4;
         var buttonCompressor = 3;
 
@@ -84,6 +57,9 @@ var landing_page_controller = {
         adjustCssProperty("height", "#landingPageLogo", minViewPortSize, 1, 30, 74);
 
         adjustCssProperty("font-size", "#landingPageHeader", minViewPortSize, 1.4, 32, 70);
+        adjustCssProperty("font-size", ".firstPageAdjustableText", minViewPortSize, firstPageFontCompressor, 12, 32);
+        //adjustCssProperty("line-height", ".firstPageAdjustableText", minViewPortSize, firstPageFontCompressor, 34, 32);
+
         adjustCssProperty("font-size", ".adjustableText", minViewPortSize, fontCompressor, 12, 18);
         adjustCssProperty("font-size", ".adjustableButton", minViewPortSize, buttonCompressor, 12, 18);
 
@@ -92,10 +68,9 @@ var landing_page_controller = {
         adjustCssProperty("padding-left", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
         adjustCssProperty("padding-right", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
 
-        frontText1Elem.css('width', landingPageHeaderTextElem.width() * 1.9);
-        $('#frontText2').css('width', landingPageHeaderTextElem.width() * 1.9);
-
-        $('#frontTextContainer').css('height', frontText1Elem.height())
+        frontTextElem.css('width', landingPageHeaderTextElem.width() * 2);
+/*
+        $('#frontTextContainer').css('height', frontTextElem.height())
             .css('width', landingPageHeaderTextElem.width());
 
         $('#landingPageHeader').css('margin-top', minViewPortSize * 1 / 100)
@@ -103,8 +78,7 @@ var landing_page_controller = {
         var marginCoefficient;
         if (minViewPortSize > 600) {
             marginCoefficient = 15 / 100;
-        }
-        else {
+        } else {
             // marginCoefficient = (1.78 * 0.56 / 1.22 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1.78 / 1.22 / 4;
             marginCoefficient = (1 * 0.56 / 0.44 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1 / 0.44 / 4;
             marginCoefficient = Math.max(0.04, Math.min(marginCoefficient, 0.35));
@@ -142,7 +116,7 @@ var landing_page_controller = {
         $('#smallExampleBackgroundWrapper').css("left", smallImageLeft)
             .css("top", smallImageTop)
             .css("height", firstScreenViewPortHeight + pagePaddingTop - smallImageTop);
-
+*/
         // second screen
         adjustCssProperty("font-size", "#secondScreenHeader", minViewPortSize, 1.4, 22, 48);
 

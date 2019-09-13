@@ -14,14 +14,34 @@
     color: #ffffff;
 }
 
+.signInButton{
+    float: right;
+    margin-right: 9%;
+    margin-bottom: 16px;
+}
+
 .landingPageFrontText, .landingPageText {
     font-weight: 600;
     font-size: 12px;
+    color: #ffffff;
 }
 
 .landingPageText {
     font-weight: 400;
     color: #167b95;
+}
+
+.landing-page-list {
+    list-style: none;
+    padding: 0;
+}
+
+.landing-page-list li {
+    background-image: url(/i/star-white.png);
+    background-repeat: no-repeat;
+    line-height: 1.5;
+    padding-left: 30px;
+    font-size: 16px;
 }
 
 .landingPageInterfaceExamples {
