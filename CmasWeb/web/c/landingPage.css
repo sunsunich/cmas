@@ -6,6 +6,7 @@
 
 .landingPageFirstScreen {
     overflow: hidden;
+    height: 90%;
 }
 
 .landingPageHeader {
@@ -14,10 +15,15 @@
     color: #ffffff;
 }
 
-.signInButton{
+.signInButton {
     float: right;
     margin-right: 9%;
     margin-bottom: 16px;
+}
+
+#firstScreenNoImage {
+    background-color: #21acbe;
+    background-repeat: repeat-x;
 }
 
 .landingPageFrontText, .landingPageText {
@@ -26,9 +32,14 @@
     color: #ffffff;
 }
 
+.landingPageFeatureText {
+    color: #000000;
+    cursor: pointer;
+}
+
 .landingPageText {
     font-weight: 400;
-    color: #167b95;
+    color: #000000;
 }
 
 .landing-page-list {
@@ -42,6 +53,25 @@
     line-height: 1.5;
     padding-left: 30px;
     font-size: 16px;
+}
+
+.feature-panel {
+    color: #000000;
+    font-size: 12px;
+    float: left;
+    margin-right: 8px;
+
+    padding: 16px 16px;
+    overflow: auto;
+}
+
+.feature-item-clickable {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.insurance-table th {
+    text-align: left;
 }
 
 .landingPageInterfaceExamples {

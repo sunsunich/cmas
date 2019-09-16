@@ -39,7 +39,7 @@
     margin-bottom: 0;
 }
 
-.positive-button, .inverse-positive-button, .white-button {
+.positive-button, .inverse-positive-button, .white-button, .gold-button {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -68,6 +68,11 @@
     color: #cbd0d1;
     background-color: #eff2f4;
     box-shadow: none;
+}
+
+.gold-button {
+    color: #3ec9da;
+    background: darkgoldenrod;
 }
 
 .inverse-positive-button {

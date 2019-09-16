@@ -1,6 +1,6 @@
 var landing_page_controller = {
 
-    textChangeInterval: null,
+    featureOver: null,
 
     init: function () {
         country_controller.init();
@@ -19,126 +19,220 @@ var landing_page_controller = {
             window.location = "/diver-verification.html?name=" + $('#name').val() + '&country=' + $('#country').val();
         });
         $('#insuranceFeature').hover(function () {
-            $('#interfaceExamples').hide();
+            self.showFeature('insurance');
         }, function () {
-            $('#interfaceExamples').show();
+            self.hideFeature();
         }).click(function () {
-            $('#interfaceExamples').toggle();
-        });
+            if (self.featureOver) {
+                self.hideFeature(true);
+            } else {
+                self.showFeature('insurance');
+            }
+        })
+        ;
+        $('#insuranceFeaturePanel').hover(function () {
+            self.showFeature('insurance');
+        }, function () {
+            self.hideFeature();
+        }).click(function () {
+            if (!self.isWidthThresholdReachedForFeatures(self.evalSizes())) {
+                self.hideFeature(true);
+            }
+        })
+        ;
     },
 
-    onResize: function () {
-        var firstScreenElem = $('#firstScreen');
+    showFeature: function (featureName) {
+        if (this.featureOver) {
+            $('#' + this.featureOver + 'FeaturePanel').hide();
+        }
+        this.featureOver = featureName;
+        var interfaceExamplesElem = $('#interfaceExamples');
+        interfaceExamplesElem.hide();
         var landingPageTextPartElem = $('#landingPageTextPart');
-        var landingPageHeaderTextElem = $('#landingPageHeaderText');
-        var frontTextElem = $('#frontText');
-        var joinButtonElem = $('#joinButton');
+        var featurePanelElem = $('#' + featureName + 'FeaturePanel');
+        var featureTextElem = $('#' + featureName + 'FeatureText');
+        var sizes = this.evalSizes();
+        if (this.isWidthThresholdReachedForFeatures(sizes)) {
+            this.resetLandingPageTextPart();
+            featurePanelElem.detach();
+            featurePanelElem.insertAfter(featureTextElem);
+            featurePanelElem.css('float', 'none')
+                .css('max-height', $('#firstScreen').height() * 25 / 100)
+            ;
+        } else {
+            landingPageTextPartElem.css('margin-right', 0 /*1%*/);
+            featurePanelElem.detach();
+            featurePanelElem.insertAfter(interfaceExamplesElem);
+
+            featurePanelElem.css('float', 'left')
+                .css('height', sizes.viewPortWidth * 46.11 / 100 - 36)
+                .css('max-height', sizes.viewPortHeight * 80 / 100)
+            ;
+        }
+        featurePanelElem.show();
+    },
+
+    resetLandingPageTextPart: function () {
+        var landingPageTextPartElem = $('#landingPageTextPart');
+        landingPageTextPartElem.css('margin-right', '9%');
+    },
+
+    hideFeature: function (force) {
+        var featurePanelElemId = '#' + this.featureOver + 'FeaturePanel';
+        if (!force && this.featureOver) {
+            var featureElemId = '#' + this.featureOver + 'Feature';
+            if ($(featurePanelElemId + ':hover').length != 0
+                || $(featureElemId + ':hover').length != 0
+            ) {
+                return;
+            }
+        }
+
+        this.resetLandingPageTextPart();
+        $(featurePanelElemId).hide();
+        this.showExamples();
+        this.featureOver = null;
+    },
+
+    isWidthThresholdReachedForFeatures: function (sizes) {
+        return sizes.textPartFullSize * 90 / 100 + 535 > sizes.viewPortWidth;
+    },
+
+    isWidthThresholdReachedForExamples: function (sizes) {
+        return sizes.viewPortWidth < 600 || sizes.textPartFullSize / 64 * 100 > sizes.viewPortWidth;
+    },
+
+    showExamples: function () {
         var interfaceExamplesElem = $('#interfaceExamples');
         var bigExampleBackgroundElem = $('#bigExampleBackground');
         var smallExampleBackgroundElem = $('#smallExampleBackground');
+        var sizes = this.evalSizes();
+        if (this.isWidthThresholdReachedForExamples(sizes)) {
+            interfaceExamplesElem.hide();
+        } else {
+            interfaceExamplesElem.show();
+        }
+        bigExampleBackgroundElem.css('width', sizes.viewPortWidth * 34 / 100);
+        smallExampleBackgroundElem.css('width', sizes.viewPortWidth * 25 / 100);
 
+        var smallImageLeft = sizes.textPartFullSize - 0.062 * sizes.viewPortWidth;
+        var smallImageTop =
+            parseFloat(sizes.pagePaddingTop) +
+            parseFloat(bigExampleBackgroundElem.height()) -
+            parseFloat(smallExampleBackgroundElem.height());
+        $('#smallExampleBackgroundWrapper').css("left", smallImageLeft)
+            .css("top", smallImageTop)
+            .css("height", $('#firstScreen').height() + sizes.pagePaddingTop - smallImageTop);
+    },
+
+    evalSizes: function () {
         var viewPortHeight = $(window).height();
         var viewPortWidth = $(window).width();
-
-        var secondScreenVisiblePart = viewPortHeight > 380 ? viewPortWidth * 5 / 100 + 20 : 0;
-        var firstScreenViewPortHeight = viewPortHeight - secondScreenVisiblePart;
+        var firstScreenViewPortHeight = viewPortHeight;
         var minViewPortSize = Math.min(parseFloat(firstScreenViewPortHeight), parseFloat(viewPortWidth));
         var pagePaddingTop = minViewPortSize * 5 / 100;
         firstScreenViewPortHeight -= pagePaddingTop;
         minViewPortSize = Math.min(parseFloat(firstScreenViewPortHeight), parseFloat(viewPortWidth));
+        var landingPageTextPartElem = $('#landingPageTextPart');
+        var lpTextPartElemMarginRight = parseFloat(landingPageTextPartElem.css("margin-right"));
+        var lpTextPartElemMarginLeft = parseFloat(landingPageTextPartElem.css("margin-left"));
+        var textPartFullSize = parseFloat(landingPageTextPartElem.width()) + lpTextPartElemMarginRight + lpTextPartElemMarginLeft;
 
-        var firstPageFontCompressor = 0.4;
+        return {
+            viewPortHeight: viewPortHeight,
+            viewPortWidth: viewPortWidth,
+            firstScreenViewPortHeight: firstScreenViewPortHeight,
+            minViewPortSize: minViewPortSize,
+            pagePaddingTop: pagePaddingTop,
+            textPartFullSize: textPartFullSize
+        };
+    },
 
-        var fontCompressor = 3.4;
-        var buttonCompressor = 3;
+    onResize: function () {
+        var firstScreenElem = $('#firstScreen');
+        var landingPageHeaderTextElem = $('#landingPageHeaderText');
+        var frontTextElem = $('#frontText');
+        var joinButtonElem = $('#joinButton');
 
-        firstScreenElem.css('padding-top', pagePaddingTop);
+        var sizes = this.evalSizes();
 
-        adjustCssProperty("height", "#landingPageLogo", minViewPortSize, 1, 30, 74);
+        var firstPageFontCompressor = 3.4;
 
-        adjustCssProperty("font-size", "#landingPageHeader", minViewPortSize, 1.4, 32, 70);
-        adjustCssProperty("font-size", ".firstPageAdjustableText", minViewPortSize, firstPageFontCompressor, 12, 32);
+        var fontCompressor = 3.5;
+        var buttonCompressor = 3.5;
+
+        firstScreenElem.css('padding-top', sizes.pagePaddingTop)
+            .css('height', sizes.viewPortHeight * 93 / 100)
+            .css('min-height', 520)
+        ;
+
+        adjustCssProperty("height", "#landingPageLogo", sizes.minViewPortSize, 1, 30, 74);
+
+        adjustCssProperty("font-size", "#landingPageHeader", sizes.minViewPortSize, 1.4, 32, 70);
+        adjustCssProperty("font-size", ".firstPageAdjustableText", sizes.minViewPortSize, firstPageFontCompressor, 12, 32);
+        // $('#insuranceFeaturePanel').css("font-size", 12);
         //adjustCssProperty("line-height", ".firstPageAdjustableText", minViewPortSize, firstPageFontCompressor, 34, 32);
 
-        adjustCssProperty("font-size", ".adjustableText", minViewPortSize, fontCompressor, 12, 18);
-        adjustCssProperty("font-size", ".adjustableButton", minViewPortSize, buttonCompressor, 12, 18);
+        adjustCssProperty("font-size", ".adjustableText", sizes.minViewPortSize, fontCompressor, 12, 18);
+        adjustCssProperty("font-size", ".adjustableButton", sizes.minViewPortSize, buttonCompressor, 12, 18);
 
-        adjustCssProperty("padding-top", ".adjustableButton", minViewPortSize, buttonCompressor, 10, 16);
-        adjustCssProperty("padding-bottom", ".adjustableButton", minViewPortSize, buttonCompressor, 10, 16);
-        adjustCssProperty("padding-left", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
-        adjustCssProperty("padding-right", ".adjustableButton", minViewPortSize, buttonCompressor, 15, 24);
+        adjustCssProperty("padding-top", ".adjustableButton", sizes.minViewPortSize, buttonCompressor, 10, 16);
+        adjustCssProperty("padding-bottom", ".adjustableButton", sizes.minViewPortSize, buttonCompressor, 10, 16);
+        adjustCssProperty("padding-left", ".adjustableButton", sizes.minViewPortSize, buttonCompressor, 15, 24);
+        adjustCssProperty("padding-right", ".adjustableButton", sizes.minViewPortSize, buttonCompressor, 15, 24);
 
         frontTextElem.css('width', landingPageHeaderTextElem.width() * 2);
-/*
-        $('#frontTextContainer').css('height', frontTextElem.height())
-            .css('width', landingPageHeaderTextElem.width());
+        /*
+                $('#frontTextContainer').css('height', frontTextElem.height())
+                    .css('width', landingPageHeaderTextElem.width());
 
-        $('#landingPageHeader').css('margin-top', minViewPortSize * 1 / 100)
-            .css('margin-bottom', minViewPortSize * 1 / 100);
-        var marginCoefficient;
-        if (minViewPortSize > 600) {
-            marginCoefficient = 15 / 100;
-        } else {
-            // marginCoefficient = (1.78 * 0.56 / 1.22 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1.78 / 1.22 / 4;
-            marginCoefficient = (1 * 0.56 / 0.44 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1 / 0.44 / 4;
-            marginCoefficient = Math.max(0.04, Math.min(marginCoefficient, 0.35));
-        }
-        $('#landingPageText').css('margin-top', minViewPortSize * marginCoefficient)
-            .css('margin-bottom', minViewPortSize * 4.7 / 100);
-        // $('#landingPageText').detach();
-        // $('#landingPageText').insertAfter($('#frontTextContainer'));
-
-        adjustCssProperty("margin-right", "#joinButton", minViewPortSize, buttonCompressor, 10, 20);
-
+                $('#landingPageHeader').css('margin-top', minViewPortSize * 1 / 100)
+                    .css('margin-bottom', minViewPortSize * 1 / 100);
+                var marginCoefficient;
+                if (minViewPortSize > 600) {
+                    marginCoefficient = 15 / 100;
+                } else {
+                    // marginCoefficient = (1.78 * 0.56 / 1.22 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1.78 / 1.22 / 4;
+                    marginCoefficient = (1 * 0.56 / 0.44 / 4) * firstScreenViewPortHeight / viewPortWidth + 5 / 16 - 1 / 0.44 / 4;
+                    marginCoefficient = Math.max(0.04, Math.min(marginCoefficient, 0.35));
+                }
+                $('#landingPageText').css('margin-top', minViewPortSize * marginCoefficient)
+                    .css('margin-bottom', minViewPortSize * 4.7 / 100);
+                // $('#landingPageText').detach();
+                // $('#landingPageText').insertAfter($('#frontTextContainer'));
+               */
+        adjustCssProperty("margin-right", "#joinButton", sizes.minViewPortSize, buttonCompressor, 10, 20);
         $('#signInButton').css('width',
             joinButtonElem.width() +
             parseFloat(joinButtonElem.css('padding-left')) +
             parseFloat(joinButtonElem.css('padding-right'))
         );
-        replaceBackgroundFullWindow("firstScreen", "firstScreenBackground", pagePaddingTop + secondScreenVisiblePart);
-        var textPartFullSize = parseFloat(landingPageTextPartElem.width()) +
-            parseFloat(landingPageTextPartElem.css("margin-right")) +
-            parseFloat(landingPageTextPartElem.css("margin-left"));
-        if (viewPortWidth < 600 || textPartFullSize / 64 * 100 > viewPortWidth) {
-            interfaceExamplesElem.hide();
-        } else {
-            interfaceExamplesElem.show();
-        }
-        bigExampleBackgroundElem.css('width', viewPortWidth * 34 / 100);
+        replaceBackground("firstScreen", "firstScreenBackground");
+        this.showExamples();
 
-        smallExampleBackgroundElem.css('width', viewPortWidth * 25 / 100);
-
-        var smallImageLeft = textPartFullSize - 0.062 * viewPortWidth;
-        var smallImageTop =
-            parseFloat(pagePaddingTop) +
-            parseFloat(bigExampleBackgroundElem.height()) -
-            parseFloat(smallExampleBackgroundElem.height());
-        $('#smallExampleBackgroundWrapper').css("left", smallImageLeft)
-            .css("top", smallImageTop)
-            .css("height", firstScreenViewPortHeight + pagePaddingTop - smallImageTop);
-*/
         // second screen
-        adjustCssProperty("font-size", "#secondScreenHeader", minViewPortSize, 1.4, 22, 48);
+        adjustCssProperty("font-size", "#secondScreenHeader", sizes.minViewPortSize, 1.4, 22, 48);
 
-        $('#name').css('width', Math.max(230, viewPortWidth * 31 / 100));
-        adjustCssProperty("margin-right", "#name", viewPortWidth, 1, 16, 40);
-        adjustCssProperty("margin-top", "#name", viewPortHeight, 3, 16, 40);
+        $('#name').css('width', Math.max(230, sizes.viewPortWidth * 31 / 100));
+        adjustCssProperty("margin-right", "#name", sizes.viewPortWidth, 1, 16, 40);
+        adjustCssProperty("margin-top", "#name", sizes.viewPortHeight, 3, 16, 40);
 
-        $('.select2').css('width', Math.max(230, viewPortWidth * 31 / 100));
-        adjustCssProperty("margin-right", ".select2", viewPortWidth, 1, 16, 40);
-        adjustCssProperty("margin-top", ".select2", viewPortHeight, 3, 16, 40);
+        $('.select2').css('width', Math.max(230, sizes.viewPortWidth * 31 / 100));
+        adjustCssProperty("margin-right", ".select2", sizes.viewPortWidth, 1, 16, 40);
+        adjustCssProperty("margin-top", ".select2", sizes.viewPortHeight, 3, 16, 40);
 
-        adjustCssProperty("padding-left", "#findDiver", minViewPortSize, 1, 24, viewPortWidth * 5.7 / 100);
-        adjustCssProperty("padding-right", "#findDiver", minViewPortSize, 1, 24, viewPortWidth * 5.7 / 100);
-        adjustCssProperty("margin-right", "#findDiver", viewPortWidth, 1, 16, 40);
-        adjustCssProperty("margin-top", "#findDiver", viewPortHeight, 3, 16, 40);
+        adjustCssProperty("padding-left", "#findDiver", sizes.minViewPortSize, 1, 24, sizes.viewPortWidth * 5.7 / 100);
+        adjustCssProperty("padding-right", "#findDiver", sizes.minViewPortSize, 1, 24, sizes.viewPortWidth * 5.7 / 100);
+        adjustCssProperty("margin-right", "#findDiver", sizes.viewPortWidth, 1, 16, 40);
+        adjustCssProperty("margin-top", "#findDiver", sizes.viewPortHeight, 3, 16, 40);
 
         //3rd screen
         var insuranceIllustrationElem = $('#insuranceIllustration');
         var insuranceTextPartElem = $('#insuranceTextPart');
 
         var maxWidthFullDisplay = 639;
-        var relativeWidth = viewPortWidth > maxWidthFullDisplay ? viewPortWidth : viewPortWidth * 2;
+        var relativeWidth = sizes.viewPortWidth > maxWidthFullDisplay ? sizes.viewPortWidth : sizes.viewPortWidth * 2;
         adjustCssProperty("font-size", ".secondaryHeader", relativeWidth, 3.2, 18, 40);
         adjustCssProperty("margin-bottom", ".secondaryHeader", relativeWidth, 3, 16, 40);
 
@@ -151,7 +245,7 @@ var landing_page_controller = {
             $('#insuranceLinkArrow').attr('src', '/i/ic_see-more.png').height(8).width(28);
         });
 
-        if (viewPortWidth > maxWidthFullDisplay) {
+        if (sizes.viewPortWidth > maxWidthFullDisplay) {
             insuranceIllustrationElem.show();
             insuranceTextPartElem.css('width', '31%')
                 .css('height', insuranceIllustrationElem.height() - parseFloat(insuranceTextPartElem.css('padding-top')))
@@ -175,18 +269,22 @@ var landing_page_controller = {
         var certificatesDescriptionElem = $('#certificatesDescription');
         var paddings = parseFloat(certificatesDescriptionElem.css('padding-left')) + parseFloat(certificatesDescriptionElem.css('padding-right'));
         $('.featureDescription').css('width', featureItemWidth - paddings);
+        var buddiesHeaderElem = $('#buddiesHeader');
+        var spotsHeaderElem = $('#spotsHeader');
+        var memoriesHeaderElem = $('#memoriesHeader');
+        var certificatesHeaderElem = $('#certificatesHeader');
         var maxHeight = Math.max(
-            parseFloat($('#certificatesHeader').height()) +
-            parseFloat($('#certificatesHeader').css("margin-bottom")) +
+            parseFloat(certificatesHeaderElem.height()) +
+            parseFloat(certificatesHeaderElem.css("margin-bottom")) +
             parseFloat($('#certificatesText').height()),
-            parseFloat($('#buddiesHeader').height()) +
-            parseFloat($('#buddiesHeader').css("margin-bottom")) +
+            parseFloat(buddiesHeaderElem.height()) +
+            parseFloat(buddiesHeaderElem.css("margin-bottom")) +
             parseFloat($('#buddiesText').height()),
-            parseFloat($('#spotsHeader').height()) +
-            parseFloat($('#spotsHeader').css("margin-bottom")) +
+            parseFloat(spotsHeaderElem.height()) +
+            parseFloat(spotsHeaderElem.css("margin-bottom")) +
             parseFloat($('#spotsText').height()),
-            parseFloat($('#memoriesHeader').height()) +
-            parseFloat($('#memoriesHeader').css("margin-bottom")) +
+            parseFloat(memoriesHeaderElem.height()) +
+            parseFloat(memoriesHeaderElem.css("margin-bottom")) +
             parseFloat($('#memoriesText').height())
         );
         $('.featureDescription').css('height', maxHeight);

@@ -3,80 +3,45 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="diverRegistrationStatus" required="true" type="java.lang.String" %>
 
-<c:choose>
-    <c:when test="${diverRegistrationStatus == 'CMAS_FULL' || diverRegistrationStatus == 'CMAS_BASIC'}">
-        <c:choose>
-            <c:when test="${diverRegistrationStatus == 'CMAS_FULL'}">
-                <div class="advert-header">
-                    <s:message code="cmas.face.advert.cmasFull.header"/>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="advert-header">
-                    <s:message code="cmas.face.advert.cmasBasic.header"/>
-                </div>
-            </c:otherwise>
-        </c:choose>
-        <ul class="advert-list">
-            <li>
-                <s:message code="cmas.face.advert.guest.elem1"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.guest.elem2"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasFull.elem1"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasFull.elem2"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasFull.elem3"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasBasic.elem1"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasBasic.elem2"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasBasic.elem3"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.cmasBasic.elem4"/>
-            </li>
-        </ul>
-    </c:when>
-    <c:otherwise>
-        <%--Guest and Demo--%>
-        <c:choose>
-            <c:when test="${diverRegistrationStatus == 'GUEST'}">
-                <div class="advert-header">
-                    <s:message code="cmas.face.advert.guest.header"/>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <div class="advert-header">
-                    <s:message code="cmas.face.advert.demo.header"/>
-                </div>
-            </c:otherwise>
-        </c:choose>
-        <ul class="advert-list">
-            <li>
-                <s:message code="cmas.face.advert.guest.elem1"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.guest.elem2"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.demo.elem1"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.demo.elem2"/>
-            </li>
-            <li>
-                <s:message code="cmas.face.advert.demo.elem3"/>
-            </li>
-        </ul>
-    </c:otherwise>
-</c:choose>
+<div class="advert-header">
+    <s:message code="cmas.face.advert.registration.gold.header"/>
+</div>
+<ul class="advert-list">
+    <li>
+        <s:message code="cmas.face.advert.registration.gold.elem1"/>
+    </li>
+</ul>
+
+<%--<c:if test="${diverRegistrationStatus == 'NEVER_REGISTERED'--%>
+<%--    || diverRegistrationStatus == 'DEMO'--%>
+<%--    || diverRegistrationStatus == 'INACTIVE'--%>
+<%--    || diverRegistrationStatus == 'CMAS_BASIC'--%>
+<%--    }"--%>
+<%-->--%>
+<div class="advert-header">
+    <s:message code="cmas.face.advert.registration.guest.header"/>
+</div>
+<ul class="advert-list">
+    <li>
+        <s:message code="cmas.face.advert.registration.guest.elem1"/>
+    </li>
+    <li>
+        <s:message code="cmas.face.advert.registration.guest.elem2"/>
+    </li>
+    <li>
+        <s:message code="cmas.face.advert.registration.guest.elem3"/>
+    </li>
+    <li>
+        <s:message code="cmas.face.advert.registration.guest.elem4"/>
+    </li>
+</ul>
+<div class="advert-header">
+    <s:message code="cmas.face.advert.registration.cmas.header"/>
+</div>
+<ul class="advert-list">
+    <li>
+        <s:message code="cmas.face.advert.registration.cmas.elem1"/>
+    </li>
+</ul>
+<%--</c:if>--%>
+

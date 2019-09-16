@@ -62,11 +62,16 @@
                         <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                     </a>
                 </div>
-                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'loyaltyProgram'}">menu-link-active</c:if>">
-                    <a href="/secure/loyaltyProgram.html">
-                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'pay'}">menu-link-active</c:if>">
+                    <a href="/secure/pay.html">
+                        <span><s:message code="cmas.face.client.menu.insurance"/></span>
                     </a>
                 </div>
+<%--                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'loyaltyProgram'}">menu-link-active</c:if>">--%>
+<%--                    <a href="/secure/loyaltyProgram.html">--%>
+<%--                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
+<%--                    </a>--%>
+<%--                </div>--%>
             </div>
             <div class="cssmenu" id="cssMenu" style="display: none">
                 <ul>
@@ -136,17 +141,29 @@
                                 </a>
                             </li>
                                 <c:choose>
-                                <c:when test="${activeMenuItem == 'loyaltyProgram'}">
+                                <c:when test="${activeMenuItem == 'pay'}">
                                 <li class="menu-active">
                                     </c:when>
                                     <c:otherwise>
                                 <li class="menu-inactive">
                                     </c:otherwise>
                                     </c:choose>
-                                    <a href="/secure/loyaltyProgram.html">
-                                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>
+                                    <a href="/secure/pay.html">
+                                        <span><s:message code="cmas.face.client.menu.insurance"/></span>
                                     </a>
                                 </li>
+<%--                                <c:choose>--%>
+<%--                                <c:when test="${activeMenuItem == 'loyaltyProgram'}">--%>
+<%--                                <li class="menu-active">--%>
+<%--                                    </c:when>--%>
+<%--                                    <c:otherwise>--%>
+<%--                                <li class="menu-inactive">--%>
+<%--                                    </c:otherwise>--%>
+<%--                                    </c:choose>--%>
+<%--                                    <a href="/secure/loyaltyProgram.html">--%>
+<%--                                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
+<%--                                    </a>--%>
+<%--                                </li>--%>
                         </ul>
                     </li>
                 </ul>

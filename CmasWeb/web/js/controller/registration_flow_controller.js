@@ -31,6 +31,7 @@ var registration_flow_controller = {
         if ($('#' + this.mode + 'Block')[0]) {
             $('#' + this.mode + 'Block').hide();
         }
+        $('#registrationAdvert').hide();
         this.mode = mode;
         switch (mode) {
             case "login" :
@@ -95,6 +96,7 @@ var registration_flow_controller = {
             this.toggleMode(this.modeStack[this.modeStack.length - 1]);
             return;
         }
+        $('#registrationAdvert').show();
         registration_model.reset();
         $('#registrationBlock').show();
 

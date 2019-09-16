@@ -237,10 +237,12 @@ html, body {
 .advert-header, .advert-list {
     color: #FFFFFF;
     font-size: 22px;
+    margin-bottom: 0;
+    margin-top: 12px;
 }
 
 .advert-header {
-    margin-bottom: 24px;
+    /*margin-bottom: 22px;*/
 }
 
 .advert-list, .purchased-feature-list {
