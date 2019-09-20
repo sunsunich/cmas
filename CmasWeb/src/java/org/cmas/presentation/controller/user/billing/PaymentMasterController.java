@@ -1,6 +1,5 @@
 package org.cmas.presentation.controller.user.billing;
 
-import com.google.myjson.Gson;
 import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
@@ -8,7 +7,6 @@ import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.billing.InvoiceType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
-import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.controller.user.DiverAwareController;
 import org.cmas.presentation.dao.CountryDao;
@@ -16,10 +14,7 @@ import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
 import org.cmas.presentation.service.billing.BillingService;
-import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
-import org.cmas.presentation.validator.loyalty.InsuranceRequestValidator;
-import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.text.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -28,15 +23,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
-import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -53,12 +44,6 @@ public class PaymentMasterController extends DiverAwareController {
 
     @Autowired
     private BillingService billingService;
-
-    @Autowired
-    private InsuranceRequestValidator insuranceRequestValidator;
-
-    @Autowired
-    private InsuranceRequestService insuranceRequestService;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -81,7 +66,6 @@ public class PaymentMasterController extends DiverAwareController {
         mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
         mm.addAttribute("genders", Gender.values());
         mm.addAttribute("command", fo);
-        mm.addAttribute("insuranceExpiryDate", insuranceRequestService.getDiverInsuranceExpiryDate(diver));
         if (StringUtil.isEmpty(fo.getFeaturesIdsJson()) ||
             StringUtil.isEmpty(fo.getPaymentType())) {
             return createPayForm(mm);
@@ -106,7 +90,9 @@ public class PaymentMasterController extends DiverAwareController {
                 }
             }
             if (featureIds.contains(Globals.INSURANCE_PAID_FEATURE_DB_ID)
-                && !insuranceRequestService.canCreateInvoiceWithInsuranceRequest(diver)) {
+                && diver.isGold()
+            ) {
+                //cannot buy gold status twice
                 errors.reject("validation.errorInsuranceRequest");
             }
         }
@@ -137,20 +123,5 @@ public class PaymentMasterController extends DiverAwareController {
         mm.addAttribute("features", features);
         mm.addAttribute("featuresJson", gsonViewFactory.getCommonGson().toJson(features));
         return new ModelAndView("/secure/pay", mm);
-    }
-
-    @RequestMapping("/secure/createInsuranceRequest.html")
-    @Transactional
-    public View createInsuranceRequest(
-            @RequestParam("insuranceRequestJson") String insuranceRequestJson) {
-        InsuranceRequest formObject = new Gson().fromJson(insuranceRequestJson, InsuranceRequest.class);
-        Errors errors = new MapBindingResult(new HashMap(), "insuranceRequestJson");
-        insuranceRequestValidator.validate(formObject, errors);
-        if (errors.hasErrors()) {
-            return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
-        } else {
-            insuranceRequestService.createInsuranceRequest(formObject);
-            return gsonViewFactory.createSuccessGsonView();
-        }
     }
 }

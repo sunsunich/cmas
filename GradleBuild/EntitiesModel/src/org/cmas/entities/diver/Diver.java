@@ -109,6 +109,9 @@ public class Diver extends CardUser {
     @Expose
     @Column
     private boolean isNewsFromCurrentLocation;
+    @Expose
+    @Column
+    private Date dateGoldStatusPaymentIsDue;
 
     @Expose
     @Column(unique = true)
@@ -121,6 +124,19 @@ public class Diver extends CardUser {
     public Diver(long id) {
         super(id);
         defaultVisibility = LogbookVisibility.PRIVATE;
+    }
+
+    public boolean isGold() {
+        Date dateGoldStatusPaymentIsDue = getDateGoldStatusPaymentIsDue();
+        return dateGoldStatusPaymentIsDue != null && dateGoldStatusPaymentIsDue.after(new Date());
+    }
+
+    public Date getDateGoldStatusPaymentIsDue() {
+        return dateGoldStatusPaymentIsDue;
+    }
+
+    public void setDateGoldStatusPaymentIsDue(Date dateGoldStatusPaymentIsDue) {
+        this.dateGoldStatusPaymentIsDue = dateGoldStatusPaymentIsDue;
     }
 
     public String getExtId() {

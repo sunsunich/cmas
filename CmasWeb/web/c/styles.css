@@ -258,6 +258,20 @@ html, body {
     font-size: 16px;
 }
 
+.feature-panel {
+    color: #000000;
+    font-size: 12px;
+    float: left;
+    margin-right: 8px;
+
+    padding: 16px 16px;
+    overflow: auto;
+}
+
+.insurance-table th {
+    text-align: left;
+}
+
 .purchased-feature-list li {
     background-image: url(/i/star-blue.png);
     line-height: 16px;

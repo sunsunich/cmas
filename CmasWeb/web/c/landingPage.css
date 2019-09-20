@@ -55,23 +55,9 @@
     font-size: 16px;
 }
 
-.feature-panel {
-    color: #000000;
-    font-size: 12px;
-    float: left;
-    margin-right: 8px;
-
-    padding: 16px 16px;
-    overflow: auto;
-}
-
 .feature-item-clickable {
     font-weight: bold;
     text-decoration: underline;
-}
-
-.insurance-table th {
-    text-align: left;
 }
 
 .landingPageInterfaceExamples {

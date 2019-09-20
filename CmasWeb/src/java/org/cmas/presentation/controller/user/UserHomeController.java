@@ -1,26 +1,43 @@
 package org.cmas.presentation.controller.user;
 
+import com.google.myjson.Gson;
+import org.cmas.Globals;
+import org.cmas.entities.Country;
+import org.cmas.entities.Gender;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.LoyaltyProgramItem;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.billing.LoyaltyProgramItemDao;
+import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.service.loyalty.CameraOrderService;
+import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.service.user.RegistrationService;
+import org.cmas.presentation.validator.loyalty.InsuranceRequestValidator;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -112,6 +129,52 @@ public class UserHomeController extends DiverAwareController {
         } catch (Exception e) {
             log.error("Error while creating camera order", e);
             return gsonViewFactory.createErrorGsonView("error.loyalty.program.camera.orderFailed");
+        }
+    }
+
+    @Autowired
+    private CountryDao countryDao;
+    @Autowired
+    private PaidFeatureDao paidFeatureDao;
+
+    @Autowired
+    private InsuranceRequestValidator insuranceRequestValidator;
+
+    @Autowired
+    private InsuranceRequestService insuranceRequestService;
+
+    @RequestMapping(value = "/secure/insurance.html", method = RequestMethod.GET)
+    public ModelAndView showInsurance() {
+        ModelMap mm = new ModelMap();
+        Diver diver = getCurrentDiver();
+        List<Country> countries = countryDao.getAll();
+        BigDecimal insurancePrice = paidFeatureDao.getByIds(
+                Collections.singletonList(Globals.INSURANCE_PAID_FEATURE_DB_ID)).get(0).getPrice();
+
+        mm.addAttribute("insuranceExpiryDate", insuranceRequestService.getDiverInsuranceExpiryDate(diver));
+        mm.addAttribute("isGold", diver.isGold());
+        mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
+        mm.addAttribute("genders", Gender.values());
+        mm.addAttribute("insurancePrice", insurancePrice);
+        return new ModelAndView("/secure/insurance", mm);
+    }
+
+    @RequestMapping("/secure/createInsuranceRequest.html")
+    @Transactional
+    public View createInsuranceRequest(
+            @RequestParam("insuranceRequestJson") String insuranceRequestJson) {
+        InsuranceRequest formObject = new Gson().fromJson(insuranceRequestJson, InsuranceRequest.class);
+        Errors errors = new MapBindingResult(new HashMap(), "insuranceRequestJson");
+        insuranceRequestValidator.validate(formObject, errors);
+        Diver diver = getCurrentDiver();
+        if (!insuranceRequestService.canCreateInvoiceWithInsuranceRequest(diver)) {
+
+        }
+        if (errors.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
+        } else {
+            insuranceRequestService.createInsuranceRequest(formObject);
+            return gsonViewFactory.createSuccessGsonView();
         }
     }
 }

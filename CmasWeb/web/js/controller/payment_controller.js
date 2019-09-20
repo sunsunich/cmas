@@ -12,7 +12,7 @@ var payment_controller = {
             this.selectFeature(selectedFeatureIds[i]);
         }
         registration_flow_controller.init('simple',
-            {backgroundImageId: 'paymentImageBackground', visibleInputElemId: "insuranceRequest_zipCode"});
+            {backgroundImageId: 'paymentImageBackground'});
         this.setListeners();
     },
 

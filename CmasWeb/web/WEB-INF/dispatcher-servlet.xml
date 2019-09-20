@@ -88,6 +88,8 @@
 
                 <value>/secure/loyaltyProgram.html</value>
                 <value>/secure/loyaltyProgramItem.html</value>
+
+                <value>/secure/insurance.html</value>
             </list>
         </property>
 
@@ -172,6 +174,8 @@
                 <value>/secure/loyaltyProgram.html</value>
                 <value>/secure/loyaltyProgramItem.html</value>
 
+                <value>/secure/insurance.html</value>
+
                 <!-- CMAS_FULL only  -->
                 <value>/secure/createCameraOrder.html</value>
 
@@ -184,6 +188,7 @@
                 <value>/secure/getMyFriendsLogbookFeed.html</value>
                 <value>/secure/getFriendsOnlyLogbookFeed.html</value>
                 <value>/secure/getMyPublicLogbookFeed.html</value>
+
             </list>
         </property>
     </bean>

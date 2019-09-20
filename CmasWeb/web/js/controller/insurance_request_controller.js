@@ -3,11 +3,29 @@ var insurance_request_controller = {
     validationController: null,
     successHandler: null,
 
-    init: function () {
-        this.setListeners();
+    init: function (isGold, hasInsurance) {
+        var config;
+        if (isGold && !hasInsurance) {
+            config = {
+                backgroundImageId: 'loyaltyProgramImageBackground',
+                visibleInputElemId: "insuranceRequest_zipCode"
+            };
+            this.setListenersForm();
+        } else {
+            config = {backgroundImageId: 'loyaltyProgramImageBackground'};
+        }
+        registration_flow_controller.init('simple', config);
     },
 
-    setListeners: function () {
+    setListenersInfo: function () {
+        $('#openInsuranceTable').click(function (e) {
+            e.preventDefault();
+            $('#insuranceFeaturePanel').show();
+            return false;
+        })
+    },
+
+    setListenersForm: function () {
         util_controller.setupSelect2(
             'insuranceRequest_gender', insurance_request_model.genders, '',
             labels["cmas.loyalty.insurance.gender"]
@@ -82,7 +100,7 @@ var insurance_request_controller = {
         this.validationController.init();
 
         var self = this;
-        $('#insuranceRequestSubmit').click(function () {
+        this.validationController.submitButton.click(function () {
             self.submitForm();
             return false;
         });
@@ -122,7 +140,3 @@ var insurance_request_controller = {
         }
     }
 };
-
-$(document).ready(function () {
-    insurance_request_controller.init();
-});
