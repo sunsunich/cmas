@@ -62,8 +62,8 @@
                         <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                     </a>
                 </div>
-                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'pay'}">menu-link-active</c:if>">
-                    <a href="/secure/pay.html">
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'insurance'}">menu-link-active</c:if>">
+                    <a href="/secure/insurance.html">
                         <span><s:message code="cmas.face.client.menu.insurance"/></span>
                     </a>
                 </div>
@@ -141,14 +141,14 @@
                                 </a>
                             </li>
                                 <c:choose>
-                                <c:when test="${activeMenuItem == 'pay'}">
+                                <c:when test="${activeMenuItem == 'insurance'}">
                                 <li class="menu-active">
                                     </c:when>
                                     <c:otherwise>
                                 <li class="menu-inactive">
                                     </c:otherwise>
                                     </c:choose>
-                                    <a href="/secure/pay.html">
+                                    <a href="/secure/insurance.html">
                                         <span><s:message code="cmas.face.client.menu.insurance"/></span>
                                     </a>
                                 </li>

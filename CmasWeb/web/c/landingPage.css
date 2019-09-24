@@ -60,6 +60,16 @@
     text-decoration: underline;
 }
 
+.feature-panel {
+    color: #000000;
+    font-size: 12px;
+    float: left;
+    margin-right: 8px;
+
+    padding: 16px 16px;
+    overflow: auto;
+}
+
 .landingPageInterfaceExamples {
     float: left;
 }

@@ -149,7 +149,7 @@ public class UserHomeController extends DiverAwareController {
         Diver diver = getCurrentDiver();
         List<Country> countries = countryDao.getAll();
         BigDecimal insurancePrice = paidFeatureDao.getByIds(
-                Collections.singletonList(Globals.INSURANCE_PAID_FEATURE_DB_ID)).get(0).getPrice();
+                Collections.singletonList(Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID)).get(0).getPrice();
 
         mm.addAttribute("insuranceExpiryDate", insuranceRequestService.getDiverInsuranceExpiryDate(diver));
         mm.addAttribute("isGold", diver.isGold());
@@ -163,17 +163,17 @@ public class UserHomeController extends DiverAwareController {
     @Transactional
     public View createInsuranceRequest(
             @RequestParam("insuranceRequestJson") String insuranceRequestJson) {
+        Diver diver = getCurrentDiver();
+        if (insuranceRequestService.getDiverInsuranceExpiryDate(diver) != null) {
+            return gsonViewFactory.createErrorGsonView("validation.insurance.alreadyHave");
+        }
         InsuranceRequest formObject = new Gson().fromJson(insuranceRequestJson, InsuranceRequest.class);
         Errors errors = new MapBindingResult(new HashMap(), "insuranceRequestJson");
         insuranceRequestValidator.validate(formObject, errors);
-        Diver diver = getCurrentDiver();
-        if (!insuranceRequestService.canCreateInvoiceWithInsuranceRequest(diver)) {
-
-        }
         if (errors.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
         } else {
-            insuranceRequestService.createInsuranceRequest(formObject);
+            insuranceRequestService.persistAndSendInsuranceRequest(formObject);
             return gsonViewFactory.createSuccessGsonView();
         }
     }

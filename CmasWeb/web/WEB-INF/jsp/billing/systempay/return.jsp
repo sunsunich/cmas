@@ -27,10 +27,14 @@
                         </div>
                         <c:set var="hasCmasLicense" value="false"/>
                         <c:set var="hasAdditionalFeatures" value="false"/>
+                        <c:set var="hasGold" value="false"/>
                         <c:forEach var="feature" items="${invoice.requestedPaidFeatures}">
                             <c:choose>
                                 <c:when test="${feature.id == 1}">
                                     <c:set var="hasCmasLicense" value="true"/>
+                                </c:when>
+                                <c:when test="${feature.id == 2}">
+                                    <c:set var="hasGold" value="true"/>
                                 </c:when>
                                 <c:otherwise>
                                     <c:set var="hasAdditionalFeatures" value="true"/>
@@ -42,13 +46,24 @@
                                 <s:message code="cmas.face.payment.success.cmasLicense"/>
                             </div>
                         </c:if>
+                        <c:set var="continueClass" value="positive-button form-item-right"/>
+                        <c:if test="${hasGold}">
+                            <div class="form-description">
+                                <s:message code="cmas.face.payment.success.gold"/>
+                            </div>
+                            <button class="positive-button form-item-right form-button-bigger"
+                                    onclick="return window.location='/secure/insurance.html'">
+                                <s:message code="cmas.face.payment.success.gold.button"/>
+                            </button>
+                            <c:set var="continueClass" value="inverse-positive-button form-item-left"/>
+                        </c:if>
                         <c:if test="${hasAdditionalFeatures}">
                             <div class="form-description">
                                 <s:message code="cmas.face.payment.success.additionalFeatures"/>
                             </div>
                             <ul class="purchased-feature-list">
                                 <c:forEach var="feature" items="${invoice.requestedPaidFeatures}">
-                                    <c:if test="${feature.id != 1}">
+                                    <c:if test="${feature.id != 1 && feature.id != 2}">
                                         <li>
                                             <span class="purchased-feature-header">
                                                 <s:message code="${feature.name}"/>
@@ -73,15 +88,14 @@
                     </c:otherwise>
                 </c:choose>
                 <authz:authorize ifAnyGranted="ROLE_DIVER" ifNotGranted="ROLE_ADMIN">
-                    <button class="positive-button form-item-right form-button-bigger"
-                            onclick="return window.location='/secure/index.html'">
-                        <s:message code="cmas.face.account.back"/>
-                    </button>
+                    <c:set var="buttonUrl" value="/secure/index.html"/>
                 </authz:authorize>
-
                 <authz:authorize ifAnyGranted="ROLE_FEDERATION_ADMIN" ifNotGranted="ROLE_ADMIN">
-                    <button class="positive-button form-item-right form-button-bigger"
-                            onclick="return window.location='/fed/index.html'">
+                    <c:set var="buttonUrl" value="/fed/index.html"/>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_DIVER,ROLE_FEDERATION_ADMIN" ifNotGranted="ROLE_ADMIN">
+                    <button class="${continueClass} form-button-bigger"
+                            onclick="return window.location='${buttonUrl}'">
                         <s:message code="cmas.face.account.back"/>
                     </button>
                 </authz:authorize>

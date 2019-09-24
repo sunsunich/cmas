@@ -71,13 +71,14 @@
         <!--[if IE 9]>
         <video style="display: none;">
         <![endif]-->
-        <source srcset="/i/regImage@3x.png 1x"
+        <source srcset="/i/paymentImage@3x.png 1x"
                 media="(min-width: 3000px)">
-        <source srcset="/i/regImage@2x.png"
+        <source srcset="/i/paymentImage@2x.png"
                 media="(min-width: 2000px)">
-        <source srcset="/i/regImage.png 1x, /i/regImage@2x.png 2x, /i/regImage@3x.png 3x" media="(min-width: 631px)">
-        <source srcset="/i/regImageMob@2x.png" media="(min-width: 500px)">
-        <source srcset="/i/regImageMob.png 1x, /i/regImageMob@2x.png 2x, /i/regImageMob@3x.png 3x">
+        <source srcset="/i/paymentImage.png 1x, /i/paymentImage@2x.png 2x, /i/paymentImage@3x.png 3x"
+                media="(min-width: 631px)">
+        <source srcset="/i/paymentImageMob@2x.png" media="(min-width: 500px)">
+        <source srcset="/i/paymentImageMob.png 1x, /i/paymentImageMob@2x.png 2x, /i/paymentImageMob@3x.png 3x">
 
         <!--[if IE 9]></video><![endif]-->
         <img id="regImageBackground" alt="registration background" style="display: none">

@@ -37,7 +37,7 @@
             <form id="regForm" action="">
                 <div class="reg-block" id="registrationBlock">
                     <div class="form-row">
-                        <input id="reg_certificate" type="text"
+                        <input id="reg_certificate" type="text" name="certificate"
                                placeholder="<s:message code="cmas.face.registration.form.label.certificate"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_certificate"
                              style="display: none">
@@ -53,21 +53,21 @@
                         </label>
                     </div>
                     <div class="form-row">
-                        <input id="reg_firstName" type="text"
+                        <input id="reg_firstName" type="text" name="firstName"
                                placeholder="<s:message code="cmas.face.registration.form.label.firstName"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_firstName"
                              style="display: none">
                         <div class="error" id="reg_error_firstName"></div>
                     </div>
                     <div class="form-row">
-                        <input id="reg_lastName" type="text"
+                        <input id="reg_lastName" type="text" name="lastName"
                                placeholder="<s:message code="cmas.face.registration.form.label.lastName"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_lastName"
                              style="display: none">
                         <div class="error" id="reg_error_lastName"></div>
                     </div>
                     <div class="form-row">
-                        <input id="reg_dob" type="text"
+                        <input id="reg_dob" type="text" autocomplete="off" name="date_of_birth"
                                placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"/>
                         <img src="/i/ic_calendar.png" class="error-input-ico" id="reg_ico_dob">
                         <img src="/i/ic_error.png" class="error-input-ico" id="reg_error_ico_dob"
@@ -104,21 +104,21 @@
                 </div>
                 <div class="login-block" id="loginBlock" style="display: none">
                     <div class="form-row">
-                        <input id="login_email" type="text"
+                        <input id="login_email" type="text" name="email"
                                placeholder="<s:message code="cmas.face.login.form.label.login"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="login_error_ico_email"
                              style="display: none">
                         <div class="error" id="login_error_email"></div>
                     </div>
                     <div class="form-row">
-                        <input id="login_password" type="password"
+                        <input id="login_password" type="password" name="password"
                                placeholder="<s:message code="cmas.face.login.form.label.password"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="login_error_ico_password"
                              style="display: none">
                         <div class="error" id="login_error_password"></div>
                     </div>
                     <div class="form-row">
-                        <input type="checkbox" name="noCertificate" id="login_remember" class="css-checkbox">
+                        <input type="checkbox" name="remember" id="login_remember" class="css-checkbox">
                         <label for="login_remember"
                                class="css-label radGroup1 clr">
                             <span class="form-checkbox-label">
@@ -165,7 +165,7 @@
                     </select>
                 </div>
                 <div class="form-row">
-                    <input id="emailConfirmation_email" type="text"
+                    <input id="emailConfirmation_email" type="text" name="emailConfirmation"
                            placeholder="<s:message code="cmas.face.registration.form.label.email"/>"/>
                     <img src="/i/ic_error.png" class="error-input-ico" id="emailConfirmation_error_ico_email"
                          style="display: none">

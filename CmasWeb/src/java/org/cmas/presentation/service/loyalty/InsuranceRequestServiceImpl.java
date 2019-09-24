@@ -3,7 +3,6 @@ package org.cmas.presentation.service.loyalty;
 import org.cmas.Globals;
 import org.cmas.entities.Address;
 import org.cmas.entities.Country;
-import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.PaidFeature;
@@ -92,7 +91,7 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
     CMAS being from Italy, I think everybody will understand 5th of June 2019 00:00 Italian time zone.
      */
     // todo improve this rough estimate
-    private static final long INSURANCE_LENGTH = 365 * Globals.ONE_DAY_IN_MS;
+    private static final long INSURANCE_LENGTH = Globals.getMsInYear();
 
     @Nullable
     @Override
@@ -111,51 +110,15 @@ public class InsuranceRequestServiceImpl implements InsuranceRequestService, Ini
     }
 
     @Override
-    public boolean canCreateInvoiceWithInsuranceRequest(Diver diver) {
-        return insuranceRequestDao.getDraftByDiver(diver.getId()) != null && getDiverInsuranceExpiryDate(diver) == null;
-    }
-
-    // used by admin only
-    @Override
     public void persistAndSendInsuranceRequest(InsuranceRequest rawRequest) {
         Long insuranceRequestId = saveNewInsuranceRequest(rawRequest);
         scheduleInsuranceRequest(insuranceRequestId);
     }
 
-    @Override
-    public void createInsuranceRequest(InsuranceRequest rawRequest) {
-        InsuranceRequest draftRequest = insuranceRequestDao.getDraftByDiver(rawRequest.getDiver().getId());
-        if (draftRequest == null) {
-            saveNewInsuranceRequest(rawRequest);
-        } else {
-            draftRequest.setGender(rawRequest.getGender());
-            updateInsuranceRequest(draftRequest, rawRequest);
-
-            insuranceRequestDao.updateModel(draftRequest);
-        }
-    }
-
-    @Override
-    public void sendInsuranceRequest(Invoice invoice) {
-        InsuranceRequest draftRequest = insuranceRequestDao.getDraftByDiver(invoice.getDiver().getId());
-        if (draftRequest == null) {
-            mailService.noInsuranceRequestForInvoice(invoice);
-            LOG.error(
-                    "InsuranceRequestService.sendInsuranceRequest: no draftInsuranceRequest for ExternalInvoiceNumber = "
-                    + invoice.getExternalInvoiceNumber());
-            return;
-        }
-        draftRequest.setInvoice(invoice);
-        draftRequest.setCreateDate(new Date());
-        insuranceRequestDao.updateModel(draftRequest);
-
-        scheduleInsuranceRequest(draftRequest.getId());
-    }
-
     private void updateInsuranceRequest(InsuranceRequest draftRequest, InsuranceRequest rawRequest) {
         draftRequest.setAddress(getDbAddress(rawRequest.getAddress()));
         draftRequest.setCreateDate(new Date());
-        PaidFeature insurancePaidFeature = paidFeatureDao.getById(Globals.INSURANCE_PAID_FEATURE_DB_ID);
+        PaidFeature insurancePaidFeature = paidFeatureDao.getById(Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID);
         draftRequest.setInsurancePrice(insurancePaidFeature.getPrice());
     }
 

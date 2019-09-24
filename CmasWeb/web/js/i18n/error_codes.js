@@ -25,6 +25,7 @@ var error_codes = {
     "validation.emptyDob": "Please enter date of birth",
     "validation.termsAndCondNotAccepted": "Please tick the box to accept AquaLink Privacy Policy",
     "validation.cameraOrderTermsAndCondNotAccepted": "Please tick the box to place the order with our partners",
+    "validation.insurance.termsAndCondNotAccepted": "Please tick the box to accept Insurance Policy",
 
     "validation.incorrectDate": "date is incorrect",
     "validation.incorrectField": "incorrect field",
@@ -43,7 +44,7 @@ var error_codes = {
     "validation.registrationEmailMismatch": "Entered email does not match the email of the chosen diver. Please enter another email or choose another diver",
     "validation.noPaidFeatureSelected": "Please select at least one paid feature",
     "validation.guestCmasLicence": "Non CMAS AquaLink member cannot purchase CMAS licences",
-    "validation.errorInsuranceRequest": " Error while processing GOLD MEMBERSHIP request. Please try again later",
+    "validation.errorGoldRequest": " Error while processing GOLD MEMBERSHIP request. Please try again later",
     "validation.mustIncludeCmasLicence": "For DEMO and CMAS BASIC accounts payment request must include payments for one time AquaLink registration fee",
 
     "validation.friendAlready": "Already a friend",
@@ -95,5 +96,7 @@ var error_codes = {
     "validation.xlsFileParseError": "Error while parsing xls file. Row number: ${rowNumber}, Possible cause: ${cause}",
     "error.logbook.deletePhotoFailed": "Failed to delete logbook photo. Please try again later",
     "error.loyalty.program.camera.orderFailed": "Failed to place an order. Please try again later",
-    "error.loyalty.program.camera.order.tooMany": "Sorry, you have already placed too many orders this year"
+    "error.loyalty.program.camera.order.tooMany": "Sorry, you have already placed too many orders this year",
+
+    "validation.insurance.alreadyHave": "You are already covered by divers insurance"
 };

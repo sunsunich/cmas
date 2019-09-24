@@ -4,6 +4,7 @@ var insurance_request_controller = {
     successHandler: null,
 
     init: function (isGold, hasInsurance) {
+        var self = this;
         var config;
         if (isGold && !hasInsurance) {
             config = {
@@ -13,16 +14,48 @@ var insurance_request_controller = {
             this.setListenersForm();
         } else {
             config = {backgroundImageId: 'loyaltyProgramImageBackground'};
+            this.setListenersInfo();
         }
         registration_flow_controller.init('simple', config);
+        $(window).load(function () {
+            self.onResize();
+        });
+        $(window).resize(function () {
+            self.onResize();
+        });
+    },
+
+    onResize: function () {
+        registration_flow_controller.onResize();
+        var isDisplayImage = $(window).width() > 630;
+        var compressor = 2.5;
+        var panelHeight = isDisplayImage ? $('#formImage').height() / compressor : $('#Wrapper-content').height() / compressor;
+        $('#insuranceFeaturePanel').css('max-height', panelHeight);
+        registration_flow_controller.onResize();
+
     },
 
     setListenersInfo: function () {
+        var self = this;
         $('#openInsuranceTable').click(function (e) {
             e.preventDefault();
-            $('#insuranceFeaturePanel').show();
+            $('#insuranceFeatureWrapper').show();
+            self.onResize();
             return false;
-        })
+        });
+        $('#insuranceFeaturePanelCloseBottom').click(function (e) {
+            return self.closeInsuranceInfo(e);
+        });
+        $('#becomeGold').click(function (e) {
+            return window.location = '/secure/pay.html';
+        });
+    },
+
+    closeInsuranceInfo: function (e) {
+        e.preventDefault();
+        $('#insuranceFeatureWrapper').hide();
+        this.onResize();
+        return false;
     },
 
     setListenersForm: function () {
@@ -92,10 +125,18 @@ var insurance_request_controller = {
                         return 'validation.emptyField';
                     }
                 }
+            },
+            {
+                id: 'termsAndCondAccepted',
+                validateField: function (value) {
+                    if (value !== 'true') {
+                        return 'validation.insurance.termsAndCondNotAccepted';
+                    }
+                }
             }
 
         ];
-        this.validationController.fieldIdsToValidate = ['gender', 'country', "zipCode", "city", "street", "house"];
+        this.validationController.fieldIdsToValidate = ['gender', 'country', "zipCode", "city", "street", "house", "termsAndCondAccepted"];
         this.validationController.submitButton = $('#insuranceRequestSubmit');
         this.validationController.init();
 
@@ -106,10 +147,10 @@ var insurance_request_controller = {
         });
 
         $('#insuranceRequestSuccessClose').click(function () {
-            $('#insuranceRequestSuccess').hide();
+            window.location.reload();
         });
         $('#insuranceRequestSuccessOk').click(function () {
-            $('#insuranceRequestSuccess').hide();
+            window.location.reload();
         });
     },
 
@@ -123,6 +164,7 @@ var insurance_request_controller = {
             insurance_request_model.insuranceRequest.address.city = this.validationController.form.city;
             insurance_request_model.insuranceRequest.address.street = this.validationController.form.street;
             insurance_request_model.insuranceRequest.address.house = this.validationController.form.house;
+            insurance_request_model.insuranceRequest.termsAndCondAccepted = this.validationController.form.termsAndCondAccepted;
 
             var self = this;
             insurance_request_model.sendInsuranceRequest(

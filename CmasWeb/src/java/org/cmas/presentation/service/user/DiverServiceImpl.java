@@ -315,13 +315,15 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Override
     public void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail) {
         boolean hasCmasLicenceFeature = false;
+        boolean hasGoldFeature = false;
         for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
             if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
                 hasCmasLicenceFeature = true;
-            } else if (paidFeature.getId() == Globals.INSURANCE_PAID_FEATURE_DB_ID) {
-                insuranceRequestService.sendInsuranceRequest(invoice);
+            } else if (paidFeature.getId() == Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID) {
+                hasGoldFeature = true;
             }
         }
+        boolean isSendEmail = hasGoldFeature;
         if (hasCmasLicenceFeature) {
             Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
             long startTime;
@@ -331,7 +333,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 startTime = dateLicencePaymentIsDue.getTime();
             }
             diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
-            boolean isSendEmail = false;
             switch (diver.getDiverRegistrationStatus()) {
                 case NEVER_REGISTERED:
                     break;
@@ -354,10 +355,15 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                     isSendEmail = true;
                     break;
             }
+        }
+        if (hasGoldFeature) {
+            diver.setDateGoldStatusPaymentIsDue(new Date(System.currentTimeMillis() + Globals.getMsInYear()));
+        }
+        if (hasCmasLicenceFeature || hasGoldFeature) {
             diverDao.updateModel(diver);
-            if (isConfirmEmail && isSendEmail) {
-                mailService.confirmPayment(invoice);
-            }
+        }
+        if (isConfirmEmail && isSendEmail) {
+            mailService.confirmPayment(invoice);
         }
     }
 

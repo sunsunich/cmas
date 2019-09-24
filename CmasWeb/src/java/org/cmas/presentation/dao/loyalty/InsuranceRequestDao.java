@@ -3,6 +3,7 @@ package org.cmas.presentation.dao.loyalty;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.util.dao.HibernateDao;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -12,9 +13,8 @@ import java.util.List;
  */
 public interface InsuranceRequestDao extends HibernateDao<InsuranceRequest> {
 
-    InsuranceRequest getDraftByDiver(long diverId);
-
     List<InsuranceRequest> getAllUnsent();
 
+    @Nullable
     InsuranceRequest getLatestPaidInsuranceRequestForDiver(long diverId);
 }

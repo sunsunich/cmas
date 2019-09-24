@@ -9,6 +9,7 @@ import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
+import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
@@ -137,11 +138,22 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     public void confirmPayment(Invoice invoice) {
         Locale locale = invoice.getUser().getLocale();
         String invoiceTypeStr = getInvoiceTypeStrForMail(invoice);
+        boolean hasCmasLicenceFeature = false;
+        boolean hasGoldFeature = false;
+        for (PaidFeature paidFeature : invoice.getRequestedPaidFeatures()) {
+            if (paidFeature.getId() == Globals.CMAS_LICENCE_PAID_FEATURE_DB_ID) {
+                hasCmasLicenceFeature = true;
+            } else if (paidFeature.getId() == Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID) {
+                hasGoldFeature = true;
+            }
+        }
 
         String text = textRenderer.renderText(
                 "paymentConfirm.ftl", locale,
                 new ModelAttr("invoice", invoice)
                 , new ModelAttr("invoiceType", invoiceTypeStr)
+                , new ModelAttr("hasCmasLicenceFeature", hasCmasLicenceFeature)
+                , new ModelAttr("hasGoldFeature", hasGoldFeature)
                 , new ModelAttr("date", Globals.getDTF().format(invoice.getCreateDate().getTime()))
         );
 

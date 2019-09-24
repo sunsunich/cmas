@@ -4,6 +4,7 @@ import org.cmas.entities.Address;
 import org.cmas.entities.Country;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.cmas.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
@@ -57,5 +58,10 @@ public class InsuranceRequestValidator implements Validator {
         if (insuranceRequest.getGender() == null) {
             errors.rejectValue("gender", "validation.emptyField");
         }
+
+        ValidatorUtils.validateBoolean(errors,
+                                       insuranceRequest.getTermsAndCondAccepted(),
+                                       "termsAndCondAccepted",
+                                       "validation.insurance.termsAndCondNotAccepted");
     }
 }

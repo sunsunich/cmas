@@ -56,6 +56,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private List<String> cmasBasicPages = new ArrayList<>();
     private List<String> demoPages = new ArrayList<>();
     private List<String> guestPages = new ArrayList<>();
+    private List<String> goldPages = new ArrayList<>();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -72,6 +73,14 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         if (authenticationService.isDiver()) {
             BackendUser<? extends User> currentUser = authenticationService.getCurrentUser();
             Diver diver = (Diver) currentUser.getUser();
+            if (goldPages.contains(requestURI)) {
+                if (diver.isGold()) {
+                    return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                } else {
+                    redirectForPayment(request, response);
+                    return false;
+                }
+            }
             switch (diver.getDiverRegistrationStatus()) {
                 case DEMO:
                     if (diver.getDateLicencePaymentIsDue().after(new Date())
@@ -235,5 +244,10 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     @Required
     public void setGuestPages(List<String> guestPages) {
         this.guestPages = guestPages;
+    }
+
+    @Required
+    public void setGoldPages(List<String> goldPages) {
+        this.goldPages = goldPages;
     }
 }

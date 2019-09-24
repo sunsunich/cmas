@@ -58,5 +58,11 @@ public class HomePageController {
         ModelMap mm = new ModelMap();
         return new ModelAndView("paymentInfo", mm);
     }
+
+    @RequestMapping(value = "/reportError.html", method = RequestMethod.GET)
+    public ModelAndView reportError() {
+        ModelMap mm = new ModelMap();
+        return new ModelAndView("reportErrorForm", mm);
+    }
 }
 

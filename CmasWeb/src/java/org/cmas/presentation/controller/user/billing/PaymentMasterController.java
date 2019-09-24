@@ -1,15 +1,12 @@
 package org.cmas.presentation.controller.user.billing;
 
 import org.cmas.Globals;
-import org.cmas.entities.Country;
-import org.cmas.entities.Gender;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.billing.InvoiceType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.presentation.controller.user.DiverAwareController;
-import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.model.billing.PaymentAddFormObject;
@@ -52,9 +49,6 @@ public class PaymentMasterController extends DiverAwareController {
     private PaidFeatureDao paidFeatureDao;
 
     @Autowired
-    private CountryDao countryDao;
-
-    @Autowired
     private DiverDao diverDao;
 
     @RequestMapping("/secure/pay.html")
@@ -62,9 +56,9 @@ public class PaymentMasterController extends DiverAwareController {
     public ModelAndView pay(@ModelAttribute("command") PaymentAddFormObject fo, Errors errors) {
         ModelMap mm = new ModelMap();
         Diver diver = getCurrentDiver();
-        List<Country> countries = countryDao.getAll();
-        mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
-        mm.addAttribute("genders", Gender.values());
+        if (diver.isGold()) {
+            mm.addAttribute("goldExpiryDate", diver.getDateGoldStatusPaymentIsDue());
+        }
         mm.addAttribute("command", fo);
         if (StringUtil.isEmpty(fo.getFeaturesIdsJson()) ||
             StringUtil.isEmpty(fo.getPaymentType())) {
@@ -89,11 +83,11 @@ public class PaymentMasterController extends DiverAwareController {
                     errors.reject("validation.mustIncludeCmasLicence");
                 }
             }
-            if (featureIds.contains(Globals.INSURANCE_PAID_FEATURE_DB_ID)
+            if (featureIds.contains(Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID)
                 && diver.isGold()
             ) {
                 //cannot buy gold status twice
-                errors.reject("validation.errorInsuranceRequest");
+                errors.reject("validation.errorGoldRequest");
             }
         }
         if (errors.hasErrors()) {

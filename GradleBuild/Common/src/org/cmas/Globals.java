@@ -81,7 +81,7 @@ interface GlobalsStaticContainer {
     long MAX_IMAGE_SIZE = 10L * 1024L * 1024L;
 
     long CMAS_LICENCE_PAID_FEATURE_DB_ID = 1L;
-    long INSURANCE_PAID_FEATURE_DB_ID = 2L;
+    long GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID = 2L;
 }
 
 public final class Globals implements GlobalsStaticContainer {

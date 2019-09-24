@@ -141,6 +141,7 @@ var registration_flow_controller = {
 
     toggleChooseDivers: function (config) {
         $('#chooseDiversBlock').show();
+        $('#registrationAdvert').show();
         if (config && config.saveRegState) {
             this.modeStack.push('chooseDivers');
         }
@@ -149,6 +150,7 @@ var registration_flow_controller = {
 
     toggleEmailConfirmation: function (config) {
         $('#emailConfirmationBlock').show();
+        $('#registrationAdvert').show();
         if (config && config.saveRegState) {
             this.modeStack.push('emailConfirmation');
         }
@@ -157,6 +159,7 @@ var registration_flow_controller = {
 
     toggleMessage: function (config) {
         $('#messageBlock').show();
+        $('#registrationAdvert').show();
         if (config) {
             if (config.header) {
                 $('#messageHeader').html(config.header).show();

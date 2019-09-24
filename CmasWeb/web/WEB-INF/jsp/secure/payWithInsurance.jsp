@@ -22,7 +22,7 @@
 
     <c:set var="isGuest" value="${diver.diverRegistrationStatus.name == 'GUEST' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'GUEST'}"/>
 
-    <c:set var="hasInsurance" value="${insuranceExpiryDate != null}"/>
+    <c:set var="isGold" value="${insuranceExpiryDate != null}"/>
 
     <script type="application/javascript">
         var features = ${featuresJson};
@@ -58,7 +58,7 @@
                             value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
                     </div>
                 </c:if>
-                <c:if test="${hasInsurance}">
+                <c:if test="${isGold}">
                     <div class="form-description">
                         <s:message code="cmas.loyalty.insurance.expireText"/> <fmt:formatDate
                             value="${insuranceExpiryDate}" pattern="dd/MM/yyyy"/>
@@ -74,13 +74,13 @@
                         <b><s:message code="cmas.face.payment.cmasLicence.price"/> ${features[0].price}</b>
                     </div>
                 </c:if>
-                <c:if test="${!hasInsurance || diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+                <c:if test="${!isGold || diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
                     <div class="form-description">
                         <s:message code="cmas.face.payment.features.description"/>
                     </div>
                     <div class="featuresList">
                         <c:forEach var="feature" varStatus="step" items="${features}">
-                            <c:if test="${ step.index == 1 && !hasInsurance
+                            <c:if test="${ step.index == 1 && !isGold
                                          || step.index > 1}">
                                 <div class="form-row">
                                     <input type="checkbox" name="paidFeature_${feature.id}"
@@ -101,7 +101,7 @@
                         </c:forEach>
                     </div>
                 </c:if>
-                <c:if test="${!(isGuest && hasInsurance)}">
+                <c:if test="${!(isGuest && isGold)}">
                     <div class="form-payment-total">
                         <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/>
                         <span id="total">0</span>

@@ -23,7 +23,6 @@
                 <value>/secure/firstLogin.html</value>
                 <value>/secure/index.html</value>
                 <value>/secure/pay.html</value>
-                <value>/secure/createInsuranceRequest.html</value>
                 <value>/secure/billing/systempay/accept.html</value>
 
                 <value>/secure/pageErrorLoad.html</value>
@@ -106,6 +105,12 @@
                 <value>/secure/createCameraOrder.html</value>
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
+            </list>
+        </property>
+
+        <property name="goldPages">
+            <list>
+                <value>/secure/createInsuranceRequest.html</value>
             </list>
         </property>
 

@@ -122,6 +122,18 @@
                                         <div class="error" id="insuranceRequest_error_house"></div>
                                     </div>
                                     <div class="form-row">
+                                        <input type="checkbox" name="termsAndCondAccepted" id="insuranceRequest_termsAndCondAccepted"
+                                               class="css-checkbox">
+                                        <label for="insuranceRequest_termsAndCondAccepted"
+                                               class="css-label radGroup1 clr">
+                                            <span class="form-checkbox-label">
+                                                <s:message code="cmas.loyalty.insurance.consent.text"/>
+                                            </span>
+                                        </label>
+                                        <div class="error" id="reg_error_termsAndCondAccepted"></div>
+                                        <div class="error" id="reg_error"></div>
+                                    </div>
+                                    <div class="form-row">
                                     </div>
                                     <button class="white-button form-item-left form-button-smaller"
                                             id="insuranceRequestCancel">
@@ -144,8 +156,17 @@
                         <div class="form-description">
                             <s:message code="cmas.loyalty.insurance.text" arguments="${insurancePrice}"/>
                         </div>
-                        <div id="insuranceFeaturePanel" class="panel feature-panel" style="display: none">
-                            <my:insuranceInfo/>
+                        <div class="clearfix" id="insuranceFeatureWrapper" style="display: none">
+                            <div class="insurance-panel" id="insuranceFeaturePanel">
+                                <my:insuranceInfo/>
+                            </div>
+                            <div>
+                                <a class='link-in-text-flow insurance-info-close' href="#"
+                                   id="insuranceFeaturePanelCloseBottom"
+                                >
+                                    <s:message code="cmas.loyalty.insurance.infoTable.close"/>
+                                </a>
+                            </div>
                         </div>
                         <div>
                             <button class="positive-button form-item-right form-button-smaller" id="becomeGold">
