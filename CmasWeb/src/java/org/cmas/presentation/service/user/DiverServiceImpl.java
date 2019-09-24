@@ -18,7 +18,6 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.Registration;
-import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
 import org.cmas.util.StringUtil;
@@ -79,9 +78,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Autowired
     PersonalCardDao personalCardDao;
-
-    @Autowired
-    private InsuranceRequestService insuranceRequestService;
 
     @Autowired
     private PersonalCardService personalCardService;
@@ -361,6 +357,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         }
         if (hasCmasLicenceFeature || hasGoldFeature) {
             diverDao.updateModel(diver);
+        }
+        if (hasGoldFeature) {
+            personalCardService.generateAndSaveCardImage(diver.getPrimaryPersonalCard().getId());
         }
         if (isConfirmEmail && isSendEmail) {
             mailService.confirmPayment(invoice);
