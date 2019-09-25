@@ -12,22 +12,26 @@ for(i = 0; i < data.tanks.length;i++) {
         </div>
         <div class="logbook-elem logbook-elem-margin">
             <div class="form-row">
-                <select name="supplyType_<%= index %>" id="supplyType_<%= index %>" size=1 style="width: 200px"
-                        onChange="">
-                </select>
+                <div style="display: block">
+                    <select name="supplyType_<%= index %>" id="supplyType_<%= index %>" size=1 style="width: 200px"
+                            onChange="">
+                    </select>
+                </div>
                 <label class="error" id="create_error_supplyType_<%= index %>"></label>
             </div>
         </div>
         <div class="logbook-elem">
             <div class="form-row">
-                <input id="size_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
-                       placeholder="<%= labels["cmas.face.logbook.tankSize"] %>" value="<%= tank.size %>"
-                />
-                <label class="error" id="create_error_size_<%= index %>"></label>
-                <select name="volumeMeasureUnit_<%= index %>" id="volumeMeasureUnit_<%= index %>"
-                        size=1
-                        onChange="" style="width: 100px">
-                </select>
+                <div style="display: block">
+                    <input id="size_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
+                           placeholder="<%= labels["cmas.face.logbook.tankSize"] %>" value="<%= tank.size %>"
+                    />
+                    <label class="error" id="create_error_size_<%= index %>"></label>
+                    <select name="volumeMeasureUnit_<%= index %>" id="volumeMeasureUnit_<%= index %>"
+                            size=1
+                            onChange="" style="width: 100px">
+                    </select>
+                </div>
                 <label class="error" id="create_error_volumeMeasureUnit_<%= index %>"></label>
             </div>
         </div>
@@ -39,21 +43,25 @@ for(i = 0; i < data.tanks.length;i++) {
         </div>
         <div class="logbook-elem">
             <div class="form-row">
-                <input id="startPressure_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
-                       placeholder="<%= labels["cmas.face.logbook.tankStartPressure"] %>"
-                       value="<%= tank.startPressure %>"
-                />
-                <label class="error" id="create_error_startPressure_<%= index %>"></label>
-                <input id="endPressure_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
-                       value="<%= tank.endPressure %>"
-                       placeholder="<%= labels["cmas.face.logbook.tankEndPressure"] %>"
-                />
-                <label class="error" id="create_error_endPressure_<%= index %>"></label>
-                <select name="pressureMeasureUnit_<%= index %>" id="pressureMeasureUnit_<%= index %>"
-                        style="width: 100px"
-                        size=1
-                        onChange="">
-                </select>
+                <div style="display: block">
+                    <input id="startPressure_<%= index %>" type="text"
+                           class="logbook-form-middle-elem logbook-elem-margin"
+                           placeholder="<%= labels["cmas.face.logbook.tankStartPressure"] %>"
+                           value="<%= tank.startPressure %>"
+                    />
+                    <label class="error" id="create_error_startPressure_<%= index %>"></label>
+                    <input id="endPressure_<%= index %>" type="text"
+                           class="logbook-form-middle-elem logbook-elem-margin"
+                           value="<%= tank.endPressure %>"
+                           placeholder="<%= labels["cmas.face.logbook.tankEndPressure"] %>"
+                    />
+                    <label class="error" id="create_error_endPressure_<%= index %>"></label>
+                    <select name="pressureMeasureUnit_<%= index %>" id="pressureMeasureUnit_<%= index %>"
+                            style="width: 100px"
+                            size=1
+                            onChange="">
+                    </select>
+                </div>
                 <label class="error" id="create_error_pressureMeasureUnit_<%= index %>"></label>
             </div>
         </div>
@@ -61,19 +69,24 @@ for(i = 0; i < data.tanks.length;i++) {
         <div id="gasMix_<%= index %>">
             <div class="logbook-elem">
                 <div class="form-row">
-                    <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.oxygenPercent"] %></label>
-                    <input id="oxygenPercent_<%= index %>" type="text" class="logbook-form-middle-elem logbook-elem-margin"
-                           value="<%= tank.oxygenPercent %>"
-                    />
+                    <div style="display: block">
+                        <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.oxygenPercent"] %></label>
+                        <input id="oxygenPercent_<%= index %>" type="text"
+                               class="logbook-form-middle-elem logbook-elem-margin"
+                               value="<%= tank.oxygenPercent %>"
+                        />
+                    </div>
                     <label class="error" id="create_error_oxygenPercent_<%= index %>"></label>
                 </div>
             </div>
             <div class="logbook-elem">
                 <div class="form-row">
-                    <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.heliumPercent"] %></label>
-                    <input id="heliumPercent_<%= index %>" type="text" class="logbook-form-middle-elem"
-                           value="<%= tank.heliumPercent %>"
-                    />
+                    <div style="display: block">
+                        <label class="logbook-form-label logbook-elem-margin"><%= labels["cmas.face.logbook.heliumPercent"] %></label>
+                        <input id="heliumPercent_<%= index %>" type="text" class="logbook-form-middle-elem"
+                               value="<%= tank.heliumPercent %>"
+                        />
+                    </div>
                     <label class="error" id="create_error_heliumPercent_<%= index %>"></label>
                 </div>
             </div>
@@ -83,7 +96,7 @@ for(i = 0; i < data.tanks.length;i++) {
             <div class="form-row">
             <span id="isDecoRow_<%= index %>">
                 <input type="checkbox" name="isDecoTank_<%= index %>" id="isDecoTank_<%= index %>" class="css-checkbox"
-                        <% if(tank.isDecoTank){ %>
+                <% if(tank.isDecoTank){ %>
                        checked
                         <% } %>
                 />
@@ -96,7 +109,7 @@ for(i = 0; i < data.tanks.length;i++) {
             </span>
                 <span id="isAirRow_<%= index %>" class="logbook-elem-margin-left">
                 <input id="isAir_<%= index %>" name="isAir_<%= index %>" type="checkbox" class="css-checkbox"
-                        <% if(tank.isAir){ %>
+                <% if(tank.isAir){ %>
                        checked
                         <% } %>
                 />

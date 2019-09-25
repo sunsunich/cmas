@@ -148,7 +148,7 @@ var util_controller = {
             {
                 changeYear: true,
                 changeMonth: true,
-                yearRange: '-10:+0',
+                yearRange: '-50:+0',
                 maxDate: new Date(),
                 defaultDate: new Date(),
                 dateFormat: 'dd/mm/yy'

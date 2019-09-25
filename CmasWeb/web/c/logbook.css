@@ -186,7 +186,13 @@
 .white-form-row-half input, .white-form-row-half-right input,
 .logbook-spot-name input, .logbook-spot-coord input {
     width: 100%;
+    display: block;
 }
+
+.white-form-row-other input{
+    display: block;
+}
+
 
 .logbook-form-middle-elem {
     width: 78px;
