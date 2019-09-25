@@ -37,6 +37,7 @@ var error_codes = {
     "validation.country": "invalid country",
     "validation.toponym": "Please enter a local hydronym, e.g. bay, strait or lake",
     "validation.emptyDivingSpotName": "Please enter value for diving spot name",
+    "validation.emptyDivingSpotLatinName": "Please add diving spot name in latin transcript",
 
     "validation.noDiverInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.certificateUnknown": "We can’t find CMAS certificate with this number",
@@ -58,7 +59,7 @@ var error_codes = {
 
     "validation.logbookEmptyDiveDate": "Please enter value for dive date",
     "validation.logbookEmptyDiveTime": "value is missing",
-    "validation.logbookEmptyDivingSpotName": "Please enter value for diving spot name",
+    "validation.logbookEmptyDivingSpotName": "Please add diving spot name in latin transcript",
     "validation.logbookEmptySpotLatitude": "value is missing",
     "validation.logbookEmptyLongitude": "value is missing",
     "validation.logbookEmptyDiveDuration": "value is missing",

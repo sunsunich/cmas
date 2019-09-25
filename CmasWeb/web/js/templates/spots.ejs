@@ -5,10 +5,10 @@ if (spotMap.hasOwnProperty(key)) {
 %>
 <div class="menu-row clearfix">
     <div class="menuElemLeft" id="<%= spot.id %>_chooseSpot">
-        <span><%= spot.name %></span>
+        <%= spot.latinName %>
     </div>
     <div class="menuElemRight">
-        <% if(!spot.isApproved && isPaid){ %>
+        <% if(spot.editable){ %>
         <a href="#" id="<%= spot.id %>_deleteSpot">
             <%= labels['cmas.face.spots.delete'] %>
         </a>

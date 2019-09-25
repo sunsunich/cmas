@@ -3,7 +3,7 @@ var diver = record.diver;
 var fullName = diver.firstName + ' ' + diver.lastName;
 var diveSpot;
 if (record.diveSpot) {
-    diveSpot = record.diveSpot.name;
+    diveSpot = record.diveSpot.latinName;
     if (record.diveSpot.country) {
         diveSpot += ", " + record.diveSpot.country.name;
     }

@@ -4,13 +4,14 @@ var spots_controller = {
 
     init: function () {
         var self = this;
-        $('#Wrapper').height("100%");
-        $('#Wrapper-content').height("100%");
+        var wrapperElem = $('#Wrapper');
+        wrapperElem.height("100%");
+        $('#Wrapper-content').css('height', wrapperElem.height() - $('#header').height() - 5/*box shadow*/ - 3 /*map borders*/);
         country_controller.inputId = "createSpot_countryCode";
         country_controller.init();
 
         spots_model.map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 41.9, lng: 12.4833333},
+            center: {lat: 41.9, lng: 12.4833333}, // Rome
             zoom: 8
         });
 
@@ -40,52 +41,59 @@ var spots_controller = {
             self.showSpotOnMap(event.latLng.lat(), event.latLng.lng(), false);
         });
 
-        if (isPaid) {
-            this.validationController = simpleClone(validation_controller);
-            this.validationController.prefix = 'createSpot';
-            this.validationController.fields = [
-                {
-                    id: 'name',
-                    validateField: function (value) {
-                        if (isStringTrimmedEmpty(value)) {
-                            return 'validation.emptyDivingSpotName';
-                        }
-                    }
-                },
-                {
-                    id: 'toponymName',
-                    validateField: function (value) {
-                        if (isStringTrimmedEmpty(value)) {
-                            return 'validation.toponym';
-                        }
-                    }
-                },
-                {
-                    id: 'countryCode',
-                    validateField: function (value) {
-                        if (isStringTrimmedEmpty(value)) {
-                            return 'validation.emptyCountry';
-                        }
+        this.validationController = simpleClone(validation_controller);
+        this.validationController.prefix = 'createSpot';
+        this.validationController.fields = [
+            {
+                id: 'latinName',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyDivingSpotLatinName';
                     }
                 }
-            ];
-            this.validationController.submitButton = $('#createSpotOk');
-            this.validationController.init();
-            $('#createSpotOk').click(function () {
-                self.submitSpot();
-            });
-            $('#createSpotClose').click(function () {
-                $('#createSpot').hide();
-            });
+            },
+            {
+                id: 'name',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyDivingSpotName';
+                    }
+                }
+            },
+            {
+                id: 'toponymName',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.toponym';
+                    }
+                }
+            },
+            {
+                id: 'countryCode',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyCountry';
+                    }
+                }
+            }
+        ];
+        this.validationController.fieldIdsToValidate = ['latinName', 'toponymName', 'countryCode'];
+        this.validationController.submitButton = $('#createSpotOk');
+        this.validationController.init();
+        $('#createSpotOk').click(function () {
+            self.submitSpot();
+        });
+        $('#createSpotClose').click(function () {
+            $('#createSpot').hide();
+        });
 
-            $('#deleteSpotOk').click(function () {
-                self.deleteSpot();
-            });
+        $('#deleteSpotOk').click(function () {
+            self.deleteSpot();
+        });
 
-            $('#deleteSpotClose').click(function () {
-                $('#deleteSpot').hide();
-            });
-        }
+        $('#deleteSpotClose').click(function () {
+            $('#deleteSpot').hide();
+        });
     },
 
     refreshSpots: function () {
@@ -105,8 +113,7 @@ var spots_controller = {
             ) {
                 isSpotRefresh = true;
             }
-        }
-        else {
+        } else {
             isSpotRefresh = true;
         }
         if (isSpotRefresh) {
@@ -121,141 +128,6 @@ var spots_controller = {
                 }
             );
         }
-    },
-
-    showSpotOnMap: function (latitude, longitude, isAutoGeoLocation) {
-        var self = this;
-        var spot = {
-            id: 'new',
-            isApproved: false,
-            latitude: latitude,
-            longitude: longitude,
-            isAutoGeoLocation: isAutoGeoLocation
-        };
-        var foundSpot = this.findSpotOnMap(spot);
-        if (foundSpot == null) {
-            if (!isPaid) {
-                return;
-            }
-            if (spot.id in spots_model.spotMap) {
-                //handling new spot creation in other place
-                self.deleteSpotFromMap(spot.id);
-            }
-            const newSpot = spot;
-            spots_model.getSpotByCoords(
-                latitude, longitude,
-                function (json) {
-                    json.toponymName = json.toponym ? json.toponym.name : "";
-                    json.countryCode = json.country ? json.country.code : "";
-                    json.countryName = json.country ? json.country.name : "";
-                    if (json.id in spots_model.spotMap) {
-                        //open existing marker for already approved spot
-                        self.openSpotMarkerInfoWindow(json.id);
-                    }
-                    else {
-                        self.showEditSpotDialog(json);
-                    }
-                },
-                function () {
-                    //todo search in geoname.org
-                    //no spot found on server using new spot data
-                    self.showEditSpotDialog(newSpot);
-                }
-            );
-        } else {
-            //open existing marker
-            this.openSpotMarkerInfoWindow(foundSpot.id);
-        }
-    },
-
-    showEditSpotDialog: function (spot) {
-        spots_model.currentEditSpot = spot;
-        this.cleanEditSpotForm(spot);
-        $('#createSpot').show();
-    },
-
-    cleanEditSpotForm: function (spot) {
-        $('#createSpotName').val(spot && spot.name ? spot.name : "");
-        $('#createSpotToponymName').val(spot && spot.toponymName ? spot.toponymName : "");
-        $('#createSpotCountry').val(spot && spot.countryCode ? spot.countryCode : "").trigger("change");
-        this.validationController.cleanErrors();
-        this.validationController.checkForm();
-    },
-
-    submitSpot: function () {
-        spots_model.currentEditSpot.name = this.validationController.form.name;
-        spots_model.currentEditSpot.toponymName = this.validationController.form.toponymName;
-        spots_model.currentEditSpot.countryCode = this.validationController.form.countryCode;
-        spots_model.currentEditSpot.countryName = $('#createSpot_countryCode :selected').text();
-        if (this.validationController.validateForm()) {
-            $('#createSpot').hide();
-            this.createSpotMarker(spots_model.currentEditSpot);
-            this.updateFoundSpots();
-            //  google.maps.event.trigger(spots_model.spotMap[spots_model.currentEditSpot.id].marker, 'click');
-        }
-    },
-
-    createSpotMarker: function (spot) {
-        var self = this;
-        var latLng = {lat: spot.latitude, lng: spot.longitude};
-        const marker = new google.maps.Marker({
-            position: latLng,
-            map: spots_model.map
-        });
-        var content;
-        if (spot.isApproved || !isPaid) {
-            content = '<span>' + spot.name + '</span> <br />' +
-                '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button>';
-        } else {
-            content = '<span>' + spot.name + '</span> <br />' +
-                '<span>' + spot.toponymName + '</span> <br />' +
-                '<span>' + spot.countryName + '</span> <br />' +
-                '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button> <br />' +
-                '<button id="' + spot.id + '_editSpotInfoWindow">' + labels['cmas.face.spots.edit'] + '</button>' +
-                '<button id="' + spot.id + '_deleteSpotInfoWindow">' + labels['cmas.face.spots.delete'] + '</button>';
-
-        }
-        var infoWindow = new google.maps.InfoWindow({
-            content: content
-        });
-        spots_model.spotMap[spot.id] = {'spot': spot, 'marker': marker, 'infoWindow': infoWindow};
-        marker.addListener('click', function () {
-            self.openSpotMarkerInfoWindow(spot.id);
-        });
-    },
-
-    openSpotMarkerInfoWindow: function (spotId) {
-        var self = this;
-        if (spots_model.map.lastOpenInfoWindow) {
-            spots_model.map.lastOpenInfoWindow.close();
-        }
-        var spotMapElem = spots_model.spotMap[spotId];
-        var marker = spotMapElem.marker;
-        var infoWindow = spotMapElem.infoWindow;
-
-        infoWindow.open(spots_model.map, marker);
-        spots_model.map.lastOpenInfoWindow = infoWindow;
-        if (!spotMapElem.isApproved && isPaid) {
-            $("body").off("click", '#' + spotId + '_editSpotInfoWindow');
-            $('#' + spotId + '_editSpotInfoWindow').click(function () {
-                    var spotId = $(this)[0].id.split('_')[0];
-                    self.showEditSpotDialog(spots_model.spotMap[spotId].spot);
-                }
-            );
-            $("body").off("click", '#' + spotId + '_deleteSpotInfoWindow');
-            $('#' + spotId + '_deleteSpotInfoWindow').click(function () {
-                    var spotId = $(this)[0].id.split('_')[0];
-                    self.showDeleteSpotDialog(spotId);
-                }
-            );
-        }
-
-        $("body").off("click", '#' + spotId + '_chooseSpotInfoWindow');
-        $('#' + spotId + '_chooseSpotInfoWindow').click(function () {
-                self.createLogbookEntry($(this)[0].id);
-            }
-        );
-
     },
 
     showFoundSpots: function (spots) {
@@ -282,10 +154,122 @@ var spots_controller = {
                 this.createSpotMarker(spot);
             }
         }
-        this.updateFoundSpots();
+        this.updateFoundSpotsMenu();
     },
 
-    updateFoundSpots: function () {
+    showSpotOnMap: function (latitude, longitude, isAutoGeoLocation) {
+        var self = this;
+        var spot = {
+            id: 'new',
+            editable: true,
+            latitude: latitude,
+            longitude: longitude,
+            isAutoGeoLocation: isAutoGeoLocation
+        };
+        var foundSpot = this.findSpotOnMap(spot);
+        if (foundSpot == null) {
+            if (!isPaid) {
+                return;
+            }
+            if (spot.id in spots_model.spotMap) {
+                //handling new spot creation in other place
+                self.deleteSpotFromMap(spot.id);
+            }
+            const newSpot = spot;
+            spots_model.getSpotByCoords(
+                latitude, longitude,
+                function (json) {
+                    json.toponymName = json.toponym ? json.toponym.name : "";
+                    json.countryCode = json.country ? json.country.code : "";
+                    json.countryName = json.country ? json.country.name : "";
+                    if (json.id in spots_model.spotMap) {
+                        //open existing marker for already approved spot
+                        self.openSpotMarkerInfoWindow(json.id);
+                    } else {
+                        self.showEditSpotDialog(json);
+                    }
+                },
+                function () {
+                    //todo search in geoname.org
+                    //no spot found on server using new spot data
+                    self.showEditSpotDialog(newSpot);
+                }
+            );
+        } else {
+            //open existing marker
+            this.openSpotMarkerInfoWindow(foundSpot.id);
+        }
+    },
+
+    createSpotMarker: function (spot) {
+        var self = this;
+        var latLng = {lat: spot.latitude, lng: spot.longitude};
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: spots_model.map
+        });
+        var content = '<span>' + spot.latinName + '</span> <br />';
+        if (spot.name) {
+            content += '<span>' + spot.name + '</span> <br />'
+        }
+        content += '<span>' + spot.toponymName + '</span> <br />' +
+            '<span>' + spot.countryName + '</span> <br />' +
+            '<button id="' + spot.id + '_chooseSpotInfoWindow">' + labels['cmas.face.spots.choose'] + '</button> <br />'
+        ;
+        if (spot.editable) {
+            content += '<button id="' + spot.id + '_editSpotInfoWindow">' + labels['cmas.face.spots.edit'] + '</button>' +
+                '<button id="' + spot.id + '_deleteSpotInfoWindow">' + labels['cmas.face.spots.delete'] + '</button>';
+
+        }
+        var infoWindow = new google.maps.InfoWindow({
+            content: content
+        });
+        spots_model.spotMap[spot.id] = {'spot': spot, 'marker': marker, 'infoWindow': infoWindow};
+        marker.addListener('click', function () {
+            self.openSpotMarkerInfoWindow(spot.id);
+        });
+    },
+
+    openSpotMarkerInfoWindow: function (spotId) {
+        var self = this;
+        if (spots_model.map.lastOpenInfoWindow) {
+            spots_model.map.lastOpenInfoWindow.close();
+        }
+        var spotMapElem = spots_model.spotMap[spotId];
+        var marker = spotMapElem.marker;
+        var infoWindow = spotMapElem.infoWindow;
+
+        infoWindow.open(spots_model.map, marker);
+        spots_model.map.lastOpenInfoWindow = infoWindow;
+        var mapElem = $("#map");
+        if (spotMapElem.spot.editable) {
+            mapElem
+                .off("click", '#' + spotId + '_editSpotInfoWindow')
+                .on("click", '#' + spotId + '_editSpotInfoWindow', function (e) {
+                        e.stopPropagation();
+                        var spotId = $(this)[0].id.split('_')[0];
+                        self.showEditSpotDialog(spots_model.spotMap[spotId].spot);
+                    }
+                );
+            mapElem
+                .off("click", '#' + spotId + '_deleteSpotInfoWindow')
+                .on("click", '#' + spotId + '_deleteSpotInfoWindow', function (e) {
+                        e.stopPropagation();
+                        var spotId = $(this)[0].id.split('_')[0];
+                        self.showDeleteSpotDialog(spotId);
+                    }
+                );
+        }
+        mapElem
+            .off("click", '#' + spotId + '_chooseSpotInfoWindow')
+            .on("click", '#' + spotId + '_chooseSpotInfoWindow', function (e) {
+                    e.stopPropagation();
+                    self.createLogbookEntry($(this)[0].id);
+                }
+            );
+    },
+
+    updateFoundSpotsMenu: function () {
         var self = this;
         if (Object.keys(spots_model.spotMap).length > 0) {
             $('#noSpotsText').hide();
@@ -305,7 +289,7 @@ var spots_controller = {
                     $("#" + spot.id + "_chooseSpotArrow").click(function () {
                         self.createLogbookEntry($(this)[0].id);
                     });
-                    if (!spot.isApproved && isPaid) {
+                    if (spot.editable) {
                         $('#' + spot.id + '_editSpot').click(function (e) {
                                 e.preventDefault();
                                 var spotId = $(this)[0].id.split('_')[0];
@@ -321,8 +305,7 @@ var spots_controller = {
                     }
                 }
             }
-        }
-        else {
+        } else {
             $('#foundSpots').empty().hide();
             $('#noSpotsText').show();
         }
@@ -339,6 +322,51 @@ var spots_controller = {
             }
         }
         return null;
+    },
+
+    showEditSpotDialog: function (spot) {
+        spots_model.currentEditSpot = spot;
+        this.cleanEditSpotForm();
+        $('#createSpot').show();
+    },
+
+    cleanEditSpotForm: function () {
+        var spot = spots_model.currentEditSpot;
+        $('#createSpot_latinName').val(spot && spot.latinName ? spot.latinName : "");
+        $('#createSpot_name').val(spot && spot.name ? spot.name : "");
+        $('#createSpot_toponymName').val(spot && spot.toponymName ? spot.toponymName : "");
+        $('#createSpot_countryCode').val(spot && spot.countryCode ? spot.countryCode : "").trigger("change");
+        this.validationController.cleanErrors();
+        this.validationController.checkForm();
+    },
+
+    submitSpot: function () {
+        var self = this;
+        spots_model.currentEditSpot.name = this.validationController.form.name;
+        spots_model.currentEditSpot.latinName = this.validationController.form.latinName;
+        spots_model.currentEditSpot.toponymName = this.validationController.form.toponymName;
+        spots_model.currentEditSpot.countryCode = this.validationController.form.countryCode;
+        spots_model.currentEditSpot.countryName = $('#createSpot_countryCode :selected').text();
+        if (this.validationController.validateForm()) {
+            $('#createSpot').hide();
+            if (spots_model.currentEditSpot.editable) {
+                spots_model.createSpot(
+                    spots_model.currentEditSpot,
+                    function (json) {
+                        spots_model.currentEditSpot.id = json.id;
+                        self.createSpotMarker(spots_model.currentEditSpot);
+                        self.updateFoundSpotsMenu();
+                    },
+                    function () {
+                        error_dialog_controller.showErrorDialog(error_codes["error.spot.creation"]);
+                    }
+                );
+            } else {
+                this.createSpotMarker(spots_model.currentEditSpot);
+                this.updateFoundSpotsMenu();
+            }
+            //  google.maps.event.trigger(spots_model.spotMap[spots_model.currentEditSpot.id].marker, 'click');
+        }
     },
 
     showDeleteSpotDialog: function (spotId) {
@@ -366,7 +394,7 @@ var spots_controller = {
 
     successfulSpotDelete: function () {
         this.deleteSpotFromMap(spots_model.currentSpotIdToDelete);
-        this.updateFoundSpots();
+        this.updateFoundSpotsMenu();
         spots_model.currentSpotIdToDelete = "";
         $('#deleteSpot').hide();
     },
@@ -388,7 +416,7 @@ var spots_controller = {
         }
         var spotId = elemId.split('_')[0];
         var spot = spots_model.spotMap[spotId].spot;
-        if (!spot.isApproved && isPaid) {
+        if (spot.editable) {
             spots_model.createSpot(
                 spot,
                 function (json) {

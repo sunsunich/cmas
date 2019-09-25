@@ -1,7 +1,11 @@
 package org.cmas.presentation.model.divespot;
 
+
+
+import org.cmas.Globals;
 import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
+import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.springframework.validation.Errors;
 
@@ -12,19 +16,26 @@ import org.springframework.validation.Errors;
  */
 public class DiveSpotFormObject implements Validatable {
 
-    @NotEmpty(message = "validation.emptyField")
+    @Length(max = Globals.HALF_MAX_LENGTH)
     private String name;
 
     @NotEmpty(message = "validation.emptyField")
+    @Length(max = Globals.HALF_MAX_LENGTH)
+    private String latinName;
+
+    @NotEmpty(message = "validation.emptyField")
+    @Length(max = Globals.HALF_MAX_LENGTH)
     private String latitude;
 
     @NotEmpty(message = "validation.emptyField")
+    @Length(max = Globals.HALF_MAX_LENGTH)
     private String longitude;
 
     @NotEmpty(message = "validation.emptyField")
     private String countryCode;
 
     @NotEmpty(message = "validation.emptyField")
+    @Length(max = Globals.HALF_MAX_LENGTH)
     private String toponymName;
 
     private boolean isAutoGeoLocation;
@@ -41,6 +52,14 @@ public class DiveSpotFormObject implements Validatable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLatinName() {
+        return latinName;
+    }
+
+    public void setLatinName(String latinName) {
+        this.latinName = latinName;
     }
 
     public String getLatitude() {

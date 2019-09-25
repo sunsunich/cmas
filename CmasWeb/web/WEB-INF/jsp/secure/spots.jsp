@@ -62,7 +62,13 @@
     <my:dialog id="createSpot"
                title="cmas.face.spots.create.title"
                buttonText="cmas.face.spots.create.sumbit">
-
+        <div class="form-row">
+            <input id="createSpot_latinName" type="text" class="clearfix"
+                   placeholder="<s:message code="cmas.face.spots.create.latinName.label"/>"/>
+            <img src="/i/ic_error.png" class="error-input-ico" id="createSpot_error_ico_latinName"
+                 style="display: none">
+            <div class="error" id="createSpot_error_latinName"></div>
+        </div>
         <div class="form-row">
             <input id="createSpot_name" type="text" class="clearfix"
                    placeholder="<s:message code="cmas.face.spots.create.name.label"/>"/>

@@ -3,6 +3,7 @@ package org.cmas.presentation.controller.user;
 import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Toponym;
+import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.CountryDao;
@@ -10,12 +11,16 @@ import org.cmas.presentation.dao.ToponymDao;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.model.divespot.DiveSpotFormObject;
 import org.cmas.presentation.model.divespot.LatLngBounds;
+import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.json.IdObject;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
+import org.springframework.validation.MapBindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,6 +30,7 @@ import org.springframework.web.servlet.View;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -48,6 +54,9 @@ public class SpotsController extends DiverAwareController {
     @Autowired
     private ToponymDao toponymDao;
 
+    @Autowired
+    private HibernateSpringValidator validator;
+
     @RequestMapping(value = "/secure/showSpots.html", method = RequestMethod.GET)
     public ModelAndView showSpotsPage(
             @RequestParam(value = AccessInterceptor.LOGBOOK_ENTRY_ID, required = false) Long logbookEntryId)
@@ -60,23 +69,24 @@ public class SpotsController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/getSpots.html", method = RequestMethod.GET)
     public View getSpots(@ModelAttribute("command") LatLngBounds bounds) throws IOException {
-        return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds, null));
+        Diver diver = getCurrentDiver();
+        return gsonViewFactory.createGsonView(diveSpotDao.getInMapBounds(bounds, diver, null));
     }
 
-    private List<DiveSpot> getDiveSpotsByCoords(double latitude, double longitude) {
+    private List<DiveSpot> getDiveSpotsByCoords(Diver diver, double latitude, double longitude) {
         LatLngBounds bounds = new LatLngBounds();
         bounds.setSwLatitude(latitude - Globals.HALF_DIVE_SPOT_DELTA_DEGREES);
         bounds.setNeLatitude(latitude + Globals.HALF_DIVE_SPOT_DELTA_DEGREES);
         bounds.setSwLongitude(longitude - Globals.DIVE_SPOT_DELTA_DEGREES);
         bounds.setNeLongitude(longitude + Globals.DIVE_SPOT_DELTA_DEGREES);
 
-        return diveSpotDao.getInMapBounds(bounds, null);
+        return diveSpotDao.getInMapBounds(bounds, diver, null);
     }
 
     @RequestMapping(value = "/secure/getSpotByCoords.html", method = RequestMethod.GET)
     public View getSpotByCoords(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude)
             throws IOException {
-        List<DiveSpot> diveSpots = getDiveSpotsByCoords(latitude, longitude);
+        List<DiveSpot> diveSpots = getDiveSpotsByCoords(getCurrentDiver(), latitude, longitude);
         if (diveSpots.isEmpty()) {
             return gsonViewFactory.createErrorGsonView("validation.spotNotFound");
         }
@@ -85,17 +95,23 @@ public class SpotsController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/createSpot.html", method = RequestMethod.GET)
     public View createSpot(@ModelAttribute("command") DiveSpotFormObject spotFormObject) throws IOException {
+        Errors errors = new MapBindingResult(new HashMap(), "command");
+        validator.validate(spotFormObject, errors);
+        if (errors.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
+        }
         double latitude = Double.parseDouble(spotFormObject.getLatitude());
         double longitude = Double.parseDouble(spotFormObject.getLongitude());
-        List<DiveSpot> diveSpots = getDiveSpotsByCoords(latitude, longitude);
+        List<DiveSpot> diveSpots = getDiveSpotsByCoords(getCurrentDiver(), latitude, longitude);
         boolean isNewDiveSpot = diveSpots.isEmpty();
         DiveSpot diveSpot;
         if (isNewDiveSpot) {
             diveSpot = new DiveSpot();
+            diveSpot.setEditable(true);
         } else {
             diveSpot = diveSpots.get(0);
         }
-        if (diveSpot.isApproved()) {
+        if (!diveSpot.isEditable()) {
             return gsonViewFactory.createErrorGsonView("error.spot.creation");
         }
         Country country = countryDao.getByCode(spotFormObject.getCountryCode());
@@ -112,6 +128,7 @@ public class SpotsController extends DiverAwareController {
             toponym.setCountries(countries);
             toponymDao.save(toponym);
         }
+        diveSpot.setLatinName(spotFormObject.getLatinName());
         diveSpot.setName(spotFormObject.getName());
         diveSpot.setLatitude(latitude);
         diveSpot.setLongitude(longitude);
@@ -135,7 +152,7 @@ public class SpotsController extends DiverAwareController {
     @RequestMapping(value = "/secure/deleteSpot.html", method = RequestMethod.GET)
     public View deleteSpot(@RequestParam("spotId") long spotId) throws IOException {
         DiveSpot spot = diveSpotDao.getById(spotId);
-        if (spot.isApproved()) {
+        if (!spot.isEditable()) {
             throw new BadRequestException();
         }
         spot.setDeleted(true);

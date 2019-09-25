@@ -4,7 +4,6 @@ import org.cmas.Globals;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.DiveSpec;
 import org.cmas.entities.logbook.LogbookEntry;
-import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
@@ -16,9 +15,6 @@ import org.springframework.validation.Validator;
  * @author Alexander Petukhov
  */
 public class LogbookEntryValidator implements Validator {
-
-    @Autowired
-    private LogbookEntryDao logbookEntryDao;
 
     @Autowired
     private DiveSpotValidator diveSpotValidator;

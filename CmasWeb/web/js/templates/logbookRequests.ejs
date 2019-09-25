@@ -3,7 +3,7 @@ for(i = 0;i < requests.length;i++) {
     var diveSpot;
     var record = requests[i].logbookEntry;
     if (record.diveSpot) {
-        diveSpot = record.diveSpot.name;
+        diveSpot = record.diveSpot.latinName;
         if (record.diveSpot.country) {
             diveSpot += ", " + record.diveSpot.country.name;
         }

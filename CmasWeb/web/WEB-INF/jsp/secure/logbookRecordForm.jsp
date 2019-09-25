@@ -247,7 +247,7 @@
                                             </c:if>
                                         </c:when>
                                         <c:otherwise>
-                                            value="${spot.name}"
+                                            value="${spot.latinName}"
                                         </c:otherwise>
                                     </c:choose>
                             />

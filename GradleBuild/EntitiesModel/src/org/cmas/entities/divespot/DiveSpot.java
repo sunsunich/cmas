@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Created on Dec 27, 2015
@@ -44,6 +45,29 @@ public class DiveSpot extends DictionaryEntity {
     @Expose
     @Column
     private boolean isAutoGeoLocation;
+
+    @Expose
+    private String latinName;
+
+    @Expose
+    @Transient
+    private boolean editable;
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public String getLatinName() {
+        return latinName;
+    }
+
+    public void setLatinName(String latinName) {
+        this.latinName = latinName;
+    }
 
     public boolean isAutoGeoLocation() {
         return isAutoGeoLocation;

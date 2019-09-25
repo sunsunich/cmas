@@ -3,7 +3,7 @@ var i;
 for(i = 0; i < records.length;i++) {
     var diveSpot;
     if (records[i].diveSpot) {
-        diveSpot = records[i].diveSpot.name;
+        diveSpot = records[i].diveSpot.latinName;
         if (records[i].diveSpot.country) {
             diveSpot += ", " + records[i].diveSpot.country.name;
         }
