@@ -7,7 +7,6 @@ import org.cmas.presentation.model.divespot.LatLngBounds;
 import org.cmas.util.dao.HibernateDao;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created on Jan 06, 2016
@@ -18,5 +17,5 @@ public interface DiveSpotDao extends HibernateDao<DiveSpot> {
 
     List<DiveSpot> getInMapBounds(LatLngBounds bounds, Diver diver, Boolean isApproved);
 
-    Set<Long> getNonEditableSpotIds(Diver diver);
+    boolean isSpotEditable(DiveSpot diveSpot, Diver diver);
 }

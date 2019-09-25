@@ -41,16 +41,24 @@ public class DiveSpotDaoImpl extends DictionaryDataDaoImpl<DiveSpot> implements 
                 .list();
         for (DiveSpot diveSpot : diveSpots) {
             diveSpot.setEditable(
-                    nonEditableSpotIds != null
-                    && !diveSpot.isApproved()
-                    && !nonEditableSpotIds.contains(diveSpot.getId())
+                    isSpotEditable(nonEditableSpotIds, diveSpot)
             );
         }
         return diveSpots;
     }
 
+    private boolean isSpotEditable(Set<Long> nonEditableSpotIds, DiveSpot diveSpot) {
+        return nonEditableSpotIds != null
+        && !diveSpot.isApproved()
+        && !nonEditableSpotIds.contains(diveSpot.getId());
+    }
+
     @Override
-    public Set<Long> getNonEditableSpotIds(Diver diver) {
+    public boolean isSpotEditable(DiveSpot diveSpot, Diver diver) {
+        return isSpotEditable(getNonEditableSpotIds(diver), diveSpot);
+    }
+
+    private Set<Long> getNonEditableSpotIds(Diver diver) {
         String hql = "select distinct ds.id from org.cmas.entities.logbook.LogbookEntry le"
                      + " inner join le.diveSpot ds"
                      + " inner join le.diver d"

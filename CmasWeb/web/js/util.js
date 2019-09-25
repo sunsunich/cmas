@@ -57,6 +57,10 @@ function isStringTrimmedEmpty(str) {
     return !str || (str.length === 0 || !str.trim());
 }
 
+function isStringLatin(str) {
+    return /^[a-zA-Z ]+$/.test(str);
+}
+
 function simpleClone(obj) {
     if (null == obj || "object" != typeof obj) return obj;
     var copy = {};

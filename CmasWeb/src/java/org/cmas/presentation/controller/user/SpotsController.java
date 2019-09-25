@@ -151,8 +151,9 @@ public class SpotsController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/deleteSpot.html", method = RequestMethod.GET)
     public View deleteSpot(@RequestParam("spotId") long spotId) throws IOException {
+        Diver currentDiver = getCurrentDiver();
         DiveSpot spot = diveSpotDao.getById(spotId);
-        if (!spot.isEditable()) {
+        if (!diveSpotDao.isSpotEditable(spot, currentDiver)) {
             throw new BadRequestException();
         }
         spot.setDeleted(true);

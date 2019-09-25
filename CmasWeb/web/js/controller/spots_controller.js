@@ -50,13 +50,8 @@ var spots_controller = {
                     if (isStringTrimmedEmpty(value)) {
                         return 'validation.emptyDivingSpotLatinName';
                     }
-                }
-            },
-            {
-                id: 'name',
-                validateField: function (value) {
-                    if (isStringTrimmedEmpty(value)) {
-                        return 'validation.emptyDivingSpotName';
+                    if (!isStringLatin(value)) {
+                        return "validation.mismatchDivingSpotLatinName";
                     }
                 }
             },
@@ -77,7 +72,6 @@ var spots_controller = {
                 }
             }
         ];
-        this.validationController.fieldIdsToValidate = ['latinName', 'toponymName', 'countryCode'];
         this.validationController.submitButton = $('#createSpotOk');
         this.validationController.init();
         $('#createSpotOk').click(function () {
@@ -342,7 +336,7 @@ var spots_controller = {
 
     submitSpot: function () {
         var self = this;
-        spots_model.currentEditSpot.name = this.validationController.form.name;
+        spots_model.currentEditSpot.name = $('#createSpot_name').val();
         spots_model.currentEditSpot.latinName = this.validationController.form.latinName;
         spots_model.currentEditSpot.toponymName = this.validationController.form.toponymName;
         spots_model.currentEditSpot.countryCode = this.validationController.form.countryCode;

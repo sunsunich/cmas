@@ -38,6 +38,7 @@ var error_codes = {
     "validation.toponym": "Please enter a local hydronym, e.g. bay, strait or lake",
     "validation.emptyDivingSpotName": "Please enter value for diving spot name",
     "validation.emptyDivingSpotLatinName": "Please add diving spot name in latin transcript",
+    "validation.mismatchDivingSpotLatinName": "This field must contain only basic latin characters",
 
     "validation.noDiverInFederation": "You are not found within the database of your country. Please contact your federation",
     "validation.certificateUnknown": "We can’t find CMAS certificate with this number",
