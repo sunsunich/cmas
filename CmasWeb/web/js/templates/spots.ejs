@@ -3,21 +3,22 @@ for (var key in spotMap) {
 if (spotMap.hasOwnProperty(key)) {
     var spot = spotMap[key].spot;
 %>
-<div class="menu-row clearfix">
-    <div class="menuElemLeft" id="<%= spot.id %>_chooseSpot">
+<div class="menu-row clearfix" id="<%= spot.id %>_chooseSpot">
+    <div class="menuElemLeft">
         <%= spot.latinName %>
     </div>
     <div class="menuElemRight">
-        <% if(spot.editable){ %>
-        <a href="#" id="<%= spot.id %>_deleteSpot">
-            <%= labels['cmas.face.spots.delete'] %>
-        </a>
-        <a href="#" id="<%= spot.id %>_editSpot">
-            <%= labels['cmas.face.spots.edit'] %>
-        </a>
-        <% } %>
         <img src="/i/arrow_left_gray.png?v=<%= webVersion %>" id="<%= spot.id %>_chooseSpotArrow"/>
     </div>
+    <% if(spot.editable){ %>
+        <div class="feed-button-container"
+             id="<%= spot.id %>_spotButtons"
+             style="display: none"
+        >
+            <div id="<%= spot.id %>_editSpot" class="feed-button button-edit"></div>
+            <div id="<%= spot.id %>_deleteSpot" class="feed-button button-delete"></div>
+        </div>
+    <% } %>
 </div>
 <% } %>
 <% } %>

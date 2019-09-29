@@ -25,4 +25,6 @@ public interface LogbookEntryDao extends DictionaryDataDao<LogbookEntry> {
     List<LogbookEntry> getDiverPublicLogbookFeed(Diver diver, Collection<Country> countries, SearchLogbookEntryFormObject formObject);
 
     List<LogbookEntry> getPublicLogbookFeed(Collection<Country> countries, SearchLogbookEntryFormObject formObject);
+
+    int getPuplishedRecordsCntForDiver(Diver diver);
 }

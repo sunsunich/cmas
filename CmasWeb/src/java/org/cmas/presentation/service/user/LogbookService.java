@@ -2,6 +2,8 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.hibernate.StaleObjectStateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -15,7 +17,11 @@ import java.text.ParseException;
  */
 public interface LogbookService {
 
-    long createOrUpdateRecord(Diver diver, LogbookEntry formObject) throws ParseException, IOException;
+    @Transactional
+    long createOrUpdateRecord(Diver diver, LogbookEntry formObject, boolean isDraft) throws ParseException, StaleObjectStateException, IOException;
+
+    // image change comes after general logbookEntry properties update
+    void imageChanged(LogbookEntry logbookEntry);
 
     String createSignature(LogbookEntry entry) throws UnsupportedEncodingException, NoSuchAlgorithmException;
 }

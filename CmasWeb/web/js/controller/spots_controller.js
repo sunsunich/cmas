@@ -277,21 +277,33 @@ var spots_controller = {
             for (var key in spots_model.spotMap) {
                 if (spots_model.spotMap.hasOwnProperty(key)) {
                     var spot = spots_model.spotMap[key].spot;
-                    $("#" + spot.id + "_chooseSpot").click(function () {
+                    var chooseSpotElem = $("#" + spot.id + "_chooseSpot");
+                    chooseSpotElem.click(function () {
                         self.createLogbookEntry($(this)[0].id);
                     });
-                    $("#" + spot.id + "_chooseSpotArrow").click(function () {
+                    $("#" + spot.id + "_chooseSpotArrow").click(function (e) {
+                        e.stopPropagation();
                         self.createLogbookEntry($(this)[0].id);
                     });
                     if (spot.editable) {
+                        chooseSpotElem.hover(
+                            function () {
+                                var spotId = $(this)[0].id.split('_')[0];
+                                $("#" + spotId + "_spotButtons").show();
+                            }, function () {
+                                var spotId = $(this)[0].id.split('_')[0];
+                                $("#" + spotId + "_spotButtons").hide();
+                            }
+                        );
+
                         $('#' + spot.id + '_editSpot').click(function (e) {
-                                e.preventDefault();
+                                e.stopPropagation();
                                 var spotId = $(this)[0].id.split('_')[0];
                                 self.showEditSpotDialog(spots_model.spotMap[spotId].spot);
                             }
                         );
                         $('#' + spot.id + '_deleteSpot').click(function (e) {
-                                e.preventDefault();
+                                e.stopPropagation();
                                 var spotId = $(this)[0].id.split('_')[0];
                                 self.showDeleteSpotDialog(spotId);
                             }

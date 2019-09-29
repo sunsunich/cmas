@@ -1,12 +1,14 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.Globals;
-import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.DiveSpec;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.entities.logbook.LogbookEntryState;
+import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.logbook.ScubaTank;
 import org.cmas.presentation.dao.divespot.DiveSpotDao;
 import org.cmas.presentation.dao.logbook.DiveSpecDao;
@@ -68,12 +70,10 @@ public class LogbookServiceImpl implements LogbookService {
     @Autowired
     private MailService mailService;
 
-    @Autowired
-    private ImageStorageManager imageStorageManager;
 
     @Transactional
     @Override
-    public long createOrUpdateRecord(Diver diver, LogbookEntry formObject) throws ParseException, StaleObjectStateException, IOException {
+    public long createOrUpdateRecord(Diver diver, LogbookEntry formObject, boolean isDraft) throws ParseException, StaleObjectStateException, IOException {
         Long spotId = null;
         if (formObject.getDiveSpot() != null) {
             spotId = formObject.getDiveSpot().getId();
@@ -147,6 +147,10 @@ public class LogbookServiceImpl implements LogbookService {
             }
             logbookEntry.setBuddies(Collections.<Diver>emptySet());
             logbookEntryDao.updateModel(logbookEntry);
+        }
+        boolean isTimeToModerate = false;
+        if (!isDraft) {
+            isTimeToModerate = setRecordState(logbookEntry, formObject, false);
         }
 
         logbookEntry.setDateEdit(new Date());
@@ -247,11 +251,63 @@ public class LogbookServiceImpl implements LogbookService {
                 }
             }
         }
+        if (isTimeToModerate) {
+            mailService.sendLogbookEntryChanged(logbookEntry);
+        }
 
         return logbookEntryId;
     }
 
-    private void transfer(LogbookEntry logbookEntry, LogbookEntry formObject) throws IOException {
+    // image change comes after general logbookEntry properties update
+    @Override
+    public void imageChanged(LogbookEntry logbookEntry) {
+        boolean isTimeToModerate = setRecordState(logbookEntry, logbookEntry, true);
+        if (isTimeToModerate
+            && logbookEntry.getState() != LogbookEntryState.NEW // not a draft record
+        ) {
+            logbookEntryDao.updateModel(logbookEntry);
+            mailService.sendLogbookEntryChanged(logbookEntry);
+        }
+    }
+
+    private static final int MIN_PUBLISHED_RECORDS_TO_BECOME_FREQUENT = 10;
+
+    private boolean setRecordState(LogbookEntry logbookEntry, LogbookEntry formObject, boolean hasImageChanged) {
+        if (formObject.getVisibility() == LogbookVisibility.PRIVATE) {
+            return false;
+        }
+        LogbookEntryState logbookEntryState = logbookEntry.getState();
+        boolean isToNotify = logbookEntryState == LogbookEntryState.NEW ||
+                             hasImageChanged ||
+                             logbookEntryState == LogbookEntryState.PUBLISHED &&
+                             (
+                                     logbookEntry.getVisibility() == LogbookVisibility.PRIVATE ||
+                                     !(Objects.equals(logbookEntry.getName(), formObject.getName())
+                                       && Objects.equals(logbookEntry.getNote(), formObject.getNote())
+                                       && Objects.equals(logbookEntry.getDiveSpec().getDecoStepsComments(),
+                                                         formObject.getDiveSpec().getDecoStepsComments())
+                                       && Objects.equals(logbookEntry.getDiveSpec().getCnsToxicity(),
+                                                         logbookEntry.getDiveSpec().getCnsToxicity())
+                                     )
+                             );
+
+        if (isToNotify) {
+            DiverRegistrationStatus diverRegistrationStatus = logbookEntry.getDiver().getDiverRegistrationStatus();
+            if (diverRegistrationStatus == DiverRegistrationStatus.CMAS_FULL
+                || diverRegistrationStatus == DiverRegistrationStatus.GUEST
+                || logbookEntryDao.getPuplishedRecordsCntForDiver(logbookEntry.getDiver())
+                   >= MIN_PUBLISHED_RECORDS_TO_BECOME_FREQUENT
+            ) {
+                // no premoderation for paid users
+                logbookEntry.setState(LogbookEntryState.PUBLISHED);
+            } else {
+                logbookEntry.setState(LogbookEntryState.SAVED);
+            }
+        }
+        return isToNotify;
+    }
+
+    private void transfer(LogbookEntry logbookEntry, LogbookEntry formObject) {
         logbookEntry.setDiveDate(formObject.getDiveDate());
         logbookEntry.setPrevDiveDate(formObject.getPrevDiveDate());
         logbookEntry.setName(formObject.getName());
@@ -260,7 +316,6 @@ public class LogbookServiceImpl implements LogbookService {
         logbookEntry.setScore(formObject.getScore());
         logbookEntry.setNote(formObject.getNote());
         logbookEntry.setVisibility(formObject.getVisibility());
-        logbookEntry.setState(formObject.getState());
     }
 
     private static void transfer(DiveSpec diveSpec, DiveSpec formObject) {

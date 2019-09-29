@@ -1,48 +1,210 @@
-{
-  "email": "z6@mailinator.com",
-  "firstName": "z6Bot",
-  "lastName": "z6Bot",
-  "dob": "01/06/1999",
-  "diverType": "DIVER",
-  "diverLevel": "TWO_STAR",
-  "id": "0",
-  "cards": [
-    {
-      "diverType": "DIVER",
-      "cardType": "NITROX",
-      "number": "z6n",
-      "diverLevel": "TWO_STAR",
-      "printName": "NITROX ADVANCED DIVER",
-      "uiId": 3
+[
+  {
+    "latitude": 52.212347199999996,
+    "longitude": 0.1281835,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
     },
-    {
-      "diverType": "DIVER",
-      "cardType": "NITROX",
-      "number": "z6n",
-      "diverLevel": "TWO_STAR",
-      "printName": "NITROX ADVANCED DIVER",
-      "uiId": 3
+    "toponym": {
+      "id": "12",
+      "name": "Cam",
+      "version": "1",
+      "deleted": false
     },
-    {
-      "diverType": "DIVER",
-      "cardType": "NITROX",
-      "number": "z6n",
-      "diverLevel": "TWO_STAR",
-      "printName": "NITROX ADVANCED DIVER",
-      "uiId": 3
+    "isApproved": false,
+    "isAutoGeoLocation": true,
+    "latinName": "Cam",
+    "editable": false,
+    "id": "13",
+    "name": "Cam",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.867355455610166,
+    "longitude": 1.297588081250069,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
     },
-    {
-      "number": "z6",
-      "diverType": "DIVER",
-      "diverLevel": "TWO_STAR",
-      "cardType": "NATIONAL"
-    }
-  ],
-  "instructor": {
-    "cards": [
-      {
-        "number": "ins_z6"
-      }
-    ]
+    "toponym": {
+      "id": "13",
+      "name": "bay",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s1",
+    "editable": false,
+    "id": "14",
+    "name": "s1",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.499532419630306,
+    "longitude": 0.5560109328125691,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "13",
+      "name": "bay",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "spot two",
+    "editable": false,
+    "id": "15",
+    "name": "s2 d!!@выаа",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 52.98604371151374,
+    "longitude": 1.154765815625069,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "14",
+      "name": "Sea",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s3",
+    "editable": false,
+    "id": "16",
+    "name": "s3",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.400255806972545,
+    "longitude": 1.132793159375069,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "14",
+      "name": "Sea",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s4",
+    "editable": false,
+    "id": "17",
+    "name": "s4",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.39682862476792,
+    "longitude": 0.6384083937500691,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "13",
+      "name": "bay",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s5",
+    "editable": false,
+    "id": "18",
+    "name": "s5",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.070829437678576,
+    "longitude": 1.259135932812569,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "13",
+      "name": "bay",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s7",
+    "editable": false,
+    "id": "21",
+    "name": "s7",
+    "version": "1",
+    "deleted": false
+  },
+  {
+    "latitude": 51.73561929005075,
+    "longitude": 0.8636281203125691,
+    "country": {
+      "code": "GBR",
+      "iso3166_1_alpha_2_code": "GB",
+      "id": "48",
+      "name": "Great Britain",
+      "version": "1",
+      "deleted": false
+    },
+    "toponym": {
+      "id": "13",
+      "name": "bay",
+      "version": "1",
+      "deleted": false
+    },
+    "isApproved": false,
+    "isAutoGeoLocation": false,
+    "latinName": "s8",
+    "editable": false,
+    "id": "22",
+    "name": "s8",
+    "version": "1",
+    "deleted": false
   }
-}
+]

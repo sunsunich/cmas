@@ -34,7 +34,7 @@ var logbook_record_model = {
             "/secure/saveDraftRecord.html",
             {"logbookEntryJson": JSON.stringify(this.logbookEntry)},
             function (json) {
-                self.logbookEntry.id = json.id;
+                self.logbookEntry = json;
                 self.addPhotoToRecord(successHandler, unSuccessHandler);
             },
             unSuccessHandler
@@ -91,7 +91,7 @@ var logbook_record_model = {
             "/secure/createRecord.html",
             {"logbookEntryJson": JSON.stringify(this.logbookEntry)},
             function (json) {
-                self.logbookEntry.id = json.id;
+                self.logbookEntry = json;
                 self.addPhotoToRecord(successHandler, function () {
                     window.location.reload();
                 });

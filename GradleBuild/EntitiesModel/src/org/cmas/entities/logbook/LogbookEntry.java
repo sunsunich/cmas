@@ -103,6 +103,10 @@ public class LogbookEntry extends DictionaryEntity {
     private String photoBase64fromClient;
 
     @Expose
+    @Transient
+    private boolean isForCertification;
+
+    @Expose
     @Column
     private String photoUrl;
 
@@ -133,6 +137,14 @@ public class LogbookEntry extends DictionaryEntity {
 
     public void setState(LogbookEntryState state) {
         this.state = state;
+    }
+
+    public boolean isForCertification() {
+        return isForCertification;
+    }
+
+    public void setIsForCertification(boolean forCertification) {
+        isForCertification = forCertification;
     }
 
     public Date getPrevDiveDate() {

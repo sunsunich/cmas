@@ -6,7 +6,6 @@ import org.cmas.entities.logbook.ScubaTank;
 import org.cmas.presentation.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 import java.util.List;
 
@@ -15,19 +14,12 @@ import java.util.List;
  *
  * @author Alexander Petukhov
  */
-public class DiveSpecValidator implements Validator {
+public class DiveSpecValidator {
 
     @Autowired
     private ScubaTankValidator scubaTankValidator;
 
-    @Override
-    public boolean supports(Class aClass) {
-        return DiveSpec.class.isAssignableFrom(aClass);
-    }
-
-    @Override
-    public void validate(Object o, Errors errors) {
-        DiveSpec diveSpec = (DiveSpec) o;
+    public void validate(DiveSpec diveSpec, Errors errors, boolean isForCertification) {
         if (diveSpec.getMaxDepthMeters() <= 0) {
             errors.rejectValue("maxDepthMeters", "validation.incorrectNumber");
         }
@@ -52,7 +44,9 @@ public class DiveSpecValidator implements Validator {
                     scubaTankValidator.validate(scubaTank, errors, "_" + index);
                 }
             } else {
-                errors.rejectValue("scubaTanks", "validation.logbook.gasTanksEmpty");
+                if (isForCertification) {
+                    errors.rejectValue("scubaTanks", "validation.logbook.gasTanksEmpty");
+                }
             }
         }
     }

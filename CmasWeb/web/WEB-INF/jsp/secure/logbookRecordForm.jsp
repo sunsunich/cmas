@@ -473,11 +473,11 @@
                         <div class="form-row">
                             <c:choose>
                                 <c:when test="${logbookEntry == null}">
-                        <textarea id="comments" rows="6"
+                        <textarea id="note" rows="6"
                                   placeholder="<s:message code="cmas.face.logbook.comments"/>"></textarea>
                                 </c:when>
                                 <c:otherwise>
-                        <textarea id="comments" rows="6"
+                        <textarea id="note" rows="6"
                                   placeholder="<s:message code="cmas.face.logbook.comments"/>">${logbookEntry.note}</textarea>
                                 </c:otherwise>
                             </c:choose>

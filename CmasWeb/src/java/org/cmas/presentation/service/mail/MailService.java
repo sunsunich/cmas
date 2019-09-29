@@ -5,6 +5,7 @@ import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.entities.user.Registration;
@@ -38,4 +39,6 @@ public interface MailService {
     void noInsuranceRequestForInvoice(Invoice invoice);
 
     void sendInsuranceRequestFailed(InsuranceRequest insuranceRequest, String message);
+
+    void sendLogbookEntryChanged(LogbookEntry logbookEntry);
 }

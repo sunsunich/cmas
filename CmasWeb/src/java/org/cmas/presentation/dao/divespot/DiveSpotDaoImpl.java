@@ -41,21 +41,23 @@ public class DiveSpotDaoImpl extends DictionaryDataDaoImpl<DiveSpot> implements 
                 .list();
         for (DiveSpot diveSpot : diveSpots) {
             diveSpot.setEditable(
-                    isSpotEditable(nonEditableSpotIds, diveSpot)
+                    isSpotEditable(nonEditableSpotIds, diveSpot, diver)
             );
         }
         return diveSpots;
     }
 
-    private boolean isSpotEditable(Set<Long> nonEditableSpotIds, DiveSpot diveSpot) {
+    private boolean isSpotEditable(Set<Long> nonEditableSpotIds, DiveSpot diveSpot, Diver diver) {
         return nonEditableSpotIds != null
-        && !diveSpot.isApproved()
-        && !nonEditableSpotIds.contains(diveSpot.getId());
+               && !diveSpot.isApproved()
+               && !nonEditableSpotIds.contains(diveSpot.getId())
+               && (diveSpot.getCreator() == null || diveSpot.getCreator().getId() == diver.getId())
+                ;
     }
 
     @Override
     public boolean isSpotEditable(DiveSpot diveSpot, Diver diver) {
-        return isSpotEditable(getNonEditableSpotIds(diver), diveSpot);
+        return isSpotEditable(getNonEditableSpotIds(diver), diveSpot, diver);
     }
 
     private Set<Long> getNonEditableSpotIds(Diver diver) {

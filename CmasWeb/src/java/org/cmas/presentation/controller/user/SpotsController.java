@@ -102,12 +102,14 @@ public class SpotsController extends DiverAwareController {
         }
         double latitude = Double.parseDouble(spotFormObject.getLatitude());
         double longitude = Double.parseDouble(spotFormObject.getLongitude());
-        List<DiveSpot> diveSpots = getDiveSpotsByCoords(getCurrentDiver(), latitude, longitude);
+        Diver diver = getCurrentDiver();
+        List<DiveSpot> diveSpots = getDiveSpotsByCoords(diver, latitude, longitude);
         boolean isNewDiveSpot = diveSpots.isEmpty();
         DiveSpot diveSpot;
         if (isNewDiveSpot) {
             diveSpot = new DiveSpot();
             diveSpot.setEditable(true);
+            diveSpot.setCreator(diver);
         } else {
             diveSpot = diveSpots.get(0);
         }

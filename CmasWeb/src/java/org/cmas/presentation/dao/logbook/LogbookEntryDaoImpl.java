@@ -10,6 +10,8 @@ import org.cmas.presentation.dao.DictionaryDataDaoImpl;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.util.StringUtil;
 import org.hibernate.Query;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
 import java.text.ParseException;
 import java.util.Collection;
@@ -202,5 +204,14 @@ public class LogbookEntryDaoImpl extends DictionaryDataDaoImpl<LogbookEntry> imp
             query.setMaxResults(Integer.parseInt(limit));
         }
         return query;
+    }
+
+    @Override
+    public int getPuplishedRecordsCntForDiver(Diver diver) {
+        Object publicRecordCnt = createCriteria().add(Restrictions.eq("state", LogbookEntryState.PUBLISHED))
+                                                 .add(Restrictions.eq("diver", diver))
+                                                 .setProjection(Projections.rowCount())
+                                                 .uniqueResult();
+        return publicRecordCnt == null ? 0 : ((Number) publicRecordCnt).intValue();
     }
 }

@@ -47,7 +47,7 @@ public class LogbookEntryValidator implements Validator {
         if (diveSpec == null) {
             errors.rejectValue("diveSpec", "validation.emptyField");
         } else {
-            diveSpecValidator.validate(diveSpec, errors);
+            diveSpecValidator.validate(diveSpec, errors, logbookEntry.isForCertification());
         }
         DiveSpot diveSpot = logbookEntry.getDiveSpot();
         if (diveSpot != null) {

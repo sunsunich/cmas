@@ -61,10 +61,10 @@ var logbook_record_controller = {
             self.saveDraft();
         });
         $('#saveLogbookEntryButton').click(function () {
-            self.saveLogbookEntry('SAVED');
+            self.saveLogbookEntry();
         });
         $('#publishLogbookEntryButton').click(function () {
-            self.saveLogbookEntry('PUBLISHED');
+            self.saveLogbookEntry();
         });
         $('#deletePhoto').click(function () {
             self.deletePhoto();
@@ -73,6 +73,7 @@ var logbook_record_controller = {
 
     showTab: function (tabName) {
         if (tabName == 'Required') {
+            logbook_record_model.logbookEntry.isForCertification = false;
             $('#requiredTab').addClass("logbook-tab-chosen").removeClass("logbook-tab");
             $('#certificationTab').addClass("logbook-tab").removeClass("logbook-tab-chosen");
 
@@ -87,6 +88,7 @@ var logbook_record_controller = {
             $('#instructor').hide();
             //todo remove instructor
         } else {
+            logbook_record_model.logbookEntry.isForCertification = true;
             $('#certificationTab').addClass("logbook-tab-chosen").removeClass("logbook-tab");
             $('#requiredTab').addClass("logbook-tab").removeClass("logbook-tab-chosen");
 
@@ -114,28 +116,21 @@ var logbook_record_controller = {
         );
     },
 
-    saveLogbookEntry: function (futureState) {
+    saveLogbookEntry: function () {
         logbook_record_diveProfile_controller.buildLogbookEntryForm();
         this.cleanCreateFormErrors();
         var diveProfileFormErrors = logbook_record_diveProfile_controller.validateCreateForm();
         if (!diveProfileFormErrors.success) {
             validation_controller.simpleShowErrors('create', diveProfileFormErrors);
         }
-        var publishFormErrors = {"success": true};
-        if (logbook_record_model.logbookEntry.state != 'NEW') {
-            logbook_record_publish_controller.buildLogbookEntryForm();
-            publishFormErrors = logbook_record_publish_controller.validateCreateForm();
-            if (!publishFormErrors.success) {
-                validation_controller.simpleShowErrors('create', publishFormErrors);
-            }
+        logbook_record_publish_controller.buildLogbookEntryForm();
+        var publishFormErrors = logbook_record_publish_controller.validateCreateForm();
+        if (!publishFormErrors.success) {
+            validation_controller.simpleShowErrors('create', publishFormErrors);
         }
-
         if (diveProfileFormErrors.success && publishFormErrors.success) {
-            logbook_record_diveProfile_controller.maskInvalidValues();
-            const oldState = logbook_record_model.logbookEntry.state;
-            logbook_record_model.logbookEntry.state = futureState;
             logbook_record_model.createRecord(
-                function (/*json*/) {
+                function () {
                     if (logbook_record_model.logbookEntry.state == "PUBLISHED") {
                         window.location = "/secure/showLogbook.html";
                     } else {
@@ -143,7 +138,6 @@ var logbook_record_controller = {
                     }
                 }
                 , function (json) {
-                    logbook_record_model.logbookEntry.state = oldState;
                     validation_controller.simpleShowErrors('create', json);
                 });
         }

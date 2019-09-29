@@ -4,6 +4,7 @@ import com.google.myjson.annotations.Expose;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.Toponym;
+import org.cmas.entities.diver.Diver;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,9 +50,20 @@ public class DiveSpot extends DictionaryEntity {
     @Expose
     private String latinName;
 
+    @ManyToOne
+    private Diver creator;
+
     @Expose
     @Transient
     private boolean editable;
+
+    public Diver getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Diver creator) {
+        this.creator = creator;
+    }
 
     public boolean isEditable() {
         return editable;

@@ -29,7 +29,6 @@ import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.validator.user.LogbookEntryValidator;
-import org.cmas.remote.json.SuccessIdObject;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
@@ -205,8 +204,8 @@ public class LogbookController extends DiverAwareController {
         }
         try {
             Diver diver = getCurrentDiver();
-            long logbookEntryId = logbookService.createOrUpdateRecord(diver, formObject);
-            return gsonViewFactory.createGsonView(new SuccessIdObject(logbookEntryId));
+            long logbookEntryId = logbookService.createOrUpdateRecord(diver, formObject, isDraft);
+            return gsonViewFactory.createGsonView(logbookEntryDao.getModel(logbookEntryId));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.internal");
@@ -232,7 +231,7 @@ public class LogbookController extends DiverAwareController {
         try {
             imageStorageManager.storeLogbookEntryImage(
                     logbookEntry, ImageIO.read(file.getInputStream()));
-
+            logbookService.imageChanged(logbookEntry);
             return gsonViewFactory.createSuccessGsonView();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -241,7 +240,7 @@ public class LogbookController extends DiverAwareController {
     }
 
     @RequestMapping(value = "/secure/deletePhotoFromRecord.html", method = RequestMethod.GET)
-    public View deletePhotoFromRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId){
+    public View deletePhotoFromRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId) {
         LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
         if (logbookEntry == null) {
             throw new BadRequestException();

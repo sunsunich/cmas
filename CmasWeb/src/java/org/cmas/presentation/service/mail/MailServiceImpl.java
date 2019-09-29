@@ -1,12 +1,14 @@
 package org.cmas.presentation.service.mail;
 
 import org.cmas.Globals;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.User;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
+import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.PaidFeature;
@@ -16,6 +18,7 @@ import org.cmas.presentation.entities.user.Registration;
 import org.cmas.util.mail.CommonMailServiceImpl;
 import org.cmas.util.mail.ModelAttr;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
@@ -270,7 +273,6 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = addresses.getAdminMailAddress();
-        //String from = addresses.getFromText();
         String subj = subjects.renderText("NoInsuranceRequestForInvoice", locale, invoice.getExternalInvoiceNumber());
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
@@ -285,8 +287,36 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = addresses.getAdminMailAddress();
-        //String from = addresses.getFromText();
         String subj = subjects.renderText("InsuranceRequestFailed", locale, insuranceRequest.getId());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
+    @Override
+    public void sendLogbookEntryChanged(LogbookEntry logbookEntry) {
+        Locale locale = Locale.ENGLISH;
+        String text = textRenderer.renderText(
+                "logbookEntryChanged.ftl", locale,
+                new ModelAttr("id", logbookEntry.getId()),
+                new ModelAttr("photoUrl", logbookEntry.getPhotoUrl() == null ? "" :
+                        addresses.getSiteName(locale) +
+                        imageStorageManager.getLogbookEntryImagesRoot() + logbookEntry.getPhotoUrl()),
+                new ModelAttr("name", logbookEntry.getName() == null ? "" : logbookEntry.getName()),
+                new ModelAttr("note", logbookEntry.getNote() == null ? "" : logbookEntry.getNote()),
+                new ModelAttr("decoStepsComments",
+                              logbookEntry.getDiveSpec().getDecoStepsComments() == null ?
+                                      "" :
+                                      logbookEntry.getDiveSpec().getDecoStepsComments()),
+                new ModelAttr("cnsToxicity",
+                              logbookEntry.getDiveSpec().getCnsToxicity() == null ?
+                                      "" :
+                                      logbookEntry.getDiveSpec().getCnsToxicity())
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        String subj = subjects.renderText("LogbookEntryChanged", locale, logbookEntry.getId());
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }

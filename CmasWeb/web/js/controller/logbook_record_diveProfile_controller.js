@@ -148,7 +148,7 @@ var logbook_record_diveProfile_controller = {
         var self = this;
         $('#tank_' + i).hover(
             function () {
-                if (logbook_record_model.logbookEntry.diveSpec.scubaTanks.length > 1) {
+                if (logbook_record_model.logbookEntry.diveSpec.scubaTanks.length > 0 /*1*/) {
                     $('#removeTank_' + i).show();
                 }
             }, function () {
@@ -244,9 +244,9 @@ var logbook_record_diveProfile_controller = {
                 this.setupTank(tank, i + 1);
             }
         } else {
-            if (!$('#isApnea').prop('checked')) {
-                this.addTank();
-            }
+            // if (!$('#isApnea').prop('checked')) {
+            //     this.addTank();
+            // }
         }
     },
 
@@ -257,7 +257,7 @@ var logbook_record_diveProfile_controller = {
         logbook_record_model.logbookEntry.name = $('#spotName').val();
         logbook_record_model.logbookEntry.latitude = $('#latitude').val();
         logbook_record_model.logbookEntry.longitude = $('#longitude').val();
-        logbook_record_model.logbookEntry.note = $('#comments').val();
+        logbook_record_model.logbookEntry.note = $('#note').val();
 
         logbook_record_model.logbookEntry.diveSpec.durationMinutes = $('#duration').val();
         logbook_record_model.logbookEntry.diveSpec.maxDepthMeters = $('#depth').val();
