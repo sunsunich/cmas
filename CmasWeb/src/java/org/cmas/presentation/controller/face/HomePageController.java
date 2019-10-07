@@ -2,6 +2,7 @@ package org.cmas.presentation.controller.face;
 
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.util.http.BadRequestException;
+import org.cmas.util.mail.MailerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,9 @@ public class HomePageController {
 
     @Autowired
     private CountryDao countryDao;
+
+    @Autowired
+    private MailerConfig mailerConfig;
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
     public ModelAndView showHome(Model model) {
@@ -50,6 +54,7 @@ public class HomePageController {
     @RequestMapping(value = "/contacts.html", method = RequestMethod.GET)
     public ModelAndView contacts() {
         ModelMap mm = new ModelMap();
+        mm.addAttribute("siteEmail", mailerConfig.getSupportAddr());
         return new ModelAndView("contacts", mm);
     }
 
@@ -57,12 +62,6 @@ public class HomePageController {
     public ModelAndView paymentInfo() {
         ModelMap mm = new ModelMap();
         return new ModelAndView("paymentInfo", mm);
-    }
-
-    @RequestMapping(value = "/reportError.html", method = RequestMethod.GET)
-    public ModelAndView reportError() {
-        ModelMap mm = new ModelMap();
-        return new ModelAndView("reportErrorForm", mm);
     }
 }
 

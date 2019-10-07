@@ -228,7 +228,7 @@ var registration_flow_controller = {
         adjustCssProperty("padding-left", ".formWrapper", relativeViewPortWidth, 1.9, 16, 56);
         adjustCssProperty("padding-right", ".formWrapper", relativeViewPortWidth, 1.9, 16, 56);
 
-        adjustCssProperty("width", ".form-row input, .select2-container--bootstrap", relativeViewPortWidth, 0.15, 257, 433);
+        adjustCssProperty("width", ".form-row input, .form-row textarea, .select2-container--bootstrap", relativeViewPortWidth, 0.15, 257, 433);
 
         var hasVisibleInputElem = this.visibleInputElem != null;
         var fullInputWidth;
@@ -271,13 +271,14 @@ var registration_flow_controller = {
         var wrapperContentPaddings = (viewPortWidth - (isDisplayImage ? 2 : 1) * formWidth) / 2 - 1;
         wrapperContentElem.css('padding-left', Math.max(8, wrapperContentPaddings))
             .css('padding-right', Math.max(8, wrapperContentPaddings));
+        var formImageElem = $('#formImage');
         if (isDisplayImage) {
             wrapperContentElem.css("backgroundImage", '').removeClass("formBackgroundContainer");
             replaceBackground('formImage', this.backgroundImageId);
             var formImageHeight = $('#' + this.backgroundImageId).height();
             var formImageWidth = $('#' + this.backgroundImageId).width();
             var imagePaddings = 90 - parseFloat(wrapperContentElem.css('padding-top'));
-            $('#formImage').css('width', formImageWidth).css('height', formImageHeight)
+            formImageElem.css('width', formImageWidth).css('height', formImageHeight)
                 .addClass("formBackgroundContainer")
                 .css('margin-top', imagePaddings).css('margin-bottom', imagePaddings).show();
             adjustCssProperty("padding-left", "#formImage", relativeViewPortWidth, 2, 16, 56);
@@ -290,15 +291,28 @@ var registration_flow_controller = {
                 formImageWidth * 60 / 100 + wrapperContentPaddingLeft,
                 formImageWidth * 89 / 100 + wrapperContentPaddingLeft
             );
-            if (formWrapperElem.height() +
+            var totalFormWrapperHeight = formWrapperElem.height() +
                 parseFloat(formWrapperElem.css('padding-top')) +
-                parseFloat(formWrapperElem.css('padding-bottom')) < formImageHeight) {
+                parseFloat(formWrapperElem.css('padding-bottom'));
+            if (totalFormWrapperHeight < formImageHeight) {
                 formWrapperElem.css("top", 40 + 90 + $('#header').height());
             } else {
                 formWrapperElem.css("top", '');
             }
+
+            var contentElem = $('#Content');
+            var totalFormImageHeight = formImageElem.height() +
+                parseFloat(formImageElem.css('margin-top')) +
+                parseFloat(formImageElem.css('margin-bottom')) +
+                parseFloat(formImageElem.css('padding-top')) +
+                parseFloat(formImageElem.css('padding-bottom'));
+            if (totalFormWrapperHeight + 5 >= totalFormImageHeight) {
+                contentElem.css('height', totalFormWrapperHeight + 10);
+            } else {
+                contentElem.css('height', '');
+            }
         } else {
-            $('#formImage').hide();
+            formImageElem.hide();
             formWrapperElem.removeClass('form-absolute');
             wrapperContentElem.addClass("formBackgroundContainer");
             replaceBackground('Wrapper-content', this.backgroundImageId);

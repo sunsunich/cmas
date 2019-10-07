@@ -39,7 +39,7 @@
     margin-bottom: 0;
 }
 
-.positive-button, .inverse-positive-button, .white-button, .gold-button {
+.positive-button, .inverse-positive-button, .white-button, .white-button-small, .gold-button {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -100,6 +100,25 @@
 }
 
 .white-button:active {
+    color: #0d95b5;
+    box-shadow: none;
+}
+
+.white-button-small {
+    padding: 4px 8px 4px 8px;
+    font-size: 18px;
+}
+
+.white-button-small {
+    background: #ffffff;
+    color: #cbd0d1;
+}
+
+.white-button-small:hover {
+    color: #a1a4a5;
+}
+
+.white-button-small:active {
     color: #0d95b5;
     box-shadow: none;
 }

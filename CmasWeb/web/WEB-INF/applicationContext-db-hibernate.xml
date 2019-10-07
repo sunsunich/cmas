@@ -18,6 +18,9 @@
                 <value>org.cmas.entities.User</value>
                 <value>org.cmas.entities.UserBalance</value>
 
+                <value>org.cmas.entities.UserFile</value>
+                <value>org.cmas.entities.FeedbackItem</value>
+
                 <value>org.cmas.entities.sport.Athlete</value>
                 <value>org.cmas.entities.sport.NationalFederation</value>
                 <value>org.cmas.entities.PersonalCard</value>
@@ -197,6 +200,14 @@
     </bean>
 
     <bean id="insuranceRequestDao" class="org.cmas.presentation.dao.loyalty.InsuranceRequestDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userFileDao" class="org.cmas.presentation.dao.UserFileDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="feedbackItemDao" class="org.cmas.presentation.dao.FeedbackItemDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 </beans>

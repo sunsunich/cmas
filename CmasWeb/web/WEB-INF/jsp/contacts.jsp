@@ -5,6 +5,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
+<jsp:useBean id="siteEmail" scope="request" type="java.lang.String"/>
+
 <my:helppage>
     <div class="header2-text faq-header"><s:message code="cmas.face.client.contact"/></div>
     <div class="header3-text question">
@@ -50,7 +52,7 @@
             171, Old Bakery Street<br/>
             Valletta, VLT 1455<br/>
             Malta<br/>
-            e-mail: <a href="mailto:cmasdata.help@gmail.com">cmasdata.help@gmail.com</a>
+            e-mail: <a href="mailto:${siteEmail}">${siteEmail}</a>
         </div>
     </div>
 </my:helppage>

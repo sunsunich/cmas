@@ -220,6 +220,22 @@
                     </a>
                 </li>
 
+                <li
+                        <c:choose>
+                            <c:when test="${activeMenuItem == 'reportError'}">
+                                class="bottomBorder user-menu-active"
+                            </c:when>
+                            <c:otherwise>
+                                class="bottomBorder user-menu-inactive"
+                            </c:otherwise>
+                        </c:choose>
+                        onclick="window.location = '${pageContext.request.contextPath}/secure/reportError.html';"
+                >
+                    <a href="${pageContext.request.contextPath}/secure/reportError.html">
+                        <span><s:message code="cmas.face.client.menu.reportError"/></span>
+                    </a>
+                </li>
+
                 <li class="last-list-item user-menu-inactive"
                     onclick="window.location = '${pageContext.request.contextPath}/logout.html';">
                     <a href="${pageContext.request.contextPath}/logout.html">

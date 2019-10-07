@@ -1,6 +1,7 @@
 package org.cmas.backend;
 
 import org.cmas.entities.PersonalCard;
+import org.cmas.entities.UserFile;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.jetbrains.annotations.NotNull;
@@ -21,15 +22,23 @@ public interface ImageStorageManager {
 
     void storeLogbookEntryImage(LogbookEntry logbookEntry, BufferedImage initImage) throws IOException;
 
+    void storeUserFile(UserFile userFile, BufferedImage initImage) throws IOException;
+
     void deleteImage(LogbookEntry logbookEntry);
 
     //to be used in web client
     @NotNull
     String getUserpicRoot();
 
+    void deleteUserFile(UserFile userFile);
+
     //to be used in web client
     @NotNull
     String getCardImagesRoot();
+
+    @SuppressWarnings({"MagicCharacter", "HardcodedFileSeparator"})
+    @NotNull
+    String getFeedbackImagesRoot();
 
     //to be used in web client
     @NotNull

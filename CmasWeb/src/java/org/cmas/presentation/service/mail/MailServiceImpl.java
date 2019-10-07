@@ -2,7 +2,9 @@ package org.cmas.presentation.service.mail;
 
 import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
+import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.User;
+import org.cmas.entities.UserFile;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.InternetAddress;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Locale;
 
 public class MailServiceImpl extends CommonMailServiceImpl implements MailService {
@@ -317,6 +320,37 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = addresses.getAdminMailAddress();
         String subj = subjects.renderText("LogbookEntryChanged", locale, logbookEntry.getId());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendFeedbackItem(FeedbackItem feedbackItem) {
+        Locale locale = Locale.ENGLISH;
+        String imageUrl1 = "";
+        String imageUrl2 = "";
+        List<UserFile> files = feedbackItem.getFiles();
+        if (files != null && !files.isEmpty()) {
+            imageUrl1 = addresses.getSiteName(locale) +
+                        imageStorageManager.getFeedbackImagesRoot() + files.get(0).getFileUrl();
+            if (files.size() > 1) {
+                imageUrl2 = addresses.getSiteName(locale) +
+                            imageStorageManager.getFeedbackImagesRoot() + files.get(1).getFileUrl();
+            }
+        }
+        String text = textRenderer.renderText(
+                "feedbackSubmitted.ftl", locale,
+                new ModelAttr("id", feedbackItem.getId()),
+                new ModelAttr("diver", feedbackItem.getCreator()),
+                new ModelAttr("text", feedbackItem.getText()),
+                new ModelAttr("imageUrl1", imageUrl1),
+                new ModelAttr("imageUrl2", imageUrl2),
+                new ModelAttr("spotId", feedbackItem.getDiveSpot() == null ? "" : feedbackItem.getDiveSpot().getId()),
+                new ModelAttr("logbookEntryId",
+                              feedbackItem.getLogbookEntry() == null ? "" : feedbackItem.getLogbookEntry().getId())
+                );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        String subj = subjects.renderText("FeedbackSubmitted", locale, feedbackItem.getId());
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }

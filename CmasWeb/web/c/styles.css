@@ -377,7 +377,6 @@ html, body {
 }
 
 .menuElemRight {
-    font-size: 24px;
     margin-right: 24px;
     float: right;
 }
@@ -700,6 +699,15 @@ html, body {
     color: #a1a4a5;
     line-height: 2.3;
     margin-right: 16px;
+}
+
+.feedback-button-right {
+    float: right;
+}
+
+.feedback-photo-header {
+    float: left;
+    margin-right: 8px;
 }
 
 .diverList-elem-right, .diverList-elem-left {

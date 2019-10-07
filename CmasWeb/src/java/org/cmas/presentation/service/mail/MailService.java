@@ -1,5 +1,6 @@
 package org.cmas.presentation.service.mail;
 
+import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.User;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.diver.Diver;
@@ -41,4 +42,6 @@ public interface MailService {
     void sendInsuranceRequestFailed(InsuranceRequest insuranceRequest, String message);
 
     void sendLogbookEntryChanged(LogbookEntry logbookEntry);
+
+    void sendFeedbackItem(FeedbackItem feedbackItem);
 }

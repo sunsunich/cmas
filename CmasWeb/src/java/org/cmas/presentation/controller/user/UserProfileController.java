@@ -14,6 +14,7 @@ import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.PersonalCardService;
+import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
@@ -190,14 +191,9 @@ public class UserProfileController extends DiverAwareController{
     @RequestMapping(value = "/secure/uploadFileUserpic.html", method = RequestMethod.POST)
     public View userEditUserpicFile(@ModelAttribute FileUploadBean fileBean) {
         MultipartFile file = fileBean.getFile();
-        if (file == null) {
-            return gsonViewFactory.createErrorGsonView("validation.emptyField");
-        }
-        if (!file.getContentType().startsWith("image")) {
-            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
-        }
-        if (file.getSize() > Globals.MAX_IMAGE_SIZE) {
-            return gsonViewFactory.createErrorGsonView("validation.imageSize");
+        String errorCode = UploadImageValidator.validateImage(file);
+        if (errorCode != null) {
+            return gsonViewFactory.createErrorGsonView(errorCode);
         }
         Diver diver = getCurrentDiver();
         if (diver == null) {

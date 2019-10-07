@@ -33,6 +33,11 @@
                 <value>/secure/editPassword.html</value>
                 <value>/secure/processEditPassword.html</value>
                 <value>/secure/processEditEmail.html</value>
+
+                <value>/secure/reportSpot.html</value>
+                <value>/secure/reportLogbookEntry.html</value>
+                <value>/secure/reportError.html</value>
+                <value>/secure/submitFeedback.html</value>
             </list>
         </property>
 
@@ -119,6 +124,11 @@
                 <value>/secure/index.html</value>
                 <value>/secure/pay.html</value>
                 <value>/secure/createInsuranceRequest.html</value>
+
+                <value>/secure/reportSpot.html</value>
+                <value>/secure/reportLogbookEntry.html</value>
+                <value>/secure/reportError.html</value>
+                <value>/secure/submitFeedback.html</value>
 
                 <value>/secure/pageErrorLoad.html</value>
                 <value>/secure/registerDevice.html</value>

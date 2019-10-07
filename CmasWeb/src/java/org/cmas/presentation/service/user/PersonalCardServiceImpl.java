@@ -100,12 +100,13 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Override
     public void generateNonPrimaryCardsImages(CardUser cardUser) {
         if (cardUser.getRole() == Role.ROLE_DIVER) {
-            final Diver diver = (Diver) cardUser;
+            final long diverId = cardUser.getId();
             scheduler.schedule(
                     new RunInHibernate(sessionFactory) {
                         @Override
                         protected void runTaskInHibernate() {
-                            for (PersonalCard card : getCardsToShow(diver)) {
+                            List<PersonalCard> cardsToShow = getCardsToShow(diverDao.getById(diverId));
+                            for (PersonalCard card : cardsToShow) {
                                 generateAndSaveCardImage(card.getId());
                             }
                         }

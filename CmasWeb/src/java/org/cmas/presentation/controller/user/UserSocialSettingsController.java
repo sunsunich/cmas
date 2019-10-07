@@ -19,7 +19,6 @@ import org.cmas.presentation.model.logbook.LogbookEntryRequestFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
 import org.cmas.presentation.model.social.SocialUpdates;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.LogbookService;
 import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
@@ -74,9 +73,6 @@ public class UserSocialSettingsController extends DiverAwareController{
 
     @Autowired
     private LogbookService logbookService;
-
-    @Autowired
-    private DiverService diverService;
 
     @Autowired
     private PersonalCardService personalCardService;

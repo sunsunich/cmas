@@ -5,7 +5,7 @@ package org.cmas.entities;
  *
  * @author Alexander Petukhov
  */
-public enum ErrorReportStatus {
+public enum FeedbackItemStatus {
 
     NEW, RESOLVED, DECLINED;
 

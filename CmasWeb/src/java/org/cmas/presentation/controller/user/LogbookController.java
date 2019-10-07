@@ -1,6 +1,5 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
@@ -28,6 +27,7 @@ import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.logbook.SearchLogbookEntryFormObject;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.user.LogbookService;
+import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.presentation.validator.user.LogbookEntryValidator;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.cmas.util.http.BadRequestException;
@@ -50,10 +50,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -97,7 +96,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/createLogbookRecordForm.html", method = RequestMethod.GET)
     public ModelAndView createLogbookRecordForm(
             @RequestParam(value = "spotId", required = false) Long spotId
-    ) throws IOException {
+    ) {
         DiveSpot diveSpot = null;
         if (spotId != null) {
             diveSpot = diveSpotDao.getModel(spotId);
@@ -109,7 +108,7 @@ public class LogbookController extends DiverAwareController {
     public ModelAndView editLogbookRecordForm(
             @RequestParam(value = "spotId", required = false) Long spotId,
             @RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId
-    ) throws IOException {
+    ) {
         DiveSpot diveSpot = null;
         if (spotId != null) {
             diveSpot = diveSpotDao.getModel(spotId);
@@ -179,12 +178,12 @@ public class LogbookController extends DiverAwareController {
     }
 
     @RequestMapping(value = "/secure/createRecord.html", method = RequestMethod.POST)
-    public View createRecord(@RequestParam("logbookEntryJson") String logbookEntryJson) throws IOException {
+    public View createRecord(@RequestParam("logbookEntryJson") String logbookEntryJson) {
         return saveOrUpdateRecord(logbookEntryJson, false);
     }
 
     @RequestMapping(value = "/secure/saveDraftRecord.html", method = RequestMethod.POST)
-    public View saveDraftRecord(@RequestParam("logbookEntryJson") String logbookEntryJson) throws IOException {
+    public View saveDraftRecord(@RequestParam("logbookEntryJson") String logbookEntryJson) {
         return saveOrUpdateRecord(logbookEntryJson, true);
     }
 
@@ -215,14 +214,9 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/addPhotoToRecord.html", method = RequestMethod.POST)
     public View addPhotoToRecord(@RequestParam(AccessInterceptor.LOGBOOK_ENTRY_ID) Long logbookEntryId, @ModelAttribute FileUploadBean fileBean) {
         MultipartFile file = fileBean.getFile();
-        if (file == null) {
-            return gsonViewFactory.createErrorGsonView("validation.emptyField");
-        }
-        if (!file.getContentType().startsWith("image")) {
-            return gsonViewFactory.createErrorGsonView("validation.imageFormat");
-        }
-        if (file.getSize() > Globals.MAX_IMAGE_SIZE) {
-            return gsonViewFactory.createErrorGsonView("validation.imageSize");
+        String errorCode = UploadImageValidator.validateImage(file);
+        if (errorCode != null) {
+            return gsonViewFactory.createErrorGsonView(errorCode);
         }
         LogbookEntry logbookEntry = logbookEntryDao.getModel(logbookEntryId);
         if (logbookEntry == null) {
@@ -256,7 +250,7 @@ public class LogbookController extends DiverAwareController {
         if (logbookEntry == null) {
             throw new BadRequestException();
         }
-        return gsonViewFactory.createGsonFeedView(Arrays.asList(logbookEntry));
+        return gsonViewFactory.createGsonFeedView(Collections.singletonList(logbookEntry));
     }
 
     @RequestMapping(value = "/secure/deleteRecord.html", method = RequestMethod.GET)
@@ -273,7 +267,7 @@ public class LogbookController extends DiverAwareController {
     }
 
     @RequestMapping(value = "/secure/showLogbook.html", method = RequestMethod.GET)
-    public ModelAndView showLogbookPage() throws IOException {
+    public ModelAndView showLogbookPage() {
         ModelMap mm = new ModelMap();
         mm.addAttribute("countries", countryDao.getAll());
         return new ModelAndView("/secure/logbook", mm);
@@ -282,7 +276,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/getMyLogbookFeed.html", method = RequestMethod.GET)
     public View getMyLogbookFeed(
             @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
-    ) throws IOException {
+    ) {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
                 logbookEntryDao.getDiverLogbookFeed(diver, formObject)
@@ -292,7 +286,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/getMyPublicLogbookFeed.html", method = RequestMethod.GET)
     public View getMyPublicLogbookFeed(
             @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
-    ) throws IOException {
+    ) {
         Diver diver = getCurrentDiver();
         Set<Country> countries = diver.getNewsFromCountries();
         if (diver.isNewsFromCurrentLocation()) {
@@ -314,7 +308,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/getPublicLogbookFeed.html", method = RequestMethod.GET)
     public View getPublicLogbookFeed(
             @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
-    ) throws IOException {
+    ) {
         //todo filters ?
         List<Country> countries = null;
         return gsonViewFactory.createGsonFeedView(
@@ -325,7 +319,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/getMyFriendsLogbookFeed.html", method = RequestMethod.GET)
     public View getMyFriendsLogbookFeed(
             @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
-    ) throws IOException {
+    ) {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
                 logbookEntryDao.getDiverFriendsLogbookFeed(diver, formObject)
@@ -335,7 +329,7 @@ public class LogbookController extends DiverAwareController {
     @RequestMapping(value = "/secure/getFriendsOnlyLogbookFeed.html", method = RequestMethod.GET)
     public View getFriendsOnlyLogbookFeed(
             @ModelAttribute("command") SearchLogbookEntryFormObject formObject, Errors errors
-    ) throws IOException {
+    ) {
         Diver diver = getCurrentDiver();
         return gsonViewFactory.createGsonFeedView(
                 logbookEntryDao.getFriendsOnlyLogbookFeed(diver, formObject)

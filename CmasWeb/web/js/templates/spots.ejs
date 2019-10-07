@@ -10,15 +10,20 @@ if (spotMap.hasOwnProperty(key)) {
     <div class="menuElemRight">
         <img src="/i/arrow_left_gray.png?v=<%= webVersion %>" id="<%= spot.id %>_chooseSpotArrow"/>
     </div>
-    <% if(spot.editable){ %>
-        <div class="feed-button-container"
-             id="<%= spot.id %>_spotButtons"
-             style="display: none"
-        >
+    <div class="feed-button-container"
+         id="<%= spot.id %>_spotButtons"
+         style="display: none"
+    >
+        <% if(spot.editable){ %>
             <div id="<%= spot.id %>_editSpot" class="feed-button button-edit"></div>
             <div id="<%= spot.id %>_deleteSpot" class="feed-button button-delete"></div>
-        </div>
-    <% } %>
+
+        <% } else { %>
+            <button id="<%= spot.id %>_reportSpot" class="white-button-small feed-button">
+                <%= labels["cmas.face.feedback.button.spot"] %>
+            </button>
+        <% } %>
+    </div>
 </div>
 <% } %>
 <% } %>
