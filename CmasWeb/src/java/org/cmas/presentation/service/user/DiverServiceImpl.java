@@ -248,8 +248,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 card.setDiver(dbDiver);
                 personalCardDao.save(card);
             }
-            if (diver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
-                personalCardService.generateNonPrimaryCardsImages(diver);
+            if (dbDiver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
+                personalCardService.generateNonPrimaryCardsImages(dbDiver);
             }
         } else {
             for (PersonalCard card : cards) {

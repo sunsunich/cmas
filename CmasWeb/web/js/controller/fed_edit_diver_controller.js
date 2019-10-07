@@ -141,7 +141,9 @@ var fed_edit_diver_controller = {
 
     addCard: function () {
         if (this.cardValidationController.validateForm()) {
-            const card = this.cardValidationController.form;
+            var card = {};
+            card.diverType = this.cardValidationController.form.diverType;
+            card.cardType = this.cardValidationController.form.cardType;
             card.number = $('#card_number').val();
             card.diverLevel = $('#card_diverLevel').val();
 
