@@ -6,7 +6,7 @@
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
 <my:basePage title="cmas.face.index.header"
-             customCSSFiles="/c/landingPage.css"
+             customCSSFiles="/c/landingPage.css,/c/bf_insurance.css"
              customScripts="/js/controller/country_controller.js,/js/controller/menu_controller.js,/js/controller/landing_page_controller.js"
              hideFooter="true"
 >
