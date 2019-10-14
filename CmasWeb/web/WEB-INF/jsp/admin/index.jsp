@@ -101,10 +101,11 @@
                             <fmt:formatDate value="${user.lastAction}" pattern="dd.MM.yyyy HH:mm"/>
                         </td>
                         <td nowrap>
-                            <c:if test="${user.role == 'ROLE_FEDERATION_ADMIN' || user.primaryPersonalCard != null }">
-                                <a href="/admin/toUser.html?userId=${user.id}&userRole=${user.role.name}">Login as
-                                    User</a><br/>
+                            <c:if test="${user.role == 'ROLE_DIVER' && user.primaryPersonalCard == null }">
+                                <span>WARNING: USER HAS NO PRIMARY CARD</span> <br/>
                             </c:if>
+                            <a href="/admin/toUser.html?userId=${user.id}&userRole=${user.role.name}">Login as User</a>
+                            <br/>
                             <c:if test="${user.role == 'ROLE_DIVER'}">
                                 <a href="/admin/cloneUser.html?userId=${user.id}&userRole=${user.role.name}">Clone
                                     user</a>
