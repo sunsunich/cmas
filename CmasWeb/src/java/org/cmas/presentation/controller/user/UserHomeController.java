@@ -69,19 +69,20 @@ public class UserHomeController extends DiverAwareController {
         if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
             return new ModelAndView("redirect:/secure/firstLogin.html");
         }
+        if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.INACTIVE) {
+            registrationService.generateAllCardsImages(diver);
+        }
         return new ModelAndView("redirect:/secure/profile/getUser.html");
     }
 
     @RequestMapping(value = "/secure/firstLogin.html", method = RequestMethod.GET)
     public ModelAndView showFirstLogin() {
         Diver diver = getCurrentDiver();
-        if (diver.getPrimaryPersonalCard() == null) {
-            if (diver.getDateReg() == null) {
-                diver.setDateReg(new Date());
-                diverDao.updateModel(diver);
-            }
-            registrationService.generateAllCardsImages(diver);
+        if (diver.getDateReg() == null) {
+            diver.setDateReg(new Date());
+            diverDao.updateModel(diver);
         }
+        registrationService.generateAllCardsImages(diver);
         return new ModelAndView("/secure/welcome");
     }
 

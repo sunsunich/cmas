@@ -331,10 +331,13 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
             switch (diver.getDiverRegistrationStatus()) {
                 case NEVER_REGISTERED:
+                    // fall through
+                case GUEST:
                     break;
                 case INACTIVE:
-                    break;
-                case GUEST:
+                    diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
+                    diver.setPreviousRegistrationStatus(DiverRegistrationStatus.INACTIVE);
+                    isSendEmail = true;
                     break;
                 case DEMO:
                     diver.setDiverRegistrationStatus(DiverRegistrationStatus.GUEST);
@@ -344,7 +347,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 case CMAS_BASIC:
                     diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
                     diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                    diverDao.updateModel(diver);
                     isSendEmail = true;
                     break;
                 case CMAS_FULL:
