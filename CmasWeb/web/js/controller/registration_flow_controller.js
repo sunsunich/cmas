@@ -284,6 +284,8 @@ var registration_flow_controller = {
             adjustCssProperty("padding-left", "#formImage", relativeViewPortWidth, 2, 16, 56);
             adjustCssProperty("width", ".advert-list", relativeViewPortWidth, 0.18, 270, 350);
             adjustCssProperty("width", ".advert-header", relativeViewPortWidth, 0.18, 270, 350);
+            adjustCssProperty("width", ".insurance-list", relativeViewPortWidth, 0.18, 270, 350);
+            adjustCssProperty("margin-top", ".advert-more", relativeViewPortWidth, 4, 4, 72);
             formWrapperElem.addClass('form-absolute');
             var wrapperContentPaddingLeft = parseFloat(wrapperContentElem.css('padding-left'));
             adjustCssProperty("left", "#formWrapper", relativeViewPortWidth,

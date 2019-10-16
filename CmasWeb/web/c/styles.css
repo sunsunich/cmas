@@ -234,7 +234,7 @@ html, body {
     overflow: auto;
 }
 
-.advert-header, .advert-list {
+.advert-header, .advert-list, .insurance-list {
     color: #FFFFFF;
     font-size: 22px;
     margin-bottom: 0;
@@ -245,17 +245,47 @@ html, body {
     /*margin-bottom: 22px;*/
 }
 
-.advert-list, .purchased-feature-list {
+.advert-list, .purchased-feature-list, .insurance-list {
     list-style: none;
     padding: 0;
 }
 
-.advert-list li, .purchased-feature-list li {
+.insurance-list ul {
+    list-style: none;
+    padding-left: 30px;
+}
+
+.advert-list li, .purchased-feature-list li, .insurance-list-elem, .insurance-list-elem-level2 {
     background-image: url(/i/star-white.png);
     background-repeat: no-repeat;
     line-height: 24px;
     padding-left: 30px;
     font-size: 16px;
+}
+
+.insurance-list-elem-level2 {
+    line-height: 20px;
+    font-size: 14px;
+    padding-top: 2px;
+    padding-bottom: 24px;
+}
+
+.insurance-list-elem-level2-last {
+    padding-bottom: 0;
+}
+
+.advert-additional {
+    float: right;
+}
+
+.advert-more {
+    font-size: 16px;
+    text-align: right;
+    margin-top: 4px;
+}
+
+.nowrap {
+    display: inline-block;
 }
 
 .insurance-panel {

@@ -33,11 +33,45 @@
             <div class="advert-header">
                 <s:message code="cmas.face.advert.registration.gold.header"/>
             </div>
-            <ul class="advert-list">
-                <li>
+            <ul class="insurance-list">
+                <li class="insurance-list-elem">
                     <s:message code="cmas.face.advert.registration.gold.elem1"/>
                 </li>
+                <ul>
+                    <li class="insurance-list-elem-level2">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem2"/></b><br/>
+                        <span class="advert-additional"><s:message
+                                code="cmas.face.advert.registration.gold.elem2.additional"/></span>
+                    </li>
+                    <li class="insurance-list-elem-level2">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem3"/></b><br/>
+                        <span class="advert-additional"><s:message
+                                code="cmas.face.advert.registration.gold.elem3.additional"/></span>
+                    </li>
+                    <li class="insurance-list-elem-level2">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem4"/></b><br/>
+                        <span class="advert-additional"><s:message
+                                code="cmas.face.advert.registration.gold.elem4.additional"/></span>
+                    </li>
+                    <li class="insurance-list-elem-level2">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem5"/></b><br/>
+                        <span class="advert-additional"><s:message
+                                code="cmas.face.advert.registration.gold.elem5.additional"/></span>
+                    </li>
+                    <li class="insurance-list-elem-level2">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem6"/></b><br/>
+                        <span class="advert-additional"><s:message
+                                code="cmas.face.advert.registration.gold.elem6.additional"/></span>
+                    </li>
+                    <li class="insurance-list-elem-level2 insurance-list-elem-level2-last">
+                        <b><s:message code="cmas.face.advert.registration.gold.elem7"/></b><br/>
+                        <span><s:message code="cmas.face.advert.registration.gold.elem7.additional"/></span>
+                    </li>
+                </ul>
             </ul>
+            <div class="insurance-list advert-more">
+                <b><s:message code="cmas.face.advert.registration.gold.more"/></b>
+            </div>
         </div>
         <div class="formWrapper" id="formWrapper">
             <c:choose>
@@ -122,7 +156,8 @@
                                         <div class="error" id="insuranceRequest_error_house"></div>
                                     </div>
                                     <div class="form-row">
-                                        <input type="checkbox" name="termsAndCondAccepted" id="insuranceRequest_termsAndCondAccepted"
+                                        <input type="checkbox" name="termsAndCondAccepted"
+                                               id="insuranceRequest_termsAndCondAccepted"
                                                class="css-checkbox">
                                         <label for="insuranceRequest_termsAndCondAccepted"
                                                class="css-label radGroup1 clr">
