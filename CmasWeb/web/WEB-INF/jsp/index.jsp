@@ -168,7 +168,7 @@
                 </div>
                     <div id="insuranceLink" class="landingPageText">
                     <%--https://www.sevencorners.com/cmas--%>
-                    <a target="_blank" rel="noopener noreferrer" href="https://balticfinance.com"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
+                    <a target="_blank" rel="noopener noreferrer" href="https://www.balticfinance.com/en/aqualink/"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
                     <img id="insuranceLinkArrow" src="/i/ic_see-more.png" alt="see more image"/>
                     </a>
                     </div>
