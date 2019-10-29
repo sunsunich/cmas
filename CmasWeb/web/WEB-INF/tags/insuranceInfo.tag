@@ -111,6 +111,6 @@
 <div style="margin-top: 16px">
     More details can be found <a class="link-in-text-flow" target="_blank"
                                  rel="noopener noreferrer"
-                                 href="/doc/v-cmas-19-08-01.pdf"><b>here</b></a>
+                                 href="/doc/V-CMAS-19-10-29.pdf"><b>here</b></a>
 </div>
 
