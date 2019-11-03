@@ -1,0 +1,1 @@
+update personal_cards set number = REPLACE(number, 'RUS/FO1/', 'RUS/F01/')
