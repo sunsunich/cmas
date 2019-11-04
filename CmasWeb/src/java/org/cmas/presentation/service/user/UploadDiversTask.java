@@ -1,8 +1,8 @@
 package org.cmas.presentation.service.user;
 
 import org.cmas.entities.Country;
-import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
+import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.util.StringUtil;

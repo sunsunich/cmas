@@ -169,6 +169,12 @@ var labels = {
     "CMAS_FULL": "CMAS AquaLink",
     "INSTRUCTOR": "Instructor",
 
+    "cmas.face.card.level": "Certificate level",
+    "ONE_STAR": "One star",
+    "TWO_STAR": "Two star",
+    "THREE_STAR": "Three star",
+    "FOUR_STAR": "Four star",
+
     "MALE": "Male",
     "FEMALE": "Female",
 

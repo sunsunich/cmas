@@ -7,7 +7,7 @@ import com.google.myjson.JsonObject;
 import com.google.myjson.JsonSerializationContext;
 import com.google.myjson.JsonSerializer;
 import org.cmas.Globals;
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.PersonalCard;
 
 import java.lang.reflect.Type;
 

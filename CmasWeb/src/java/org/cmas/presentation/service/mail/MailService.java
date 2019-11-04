@@ -3,6 +3,7 @@ package org.cmas.presentation.service.mail;
 import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.User;
 import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
@@ -44,4 +45,6 @@ public interface MailService {
     void sendLogbookEntryChanged(LogbookEntry logbookEntry);
 
     void sendFeedbackItem(FeedbackItem feedbackItem);
+
+    void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest);
 }

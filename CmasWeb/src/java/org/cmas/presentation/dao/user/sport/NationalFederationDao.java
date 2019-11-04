@@ -4,6 +4,8 @@ import org.cmas.entities.Country;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.DictionaryDataDao;
 
+import java.util.List;
+
 /**
  * Created on Nov 22, 2015
  *
@@ -15,4 +17,6 @@ public interface NationalFederationDao extends DictionaryDataDao<NationalFederat
     NationalFederation getFederationForSportsman(String firstName, String lastName, Country country);
 
     NationalFederation getByCountry(Country country);
+
+    List<NationalFederation> getAll();
 }

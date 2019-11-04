@@ -3,6 +3,7 @@ package org.cmas.presentation.service.user;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.sports.NationalFederationService;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;

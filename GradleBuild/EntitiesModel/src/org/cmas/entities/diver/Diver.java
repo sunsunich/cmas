@@ -2,9 +2,9 @@ package org.cmas.entities.diver;
 
 import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
-import org.cmas.entities.CardUser;
 import org.cmas.entities.Country;
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.CardUser;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.logbook.LogbookVisibility;
 

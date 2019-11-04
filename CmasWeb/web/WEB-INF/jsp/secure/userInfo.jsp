@@ -13,11 +13,11 @@
            value="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
     <c:set var="hasCmasCard"
-           value="${diver.diverRegistrationStatus.name == 'CMAS_FULL'
-           || diver.diverRegistrationStatus.name == 'CMAS_BASIC'
-           || diver.diverRegistrationStatus.name == 'GUEST'}"/>
+           value="${isCMAS || diver.diverRegistrationStatus.name == 'GUEST'}"/>
 
     <script type="application/javascript">
+        var hasCmasCard = ${hasCmasCard};
+
         <c:if test="${hasCmasCard}">
         var cmas_primaryCardId = "${diver.primaryPersonalCard.id}";
         </c:if>
@@ -57,11 +57,11 @@
                     <div class="basic-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></div>
                 </div>
             </div>
-            <c:if test="${hasCmasCard}">
-                <div class="panel">
+            <div class="panel">
+                <c:if test="${hasCmasCard}">
                     <div class="card-container" id="noCard">
                         <div>
-                            <span class="header2-text">
+                            <span class="header3-text">
                                 <s:message code="cmas.face.client.profile.noCard"/>
                             </span>
                         </div>
@@ -70,17 +70,35 @@
                         </button>
                     </div>
                     <div class="card-container" id="card">
-                        <img id="cardImg"/>
+                        <img id="cardImg" alt="diver card"/>
                     </div>
-                    <c:if test="${isCMAS}">
-                        <div class="pass_link">
-                            <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">
-                                <s:message code="cmas.face.client.profile.showAllCards"/>
-                            </a>
-                        </div>
-                    </c:if>
+                </c:if>
+                <c:choose>
+                    <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
+                        <c:set var="certificateCode" value="cmas.face.client.menu.myCards"/>
+                    </c:when>
+                    <c:otherwise>
+                        <c:set var="certificateCode" value="cmas.face.client.menu.becomeCmas"/>
+                    </c:otherwise>
+                </c:choose>
+                <div class="pass_link card-container">
+                    <button class="positive-button" onclick="window.location='/secure/cards.html'">
+                        <s:message code="${certificateCode}"/>
+                    </button>
                 </div>
-            </c:if>
+<%--                <div class="pass_link">--%>
+<%--                    <a class="panel-href link" href="${pageContext.request.contextPath}/secure/cards.html">--%>
+<%--                        <c:choose>--%>
+<%--                            <c:when test="${isCMAS}">--%>
+<%--                                <s:message code="cmas.face.client.profile.showAllCards"/>--%>
+<%--                            </c:when>--%>
+<%--                            <c:otherwise>--%>
+<%--                                <s:message code="cmas.face.client.menu.becomeCmas"/>--%>
+<%--                            </c:otherwise>--%>
+<%--                        </c:choose>--%>
+<%--                    </a>--%>
+<%--                </div>--%>
+            </div>
         </div>
     </div>
 
@@ -108,7 +126,7 @@
     </my:dialog>
 
     <div id="showLogbookEntry" class="logbookEntry" style="display: none">
-        <img id="showLogbookEntryClose" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}"
+        <img id="showLogbookEntryClose" alt="close" src="${pageContext.request.contextPath}/i/close.png?v=${webVersion}"
              class="dialogClose"/>
 
         <div class="dialog-title" id="showLogbookEntryTitle"><s:message code="cmas.face.showLogbookEntry.title"/></div>

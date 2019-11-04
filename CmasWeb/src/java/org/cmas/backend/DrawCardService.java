@@ -1,6 +1,6 @@
 package org.cmas.backend;
 
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.PersonalCard;
 
 import java.awt.image.BufferedImage;
 

@@ -1,6 +1,7 @@
-package org.cmas.entities;
+package org.cmas.entities.cards;
 
 import com.google.myjson.annotations.Expose;
+import org.cmas.entities.User;
 import org.cmas.entities.sport.NationalFederation;
 
 import javax.persistence.ManyToOne;

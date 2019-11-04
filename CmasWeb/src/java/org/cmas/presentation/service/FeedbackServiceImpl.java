@@ -1,13 +1,10 @@
 package org.cmas.presentation.service;
 
-import org.apache.commons.io.FilenameUtils;
-import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.UserFileType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.FeedbackItemDao;
-import org.cmas.presentation.dao.UserFileDao;
 import org.cmas.presentation.model.FeedbackFormObject;
 import org.cmas.presentation.service.mail.MailService;
 import org.slf4j.Logger;
@@ -17,11 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,28 +28,43 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private UserFileDao userFileDao;
-
-    @Autowired
-    private ImageStorageManager imageStorageManager;
-
-    @Autowired
     private FeedbackItemDao feedbackItemDao;
+
+    @Autowired
+    private UserFileService userFileService;
 
     @Autowired
     private MailService mailService;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void processFeedback(Errors result, FeedbackFormObject feedbackFormObject, Diver diver, FeedbackItem feedbackItem) throws Exception {
+    public void processFeedback(Errors result, FeedbackFormObject feedbackFormObject, Diver diver, FeedbackItem feedbackItem) {
+        List<UserFile> userFileList = new ArrayList<>();
+        try {
+            feedbackItem.setFiles(userFileList);
+            transactionalProcessFeedback(result, feedbackFormObject, diver, feedbackItem);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            for (UserFile userFileFromList : userFileList) {
+                userFileService.processFileRollback(userFileFromList);
+            }
+            if (!result.hasErrors()) {
+                result.reject("validation.internal");
+            }
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void transactionalProcessFeedback(Errors result,
+                                             FeedbackFormObject feedbackFormObject,
+                                             Diver diver,
+                                             FeedbackItem feedbackItem) throws Exception {
         feedbackItem.setText(feedbackFormObject.getText());
         feedbackItem.setCreator(diver);
 
-        List<UserFile> userFileList = new ArrayList<>();
+        List<UserFile> userFileList = feedbackItem.getFiles();
         processFile(result, diver, userFileList, feedbackFormObject.getImage1(), "image1");//, false);
         processFile(result, diver, userFileList, feedbackFormObject.getImage2(), "image2");//, true);
 
-        feedbackItem.setFiles(userFileList);
         feedbackItemDao.save(feedbackItem);
 
 //        int i = 7;
@@ -72,52 +81,16 @@ public class FeedbackServiceImpl implements FeedbackService {
                              MultipartFile multipartFile,
                              String fieldName
 //            , boolean fail
-    ) throws IOException {
+    ) throws Exception {
         if (multipartFile == null || multipartFile.isEmpty()) {
             return;
         }
-        UserFile userFile = null;
         try {
-            userFile = new UserFile();
-            userFile.setCreator(diver);
-            userFile.setDateCreation(new Date());
-            userFile.setDateEdit(new Date());
-            userFile.setUserFileType(UserFileType.FEEDBACK);
-            userFile.setMimeType(FilenameUtils.getExtension(multipartFile.getOriginalFilename()));
-            userFile.setFileUrl("");
-            userFileDao.save(userFile);
-
-//            if (fail) {
-//                throw new RuntimeException();
-//            }
-
-            imageStorageManager.storeUserFile(
-                    userFile, ImageIO.read(multipartFile.getInputStream()));
-
-            userFileList.add(userFile);
-        } catch (Exception e) {
-            result.rejectValue(fieldName, "validation.imageFormat");
-            processFileRollback(userFile);
-            for (UserFile userFileFromList : userFileList) {
-                // must be !=, not equals(), because of hibernate proxies
-                if (userFileFromList != userFile) {
-                    processFileRollback(userFileFromList);
-                }
-            }
+            userFileList.add(userFileService.processFile(diver, UserFileType.FEEDBACK, multipartFile));
+        } catch (UserFileException e) {
+            result.rejectValue(fieldName, e.getErrorCode());
             // throw exception to rollback transaction
             throw e;
-        }
-    }
-
-    @Override
-    public void processFileRollback(UserFile userFile) {
-        if (userFile == null || userFile.getFileUrl() == null || userFile.getUserFileType() == null) {
-            return;
-        }
-        try {
-            imageStorageManager.deleteUserFile(userFile);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
         }
     }
 }

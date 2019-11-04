@@ -2,8 +2,8 @@ package org.cmas.backend.xls;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
+import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.service.user.ProgressListener;

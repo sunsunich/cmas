@@ -1,13 +1,13 @@
 package org.cmas.backend;
 
-import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.UserFile;
+import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.UserFileDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
-import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
@@ -155,6 +155,9 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
             case FEEDBACK:
                 imageStoreLocation = getImageStoreLocationForFeedback();
                 break;
+            case CARD_APPROVAL_REQUEST:
+                imageStoreLocation = getImageStoreLocationForCardsApprovalRequests();
+                break;
         }
         return imageStoreLocation;
     }
@@ -189,6 +192,14 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
     }
 
     @NotNull
+    private String getImageStoreLocationForCardsApprovalRequests() {
+        return imageStorageRootLocation
+               + File.separatorChar
+               + "cardApprovalRequest"
+               + File.separatorChar;
+    }
+
+    @NotNull
     private String getImageStoreLocationForFeedback() {
         return imageStorageRootLocation
                + File.separatorChar
@@ -201,6 +212,13 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
     @Override
     public String getCardImagesRoot() {
         return '/' + imageStorageRoot + "/cards/";
+    }
+
+    @SuppressWarnings({"MagicCharacter", "HardcodedFileSeparator"})
+    @NotNull
+    @Override
+    public String getCardApprovalRequestImagesRoot() {
+        return '/' + imageStorageRoot + "/cardApprovalRequest/";
     }
 
     @SuppressWarnings({"MagicCharacter", "HardcodedFileSeparator"})

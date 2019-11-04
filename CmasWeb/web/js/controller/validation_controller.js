@@ -14,7 +14,7 @@ var validation_controller = {
         var self = this;
         for (var i = 0; i < this.fields.length; i++) {
             const field = this.fields[i];
-            const fieldElem = $('#' + this.prefix + '_' + field.id);
+            var fieldElem = $('#' + this.prefix + '_' + field.id);
             if (fieldElem.is("select") || fieldElem.hasClass('hasDatepicker')) {
                 fieldElem.on("change", function () {
                     self.validateField(field);
@@ -45,7 +45,7 @@ var validation_controller = {
             this.form[field.id] = '';
             return true;
         }
-        const fieldElem = $('#' + this.prefix + '_' + field.id);
+        var fieldElem = $('#' + this.prefix + '_' + field.id);
         var value;
         switch (fieldElem.attr('type')) {
             case 'checkbox' :
@@ -78,7 +78,7 @@ var validation_controller = {
         }
         var result = true;
         for (var i = 0; i < this.fields.length; i++) {
-            const field = this.fields[i];
+            var field = this.fields[i];
             result = this.validateField(field, isSilent) && result;
         }
         if (this.fromValidator) {
@@ -95,7 +95,7 @@ var validation_controller = {
 
     cleanErrors: function () {
         for (var i = 0; i < this.fields.length; i++) {
-            const field = this.fields[i];
+            var field = this.fields[i];
             this.clearFieldError(field.id);
         }
         $('#' + this.prefix + '_error').empty();
@@ -104,7 +104,7 @@ var validation_controller = {
     clearFieldError: function (fieldId) {
         $('#' + this.prefix + '_error_' + fieldId).empty();
         $('#' + this.prefix + '_error_ico_' + fieldId).hide();
-        const fieldElem = $('#' + this.prefix + '_' + fieldId);
+        var fieldElem = $('#' + this.prefix + '_' + fieldId);
         if (fieldElem.is("select")) {
             util_controller.removeErrorSelect2()
         } else {
@@ -118,7 +118,7 @@ var validation_controller = {
     showFieldError: function (fieldId, errorCode) {
         $('#' + this.prefix + '_error_' + fieldId).html(error_codes[errorCode]);
         $('#' + this.prefix + '_error_ico_' + fieldId).show();
-        const fieldElem = $('#' + this.prefix + '_' + fieldId);
+        var fieldElem = $('#' + this.prefix + '_' + fieldId);
         if (fieldElem.is("select")) {
             util_controller.setErrorSelect2()
         } else {

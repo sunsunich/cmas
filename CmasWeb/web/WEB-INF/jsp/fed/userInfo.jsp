@@ -10,7 +10,7 @@
 <jsp:useBean id="diverLevels" scope="request" type="org.cmas.entities.diver.DiverLevel[]"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.entities.diver.Diver"/>
 
-<jsp:useBean id="cardGroups" scope="request" type="java.util.Map<java.lang.String, org.cmas.entities.PersonalCard[]>"/>
+<jsp:useBean id="cardGroups" scope="request" type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
 <jsp:useBean id="cardsJson" scope="request" type="java.lang.String"/>
 
 <my:fed_adminpage title="Diver Info"

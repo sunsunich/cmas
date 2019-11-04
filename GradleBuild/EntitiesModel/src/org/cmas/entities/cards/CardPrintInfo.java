@@ -1,4 +1,4 @@
-package org.cmas.entities;
+package org.cmas.entities.cards;
 
 /**
  * Created on May 03, 2016

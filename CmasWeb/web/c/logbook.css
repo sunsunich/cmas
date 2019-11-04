@@ -304,7 +304,6 @@
 .logbook-photo-header {
     float: left;
     margin-right: 5%;
-    margin-bottom: 24px;
 }
 
 .logbook-no-photo-text {
@@ -315,11 +314,13 @@
 }
 
 .logbook-photo-container {
-    width: 235px;
+    float: left;
+    width: 205px;
+    margin-right: 16px;
 }
 
 .logbook-photo {
-    width: 205px;
+    width: 177px;
     border-radius: 5px;
 }
 

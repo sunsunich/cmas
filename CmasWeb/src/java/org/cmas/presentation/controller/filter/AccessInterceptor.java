@@ -1,15 +1,15 @@
 package org.cmas.presentation.controller.filter;
 
 import com.google.myjson.Gson;
-import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.billing.InvoiceDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
-import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.util.json.RedirectResponse;

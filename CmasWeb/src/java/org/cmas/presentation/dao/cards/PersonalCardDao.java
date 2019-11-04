@@ -1,6 +1,6 @@
-package org.cmas.presentation.dao.user;
+package org.cmas.presentation.dao.cards;
 
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.util.dao.HibernateDao;
 

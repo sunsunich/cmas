@@ -170,11 +170,7 @@
                                     </div>
                                     <div class="form-row">
                                     </div>
-                                    <button class="white-button form-item-left form-button-smaller"
-                                            id="insuranceRequestCancel">
-                                        <s:message code="cmas.face.button.cancel"/>
-                                    </button>
-                                    <button class="positive-button form-item-right form-button-smaller"
+                                    <button class="positive-button form-item-right form-button-single"
                                             id="insuranceRequestSubmit">
                                         <s:message code="cmas.face.logbook.submit"/>
                                     </button>

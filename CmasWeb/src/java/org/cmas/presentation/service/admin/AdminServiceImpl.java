@@ -1,15 +1,15 @@
 package org.cmas.presentation.service.admin;
 
-import org.cmas.entities.PersonalCard;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.UserBalance;
 import org.cmas.entities.amateur.Amateur;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.sport.Athlete;
-import org.cmas.presentation.dao.user.PersonalCardDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;

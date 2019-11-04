@@ -140,7 +140,9 @@
     <bean id="pushServerSettings" class="org.cmas.presentation.service.mobile.PushServerSettings">
     </bean>
 
+    <bean id="userFileService" class="org.cmas.presentation.service.UserFileServiceImpl"/>
     <bean id="feedbackService" class="org.cmas.presentation.service.FeedbackServiceImpl"/>
+    <bean id="cardApprovalRequestService" class="org.cmas.presentation.service.cards.CardApprovalRequestServiceImpl"/>
 
     <bean id="athleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
         <property name="entityClass" value="org.cmas.entities.sport.Athlete"/>
@@ -162,7 +164,7 @@
         <property name="validator" ref="validator"/>
     </bean>
 
-    <bean id="personalCardService" class="org.cmas.presentation.service.user.PersonalCardServiceImpl">
+    <bean id="personalCardService" class="org.cmas.presentation.service.cards.PersonalCardServiceImpl">
     </bean>
 
     <bean id="drawCardService" class="org.cmas.backend.DrawCardServiceImpl">
@@ -214,14 +216,15 @@
     <bean id="gsonViewFactory" class="org.cmas.util.json.gson.GsonViewFactoryImpl">
     </bean>
 
-    <bean id="cardDisplayManager" class="org.cmas.presentation.controller.CardDisplayManager">
+    <bean id="cardDisplayManager" class="org.cmas.presentation.controller.cards.CardDisplayManager">
     </bean>
 
     <bean id="cameraOrderService" class="org.cmas.presentation.service.loyalty.CameraOrderServiceImpl"/>
 
     <bean id="insuranceRequestService" class="org.cmas.presentation.service.loyalty.InsuranceRequestServiceImpl"/>
 
-    <bean id="balticFinanceRemoteService" class="org.cmas.presentation.service.loyalty.bf.BalticFinanceRemoteServiceImpl"/>
+    <bean id="balticFinanceRemoteService"
+          class="org.cmas.presentation.service.loyalty.bf.BalticFinanceRemoteServiceImpl"/>
 
 
 </beans>

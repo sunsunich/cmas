@@ -1,7 +1,7 @@
 package org.cmas.backend;
 
-import org.cmas.entities.PersonalCard;
 import org.cmas.entities.UserFile;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +35,10 @@ public interface ImageStorageManager {
     //to be used in web client
     @NotNull
     String getCardImagesRoot();
+
+    @SuppressWarnings({"MagicCharacter", "HardcodedFileSeparator"})
+    @NotNull
+    String getCardApprovalRequestImagesRoot();
 
     @SuppressWarnings({"MagicCharacter", "HardcodedFileSeparator"})
     @NotNull

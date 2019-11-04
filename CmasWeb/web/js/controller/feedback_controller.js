@@ -3,17 +3,9 @@ var feedback_controller = {
     validationController: null,
 
     init: function () {
-        registration_flow_controller.init('simple',
-            {
-                backgroundImageId: 'feedbackImageBackground'
-                , visibleInputElemId: "feedback_text"
-            });
         multiple_fileUpload_controller.addImageElem = $('#addImage');
         multiple_fileUpload_controller.photoListContainer = $('#photoListContainer');
         multiple_fileUpload_controller.errorElem = $('#feedback_error_photo');
-        multiple_fileUpload_controller.addImageCallback = function () {
-            registration_flow_controller.onResize();
-        };
         multiple_fileUpload_controller.init();
 
         this.validationController = simpleClone(validation_controller);
@@ -23,7 +15,7 @@ var feedback_controller = {
                 id: 'text',
                 validateField: function (value) {
                     if (isStringTrimmedEmpty(value)) {
-                        return 'validation.emailEmpty';
+                        return 'validation.emptyField';
                     }
                     if (value.length > 2048) {
                         return 'validation.maxLength';
@@ -40,7 +32,7 @@ var feedback_controller = {
         if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
             var viewPortWidth = $(window).width();
             var reCaptchaSize;
-            if (viewPortWidth > 904) {
+            if (viewPortWidth > 450) {
                 reCaptchaSize = 'normal';
             } else {
                 reCaptchaSize = 'compact';
@@ -68,6 +60,22 @@ var feedback_controller = {
             }
             return true;
         });
+        $(window).load(function () {
+            self.onResize();
+        });
+        $(window).resize(function () {
+            self.onResize();
+        });
+    },
+
+    onResize: function () {
+        var relativeViewPortWidth = $(window).width()
+
+        adjustCssProperty("padding-left", ".panel", relativeViewPortWidth, 1.9, 16, 56);
+        adjustCssProperty("padding-right", ".panel", relativeViewPortWidth, 1.9, 16, 56);
+
+        adjustCssProperty("width", ".form-row input, .form-row textarea, .select2-container--bootstrap", relativeViewPortWidth, 0.15, 257, 866);
+
     },
 
     submitForm: function () {

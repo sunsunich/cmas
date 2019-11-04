@@ -1,7 +1,6 @@
 package org.cmas.presentation.controller;
 
 import org.cmas.entities.FeedbackItem;
-import org.cmas.entities.UserFile;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.divespot.DiveSpot;
 import org.cmas.entities.logbook.LogbookEntry;
@@ -15,8 +14,6 @@ import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.mail.MailerConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * Created on Sep 30, 2019
@@ -41,8 +37,6 @@ import java.util.List;
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
 public class FeedbackController extends DiverAwareController {
-
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private DiveSpotDao diveSpotDao;
@@ -147,20 +141,7 @@ public class FeedbackController extends DiverAwareController {
         if (result.hasErrors()) {
             return buildFeedbackForm(model, true);
         }
-        try {
-            feedbackService.processFeedback(result, feedbackFormObject, currentDiver, feedbackItem);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            List<UserFile> userFileList = feedbackItem.getFiles();
-            if (userFileList != null) {
-                for (UserFile userFileFromList : userFileList) {
-                    feedbackService.processFileRollback(userFileFromList);
-                }
-            }
-            if (!result.hasErrors()) {
-                result.reject("validation.internal");
-            }
-        }
+        feedbackService.processFeedback(result, feedbackFormObject, currentDiver, feedbackItem);
         if (result.hasErrors()) {
             return buildFeedbackForm(model, true);
         }

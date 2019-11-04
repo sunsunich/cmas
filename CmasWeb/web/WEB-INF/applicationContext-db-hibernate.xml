@@ -23,8 +23,11 @@
 
                 <value>org.cmas.entities.sport.Athlete</value>
                 <value>org.cmas.entities.sport.NationalFederation</value>
-                <value>org.cmas.entities.PersonalCard</value>
-                <value>org.cmas.entities.PersonalCardType</value>
+                <value>org.cmas.entities.cards.PersonalCard</value>
+                <value>org.cmas.entities.cards.PersonalCardType</value>
+                <value>org.cmas.entities.cards.CardData</value>
+                <value>org.cmas.entities.cards.CardApprovalRequest</value>
+                <value>org.cmas.entities.cards.CardApprovalRequestStatus</value>
 
                 <value>org.cmas.entities.amateur.Amateur</value>
                 <value>org.cmas.entities.amateur.MassEvent</value>
@@ -121,7 +124,11 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="personalCardDao" class="org.cmas.presentation.dao.user.PersonalCardDaoImpl">
+    <bean id="personalCardDao" class="org.cmas.presentation.dao.cards.PersonalCardDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="cardApprovalRequestDao" class="org.cmas.presentation.dao.cards.CardApprovalRequestDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

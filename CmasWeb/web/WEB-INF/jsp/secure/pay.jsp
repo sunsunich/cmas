@@ -64,11 +64,28 @@
                             value="${goldExpiryDate}" pattern="dd/MM/yyyy"/>
                     </div>
                 </c:if>
-                <c:if test="${isGuest}">
-                    <div class="form-description">
-                        <s:message code="cmas.face.payment.cmasLicence.guest"/>
-                    </div>
-                </c:if>
+                <c:choose>
+                    <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
+                        <div class="form-description clearfix">
+                            <span><s:message code="cmas.face.card.cmasBasic"/></span>
+                            <div>
+                                <button class="positive-button form-item-right" onclick="window.location='/secure/cards.html'">
+                                    <s:message code="cmas.face.client.menu.myCards"/>
+                                </button>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:when test="${diver.diverRegistrationStatus.name != 'CMAS_FULL' && diver.diverRegistrationStatus.name != 'CMAS_BASIC'}">
+                        <div class="form-description clearfix">
+                            <span><s:message code="cmas.face.card.becomeCmas"/></span>
+                            <div>
+                                <button class="positive-button form-item-right" onclick="window.location='/secure/addCard.html'">
+                                    <s:message code="cmas.face.client.menu.becomeCmas"/>
+                                </button>
+                            </div>
+                        </div>
+                    </c:when>
+                </c:choose>
                 <c:if test="${isDueToPayCmasFullLicence}">
                     <div class="form-description">
                         <s:message code="cmas.face.first.login.form.getFullAccess.describtion"/>

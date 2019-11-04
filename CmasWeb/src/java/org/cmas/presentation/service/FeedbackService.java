@@ -1,10 +1,8 @@
 package org.cmas.presentation.service;
 
 import org.cmas.entities.FeedbackItem;
-import org.cmas.entities.UserFile;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.model.FeedbackFormObject;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
 /**
@@ -14,8 +12,5 @@ import org.springframework.validation.Errors;
  */
 public interface FeedbackService {
 
-    @Transactional(rollbackFor = Exception.class)
-    void processFeedback(Errors result, FeedbackFormObject feedbackFormObject, Diver diver, FeedbackItem feedbackItem) throws Exception;
-
-    void processFileRollback(UserFile userFile);
+    void processFeedback(Errors result, FeedbackFormObject feedbackFormObject, Diver diver, FeedbackItem feedbackItem);
 }

@@ -101,5 +101,7 @@ var error_codes = {
     "error.loyalty.program.camera.orderFailed": "Failed to place an order. Please try again later",
     "error.loyalty.program.camera.order.tooMany": "Sorry, you have already placed too many orders this year",
 
-    "validation.insurance.alreadyHave": "You are already covered by divers insurance"
+    "validation.insurance.alreadyHave": "You are already covered by divers insurance",
+
+    "validation.cards.images" : "Please attach front and back photo of the certificate"
 };

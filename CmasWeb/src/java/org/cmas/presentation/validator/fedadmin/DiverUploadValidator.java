@@ -1,6 +1,6 @@
 package org.cmas.presentation.validator.fedadmin;
 
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.util.StringUtil;

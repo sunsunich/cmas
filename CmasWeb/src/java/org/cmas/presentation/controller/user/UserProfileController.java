@@ -2,18 +2,15 @@ package org.cmas.presentation.controller.user;
 
 import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
-import org.cmas.entities.PersonalCard;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
-import org.cmas.presentation.controller.filter.AccessInterceptor;
-import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
+import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.DiverService;
-import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
@@ -64,9 +61,6 @@ public class UserProfileController extends DiverAwareController{
     private PersonalCardService personalCardService;
 
     @Autowired
-    private PersonalCardDao personalCardDao;
-
-    @Autowired
     private GsonViewFactory gsonViewFactory;
 
     @Autowired
@@ -99,29 +93,6 @@ public class UserProfileController extends DiverAwareController{
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
         return new ModelAndView("/secure/userInfo");
-    }
-
-    @RequestMapping("/secure/cards.html")
-    public ModelAndView getCards(Model model) {
-        Diver diver = getCurrentDiver();
-        List<PersonalCard> cards = personalCardService.getCardsToShow(diver);
-        model.addAttribute("cards", cards);
-        return new ModelAndView("/secure/cards");
-    }
-
-    @RequestMapping("/secure/profile/getCardImageUrl.html")
-    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) {
-        PersonalCard personalCard = personalCardDao.getById(cardId);
-        if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {
-            personalCard = personalCardService.generateAndSaveCardImage(cardId);
-        }
-        String imageUrl = personalCard.getImageUrl();
-        if (StringUtil.isTrimmedEmpty(imageUrl)) {
-            return gsonViewFactory.createErrorGsonView("error.card.not.ready");
-        } else {
-            return gsonViewFactory.createGsonView(
-                    new ImageUrlDTO(true, imageUrl));
-        }
     }
 
     @RequestMapping("/secure/editPassword.html")

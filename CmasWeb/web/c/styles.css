@@ -324,7 +324,7 @@ html, body {
     line-height: 1;
 }
 
-.content-left, .content-right, .content-center, .content-center-wide, .content-create-logbook {
+.content-left, .content-right, .content-center, .content-center-wide, .content-create-logbook, .content-feedback {
     padding-top: 50px;
     padding-bottom: 30px;
     position: relative;
@@ -345,6 +345,13 @@ html, body {
 }
 
 .content-create-logbook {
+    width: 83%;
+    padding-top: 16px;
+    padding-bottom: 40px;
+}
+
+.content-feedback {
+    min-width: 289px;
     width: 83%;
     padding-top: 16px;
     padding-bottom: 40px;
@@ -622,6 +629,11 @@ html, body {
 .panel-cards {
     padding-right: 21px;
     padding-bottom: 0;
+}
+
+.panel-add-card {
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
 .panel-wider {

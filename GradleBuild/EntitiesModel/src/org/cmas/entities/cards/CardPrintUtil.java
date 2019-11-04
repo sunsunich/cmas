@@ -1,4 +1,4 @@
-package org.cmas.entities;
+package org.cmas.entities.cards;
 
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;

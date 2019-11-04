@@ -27,7 +27,7 @@ var menu_controller = {
 
         var headerMenuElem = $('#headerMenu');
         if (headerMenuElem[0]) {
-            var headerWidthLimit = isCMAS ? 700 : 550;
+            var headerWidthLimit = 750;
             if (viewPortWidth > headerWidthLimit) {
                 headerMenuElem.show();
                 $('#cssMenu').hide();

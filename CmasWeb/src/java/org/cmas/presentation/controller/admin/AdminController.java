@@ -4,19 +4,18 @@ import com.google.myjson.Gson;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
-import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
 import org.cmas.presentation.dao.user.AmateurDao;
-import org.cmas.presentation.dao.user.PersonalCardDao;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -27,8 +26,8 @@ import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
+import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.loyalty.InsuranceRequestService;
-import org.cmas.presentation.service.user.PersonalCardService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
@@ -54,9 +53,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
-import javax.imageio.ImageIO;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -352,28 +348,6 @@ public class AdminController {
                 .list();
         for (PersonalCard card : cardsToRegenerate) {
             personalCardService.generateAndSaveCardImage(card.getId());
-        }
-        return new ModelAndView("redirect:/admin/index.html");
-    }
-
-    @RequestMapping(value = "/admin/dbBlobsToFiles.html", method = RequestMethod.GET)
-    public ModelAndView dbBlobsToFiles() throws IOException {
-        List<Diver> divers = diverDao.createCriteria().add(Restrictions.isNotNull("userpic")).list();
-        for (Diver diver : divers) {
-            imageStorageManager.storeUserpic(diver, ImageIO.read(new ByteArrayInputStream(diver.getUserpic())));
-        }
-        List<PersonalCard> personalCards = personalCardDao.createCriteria()
-                                                          .add(Restrictions.isNotNull("image")).list();
-        for (PersonalCard personalCard : personalCards) {
-            imageStorageManager.storeCardImage(personalCard,
-                                               ImageIO.read(new ByteArrayInputStream(personalCard.getImage())));
-        }
-        List<LogbookEntry> LogbookEntries = logbookEntryDao.createCriteria()
-                                                           .add(Restrictions.isNotNull("photo"))
-                                                           .list();
-        for (LogbookEntry logbookEntry : LogbookEntries) {
-            imageStorageManager.storeLogbookEntryImage(logbookEntry,
-                                                       ImageIO.read(new ByteArrayInputStream(logbookEntry.getPhoto())));
         }
         return new ModelAndView("redirect:/admin/index.html");
     }

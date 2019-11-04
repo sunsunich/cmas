@@ -20,58 +20,54 @@
 
 <my:basePage bodyId="secureBody" title="${title}" hideFooter="${hideFooter}"
              doNotDoAuth="true" customScripts="/js/controller/diver_menu_controller.js,${customScripts}">
-    <c:set var="isCMAS"
-           value="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}"/>
 
-    <c:set var="hasCmasCard"
-           value="${diver.diverRegistrationStatus.name == 'CMAS_FULL'
-           || diver.diverRegistrationStatus.name == 'CMAS_BASIC'
-           || diver.diverRegistrationStatus.name == 'GUEST'}"/>
+    <c:choose>
+        <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
+            <c:set var="certificateCode" value="cmas.face.client.menu.myCards"/>
+        </c:when>
+        <c:otherwise>
+            <c:set var="certificateCode" value="cmas.face.client.menu.becomeCmas"/>
+        </c:otherwise>
+    </c:choose>
 
-    <script type="application/javascript">
-        var isCMAS = ${isCMAS};
-        var hasCmasCard = ${hasCmasCard};
-    </script>
     <my:header>
         <c:if test="${!hideMenu}">
             <div id="headerMenu">
                 <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'personal'}">menu-link-active</c:if>">
-                    <a href="/secure/profile/getUser.html">
+                    <a href="${pageContext.request.contextPath}/secure/profile/getUser.html">
                         <span><s:message code="cmas.face.client.menu.personalData"/></span>
                     </a>
                 </div>
-                <c:if test="${isCMAS}">
-                    <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'cards'}">menu-link-active</c:if>">
-                        <a href="/secure/cards.html">
-                            <span><s:message code="cmas.face.client.menu.myCards"/></span>
-                        </a>
-                    </div>
-                </c:if>
+                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'cards'}">menu-link-active</c:if>">
+                    <a href="${pageContext.request.contextPath}/secure/cards.html">
+                        <span><s:message code="${certificateCode}"/></span>
+                    </a>
+                </div>
                 <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'social'}">menu-link-active</c:if>">
-                    <a href="/secure/social.html">
+                    <a href="${pageContext.request.contextPath}/secure/social.html">
                         <span><s:message code="cmas.face.client.menu.friends"/></span>
                     </a>
                 </div>
                 <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'logbook'}">menu-link-active</c:if>">
-                    <a href="/secure/showLogbook.html">
+                    <a href="${pageContext.request.contextPath}/secure/showLogbook.html">
                         <span><s:message code="cmas.face.client.menu.logbook"/></span>
                     </a>
                 </div>
                 <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'spots'}">menu-link-active</c:if>">
-                    <a href="/secure/showSpots.html">
+                    <a href="${pageContext.request.contextPath}/secure/showSpots.html">
                         <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                     </a>
                 </div>
                 <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'insurance'}">menu-link-active</c:if>">
-                    <a href="/secure/insurance.html">
+                    <a href="${pageContext.request.contextPath}/secure/insurance.html">
                         <span><s:message code="cmas.face.client.menu.insurance"/></span>
                     </a>
                 </div>
-<%--                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'loyaltyProgram'}">menu-link-active</c:if>">--%>
-<%--                    <a href="/secure/loyaltyProgram.html">--%>
-<%--                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
-<%--                    </a>--%>
-<%--                </div>--%>
+                    <%--                <div class="menu-link menu-item-left menu-item <c:if test="${activeMenuItem == 'loyaltyProgram'}">menu-link-active</c:if>">--%>
+                    <%--                    <a href="/secure/loyaltyProgram.html">--%>
+                    <%--                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
+                    <%--                    </a>--%>
+                    <%--                </div>--%>
             </div>
             <div class="cssmenu" id="cssMenu" style="display: none">
                 <ul>
@@ -86,24 +82,22 @@
                             <li class="menu-inactive">
                                 </c:otherwise>
                                 </c:choose>
-                                <a href="/secure/profile/getUser.html">
+                                <a href="${pageContext.request.contextPath}/secure/profile/getUser.html">
                                     <span><s:message code="cmas.face.client.menu.personalData"/></span>
                                 </a>
                             </li>
-                            <c:if test="${isCMAS}">
-                                <c:choose>
-                                    <c:when test="${activeMenuItem == 'cards'}">
-                                        <li class="menu-active">
-                                    </c:when>
-                                    <c:otherwise>
-                                        <li class="menu-inactive">
-                                    </c:otherwise>
+                            <c:choose>
+                            <c:when test="${activeMenuItem == 'cards'}">
+                            <li class="menu-active">
+                                </c:when>
+                                <c:otherwise>
+                            <li class="menu-inactive">
+                                </c:otherwise>
                                 </c:choose>
-                                <a href="/secure/cards.html">
-                                    <span><s:message code="cmas.face.client.menu.myCards"/></span>
+                                <a href="${pageContext.request.contextPath}/secure/cards.html">
+                                    <span><s:message code="${certificateCode}"/></span>
                                 </a>
-                                </li>
-                            </c:if>
+                            </li>
                             <c:choose>
                             <c:when test="${activeMenuItem == 'social'}">
                             <li class="menu-active">
@@ -112,7 +106,7 @@
                             <li class="menu-inactive">
                                 </c:otherwise>
                                 </c:choose>
-                                <a href="/secure/social.html">
+                                <a href="${pageContext.request.contextPath}/secure/social.html">
                                     <span><s:message code="cmas.face.client.menu.friends"/></span>
                                 </a>
                             </li>
@@ -124,7 +118,7 @@
                             <li class="menu-inactive">
                                 </c:otherwise>
                                 </c:choose>
-                                <a href="/secure/showLogbook.html">
+                                <a href="${pageContext.request.contextPath}/secure/showLogbook.html">
                                     <span><s:message code="cmas.face.client.menu.logbook"/></span>
                                 </a>
                             </li>
@@ -136,34 +130,34 @@
                             <li class="menu-inactive">
                                 </c:otherwise>
                                 </c:choose>
-                                <a href="/secure/showSpots.html">
+                                <a href="${pageContext.request.contextPath}/secure/showSpots.html">
                                     <span><s:message code="cmas.face.client.menu.divingSpots"/></span>
                                 </a>
                             </li>
-                                <c:choose>
-                                <c:when test="${activeMenuItem == 'insurance'}">
-                                <li class="menu-active">
-                                    </c:when>
-                                    <c:otherwise>
-                                <li class="menu-inactive">
-                                    </c:otherwise>
-                                    </c:choose>
-                                    <a href="/secure/insurance.html">
-                                        <span><s:message code="cmas.face.client.menu.insurance"/></span>
-                                    </a>
-                                </li>
-<%--                                <c:choose>--%>
-<%--                                <c:when test="${activeMenuItem == 'loyaltyProgram'}">--%>
-<%--                                <li class="menu-active">--%>
-<%--                                    </c:when>--%>
-<%--                                    <c:otherwise>--%>
-<%--                                <li class="menu-inactive">--%>
-<%--                                    </c:otherwise>--%>
-<%--                                    </c:choose>--%>
-<%--                                    <a href="/secure/loyaltyProgram.html">--%>
-<%--                                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
-<%--                                    </a>--%>
-<%--                                </li>--%>
+                            <c:choose>
+                            <c:when test="${activeMenuItem == 'insurance'}">
+                            <li class="menu-active">
+                                </c:when>
+                                <c:otherwise>
+                            <li class="menu-inactive">
+                                </c:otherwise>
+                                </c:choose>
+                                <a href="${pageContext.request.contextPath}/secure/insurance.html">
+                                    <span><s:message code="cmas.face.client.menu.insurance"/></span>
+                                </a>
+                            </li>
+                                <%--                                <c:choose>--%>
+                                <%--                                <c:when test="${activeMenuItem == 'loyaltyProgram'}">--%>
+                                <%--                                <li class="menu-active">--%>
+                                <%--                                    </c:when>--%>
+                                <%--                                    <c:otherwise>--%>
+                                <%--                                <li class="menu-inactive">--%>
+                                <%--                                    </c:otherwise>--%>
+                                <%--                                    </c:choose>--%>
+                                <%--                                    <a href="/secure/loyaltyProgram.html">--%>
+                                <%--                                        <span><s:message code="cmas.face.client.menu.loyaltyProgram"/></span>--%>
+                                <%--                                    </a>--%>
+                                <%--                                </li>--%>
                         </ul>
                     </li>
                 </ul>
@@ -247,7 +241,7 @@
         <c:choose>
             <c:when test="${diver.userpicUrl == null}">
                 <div class="menu-item-right menu-button no-userpic-ico">
-                    <img src="/i/no-userpic-ico.png"/>
+                    <img src="${pageContext.request.contextPath}/i/no-userpic-ico.png?v=${webVersion}"/>
                 </div>
             </c:when>
             <c:otherwise>

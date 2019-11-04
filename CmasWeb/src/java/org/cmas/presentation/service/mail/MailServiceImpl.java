@@ -6,6 +6,7 @@ import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.User;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.billing.Invoice;
+import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.DiverFriendRequest;
@@ -347,10 +348,37 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                 new ModelAttr("spotId", feedbackItem.getDiveSpot() == null ? "" : feedbackItem.getDiveSpot().getId()),
                 new ModelAttr("logbookEntryId",
                               feedbackItem.getLogbookEntry() == null ? "" : feedbackItem.getLogbookEntry().getId())
-                );
+        );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = addresses.getAdminMailAddress();
         String subj = subjects.renderText("FeedbackSubmitted", locale, feedbackItem.getId());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest) {
+        Locale locale = Locale.ENGLISH;
+        String frontImage = addresses.getSiteName(locale) +
+                            imageStorageManager.getCardApprovalRequestImagesRoot() +
+                            cardApprovalRequest.getFrontImage().getFileUrl();
+        String backImage = addresses.getSiteName(locale) +
+                           imageStorageManager.getCardApprovalRequestImagesRoot() +
+                           cardApprovalRequest.getBackImage().getFileUrl();
+        Diver diver = cardApprovalRequest.getDiver();
+        String text = textRenderer.renderText(
+                "cardApprovalRequestToAquaLinkAdmin.ftl", locale,
+                new ModelAttr("id", cardApprovalRequest.getId()),
+                new ModelAttr("diver", diver),
+                new ModelAttr("cardApprovalRequest", cardApprovalRequest),
+                new ModelAttr("frontImage", frontImage),
+                new ModelAttr("backImage", backImage)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        String subj = subjects.renderText("CardApprovalRequest",
+                                          locale,
+                                          diver.getFirstName() + ' ' + diver.getLastName()
+        );
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }

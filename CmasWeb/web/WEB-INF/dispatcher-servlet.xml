@@ -38,6 +38,11 @@
                 <value>/secure/reportLogbookEntry.html</value>
                 <value>/secure/reportError.html</value>
                 <value>/secure/submitFeedback.html</value>
+
+                <value>/secure/cards.html</value>
+                <value>/secure/profile/getCardImageUrl.html</value>
+                <value>/secure/addCard.html</value>
+                <value>/secure/submitCardApprovalRequest.html</value>
             </list>
         </property>
 
@@ -99,14 +104,11 @@
 
         <property name="cmasBasicPages">
             <list>
-                <value>/secure/profile/getCardImageUrl.html</value>
-                <value>/secure/cards.html</value>
             </list>
         </property>
 
         <property name="guestPages">
             <list>
-                <value>/secure/profile/getCardImageUrl.html</value>
                 <value>/secure/createCameraOrder.html</value>
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
@@ -179,6 +181,8 @@
                 <value>/secure/social/searchDiversFast.html</value>
 
                 <value>/secure/cards.html</value>
+                <value>/secure/addCard.html</value>
+                <value>/secure/submitCardApprovalRequest.html</value>
 
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>

@@ -1,6 +1,6 @@
-package org.cmas.presentation.controller;
+package org.cmas.presentation.controller.cards;
 
-import org.cmas.entities.PersonalCardType;
+import org.cmas.entities.cards.PersonalCardType;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.util.LinkedHashMap;

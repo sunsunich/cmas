@@ -1,17 +1,17 @@
-package org.cmas.presentation.service.user;
+package org.cmas.presentation.service.cards;
 
 import org.cmas.Globals;
 import org.cmas.backend.DrawCardService;
 import org.cmas.backend.ImageStorageManager;
-import org.cmas.entities.CardUser;
-import org.cmas.entities.PersonalCard;
-import org.cmas.entities.PersonalCardType;
 import org.cmas.entities.Role;
+import org.cmas.entities.cards.CardUser;
+import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
-import org.cmas.presentation.dao.user.PersonalCardDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.dao.HibernateDao;
 import org.cmas.util.dao.RunInHibernate;

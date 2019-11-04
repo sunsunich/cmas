@@ -9,9 +9,13 @@
 <jsp:useBean id="captchaError" scope="request" type="java.lang.Boolean"/>
 <jsp:useBean id="reCaptchaPublicKey" scope="request" type="java.lang.String"/>
 
-<my:securepage title="cmas.face.lostPasswd.title"
+
+
+
+<my:securepage title="cmas.face.feedback.title"
                activeMenuItem="reportError"
-               customScripts="js/controller/registration_flow_controller.js,js/controller/multiple_fileUpload_controller.js,js/controller/feedback_controller.js">
+               customScripts="js/controller/multiple_fileUpload_controller.js,js/controller/feedback_controller.js">
+
     <script type="application/javascript">
         var reCaptchaOnLoadCallback = function () {
             feedback_controller.renderRecaptcha('${reCaptchaPublicKey}');
@@ -21,15 +25,13 @@
     <script src="https://www.google.com/recaptcha/api.js?onload=reCaptchaOnLoadCallback&render=explicit" defer>
     </script>
 
-    <div class="content" id="Content">
-        <div id="formImage" class="formImage">
-        </div>
-        <div class="formWrapper" id="formWrapper">
+    <div class="content-feedback" id="content">
+        <div class="panel">
             <form:form id="feedbackForm"
                        enctype="multipart/form-data"
                        action="${pageContext.request.contextPath}/secure/submitFeedback.html"
                        method="POST">
-                <div id="feedbackBlock">
+                <div class="clearfix" id="feedbackBlock">
                     <div class="header1-text">
                         <c:choose>
                             <c:when test="${diveSpot != null}">
@@ -65,7 +67,7 @@
                     </div>
                     <div>
                         <div class="form-row">
-                        <textarea id="feedback_text" rows="6" name="text"
+                        <textarea id="feedback_text" rows="6" name="text" style="width: 80%"
                                   placeholder="<s:message code="cmas.face.feedback.description"/>"></textarea>
 
                             <img src="/i/ic_error.png" class="error-input-ico" id="feedback_error_ico_text"
@@ -79,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row clearfix-no-width">
                         <div id="feedback_captcha" class="capcha-block">
                         </div>
                         <div class="error" id="feedback_error">
@@ -94,14 +96,13 @@
                                     code="cmas.face.feedback.images"/></div>
                             <div id="addImage"
                                  class="feedback-button-right positive-button logbook-button logbook-inline-button">
-                                <img class="logbook-inline-button-icon" src="/i/ic_plus_white.png"></img>
+                                <img class="logbook-inline-button-icon" src="/i/ic_plus_white.png"/>
                                 <span class="logbook-inline-button-icon-text"><s:message
                                         code="cmas.face.feedback.image.add"/></span>
                             </div>
                         </div>
                         <div class="error" id="feedback_error_photo"></div>
                     </div>
-                    <div class="form-row"></div>
                     <div id="photoListContainer" class="clearfix">
                     </div>
                     <button class="positive-button form-item-right form-button-single" id="feedbackSubmit">
@@ -111,22 +112,5 @@
             </form:form>
         </div>
     </div>
-
-    <picture>
-        <!--[if IE 9]>
-        <video style="display: none;">
-        <![endif]-->
-        <source srcset="/i/requestImage@3x.png 1x"
-                media="(min-width: 3000px)">
-        <source srcset="/i/requestImage@2x.png"
-                media="(min-width: 2000px)">
-        <source srcset="/i/requestImage.png 1x, /i/requestImage@2x.png 2x, /i/requestImage@3x.png 3x"
-                media="(min-width: 631px)">
-        <source srcset="/i/requestImageMob@2x.png" media="(min-width: 500px)">
-        <source srcset="/i/requestImageMob.png 1x, /i/requestImageMob@2x.png 2x, /i/requestImageMob@3x.png 3x">
-
-        <!--[if IE 9]></video><![endif]-->
-        <img id="feedbackImageBackground" alt="feedback background" style="display: none">
-    </picture>
 
 </my:securepage>

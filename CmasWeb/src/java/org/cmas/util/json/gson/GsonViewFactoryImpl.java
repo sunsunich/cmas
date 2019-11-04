@@ -4,7 +4,7 @@ import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.LongSerializationPolicy;
 import org.cmas.Globals;
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.DateTypeAdapter;

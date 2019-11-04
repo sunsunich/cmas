@@ -1,7 +1,7 @@
 package org.cmas.entities.sport;
 
-import org.cmas.entities.CardUser;
-import org.cmas.entities.PersonalCard;
+import org.cmas.entities.cards.CardUser;
+import org.cmas.entities.cards.PersonalCard;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
