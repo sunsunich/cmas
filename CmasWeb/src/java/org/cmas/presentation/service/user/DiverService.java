@@ -21,4 +21,6 @@ public interface DiverService extends UserService<Diver> {
     void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards);
 
     void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail);
+
+    int getDemoTimeDays();
 }

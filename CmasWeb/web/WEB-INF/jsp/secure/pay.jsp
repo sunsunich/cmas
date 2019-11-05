@@ -9,12 +9,23 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.billing.PaymentAddFormObject"/>
 
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
+<jsp:useBean id="now" scope="request" type="java.util.Date"/>
 <jsp:useBean id="features" scope="request" type="java.util.List<org.cmas.entities.loyalty.PaidFeature>"/>
 <jsp:useBean id="featuresJson" scope="request" type="java.lang.String"/>
 
 <my:securepage title="cmas.face.payment.title"
                activeMenuItem="pay"
                customScripts="js/controller/registration_flow_controller.js,js/controller/payment_controller.js">
+
+    <c:set var="isFirstCmasBasic"
+           value="${diver.diverRegistrationStatus.name == 'CMAS_BASIC' && diver.previousRegistrationStatus.name == 'NEVER_REGISTERED'}"/>
+
+    <c:set var="isActiveDemo"
+           value="${diver.diverRegistrationStatus.name == 'DEMO' || isFirstCmasBasic && diver.dateLicencePaymentIsDue.time > now.time}"/>
+
+    <c:set var="isInactiveDemo"
+           value="${diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'DEMO' || isFirstCmasBasic && diver.dateLicencePaymentIsDue.time <= now.time}"/>
+
     <c:set var="isDueToPayCmasFullLicence"
            value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC' && diver.previousRegistrationStatus.name == 'NEVER_REGISTERED'}"/>
 
@@ -47,20 +58,23 @@
                 <div class="header1-text">
                     <s:message code="cmas.face.payment.header"/>
                 </div>
-                <c:if test="${diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'DEMO'}">
-                    <div class="form-description" style="color: #f4225b">
-                        <b><s:message code="cmas.face.payment.expiredText"/></b>
-                    </div>
-                </c:if>
-                <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
-                    <div class="form-description">
-                        <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
-                            value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
-                    </div>
-                </c:if>
+                <c:choose>
+                    <c:when test="${isActiveDemo}">
+                        <div class="form-description">
+                            <s:message code="cmas.face.payment.expireText"/> <fmt:formatDate
+                                value="${diver.dateLicencePaymentIsDue}" pattern="dd/MM/yyyy"/>
+                        </div>
+                    </c:when>
+                    <c:when test="${isInactiveDemo}">
+                        <div class="form-description" style="color: #f4225b">
+                            <b><s:message code="cmas.face.payment.expiredText"/></b>
+                        </div>
+                    </c:when>
+                </c:choose>
+
                 <c:if test="${isGold}">
                     <div class="form-description">
-                        <s:message code="cmas.loyalty.gold.expireText"/>  <fmt:formatDate
+                        <s:message code="cmas.loyalty.gold.expireText"/> <fmt:formatDate
                             value="${goldExpiryDate}" pattern="dd/MM/yyyy"/>
                     </div>
                 </c:if>
@@ -69,7 +83,8 @@
                         <div class="form-description clearfix">
                             <span><s:message code="cmas.face.card.cmasBasic"/></span>
                             <div>
-                                <button class="positive-button form-item-right" onclick="window.location='/secure/cards.html'">
+                                <button class="positive-button form-item-right"
+                                        onclick="window.location='/secure/cards.html'">
                                     <s:message code="cmas.face.client.menu.myCards"/>
                                 </button>
                             </div>
@@ -79,7 +94,8 @@
                         <div class="form-description clearfix">
                             <span><s:message code="cmas.face.card.becomeCmas"/></span>
                             <div>
-                                <button class="positive-button form-item-right" onclick="window.location='/secure/addCard.html'">
+                                <button class="positive-button form-item-right"
+                                        onclick="window.location='/secure/addCard.html'">
                                     <s:message code="cmas.face.client.menu.becomeCmas"/>
                                 </button>
                             </div>

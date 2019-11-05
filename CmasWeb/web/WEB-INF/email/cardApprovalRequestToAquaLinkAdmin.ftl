@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Card approval requestT submitted">
+<@mailer.mail title="Card approval request submitted">
     <p>Dear AquaLink support,</p>
     <p>
         Please contact CMAS to verify card approval request with id = ${id} <br/>

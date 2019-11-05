@@ -99,8 +99,14 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                     }
                 case CMAS_BASIC:
                     if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
-                        redirectForPayment(request, response);
-                        return false;
+                        // treat as Demo
+                        if (diver.getDateLicencePaymentIsDue().after(new Date())
+                            && demoPages.contains(requestURI)) {
+                            return rejectIfCommonValidationNotPassed(request, response, requestURI);
+                        } else {
+                            redirectForPayment(request, response);
+                            return false;
+                        }
                     }
                     if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);

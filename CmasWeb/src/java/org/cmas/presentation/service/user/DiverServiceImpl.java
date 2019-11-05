@@ -373,4 +373,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     public void setDemoTimeDays(int demoTimeDays) {
         this.demoTimeDays = demoTimeDays;
     }
+
+    @Override
+    public int getDemoTimeDays() {
+        return demoTimeDays;
+    }
 }

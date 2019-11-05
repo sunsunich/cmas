@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -116,6 +117,7 @@ public class PaymentMasterController extends DiverAwareController {
         List<PaidFeature> features = paidFeatureDao.getAll();
         mm.addAttribute("features", features);
         mm.addAttribute("featuresJson", gsonViewFactory.getCommonGson().toJson(features));
+        mm.addAttribute("now", new Date());
         return new ModelAndView("/secure/pay", mm);
     }
 }

@@ -70,6 +70,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     private PersonalCardService personalCardService;
 
     @Autowired
+    private DiverService diverService;
+
+    @Autowired
     private DrawCardService drawCardService;
 
     @Override
@@ -246,6 +249,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
         } else {
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+            diver.setDateLicencePaymentIsDue(
+                    new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
+            );
         }
         diverDao.updateModel(diver);
         mailer.sendDiverPassword(diver);
