@@ -29,9 +29,6 @@
     <c:set var="isDueToPayCmasFullLicence"
            value="${diver.diverRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'DEMO' || diver.diverRegistrationStatus.name == 'CMAS_BASIC' && diver.previousRegistrationStatus.name == 'NEVER_REGISTERED'}"/>
 
-    <c:set var="isGuest"
-           value="${diver.diverRegistrationStatus.name == 'GUEST' || diver.diverRegistrationStatus.name == 'INACTIVE' && diver.previousRegistrationStatus.name == 'GUEST'}"/>
-
     <c:set var="isGold" value="${goldExpiryDate != null}"/>
 
     <script type="application/javascript">
