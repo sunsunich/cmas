@@ -89,11 +89,12 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     @Override
     public T getByFirstAndLastName(@NotNull String firstName, @NotNull String lastName) {
         Criteria crit = createCriteria();
+        List divers = crit.add(Restrictions.eq("firstName", firstName))
+                        .add(Restrictions.eq("lastName", lastName))
+                        .add(Restrictions.eq("enabled", Boolean.TRUE))
+                        .setCacheable(true).list();
         //noinspection unchecked
-        return (T) crit.add(Restrictions.eq("firstName", firstName))
-                       .add(Restrictions.eq("lastName", lastName))
-                       .add(Restrictions.eq("enabled", Boolean.TRUE))
-                       .setCacheable(true).uniqueResult();
+        return (T) (divers.isEmpty() ? null : divers.get(0));
     }
 
     @Override
