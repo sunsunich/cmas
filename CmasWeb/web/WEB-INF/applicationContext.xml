@@ -179,6 +179,9 @@
     <bean id="iranDiverXlsParser" class="org.cmas.backend.xls.IranDiverXlsParserImpl">
     </bean>
 
+    <bean id="egyptDiverXlsParser" class="org.cmas.backend.xls.EgyptDiverXlsParserImpl">
+    </bean>
+
     <bean id="singleTableDiverXlsParser" class="org.cmas.backend.xls.SingleTableDiverXlsParserImpl">
     </bean>
 

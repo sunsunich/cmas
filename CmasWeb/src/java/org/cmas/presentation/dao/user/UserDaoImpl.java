@@ -87,6 +87,16 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     }
 
     @Override
+    public T getByFirstAndLastName(@NotNull String firstName, @NotNull String lastName) {
+        Criteria crit = createCriteria();
+        //noinspection unchecked
+        return (T) crit.add(Restrictions.eq("firstName", firstName))
+                       .add(Restrictions.eq("lastName", lastName))
+                       .add(Restrictions.eq("enabled", Boolean.TRUE))
+                       .setCacheable(true).uniqueResult();
+    }
+
+    @Override
     @Transactional
     @Nullable
     public T getUserChangedEmail(@NotNull String md5) {

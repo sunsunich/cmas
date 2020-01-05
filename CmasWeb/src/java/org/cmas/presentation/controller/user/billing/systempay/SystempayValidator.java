@@ -5,8 +5,6 @@ import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.billing.InvoiceStatus;
 import org.cmas.presentation.controller.user.billing.PaySystemValidator;
 import org.cmas.util.ShaEncoder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 
 import javax.servlet.ServletRequest;
@@ -29,7 +27,6 @@ import java.util.TreeSet;
 
 public class SystempayValidator extends PaySystemValidator {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SystempayValidator.class);
 
     @Override
     public boolean supports(Class clazz) {
@@ -202,23 +199,23 @@ signature = 3132f1e451075f2408cda41f2e647e9b4747d421
                 Comparable<BigDecimal> amount = new BigDecimal(data.getVads_amount())
                         .divide(Globals.HUNDRED, RoundingMode.HALF_UP);
                 if (amount.compareTo(BigDecimal.ZERO) <= 0) {
-                    errors.rejectValue("vads_amount","validation.billing.paysystem.amount.incorrect");
+                    errors.rejectValue("vads_amount", "validation.billing.paysystem.amount.incorrect");
                 }
                 if (amount.compareTo(invoice.getAmount()) != 0) {
-                    errors.rejectValue("vads_amount","validation.billing.paysystem.amount");
+                    errors.rejectValue("vads_amount", "validation.billing.paysystem.amount");
                 }
                 SimpleDateFormat dateFormat = new SimpleDateFormat(
                         SystempayController.SYSTEMPAY_DATE_TIME_FORMAT, Locale.ENGLISH
                 );
                 dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
                 if (!dateFormat.format(invoice.getTransactionDate()).equals(data.getVads_trans_date())) {
-                    errors.rejectValue("vads_trans_date","validation.billing.paysystem.date");
+                    errors.rejectValue("vads_trans_date", "validation.billing.paysystem.date");
                 }
-                if (!invoice.getUser().getEmail().equals(data.getVads_cust_email())){
-                    errors.rejectValue("vads_cust_email","validation.billing.paysystem.incorrectUser");
+                if (!invoice.getUser().getEmail().equals(data.getVads_cust_email())) {
+                    errors.rejectValue("vads_cust_email", "validation.billing.paysystem.incorrectUser");
                 }
-                if(invoice.getInvoiceStatus() != InvoiceStatus.NOT_PAID){
-                    errors.rejectValue("vads_order_id","validation.billing.paysystem.duplicate");
+                if (invoice.getInvoiceStatus() != InvoiceStatus.NOT_PAID) {
+                    errors.rejectValue("vads_order_id", "validation.billing.paysystem.duplicate");
                 }
             }
         }

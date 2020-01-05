@@ -75,10 +75,13 @@ public class UploadDiversTask implements Runnable {
             return;
         }
         Collection<Diver> divers;
+        boolean isEgypt = "EGY".equalsIgnoreCase(countryCode);
         if ("RUS".equalsIgnoreCase(countryCode)) {
             divers = diverService.rusDiverXlsParser.getDivers(file, xlsProgressListener);
         } else if ("IRI".equalsIgnoreCase(countryCode)) {
             divers = diverService.iranDiverXlsParser.getDivers(file, xlsProgressListener);
+        } else if (isEgypt) {
+            divers = diverService.egyptDiverXlsParser.getDivers(file, xlsProgressListener);
         } else {
             divers = diverService.singleTableDiverXlsParser.getDivers(file, xlsProgressListener);
         }
@@ -91,42 +94,47 @@ public class UploadDiversTask implements Runnable {
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
-            diverService.uploadDiver(federation, diver, false);
-            //hidden functionality creating or editing primary card number
-            Diver dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
-            PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
-            if (primaryPersonalCard != null) {
-                String newNumber = primaryPersonalCard.getNumber();
-                if (!StringUtil.isTrimmedEmpty(newNumber)) {
-                    PersonalCard checkingCard = diverService.personalCardDao.getByNumber(newNumber);
-                    if (checkingCard == null) {
-                        // no such number found in DB
-                        PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
-                        boolean isNewCard = dbCard == null;
-                        if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
-                            //number change or new number detected
-                            try {
-                                if (isNewCard) {
-                                    dbCard = primaryPersonalCard;
-                                    dbCard.setCardType(PersonalCardType.PRIMARY);
-                                    dbCard.setDiverLevel(dbDiver.getDiverLevel());
-                                    dbCard.setDiverType(dbDiver.getDiverType());
-                                    primaryPersonalCard.setDiver(dbDiver);
-                                    diverService.personalCardDao.save(dbCard);
-                                    dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
-                                    diverService.diverDao.updateModel(dbDiver);
-                                } else {
-                                    dbCard.setImageUrl(null);
-                                    dbCard.setNumber(newNumber);
-                                    diverService.personalCardDao.updateModel(dbCard);
+            if (isEgypt) {
+                diverService.uploadExistingEgyptianDiver(diver);
+            } else {
+                diverService.uploadDiver(federation, diver, false);
+
+                //hidden functionality creating or editing primary card number
+                Diver dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
+                PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
+                if (primaryPersonalCard != null) {
+                    String newNumber = primaryPersonalCard.getNumber();
+                    if (!StringUtil.isTrimmedEmpty(newNumber)) {
+                        PersonalCard checkingCard = diverService.personalCardDao.getByNumber(newNumber);
+                        if (checkingCard == null) {
+                            // no such number found in DB
+                            PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
+                            boolean isNewCard = dbCard == null;
+                            if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
+                                //number change or new number detected
+                                try {
+                                    if (isNewCard) {
+                                        dbCard = primaryPersonalCard;
+                                        dbCard.setCardType(PersonalCardType.PRIMARY);
+                                        dbCard.setDiverLevel(dbDiver.getDiverLevel());
+                                        dbCard.setDiverType(dbDiver.getDiverType());
+                                        primaryPersonalCard.setDiver(dbDiver);
+                                        diverService.personalCardDao.save(dbCard);
+                                        dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
+                                        diverService.diverDao.updateModel(dbDiver);
+                                    } else {
+                                        dbCard.setImageUrl(null);
+                                        dbCard.setNumber(newNumber);
+                                        diverService.personalCardDao.updateModel(dbCard);
+                                    }
+                                    if (dbDiver.getDateReg() == null) {
+                                        dbDiver.setDateReg(new Date());
+                                        diverService.diverDao.updateModel(dbDiver);
+                                    }
+                                } catch (Exception e) {
+                                    //number change or creation failed
+                                    log.error(e.getMessage(), e);
                                 }
-                                if (dbDiver.getDateReg() == null) {
-                                    dbDiver.setDateReg(new Date());
-                                    diverService.diverDao.updateModel(dbDiver);
-                                }
-                            } catch (Exception e) {
-                                //number change or creation failed
-                                log.error(e.getMessage(), e);
                             }
                         }
                     }
@@ -140,8 +148,12 @@ public class UploadDiversTask implements Runnable {
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
-            Diver dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
-            diverService.setDiverInstructor(federation, dbDiver, diver.getInstructor());
+            Diver dbDiver = isEgypt ?
+                    diverService.diverDao.getByFirstAndLastName(diver.getFirstName(), diver.getLastName())
+                    : diverService.diverDao.getByEmail(diver.getEmail());
+            if (dbDiver != null) {
+                diverService.setDiverInstructor(federation, dbDiver, diver.getInstructor());
+            }
             workDone++;
             progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
         }
