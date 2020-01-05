@@ -7,6 +7,8 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
@@ -46,4 +48,7 @@ public interface DiverDao extends UserDao<Diver> {
     void removeFriend(Diver diver, Diver friend);
 
     void updateDiverRegistrationStatusOnPaymentDueDate();
+
+    @Nullable
+    Diver getByFirstNameLastNameCountry(@NotNull String firstName, @NotNull String lastName, @NotNull String countryCode);
 }

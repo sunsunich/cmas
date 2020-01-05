@@ -87,20 +87,6 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     }
 
     @Override
-    public T getByFirstNameLastNameCountry(@NotNull String firstName, @NotNull String lastName, @NotNull String countryCode) {
-        Criteria crit = createCriteria();
-        List divers = crit
-                .createAlias("country", "country")
-                .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(countryCode)))
-                .add(Restrictions.eq("firstName", firstName))
-                .add(Restrictions.eq("lastName", lastName))
-                .add(Restrictions.eq("enabled", Boolean.TRUE))
-                .setCacheable(true).list();
-        //noinspection unchecked
-        return (T) (divers.isEmpty() ? null : divers.get(0));
-    }
-
-    @Override
     @Transactional
     @Nullable
     public T getUserChangedEmail(@NotNull String md5) {

@@ -20,7 +20,7 @@ public interface DiverService extends UserService<Diver> {
 
     void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards);
 
-    void updateDiverCmasData(NationalFederation nationalFederation, Diver dbDiver, Diver diverData);
+    void updateDiverCmasData(NationalFederation federation, Diver dbDiver, Diver diverData);
 
     void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail);
 

@@ -105,7 +105,7 @@ public class UploadDiversTask implements Runnable {
                 if (primaryPersonalCard != null) {
                     String newNumber = primaryPersonalCard.getNumber();
                     if (!StringUtil.isTrimmedEmpty(newNumber)) {
-                        PersonalCard checkingCard = diverService.personalCardDao.getByNumber(newNumber);
+                        PersonalCard checkingCard = diverService.personalCardDao.getByNumber(federation, newNumber);
                         if (checkingCard == null) {
                             // no such number found in DB
                             PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();

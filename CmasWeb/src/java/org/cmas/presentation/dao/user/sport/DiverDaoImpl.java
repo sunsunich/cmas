@@ -17,6 +17,7 @@ import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -273,7 +274,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (friendsIds != null && !friendsIds.isEmpty()) {
             query.setParameterList("friendIds", friendsIds);
         }
-        return query.setBoolean("enabled", true).setLong("diverId", diverId).setMaxResults(Globals.FAST_SEARCH_MAX_RESULT).list();
+        return query.setBoolean("enabled", true)
+                    .setLong("diverId", diverId)
+                    .setMaxResults(Globals.FAST_SEARCH_MAX_RESULT)
+                    .list();
     }
 
     @Override
@@ -407,5 +411,19 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 //        Arrays.asList(DiverRegistrationStatus.GUEST, DiverRegistrationStatus.DEMO))
                         .setParameter("newStatus", DiverRegistrationStatus.INACTIVE)
                         .setDate("date", new Date()).executeUpdate();
+    }
+
+    @Nullable
+    @Override
+    public Diver getByFirstNameLastNameCountry(@NotNull String firstName, @NotNull String lastName, @NotNull String countryCode) {
+        String hql = "select d from org.cmas.entities.diver.Diver d"
+                     + " inner join d.country c"
+                     + " where d.enabled = :enabled and c.code = :code and concat(d.firstName, ' ', d.lastName) =:fullName";
+        List<Diver> divers = createQuery(hql).setBoolean("enabled", true)
+                                             .setString("code", StringUtil.correctSpaceCharAndTrim(countryCode))
+                                             .setString("fullName", firstName + ' ' + lastName)
+                                             .setCacheable(true)
+                                             .list();
+        return divers.isEmpty() ? null : divers.get(0);
     }
 }

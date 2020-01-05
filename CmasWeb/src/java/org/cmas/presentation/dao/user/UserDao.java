@@ -19,9 +19,8 @@ public interface UserDao<T extends User> extends IdGeneratingDao<T> {
 
     int getMaxCountSearchUsers(UserSearchFormObject form);
 
+    @Nullable
     T getByEmail(@NotNull String email);
-
-    T getByFirstNameLastNameCountry(@NotNull String firstName, @NotNull String lastName, @NotNull String countryCode);
 
     T getBylostPasswdCode(@NotNull String lostPasswdCode);
 
