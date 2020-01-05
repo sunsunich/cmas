@@ -296,7 +296,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Override
     public void uploadExistingEgyptianDiver(Diver diver) {
-        Diver dbDiver = diverDao.getByFirstAndLastName(diver.getFirstName(), diver.getLastName());
+        Country egypt = countryDao.getByCode("EGY");
+        Diver dbDiver = diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
+                                                               diver.getLastName(),
+                                                               egypt.getCode());
         if (dbDiver == null) {
             LOGGER.error("cannot upload existing diver for Egypt federation, no such diver:"
                          + " firstName = " + diver.getFirstName()
@@ -322,7 +325,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             dbDiver.setCountry(country);
         }
 
-        updateDiverCmasData(nationalFederationDao.getByCountry(countryDao.getByCode("EGY")),
+        updateDiverCmasData(nationalFederationDao.getByCountry(egypt),
                             dbDiver,
                             diver);
     }

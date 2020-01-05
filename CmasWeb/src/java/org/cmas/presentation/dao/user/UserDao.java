@@ -21,7 +21,7 @@ public interface UserDao<T extends User> extends IdGeneratingDao<T> {
 
     T getByEmail(@NotNull String email);
 
-    T getByFirstAndLastName(@NotNull String firstName, @NotNull String lastName);
+    T getByFirstNameLastNameCountry(@NotNull String firstName, @NotNull String lastName, @NotNull String countryCode);
 
     T getBylostPasswdCode(@NotNull String lostPasswdCode);
 
