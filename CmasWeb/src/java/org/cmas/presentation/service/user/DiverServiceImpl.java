@@ -332,21 +332,32 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Override
     public void updateDiverCmasData(NationalFederation nationalFederation, Diver dbDiver, Diver diverData) {
-        dbDiver.setFederation(nationalFederation);
-
-        boolean typeOrLevelUpdated = false;
         PersonalCard primaryCard = dbDiver.getPrimaryPersonalCard();
+        if (primaryCard == null) {
+            LOGGER.error("primaryCard not found for diver:"
+                         + " firstName = " + dbDiver.getFirstName()
+                         + ", lastName = " + dbDiver.getLastName()
+                         + ' ' + dbDiver.getDiverType()
+                         + ' ' + dbDiver.getDiverLevel()
+                         + " from " + dbDiver.getCountry().getName()
+            );
+            return;
+        }
+
+        dbDiver.setFederation(nationalFederation);
+        boolean typeOrLevelUpdated = false;
         if (dbDiver.getDiverType() != DiverType.INSTRUCTOR) {
             dbDiver.setDiverType(diverData.getDiverType());
-            primaryCard.setDiverType(diverData.getDiverType());
             typeOrLevelUpdated = true;
         }
         if (dbDiver.getDiverLevel().ordinal() < diverData.getDiverLevel().ordinal()) {
             dbDiver.setDiverLevel(diverData.getDiverLevel());
-            primaryCard.setDiverLevel(diverData.getDiverLevel());
             typeOrLevelUpdated = true;
         }
+
         if (typeOrLevelUpdated) {
+            primaryCard.setDiverType(diverData.getDiverType());
+            primaryCard.setDiverLevel(diverData.getDiverLevel());
             personalCardDao.updateModel(primaryCard);
             personalCardService.generateAndSaveCardImage(primaryCard.getId());
         }
