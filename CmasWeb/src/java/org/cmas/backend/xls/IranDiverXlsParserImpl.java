@@ -33,6 +33,9 @@ public class IranDiverXlsParserImpl extends SingleTableDiverXlsParserImpl {
     @Nullable
     @Override
     protected Diver evalDiver(Row row) {
+        if (row.getPhysicalNumberOfCells() == 0) {
+            return null;
+        }
         String email = StringUtil.correctSpaceCharAndTrim(row.getCell(2).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
