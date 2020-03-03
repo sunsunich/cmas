@@ -89,11 +89,25 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (!StringUtil.isTrimmedEmpty(diverType)) {
             criteria.add(Restrictions.eq("diverType", DiverType.valueOf(diverType)));
         }
-        String country = form.getCountryCode();
-        if (!StringUtil.isTrimmedEmpty(country)) {
-            criteria.createAlias("federation", "fed")
-                    .createAlias("fed.country", "country")
-                    .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
+        boolean isForAddingToFederation = Boolean.parseBoolean(form.getIsForAddingToFederation());
+        if (isForAddingToFederation) {
+            criteria.add(Restrictions.isNull("federation"))
+                    .add(Restrictions.in("diverRegistrationStatus",
+                                         new DiverRegistrationStatus[]{
+                                                 DiverRegistrationStatus.INACTIVE,
+                                                 DiverRegistrationStatus.DEMO,
+                                                 DiverRegistrationStatus.GUEST}
+                         )
+                    )
+            ;
+
+        } else {
+            String country = form.getCountryCode();
+            if (!StringUtil.isTrimmedEmpty(country)) {
+                criteria.createAlias("federation", "fed")
+                        .createAlias("fed.country", "country")
+                        .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
+            }
         }
         return criteria;
     }

@@ -8,6 +8,7 @@ import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.controller.cards.CardDisplayManager;
@@ -91,7 +92,7 @@ public class FederationAdminController {
     }
 
     @RequestMapping("/fed/index.html")
-    public ModelAndView welcomePage(@ModelAttribute UserSearchFormObject model, @ModelAttribute("xlsFileFormObject") FileUploadBean fileBean) {
+    public ModelAndView indexPage(@ModelAttribute UserSearchFormObject model, @ModelAttribute("xlsFileFormObject") FileUploadBean fileBean) {
         return showIndexPage(model, fileBean);
     }
 
@@ -101,16 +102,66 @@ public class FederationAdminController {
             throw new BadRequestException();
         }
         model.setCountryCode(currentFedAdmin.getUser().getFederation().getCountry().getCode());
+        ModelMap mm = prepareSearchModelMap(model, true);
+        mm.addAttribute("xlsFileFormObject", fileBean);
+        return new ModelAndView("fed/index", mm);
+    }
+
+    private ModelMap prepareSearchModelMap(UserSearchFormObject model, boolean isSetupCards) {
         model.setUserRole(Role.ROLE_DIVER.name());
         model.setLimit(MAX_PAGE_ITEMS);
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", model);
-        mm.addAttribute("xlsFileFormObject", fileBean);
         List<Diver> users = diverDao.searchUsers(model);
-        personalCardService.setupDisplayCardsForDivers(users);
+        if (isSetupCards) {
+            personalCardService.setupDisplayCardsForDivers(users);
+        }
         mm.addAttribute("users", users);
         mm.addAttribute("count", diverDao.getMaxCountSearchUsers(model));
-        return new ModelAndView("fed/index", mm);
+        return mm;
+    }
+
+    @RequestMapping("/fed/addDiversToFederation.html")
+    public ModelAndView addToFederationPage(@ModelAttribute UserSearchFormObject model) {
+        model.setIsForAddingToFederation(Boolean.TRUE.toString());
+        return new ModelAndView("fed/addDiversToFederation", prepareSearchModelMap(model, false));
+    }
+
+    @RequestMapping("/fed/addToFederation.html")
+    public ModelAndView addToFederation(@RequestParam("diverId") Long diverId) {
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        Diver diver = diverDao.getModel(diverId);
+        if (diver == null || diver.getFederation() != null) {
+            throw new BadRequestException();
+        }
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        switch (diverRegistrationStatus) {
+            case NEVER_REGISTERED:
+            case CMAS_BASIC:
+            case CMAS_FULL:
+                throw new BadRequestException();
+            case INACTIVE:
+            case DEMO:
+                diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                diver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
+                break;
+            case GUEST:
+                diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+                diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                break;
+
+        }
+        diver.setFederation(currentFedAdmin.getUser().getFederation());
+        // todo redraw cards when level changes in upload
+        diverDao.updateModel(diver);
+        PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
+        if (primaryPersonalCard != null) {
+            personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
+        }
+        return new ModelAndView("redirect:/fed/editDiver.html?userId=" + diverId);
     }
 
     @SuppressWarnings("CallToStringEquals")
@@ -175,7 +226,6 @@ public class FederationAdminController {
     public ModelAndView addDiver() {
         return getUserInfoPage(new Diver());
     }
-
 
     @RequestMapping("/fed/editDiver.html")
     public ModelAndView editDiver(

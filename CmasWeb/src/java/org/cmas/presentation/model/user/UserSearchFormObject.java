@@ -34,6 +34,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     private String countryCode;
     private String userRole;
     private String diverType;
+    private String isForAddingToFederation;
 
     public UserSearchFormObject() {
         super(UserReportColumnNames.email);
@@ -96,5 +97,13 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getIsForAddingToFederation() {
+        return isForAddingToFederation;
+    }
+
+    public void setIsForAddingToFederation(String isForAddingToFederation) {
+        this.isForAddingToFederation = isForAddingToFederation;
     }
 }

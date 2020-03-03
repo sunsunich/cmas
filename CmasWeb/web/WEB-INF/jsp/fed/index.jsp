@@ -10,7 +10,7 @@
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
-<my:fed_adminpage title="Users"
+<my:fed_adminpage title="Divers"
                   customScripts="/js/model/fileUpload_model.js,/js/model/fed_billing_model.js,/js/controller/fed_billing_controller.js,/js/controller/fileUpload_controller.js">
 
     <h2>Your federation divers</h2>
