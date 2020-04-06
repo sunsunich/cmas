@@ -2,6 +2,7 @@ package org.cmas.presentation.dao.user;
 
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.presentation.model.SortPaginator;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.StringUtil;
 import org.cmas.util.dao.IdGeneratingDaoImpl;
@@ -25,12 +26,11 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     @Override
     public List<T> searchUsers(UserSearchFormObject form) {
         Criteria crit = makeSearchRequest(form);
-        boolean dir = form.isDir();
-        String sort = form.getSortColumnName();
-        if (sort == null) {
-            sort = UserSearchFormObject.UserReportColumnNames.email.toString();
-        }
-        Order order = getOrder(sort, dir);
+        return searchWithPaginator(form, crit);
+    }
+
+    protected List<T> searchWithPaginator(SortPaginator form, Criteria crit) {
+        Order order = getOrder(form.getSortColumnName(), form.isDir());
         //noinspection unchecked
         return crit.addOrder(order).setFirstResult(form.getOffset())
                    .setMaxResults(form.getLimit()).setCacheable(true).list();
@@ -98,6 +98,10 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
     @Override
     public int getMaxCountSearchUsers(UserSearchFormObject form) {
         Criteria crit = makeSearchRequest(form);
+        return count(crit);
+    }
+
+    protected int count(Criteria crit) {
         crit.setProjection(Projections.rowCount()).setCacheable(true);
         Object result = crit.uniqueResult();
         return result == null ? 0 : ((Number) result).intValue();

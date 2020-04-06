@@ -15,6 +15,7 @@ import org.cmas.presentation.controller.cards.CardDisplayManager;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
+import org.cmas.presentation.model.user.AddingToFederationFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
@@ -22,6 +23,7 @@ import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.UploadDiversTask;
 import org.cmas.presentation.service.user.UploadDiversTaskStatus;
+import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.fedadmin.DiverUploadValidator;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
@@ -47,6 +49,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +77,9 @@ public class FederationAdminController {
 
     @Autowired
     private DiverUploadValidator diverUploadValidator;
+
+    @Autowired
+    private HibernateSpringValidator validator;
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
@@ -122,9 +128,29 @@ public class FederationAdminController {
     }
 
     @RequestMapping("/fed/addDiversToFederation.html")
-    public ModelAndView addToFederationPage(@ModelAttribute UserSearchFormObject model) {
-        model.setIsForAddingToFederation(Boolean.TRUE.toString());
-        return new ModelAndView("fed/addDiversToFederation", prepareSearchModelMap(model, false));
+    public ModelAndView addToFederationPage() {
+        AddingToFederationFormObject model = new AddingToFederationFormObject();
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("command", model);
+        mm.addAttribute("users", Collections.<Diver>emptyList());
+        mm.addAttribute("count", 0);
+        mm.addAttribute("showErrors", false);
+        return new ModelAndView("fed/addDiversToFederation", mm);
+    }
+
+    @RequestMapping("/fed/addDiversToFederationSubmit.html")
+    public ModelAndView addToFederationPage(@ModelAttribute("command") AddingToFederationFormObject model, Errors errors) {
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("command", model);
+        validator.validate(model, errors);
+        List<Diver> users = errors.hasErrors() ?
+                Collections.<Diver>emptyList() :
+                diverDao.searchDiversToAddToFederation(model);
+        int count = errors.hasErrors() ? 0 : diverDao.getMaxCountDiversToAddToFederation(model);
+        mm.addAttribute("users", users);
+        mm.addAttribute("count", count);
+        mm.addAttribute("showErrors", true);
+        return new ModelAndView("fed/addDiversToFederation", mm);
     }
 
     @RequestMapping("/fed/addToFederation.html")

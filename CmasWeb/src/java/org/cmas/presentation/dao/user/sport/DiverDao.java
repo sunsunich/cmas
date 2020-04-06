@@ -7,6 +7,7 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDao;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
+import org.cmas.presentation.model.user.AddingToFederationFormObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,6 +20,10 @@ import java.util.List;
  * @author Alexander Petukhov
  */
 public interface DiverDao extends UserDao<Diver> {
+
+    List<Diver> searchDiversToAddToFederation(AddingToFederationFormObject formObject);
+
+    int getMaxCountDiversToAddToFederation(AddingToFederationFormObject formObject);
 
     List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
                              DiverRegistrationStatus registrationStatus);

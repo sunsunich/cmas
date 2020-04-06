@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.Globals;
+import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
@@ -8,6 +9,7 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.user.UserDaoImpl;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.social.FindDiverFormObject;
+import org.cmas.presentation.model.user.AddingToFederationFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.util.StringUtil;
 import org.hibernate.Criteria;
@@ -35,6 +37,34 @@ import java.util.Set;
  */
 @SuppressWarnings("unchecked")
 public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
+
+    @Override
+    public List<Diver> searchDiversToAddToFederation(AddingToFederationFormObject formObject) {
+        return searchWithPaginator(formObject, getAddToFederationCriteria(formObject));
+    }
+
+    @Override
+    public int getMaxCountDiversToAddToFederation(AddingToFederationFormObject formObject) {
+        return count(getAddToFederationCriteria(formObject));
+    }
+
+    @NotNull
+    private Criteria getAddToFederationCriteria(AddingToFederationFormObject formObject) {
+        Criteria criteria = createCriteria().add(Restrictions.eq("enabled", true));
+        criteria.add(Restrictions.eq("firstName", StringUtil.correctSpaceCharAndTrim(formObject.getFirstName())));
+        criteria.add(Restrictions.eq("lastName", StringUtil.correctSpaceCharAndTrim(formObject.getLastName())));
+        criteria.add(Restrictions.eq("role", Role.ROLE_DIVER));
+        criteria.add(Restrictions.isNull("federation"))
+                .add(Restrictions.in("diverRegistrationStatus",
+                                     new DiverRegistrationStatus[]{
+                                             DiverRegistrationStatus.INACTIVE,
+                                             DiverRegistrationStatus.DEMO,
+                                             DiverRegistrationStatus.GUEST}
+                     )
+                )
+                .add(Restrictions.eq("bot", false));
+        return criteria;
+    }
 
     @Override
     public List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
@@ -89,25 +119,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (!StringUtil.isTrimmedEmpty(diverType)) {
             criteria.add(Restrictions.eq("diverType", DiverType.valueOf(diverType)));
         }
-        boolean isForAddingToFederation = Boolean.parseBoolean(form.getIsForAddingToFederation());
-        if (isForAddingToFederation) {
-            criteria.add(Restrictions.isNull("federation"))
-                    .add(Restrictions.in("diverRegistrationStatus",
-                                         new DiverRegistrationStatus[]{
-                                                 DiverRegistrationStatus.INACTIVE,
-                                                 DiverRegistrationStatus.DEMO,
-                                                 DiverRegistrationStatus.GUEST}
-                         )
-                    )
-            ;
-
-        } else {
-            String country = form.getCountryCode();
-            if (!StringUtil.isTrimmedEmpty(country)) {
-                criteria.createAlias("federation", "fed")
-                        .createAlias("fed.country", "country")
-                        .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
-            }
+        String country = form.getCountryCode();
+        if (!StringUtil.isTrimmedEmpty(country)) {
+            criteria.createAlias("federation", "fed")
+                    .createAlias("fed.country", "country")
+                    .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
         }
         return criteria;
     }

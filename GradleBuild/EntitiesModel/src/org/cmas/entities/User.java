@@ -96,6 +96,9 @@ public abstract class User implements Serializable, HasId {
     @Column
     private String userpicUrl;
 
+    @Column
+    private boolean bot;
+
     //end set by user from mobile
 
     protected User() {
@@ -140,6 +143,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public boolean isBot() {
+        return bot;
+    }
+
+    public void setBot(boolean bot) {
+        this.bot = bot;
     }
 
     public UserBalance getUserBalance() {

@@ -8,18 +8,31 @@
 <jsp:useBean id="diverTypes" scope="request" type="org.cmas.entities.diver.DiverType[]"/>
 <jsp:useBean id="users" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
-<jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
+<jsp:useBean id="showErrors" scope="request" type="java.lang.Boolean"/>
+<jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.AddingToFederationFormObject"/>
 
-<my:fed_adminpage title="Find divers">
+<my:fed_adminpage title="Find divers with Demo/Guest accounts" customScripts="/js/controller/fed_add_diver_to_fed_controller.js">
+    <script type="application/javascript">
+        <c:choose>
+        <c:when test="${command.dob == null}">
+        var dob = "";
+        </c:when>
+        <c:otherwise>
+        var dob = "${command.dob}";
+        </c:otherwise>
+        </c:choose>
+    </script>
 
-    <h2>Find divers to add to your federation</h2>
+
+    <h2>Find divers with Demo/Guest accounts to add to your federation</h2>
 
     <div>
         <div style="float: left">
-            <ff:form submitText="Find" action="/fed/addDiversToFederation.html" method="GET" noRequiredText="true">
-                <ff:input path="email" label="E-mail" maxLen="250" required="false"/>
-                <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
-                <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
+            <ff:form submitText="Find" action="/fed/addDiversToFederationSubmit.html" method="GET"
+                     noRequiredText="false">
+                <ff:input path="firstName" label="First Name" maxLen="250" required="true"/>
+                <ff:input path="lastName" label="Last Name" maxLen="250" required="true"/>
+                <ff:input id="dob" path="dob" label="Date of birth" maxLen="250" required="true"/>
                 <input type="hidden" name="sort" value="${command.sort}"/>
                 <input type="hidden" name="dir" value="${command.dir}"/>
             </ff:form>
@@ -28,12 +41,12 @@
 
     <c:choose>
         <c:when test="${!empty users}">
-            <c:set var="initURL" value="/fed/addDiversToFederation.html"/>
+            <c:set var="initURL" value="/fed/addDiversToFederationSubmit.html"/>
             <c:set var="url" value="${initURL}?"/>
             <c:set var="urlEmpty" value="true"/>
 
-            <c:if test="${!empty command.email}">
-                <c:set var="url" value="${url}email=${command.email}&"/>
+            <c:if test="${!empty command.dob}">
+                <c:set var="url" value="${url}dob=${command.dob}&"/>
                 <c:set var="urlEmpty" value="false"/>
             </c:if>
             <c:if test="${!empty command.firstName}">
@@ -73,7 +86,11 @@
             </table>
         </c:when>
         <c:otherwise>
-            No users found.
+            <c:if test="${showErrors}">
+                <div>
+                    No users found.
+                </div>
+            </c:if>
         </c:otherwise>
     </c:choose>
     <br><br>
