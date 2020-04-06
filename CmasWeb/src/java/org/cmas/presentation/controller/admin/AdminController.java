@@ -21,6 +21,7 @@ import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
+import org.cmas.presentation.model.admin.FederationFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
@@ -28,6 +29,7 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.loyalty.InsuranceRequestService;
+import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.admin.EditUserValidator;
 import org.cmas.presentation.validator.admin.PasswdValidator;
@@ -38,6 +40,7 @@ import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
 import org.hibernate.criterion.Restrictions;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -71,6 +74,8 @@ public class AdminController {
     protected AmateurDao amateurDao;
     @Autowired
     private DiverDao diverDao;
+    @Autowired
+    private NationalFederationService federationService;
     @Autowired
     private PersonalCardService personalCardService;
 
@@ -146,6 +151,37 @@ public class AdminController {
         mm.addAttribute("users", users);
         mm.addAttribute("count", count);
         return new ModelAndView("admin/index", mm);
+    }
+
+    @RequestMapping("/admin/addFederation.html")
+    public ModelAndView addFederation() {
+        return getModelAndViewForAddFederation(new FederationFormObject());
+    }
+
+    @NotNull
+    protected ModelAndView getModelAndViewForAddFederation(FederationFormObject formObject) {
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("command", formObject);
+        List<Country> countries = countryDao.getAll();
+        mm.addAttribute("countries", countries.toArray(new Country[countries.size()]));
+        return new ModelAndView("admin/newFederation", mm);
+    }
+
+    @RequestMapping("/admin/addFederationSubmit.html")
+    public ModelAndView addFederationSubmit(
+            @ModelAttribute("command") FederationFormObject formObject, Errors errors
+    ) {
+        validator.validate(formObject, errors);
+        if (errors.hasErrors()) {
+            return getModelAndViewForAddFederation(formObject);
+        }
+        Country country = countryDao.getByCode(formObject.getCountryCode());
+        if (country == null) {
+            errors.rejectValue("countryCode", "validation.incorrectField");
+            return getModelAndViewForAddFederation(formObject);
+        }
+        Diver federationAdmin = federationService.createNewFederation(formObject);
+        return new ModelAndView(switchToUserAsAdmin(federationAdmin.getId(), Role.ROLE_FEDERATION_ADMIN.getName()));
     }
 
 

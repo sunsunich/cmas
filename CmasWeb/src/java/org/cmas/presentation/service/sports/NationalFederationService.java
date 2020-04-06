@@ -3,6 +3,7 @@ package org.cmas.presentation.service.sports;
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
+import org.cmas.presentation.model.admin.FederationFormObject;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,13 @@ import java.util.List;
  * @author Alexander Petukhov
  */
 public interface NationalFederationService {
+
+    /**
+     *
+     * @param formObject data to create federation from
+     * @return federation admin
+     */
+    Diver createNewFederation(FederationFormObject formObject);
 
     NationalFederation getSportsmanFederationBySportsmanData(String firstName, String lastName, Country country);
 

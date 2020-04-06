@@ -38,7 +38,7 @@
             <c:set var="submitText" value="Add Driver"/>
         </c:when>
         <c:otherwise>
-            <c:set var="submitText" value="Edit Driver"/>
+            <c:set var="submitText" value="Save changes"/>
         </c:otherwise>
     </c:choose>
 

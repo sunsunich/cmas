@@ -34,7 +34,8 @@
             <table>
                 <tr>
                     <td><a href="/logout.html">Sign out</a>&nbsp;&nbsp;&nbsp;</td>
-                    <td><a href="/admin/index.html">Users</a></td>
+                    <td><a href="/admin/index.html">Users</a>&nbsp;&nbsp;&nbsp;</td>
+                    <td><a href="/admin/addFederation.html">Add new Federation</a></td>
                 </tr>
             </table>
 

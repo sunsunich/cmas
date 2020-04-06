@@ -94,6 +94,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void cloneUser(Diver diver) {
         Diver newDiver = diverDao.createNew(Diver.class);
+        newDiver.setBot(true);
         newDiver.setLocale(diver.getLocale());
         newDiver.setFederation(diver.getFederation());
         newDiver.setCountry(diver.getCountry());

@@ -107,7 +107,7 @@ public class FederationAdminController {
         if (currentFedAdmin == null) {
             throw new BadRequestException();
         }
-        model.setCountryCode(currentFedAdmin.getUser().getFederation().getCountry().getCode());
+        model.setFederationId(String.valueOf(currentFedAdmin.getUser().getFederation().getId()));
         ModelMap mm = prepareSearchModelMap(model, true);
         mm.addAttribute("xlsFileFormObject", fileBean);
         return new ModelAndView("fed/index", mm);

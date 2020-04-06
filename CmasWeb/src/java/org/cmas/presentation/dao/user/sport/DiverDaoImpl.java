@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -53,6 +54,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         Criteria criteria = createCriteria().add(Restrictions.eq("enabled", true));
         criteria.add(Restrictions.eq("firstName", StringUtil.correctSpaceCharAndTrim(formObject.getFirstName())));
         criteria.add(Restrictions.eq("lastName", StringUtil.correctSpaceCharAndTrim(formObject.getLastName())));
+        try {
+            criteria.add(Restrictions.eq("dob", Globals.getDTF().parse(formObject.getDob())));
+        } catch (ParseException ignored) {
+        }
         criteria.add(Restrictions.eq("role", Role.ROLE_DIVER));
         criteria.add(Restrictions.isNull("federation"))
                 .add(Restrictions.in("diverRegistrationStatus",
@@ -124,6 +129,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
             criteria.createAlias("federation", "fed")
                     .createAlias("fed.country", "country")
                     .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(country)));
+        }
+        String federationId = form.getFederationId();
+        if (!StringUtil.isTrimmedEmpty(federationId)) {
+            criteria.add(Restrictions.eq("federation.id",
+                                         Long.parseLong(StringUtil.correctSpaceCharAndTrim(federationId))));
         }
         return criteria;
     }
