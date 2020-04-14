@@ -94,7 +94,7 @@ public class RusDiverXlsParserImpl extends BaseDiverXlsParserImpl {
             return null;
         }
         Diver diver = new Diver();
-        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
+        String email = StringUtil.lowerCaseEmail(row.getCell(5).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
         }

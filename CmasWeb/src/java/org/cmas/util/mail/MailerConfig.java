@@ -43,6 +43,7 @@ public class MailerConfig implements InitializingBean, AddressConfig {
         this.supportEmail = supportEmail;
     }
 
+    @Required
     public void setQuestionFormEmail(String questionFormEmail) {
         this.questionFormEmail = questionFormEmail;
     }
@@ -50,7 +51,6 @@ public class MailerConfig implements InitializingBean, AddressConfig {
     public void setAdminMail(String adminMail) {
         this.adminMail = adminMail;
     }
-
 
     @Override
     public String getQuestionFormAddr() {

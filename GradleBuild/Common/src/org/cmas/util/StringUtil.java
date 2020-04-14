@@ -1,10 +1,36 @@
 package org.cmas.util;
 
+import com.sun.istack.internal.Nullable;
+
+import java.util.Locale;
+import java.util.regex.Pattern;
+
 public final class StringUtil {
+
+    public static final Pattern ASCII_REGEX = Pattern.compile("\\A\\p{ASCII}*\\z");
 
     private StringUtil() {
 
     }
+
+    public static String lowerCaseEmail(String email) {
+        return correctSpaceCharAndTrim(ASCII_REGEX.matcher(email).matches() ? email.toLowerCase(Locale.ENGLISH) : email);
+    }
+
+//    public static void main(String[] args) {
+//
+//        String[] strings = {
+//                "info@Books.example",
+//                "info@books.example",
+//                "info@bücher.example",
+//                "info@Bücher.example",
+//                "info@bÜcher.example",
+//                "KEVIN.DOLPHIN@mangaung.co.za"
+//        };
+//        for (String s : strings) {
+//            System.out.println(lowerCaseEmail(s));
+//        }
+//    }
 
     public static boolean isTrimmedEmpty(String s) {
         return s == null || correctSpaceCharAndTrim(s).isEmpty();
@@ -24,7 +50,8 @@ public final class StringUtil {
         return newArray;
     }
 
-    public static String correctSpaceCharAndTrim(String str) {
+    @Nullable
+    public static String correctSpaceCharAndTrim(@Nullable String str) {
         if (str == null) {
             return null;
         }

@@ -159,7 +159,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                         country, true
                 );
                 //todo fix dob for iranian federation
-                if (country.getCode().equals("IRI")) {
+                if (country.getCode().equals(Country.IRAN_COUNTRY_CODE)) {
                     for (Diver diver : divers) {
                         diver.setDob(dob);
                         diverDao.updateModel(diver);
@@ -249,9 +249,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
         } else {
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-            diver.setDateLicencePaymentIsDue(
-                    new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
-            );
+//            diver.setDateLicencePaymentIsDue(
+//                    new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
+//            );
         }
         diverDao.updateModel(diver);
         mailer.sendDiverPassword(diver);
@@ -269,7 +269,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public Registration add(FullDiverRegistrationFormObject formObject) {
         Registration entity = new Registration(new Date());
-        entity.setEmail(formObject.getEmail());
+        String email = StringUtil.lowerCaseEmail(formObject.getEmail());
+        entity.setEmail(email);
         entity.setAreaOfInterest(formObject.getAreaOfInterest());
         entity.setCountry(formObject.getCountry());
         entity.setFirstName(formObject.getFirstName());
@@ -283,7 +284,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         entity.setRole(Role.ROLE_DIVER.getName());
 
         Long id = (Long) registrationDao.save(entity);
-        entity.setMd5(passwordEncoder.encodePassword(id + formObject.getEmail(), UserDetails.SALT));
+        entity.setMd5(passwordEncoder.encodePassword(id + email, UserDetails.SALT));
         registrationDao.updateModel(entity);
 
         mailer.sendRegistration(entity);

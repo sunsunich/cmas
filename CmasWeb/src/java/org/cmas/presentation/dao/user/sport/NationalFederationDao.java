@@ -13,10 +13,7 @@ import java.util.List;
  */
 public interface NationalFederationDao extends DictionaryDataDao<NationalFederation> {
 
-    //todo remove?
-    NationalFederation getFederationForSportsman(String firstName, String lastName, Country country);
-
-    NationalFederation getByCountry(Country country);
+    List<NationalFederation> getByCountry(Country country);
 
     List<NationalFederation> getAll();
 }

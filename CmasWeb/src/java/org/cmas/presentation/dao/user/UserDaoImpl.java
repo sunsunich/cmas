@@ -111,7 +111,7 @@ public class UserDaoImpl<T extends User> extends IdGeneratingDaoImpl<T> implemen
         Criteria crit = createCriteria().add(Restrictions.eq("enabled", true));
         String email = form.getEmail();
         if (!StringUtil.isTrimmedEmpty(email)) {
-            crit.add(Restrictions.like("email", StringUtil.correctSpaceCharAndTrim(email),
+            crit.add(Restrictions.like("email", StringUtil.lowerCaseEmail(email),
                                        MatchMode.START));
         }
         String firstName = form.getFirstName();

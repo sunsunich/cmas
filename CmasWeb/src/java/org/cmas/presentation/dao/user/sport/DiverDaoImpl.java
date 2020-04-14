@@ -1,6 +1,7 @@
 package org.cmas.presentation.dao.user.sport;
 
 import org.cmas.Globals;
+import org.cmas.entities.Country;
 import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
@@ -16,7 +17,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -72,7 +72,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
-    public List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
+    public List<Diver> searchDivers(List<NationalFederation> federations, String firstName, String lastName, Date dob,
                                     DiverRegistrationStatus registrationStatus) {
         Criteria criteria = createCriteria()
                 .add(Restrictions.eq("enabled", true))
@@ -80,12 +80,12 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .createAlias("fed.country", "country")
                 // todo fix dob for iranian federation
                 .add(Restrictions.disjunction()
-                                 .add(Restrictions.eq("country.code", "IRI"))
+                                 .add(Restrictions.eq("country.code", Country.IRAN_COUNTRY_CODE))
                                  .add(Restrictions.eq("dob", dob))
                 )
                 .add(Restrictions.eq("firstName", firstName))
                 .add(Restrictions.eq("lastName", lastName))
-                .add(Restrictions.eq("federation", federation));
+                .add(Restrictions.in("federation", federations));
         if (registrationStatus != null) {
             criteria.add(Restrictions.eq("previousRegistrationStatus", registrationStatus));
         }
@@ -188,12 +188,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                      )
                 )
                 //remove bots
-                .add(Restrictions.not(
-                        Restrictions.and(
-                                Restrictions.like("email", "@mailinator.com", MatchMode.END),
-                                Restrictions.like("firstName", "Bot", MatchMode.END))
-                     )
-                )
+                .add(Restrictions.eq("bot", false))
                 .list();
     }
 

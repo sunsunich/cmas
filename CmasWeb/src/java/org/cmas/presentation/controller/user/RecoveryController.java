@@ -94,17 +94,17 @@ public class RecoveryController {
         boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
         if (result.hasErrors() || !isCaptchaCorrect) {
             return buildLostPasswordForm(model, isCaptchaCorrect);
-        } else {
-            String email = StringUtil.correctSpaceCharAndTrim(formObject.getEmail());
-            Diver user = diverDao.getByEmail(email);
-            long rndNum = rnd.nextLong();
-            String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
-            user.setLostPasswdCode(checkCode);
-            diverDao.updateModel(user);
-            mailer.sendLostPasswd(user);
-            model.addAttribute("user", user);
-            return new ModelAndView("lostPasswdSuccess");
         }
+
+        String email = StringUtil.lowerCaseEmail(formObject.getEmail());
+        Diver user = diverDao.getByEmail(email);
+        long rndNum = rnd.nextLong();
+        String checkCode = passwordEncoder.encodePassword(user.getEmail() + rndNum, SALT);
+        user.setLostPasswdCode(checkCode);
+        diverDao.updateModel(user);
+        mailer.sendLostPasswd(user);
+        model.addAttribute("user", user);
+        return new ModelAndView("lostPasswdSuccess");
     }
 
     @RequestMapping(value = "/toChangePasswd.html", method = RequestMethod.GET)

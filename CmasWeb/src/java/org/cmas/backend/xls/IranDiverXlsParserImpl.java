@@ -36,7 +36,7 @@ public class IranDiverXlsParserImpl extends SingleTableDiverXlsParserImpl {
         if (row.getPhysicalNumberOfCells() == 0) {
             return null;
         }
-        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(2).getStringCellValue());
+        String email = StringUtil.lowerCaseEmail(row.getCell(2).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
         }

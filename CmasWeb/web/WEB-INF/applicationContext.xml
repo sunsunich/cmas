@@ -144,12 +144,6 @@
     <bean id="feedbackService" class="org.cmas.presentation.service.FeedbackServiceImpl"/>
     <bean id="cardApprovalRequestService" class="org.cmas.presentation.service.cards.CardApprovalRequestServiceImpl"/>
 
-    <bean id="athleteService" class="org.cmas.presentation.service.user.AthleteServiceImpl">
-        <property name="entityClass" value="org.cmas.entities.sport.Athlete"/>
-        <property name="entityDao" ref="athleteDao"/>
-        <property name="validator" ref="validator"/>
-    </bean>
-
     <bean id="sportsFederationService" class="org.cmas.presentation.service.sports.NationalFederationServiceImpl"/>
 
     <bean id="amateurService" class="org.cmas.presentation.service.user.UserServiceImpl">

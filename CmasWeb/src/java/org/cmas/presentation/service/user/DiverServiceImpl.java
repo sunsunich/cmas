@@ -200,7 +200,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         } else {
             locale = languages.get(0);
         }
-        String email = diver.getEmail();
+        String email = StringUtil.lowerCaseEmail(diver.getEmail());
         Diver dbDiver = diverDao.getByEmail(email);
         boolean isNew = dbDiver == null;
         if (isNew) {
@@ -296,7 +296,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     @Override
     public void uploadExistingEgyptianDiver(Diver diver) {
-        Country egypt = countryDao.getByCode("EGY");
+        Country egypt = countryDao.getByCode(Country.EGYPT_COUNTRY_CODE);
         Country country = countryDao.getByName(diver.getCountry().getName());
         if (country == null) {
             LOGGER.error("country not found for diver:"
@@ -330,7 +330,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
         dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
 
-        updateDiverCmasData(nationalFederationDao.getByCountry(egypt),
+        updateDiverCmasData(nationalFederationDao.getByCountry(egypt).get(0),
                             dbDiver,
                             diver);
     }

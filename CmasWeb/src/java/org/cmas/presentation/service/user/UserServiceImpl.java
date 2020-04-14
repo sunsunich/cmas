@@ -18,6 +18,7 @@ import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.EntityServiceImpl;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.util.StringUtil;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +150,7 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
                 errors.rejectValue("password", "validation.passwordRejected");
             }
         }
-        String email = formObject.getEmail();
+        String email = StringUtil.lowerCaseEmail(formObject.getEmail());
         if (!errors.hasErrors() && !user.getEmail().equals(email)) {
             try {
                 String md5 = passwordEncoder.encodePassword(email + user.getEmail(), UserDetails.SALT);

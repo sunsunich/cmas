@@ -2,7 +2,6 @@ package org.cmas.presentation.service.sports;
 
 import org.cmas.entities.Country;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.model.admin.FederationFormObject;
 
 import java.util.Date;
@@ -21,8 +20,6 @@ public interface NationalFederationService {
      * @return federation admin
      */
     Diver createNewFederation(FederationFormObject formObject);
-
-    NationalFederation getSportsmanFederationBySportsmanData(String firstName, String lastName, Country country);
 
     List<Diver> searchDivers(String firstName, String lastName, Date dob, Country country, boolean isForRegistration);
 

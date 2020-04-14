@@ -19,7 +19,6 @@ import org.cmas.presentation.model.admin.AdminUserFormObject;
 import org.cmas.presentation.model.admin.PasswordChangeFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.presentation.service.user.AthleteService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.UserService;
 import org.cmas.util.http.BadRequestException;
@@ -36,10 +35,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private MailService mailer;
-
-    @Autowired
-    @Qualifier("athleteService")
-    private AthleteService athleteService;
 
     @Autowired
     @Qualifier("amateurService")
@@ -77,7 +72,6 @@ public class AdminServiceImpl implements AdminService {
                 userService = amateurService;
                 break;
             case ROLE_ATHLETE:
-                userService = athleteService;
                 break;
             case ROLE_ADMIN:
                 break;

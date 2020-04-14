@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author Alexander Petukhov
  */
-public class LocaleMapping {
+public final class LocaleMapping {
 
     private static final Map<String, String> ISO3_COUNTRY_CODE_TO_ISO2_COUNTRY_CODE_MAP;
 
@@ -20,6 +20,9 @@ public class LocaleMapping {
             String iso3Country = new Locale("", iso2Country).getISO3Country();
             ISO3_COUNTRY_CODE_TO_ISO2_COUNTRY_CODE_MAP.put(iso3Country, iso2Country);
         }
+    }
+
+    private LocaleMapping() {
     }
 
     public static String getIso2CountryCode(String iso3CointryCode) {

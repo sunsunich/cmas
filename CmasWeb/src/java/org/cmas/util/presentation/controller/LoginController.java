@@ -137,7 +137,7 @@ public class LoginController {
         }
 
         UserSearchFormObject formObject = new UserSearchFormObject();
-        formObject.setEmail(username);
+        formObject.setEmail(StringUtil.lowerCaseEmail(username));
         formObject.setUserRole(Role.ROLE_FEDERATION_ADMIN.name());
         formObject.setLimit(1);
         List<Diver> federations = diverDao.searchUsers(formObject);

@@ -16,6 +16,10 @@ import java.util.List;
 @Table(name = "countries")
 public class Country extends DictionaryEntity {
 
+    public static final String IRAN_COUNTRY_CODE = "IRI";
+    public static final String RUSSIAN_COUNTRY_CODE = "RUS";
+    public static final String EGYPT_COUNTRY_CODE = "EGY";
+
     private static final long serialVersionUID = 3857192785221652490L;
 
     public Country() {

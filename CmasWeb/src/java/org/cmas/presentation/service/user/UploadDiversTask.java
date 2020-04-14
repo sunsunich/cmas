@@ -75,10 +75,10 @@ public class UploadDiversTask implements Runnable {
             return;
         }
         Collection<Diver> divers;
-        boolean isEgypt = "EGY".equalsIgnoreCase(countryCode);
-        if ("RUS".equalsIgnoreCase(countryCode)) {
+        boolean isEgypt = Country.EGYPT_COUNTRY_CODE.equalsIgnoreCase(countryCode);
+        if (Country.RUSSIAN_COUNTRY_CODE.equalsIgnoreCase(countryCode)) {
             divers = diverService.rusDiverXlsParser.getDivers(file, xlsProgressListener);
-        } else if ("IRI".equalsIgnoreCase(countryCode)) {
+        } else if (Country.IRAN_COUNTRY_CODE.equalsIgnoreCase(countryCode)) {
             divers = diverService.iranDiverXlsParser.getDivers(file, xlsProgressListener);
         } else if (isEgypt) {
             divers = diverService.egyptDiverXlsParser.getDivers(file, xlsProgressListener);

@@ -25,7 +25,7 @@ public interface DiverDao extends UserDao<Diver> {
 
     int getMaxCountDiversToAddToFederation(AddingToFederationFormObject formObject);
 
-    List<Diver> searchDivers(NationalFederation federation, String firstName, String lastName, Date dob,
+    List<Diver> searchDivers(List<NationalFederation> federations, String firstName, String lastName, Date dob,
                              DiverRegistrationStatus registrationStatus);
 
     List<Diver> getDiversByCardNumber(String cardNumber, DiverRegistrationStatus registrationStatus);

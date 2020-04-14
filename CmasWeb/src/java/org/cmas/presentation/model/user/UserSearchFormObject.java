@@ -8,8 +8,6 @@ import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
 import org.springframework.validation.Errors;
 
-
-@SuppressWarnings("InnerClassFieldHidesOuterClassField")
 public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject.UserReportColumnNames> implements Validatable {
 
     @SuppressWarnings("EnumeratedConstantNamingConvention")

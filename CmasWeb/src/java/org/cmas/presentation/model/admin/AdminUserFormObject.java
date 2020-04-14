@@ -6,6 +6,7 @@ import org.cmas.presentation.model.Editable;
 import org.cmas.presentation.model.user.UserFormObject;
 import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
+import org.cmas.util.StringUtil;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.Pattern;
 import org.jetbrains.annotations.Nullable;
@@ -35,7 +36,7 @@ public class AdminUserFormObject extends UserFormObject implements Editable<User
 //        if (password !=null){
 //			entity.setPassword(password);
 //		}
-        entity.setEmail(email);
+        entity.setEmail(StringUtil.lowerCaseEmail(email));
 //        entity.getUserBalance().setDiscountPercent(
 //                new BigDecimal(discountPercent)
 //        );

@@ -91,7 +91,7 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
         if (row == null || row.getCell(5) == null) {
             return null;
         }
-        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
+        String email = StringUtil.lowerCaseEmail(row.getCell(5).getStringCellValue());
         if (StringUtil.isTrimmedEmpty(email)) {
             return null;
         }

@@ -11,6 +11,7 @@ import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.model.admin.FederationFormObject;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -53,7 +54,7 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         federationAdmin.setRole(Role.ROLE_FEDERATION_ADMIN);
 
         federationAdmin.setDateReg(new Date());
-        federationAdmin.setEmail(formObject.getEmail());
+        federationAdmin.setEmail(StringUtil.lowerCaseEmail(formObject.getEmail()));
         federationAdmin.setPassword("36b1f45f0a95d1624734220892f0e7a9"); // cmasdata
         federationAdmin.setFirstName(formObject.getName());
         federationAdmin.setLastName("");
@@ -68,26 +69,10 @@ public class NationalFederationServiceImpl implements NationalFederationService 
     }
 
     @Override
-    public NationalFederation getSportsmanFederationBySportsmanData(String firstName, String lastName, Country country) {
-        //todo better search
-        NationalFederation nationalFederation = nationalFederationDao.getByCountry(country);
-        if (nationalFederation == null) {
-            //todo remote call
-            if ("Alexander".equals(firstName) && country.getCode().equalsIgnoreCase("rus")) {
-                nationalFederation = new NationalFederation();
-                nationalFederation.setCountry(country);
-                nationalFederation.setName("Test Russia");
-                nationalFederationDao.save(nationalFederation);
-            }
-        }
-        return nationalFederation;
-    }
-
-    @Override
     public List<Diver> searchDivers(String firstName, String lastName, Date dob, Country country, boolean isForRegistration) {
-        NationalFederation federation = nationalFederationDao.getByCountry(country);
+        List<NationalFederation> federations = nationalFederationDao.getByCountry(country);
         //todo remote call
-        return diverDao.searchDivers(federation, firstName, lastName, dob,
+        return diverDao.searchDivers(federations, firstName, lastName, dob,
                                      isForRegistration ? DiverRegistrationStatus.NEVER_REGISTERED : null
         );
     }

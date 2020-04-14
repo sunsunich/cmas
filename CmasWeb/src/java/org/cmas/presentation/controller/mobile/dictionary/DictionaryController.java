@@ -10,6 +10,7 @@ import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.service.mobile.DictionaryDataService;
 import org.cmas.presentation.service.mobile.PushServerSettings;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.slf4j.Logger;
@@ -58,7 +59,7 @@ public class DictionaryController {
 
     @RequestMapping("/send-message.html")
     public View sendMessage(@RequestParam("email") String email) {
-        Diver diver = diverDao.getByEmail(email);
+        Diver diver = diverDao.getByEmail(StringUtil.lowerCaseEmail(email));
         if (diver == null) {
             throw new BadRequestException();
         }

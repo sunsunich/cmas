@@ -28,6 +28,7 @@ import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.json.JsonBindingResult;
@@ -188,7 +189,8 @@ public class RegistrationController {
         if (diver == null) {
             throw new BadRequestException();
         }
-        if (!diver.getEmail().equals(formObject.getEmail())) {
+        String formObjectEmail = StringUtil.lowerCaseEmail(formObject.getEmail());
+        if (!diver.getEmail().equals(formObjectEmail)) {
             result.rejectValue("email", "validation.registrationEmailMismatch");
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
