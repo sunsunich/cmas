@@ -23,6 +23,7 @@ var fileUpload_controller = {
     uploadFile: function (formData) {
         var self = this;
         this.isLoadingError = false;
+        this.isProcessingFile = false;
         this.errorElem.empty();
         this.textElem.html(labels["cmas.face.file.uploading"]);
         this.progressOuterElem.show();

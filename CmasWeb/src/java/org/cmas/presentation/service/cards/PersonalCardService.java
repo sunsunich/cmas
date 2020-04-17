@@ -5,6 +5,7 @@ import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.util.dao.HibernateDao;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -17,6 +18,9 @@ public interface PersonalCardService {
     void setupDisplayCardsForDivers(List<Diver> divers);
 
     List<PersonalCard> getCardsToShow(Diver diver);
+
+    @Nullable
+    PersonalCard getMaxNationalCard(Diver diver);
 
     void generateNonPrimaryCardsImages(CardUser cardUser);
 

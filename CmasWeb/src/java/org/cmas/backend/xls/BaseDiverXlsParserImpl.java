@@ -10,6 +10,7 @@ import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +47,7 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
         return totalWork;
     }
 
+    @Nullable
     static Date getDateCellValue(Cell cell) {
         if (cell == null) {
             return null;
@@ -56,6 +58,7 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
         return null;
     }
 
+    @Nullable
     static Integer getIntegerValue(Cell cell) {
         if (cell == null) {
             return null;

@@ -173,7 +173,7 @@ var fed_edit_diver_controller = {
             var natFedCardNumber = $('#diver_natFedCardNumber').val();
             var natFedInstructorCardNumber = $('#diver_natFedInstructorCardNumber').val();
 
-            if (!isStringTrimmedEmpty(natFedCardNumber)) {
+            if (!isStringTrimmedEmpty(natFedCardNumber) && fed_edit_diver_model.diver.cards.length === 0) {
                 const card = {
                     number: natFedCardNumber,
                     diverType: fed_edit_diver_model.diver.diverType,

@@ -18,13 +18,11 @@ public interface DiverService extends UserService<Diver> {
 
     UploadDiversTask getUploadDiversTask(long fedAdminId);
 
-    void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards);
+    void uploadSingleDiver(NationalFederation federation, Diver diver);
 
-    void updateDiverCmasData(NationalFederation federation, Diver dbDiver, Diver diverData);
+    void addGuestDiverToFederation(NationalFederation federation, Diver dbDiver);
 
     void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail);
 
     int getDemoTimeDays();
-
-    void uploadExistingEgyptianDiver(Diver diver);
 }

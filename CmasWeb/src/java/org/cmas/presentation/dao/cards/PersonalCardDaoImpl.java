@@ -6,6 +6,7 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.util.dao.HibernateDaoImpl;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,5 +43,15 @@ public class PersonalCardDaoImpl extends HibernateDaoImpl<PersonalCard> implemen
                      + " where c.diver = :diver and c.cardType != :cardType";
         createQuery(hql).setEntity("diver", diver).setParameter("cardType", PersonalCardType.PRIMARY)
                         .executeUpdate();
+    }
+
+    @Override
+    public List<PersonalCard> getNationalCardsOrdered(Diver diver) {
+        //noinspection unchecked
+        return createCriteria()
+                .add(Restrictions.eq("diver", diver))
+                .add(Restrictions.eq("cardType", PersonalCardType.NATIONAL))
+                .addOrder(Order.desc("id"))
+                .list();
     }
 }

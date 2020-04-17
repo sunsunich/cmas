@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Nullable;
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -97,6 +98,43 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         return new ArrayList<>(result.values());
     }
 
+    @Nullable
+    @Override
+    public PersonalCard getMaxNationalCard(Diver diver) {
+        List<PersonalCard> diverCards = personalCardDao.getNationalCardsOrdered(diver);
+        if (diverCards == null) {
+            return null;
+        }
+        PersonalCard foundCard = null;
+        for (PersonalCard card : diverCards) {
+            if (foundCard == null) {
+                foundCard = card;
+            } else {
+                DiverType cardDiverType = card.getDiverType();
+                if (cardDiverType == null) {
+                    continue;
+                }
+                DiverType foundCardDiverType = foundCard.getDiverType();
+                if (foundCardDiverType != cardDiverType) {
+                    if (foundCardDiverType != DiverType.INSTRUCTOR) {
+                        foundCard = card;
+                    }
+                    // if types are not equal no point comparing levels
+                    continue;
+                }
+                DiverLevel cardDiverLevel = card.getDiverLevel();
+                if (cardDiverLevel == null) {
+                    continue;
+                }
+                DiverLevel foundCardDiverLevel = foundCard.getDiverLevel();
+                if (foundCardDiverLevel == null || foundCardDiverLevel.ordinal() < cardDiverLevel.ordinal()) {
+                    foundCard = card;
+                }
+            }
+        }
+        return foundCard;
+    }
+
     @Override
     public void generateNonPrimaryCardsImages(CardUser cardUser) {
         if (cardUser.getRole() == Role.ROLE_DIVER) {
@@ -157,9 +195,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
 
     @Override
     public PersonalCard generateAndSaveCardImage(long personalCardId) {
-        PersonalCard personalCard = personalCardDao.getModel(personalCardId);
+        PersonalCard personalCard = personalCardDao.getById(personalCardId);
         try {
-            BufferedImage image = drawCardService.drawDiverCard(personalCard, personalCard.getDiver().isGold());
+            BufferedImage image = drawCardService.drawDiverCard(personalCard);
             imageStorageManager.storeCardImage(personalCard, image);
         } catch (Exception e) {
             log.error(e.getMessage(), e);

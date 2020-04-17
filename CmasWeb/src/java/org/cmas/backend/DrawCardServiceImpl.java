@@ -60,8 +60,8 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
-    public BufferedImage drawDiverCard(PersonalCard card, boolean isGold) throws WriterException, IOException {
-        String fileName = getFileName(card, isGold);
+    public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
+        String fileName = getFileName(card);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
@@ -204,8 +204,10 @@ public class DrawCardServiceImpl implements DrawCardService {
     }
 
     @Override
-    public String getFileName(PersonalCard card, boolean isGold) {
-        DiverRegistrationStatus diverRegistrationStatus = card.getDiver().getDiverRegistrationStatus();
+    public String getFileName(PersonalCard card) {
+        Diver diver = card.getDiver();
+        boolean isGold = diver.isGold();
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
         if (diverRegistrationStatus == DiverRegistrationStatus.GUEST) {
             return isGold ? "aqualink_gold.png" : "aqualink_silver.png";
         }
@@ -325,8 +327,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     public static void main(String[] args) {
         try {
-            BufferedImage image = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard(),
-                                                                          true);
+            BufferedImage image = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard());
             ImageIO.write(image, "png", new File("/Users/sunsunich/workplace/сmas/tmp.png"));
         } catch (Exception e) {
             e.printStackTrace();

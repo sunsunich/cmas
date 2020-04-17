@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 
 /**
@@ -90,53 +92,34 @@ public class UploadDiversTask implements Runnable {
         }
         int totalWork = divers.size();
         int workDone = 0;
+        Map<Long, DiverModificationData> dbDiversToModificationData = new HashMap<>(divers.size());
         for (Diver diver : divers) {
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
+            Diver dbDiver;
             if (isEgypt) {
                 diverService.uploadExistingEgyptianDiver(diver);
+                dbDiver = diverService.diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
+                                                                              diver.getLastName(),
+                                                                              countryCode);
             } else {
-                diverService.uploadDiver(federation, diver, false);
-
+                diverService.uploadDiverFromXls(federation, diver);
+                dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
                 //hidden functionality creating or editing primary card number
-                Diver dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
-                PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
-                if (primaryPersonalCard != null) {
-                    String newNumber = primaryPersonalCard.getNumber();
-                    if (!StringUtil.isTrimmedEmpty(newNumber)) {
-                        PersonalCard checkingCard = diverService.personalCardDao.getByNumber(federation, newNumber);
-                        if (checkingCard == null) {
-                            // no such number found in DB
-                            PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
-                            boolean isNewCard = dbCard == null;
-                            if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
-                                //number change or new number detected
-                                try {
-                                    if (isNewCard) {
-                                        dbCard = primaryPersonalCard;
-                                        dbCard.setCardType(PersonalCardType.PRIMARY);
-                                        dbCard.setDiverLevel(dbDiver.getDiverLevel());
-                                        dbCard.setDiverType(dbDiver.getDiverType());
-                                        primaryPersonalCard.setDiver(dbDiver);
-                                        diverService.personalCardDao.save(dbCard);
-                                        dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
-                                        diverService.diverDao.updateModel(dbDiver);
-                                    } else {
-                                        dbCard.setImageUrl(null);
-                                        dbCard.setNumber(newNumber);
-                                        diverService.personalCardDao.updateModel(dbCard);
-                                    }
-                                    if (dbDiver.getDateReg() == null) {
-                                        dbDiver.setDateReg(new Date());
-                                        diverService.diverDao.updateModel(dbDiver);
-                                    }
-                                } catch (Exception e) {
-                                    //number change or creation failed
-                                    log.error(e.getMessage(), e);
-                                }
-                            }
-                        }
+                updatePrimaryCard(diver, dbDiver);
+            }
+            if (dbDiver != null) {
+                long dbDiverId = dbDiver.getId();
+                DiverModificationData diverModificationData = dbDiversToModificationData.get(dbDiverId);
+                if (diverModificationData == null) {
+                    dbDiversToModificationData.put(dbDiverId,
+                                                   new DiverModificationData(dbDiver,
+                                                                             diver.getInstructor())
+                    );
+                } else {
+                    if (diver.getInstructor() != null) {
+                        diverModificationData.instructor = diver.getInstructor();
                     }
                 }
             }
@@ -144,22 +127,63 @@ public class UploadDiversTask implements Runnable {
             progress = 20 + workDone * 100 * 2 / totalWork / 5;
         }
         workDone = 0;
-        for (Diver diver : divers) {
+        for (Map.Entry<Long, DiverModificationData> entry : dbDiversToModificationData.entrySet()) {
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
-            Diver dbDiver = isEgypt ?
-                    diverService.diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
-                                                                        diver.getLastName(),
-                                                                        countryCode)
-                    : diverService.diverDao.getByEmail(diver.getEmail());
-            if (dbDiver != null) {
-                diverService.setDiverInstructor(federation, dbDiver, diver.getInstructor());
+            DiverModificationData diverModificationData = entry.getValue();
+            diverService.finalizeDiverFromXls(federation, diverModificationData);
+            if (isEgypt) {
+                diverService.finalizeExistingEgyptianDiver(federation, diverModificationData);
             }
             workDone++;
             progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
         }
         progress = 100;
+    }
+
+    private void updatePrimaryCard(Diver diver, Diver dbDiver) {
+        PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
+        if (primaryPersonalCard == null) {
+            return;
+        }
+        String newNumber = primaryPersonalCard.getNumber();
+        if (StringUtil.isTrimmedEmpty(newNumber)) {
+            return;
+        }
+        PersonalCard checkingCard = diverService.personalCardDao.getByNumber(federation, newNumber);
+        if (checkingCard != null) {
+            return;
+        }
+        // no such number found in DB
+        PersonalCard dbCard = dbDiver.getPrimaryPersonalCard();
+        boolean isNewCard = dbCard == null;
+        if (isNewCard || !dbCard.getNumber().equals(newNumber)) {
+            //number change or new number detected
+            try {
+                if (isNewCard) {
+                    dbCard = primaryPersonalCard;
+                    dbCard.setCardType(PersonalCardType.PRIMARY);
+                    dbCard.setDiverLevel(dbDiver.getDiverLevel());
+                    dbCard.setDiverType(dbDiver.getDiverType());
+                    primaryPersonalCard.setDiver(dbDiver);
+                    diverService.personalCardDao.save(dbCard);
+                    dbDiver.setPrimaryPersonalCard(primaryPersonalCard);
+                    diverService.diverDao.updateModel(dbDiver);
+                } else {
+                    dbCard.setNumber(newNumber);
+                    diverService.personalCardDao.updateModel(dbCard);
+                    diverService.personalCardService.generateAndSaveCardImage(dbCard.getId());
+                }
+                if (dbDiver.getDateReg() == null) {
+                    dbDiver.setDateReg(new Date());
+                    diverService.diverDao.updateModel(dbDiver);
+                }
+            } catch (Exception e) {
+                //number change or creation failed
+                log.error(e.getMessage(), e);
+            }
+        }
     }
 
     public int getProgress() {

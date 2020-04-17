@@ -27,6 +27,7 @@ import org.cmas.util.StringUtil;
 import org.cmas.util.dao.RunInHibernate;
 import org.cmas.util.schedule.Scheduler;
 import org.hibernate.SessionFactory;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,6 +36,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,7 +99,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     PersonalCardDao personalCardDao;
 
     @Autowired
-    private PersonalCardService personalCardService;
+    PersonalCardService personalCardService;
 
     @Override
     public Diver add(Registration registration, String ip) {
@@ -113,7 +115,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         scheduleDiverRegistrationStatusUpdate();
     }
 
@@ -163,7 +165,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             }
 
             UploadDiversTask newTask = new UploadDiversTask(this, fedAdmin.getFederation(), file.getInputStream());
-            newTask.future = scheduler.schedule(newTask, 0, TimeUnit.MILLISECONDS);
+            newTask.future = scheduler.schedule(newTask, 0L, TimeUnit.MILLISECONDS);
             fedAdminIdToUploadTask.put(adminId, newTask);
         } finally {
             lock.unlock();
@@ -176,25 +178,99 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         return fedAdminIdToUploadTask.get(fedAdminId);
     }
 
-    void setDiverInstructor(NationalFederation federation, Diver dbDiver, Diver instructor) {
-        Diver dbInstructor = null;
-        if (instructor != null) {
-            dbInstructor = diverDao.getDiverByCardNumber(federation, instructor.getCards().get(0).getNumber());
-        }
-        if (dbDiver.getInstructor() == null && dbInstructor != null) {
-            dbDiver.setInstructor(dbInstructor);
-        }
-        diverDao.updateModel(dbDiver);
+    void uploadDiverFromXls(NationalFederation federation, Diver diver) {
+        Diver dbDiver = saveOrUpdateDiver(federation, diver);
+        saveOrUpdateCards(federation, dbDiver, diver.getCards());
     }
 
-    @SuppressWarnings({"CallToStringEqualsIgnoreCase", "CallToStringEquals", "ObjectAllocationInLoop"})
+    void finalizeDiverFromXls(NationalFederation federation, DiverModificationData diverModificationData) {
+        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver);
+        setDiverInstructor(federation, diverModificationData.dbDiver, diverModificationData.instructor);
+    }
+
+    void uploadExistingEgyptianDiver(Diver diver) {
+        Country egypt = countryDao.getByCode(Country.EGYPT_COUNTRY_CODE);
+        Country country = countryDao.getByName(diver.getCountry().getName());
+        String firstName = diver.getFirstName();
+        String lastName = diver.getLastName();
+        List<PersonalCard> cards = diver.getCards();
+        PersonalCard personalCard = cards.get(0);
+        String primaryCardNumber = personalCard.getNumber();
+        DiverType diverType = personalCard.getDiverType();
+        DiverLevel diverLevel = personalCard.getDiverLevel();
+        if (country == null) {
+            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
+            LOGGER.error("country not found for diver:"
+                         + " firstName = " + firstName
+                         + ", lastName = " + lastName
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + diver.getCountry().getName()
+            );
+            country = egypt;
+        }
+        Diver dbDiver = diverDao.getByFirstNameLastNameCountry(firstName, lastName, country.getCode());
+        if (dbDiver == null) {
+            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
+            LOGGER.error("cannot upload existing diver for Egypt federation, no such diver:"
+                         + " firstName = " + firstName
+                         + ", lastName = " + lastName
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + country.getName()
+            );
+            return;
+        }
+
+        NationalFederation federation = nationalFederationDao.getByCountry(egypt).get(0);
+        saveOrUpdateCards(federation, dbDiver, cards);
+    }
+
+    void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {
+        Diver dbDiver = diverModificationData.dbDiver;
+        // egyptians have paid
+        dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+        // dao update in the method below
+        addGuestDiverToFederation(federation, dbDiver);
+    }
+
     @Override
-    public void uploadDiver(NationalFederation federation, Diver diver, boolean overrideCards) {
+    public void uploadSingleDiver(NationalFederation federation, Diver diver) {
+        Diver dbDiver = saveOrUpdateDiver(federation, diver);
+        List<PersonalCard> cards = diver.getCards();
+        setDiverInstructor(federation, dbDiver, diver.getInstructor());
+        personalCardDao.deleteDiverCards(dbDiver);
+        Map<CardEqualityKey, PersonalCard> cardsToAdd = new HashMap<>(cards.size());
+        for (PersonalCard card : cards) {
+            PersonalCardType cardType = card.getCardType();
+            if (cardType == PersonalCardType.PRIMARY) {
+                continue;
+            }
+            @SuppressWarnings("ObjectAllocationInLoop")
+            CardEqualityKey key = new CardEqualityKey(
+                    card.getDiverType(), card.getDiverLevel(), cardType
+            );
+            cardsToAdd.put(key, card);
+        }
+        for (PersonalCard card : cardsToAdd.values()) {
+            card.setDiver(dbDiver);
+            personalCardDao.save(card);
+        }
+        updateDiverTypeAndLevelBasingOnCards(dbDiver);
+        if (dbDiver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
+            personalCardService.generateNonPrimaryCardsImages(dbDiver);
+        }
+    }
+
+    @NotNull
+    private Diver saveOrUpdateDiver(NationalFederation federation, Diver diver) {
         Country country = federation.getCountry();
-        String countryCode = country.getCode();
         Locale locale;
         @SuppressWarnings("unchecked")
-        List<Locale> languages = LocaleUtils.languagesByCountry(LocaleMapping.getIso2CountryCode(countryCode));
+        List<Locale> languages = LocaleUtils.languagesByCountry(LocaleMapping.getIso2CountryCode(country.getCode()));
         if (languages.isEmpty()) {
             locale = Locale.ENGLISH;
         } else {
@@ -229,149 +305,19 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         if (dob != null) {
             dbDiver.setDob(dob);
         }
-        DiverType diverType = diver.getDiverType();
-        if (diverType != null && dbDiver.getDiverType() != DiverType.INSTRUCTOR) {
-            dbDiver.setDiverType(diverType);
-        }
-        DiverLevel diverLevel = diver.getDiverLevel();
-        DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
-        if (diverLevel != null
-            && (dbDiverDiverLevel == null
-                || dbDiverDiverLevel.ordinal() < diverLevel.ordinal())
-        ) {
-            dbDiver.setDiverLevel(diverLevel);
-        }
         if (isNew) {
             diverDao.save(dbDiver);
         } else {
             diverDao.updateModel(dbDiver);
         }
-        setDiverInstructor(federation, dbDiver, diver.getInstructor());
-        List<PersonalCard> cards = diver.getCards();
-        if (overrideCards) {
-            personalCardDao.deleteDiverCards(dbDiver);
-            Map<CardEqualityKey, PersonalCard> cardsToAdd = new HashMap<>(cards.size());
-            for (PersonalCard card : cards) {
-                PersonalCardType cardType = card.getCardType();
-                if (cardType == PersonalCardType.PRIMARY) {
-                    continue;
-                }
-                CardEqualityKey key = new CardEqualityKey(
-                        card.getDiverType(), card.getDiverLevel(), cardType
-                );
-                cardsToAdd.put(key, card);
-            }
-            for (PersonalCard card : cardsToAdd.values()) {
-                card.setDiver(dbDiver);
-                personalCardDao.save(card);
-            }
-            if (dbDiver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
-                personalCardService.generateNonPrimaryCardsImages(dbDiver);
-            }
-        } else {
-            for (PersonalCard card : cards) {
-                String cardNumber = card.getNumber();
-                PersonalCard dbCard = null;
-                if (!StringUtil.isTrimmedEmpty(cardNumber)) {
-                    dbCard = personalCardDao.getByNumber(federation, cardNumber);
-                }
-                boolean isNewCard = dbCard == null;
-                if (isNewCard) {
-                    dbCard = card;
-                } else {
-                    dbCard.setFederationName(card.getFederationName());
-                    dbCard.setCardType(card.getCardType());
-                    dbCard.setDiverLevel(card.getDiverLevel());
-                    dbCard.setDiverType(card.getDiverType());
-                }
-                dbCard.setDiver(dbDiver);
-                if (isNewCard) {
-                    personalCardDao.save(dbCard);
-                } else {
-                    personalCardDao.updateModel(dbCard);
-                }
-            }
-        }
+        return dbDiver;
     }
 
-    @Override
-    public void uploadExistingEgyptianDiver(Diver diver) {
-        Country egypt = countryDao.getByCode(Country.EGYPT_COUNTRY_CODE);
-        Country country = countryDao.getByName(diver.getCountry().getName());
-        if (country == null) {
-            LOGGER.error("country not found for diver:"
-                         + " firstName = " + diver.getFirstName()
-                         + ", lastName = " + diver.getLastName()
-                         + ", cardNumber = " + diver.getCards().get(0).getNumber()
-                         + ' ' + diver.getDiverType()
-                         + ' ' + diver.getDiverLevel()
-                         + " from " + diver.getCountry().getName()
-            );
-            country = egypt;
-        }
-        // todo change back to egypt
-        Diver dbDiver = diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
-                                                               diver.getLastName(),
-                                                               country.getCode());
-        if (dbDiver == null) {
-            LOGGER.error("cannot upload existing diver for Egypt federation, no such diver:"
-                         + " firstName = " + diver.getFirstName()
-                         + ", lastName = " + diver.getLastName()
-                         + ", cardNumber = " + diver.getCards().get(0).getNumber()
-                         + ' ' + diver.getDiverType()
-                         + ' ' + diver.getDiverLevel()
-                         + " from " + diver.getCountry().getName()
-            );
-            return;
-        }
-        dbDiver.setCountry(country);
-
-        // egyptians have paid
-        dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-        dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-
-        updateDiverCmasData(nationalFederationDao.getByCountry(egypt).get(0),
-                            dbDiver,
-                            diver);
-    }
-
-    @Override
-    public void updateDiverCmasData(NationalFederation federation, Diver dbDiver, Diver diverData) {
-        PersonalCard primaryCard = dbDiver.getPrimaryPersonalCard();
-        if (primaryCard == null) {
-            LOGGER.error("primaryCard not found for diver:"
-                         + " firstName = " + dbDiver.getFirstName()
-                         + ", lastName = " + dbDiver.getLastName()
-                         + ' ' + dbDiver.getDiverType()
-                         + ' ' + dbDiver.getDiverLevel()
-                         + " from " + dbDiver.getCountry().getName()
-            );
-            return;
-        }
-
-        dbDiver.setFederation(federation);
-        boolean typeOrLevelUpdated = false;
-        if (dbDiver.getDiverType() != DiverType.INSTRUCTOR) {
-            dbDiver.setDiverType(diverData.getDiverType());
-            typeOrLevelUpdated = true;
-        }
-        if (dbDiver.getDiverLevel().ordinal() < diverData.getDiverLevel().ordinal()) {
-            dbDiver.setDiverLevel(diverData.getDiverLevel());
-            typeOrLevelUpdated = true;
-        }
-
-        if (typeOrLevelUpdated) {
-            primaryCard.setDiverType(diverData.getDiverType());
-            primaryCard.setDiverLevel(diverData.getDiverLevel());
-            personalCardDao.updateModel(primaryCard);
-            personalCardService.generateAndSaveCardImage(primaryCard.getId());
-        }
-
-        for (PersonalCard card : diverData.getCards()) {
+    private void saveOrUpdateCards(NationalFederation federation, Diver dbDiver, Iterable<PersonalCard> cards) {
+        for (PersonalCard card : cards) {
             String cardNumber = card.getNumber();
             PersonalCard dbCard = null;
             if (!StringUtil.isTrimmedEmpty(cardNumber)) {
-                //todo better get
                 dbCard = personalCardDao.getByNumber(federation, cardNumber);
             }
             boolean isNewCard = dbCard == null;
@@ -384,34 +330,68 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 dbCard.setDiverType(card.getDiverType());
             }
             dbCard.setDiver(dbDiver);
-            long cardId;
             if (isNewCard) {
-                cardId = (Long)personalCardDao.save(dbCard);
+                personalCardDao.save(dbCard);
             } else {
                 personalCardDao.updateModel(dbCard);
-                cardId = dbCard.getId();
             }
-            personalCardService.generateAndSaveCardImage(cardId);
         }
-        switch (dbDiver.getDiverRegistrationStatus()) {
-            case NEVER_REGISTERED:
-                break;
-            case INACTIVE:
-                // fall through
-            case DEMO:
-                dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
-                dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                break;
-            case GUEST:
-                dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-                break;
-            case CMAS_BASIC:
-                break;
-            case CMAS_FULL:
-                break;
+    }
+
+    private void setDiverInstructor(NationalFederation federation, Diver dbDiver, Diver instructor) {
+        Diver dbInstructor = null;
+        if (instructor != null) {
+            dbInstructor = diverDao.getDiverByCardNumber(federation, instructor.getCards().get(0).getNumber());
+        }
+        if (dbDiver.getInstructor() == null && dbInstructor != null) {
+            dbDiver.setInstructor(dbInstructor);
         }
         diverDao.updateModel(dbDiver);
+    }
+
+    void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
+        DiverType dbDiverType = dbDiver.getDiverType();
+        DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
+        PersonalCard maxNationalCard = personalCardService.getMaxNationalCard(dbDiver);
+        if (maxNationalCard == null) {
+            return;
+        }
+        DiverType newDiverType = maxNationalCard.getDiverType();
+        boolean typeOrLevelUpdated = false;
+        if (newDiverType != null && dbDiverType != newDiverType) {
+            dbDiver.setDiverType(newDiverType);
+            typeOrLevelUpdated = true;
+        }
+        DiverLevel newDiverLevel = maxNationalCard.getDiverLevel();
+        if (newDiverLevel != null && newDiverType == dbDiver.getDiverType() && dbDiverDiverLevel != newDiverLevel) {
+            dbDiver.setDiverLevel(newDiverLevel);
+            typeOrLevelUpdated = true;
+        }
+        if (typeOrLevelUpdated) {
+            diverDao.updateModel(dbDiver);
+            updatePrimaryCard(dbDiver);
+        }
+    }
+
+    private void updatePrimaryCard(Diver dbDiver) {
+        DiverType dbDiverType = dbDiver.getDiverType();
+        DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
+        PersonalCard primaryCard = dbDiver.getPrimaryPersonalCard();
+        if (primaryCard == null) {
+            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
+            LOGGER.error("primaryCard not found for diver:"
+                         + " firstName = " + dbDiver.getFirstName()
+                         + ", lastName = " + dbDiver.getLastName()
+                         + ' ' + dbDiverType
+                         + ' ' + dbDiverDiverLevel
+                         + " from " + dbDiver.getCountry().getName()
+            );
+            return;
+        }
+        primaryCard.setDiverType(dbDiverType);
+        primaryCard.setDiverLevel(dbDiverDiverLevel);
+        personalCardDao.updateModel(primaryCard);
+        personalCardService.generateAndSaveCardImage(primaryCard.getId());
     }
 
     private static final class CardEqualityKey {
@@ -443,6 +423,30 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         public int hashCode() {
             return Objects.hash(diverType, diverLevel, cardType);
         }
+    }
+
+    @Override
+    public void addGuestDiverToFederation(NationalFederation federation, Diver dbDiver) {
+        dbDiver.setFederation(federation);
+        switch (dbDiver.getDiverRegistrationStatus()) {
+            case NEVER_REGISTERED:
+                break;
+            case INACTIVE:
+                // fall through
+            case DEMO:
+                dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
+                dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                break;
+            case GUEST:
+                dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+                dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+                break;
+            case CMAS_BASIC:
+                break;
+            case CMAS_FULL:
+                break;
+        }
+        diverDao.updateModel(dbDiver);
     }
 
     @Override

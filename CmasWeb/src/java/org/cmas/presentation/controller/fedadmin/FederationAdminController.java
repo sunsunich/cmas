@@ -5,10 +5,8 @@ import org.cmas.Globals;
 import org.cmas.backend.xls.XlsParseException;
 import org.cmas.entities.Role;
 import org.cmas.entities.cards.PersonalCard;
-import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
-import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.controller.cards.CardDisplayManager;
@@ -163,26 +161,7 @@ public class FederationAdminController {
         if (diver == null || diver.getFederation() != null) {
             throw new BadRequestException();
         }
-        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
-        switch (diverRegistrationStatus) {
-            case NEVER_REGISTERED:
-            case CMAS_BASIC:
-            case CMAS_FULL:
-                throw new BadRequestException();
-            case INACTIVE:
-            case DEMO:
-                diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                diver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
-                break;
-            case GUEST:
-                diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-                diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-                break;
-
-        }
-        diver.setFederation(currentFedAdmin.getUser().getFederation());
-        // todo redraw cards when level changes in upload
-        diverDao.updateModel(diver);
+        diverService.addGuestDiverToFederation(currentFedAdmin.getUser().getFederation(), diver);
         PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
         if (primaryPersonalCard != null) {
             personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
@@ -298,7 +277,7 @@ public class FederationAdminController {
         if (errors.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(errors));
         }
-        diverService.uploadDiver(currentFedAdmin.getUser().getFederation(), diver, true);
+        diverService.uploadSingleDiver(currentFedAdmin.getUser().getFederation(), diver);
         return gsonViewFactory.createSuccessGsonView();
     }
 
@@ -307,12 +286,12 @@ public class FederationAdminController {
         ModelMap mmap = new ModelMap();
         mmap.addAttribute("command", diver);
         List<PersonalCard> diverCards = diver.getCards();
-        PersonalCard natFedCard = getMaxNationalCard(diverCards);
+        PersonalCard natFedCard = diverCards == null ? null : personalCardService.getMaxNationalCard(diver);
         mmap.addAttribute("natFedCard", natFedCard);
 
         PersonalCard natFedInstructorCard = null;
         if (diver.getInstructor() != null) {
-            natFedInstructorCard = getMaxNationalCard(diver.getInstructor().getCards());
+            natFedInstructorCard = personalCardService.getMaxNationalCard(diver.getInstructor());
         }
         mmap.addAttribute("natFedInstructorCard", natFedInstructorCard);
 
@@ -320,27 +299,6 @@ public class FederationAdminController {
         mmap.addAttribute("cardsJson", gsonViewFactory.getCommonGson().toJson(diverCards));
 
         return new ModelAndView("fed/userInfo", mmap);
-    }
-
-    private static PersonalCard getMaxNationalCard(List<PersonalCard> diverCards) {
-        PersonalCard foundCard = null;
-        if (diverCards != null) {
-            for (PersonalCard card : diverCards) {
-                if (PersonalCardType.NATIONAL == card.getCardType()) {
-                    if (foundCard == null) {
-                        foundCard = card;
-                    } else {
-                        if (card.getDiverLevel() != null) {
-                            if (foundCard.getDiverLevel() == null ||
-                                card.getDiverLevel().ordinal() > foundCard.getDiverLevel().ordinal()) {
-                                foundCard = card;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return foundCard;
     }
 
     @RequestMapping("/fed/passwdForm.html")

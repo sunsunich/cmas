@@ -7,7 +7,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
-import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
@@ -56,17 +55,6 @@ public class SingleTableDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                     } else {
                         List<PersonalCard> existingDiverCards = existingDiver.getCards();
                         existingDiverCards.add(card);
-                        if (diver.getDiverType() == DiverType.INSTRUCTOR) {
-                            existingDiver.setDiverType(DiverType.INSTRUCTOR);
-                        }
-                        DiverLevel newDiverLevel = diver.getDiverLevel();
-                        if (newDiverLevel != null) {
-                            DiverLevel existingDiverLevel = existingDiver.getDiverLevel();
-                            if (existingDiverLevel == null
-                                || existingDiverLevel.ordinal() < newDiverLevel.ordinal()) {
-                                existingDiver.setDiverLevel(newDiverLevel);
-                            }
-                        }
                         PersonalCard newPrimaryCard = diver.getPrimaryPersonalCard();
                         if (newPrimaryCard != null) {
                             PersonalCard existingDiverPrimaryCard = existingDiver.getPrimaryPersonalCard();
