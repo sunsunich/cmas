@@ -1,6 +1,7 @@
 var profile_model = {
 
     isFileUpload: true,
+    areas: [],
 
     loadCard: function (cardId, successHandler, unSuccessHandler) {
         basicClient.sendGetRequestCommonCase(
@@ -76,6 +77,16 @@ var profile_model = {
                 window.location.reload();
             }
         );
-    }
+    },
 
+    editDiver: function (form, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/secure/profile/submitEditDiver.html",
+            form,
+            successHandler, unSuccessHandler,
+            function () {
+                window.location.reload();
+            }
+        );
+    }
 };

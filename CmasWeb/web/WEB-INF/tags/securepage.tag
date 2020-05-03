@@ -185,6 +185,21 @@
                 </li>
                 <li
                         <c:choose>
+                            <c:when test="${activeMenuItem == 'editDiver'}">
+                                class="user-menu-active"
+                            </c:when>
+                            <c:otherwise>
+                                class="user-menu-inactive"
+                            </c:otherwise>
+                        </c:choose>
+                        onclick="window.location = '${pageContext.request.contextPath}/secure/profile/editDiver.html';"
+                >
+                    <a href="${pageContext.request.contextPath}/secure/profile/editDiver.html">
+                        <span><s:message code="cmas.face.client.menu.editDiver"/></span>
+                    </a>
+                </li>
+                <li
+                        <c:choose>
                             <c:when test="${activeMenuItem == 'editPassword'}">
                                 class="user-menu-active"
                             </c:when>

@@ -22,6 +22,7 @@
                                placeholder="<s:message code="cmas.face.changePasswd.form.label.oldPassword"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_oldPassword"
                              style="display: none">
+                        <img src="/i/showPassword-ico.png" class="error-input-ico" id="setPassword_no_error_ico_oldPassword"/>
                         <div class="error" id="setPassword_error_oldPassword"></div>
                     </div>
                 </c:if>
@@ -30,6 +31,7 @@
                            placeholder="<s:message code="cmas.face.changePasswd.form.label.password"/>"/>
                     <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_password"
                          style="display: none">
+                    <img src="/i/showPassword-ico.png" class="error-input-ico" id="setPassword_no_error_ico_password"/>
                     <div class="error" id="setPassword_error_password"></div>
                 </div>
                 <div class="form-row">
@@ -37,6 +39,7 @@
                            placeholder="<s:message code="cmas.face.changePasswd.form.label.checkPassword"/>"/>
                     <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_checkPassword"
                          style="display: none">
+                    <img src="/i/showPassword-ico.png" class="error-input-ico" id="setPassword_no_error_ico_checkPassword"/>
                     <div class="error" id="setPassword_error_checkPassword"></div>
                 </div>
                 <div class="form-row">

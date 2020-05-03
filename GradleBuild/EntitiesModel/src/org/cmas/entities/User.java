@@ -73,6 +73,10 @@ public abstract class User implements Serializable, HasId {
     protected String email;
 
     @Expose
+    @Column(unique = true, nullable = false)
+    protected String phone;
+
+    @Expose
     protected String firstName;
 
     @Expose
@@ -194,6 +198,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getMobileLockCode() {

@@ -43,6 +43,8 @@ var login_controller = {
             }
             return true;
         });
+        util_controller.tweakPasswordInput('login','password');
+
         $('#forgotPassword').click(function () {
             window.location.href = '/lostPasswordForm.html';
             return false;

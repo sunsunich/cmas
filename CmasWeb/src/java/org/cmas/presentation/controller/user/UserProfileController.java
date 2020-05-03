@@ -3,15 +3,19 @@ package org.cmas.presentation.controller.user;
 import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.User;
+import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
+import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
+import org.cmas.presentation.model.user.DiverFormObject;
 import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.validator.UploadImageValidator;
+import org.cmas.presentation.validator.user.DiverEditValidator;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
@@ -43,11 +47,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
-
+ *
  */
 @SuppressWarnings("HardcodedFileSeparator")
 @Controller
-public class UserProfileController extends DiverAwareController{
+public class UserProfileController extends DiverAwareController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -58,6 +62,9 @@ public class UserProfileController extends DiverAwareController{
     private DiverDao diverDao;
 
     @Autowired
+    private CountryDao countryDao;
+
+    @Autowired
     private PersonalCardService personalCardService;
 
     @Autowired
@@ -65,6 +72,9 @@ public class UserProfileController extends DiverAwareController{
 
     @Autowired
     private ImageStorageManager imageStorageManager;
+
+    @Autowired
+    private DiverEditValidator diverEditValidator;
 
     @RequestMapping("/secure/getDiver.html")
     public View getDiver(@RequestParam("diverId") long diverId) {
@@ -93,6 +103,34 @@ public class UserProfileController extends DiverAwareController{
     @RequestMapping("/secure/profile/getUser.html")
     public ModelAndView getUser(Model model) {
         return new ModelAndView("/secure/userInfo");
+    }
+
+    @RequestMapping("/secure/profile/editDiver.html")
+    public ModelAndView editUser(Model model) {
+        Diver diver = getCurrentDiver();
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        DiverFormObject formObject = new DiverFormObject();
+        formObject.transferFromEntity(diver);
+        model.addAttribute("command", formObject);
+        model.addAttribute("countries", countryDao.getAll());
+        model.addAttribute("areas", AreaOfInterest.values());
+        return new ModelAndView("/secure/editDiver");
+    }
+
+    @RequestMapping("/secure/profile/submitEditDiver.html")
+    public View submitEditUser(@ModelAttribute("command") DiverFormObject formObject, BindingResult result) {
+        Diver diver = getCurrentDiver();
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        diverEditValidator.validate(formObject, result);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        }
+        diverService.editDiver(formObject, diver);
+        return gsonViewFactory.createSuccessGsonView();
     }
 
     @RequestMapping("/secure/editPassword.html")

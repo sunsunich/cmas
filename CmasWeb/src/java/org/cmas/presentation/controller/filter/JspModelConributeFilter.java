@@ -31,7 +31,7 @@ public class JspModelConributeFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setAttribute("webVersion", 41);
+        servletRequest.setAttribute("webVersion", 42);
         servletRequest.setAttribute("userpicRoot", imageStorageManager.getUserpicRoot());
         servletRequest.setAttribute("cardsRoot", imageStorageManager.getCardImagesRoot());
         servletRequest.setAttribute("cardApprovalRequestImagesRoot", imageStorageManager.getCardApprovalRequestImagesRoot());

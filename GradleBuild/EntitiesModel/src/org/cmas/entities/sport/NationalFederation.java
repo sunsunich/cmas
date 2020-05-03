@@ -1,5 +1,6 @@
 package org.cmas.entities.sport;
 
+import com.google.myjson.annotations.Expose;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.diver.Diver;
@@ -20,8 +21,12 @@ import java.util.List;
 public class NationalFederation extends DictionaryEntity {
 
     private static final long serialVersionUID = -1462190485394499814L;
+    @Expose
     @ManyToOne
     private Country country;
+
+    @Expose
+    private String email;
 
     @OneToMany(mappedBy = "federation")
     private List<Athlete> athleteList;
@@ -35,6 +40,14 @@ public class NationalFederation extends DictionaryEntity {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Athlete> getAthleteList() {

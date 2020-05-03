@@ -115,6 +115,7 @@
                                placeholder="<s:message code="cmas.face.login.form.label.password"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="login_error_ico_password"
                              style="display: none">
+                        <img src="/i/showPassword-ico.png" class="error-input-ico" id="login_no_error_ico_password"/>
                         <div class="error" id="login_error_password"></div>
                     </div>
                     <div class="form-row">

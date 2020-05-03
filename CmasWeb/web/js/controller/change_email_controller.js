@@ -1,4 +1,4 @@
-var lost_password_controller = {
+var change_email_controller = {
 
     validationController: null,
 
@@ -23,6 +23,7 @@ var lost_password_controller = {
                 }
             }
         ];
+        util_controller.tweakPasswordInput('changeEmail','password');
         this.validationController.submitButton = $('#changeEmailButton');
         this.validationController.init();
         this.setListeners();
@@ -63,5 +64,5 @@ var lost_password_controller = {
     }
 };
 $(document).ready(function () {
-    lost_password_controller.init();
+    change_email_controller.init();
 });

@@ -19,6 +19,7 @@ interface GlobalsStaticContainer {
 
     int MAX_LENGTH = 255;
     int HALF_MAX_LENGTH = 128;
+    int MAX_COUNTRY_CODE_LENGTH = 5;
 
     int SPORTS_CARD_NUMBER_MAX_LENGTH = 16;
 

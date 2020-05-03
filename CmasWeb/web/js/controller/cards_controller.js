@@ -1,6 +1,11 @@
 var cards_controller = {
 
-    init: function () {
+    resetFields: function () {
+        cmas_cardIds = [];
+    },
+
+    init: function (cmas_cardIds) {
+        this.cmas_cardIds = cmas_cardIds;
         var self = this;
         $(".card-container img").each(function () {
             if ($(this).attr("src").endsWith("/")) {
@@ -22,8 +27,8 @@ var cards_controller = {
 
     setListeners: function () {
         var self = this;
-        for (var i = 0; i < cmas_cardIds.length; i++) {
-            var cardId = cmas_cardIds[i];
+        for (var i = 0; i < this.cmas_cardIds.length; i++) {
+            var cardId = this.cmas_cardIds[i];
             $('#' + cardId).click(function () {
                 self.changeCardWidth($(this));
             });
@@ -34,13 +39,10 @@ var cards_controller = {
         var width = cardImg.width();
         if (width != '546') {
             cardImg.width('546');
-        }
-        else {
+            cardImg.addClass('clearfix');
+        } else {
             cardImg.css("width", "");
+            cardImg.removeClass('clearfix');
         }
     }
 };
-
-$(document).ready(function () {
-    cards_controller.init();
-});

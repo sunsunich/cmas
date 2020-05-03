@@ -25,6 +25,7 @@
                                placeholder="<s:message code="cmas.face.changeEmail.form.label.password"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="changeEmail_error_ico_password"
                              style="display: none">
+                        <img src="/i/showPassword-ico.png" class="error-input-ico" id="changeEmail_no_error_ico_password"/>
                         <div class="error" id="changeEmail_error_password"></div>
                     </div>
                     <div class="form-row">

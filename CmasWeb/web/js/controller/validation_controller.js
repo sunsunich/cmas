@@ -104,6 +104,7 @@ var validation_controller = {
     clearFieldError: function (fieldId) {
         $('#' + this.prefix + '_error_' + fieldId).empty();
         $('#' + this.prefix + '_error_ico_' + fieldId).hide();
+        $('#' + this.prefix + '_no_error_ico_' + fieldId).show();
         var fieldElem = $('#' + this.prefix + '_' + fieldId);
         if (fieldElem.is("select")) {
             util_controller.removeErrorSelect2()
@@ -118,6 +119,7 @@ var validation_controller = {
     showFieldError: function (fieldId, errorCode) {
         $('#' + this.prefix + '_error_' + fieldId).html(error_codes[errorCode]);
         $('#' + this.prefix + '_error_ico_' + fieldId).show();
+        $('#' + this.prefix + '_no_error_ico_' + fieldId).hide();
         var fieldElem = $('#' + this.prefix + '_' + fieldId);
         if (fieldElem.is("select")) {
             util_controller.setErrorSelect2()

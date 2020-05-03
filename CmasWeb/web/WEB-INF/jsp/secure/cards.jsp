@@ -17,6 +17,10 @@
         <c:forEach items="${cards}" var="card" varStatus="st">
         cmas_cardIds[${st.count - 1}] = "${card.id}";
         </c:forEach>
+
+        $(document).ready(function () {
+            cards_controller.init(cmas_cardIds);
+        });
     </script>
 
     <div class="content-center-wide" id="content">

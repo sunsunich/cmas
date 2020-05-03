@@ -15,11 +15,22 @@
 <jsp:useBean id="divers" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 
 <my:nonsecurepage title="cmas.face.index.header"
-                  customScripts="js/controller/country_controller.js,js/controller/panel_resize_controller.js,js/controller/diver_verification_controller.js,https://www.google.com/recaptcha/api.js"
+                  customScripts="js/controller/country_controller.js,js/controller/panel_resize_controller.js,js/controller/cards_controller.js,js/controller/diver_verification_controller.js,https://www.google.com/recaptcha/api.js"
 >
     <script type="application/javascript">
+
+        var divers_cards = [];
+        <c:if test="${divers != null && not empty divers}">
+        <c:forEach items="${divers}" var="diver">
+        var cmas_cardIds_${diver.id} = [];
+        <c:forEach items="${diver.cards}" var="card" varStatus="st">
+        cmas_cardIds_${diver.id}[${st.count - 1}] = "${card.id}";
+        </c:forEach>
+        divers_cards.push({'diverId': '${diver.id}', 'cardIds': cmas_cardIds_${diver.id}});
+        </c:forEach>
+        </c:if>
         $(document).ready(function () {
-            diver_verification_controller.init('${command.country}');
+            diver_verification_controller.init('${command.country}', divers_cards);
         });
     </script>
     <script type="application/javascript">
@@ -185,7 +196,7 @@
                                         <img class="friendList-ico"
                                              src="${pageContext.request.contextPath}/i/ic_calendar.png?v=${webVersion}"/>
                                         <span class="secondary-large-text friendList-text">
-                                            <fmt:formatDate value="${diver.dob}" pattern="dd/MM/yyyy"/>
+                                            <fmt:formatDate value="${diver.dob}" pattern="dd/MM"/>
                                         </span>
                                     </div>
                                     <div class="friendList-elem-right">
@@ -201,9 +212,16 @@
                                 </div>
                                 <c:if test="${cardUrl != null}">
                                     <div class="found-diver-card-image">
-                                        <img src="${cardsRoot}${cardUrl}"/>
+                                        <img class="form-item-right" src="${cardsRoot}${cardUrl}"
+                                             style="margin-right: 15px;"/>
+                                        <c:if test="${not empty diver.cards}">
+                                            <button class="positive-button form-item-right"
+                                                    id="${diver.id}_showAllCertificates"
+                                                    style="margin-right: 15px; margin-top: 15px; margin-left: 8px">
+                                                SHOW ALL CERTIFICATES
+                                            </button>
+                                        </c:if>
                                     </div>
-
                                 </c:if>
                             </div>
                         </c:forEach>
@@ -212,4 +230,22 @@
             </div>
         </c:if>
     </div>
+    <c:if test="${isSuccessFormSubmit && divers != null && not empty divers}">
+        <c:forEach items="${divers}" var="diver">
+            <my:dialog id="${diver.id}_cards"
+                       title="${diver.firstName} ${diver.lastName} Certificates"
+                       buttonText="cmas.face.dialog.close"
+            >
+                <div class="clearfix">
+                    <c:forEach items="${diver.cards}" var="card">
+                        <div class="content-card">
+                            <div class="card-container">
+                                <img id="${card.id}" src="${cardsRoot}${card.imageUrl}"/>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </my:dialog>
+        </c:forEach>
+    </c:if>
 </my:nonsecurepage>

@@ -25,6 +25,8 @@ var set_password_controller = {
                 }
             }
         ];
+        util_controller.tweakPasswordInput('setPassword', 'password');
+        util_controller.tweakPasswordInput('setPassword', 'checkPassword');
         if (config.hasOldPassword) {
             this.validationController.fields.push(
                 {
@@ -36,6 +38,7 @@ var set_password_controller = {
                     }
                 }
             );
+            util_controller.tweakPasswordInput('setPassword', 'oldPassword');
         } else {
             this.validationController.form.code = $('#setPassword_code').val();
         }

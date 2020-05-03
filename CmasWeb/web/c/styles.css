@@ -493,9 +493,14 @@ html, body {
 
 .dialog {
     background: #ffffff;
-    height: auto;
-    width: 30%;
     min-width: 304px;
+    width: 30%;
+    max-width: 90%;
+
+    overflow: auto;
+    max-height : 90%;
+    height: auto;
+
     margin: 0 auto;
     padding-bottom: 16px;
     position: fixed;
@@ -522,6 +527,7 @@ html, body {
     float: right;
     width: 24px;
     height: 24px;
+    cursor: pointer;
     background-image: url("/i/ic_shut.png");
 }
 
@@ -533,8 +539,8 @@ html, body {
     font-size: 22px;
     font-weight: 700;
     color: #2b2b2b;
-
-    padding: 24px 9%;
+    text-align: center;
+    padding: 24px 2%;
     background-color: #f7f9fa;
 }
 

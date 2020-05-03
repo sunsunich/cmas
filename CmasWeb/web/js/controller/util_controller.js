@@ -166,6 +166,18 @@ var util_controller = {
                 scrollbar: true
             }
         );
+    },
+
+    tweakPasswordInput: function (prefix, elemId) {
+        $('#' + prefix + '_no_error_ico_' + elemId).click(function () {
+            let elem = $('#' + prefix + '_' + elemId);
+            if (elem.attr('type') === "password") {
+                elem.attr('type', "text");
+            } else {
+                elem.attr('type', "password");
+            }
+            return false;
+        });
     }
 };
 

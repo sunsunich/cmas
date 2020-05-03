@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -84,11 +85,19 @@ public class PaymentMasterController extends DiverAwareController {
                     errors.reject("validation.mustIncludeCmasLicence");
                 }
             }
-            if (featureIds.contains(Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID)
-                && diver.isGold()
-            ) {
-                //cannot buy gold status twice
-                errors.reject("validation.errorGoldRequest");
+            if (featureIds.contains(Globals.GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID)) {
+                if (diver.isGold()) {
+                    //cannot buy gold status twice
+                    errors.reject("validation.errorGoldRequest");
+                }
+                // cannot buy gold (insurance) if diver is over 79 years old
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.YEAR, -79);
+                Date dobThreshHold = calendar.getTime();
+                Date dob = diver.getDob();
+                if (dob.before(dobThreshHold)) {
+                    errors.reject("validation.internal");
+                }
             }
         }
         if (errors.hasErrors()) {

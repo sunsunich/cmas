@@ -20,6 +20,7 @@ import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.model.user.DiverFormObject;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
@@ -38,6 +39,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -507,6 +509,25 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         if (isConfirmEmail && isSendEmail) {
             mailService.confirmPayment(invoice);
         }
+    }
+
+    @Override
+    public void editDiver(DiverFormObject formObject, Diver diver) {
+        diver.setAreaOfInterest(formObject.getAreaOfInterest());
+        Country country = countryDao.getByCode(formObject.getCountryCode());
+        diver.setCountry(country);
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        if (diverRegistrationStatus != DiverRegistrationStatus.CMAS_BASIC &&
+            diverRegistrationStatus != DiverRegistrationStatus.CMAS_FULL
+        ) {
+            diver.setFirstName(formObject.getFirstName());
+            diver.setLastName(formObject.getLastName());
+            try {
+                diver.setDob(Globals.getDTF().parse(formObject.getDob()));
+            } catch (ParseException ignored) {
+            }
+        }
+        diverDao.updateModel(diver);
     }
 
     @Required
