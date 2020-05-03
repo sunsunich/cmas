@@ -22,6 +22,7 @@
                     <div class="form-row"></div>
                     <div class="form-row">
                         <input id="changeEmail_password" type="password"
+                               autocomplete="off"
                                placeholder="<s:message code="cmas.face.changeEmail.form.label.password"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="changeEmail_error_ico_password"
                              style="display: none">

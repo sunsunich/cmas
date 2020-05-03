@@ -19,6 +19,7 @@
                 <c:if test="${!hasCode}">
                     <div class="form-row">
                         <input id="setPassword_oldPassword" type="password"
+                               autocomplete="off"
                                placeholder="<s:message code="cmas.face.changePasswd.form.label.oldPassword"/>"/>
                         <img src="/i/ic_error.png" class="error-input-ico" id="setPassword_error_ico_oldPassword"
                              style="display: none">
