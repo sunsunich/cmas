@@ -198,6 +198,8 @@ public abstract class User implements Serializable, HasId {
 
     public void setEmail(String email) {
         this.email = email;
+        //todo set phone separately
+        phone = email;
     }
 
     public String getPhone() {
