@@ -57,7 +57,7 @@ public class DictionaryController {
         }
     }
 
-    @RequestMapping("/getNationalFederations.html")
+    @RequestMapping("/getFederations.html")
     public View getNationalFederations(@RequestParam("maxVersion") long maxVersion) {
         try {
             return gsonViewFactory.createGsonView(
