@@ -57,6 +57,18 @@ public class DictionaryController {
         }
     }
 
+    @RequestMapping("/getNationalFederations.html")
+    public View getNationalFederations(@RequestParam("maxVersion") long maxVersion) {
+        try {
+            return gsonViewFactory.createGsonView(
+                    dictionaryDataService.getNationalFederations(maxVersion)
+            );
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return gsonViewFactory.createGsonView(ErrorCodes.ERROR);
+        }
+    }
+
     @RequestMapping("/send-message.html")
     public View sendMessage(@RequestParam("email") String email) {
         Diver diver = diverDao.getByEmail(StringUtil.lowerCaseEmail(email));
