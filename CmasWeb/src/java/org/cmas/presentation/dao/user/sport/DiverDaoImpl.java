@@ -74,6 +74,9 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     public List<Diver> searchDivers(List<NationalFederation> federations, String firstName, String lastName, Date dob,
                                     DiverRegistrationStatus registrationStatus) {
+        if (federations.isEmpty()) {
+            return new ArrayList<>();
+        }
         Criteria criteria = createCriteria()
                 .add(Restrictions.eq("enabled", true))
                 .createAlias("federation", "fed")
