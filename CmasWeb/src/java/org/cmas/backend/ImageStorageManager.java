@@ -4,6 +4,7 @@ import org.cmas.entities.UserFile;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.image.BufferedImage;
@@ -20,9 +21,13 @@ public interface ImageStorageManager {
 
     void storeCardImage(PersonalCard card, BufferedImage image) throws IOException;
 
+    void storeRegCardImage(RegFile regFile, BufferedImage initImage) throws IOException;
+
     void storeLogbookEntryImage(LogbookEntry logbookEntry, BufferedImage initImage) throws IOException;
 
     void storeUserFile(UserFile userFile, BufferedImage initImage) throws IOException;
+
+    void copyRegFileToUserFile(RegFile regFile, UserFile userFile) throws IOException;
 
     void deleteImage(LogbookEntry logbookEntry);
 

@@ -51,4 +51,15 @@ var registration_model = {
             }
         );
     },
+
+    registerMobile: function (regForm, successHandler, unSuccessHandler) {
+        basicClient.sendPostRequestCommonCase(
+            "/registerWithCertificates.html",
+            {"registrationJson": JSON.stringify(regForm)},
+            successHandler, unSuccessHandler,
+            function () {
+                window.location.reload();
+            }
+        );
+    },
 };

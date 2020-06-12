@@ -3,6 +3,7 @@ var labels = {
     "cmas.face.hello": "Hello",
 
     "cmas.face.registration.form.label.country": "Choose a country",
+    "cmas.face.registration.form.label.federation": "Choose your National Federation",
     "cmas.face.registration.form.custom.error.text": "Error occurred while processing your registration. Please try again later. Error cause:",
 
     "cmas.face.registration.welcome.certificate": "Welcome to AquaLink! We’ve found your CMAS certificate",

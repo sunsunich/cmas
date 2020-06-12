@@ -361,9 +361,10 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         String frontImage = addresses.getSiteName(locale) +
                             imageStorageManager.getCardApprovalRequestImagesRoot() +
                             cardApprovalRequest.getFrontImage().getFileUrl();
-        String backImage = addresses.getSiteName(locale) +
-                           imageStorageManager.getCardApprovalRequestImagesRoot() +
-                           cardApprovalRequest.getBackImage().getFileUrl();
+        String backImage = cardApprovalRequest.getBackImage() == null ? ""
+                : addresses.getSiteName(locale) +
+                  imageStorageManager.getCardApprovalRequestImagesRoot() +
+                  cardApprovalRequest.getBackImage().getFileUrl();
         Diver diver = cardApprovalRequest.getDiver();
         String text = textRenderer.renderText(
                 "cardApprovalRequestToAquaLinkAdmin.ftl", locale,

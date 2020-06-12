@@ -10,6 +10,7 @@ var multiple_fileUpload_controller = {
     maxFilesToAttach: 2,
 
     files: {},
+    base64Strings : {},
     availableIds: [],
 
     init: function () {
@@ -60,11 +61,13 @@ var multiple_fileUpload_controller = {
             var self = this;
             var reader = new FileReader();
             reader.onload = function (e) {
+                let result = e.target.result;
+                self.base64Strings[fileId] = result;
                 self.photoListContainer.append(
                     new EJS({url: '/js/templates/imageFilePreview.ejs?v=' + webVersion})
                         .render({
                             "fileId": fileId,
-                            "src": e.target.result,
+                            "src": result,
                             "webVersion": webVersion
                         })
                 );
@@ -119,6 +122,7 @@ var multiple_fileUpload_controller = {
         $('#fileInput_' + fileId).remove();
         this.setupInput(fileId);
         delete this.files[fileId];
+        delete this.base64Strings[fileId];
         this.availableIds.push(fileId);
         this.availableIds.sort();
 

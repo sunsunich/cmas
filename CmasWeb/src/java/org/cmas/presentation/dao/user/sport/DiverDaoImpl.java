@@ -121,6 +121,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    public Diver getDiverByToken(String token) {
+        return (Diver)createCriteria().add(Restrictions.eq("mobileAuthToken", token)).uniqueResult();
+    }
+
+    @Override
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria criteria = super.makeSearchRequest(form);
         String diverType = form.getDiverType();
@@ -183,11 +188,11 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")
                 .add(Restrictions.eq("country.code", StringUtil.correctSpaceCharAndTrim(formObject.getCountry())))
-                .add(Restrictions.not(
-                        Restrictions.in("diverRegistrationStatus",
-                                        new DiverRegistrationStatus[]{
-                                                DiverRegistrationStatus.NEVER_REGISTERED,
-                                                DiverRegistrationStatus.INACTIVE})
+                .add(Restrictions.in("diverRegistrationStatus",
+                                     new DiverRegistrationStatus[]{
+                                             DiverRegistrationStatus.CMAS_FULL,
+                                             DiverRegistrationStatus.CMAS_BASIC,
+                                             }
                      )
                 )
                 //remove bots

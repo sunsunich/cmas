@@ -1,16 +1,11 @@
 package org.cmas.presentation.controller.user;
 
-import org.cmas.entities.DeviceType;
-import org.cmas.entities.User;
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
-import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.dao.CountryDao;
-import org.cmas.presentation.dao.user.DeviceDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
-import org.cmas.presentation.entities.user.Device;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.registration.DiverRegistrationChooseFormObject;
@@ -24,10 +19,8 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.admin.AdminService;
 import org.cmas.presentation.service.cards.PersonalCardService;
-import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
-import org.cmas.remote.ErrorCodes;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
@@ -35,8 +28,6 @@ import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -49,7 +40,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
@@ -66,13 +56,8 @@ import java.util.Locale;
 @Controller
 public class RegistrationController {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
     @Autowired
     private AdminService adminService;
-
-    @Autowired
-    private DeviceDao deviceDao;
 
     @Autowired
     private RegistrationDao registrationDao;
@@ -88,9 +73,6 @@ public class RegistrationController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
-
-    @Autowired
-    private AllUsersService allUsersService;
 
     @Autowired
     private PersonalCardService personalCardService;
@@ -217,101 +199,6 @@ public class RegistrationController {
         formObject.setLocale(locale);
         registrationService.add(formObject);
         return gsonViewFactory.createGsonView(formObject);
-    }
-
-    @RequestMapping("/loginUser.html")
-    public View loginUser(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("deviceType") String deviceType,
-            @RequestParam("deviceId") String deviceId,
-            @RequestParam("pushServiceRegId") String pushServiceRegId
-    ) {
-        User user = allUsersService.getByEmail(username);
-        if (user == null) {
-            return gsonViewFactory.createErrorGsonView(ErrorCodes.NO_SUCH_USER);
-        }
-        String encodedPass = passwordEncoder.encodePassword(password, UserDetails.SALT);
-        if (!user.getPassword().equals(encodedPass)) {
-            return gsonViewFactory.createErrorGsonView(ErrorCodes.WRONG_PASSWORD);
-        }
-
-        SimpleGsonResponse simpleGsonResponse = registerDevice(deviceType, deviceId, pushServiceRegId, user);
-
-        authenticationService.loginAs(new BackendUser(user),
-                                      new SpringRole[]{SpringRole.fromRole(user.getRole())}
-        );
-        if (user instanceof Diver) {
-            Diver diver = (Diver) user;
-            return gsonViewFactory.createGsonView(diver);
-        }
-        return gsonViewFactory.createGsonView(user);
-    }
-
-    @RequestMapping("/secure/registerDevice.html")
-    public View registerDevice(
-            @RequestParam("deviceType") String deviceType,
-            @RequestParam("deviceId") String deviceId,
-            @RequestParam("pushServiceRegId") String pushServiceRegId
-    ) {
-        BackendUser user = authenticationService.getCurrentUser();
-        if (user == null) {
-            return gsonViewFactory.createErrorGsonView(ErrorCodes.NO_SUCH_USER);
-        }
-
-        SimpleGsonResponse simpleGsonResponse = registerDevice(deviceType, deviceId, pushServiceRegId, user.getUser());
-        return gsonViewFactory.createGsonView(simpleGsonResponse);
-    }
-
-    //TODO device table locking
-    private SimpleGsonResponse registerDevice(String deviceType,
-                                              String deviceId,
-                                              String pushServiceRegId,
-                                              User user) {
-        DeviceType deviceTypeEnum;
-        try {
-            deviceTypeEnum = DeviceType.valueOf(deviceType);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return new SimpleGsonResponse(false, ErrorCodes.UNSUPPORTED_DEVICE_TYPE);
-        }
-        try {
-            Device device = deviceDao.getByClientDeviceId(deviceId);
-            if (device == null) {
-                Device newDevice = new Device(
-                        deviceTypeEnum, deviceId, pushServiceRegId, user
-                );
-                deviceDao.save(newDevice);
-
-            } else {
-                device.setPushServiceRegId(pushServiceRegId);
-                deviceDao.updateModel(device);
-            }
-            return new SimpleGsonResponse(true, "");
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return new SimpleGsonResponse(false, ErrorCodes.ERROR_REGISTERING_DEVICE);
-        }
-    }
-
-    //TODO device table locking
-    @RequestMapping("/secure/unregisterDevice.html")
-    public View unregisterDevice(
-            @RequestParam("deviceId") String deviceId,
-            @RequestParam("pushServiceRegId") String pushServiceRegId
-    ) {
-        try {
-            Device device = deviceDao.getByClientDeviceId(deviceId);
-            if (device != null) {
-                if (device.getPushServiceRegId().equals(pushServiceRegId)) {
-                    deviceDao.deleteModel(device);
-                }
-            }
-            return gsonViewFactory.createSuccessGsonView();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return gsonViewFactory.createErrorGsonView(ErrorCodes.ERROR_UNREGISTERING_DEVICE);
-        }
     }
 
     @RequestMapping("/regConfirm.html")

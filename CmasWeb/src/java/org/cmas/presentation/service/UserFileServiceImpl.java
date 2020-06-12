@@ -6,6 +6,8 @@ import org.cmas.entities.UserFile;
 import org.cmas.entities.UserFileType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.UserFileDao;
+import org.cmas.presentation.dao.user.RegFileDao;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -28,7 +31,20 @@ public class UserFileServiceImpl implements UserFileService {
     private UserFileDao userFileDao;
 
     @Autowired
+    private RegFileDao regFileDao;
+
+    @Autowired
     private ImageStorageManager imageStorageManager;
+
+    @Transactional
+    @Override
+    public UserFile copyFileFromRegistration(Diver diver, RegFile regFile) throws IOException {
+        UserFile userFile = new UserFile();
+        setupAndSaveUserFile(userFile, diver, UserFileType.CARD_APPROVAL_REQUEST, "");
+        imageStorageManager.copyRegFileToUserFile(regFile, userFile);
+        regFileDao.deleteModel(regFile);
+        return userFile;
+    }
 
     @Transactional
     @Override
@@ -37,13 +53,8 @@ public class UserFileServiceImpl implements UserFileService {
     ) throws UserFileException {
         UserFile userFile = new UserFile();
         try {
-            userFile.setUserFileType(userFileType);
-            userFile.setCreator(diver);
-            userFile.setDateCreation(new Date());
-            userFile.setDateEdit(new Date());
-            userFile.setMimeType(FilenameUtils.getExtension(multipartFile.getOriginalFilename()));
-            userFile.setFileUrl("");
-            userFileDao.save(userFile);
+            String mimeType = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+            setupAndSaveUserFile(userFile, diver, userFileType, mimeType);
 //            if (fail) {
 //                throw new RuntimeException();
 //            }
@@ -54,6 +65,16 @@ public class UserFileServiceImpl implements UserFileService {
             // throw exception to rollback transaction
             throw new UserFileException("validation.imageFormat", e.getMessage(), e);
         }
+    }
+
+    private void setupAndSaveUserFile(UserFile userFile, Diver diver, UserFileType userFileType, String mimeType) {
+        userFile.setUserFileType(userFileType);
+        userFile.setCreator(diver);
+        userFile.setDateCreation(new Date());
+        userFile.setDateEdit(new Date());
+        userFile.setMimeType(mimeType);
+        userFile.setFileUrl("");
+        userFileDao.save(userFile);
     }
 
     @Override

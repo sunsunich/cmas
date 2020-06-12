@@ -16,7 +16,7 @@ import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.presentation.validator.user.DiverEditValidator;
-import org.cmas.util.Base64Coder;
+import org.cmas.util.ImageUtils;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
@@ -40,9 +40,6 @@ import org.springframework.web.servlet.View;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -183,7 +180,7 @@ public class UserProfileController extends DiverAwareController {
     }
 
     @RequestMapping("/secure/profile/getUserpicUrl.html")
-    public View getUserpicUrl() throws IOException {
+    public View getUserpicUrl() {
         Diver user = getCurrentDiver();
         if (user == null) {
             throw new BadRequestException();
@@ -192,8 +189,7 @@ public class UserProfileController extends DiverAwareController {
         if (StringUtil.isTrimmedEmpty(userpicUrl)) {
             return gsonViewFactory.createErrorGsonView("error.no.image");
         } else {
-            return gsonViewFactory.createGsonView(
-                    new ImageUrlDTO(true, userpicUrl));
+            return gsonViewFactory.createGsonView(new ImageUrlDTO(true, userpicUrl));
         }
     }
 
@@ -219,20 +215,13 @@ public class UserProfileController extends DiverAwareController {
 
     @RequestMapping(value = "/secure/processEditUserpic.html", method = RequestMethod.POST)
     public View userEditUserpic(@RequestParam String imageBase64Bytes) {
-        if (StringUtil.isTrimmedEmpty(imageBase64Bytes)) {
-            return gsonViewFactory.createErrorGsonView("validation.emptyField");
-        }
         Diver diver = getCurrentDiver();
+        ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(imageBase64Bytes);
+        if (imageConversionResult.image == null) {
+            return gsonViewFactory.createErrorGsonView(imageConversionResult.errorCode);
+        }
         try {
-            byte[] imageBytes = Base64Coder.decode(imageBase64Bytes);
-            if ((long) imageBytes.length > Globals.MAX_IMAGE_SIZE) {
-                return gsonViewFactory.createErrorGsonView("validation.imageSize");
-            }
-            BufferedImage image = ImageIO.read(new ByteArrayInputStream(imageBytes));
-            if (image == null) {
-                return gsonViewFactory.createErrorGsonView("validation.imageFormat");
-            }
-            imageStorageManager.storeUserpic(diver, image);
+            imageStorageManager.storeUserpic(diver, imageConversionResult.image);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");

@@ -11,6 +11,7 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
 import org.cmas.presentation.service.UserFileException;
 import org.cmas.presentation.service.UserFileService;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
 import java.util.Date;
 
 /**
@@ -67,6 +69,28 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
             if (!result.hasErrors()) {
                 result.reject("validation.internal");
             }
+        }
+    }
+
+    @Override
+    public boolean addCardApprovalRequest(RegFile frontImage, @Nullable RegFile backImage, Diver diver) {
+        try {
+            CardApprovalRequest cardApprovalRequest = new CardApprovalRequest();
+            cardApprovalRequest.setCreateDate(new Date());
+            cardApprovalRequest.setDiver(diver);
+            cardApprovalRequest.setIssuingFederation(diver.getFederation());
+            UserFile userFileFront = userFileService.copyFileFromRegistration(diver, frontImage);
+            cardApprovalRequest.setFrontImage(userFileFront);
+            if (backImage != null) {
+                UserFile userFileBack = userFileService.copyFileFromRegistration(diver, backImage);
+                cardApprovalRequest.setBackImage(userFileBack);
+            }
+            cardApprovalRequestDao.save(cardApprovalRequest);
+            notifyOnNewCardApprovalRequest(cardApprovalRequest);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
         }
     }
 
@@ -115,11 +139,10 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
         cardApprovalRequestDao.save(cardApprovalRequest);
 
-//        int i = 7;
-//        if (i == 7) {
-//            throw new RuntimeException();
-//        }
+        notifyOnNewCardApprovalRequest(cardApprovalRequest);
+    }
 
+    private void notifyOnNewCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
         mailService.sendCardApprovalRequestToAquaLinkAdmin(cardApprovalRequest);
 
         if (cardApprovalRequest.getIssuingFederation() == null) {

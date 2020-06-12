@@ -100,10 +100,15 @@ public abstract class User implements Serializable, HasId {
     @Column
     private String userpicUrl;
 
+    //end set by user from mobile
+
     @Column
     private boolean bot;
 
-    //end set by user from mobile
+    @Expose
+    //todo set unique
+    @Column //(unique = true)
+    private String mobileAuthToken;
 
     protected User() {
         enabled = true;
@@ -155,6 +160,14 @@ public abstract class User implements Serializable, HasId {
 
     public void setBot(boolean bot) {
         this.bot = bot;
+    }
+
+    public String getMobileAuthToken() {
+        return mobileAuthToken;
+    }
+
+    public void setMobileAuthToken(String mobileAuthToken) {
+        this.mobileAuthToken = mobileAuthToken;
     }
 
     public UserBalance getUserBalance() {

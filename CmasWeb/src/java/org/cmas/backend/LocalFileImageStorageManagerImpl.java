@@ -1,5 +1,6 @@
 package org.cmas.backend;
 
+import org.apache.commons.io.FileUtils;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
@@ -8,7 +9,9 @@ import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.presentation.dao.UserFileDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.logbook.LogbookEntryDao;
+import org.cmas.presentation.dao.user.RegFileDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
@@ -53,6 +56,9 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
     @Autowired
     private UserFileDao userFileDao;
 
+    @Autowired
+    private RegFileDao regFileDao;
+
     private String imageStorageRoot;
 
     private String imageStorageRootLocation;
@@ -95,6 +101,32 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
     }
 
     @Override
+    public void storeRegCardImage(RegFile regFile, BufferedImage initImage) throws IOException {
+        String imageStoreLocation = getImageStoreLocationForRegCards();
+        BufferedImage scaledImage = ImageResizer.scaleDownSavingProportions(
+                initImage, (float) MAX_LOGBOOK_ENTRY_IMAGE_WIDTH_PX, (float) MAX_LOGBOOK_ENTRY_IMAGE_HEIGHT_PX
+        );
+        String path = Base64Coder.encodeString(String.valueOf(regFile.getId())) + ".png";
+        File file = new File(imageStoreLocation + path);
+        ImageIO.write(scaledImage, "png", new FileOutputStream(file));
+        regFile.setFileUrl(path);
+        regFileDao.updateModel(regFile);
+    }
+
+    @Override
+    public void copyRegFileToUserFile(RegFile regFile, UserFile userFile) throws IOException {
+        String photoPath = Base64Coder.encodeString(userFile.getId() + "_" + userFile.getDateEdit().getTime()) + ".png";
+        String cardApprovalRequestPath = getImageStoreLocationForCardsApprovalRequests() + photoPath;
+
+        String regFilePath = getImageStoreLocationForRegCards()
+                             + Base64Coder.encodeString(String.valueOf(regFile.getId()))
+                             + ".png";
+        FileUtils.moveFile(new File(regFilePath), new File(cardApprovalRequestPath));
+        userFile.setFileUrl(photoPath);
+        userFileDao.updateModel(userFile);
+    }
+
+    @Override
     public void storeLogbookEntryImage(LogbookEntry logbookEntry, BufferedImage initImage) throws IOException {
         BufferedImage scaledImage = ImageResizer.scaleDownSavingProportions(
                 initImage, (float) MAX_LOGBOOK_ENTRY_IMAGE_WIDTH_PX, (float) MAX_LOGBOOK_ENTRY_IMAGE_HEIGHT_PX
@@ -133,7 +165,9 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         String oldImagePath = userFile.getFileUrl();
         userFile.setFileUrl(photoPath);
         userFileDao.updateModel(userFile);
-        deleteOldFile(imageStoreLocation + oldImagePath);
+        if (!StringUtil.isTrimmedEmpty(oldImagePath)) {
+            deleteOldFile(imageStoreLocation + oldImagePath);
+        }
     }
 
     @NotNull
@@ -188,6 +222,14 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         return imageStorageRootLocation
                + File.separatorChar
                + "cards"
+               + File.separatorChar;
+    }
+
+    @NotNull
+    private String getImageStoreLocationForRegCards() {
+        return imageStorageRootLocation
+               + File.separatorChar
+               + "regCards"
                + File.separatorChar;
     }
 

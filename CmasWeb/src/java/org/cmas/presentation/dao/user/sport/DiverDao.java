@@ -32,6 +32,8 @@ public interface DiverDao extends UserDao<Diver> {
 
     Diver getDiverByCardNumber(NationalFederation federation, String cardNumber);
 
+    Diver getDiverByToken(String token);
+
     List<Diver> searchForVerification(DiverVerificationFormObject formObject);
 
     List<Diver> searchNotFriendDivers(long diverId, FindDiverFormObject formObject);

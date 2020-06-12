@@ -20,7 +20,9 @@ import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.user.DiverFormObject;
+import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.LocaleMapping;
@@ -103,6 +105,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Autowired
     PersonalCardService personalCardService;
 
+    @Autowired
+    private CardApprovalRequestService cardApprovalRequestService;
+
     @Override
     public Diver add(Registration registration, String ip) {
         Diver diver = super.add(registration, ip);
@@ -112,7 +117,23 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         );
         diver.setDiverRegistrationStatus(DiverRegistrationStatus.DEMO);
         diver.setAreaOfInterest(registration.getAreaOfInterest());
+        diver.setFederation(registration.getFederation());
         diverDao.updateModel(diver);
+        boolean imagesTransferSuccess = true;
+        List<RegFile> images = registration.getImages();
+        for (int i = 0; i < images.size(); i += 2) {
+            RegFile frontImage = images.get(i);
+            RegFile backImage = null;
+            if (i + 1 < images.size()) {
+                backImage = images.get(i + 1);
+            }
+            boolean imageTransferSuccess = cardApprovalRequestService.addCardApprovalRequest(
+                    frontImage, backImage, diver);
+            imagesTransferSuccess = imagesTransferSuccess && imageTransferSuccess;
+        }
+        if (imagesTransferSuccess) {
+            registrationDao.deleteModel(registration);
+        }
         return diver;
     }
 

@@ -2,16 +2,21 @@ package org.cmas.presentation.service.user;
 
 import org.cmas.Globals;
 import org.cmas.backend.DrawCardService;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.Role;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.user.RegFileDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.registration.DiverRegistrationDTO;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
@@ -21,14 +26,19 @@ import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.presentation.service.sports.NationalFederationService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
+import org.cmas.presentation.validator.ValidatorUtils;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.ImageUtils;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +48,8 @@ import java.util.Locale;
 
 
 public class RegistrationServiceImpl implements RegistrationService {
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private MailService mailer;
@@ -64,13 +76,19 @@ public class RegistrationServiceImpl implements RegistrationService {
     private DiverDao diverDao;
 
     @Autowired
+    private RegFileDao regFileDao;
+
+    @Autowired
+    private NationalFederationDao nationalFederationDao;
+
+    @Autowired
     private NationalFederationService federationService;
 
     @Autowired
     private PersonalCardService personalCardService;
 
     @Autowired
-    private DiverService diverService;
+    private ImageStorageManager imageStorageManager;
 
     @Autowired
     private DrawCardService drawCardService;
@@ -117,6 +135,45 @@ public class RegistrationServiceImpl implements RegistrationService {
             }
         }
         errors.reject("validation.diverAlreadyRegistered");
+    }
+
+    @Override
+    public void validateFromMobile(FullDiverRegistrationFormObject formObject, Errors errors) {
+        validator.validate(formObject, errors);
+        String federationId = formObject.getFederationId();
+        if (StringUtil.isTrimmedEmpty(federationId)) {
+            errors.rejectValue("federationId", "validation.emptyField");
+        } else {
+            ValidatorUtils.validateLong(errors, federationId, "federationId", "validation.incorrectField");
+        }
+        List<String> images = formObject.getImages();
+        if (images.isEmpty()) {
+            errors.rejectValue("images", "validation.emptyField");
+        }
+        if (errors.hasErrors()) {
+            return;
+        }
+        Country country = countryDao.getByCode(formObject.getCountryCode());
+        if (country == null) {
+            errors.rejectValue("countryCode", "validation.incorrectField");
+        }
+        NationalFederation nationalFederation = nationalFederationDao.getModel(Long.parseLong(federationId));
+        if (nationalFederation == null) {
+            errors.rejectValue("federationId", "validation.incorrectField");
+        }
+        for (String image : formObject.getImages()) {
+            ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(image);
+            if (imageConversionResult.image == null) {
+                String errorCode = imageConversionResult.errorCode == null ?
+                        "validation.incorrectField" :
+                        imageConversionResult.errorCode;
+                errors.rejectValue("images", errorCode);
+            }
+        }
+        if (errors.hasErrors()) {
+            return;
+        }
+        validateEmail(formObject, errors);
     }
 
     @Override
@@ -272,7 +329,11 @@ public class RegistrationServiceImpl implements RegistrationService {
         String email = StringUtil.lowerCaseEmail(formObject.getEmail());
         entity.setEmail(email);
         entity.setAreaOfInterest(formObject.getAreaOfInterest());
-        entity.setCountry(formObject.getCountry());
+        String country = formObject.getCountryCode();
+        if (StringUtil.isTrimmedEmpty(country)) {
+            country = formObject.getCountry();
+        }
+        entity.setCountry(country);
         entity.setFirstName(formObject.getFirstName());
         entity.setLastName(formObject.getLastName());
         try {
@@ -285,10 +346,31 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         Long id = (Long) registrationDao.save(entity);
         entity.setMd5(passwordEncoder.encodePassword(id + email, UserDetails.SALT));
+
+        String federationId = formObject.getFederationId();
+        if (!StringUtil.isTrimmedEmpty(federationId)) {
+            NationalFederation federation = nationalFederationDao.getModel(Long.parseLong(federationId));
+            if (federation != null) {
+                entity.setFederation(federation);
+            }
+        }
         registrationDao.updateModel(entity);
 
+        for (String image : formObject.getImages()) {
+            ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(image);
+            if (imageConversionResult.image != null) {
+                RegFile regFile = new RegFile();
+                regFile.setRegistration(entity);
+                regFile.setFileUrl("");
+                regFileDao.save(regFile);
+                try {
+                    imageStorageManager.storeRegCardImage(regFile, imageConversionResult.image);
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
         mailer.sendRegistration(entity);
-
         return entity;
     }
 

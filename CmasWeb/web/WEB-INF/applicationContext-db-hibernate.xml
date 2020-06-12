@@ -64,6 +64,7 @@
                 <value>org.cmas.presentation.entities.billing.DiverPaymentList</value>
 
                 <value>org.cmas.presentation.entities.user.Registration</value>
+                <value>org.cmas.presentation.entities.user.cards.RegFile</value>
                 <value>org.cmas.presentation.entities.user.UserEvent</value>
                 <value>org.cmas.presentation.entities.user.Device</value>
             </list>
@@ -157,6 +158,10 @@
     </bean>
 
     <bean id="deviceDao" class="org.cmas.presentation.dao.user.DeviceDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="regFileDao" class="org.cmas.presentation.dao.user.RegFileDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

@@ -1,210 +1,60 @@
-[
-  {
-    "latitude": 52.212347199999996,
-    "longitude": 0.1281835,
+{
+  "diverLevel": "ONE_STAR",
+  "diverType": "DIVER",
+  "cards": [
+    {
+      "id": 3524,
+      "number": "7730067555754313344RUS/FO1/P1/08/000151",
+      "imageUrl": "MzUyNF83NzMwMDY3NTU1NzU0MzEzMzQ0UlVTL0ZPMS9QMS8wOC8wMDAxNTFfMTU2OTE5NDE3MDgwMQ\u003d\u003d.png",
+      "diverType": "DIVER",
+      "diverLevel": "ONE_STAR",
+      "cardType": "NATIONAL",
+      "printName": "DIVER ONE_STAR",
+      "printNumber": "7730067555754313344RUS/FO1/P1/08/000151"
+    }
+  ],
+  "dateLicencePaymentIsDue": "06/10/2019",
+  "previousRegistrationStatus": "NEVER_REGISTERED",
+  "diverRegistrationStatus": "CMAS_BASIC",
+  "isAddFriendsToLogbookEntries": false,
+  "isNewsFromCurrentLocation": false,
+  "primaryPersonalCard": {
+    "id": 3525,
+    "number": "3525062258899584",
+    "imageUrl": "MzUyNSAwNjIyIDU4ODkgOTU4NF8xNTY5MTk0MTcwNzg4.png",
+    "diverType": "DIVER",
+    "diverLevel": "ONE_STAR",
+    "cardType": "PRIMARY",
+    "printName": "DIVER ONE_STAR",
+    "printNumber": "3525 0622 5889 9584"
+  },
+  "federation": {
     "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
+      "code": "RUS",
+      "iso3166_1_alpha_2_code": "RU",
+      "id": "102",
+      "name": "Russia",
       "version": "1",
       "deleted": false
     },
-    "toponym": {
-      "id": "12",
-      "name": "Cam",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": true,
-    "latinName": "Cam",
-    "editable": false,
-    "id": "13",
-    "name": "Cam",
+    "id": "1",
+    "name": "Russia",
     "version": "1",
     "deleted": false
   },
-  {
-    "latitude": 51.867355455610166,
-    "longitude": 1.297588081250069,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "13",
-      "name": "bay",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s1",
-    "editable": false,
-    "id": "14",
-    "name": "s1",
+  "id": "7730067555754313344",
+  "email": "7730067555754313344@mailinator.com",
+  "phone": "7730067555754313344",
+  "firstName": "SergeiBot",
+  "lastName": "Pritychenko",
+  "country": {
+    "code": "RUS",
+    "iso3166_1_alpha_2_code": "RU",
+    "id": "102",
+    "name": "Russia",
     "version": "1",
     "deleted": false
   },
-  {
-    "latitude": 51.499532419630306,
-    "longitude": 0.5560109328125691,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "13",
-      "name": "bay",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "spot two",
-    "editable": false,
-    "id": "15",
-    "name": "s2 d!!@выаа",
-    "version": "1",
-    "deleted": false
-  },
-  {
-    "latitude": 52.98604371151374,
-    "longitude": 1.154765815625069,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "14",
-      "name": "Sea",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s3",
-    "editable": false,
-    "id": "16",
-    "name": "s3",
-    "version": "1",
-    "deleted": false
-  },
-  {
-    "latitude": 51.400255806972545,
-    "longitude": 1.132793159375069,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "14",
-      "name": "Sea",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s4",
-    "editable": false,
-    "id": "17",
-    "name": "s4",
-    "version": "1",
-    "deleted": false
-  },
-  {
-    "latitude": 51.39682862476792,
-    "longitude": 0.6384083937500691,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "13",
-      "name": "bay",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s5",
-    "editable": false,
-    "id": "18",
-    "name": "s5",
-    "version": "1",
-    "deleted": false
-  },
-  {
-    "latitude": 51.070829437678576,
-    "longitude": 1.259135932812569,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "13",
-      "name": "bay",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s7",
-    "editable": false,
-    "id": "21",
-    "name": "s7",
-    "version": "1",
-    "deleted": false
-  },
-  {
-    "latitude": 51.73561929005075,
-    "longitude": 0.8636281203125691,
-    "country": {
-      "code": "GBR",
-      "iso3166_1_alpha_2_code": "GB",
-      "id": "48",
-      "name": "Great Britain",
-      "version": "1",
-      "deleted": false
-    },
-    "toponym": {
-      "id": "13",
-      "name": "bay",
-      "version": "1",
-      "deleted": false
-    },
-    "isApproved": false,
-    "isAutoGeoLocation": false,
-    "latinName": "s8",
-    "editable": false,
-    "id": "22",
-    "name": "s8",
-    "version": "1",
-    "deleted": false
-  }
-]
+  "dob": "23/11/1966",
+  "mobileAuthToken": "7730067555754313344"
+}

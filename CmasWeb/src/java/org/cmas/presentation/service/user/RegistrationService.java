@@ -17,6 +17,8 @@ public interface RegistrationService {
 
     void validate(DiverRegistrationFormObject formObject, Errors errors);
 
+    void validateFromMobile(FullDiverRegistrationFormObject formObject, Errors errors);
+
     void validateEmail(FullDiverRegistrationFormObject formObject, Errors errors);
 
     void validateConfirm(RegistrationConfirmFormObject formObject, Errors errors);

@@ -10,6 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class UploadImageValidator {
 
+    private UploadImageValidator() {
+    }
+
     public static String validateOptionalImage(MultipartFile multipartFile) {
         if (multipartFile == null || multipartFile.isEmpty()) {
             return null;

@@ -3,7 +3,9 @@ package org.cmas.presentation.entities.user;
 import com.google.myjson.annotations.Expose;
 import org.cmas.Globals;
 import org.cmas.entities.Role;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.InternetAddressOwner;
+import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.validator.Validatable;
 import org.cmas.presentation.validator.ValidatorUtils;
 import org.hibernate.validator.Length;
@@ -16,9 +18,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -71,6 +76,12 @@ public class Registration implements InternetAddressOwner, Validatable {
     @Expose
     @Column
     private String areaOfInterest;
+
+    @OneToMany(mappedBy = "registration")
+    private List<RegFile> images;
+
+    @ManyToOne
+    private NationalFederation federation;
 
     public Registration() {
     }
@@ -189,5 +200,21 @@ public class Registration implements InternetAddressOwner, Validatable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List<RegFile> getImages() {
+        return images;
+    }
+
+    public void setImages(List<RegFile> images) {
+        this.images = images;
+    }
+
+    public NationalFederation getFederation() {
+        return federation;
+    }
+
+    public void setFederation(NationalFederation federation) {
+        this.federation = federation;
     }
 }
