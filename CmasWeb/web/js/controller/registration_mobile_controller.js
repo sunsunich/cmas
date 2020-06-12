@@ -79,18 +79,12 @@ var registration_mobile_controller = {
         multiple_fileUpload_controller.addImageCallback = function () {
             self.validationController.checkForm();
         };
+        multiple_fileUpload_controller.maxFilesToAttach = 10;
         multiple_fileUpload_controller.init();
 
         this.validationController.fromValidator = function (/*form*/) {
-            if (multiple_fileUpload_controller.availableIds.length == 0) {
-                self.isValidateFilesAdded = true;
-                return null;
-            } else {
-                if (self.isValidateFilesAdded) {
-                    return "validation.cards.images";
-                } else {
-                    return null;
-                }
+            if (multiple_fileUpload_controller.availableIds.length == 10) {
+                return "validation.registration.images";
             }
         };
 

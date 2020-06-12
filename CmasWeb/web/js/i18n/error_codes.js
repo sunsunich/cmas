@@ -103,5 +103,6 @@ var error_codes = {
 
     "validation.insurance.alreadyHave": "You are already covered by divers insurance",
 
-    "validation.cards.images" : "Please attach front and back photo of the certificate"
+    "validation.cards.images" : "Please attach front and back photo of the certificate",
+    "validation.registration.images" : "Please attach at least one file"
 };
