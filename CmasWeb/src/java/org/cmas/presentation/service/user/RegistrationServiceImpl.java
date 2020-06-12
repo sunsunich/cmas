@@ -93,6 +93,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private DrawCardService drawCardService;
 
+    @Autowired
+    private DiverService diverService;
+
     @Override
     public void validate(DiverRegistrationFormObject formObject, Errors errors) {
         validator.validate(formObject, errors);
@@ -306,9 +309,9 @@ public class RegistrationServiceImpl implements RegistrationService {
             diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
         } else {
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-//            diver.setDateLicencePaymentIsDue(
-//                    new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
-//            );
+            diver.setDateLicencePaymentIsDue(
+                    new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
+            );
         }
         diverDao.updateModel(diver);
         mailer.sendDiverPassword(diver);

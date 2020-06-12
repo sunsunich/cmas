@@ -2,6 +2,7 @@ package org.cmas.presentation.controller.user;
 
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
@@ -169,6 +170,9 @@ public class RegistrationController {
         }
         Diver diver = diverDao.getModel(Long.parseLong(formObject.getDiverId()));
         if (diver == null) {
+            throw new BadRequestException();
+        }
+        if (diver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
             throw new BadRequestException();
         }
         String formObjectEmail = StringUtil.lowerCaseEmail(formObject.getEmail());
