@@ -165,6 +165,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             errors.rejectValue("federationId", "validation.incorrectField");
         }
         for (String image : formObject.getImages()) {
+            log.error("image=" + image);
             ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(image);
             if (imageConversionResult.image == null) {
                 String errorCode = imageConversionResult.errorCode == null ?

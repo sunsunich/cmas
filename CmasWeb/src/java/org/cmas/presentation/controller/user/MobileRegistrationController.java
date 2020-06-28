@@ -1,5 +1,6 @@
 package org.cmas.presentation.controller.user;
 
+import com.google.myjson.Gson;
 import org.cmas.entities.DeviceType;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.AreaOfInterest;
@@ -93,12 +94,14 @@ public class MobileRegistrationController {
 
     @RequestMapping(value = "/registerWithCertificates.html", method = RequestMethod.POST)
     public View registerWithCertificates(@RequestParam("registrationJson") String registrationJson) {
+        log.error("registerWithCertificates called:" + registrationJson);
         FullDiverRegistrationFormObject formObject;
         try {
             formObject = gsonViewFactory.getCommonGson().fromJson(registrationJson, FullDiverRegistrationFormObject.class);
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
+        log.error("formObject=" + new Gson().toJson(formObject));
         Errors result = new MapBindingResult(new HashMap(), "logbookEntryJson");
         registrationService.validateFromMobile(formObject, result);
         if (result.hasErrors()) {
