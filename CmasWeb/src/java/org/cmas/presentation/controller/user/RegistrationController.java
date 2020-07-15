@@ -172,7 +172,7 @@ public class RegistrationController {
         if (diver == null) {
             throw new BadRequestException();
         }
-        if (diver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
+        if (diver.getPreviousRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
             throw new BadRequestException();
         }
         String formObjectEmail = StringUtil.lowerCaseEmail(formObject.getEmail());

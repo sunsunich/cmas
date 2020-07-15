@@ -302,12 +302,12 @@ public class RegistrationServiceImpl implements RegistrationService {
         if (diver.getLocale() == null) {
             diver.setLocale(locale);
         }
-        Date dateLicencePaymentIsDue = diver.getDateLicencePaymentIsDue();
-        if (dateLicencePaymentIsDue != null
-//            && dateLicencePaymentIsDue.after(new Date())
+        if (diver.getDiverRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED
+            && diver.isPayedAtLeastOnce()
         ) {
+            // exceptional case when federation pays for diver
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-            diver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+            diver.setPreviousRegistrationStatus(DiverRegistrationStatus.NEVER_REGISTERED);
         } else {
             diver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
             diver.setDateLicencePaymentIsDue(

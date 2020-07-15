@@ -15,8 +15,10 @@ delete from divers where id = @idToDelete;
 
 # mass users delete, use with backup!!!
 # returns only 40-50 ids
+# delete the images!!! - look in user_files
 select @idToDelete := (select GROUP_CONCAT(id) from divers
                        where not (email like '%@mailinator.com') and role = 'ROLE_DIVER' || role <> 'ROLE_DIVER');
+
 
 select @balanceToDelete := (select GROUP_CONCAT(userBalance_id) from divers where FIND_IN_SET(id, @idToDelete));
 
@@ -25,8 +27,11 @@ update divers set primaryPersonalCard_id = null, userBalance_id = null where FIN
 delete from user_balances where FIND_IN_SET(id, @balanceToDelete);
 
 delete from personal_cards where FIND_IN_SET(diver_id, @idToDelete);
+delete from card_approval_requests where FIND_IN_SET(diver_id, @idToDelete);
+delete from user_files where FIND_IN_SET(creator_id, @idToDelete);
 
 delete from user_events where FIND_IN_SET(diver_id, @idToDelete);
+delete from feedback_items where FIND_IN_SET(creator_id, @idToDelete);
 
 select @invoiceToDelete := (select GROUP_CONCAT(id) from invoice where FIND_IN_SET(diver_id, @idToDelete));
 delete from invoice_requested_paid_features where FIND_IN_SET(invoiceId, @invoiceToDelete);

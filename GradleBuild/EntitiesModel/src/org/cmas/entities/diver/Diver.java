@@ -114,6 +114,10 @@ public class Diver extends CardUser {
     private Date dateGoldStatusPaymentIsDue;
 
     @Expose
+    @Column
+    private boolean payedAtLeastOnce = false;
+
+    @Expose
     @Column(unique = true)
     private String extId;
 
@@ -273,6 +277,14 @@ public class Diver extends CardUser {
 
     public void setNewsFromCountries(Set<Country> newsFromCountries) {
         this.newsFromCountries = newsFromCountries;
+    }
+
+    public boolean isPayedAtLeastOnce() {
+        return payedAtLeastOnce;
+    }
+
+    public void setPayedAtLeastOnce(boolean payedAtLeastOnce) {
+        this.payedAtLeastOnce = payedAtLeastOnce;
     }
 
     @SuppressWarnings("MagicCharacter")

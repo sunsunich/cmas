@@ -49,20 +49,40 @@
                 </c:if>
                 <br/>
                 <br/>
-                <div class="form-description">
-                    <p><s:message code="cmas.face.first.login.form.getFullAccess.describtion"/></p>
-                    <p><s:message code="cmas.face.first.login.form.getFullAccess"/></p>
-                </div>
-                <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
-                    <button class="white-button form-item-left form-button-bigger"
-                            onclick="return window.location = '/secure/chooseNoPayment.html'">
-                        <s:message code="cmas.face.first.login.form.link.cmas_basic"/>
-                    </button>
-                </c:if>
-                <button class="positive-button form-item-right form-button-smaller"
-                        onclick="return window.location = '/secure/pay.html'">
-                    <s:message code="cmas.face.first.login.form.link.cmas_full"/>
-                </button>
+                <c:choose>
+                    <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+                        <div class="form-description">
+                            <p><s:message code="cmas.face.first.login.form.fullWelcome.describtion"/></p>
+                            <p><s:message code="cmas.face.first.login.form.fullWelcome"/></p>
+                        </div>
+
+                        <button class="white-button form-item-left form-button-bigger"
+                                onclick="return window.location = '/secure/chooseNoPayment.html'">
+                            <s:message code="cmas.face.first.login.form.link.my_account"/>
+                        </button>
+
+                        <button class="positive-button form-item-right form-button-smaller"
+                                onclick="return window.location = '/secure/pay.html'">
+                            <s:message code="cmas.face.first.login.form.link.cmas_gold"/>
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="form-description">
+                            <p><s:message code="cmas.face.first.login.form.getFullAccess.describtion"/></p>
+                            <p><s:message code="cmas.face.first.login.form.getFullAccess"/></p>
+                        </div>
+                        <c:if test="${diver.diverRegistrationStatus.name == 'DEMO'}">
+                            <button class="white-button form-item-left form-button-bigger"
+                                    onclick="return window.location = '/secure/chooseNoPayment.html'">
+                                <s:message code="cmas.face.first.login.form.link.cmas_basic"/>
+                            </button>
+                        </c:if>
+                        <button class="positive-button form-item-right form-button-smaller"
+                                onclick="return window.location = '/secure/pay.html'">
+                            <s:message code="cmas.face.first.login.form.link.cmas_full"/>
+                        </button>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
     </div>

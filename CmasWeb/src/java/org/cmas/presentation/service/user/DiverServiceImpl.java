@@ -492,6 +492,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             } else {
                 startTime = dateLicencePaymentIsDue.getTime();
             }
+            diver.setPayedAtLeastOnce(true);
             diver.setDateLicencePaymentIsDue(new Date(startTime + Globals.getMsInYear()));
             switch (diver.getDiverRegistrationStatus()) {
                 case NEVER_REGISTERED:

@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class ImageUtils {
 
@@ -62,5 +64,16 @@ public class ImageUtils {
             image = null;
             this.errorCode = errorCode;
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        String contents = new String(Files.readAllBytes(Paths.get("/Users/sunsunich/Downloads/base64.txt")));
+     //   contents+='=';
+      //  contents+='=';
+        System.out.println(contents.length());
+        System.out.println(contents.length() / 4.0);
+
+        System.out.println(Base64Coder.decode(contents));
+
     }
 }

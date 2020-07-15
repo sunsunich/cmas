@@ -58,6 +58,11 @@ public class TransactionalBillingServiceImpl {
 
     private void simpleAddToBallance(User user, BigDecimal amount) {
         UserBalance userBalance = user.getUserBalance();
+        if (userBalance == null) {
+            userBalance = new UserBalance();
+            userBalanceDao.save(userBalance);
+            user.setUserBalance(userBalance);
+        }
         userBalance.setBalance(
                 userBalance.getBalance().add(amount)
         );
