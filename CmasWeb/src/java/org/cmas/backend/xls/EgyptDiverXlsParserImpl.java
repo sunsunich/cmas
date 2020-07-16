@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -56,17 +57,27 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                         card.setCardType(globalCard.getCardType());
                         card.setFederationName(globalCard.getFederationName());
 
-                        String key = diver.getFirstName() + ' ' + diver.getLastName();
+                        String key = diver.getFirstName() + ' ' + diver.getLastName() + ' ' + diver.getDob();
                         Diver existingDiver = divers.get(key);
                         if (existingDiver == null) {
                             divers.put(key, diver);
                         } else {
                             System.out.println("diver repetition:"
+                                               + "cell number:"
+                                               + row.getCell(0)
+                                               + ", diver:"
                                                + diver.getFirstName()
                                                + ' '
                                                + diver.getLastName()
                                                + ' '
-                                               + diver.getDiverLevel());
+                                               + diver.getDob()
+                                               + ' '
+                                               + diver.getDiverLevel()
+                                               + ",  new card:"
+                                               + card.getDiverType()
+                                               + ' '
+                                               + card.getDiverLevel()
+                            );
                             List<PersonalCard> existingDiverCards = existingDiver.getCards();
                             existingDiverCards.add(card);
                         }
@@ -89,24 +100,18 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
     private static Diver evalDiver(Row row) {
         Diver diver = new Diver();
         String name = StringUtil.correctSpaceCharAndTrim(row.getCell(1).getStringCellValue());
-        int firstSpaceIndex = name.indexOf(' ');
-        if (firstSpaceIndex == -1) {
+        int lastSpaceIndex = name.lastIndexOf(' ');
+        if (lastSpaceIndex == -1) {
             return null;
         }
-        diver.setFirstName(name.substring(0, firstSpaceIndex));
-        diver.setLastName(name.substring(firstSpaceIndex + 1));
+        diver.setFirstName(name.substring(0, lastSpaceIndex).trim());
+        diver.setLastName(name.substring(lastSpaceIndex + 1).trim());
 
         Cell countryCell = row.getCell(2);
         if (countryCell != null) {
             Country country = new Country();
             country.setName(StringUtil.correctSpaceCharAndTrim(countryCell.getStringCellValue()));
             diver.setCountry(country);
-        }
-
-        Cell instNumberCell = row.getCell(6);
-        if (instNumberCell != null) {
-            String instructorCardNumber = StringUtil.correctSpaceCharAndTrim(instNumberCell.getStringCellValue());
-            setInstructor(diver, instructorCardNumber);
         }
 
         Cell cardNumberCell = row.getCell(3);
@@ -121,6 +126,16 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
             cards.add(card);
             diver.setCards(cards);
         }
+
+        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
+        diver.setEmail(email);
+
+        String password = StringUtil.correctSpaceCharAndTrim(row.getCell(6).getStringCellValue());
+        diver.setGeneratedPassword(password);
+
+        Date dob = row.getCell(7).getDateCellValue();
+        diver.setDob(dob);
+
         return diver;
     }
 

@@ -10,6 +10,7 @@ import org.cmas.util.dao.RunInHibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Date;
@@ -97,12 +98,16 @@ public class UploadDiversTask implements Runnable {
             if (Thread.currentThread().isInterrupted()) {
                 return;
             }
+            @Nullable
             Diver dbDiver;
             if (isEgypt) {
-                diverService.uploadExistingEgyptianDiver(diver);
-                dbDiver = diverService.diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
-                                                                              diver.getLastName(),
-                                                                              countryCode);
+                if(diverService.uploadExistingEgyptianDiver(diver)) {
+                    dbDiver = diverService.diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
+                                                                                  diver.getLastName(),
+                                                                                  countryCode);
+                } else {
+                    dbDiver = null;
+                }
             } else {
                 diverService.uploadDiverFromXls(federation, diver);
                 dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
@@ -114,8 +119,7 @@ public class UploadDiversTask implements Runnable {
                 DiverModificationData diverModificationData = dbDiversToModificationData.get(dbDiverId);
                 if (diverModificationData == null) {
                     dbDiversToModificationData.put(dbDiverId,
-                                                   new DiverModificationData(dbDiver,
-                                                                             diver.getInstructor())
+                                                   new DiverModificationData(dbDiver, diver.getInstructor())
                     );
                 } else {
                     if (diver.getInstructor() != null) {
@@ -132,9 +136,10 @@ public class UploadDiversTask implements Runnable {
                 return;
             }
             DiverModificationData diverModificationData = entry.getValue();
-            diverService.finalizeDiverFromXls(federation, diverModificationData);
             if (isEgypt) {
                 diverService.finalizeExistingEgyptianDiver(federation, diverModificationData);
+            } else {
+                diverService.finalizeDiverFromXls(federation, diverModificationData);
             }
             workDone++;
             progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
