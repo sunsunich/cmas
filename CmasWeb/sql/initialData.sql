@@ -36,7 +36,7 @@ INSERT into countries (id, deleted, name, code, version) values (35, false, 'Cub
 INSERT into countries (id, deleted, name, code, version) values (36, false, 'Denmark', 'DEN', 1);
 INSERT into countries (id, deleted, name, code, version) values (37, false, 'Dominican Rep', 'DOM', 1);
 INSERT into countries (id, deleted, name, code, version) values (38, false, 'Egypt', 'EGY', 1);
-INSERT into countries (id, deleted, name, code, version) values (39, false, 'Arab Emirates', 'UEA', 1);
+INSERT into countries (id, deleted, name, code, version) values (39, false, 'United Arab Emirates', 'UEA', 1);
 INSERT into countries (id, deleted, name, code, version) values (40, false, 'Ecuador', 'ECU', 1);
 INSERT into countries (id, deleted, name, code, version) values (41, false, 'Spain', 'ESP', 1);
 INSERT into countries (id, deleted, name, code, version) values (42, false, 'Estonia', 'EST', 1);

@@ -254,17 +254,13 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             return false;
         }
         Date dob = diver.getDob();
-        boolean isFullNameEquals = (getNameNoSpaces(dbDiver.getFirstName()) + getNameNoSpaces(dbDiver.getLastName()))
-                                   .equals(getNameNoSpaces(firstName) + getNameNoSpaces(lastName));
-        if (!isFullNameEquals
-            || !dbDiver.getDob().equals(dob)
-            || !dbDiver.getCountry().getCode().equals(country.getCode())
-        ) {
-            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
+        String dbFullNameNoSpaces = getNameNoSpaces(dbDiver.getFirstName()) + getNameNoSpaces(dbDiver.getLastName());
+        String fullNameNoSpaces = getNameNoSpaces(firstName) + getNameNoSpaces(lastName);
+        if (!dbFullNameNoSpaces.equals(fullNameNoSpaces)){
             LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
                          + " email = " + email
-                         + " firstName = " + firstName
-                         + ", lastName = " + lastName
+                         + " dbFullNameNoSpaces = " + dbFullNameNoSpaces
+                         + ", fullNameNoSpaces = " + fullNameNoSpaces
                          + ", dob = " + dob
                          + ", cardNumber = " + primaryCardNumber
                          + ' ' + diverType
@@ -273,6 +269,23 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             );
             return false;
         }
+        String formattedDob = Globals.getDTF().format(dob);
+        String formattedDobDb = Globals.getDTF().format(dbDiver.getDob());
+        if (!formattedDobDb.equals(formattedDob)){
+            LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
+                         + " email = " + email
+                         + ", fullNameNoSpaces = " + fullNameNoSpaces
+                         + " dbDob = " + formattedDobDb
+                         + ", dob = " + formattedDob
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + country.getName()
+            );
+            return false;
+        }
+
+        dbDiver.setCountry(country);
         dbDiver.setFirstName(StringUtil.correctSpaceCharAndTrim(firstName));
         dbDiver.setLastName(StringUtil.correctSpaceCharAndTrim(lastName));
 
@@ -284,6 +297,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                     passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT)
             );
         }
+        diverDao.updateModel(dbDiver);
 
         NationalFederation federation = nationalFederationDao.getByCountry(egypt).get(0);
         saveOrUpdateCards(federation, dbDiver, cards);
