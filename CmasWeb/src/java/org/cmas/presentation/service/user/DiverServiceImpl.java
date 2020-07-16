@@ -254,8 +254,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             return false;
         }
         Date dob = diver.getDob();
-        if (!dbDiver.getFirstName().equals(firstName)
-            || !dbDiver.getLastName().equals(lastName)
+        boolean isFullNameEquals = (getNameNoSpaces(dbDiver.getFirstName()) + getNameNoSpaces(dbDiver.getLastName()))
+                                   .equals(getNameNoSpaces(firstName) + getNameNoSpaces(lastName));
+        if (!isFullNameEquals
             || !dbDiver.getDob().equals(dob)
             || !dbDiver.getCountry().getCode().equals(country.getCode())
         ) {
@@ -272,6 +273,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             );
             return false;
         }
+        dbDiver.setFirstName(StringUtil.correctSpaceCharAndTrim(firstName));
+        dbDiver.setLastName(StringUtil.correctSpaceCharAndTrim(lastName));
+
         String generatedPassword = diver.getGeneratedPassword();
         if (StringUtil.isTrimmedEmpty(dbDiver.getPassword())
             && !StringUtil.isTrimmedEmpty(generatedPassword)) {
@@ -284,6 +288,11 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         NationalFederation federation = nationalFederationDao.getByCountry(egypt).get(0);
         saveOrUpdateCards(federation, dbDiver, cards);
         return true;
+    }
+
+    @NotNull
+    private static String getNameNoSpaces(String firstName) {
+        return StringUtil.correctSpaceCharAndTrim(firstName).replaceAll(" ", "");
     }
 
     void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {

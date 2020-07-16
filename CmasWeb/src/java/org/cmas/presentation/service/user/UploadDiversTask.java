@@ -102,9 +102,7 @@ public class UploadDiversTask implements Runnable {
             Diver dbDiver;
             if (isEgypt) {
                 if(diverService.uploadExistingEgyptianDiver(diver)) {
-                    dbDiver = diverService.diverDao.getByFirstNameLastNameCountry(diver.getFirstName(),
-                                                                                  diver.getLastName(),
-                                                                                  countryCode);
+                    dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
                 } else {
                     dbDiver = null;
                 }
