@@ -43,7 +43,6 @@
                 <value>/secure/submitFeedback.html</value>
 
                 <value>/secure/cards.html</value>
-                <value>/secure/profile/getCardImageUrl.html</value>
                 <value>/secure/addCard.html</value>
                 <value>/secure/submitCardApprovalRequest.html</value>
             </list>

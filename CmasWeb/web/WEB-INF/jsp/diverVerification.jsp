@@ -15,7 +15,7 @@
 <jsp:useBean id="divers" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 
 <my:nonsecurepage title="cmas.face.index.header"
-                  customScripts="js/controller/country_controller.js,js/controller/panel_resize_controller.js,js/controller/cards_controller.js,js/controller/diver_verification_controller.js,https://www.google.com/recaptcha/api.js"
+                  customScripts="js/model/profile_model.js,js/controller/country_controller.js,js/controller/panel_resize_controller.js,js/controller/cards_controller.js,js/controller/diver_verification_controller.js,https://www.google.com/recaptcha/api.js"
 >
     <script type="application/javascript">
 

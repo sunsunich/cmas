@@ -92,7 +92,7 @@ public class CardsController extends DiverAwareController {
         return new ModelAndView("/secure/cards");
     }
 
-    @RequestMapping("/secure/profile/getCardImageUrl.html")
+    @RequestMapping("/getCardImageUrl.html")
     public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) {
         PersonalCard personalCard = personalCardDao.getById(cardId);
         if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {

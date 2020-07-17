@@ -5,7 +5,7 @@ var profile_model = {
 
     loadCard: function (cardId, successHandler, unSuccessHandler) {
         basicClient.sendGetRequestCommonCase(
-            "/secure/profile/getCardImageUrl.html",
+            "/getCardImageUrl.html",
             {"cardId": cardId},
             successHandler, unSuccessHandler
         );
