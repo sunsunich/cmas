@@ -203,7 +203,7 @@
                                         <span class="secondary-large-text friendList-text">${diver.country.name}</span>
                                     </div>
                                     <c:if test="${diver.primaryPersonalCard != null}">
-                                        <div>
+                                        <div class="clearfix">
                                             <div class="friendList-elem-left">
                                                 <span class="secondary-large-text friendList-text">${diver.primaryPersonalCard.printNumber}</span>
                                             </div>
