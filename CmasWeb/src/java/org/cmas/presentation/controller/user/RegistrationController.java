@@ -1,9 +1,12 @@
 package org.cmas.presentation.controller.user;
 
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.RegistrationDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
@@ -25,6 +28,7 @@ import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.http.HttpUtil;
+import org.cmas.util.json.ImageUrlDTO;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
@@ -41,6 +45,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
@@ -79,6 +84,9 @@ public class RegistrationController {
     private PersonalCardService personalCardService;
 
     @Autowired
+    private PersonalCardDao personalCardDao;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private CaptchaService captchaService;
@@ -86,6 +94,21 @@ public class RegistrationController {
     private HibernateSpringValidator validator;
     @Autowired
     private DiverDao diverDao;
+
+    @RequestMapping("/getCardImageUrl.html")
+    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) {
+        PersonalCard personalCard = personalCardDao.getById(cardId);
+        if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {
+            personalCard = personalCardService.generateAndSaveCardImage(cardId);
+        }
+        String imageUrl = personalCard.getImageUrl();
+        if (StringUtil.isTrimmedEmpty(imageUrl)) {
+            return gsonViewFactory.createErrorGsonView("error.card.not.ready");
+        } else {
+            return gsonViewFactory.createGsonView(
+                    new ImageUrlDTO(true, imageUrl));
+        }
+    }
 
     @RequestMapping("/diver-verification.html")
     public ModelAndView verifyDiver(Model model, @ModelAttribute("command") DiverVerificationFormObject formObject) {

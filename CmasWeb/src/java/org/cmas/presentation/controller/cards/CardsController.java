@@ -4,11 +4,9 @@ import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.presentation.controller.filter.AccessInterceptor;
 import org.cmas.presentation.controller.user.DiverAwareController;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
-import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
 import org.cmas.presentation.service.cards.CardApprovalRequestService;
@@ -16,7 +14,6 @@ import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.util.StringUtil;
-import org.cmas.util.json.ImageUrlDTO;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.mail.MailerConfig;
@@ -27,7 +24,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
@@ -45,9 +41,6 @@ public class CardsController extends DiverAwareController {
 
     @Autowired
     private CountryDao countryDao;
-
-    @Autowired
-    private PersonalCardDao personalCardDao;
 
     @Autowired
     private CardApprovalRequestDao cardApprovalRequestDao;
@@ -90,21 +83,6 @@ public class CardsController extends DiverAwareController {
         model.addAttribute("cards", cards);
         model.addAttribute("pendingCardApprovalRequests", cardApprovalRequestDao.getPendingByDiver(diver));
         return new ModelAndView("/secure/cards");
-    }
-
-    @RequestMapping("/getCardImageUrl.html")
-    public View getCardImageUrl(@RequestParam(AccessInterceptor.CARD_ID) long cardId) {
-        PersonalCard personalCard = personalCardDao.getById(cardId);
-        if (StringUtil.isTrimmedEmpty(personalCard.getImageUrl())) {
-            personalCard = personalCardService.generateAndSaveCardImage(cardId);
-        }
-        String imageUrl = personalCard.getImageUrl();
-        if (StringUtil.isTrimmedEmpty(imageUrl)) {
-            return gsonViewFactory.createErrorGsonView("error.card.not.ready");
-        } else {
-            return gsonViewFactory.createGsonView(
-                    new ImageUrlDTO(true, imageUrl));
-        }
     }
 
     @RequestMapping(value = "/secure/addCard.html", method = RequestMethod.GET)
