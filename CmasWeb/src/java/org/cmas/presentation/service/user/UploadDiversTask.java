@@ -78,14 +78,16 @@ public class UploadDiversTask implements Runnable {
             return;
         }
         Collection<Diver> divers;
-        boolean isEgypt = Country.EGYPT_COUNTRY_CODE.equalsIgnoreCase(countryCode);
+//        boolean isEgypt = Country.EGYPT_COUNTRY_CODE.equalsIgnoreCase(countryCode);
         if (Country.RUSSIAN_COUNTRY_CODE.equalsIgnoreCase(countryCode)) {
             divers = diverService.rusDiverXlsParser.getDivers(file, xlsProgressListener);
         } else if (Country.IRAN_COUNTRY_CODE.equalsIgnoreCase(countryCode)) {
             divers = diverService.iranDiverXlsParser.getDivers(file, xlsProgressListener);
-        } else if (isEgypt) {
-            divers = diverService.egyptDiverXlsParser.getDivers(file, xlsProgressListener);
-        } else {
+        }
+//        else if (isEgypt) {
+//            divers = diverService.egyptDiverXlsParser.getDivers(file, xlsProgressListener);
+//        }
+        else {
             divers = diverService.singleTableDiverXlsParser.getDivers(file, xlsProgressListener);
         }
         if (divers == null) {
@@ -100,18 +102,18 @@ public class UploadDiversTask implements Runnable {
             }
             @Nullable
             Diver dbDiver;
-            if (isEgypt) {
-                if(diverService.uploadExistingEgyptianDiver(diver)) {
-                    dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
-                } else {
-                    dbDiver = null;
-                }
-            } else {
+//            if (isEgypt) {
+//                if(diverService.uploadExistingEgyptianDiver(diver)) {
+//                    dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
+//                } else {
+//                    dbDiver = null;
+//                }
+//            } else {
                 diverService.uploadDiverFromXls(federation, diver);
                 dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
                 //hidden functionality creating or editing primary card number
                 updatePrimaryCard(diver, dbDiver);
-            }
+//            }
             if (dbDiver != null) {
                 long dbDiverId = dbDiver.getId();
                 DiverModificationData diverModificationData = dbDiversToModificationData.get(dbDiverId);
@@ -134,11 +136,11 @@ public class UploadDiversTask implements Runnable {
                 return;
             }
             DiverModificationData diverModificationData = entry.getValue();
-            if (isEgypt) {
-                diverService.finalizeExistingEgyptianDiver(federation, diverModificationData);
-            } else {
+//            if (isEgypt) {
+//                diverService.finalizeExistingEgyptianDiver(federation, diverModificationData);
+//            } else {
                 diverService.finalizeDiverFromXls(federation, diverModificationData);
-            }
+//            }
             workDone++;
             progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
         }
