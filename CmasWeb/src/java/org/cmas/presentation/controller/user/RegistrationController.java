@@ -164,7 +164,7 @@ public class RegistrationController {
         validator.validate(formObject, result);
         boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
         if(!isCaptchaCorrect){
-            result.rejectValue("g-recaptcha-response", "validation.captchaError");
+            result.reject("validation.captchaError");
         }
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
@@ -175,6 +175,9 @@ public class RegistrationController {
                 divers = diverDao.searchForVerification(formObject);
             } else {
                 Diver diver = diverDao.getByPrimaryCardNumber(universalCmasId);
+                if (diver == null) {
+                    return gsonViewFactory.createGsonView(Collections.emptyList());
+                }
                 divers = Collections.singletonList(diver);
             }
             personalCardService.setupDisplayCardsForDivers(divers);
