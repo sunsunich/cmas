@@ -3,6 +3,7 @@ package org.cmas.presentation.dao.user.sport;
 import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.Role;
+import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
@@ -123,6 +124,17 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     @Override
     public Diver getDiverByToken(String token) {
         return (Diver)createCriteria().add(Restrictions.eq("mobileAuthToken", token)).uniqueResult();
+    }
+
+    @Override
+    public Diver getByPrimaryCardNumber(String cardNumber) {
+        String hql = "select d from org.cmas.entities.diver.Diver d"
+                     + " inner join d.cards c"
+                     + " where d.enabled = :enabled and c.number = :number and c.cardType = :cardType";
+        return (Diver) createQuery(hql).setBoolean("enabled", true)
+                                       .setString("number", cardNumber)
+                                       .setParameter("cardType", PersonalCardType.PRIMARY)
+                                       .uniqueResult();
     }
 
     @Override

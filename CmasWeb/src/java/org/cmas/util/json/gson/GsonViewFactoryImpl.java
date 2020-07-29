@@ -8,6 +8,7 @@ import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.DateTypeAdapter;
+import org.cmas.json.DiverVerificationSerializer;
 import org.cmas.json.DoubleTypeAdapter;
 import org.cmas.json.IntTypeAdapter;
 import org.cmas.json.LogbookEntryEditSerializer;
@@ -81,6 +82,14 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
         Gson gson = new Gson();
         SimpleGsonResponse toSerialize = new SimpleGsonResponse(true, "");
         return new GsonView(toSerialize, gson);
+    }
+
+    @Override
+    public GsonView createDiverVerificationGsonView(List<Diver> divers) {
+        return new GsonView(
+                divers,
+                createCommonGsonBuilder().registerTypeAdapter(Diver.class, new DiverVerificationSerializer()).create()
+        );
     }
 
     @Override

@@ -15,6 +15,7 @@ import org.cmas.presentation.model.recovery.PasswordChangeFormObject;
 import org.cmas.presentation.model.registration.DiverRegistrationChooseFormObject;
 import org.cmas.presentation.model.registration.DiverRegistrationDTO;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.presentation.model.registration.DiverVerificationAjaxFormObject;
 import org.cmas.presentation.model.registration.DiverVerificationFormObject;
 import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.RegistrationConfirmFormObject;
@@ -151,6 +152,33 @@ public class RegistrationController {
             List<Diver> divers = diverDao.searchForVerification(formObject);
             personalCardService.setupDisplayCardsForDivers(divers);
             return buildDiverVerificationForm(model, true, true, divers);
+        }
+    }
+
+    @RequestMapping(value = "/diver-verification-ajax.html", method = RequestMethod.POST)
+    public View diverVerificationAjax(
+            HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+            @ModelAttribute("command") DiverVerificationAjaxFormObject formObject,
+            Errors result
+    ) {
+        validator.validate(formObject, result);
+        boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
+        if(!isCaptchaCorrect){
+            result.rejectValue("g-recaptcha-response", "validation.captchaError");
+        }
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        } else {
+            List<Diver> divers;
+            String universalCmasId = formObject.getUniversalCmasId();
+            if(StringUtil.isTrimmedEmpty(universalCmasId)) {
+                divers = diverDao.searchForVerification(formObject);
+            } else {
+                Diver diver = diverDao.getByPrimaryCardNumber(universalCmasId);
+                divers = Collections.singletonList(diver);
+            }
+            personalCardService.setupDisplayCardsForDivers(divers);
+            return gsonViewFactory.createDiverVerificationGsonView(divers);
         }
     }
 

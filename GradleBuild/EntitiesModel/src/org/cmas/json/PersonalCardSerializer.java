@@ -21,6 +21,7 @@ public class PersonalCardSerializer implements JsonSerializer<PersonalCard> {
     @Override
     public JsonElement serialize(PersonalCard t, Type type, JsonSerializationContext jsonSerializationContext) {
         Gson gson = new GsonBuilder()
+                //todo longs should be strings
                 .excludeFieldsWithoutExposeAnnotation()
                 .setDateFormat(Globals.DTF)
                 .create();

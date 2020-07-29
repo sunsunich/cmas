@@ -1,19 +1,23 @@
 package org.cmas.presentation.model.registration;
 
 import org.cmas.Globals;
-import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
+import org.cmas.presentation.validator.Validatable;
+import org.cmas.presentation.validator.ValidatorUtils;
+import org.springframework.validation.Errors;
 
 
-public class DiverVerificationFormObject  {
+public class DiverVerificationFormObject implements Validatable {
 
-    @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyCountry")
     private String country;
-
-    @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
-    @NotEmpty(message = "validation.emptyName")
     private String name;
+
+    @Override
+    public void validate(Errors errors) {
+        ValidatorUtils.validateEmpty(errors, country, "country", "validation.emptyCountry");
+        ValidatorUtils.validateLength(errors, country, "country", "validation.maxLength", Globals.MAX_LENGTH);
+        ValidatorUtils.validateEmpty(errors, name, "name", "validation.emptyName");
+        ValidatorUtils.validateLength(errors, name, "name", "validation.maxLength", Globals.MAX_LENGTH);
+    }
 
     public String getName() {
         return name;

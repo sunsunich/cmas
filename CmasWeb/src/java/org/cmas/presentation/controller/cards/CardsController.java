@@ -120,7 +120,7 @@ public class CardsController extends DiverAwareController {
         }
         cardApprovalRequestService.processCardApprovalRequest(result, cardApprovalRequestFormObject, currentDiver);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(result);
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         return gsonViewFactory.createSuccessGsonView();
     }
