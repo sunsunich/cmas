@@ -13,15 +13,12 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -204,13 +201,15 @@ signature = 3132f1e451075f2408cda41f2e647e9b4747d421
                 if (amount.compareTo(invoice.getAmount()) != 0) {
                     errors.rejectValue("vads_amount", "validation.billing.paysystem.amount");
                 }
-                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        SystempayController.SYSTEMPAY_DATE_TIME_FORMAT, Locale.ENGLISH
-                );
-                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-                if (!dateFormat.format(invoice.getTransactionDate()).equals(data.getVads_trans_date())) {
-                    errors.rejectValue("vads_trans_date", "validation.billing.paysystem.date");
-                }
+                //todo fix time comparison based on server timezone - used to be GMT, no frankfurt
+                // todo - take care of daylight time changes
+//                SimpleDateFormat dateFormat = new SimpleDateFormat(
+//                        SystempayController.SYSTEMPAY_DATE_TIME_FORMAT, Locale.ENGLISH
+//                );
+//                dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+//                if (!dateFormat.format(invoice.getTransactionDate()).equals(data.getVads_trans_date())) {
+//                    errors.rejectValue("vads_trans_date", "validation.billing.paysystem.date");
+//                }
                 if (!invoice.getUser().getEmail().equals(data.getVads_cust_email())) {
                     errors.rejectValue("vads_cust_email", "validation.billing.paysystem.incorrectUser");
                 }
