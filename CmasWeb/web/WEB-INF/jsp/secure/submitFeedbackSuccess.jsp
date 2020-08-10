@@ -2,7 +2,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <jsp:useBean id="siteEmail" scope="request" type="java.lang.String"/>
-<my:securepage title="cmas.face.changeEmail.success.title"
+<my:securepage title="cmas.face.feedback.success.title"
                customScripts="js/controller/registration_flow_controller.js"
 >
     <script type="application/javascript">

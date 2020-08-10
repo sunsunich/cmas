@@ -384,7 +384,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(creator);
-        String subj = subjects.renderText("FeedbackSubmitted", locale, feedbackItem.getId());
+        String subj = subjects.renderText("FeedbackSubmittedUser", locale);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 
