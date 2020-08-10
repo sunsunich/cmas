@@ -369,19 +369,21 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                             imageStorageManager.getFeedbackImagesRoot() + files.get(1).getFileUrl();
             }
         }
+        Diver creator = feedbackItem.getCreator();
         String text = textRenderer.renderText(
                 "feedbackSubmittedUser.ftl", locale,
                 new ModelAttr("id", feedbackItem.getId()),
-                new ModelAttr("diver", feedbackItem.getCreator()),
+                new ModelAttr("diver", creator),
                 new ModelAttr("text", feedbackItem.getText()),
                 new ModelAttr("imageUrl1", imageUrl1),
                 new ModelAttr("imageUrl2", imageUrl2),
-                new ModelAttr("spotName", feedbackItem.getDiveSpot() == null ? null : feedbackItem.getDiveSpot().getLatinName()),
+                new ModelAttr("spotName",
+                              feedbackItem.getDiveSpot() == null ? null : feedbackItem.getDiveSpot().getLatinName()),
                 new ModelAttr("logbookEntryId",
                               feedbackItem.getLogbookEntry() == null ? "" : feedbackItem.getLogbookEntry().getId())
         );
         InternetAddress from = getSiteReplyAddress(locale);
-        InternetAddress to = addresses.getAdminMailAddress();
+        InternetAddress to = getInternetAddress(creator);
         String subj = subjects.renderText("FeedbackSubmitted", locale, feedbackItem.getId());
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
