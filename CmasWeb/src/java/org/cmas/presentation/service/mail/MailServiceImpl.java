@@ -356,6 +356,37 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     }
 
     @Override
+    public void sendFeedbackItemToUser(FeedbackItem feedbackItem) {
+        Locale locale = Locale.ENGLISH;
+        String imageUrl1 = null;
+        String imageUrl2 = null;
+        List<UserFile> files = feedbackItem.getFiles();
+        if (files != null && !files.isEmpty()) {
+            imageUrl1 = addresses.getSiteName(locale) +
+                        imageStorageManager.getFeedbackImagesRoot() + files.get(0).getFileUrl();
+            if (files.size() > 1) {
+                imageUrl2 = addresses.getSiteName(locale) +
+                            imageStorageManager.getFeedbackImagesRoot() + files.get(1).getFileUrl();
+            }
+        }
+        String text = textRenderer.renderText(
+                "feedbackSubmittedUser.ftl", locale,
+                new ModelAttr("id", feedbackItem.getId()),
+                new ModelAttr("diver", feedbackItem.getCreator()),
+                new ModelAttr("text", feedbackItem.getText()),
+                new ModelAttr("imageUrl1", imageUrl1),
+                new ModelAttr("imageUrl2", imageUrl2),
+                new ModelAttr("spotName", feedbackItem.getDiveSpot() == null ? null : feedbackItem.getDiveSpot().getLatinName()),
+                new ModelAttr("logbookEntryId",
+                              feedbackItem.getLogbookEntry() == null ? "" : feedbackItem.getLogbookEntry().getId())
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        String subj = subjects.renderText("FeedbackSubmitted", locale, feedbackItem.getId());
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
     public void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest) {
         Locale locale = Locale.ENGLISH;
         String frontImage = addresses.getSiteName(locale) +

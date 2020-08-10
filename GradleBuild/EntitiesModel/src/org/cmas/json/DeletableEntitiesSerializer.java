@@ -1,7 +1,6 @@
 package org.cmas.json;
 
 import com.google.myjson.Gson;
-import com.google.myjson.GsonBuilder;
 import com.google.myjson.JsonElement;
 import com.google.myjson.JsonObject;
 import com.google.myjson.JsonSerializationContext;
@@ -15,10 +14,9 @@ public class DeletableEntitiesSerializer implements JsonSerializer<DictionaryEnt
 
     @Override
     public JsonElement serialize(DictionaryEntity t, Type type, JsonSerializationContext jsonSerializationContext) {
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setDateFormat(Globals.DTF)
-                .create();
+        Gson gson = CommonGsonCreator.createCommonGsonBuilder()
+                                     .setDateFormat(Globals.DTF)
+                                     .create();
         JsonObject jObj = (JsonObject) gson.toJsonTree(t);
         handleDeletableEntitySerialization(t, jObj);
         return jObj;

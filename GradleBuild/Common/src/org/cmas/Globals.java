@@ -31,8 +31,6 @@ interface GlobalsStaticContainer {
 
     String TIME_FORMAT = "HH:mm";
 
-    String SHORT_DATE_FORMAT = "dd/MM";
-
     String USER_NAME_REGEX = "[a-zA-Z0-9_@.]+";
 
     String EMAIL_REGEX = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$";
@@ -51,6 +49,7 @@ interface GlobalsStaticContainer {
 
     String DTF = "dd/MM/yyyy";
     String FEED_DTF = "dd MMM yyyy, HH:mm";
+    String DOB_DTF = "dd MMM";
     String DTF_WEB_CONTROLS = "dd/MM/yyyy HH:mm";
     String FULL_DTF = "yyyy-MM-dd'T'HH:mm:ss.sssX";
 

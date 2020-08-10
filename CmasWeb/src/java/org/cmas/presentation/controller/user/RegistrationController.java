@@ -106,8 +106,7 @@ public class RegistrationController {
         if (StringUtil.isTrimmedEmpty(imageUrl)) {
             return gsonViewFactory.createErrorGsonView("error.card.not.ready");
         } else {
-            return gsonViewFactory.createGsonView(
-                    new ImageUrlDTO(true, imageUrl));
+            return gsonViewFactory.createGsonView(new ImageUrlDTO(true, imageUrl));
         }
     }
 
@@ -176,7 +175,7 @@ public class RegistrationController {
             } else {
                 Diver diver = diverDao.getByPrimaryCardNumber(universalCmasId);
                 if (diver == null) {
-                    return gsonViewFactory.createGsonView(Collections.emptyList());
+                    return gsonViewFactory.createErrorGsonView("validation.certificateUnknown");
                 }
                 divers = Collections.singletonList(diver);
             }
@@ -208,8 +207,8 @@ public class RegistrationController {
         } else {  // submit form
             Locale locale = LocaleContextHolder.getLocale();
             formObject.setLocale(locale);
-            List<DiverRegistrationDTO> divers = registrationService.getDiversForRegistration(formObject);
-            return gsonViewFactory.createGsonView(divers);
+            List<DiverRegistrationDTO> diverRegistrationDTOS = registrationService.getDiversForRegistration(formObject);
+            return gsonViewFactory.createGsonView(diverRegistrationDTOS);
         }
     }
 

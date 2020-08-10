@@ -521,17 +521,19 @@
                        accept="image/*"
                        style="display: none">
             </div>
-            <div id="logbookEntryPhotoContainer" class="logbook-photo-container">
-                <img id="logbookEntryPhoto" class="logbook-photo"
-                <c:if test="${hasPhoto}">
-                     src="${logbookEntryImagesRoot}${logbookEntry.photoUrl}"
-                </c:if>
-                >
-                <div id="deletePhoto" class="tank-button-right button-delete"
-                        <c:if test="${!hasPhoto}">
-                            style="display: none"
-                        </c:if>
-                ></div>
+            <div class="clearfix">
+                <div id="logbookEntryPhotoContainer" class="logbook-photo-container">
+                    <img id="logbookEntryPhoto" class="logbook-photo"
+                    <c:if test="${hasPhoto}">
+                         src="${logbookEntryImagesRoot}${logbookEntry.photoUrl}"
+                    </c:if>
+                    >
+                    <div id="deletePhoto" class="tank-button-right button-delete"
+                            <c:if test="${!hasPhoto}">
+                                style="display: none"
+                            </c:if>
+                    ></div>
+                </div>
             </div>
             <div class="error" id="create_error_photo"></div>
         </div>

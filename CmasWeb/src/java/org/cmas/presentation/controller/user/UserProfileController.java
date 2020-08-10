@@ -80,7 +80,7 @@ public class UserProfileController extends DiverAwareController {
             throw new BadRequestException();
         }
         personalCardService.setupDisplayCardsForDivers(Collections.singletonList(diver));
-        return gsonViewFactory.createGsonView(diver);
+        return gsonViewFactory.createDiverView(diver);
     }
 
     @RequestMapping(value = "/secure/getDivers.html", method = RequestMethod.GET)
@@ -92,9 +92,9 @@ public class UserProfileController extends DiverAwareController {
             log.error(e.getMessage(), e);
         }
         if (diverIds == null || diverIds.isEmpty()) {
-            return gsonViewFactory.createGsonView(Collections.emptyList());
+            return gsonViewFactory.createDiverView(Collections.<Diver>emptyList());
         }
-        return gsonViewFactory.createGsonView(diverDao.getDiversByIds(diverIds));
+        return gsonViewFactory.createDiverView(diverDao.getDiversByIds(diverIds));
     }
 
     @RequestMapping("/secure/profile/getUser.html")

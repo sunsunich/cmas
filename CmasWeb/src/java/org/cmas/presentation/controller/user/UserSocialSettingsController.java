@@ -95,7 +95,7 @@ public class UserSocialSettingsController extends DiverAwareController{
 
     @RequestMapping("/secure/social/getFriends.html")
     public View getFriends() {
-        return gsonViewFactory.createGsonView(diverDao.getFriends(getCurrentDiver()));
+        return gsonViewFactory.createDiverView(diverDao.getFriends(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/searchInFriendsFast.html")
@@ -109,17 +109,17 @@ public class UserSocialSettingsController extends DiverAwareController{
         }
         List<Diver> divers = diverDao.searchInFriendsFast(currentDiver.getId(), input);
         personalCardService.setupDisplayCardsForDivers(divers);
-        return gsonViewFactory.createGsonView(divers);
+        return gsonViewFactory.createDiverView(divers);
     }
 
     @RequestMapping("/secure/social/getFromRequests.html")
     public View getFromRequests() {
-        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsFromDiver(getCurrentDiver()));
+        return gsonViewFactory.createDiverFriendRequestView(diverFriendRequestDao.getRequestsFromDiver(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/getToRequests.html")
     public View getToRequests() {
-        return gsonViewFactory.createGsonView(diverFriendRequestDao.getRequestsToDiver(getCurrentDiver()));
+        return gsonViewFactory.createDiverFriendRequestView(diverFriendRequestDao.getRequestsToDiver(getCurrentDiver()));
     }
 
     @RequestMapping("/secure/social/getSocialUpdates.html")
@@ -151,7 +151,7 @@ public class UserSocialSettingsController extends DiverAwareController{
         }
         List<Diver> divers = diverDao.searchNotFriendDivers(currentDiver.getId(), formObject);
         personalCardService.setupDisplayCardsForDivers(divers);
-        return gsonViewFactory.createGsonView(divers);
+        return gsonViewFactory.createDiverView(divers);
     }
 
     @RequestMapping("/secure/social/searchFriendsFast.html")
@@ -165,7 +165,7 @@ public class UserSocialSettingsController extends DiverAwareController{
         }
         List<Diver> divers = diverDao.searchFriendsFast(currentDiver.getId(), input);
         personalCardService.setupDisplayCardsForDivers(divers);
-        return gsonViewFactory.createGsonView(divers);
+        return gsonViewFactory.createDiverView(divers);
     }
 
     @RequestMapping("/secure/social/searchDiversFast.html")
@@ -188,7 +188,7 @@ public class UserSocialSettingsController extends DiverAwareController{
         }
         List<Diver> divers = diverDao.searchDiversFast(currentDiver.getId(), input, parsedDiverType);
         personalCardService.setupDisplayCardsForDivers(divers);
-        return gsonViewFactory.createGsonView(divers);
+        return gsonViewFactory.createDiverView(divers);
     }
 
     @RequestMapping("/secure/social/searchDivers.html")
@@ -198,7 +198,7 @@ public class UserSocialSettingsController extends DiverAwareController{
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         List<Diver> divers = diverDao.searchDivers(formObject);
-        return gsonViewFactory.createGsonView(divers);
+        return gsonViewFactory.createDiverView(divers);
     }
 
     @RequestMapping("/secure/social/sendFriendRequest.html")

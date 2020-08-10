@@ -73,6 +73,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 //        }
 
         mailService.sendFeedbackItem(feedbackItem);
+        mailService.sendFeedbackItemToUser(feedbackItem);
     }
 
     private void processFile(Errors result,

@@ -46,5 +46,7 @@ public interface MailService {
 
     void sendFeedbackItem(FeedbackItem feedbackItem);
 
+    void sendFeedbackItemToUser(FeedbackItem feedbackItem);
+
     void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest);
 }

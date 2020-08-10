@@ -2,6 +2,7 @@ package org.cmas.util.json.gson;
 
 import com.google.myjson.Gson;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookEntry;
 
 import java.util.List;
@@ -13,6 +14,12 @@ public interface GsonViewFactory {
     GsonView createSocialUpdatesGsonView(Object toSerialize);
 
     GsonView createGsonView(Object toSerialize);
+
+    GsonView createDiverView(List<Diver> divers);
+
+    GsonView createDiverFriendRequestView(List<DiverFriendRequest> friendRequests);
+
+    GsonView createDiverView(Diver diver);
 
     Gson getLogbookEntryEditGson();
 

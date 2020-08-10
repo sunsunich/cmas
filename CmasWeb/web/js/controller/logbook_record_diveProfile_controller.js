@@ -244,9 +244,7 @@ var logbook_record_diveProfile_controller = {
                 this.setupTank(tank, i + 1);
             }
         } else {
-            // if (!$('#isApnea').prop('checked')) {
-            //     this.addTank();
-            // }
+            $('#tanks').empty();
         }
     },
 

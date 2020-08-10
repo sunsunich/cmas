@@ -48,9 +48,7 @@ public class DictionaryController {
     @RequestMapping("/getCountries.html")
     public View getCountries(@RequestParam("maxVersion") long maxVersion) {
         try {
-            return gsonViewFactory.createGsonView(
-                    dictionaryDataService.getCountries(maxVersion)
-            );
+            return gsonViewFactory.createGsonView(dictionaryDataService.getCountries(maxVersion));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createGsonView(ErrorCodes.ERROR);
@@ -60,9 +58,7 @@ public class DictionaryController {
     @RequestMapping("/getFederations.html")
     public View getNationalFederations(@RequestParam("maxVersion") long maxVersion) {
         try {
-            return gsonViewFactory.createGsonView(
-                    dictionaryDataService.getNationalFederations(maxVersion)
-            );
+            return gsonViewFactory.createGsonView(dictionaryDataService.getNationalFederations(maxVersion));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createGsonView(ErrorCodes.ERROR);

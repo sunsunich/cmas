@@ -359,11 +359,26 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/regenerateApnoeaCards.html", method = RequestMethod.GET)
     public ModelAndView regenerateApnoeaCards() {
+        @SuppressWarnings("unchecked")
         List<PersonalCard> cardsToRegenerate = personalCardDao
                 .createCriteria()
                 .createAlias("diver", "d")
                 .add(Restrictions.ne("d.diverRegistrationStatus", DiverRegistrationStatus.NEVER_REGISTERED))
                 .add(Restrictions.eq("cardType", PersonalCardType.APNOEA))
+                .list();
+        for (PersonalCard card : cardsToRegenerate) {
+            personalCardService.generateAndSaveCardImage(card.getId());
+        }
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
+    @RequestMapping(value = "/admin/regenerateAllCards.html", method = RequestMethod.GET)
+    public ModelAndView regenerateAllCards() {
+        @SuppressWarnings("unchecked")
+        List<PersonalCard> cardsToRegenerate = personalCardDao
+                .createCriteria()
+                .createAlias("diver", "d")
+                .add(Restrictions.isNotNull("d.primaryPersonalCard"))
                 .list();
         for (PersonalCard card : cardsToRegenerate) {
             personalCardService.generateAndSaveCardImage(card.getId());

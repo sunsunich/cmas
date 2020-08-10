@@ -7,6 +7,7 @@ import com.google.myjson.JsonSerializationContext;
 import com.google.myjson.JsonSerializer;
 import org.cmas.Globals;
 import org.cmas.entities.cards.PersonalCard;
+import org.cmas.entities.diver.Diver;
 
 import java.lang.reflect.Type;
 
@@ -15,17 +16,17 @@ import java.lang.reflect.Type;
  *
  * @author Alexander Petukhov
  */
-public class PersonalCardSerializer implements JsonSerializer<PersonalCard> {
+public class GeneralDiverSerializer implements JsonSerializer<Diver> {
 
     @Override
-    public JsonElement serialize(PersonalCard t, Type type, JsonSerializationContext jsonSerializationContext) {
+    public JsonElement serialize(Diver t, Type type, JsonSerializationContext jsonSerializationContext) {
         Gson gson = CommonGsonCreator.createCommonGsonBuilder()
-                                     .setDateFormat(Globals.DTF)
+                                     .setDateFormat(Globals.DOB_DTF)
+                                     .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
                                      .create();
         JsonObject jObj = (JsonObject) gson.toJsonTree(t);
-        jObj.addProperty("printName", t.getPrintName());
-        jObj.addProperty("printNumber", t.getPrintNumber());
+        jObj.remove("email");
+        jObj.remove("phone");
         return jObj;
     }
-
 }

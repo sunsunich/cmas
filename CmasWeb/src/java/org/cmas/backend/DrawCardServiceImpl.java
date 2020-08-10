@@ -94,6 +94,7 @@ public class DrawCardServiceImpl implements DrawCardService {
             @SuppressWarnings("NumericCastThatLosesPrecision")
             int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
             Pixels qrCode = BarcodeEncoder.createQRCode(
+                    // "org.cmasdata.mobile://verify?cmasNumber=" + cardNumber, qrSize, qrSize
                     cardNumber, qrSize, qrSize
             );
             BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
@@ -208,7 +209,11 @@ public class DrawCardServiceImpl implements DrawCardService {
         Diver diver = card.getDiver();
         boolean isGold = diver.isGold();
         DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
-        if (diverRegistrationStatus == DiverRegistrationStatus.GUEST) {
+        if (diverRegistrationStatus == DiverRegistrationStatus.GUEST
+            || diverRegistrationStatus == DiverRegistrationStatus.DEMO
+            || diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
+            || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE
+        ) {
             return isGold ? "aqualink_gold.png" : "aqualink_silver.png";
         }
         String fileName = "cmas_card.png";

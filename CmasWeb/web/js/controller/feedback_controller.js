@@ -53,13 +53,6 @@ var feedback_controller = {
             self.submitForm();
             return false;
         });
-        $('#feedback_text').keydown(function (e) {
-            if (e.which == 13) {
-                self.submitForm();
-                return false;
-            }
-            return true;
-        });
         $(window).load(function () {
             self.onResize();
         });

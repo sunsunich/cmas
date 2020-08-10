@@ -4,45 +4,116 @@
     "diverType": "INSTRUCTOR",
     "cards": [
       {
-        "id": 4072,
-        "number": "123",
-        "imageUrl": "NDA3Ml8xMjNfMTU4NzA4NzczNDkyNA\u003d\u003d.png",
+        "id": "107",
+        "number": "1070448352938665",
+        "imageUrl": "MTA3MCA0NDgzIDUyOTMgODY2NV8xNTI3ODA3NzE2MDA1.png",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "ONE_STAR",
+        "cardType": "PRIMARY",
+        "printName": "INSTRUCTOR ONE_STAR",
+        "printNumber": "1070 4483 5293 8665"
+      },
+      {
+        "id": "2894",
+        "number": "388417361572428008RUS/FO1/I1/14/000012",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "ONE_STAR",
+        "cardType": "NATIONAL",
+        "federationName": "ИНСТРУКТОР 1*",
+        "printName": "INSTRUCTOR ONE_STAR",
+        "printNumber": "388417361572428008RUS/FO1/I1/14/000012"
+      },
+      {
+        "id": "2896",
+        "number": "388417361572428008RUS/FO1/i ID/14/000001",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "ONE_STAR",
+        "cardType": "ICE_DIVING",
+        "federationName": "ICE DIVING INSTRUCTOR",
+        "printName": "ICE DIVING INSTRUCTOR",
+        "printNumber": "388417361572428008RUS/FO1/i ID/14/000001"
+      },
+      {
+        "id": "2897",
+        "number": "388417361572428008RUS/FO1/I1/14/000012",
         "diverType": "INSTRUCTOR",
         "diverLevel": "TWO_STAR",
         "cardType": "NATIONAL",
         "printName": "INSTRUCTOR TWO_STAR",
+        "printNumber": "388417361572428008RUS/FO1/I1/14/000012"
+      },
+      {
+        "id": "2898",
+        "number": "12345",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "ONE_STAR",
+        "cardType": "SIDE_MOUNT",
+        "printName": "SIDE MOUNT INSTRUCTOR",
+        "printNumber": "12345"
+      },
+      {
+        "id": "2899",
+        "number": "123",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "THREE_STAR",
+        "cardType": "ICE_DIVING",
+        "printName": "ICE DIVING INSTRUCTOR",
         "printNumber": "123"
+      },
+      {
+        "id": "2900",
+        "number": "388417361572428008RUS/FO1/IDS/14/000003",
+        "diverType": "INSTRUCTOR",
+        "diverLevel": "ONE_STAR",
+        "cardType": "DRY_SUIT",
+        "federationName": "DRY SUIT",
+        "printName": "DRY SUIT INSTRUCTOR",
+        "printNumber": "388417361572428008RUS/FO1/IDS/14/000003"
+      },
+      {
+        "id": "2901",
+        "number": "388417361572428008RUS/FO1/iSM/14/000002",
+        "diverType": "DIVER",
+        "diverLevel": "ONE_STAR",
+        "cardType": "SIDE_MOUNT",
+        "federationName": "SIDE MOUNT ",
+        "printName": "SIDE MOUNT DIVER",
+        "printNumber": "388417361572428008RUS/FO1/iSM/14/000002"
       }
     ],
+    "dateLicencePaymentIsDue": "21 May",
     "previousRegistrationStatus": "CMAS_BASIC",
     "diverRegistrationStatus": "CMAS_FULL",
-    "areaOfInterest": "SCUBA_DIVING",
+    "isAddFriendsToLogbookEntries": false,
+    "isNewsFromCurrentLocation": false,
+    "payedAtLeastOnce": true,
     "primaryPersonalCard": {
-      "id": 2976,
-      "number": "2976074238182199",
-      "imageUrl": "Mjk3NiAwNzQyIDM4MTggMjE5OV8xNTg3MDg3NzM0NzU3.png",
+      "id": "107",
+      "number": "1070448352938665",
+      "imageUrl": "MTA3MCA0NDgzIDUyOTMgODY2NV8xNTI3ODA3NzE2MDA1.png",
       "diverType": "INSTRUCTOR",
-      "diverLevel": "TWO_STAR",
+      "diverLevel": "ONE_STAR",
       "cardType": "PRIMARY",
-      "printName": "INSTRUCTOR TWO_STAR",
-      "printNumber": "2976 0742 3818 2199"
+      "printName": "INSTRUCTOR ONE_STAR",
+      "printNumber": "1070 4483 5293 8665"
     },
     "federation": {
       "country": {
-        "code": "ZIM",
-        "iso3166_1_alpha_2_code": "ZW",
-        "id": "128",
-        "name": "Zimbabwe",
+        "code": "RUS",
+        "iso3166_1_alpha_2_code": "RU",
+        "id": "102",
+        "name": "Russia",
         "version": "1",
         "deleted": false
       },
-      "id": "17",
-      "name": "Zimbabwe",
+      "id": "1",
+      "name": "Russia",
       "version": "1",
       "deleted": false
     },
-    "firstName": "a11",
-    "lastName": "a11",
+    "id": "388417361572428008",
+    "firstName": "DmitryBot",
+    "lastName": "Istomin",
     "country": {
       "code": "RUS",
       "iso3166_1_alpha_2_code": "RU",
@@ -51,7 +122,7 @@
       "version": "1",
       "deleted": false
     },
-    "dob": "04/07",
-    "userpicUrl": "Mjk3OTY4ODE3MjA2MDQ0NTM3M18xNTMxNDMwMjQzNDkx.png"
+    "dob": "15 Apr",
+    "userpicUrl": "Mzg4NDE3MzYxNTcyNDI4MDA4XzE1NDE5NTE3MzQ2NzU\u003d.png"
   }
 ]

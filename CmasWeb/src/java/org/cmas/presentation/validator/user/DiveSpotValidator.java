@@ -27,8 +27,8 @@ public class DiveSpotValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         DiveSpot diveSpot = (DiveSpot) o;
-        if (StringUtil.isTrimmedEmpty(diveSpot.getName())) {
-            errors.rejectValue("diveDate", "validation.emptyField");
+        if (StringUtil.isTrimmedEmpty(diveSpot.getLatinName())) {
+            errors.rejectValue("spotName", "validation.emptyField");
         }
         if (diveSpot.getLatitude() <= 0.0) {
             errors.rejectValue("latitude", "validation.incorrectNumber");
