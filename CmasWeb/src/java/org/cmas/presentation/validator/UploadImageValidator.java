@@ -1,6 +1,7 @@
 package org.cmas.presentation.validator;
 
 import org.cmas.Globals;
+import org.cmas.util.ImageUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -31,5 +32,10 @@ public class UploadImageValidator {
             return "validation.imageSize";
         }
         return null;
+    }
+
+    public static String validateBase64Image(String base64) {
+        ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(base64);
+        return imageConversionResult.errorCode;
     }
 }

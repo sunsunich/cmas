@@ -3,6 +3,7 @@ package org.cmas.presentation.service.cards;
 import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
+import org.cmas.presentation.model.cards.CardApprovalRequestMobileFormObject;
 import org.springframework.validation.Errors;
 
 import javax.annotation.Nullable;
@@ -13,6 +14,11 @@ import javax.annotation.Nullable;
  * @author Alexander Petukhov
  */
 public interface CardApprovalRequestService {
+
+    void processCardApprovalRequestFromMobile(Errors result,
+                                              CardApprovalRequestMobileFormObject cardApprovalRequestFormObject,
+                                              Diver diver);
+
     void processCardApprovalRequest(Errors result,
                                     CardApprovalRequestFormObject cardApprovalRequestFormObject,
                                     Diver diver);

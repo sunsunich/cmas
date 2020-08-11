@@ -158,6 +158,12 @@ public class AdminController {
         return getModelAndViewForAddFederation(new FederationFormObject());
     }
 
+    @RequestMapping("/admin/informAllFederations.html")
+    public String informAllFederations() {
+        federationService.informAllFederations();
+        return "redirect:/admin/index.html";
+    }
+
     @NotNull
     protected ModelAndView getModelAndViewForAddFederation(FederationFormObject formObject) {
         ModelMap mm = new ModelMap();
@@ -181,7 +187,12 @@ public class AdminController {
             return getModelAndViewForAddFederation(formObject);
         }
         Diver federationAdmin = federationService.createNewFederation(formObject);
-        return new ModelAndView(switchToUserAsAdmin(federationAdmin.getId(), Role.ROLE_FEDERATION_ADMIN.getName()));
+        return new ModelAndView(
+                "redirect:/admin/index.html?userRole=" + Role.ROLE_FEDERATION_ADMIN.name()
+                + "&email="+ formObject.getEmail()
+                + "&countryCode=" + formObject.getCountryCode()
+                //switchToUserAsAdmin(federationAdmin.getId(), Role.ROLE_FEDERATION_ADMIN.getName())
+        );
     }
 
 
@@ -409,7 +420,7 @@ public class AdminController {
         @SuppressWarnings("unchecked")
         List<PersonalCard> cardsToRegenerate = personalCardDao
                 .createCriteria()
-                .add(Restrictions.eq("diver.id", diverId) )
+                .add(Restrictions.eq("diver.id", diverId))
                 .list();
         for (PersonalCard card : cardsToRegenerate) {
             personalCardService.generateAndSaveCardImage(card.getId());

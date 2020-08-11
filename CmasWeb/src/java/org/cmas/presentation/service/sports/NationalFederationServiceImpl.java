@@ -44,6 +44,7 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         NationalFederation federation = new NationalFederation();
         federation.setCountry(country);
         federation.setName(formObject.getName());
+        federation.setVersion(nationalFederationDao.getMaxVersion());
         Serializable fedId = nationalFederationDao.save(federation);
         NationalFederation dbFederation = nationalFederationDao.getModel(fedId);
 
@@ -63,9 +64,19 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         Serializable adminId = diverDao.save(federationAdmin);
         Diver dbFederationAdmin = diverDao.getModel(adminId);
 
-       // mailService.sendInsuranceRequestFailed();
+        // todo implement
+        // mailService.sendInsuranceRequestFailed();
 
         return dbFederationAdmin;
+    }
+
+    @Override
+    public void informAllFederations() {
+        List<NationalFederation> federations = nationalFederationDao.getAll();
+        for (NationalFederation federation : federations) {
+            // todo implement
+        //    mailService.sendInsuranceRequestFailed();
+        }
     }
 
     @Override

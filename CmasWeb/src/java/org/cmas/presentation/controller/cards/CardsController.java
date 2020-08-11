@@ -11,9 +11,6 @@ import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
 import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
-import org.cmas.presentation.validator.HibernateSpringValidator;
-import org.cmas.presentation.validator.UploadImageValidator;
-import org.cmas.util.StringUtil;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.mail.MailerConfig;
@@ -24,7 +21,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
@@ -50,9 +46,6 @@ public class CardsController extends DiverAwareController {
 
     @Autowired
     private GsonViewFactory gsonViewFactory;
-
-    @Autowired
-    private HibernateSpringValidator validator;
 
     @Autowired
     private MailerConfig mailerConfig;
@@ -100,35 +93,10 @@ public class CardsController extends DiverAwareController {
     public View submitCardApprovalRequest(
             @ModelAttribute("command") CardApprovalRequestFormObject cardApprovalRequestFormObject, Errors result) {
         Diver currentDiver = getCurrentDiver();
-        validator.validate(cardApprovalRequestFormObject, result);
-        validateImage(result, cardApprovalRequestFormObject.getFrontImage(), "frontImage");
-        validateImage(result, cardApprovalRequestFormObject.getBackImage(), "backImage");
-        String countryCode = cardApprovalRequestFormObject.getCountryCode();
-        if (!StringUtil.isTrimmedEmpty(countryCode)) {
-            if (countryDao.getByCode(countryCode) == null) {
-                result.rejectValue("countryCode", "validation.incorrectField");
-            }
-        }
-        String federationId = cardApprovalRequestFormObject.getFederationId();
-        if (!result.hasFieldErrors("federationId") && !StringUtil.isTrimmedEmpty(federationId)) {
-            if (nationalFederationDao.getModel(Long.parseLong(federationId)) == null) {
-                result.rejectValue("federationId", "validation.incorrectField");
-            }
-        }
-        if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
-        }
         cardApprovalRequestService.processCardApprovalRequest(result, cardApprovalRequestFormObject, currentDiver);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
         }
         return gsonViewFactory.createSuccessGsonView();
-    }
-
-    private static void validateImage(Errors result, MultipartFile multipartFile, String fieldName) {
-        String errorCode = UploadImageValidator.validateImage(multipartFile);
-        if (errorCode != null) {
-            result.rejectValue(fieldName, errorCode);
-        }
     }
 }

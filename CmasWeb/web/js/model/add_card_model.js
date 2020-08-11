@@ -1,6 +1,30 @@
 var add_card_model = {
 
     diverLevels: [],
+    diverTypes: [],
+    cardGroups: {},
+
+    mobileUploadCardRequest: function (formData, successHandler, unSuccessHandler) {
+        loader_controller.startwait();
+        $.ajax({
+            type:  "POST",
+            url: "/submitCertificateApprovalRequest.html",
+            dataType: "json",
+            data: {"requestJson": JSON.stringify(formData)},
+            headers: {'CMAS_AUTH_TOKEN': formData.token},
+            success: function (json) {
+                if (json.success) {
+                    successHandler(json);
+                } else {
+                    unSuccessHandler(json);
+                }
+                loader_controller.stopwait();
+            },
+            error: function (e) {
+                window.location.reload();
+            }
+        });
+    },
 
     uploadCardRequest: function (formData, files, successHandler, unSuccessHandler) {
         loader_controller.startwait();

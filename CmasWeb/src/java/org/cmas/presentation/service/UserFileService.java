@@ -24,5 +24,10 @@ public interface UserFileService {
 //            , boolean fail
     ) throws UserFileException;
 
+    @Transactional
+    UserFile processFile(Diver diver, UserFileType userFileType, String base64data
+//            , boolean fail
+    ) throws UserFileException;
+
     void processFileRollback(UserFile userFile);
 }

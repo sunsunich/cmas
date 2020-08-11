@@ -4,17 +4,22 @@ import org.cmas.entities.DeviceType;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverType;
 import org.cmas.json.SimpleGsonResponse;
+import org.cmas.presentation.controller.cards.CardDisplayManager;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.DeviceDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Device;
+import org.cmas.presentation.model.cards.CardApprovalRequestMobileFormObject;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
 import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
@@ -39,6 +44,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
@@ -71,6 +77,12 @@ public class MobileRegistrationController {
     private RegistrationService registrationService;
 
     @Autowired
+    private CardApprovalRequestService cardApprovalRequestService;
+
+    @Autowired
+    private CardDisplayManager cardDisplayManager;
+
+    @Autowired
     private PersonalCardService personalCardService;
 
     @Autowired
@@ -93,15 +105,15 @@ public class MobileRegistrationController {
 
     @RequestMapping(value = "/registerWithCertificates.html", method = RequestMethod.POST)
     public View registerWithCertificates(@RequestParam("registrationJson") String registrationJson) {
-     //   log.error("registerWithCertificates called:" + registrationJson);
+        //   log.error("registerWithCertificates called:" + registrationJson);
         FullDiverRegistrationFormObject formObject;
         try {
             formObject = gsonViewFactory.getCommonGson().fromJson(registrationJson, FullDiverRegistrationFormObject.class);
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
-      //  log.error("formObject=" + new Gson().toJson(formObject));
-        Errors result = new MapBindingResult(new HashMap(), "logbookEntryJson");
+        //  log.error("formObject=" + new Gson().toJson(formObject));
+        Errors result = new MapBindingResult(new HashMap(), "registrationJson");
         registrationService.validateFromMobile(formObject, result);
         if (result.hasErrors()) {
             return gsonViewFactory.createGsonView(new JsonBindingResult(result));
@@ -109,7 +121,42 @@ public class MobileRegistrationController {
         Locale locale = LocaleContextHolder.getLocale();
         formObject.setLocale(locale);
         registrationService.add(formObject);
-        return gsonViewFactory.createGsonView(formObject);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
+    @RequestMapping("/mobileCarForm.html")
+    public ModelAndView cardApprovalRequest(Model model) {
+        model.addAttribute("command", new CardApprovalRequestMobileFormObject());
+        model.addAttribute("countries", countryDao.getAll());
+        model.addAttribute("federations", nationalFederationDao.getAll());
+        model.addAttribute("diverTypes", DiverType.values());
+        model.addAttribute("diverLevels", DiverLevel.values());
+        model.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
+        return new ModelAndView("carMobile");
+    }
+
+    @RequestMapping(value = "/submitCertificateApprovalRequest.html", method = RequestMethod.POST)
+    public View submitCertificateApprovalRequest(HttpServletRequest request, @RequestParam("requestJson") String requestJson) {
+        String token = request.getHeader("CMAS_AUTH_TOKEN");
+        Diver diver = diverDao.getDiverByToken(token);
+        if (diver == null) {
+            return gsonViewFactory.createErrorGsonView("validation.tokenUnknown");
+        }
+        //   log.error("registerWithCertificates called:" + requestJson);
+        CardApprovalRequestMobileFormObject formObject;
+        try {
+            formObject = gsonViewFactory.getCommonGson()
+                                        .fromJson(requestJson, CardApprovalRequestMobileFormObject.class);
+        } catch (Exception e) {
+            throw new BadRequestException(e);
+        }
+        //  log.error("formObject=" + new Gson().toJson(formObject));
+        Errors result = new MapBindingResult(new HashMap(), "requestJson");
+        cardApprovalRequestService.processCardApprovalRequestFromMobile(result, formObject, diver);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        }
+        return gsonViewFactory.createSuccessGsonView();
     }
 
     @RequestMapping("/getSelf.html")

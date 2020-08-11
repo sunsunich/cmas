@@ -1,5 +1,6 @@
 var error_codes = {
     "validation.badCredentials": "E-mail and Password mismatch",
+    "validation.tokenUnknown": "Token is unknown",
 
     "validation.loggedOut": "You were logged out. Please login again",
     "validation.emailExists": "email already exists in the system",

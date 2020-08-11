@@ -8,6 +8,8 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.presentation.dao.UserFileDao;
 import org.cmas.presentation.dao.user.RegFileDao;
 import org.cmas.presentation.entities.user.cards.RegFile;
+import org.cmas.util.ImageUtils;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
 
@@ -51,14 +54,41 @@ public class UserFileServiceImpl implements UserFileService {
     public UserFile processFile(Diver diver, UserFileType userFileType, MultipartFile multipartFile
 //            , boolean fail
     ) throws UserFileException {
+        String mimeType = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        BufferedImage bufferedImage;
+        try {
+            bufferedImage = ImageIO.read(multipartFile.getInputStream());
+        } catch (IOException e) {
+            throw new UserFileException("validation.imageFormat", e.getMessage(), e);
+        }
+        return createUserFile(diver, userFileType, mimeType, bufferedImage);
+    }
+
+    @Transactional
+    @Override
+    public UserFile processFile(Diver diver, UserFileType userFileType, String base64data
+//            , boolean fail
+    ) throws UserFileException {
+        ImageUtils.ImageConversionResult imageConversionResult = ImageUtils.base64ToImage(base64data);
+        if (imageConversionResult.image == null) {
+            throw new UserFileException(imageConversionResult.errorCode);
+        }
+        return createUserFile(diver, userFileType, "image/png", imageConversionResult.image);
+    }
+
+    @NotNull
+    private UserFile createUserFile(Diver diver,
+                                    UserFileType userFileType,
+                                    String mimeType,
+                                    BufferedImage bufferedImage)
+            throws UserFileException {
         UserFile userFile = new UserFile();
         try {
-            String mimeType = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
             setupAndSaveUserFile(userFile, diver, userFileType, mimeType);
 //            if (fail) {
 //                throw new RuntimeException();
 //            }
-            imageStorageManager.storeUserFile(userFile, ImageIO.read(multipartFile.getInputStream()));
+            imageStorageManager.storeUserFile(userFile, bufferedImage);
             return userFile;
         } catch (Exception e) {
             processFileRollback(userFile);

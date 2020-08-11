@@ -21,6 +21,8 @@ public interface NationalFederationService {
      */
     Diver createNewFederation(FederationFormObject formObject);
 
+    void informAllFederations();
+
     List<Diver> searchDivers(String firstName, String lastName, Date dob, Country country, boolean isForRegistration);
 
     List<Diver> searchDivers(String certificateNumber, boolean isForRegistration);
