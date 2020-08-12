@@ -44,7 +44,7 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         NationalFederation federation = new NationalFederation();
         federation.setCountry(country);
         federation.setName(formObject.getName());
-        federation.setVersion(nationalFederationDao.getMaxVersion());
+        federation.setVersion(nationalFederationDao.getMaxVersion() + 1L);
         Serializable fedId = nationalFederationDao.save(federation);
         NationalFederation dbFederation = nationalFederationDao.getModel(fedId);
 
