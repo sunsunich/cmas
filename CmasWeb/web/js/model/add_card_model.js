@@ -30,8 +30,10 @@ var add_card_model = {
         loader_controller.startwait();
         var form = new FormData();
         form.append('diverLevel', formData.diverLevel);
-        form.append('countryCode', formData.countryCode);
-
+        form.append('diverType', formData.diverType);
+        form.append('validUntil', formData.validUntil);
+        form.append('federationCardNumber', formData.federationCardNumber);
+        form.append('federationId', formData.federationId);
         form.append('frontImage', files['1']);
         form.append('backImage', files['2']);
 

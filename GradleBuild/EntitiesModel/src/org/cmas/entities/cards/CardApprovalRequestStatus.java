@@ -6,5 +6,9 @@ package org.cmas.entities.cards;
  * @author Alexander Petukhov
  */
 public enum CardApprovalRequestStatus {
-    NEW, APPROVED, DECLINED
+    NEW, APPROVED, DECLINED;
+
+    public String getName() {
+        return name();
+    }
 }

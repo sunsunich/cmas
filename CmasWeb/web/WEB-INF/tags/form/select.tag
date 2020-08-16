@@ -6,8 +6,7 @@
 
 <%@ attribute name="path" required="true" %>
 <%@ attribute name="label" required="true" %>
-<%-- массив с объектами, внутри которых есть методы для получения свойств с именами
-    лежащими в itemLabel и itemValue. если не написать тип, то при связывании параметров произойдет toString() --%>
+<%-- must be type="java.lang.Object[]" otherwise toString is used--%>
 <%@ attribute name="options" required="false"  type="java.lang.Object[]" %>
 <%@ attribute name="itemLabel" required="false" %>
 <%@ attribute name="itemValue" required="false" %>

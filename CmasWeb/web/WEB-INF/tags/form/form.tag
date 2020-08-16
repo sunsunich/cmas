@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="submitText" required="true" %>
 <%@ attribute name="action" required="false" %>
-<%@ attribute name="method" required="false" type="java.lang.String"%>
+<%@ attribute name="method" required="false" type="java.lang.String" %>
 <%@ attribute name="commandName" required="false" %>
 <%@ attribute name="noRequiredText" required="false" %>
 <%@ attribute name="id" required="false" %>
@@ -13,21 +13,25 @@
 <c:if test="${empty method}">
     <c:set var="method" value="POST"/>
 </c:if>
-<form:form htmlEscape="true" action="${action}" commandName="${command}" method="${method}" cssClass="b-form" id="${id}" enctype="${enctype}">
+<form:form htmlEscape="true" action="${action}" commandName="${command}" method="${method}" cssClass="b-form" id="${id}"
+           enctype="${enctype}">
     <s:hasBindErrors name="${command}">
         <ul>
-           <c:forEach items="${errors.globalErrors}" var="error">
+            <c:forEach items="${errors.globalErrors}" var="error">
                 <li><span class="error"><s:message message="${error}"/></span></li>
-           </c:forEach>
+            </c:forEach>
         </ul>
     </s:hasBindErrors>
     <table class="formTable">
         <jsp:doBody/>
         <c:if test="${not noRequiredText}">
             <tr>
-                <td colspan="3"><div  style="font-size:80%;margin:8px;">
-                    <s:message code="cmas.face.extForm.requiredText_1"/> <span class="reqMark" style="font-size:120%">*</span> <s:message code="cmas.face.extForm.requiredText_2"/>
-                </div></td>
+                <td colspan="3">
+                    <div style="font-size:80%;margin:8px;">
+                        <s:message code="cmas.face.extForm.requiredText_1"/> <span class="reqMark" style="font-size:120%">*</span>
+                        <s:message code="cmas.face.extForm.requiredText_2"/>
+                    </div>
+                </td>
             </tr>
         </c:if>
         <tr>

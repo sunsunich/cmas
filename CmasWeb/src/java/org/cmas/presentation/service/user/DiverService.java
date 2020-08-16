@@ -6,6 +6,7 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.model.user.DiverFormObject;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
 
 /**
@@ -21,9 +22,13 @@ public interface DiverService extends UserService<Diver> {
 
     void uploadSingleDiver(NationalFederation federation, Diver diver);
 
+    void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver);
+
     void addGuestDiverToFederation(NationalFederation federation, Diver dbDiver);
 
     void diverPaidForFeature(Diver diver, Invoice invoice, boolean isConfirmEmail);
+
+    String getDiverStatusString(Diver diver);
 
     int getDemoTimeDays();
 

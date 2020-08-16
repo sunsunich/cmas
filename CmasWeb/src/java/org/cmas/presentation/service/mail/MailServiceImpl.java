@@ -7,6 +7,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.cards.CardApprovalRequest;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.logbook.DiverFriendRequest;
@@ -413,6 +414,51 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                                           locale,
                                           diver.getFirstName() + ' ' + diver.getLastName()
         );
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendCardApprovalRequestDeclined(CardApprovalRequest cardApprovalRequest) {
+        Locale locale = Locale.ENGLISH;
+        String frontImage = addresses.getSiteName(locale) +
+                            imageStorageManager.getCardApprovalRequestImagesRoot() +
+                            cardApprovalRequest.getFrontImage().getFileUrl();
+        String backImage = cardApprovalRequest.getBackImage() == null ? ""
+                : addresses.getSiteName(locale) +
+                  imageStorageManager.getCardApprovalRequestImagesRoot() +
+                  cardApprovalRequest.getBackImage().getFileUrl();
+        Diver diver = cardApprovalRequest.getDiver();
+        String text = textRenderer.renderText(
+                "cardApprovalRequestDeclined.ftl", locale,
+                new ModelAttr("federation", cardApprovalRequest.getIssuingFederation()),
+                new ModelAttr("diver", diver),
+                new ModelAttr("createDate", Globals.getDTF().format(cardApprovalRequest.getCreateDate())),
+                new ModelAttr("frontImage", frontImage),
+                new ModelAttr("backImage", backImage)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        String subj = subjects.renderText("CardApprovalRequestDeclined", locale);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendCardApprovalRequestApproved(PersonalCard newCard, String statusStr) {
+        Locale locale = Locale.ENGLISH;
+        String cardUrl = addresses.getSiteName(locale) +
+                         imageStorageManager.getCardImagesRoot() +
+                         newCard.getImageUrl();
+        Diver diver = newCard.getDiver();
+        String text = textRenderer.renderText(
+                "cardApprovalRequestApproved.ftl", locale,
+                new ModelAttr("federationName", newCard.getIssuingFederation().getName()),
+                new ModelAttr("diver", diver),
+                new ModelAttr("cardUrl", cardUrl),
+                new ModelAttr("statusStr", statusStr)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        String subj = subjects.renderText("CardApprovalRequestDeclined", locale);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }

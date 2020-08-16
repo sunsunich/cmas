@@ -84,7 +84,6 @@ public class CardsController extends DiverAwareController {
         model.addAttribute("command", formObject);
         model.addAttribute("siteEmail", mailerConfig.getSupportAddr());
         model.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
-        model.addAttribute("countries", countryDao.getAll());
         model.addAttribute("federations", nationalFederationDao.getAll());
         return new ModelAndView("secure/addCard");
     }

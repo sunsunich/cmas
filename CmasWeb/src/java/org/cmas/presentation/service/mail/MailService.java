@@ -4,6 +4,7 @@ import org.cmas.entities.FeedbackItem;
 import org.cmas.entities.User;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.cards.CardApprovalRequest;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
@@ -49,4 +50,8 @@ public interface MailService {
     void sendFeedbackItemToUser(FeedbackItem feedbackItem);
 
     void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest);
+
+    void sendCardApprovalRequestDeclined(CardApprovalRequest cardApprovalRequest);
+
+    void sendCardApprovalRequestApproved(PersonalCard newCard, String statusStr);
 }

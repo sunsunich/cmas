@@ -13,11 +13,11 @@ import org.springframework.validation.Errors;
 public class CommonCardApprovalRequestFormObject implements Validatable {
 
     @Expose
-    //    @NotEmpty(message = "validation.emptyField")
+  //  @NotEmpty(message = "validation.emptyField")
     private String diverType;
 
     @Expose
-    @NotEmpty(message = "validation.emptyField")
+  //  @NotEmpty(message = "validation.emptyField")
     private String diverLevel;
 
     @Expose
@@ -31,6 +31,7 @@ public class CommonCardApprovalRequestFormObject implements Validatable {
     private String federationCardNumber;
 
     @Expose
+    @NotEmpty(message = "validation.emptyField")
     private String federationId;
 
     @Override

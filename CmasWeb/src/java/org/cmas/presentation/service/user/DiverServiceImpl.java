@@ -18,7 +18,6 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
-import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.user.DiverFormObject;
@@ -37,7 +36,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
-import org.springframework.security.providers.encoding.Md5PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nonnull;
@@ -92,13 +90,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     private MailService mailService;
 
     @Autowired
-    private Md5PasswordEncoder passwordEncoder;
-
-    @Autowired
     private CountryDao countryDao;
-
-    @Autowired
-    private NationalFederationDao nationalFederationDao;
 
     @Autowired
     DiverDao diverDao;
@@ -181,7 +173,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 }
                 fedAdminIdToUploadTask.remove(adminId);
             }
-
             if (file == null) {
                 return "validation.emptyField";
             }
@@ -190,7 +181,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
                 return "validation.xlsFileFormat";
             }
-
             UploadDiversTask newTask = new UploadDiversTask(this, fedAdmin.getFederation(), file.getInputStream());
             newTask.future = scheduler.schedule(newTask, 0L, TimeUnit.MILLISECONDS);
             fedAdminIdToUploadTask.put(adminId, newTask);
@@ -303,10 +293,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 //        return true;
 //    }
 
-    @NotNull
-    private static String getNameNoSpaces(String firstName) {
-        return StringUtil.correctSpaceCharAndTrim(firstName).replaceAll(" ", "");
-    }
+//    @NotNull
+//    private static String getNameNoSpaces(String firstName) {
+//        return StringUtil.correctSpaceCharAndTrim(firstName).replaceAll(" ", "");
+//    }
 
 //    void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {
 //        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver);
@@ -430,7 +420,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         diverDao.updateModel(dbDiver);
     }
 
-    void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
+    @Override
+    public void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
         DiverType dbDiverType = dbDiver.getDiverType();
         DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
         PersonalCard maxNationalCard = personalCardService.getMaxNationalCard(dbDiver);
@@ -528,6 +519,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
                 break;
         }
         diverDao.updateModel(dbDiver);
+        PersonalCard primaryPersonalCard = dbDiver.getPrimaryPersonalCard();
+        if (primaryPersonalCard != null) {
+            personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
+        }
     }
 
     @Override
@@ -608,6 +603,66 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             }
         }
         diverDao.updateModel(diver);
+    }
+
+    @Override
+    public String getDiverStatusString(Diver diver) {
+        // //3 star Free dive  Instructor  CMAS Basic
+        String level = "";
+        switch (diver.getDiverLevel()) {
+            case ONE_STAR:
+                level = "1 star";
+                break;
+            case TWO_STAR:
+                level = "2 star";
+                break;
+            case THREE_STAR:
+                level = "3 star";
+                break;
+            case FOUR_STAR:
+                level = "4 star";
+                break;
+        }
+        boolean isApnea = false;
+        for (PersonalCard card : diver.getCards()) {
+            if (card.getCardType() == PersonalCardType.APNOEA) {
+                isApnea = true;
+                break;
+            }
+        }
+        String type = "";
+        switch (diver.getDiverType()) {
+            case DIVER:
+                type = "Diver";
+                break;
+            case INSTRUCTOR:
+                type = "Instructor";
+                break;
+        }
+        String status = "";
+        switch (diver.getDiverRegistrationStatus()) {
+            case NEVER_REGISTERED:
+            case INACTIVE:
+                status = "Inactive";
+                break;
+            case DEMO:
+                status = "Demo";
+                break;
+            case GUEST:
+                status = "AquaLink";
+                break;
+            case CMAS_BASIC:
+                status = "CMAS Basic";
+                break;
+            case CMAS_FULL:
+                status = "CMAS Full";
+                break;
+        }
+        return level + ' '
+               + (isApnea ? "Free dive" : "")
+               + type + " "
+               + status
+                ;
     }
 
     @Required

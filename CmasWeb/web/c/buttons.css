@@ -39,7 +39,7 @@
     margin-bottom: 0;
 }
 
-.positive-button, .inverse-positive-button, .white-button, .white-button-small, .gold-button {
+.positive-button, .inverse-positive-button, .white-button, .white-button-small, .gold-button, .negative-button {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -88,6 +88,20 @@
 
 .inverse-positive-button:active {
     color: #0d95b5;
+    box-shadow: none;
+}
+
+.negative-button {
+    color: #ffffff;
+    background: #a94442;
+}
+
+.negative-button:hover {
+    box-shadow: 0 7px 14px 0 rgba(242, 32, 89, 0.32);
+}
+
+.negative-button:active {
+    color: #843534;
     box-shadow: none;
 }
 

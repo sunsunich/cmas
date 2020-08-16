@@ -4,20 +4,25 @@ import org.cmas.Globals;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.UserFileType;
 import org.cmas.entities.cards.CardApprovalRequest;
+import org.cmas.entities.cards.CardApprovalRequestStatus;
+import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
-import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
+import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.cards.RegFile;
+import org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
 import org.cmas.presentation.model.cards.CardApprovalRequestMobileFormObject;
 import org.cmas.presentation.model.cards.CommonCardApprovalRequestFormObject;
 import org.cmas.presentation.service.UserFileException;
 import org.cmas.presentation.service.UserFileService;
 import org.cmas.presentation.service.mail.MailService;
+import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.presentation.validator.UploadImageValidator;
 import org.cmas.util.StringUtil;
@@ -46,7 +51,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
     private NationalFederationDao nationalFederationDao;
 
     @Autowired
-    private CountryDao countryDao;
+    private PersonalCardDao personalCardDao;
 
     @Autowired
     private CardApprovalRequestDao cardApprovalRequestDao;
@@ -56,6 +61,12 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
     @Autowired
     private UserFileService userFileService;
+
+    @Autowired
+    private DiverService diverService;
+
+    @Autowired
+    private PersonalCardService personalCardService;
 
     @Autowired
     private MailService mailService;
@@ -163,15 +174,8 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
                                              CardApprovalRequestFormObject cardApprovalRequestFormObject
     ) {
         validateCommonCardApprovalRequest(result, cardApprovalRequestFormObject);
-
         validateImage(result, cardApprovalRequestFormObject.getFrontImage(), "frontImage");
         validateImage(result, cardApprovalRequestFormObject.getBackImage(), "backImage");
-        String countryCode = cardApprovalRequestFormObject.getCountryCode();
-        if (!StringUtil.isTrimmedEmpty(countryCode)) {
-            if (countryDao.getByCode(countryCode) == null) {
-                result.rejectValue("countryCode", "validation.incorrectField");
-            }
-        }
     }
 
     private void validateCommonCardApprovalRequest(Errors result,
@@ -206,11 +210,6 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
                                             Diver diver) throws Exception {
 
         setCommonFields(cardApprovalRequest, cardApprovalRequestFormObject, diver);
-
-        String countryCode = cardApprovalRequestFormObject.getCountryCode();
-        if (!StringUtil.isTrimmedEmpty(countryCode)) {
-            cardApprovalRequest.setIssuingCountry(countryDao.getByCode(countryCode));
-        }
         cardApprovalRequest.setFrontImage(
                 processFile(result, diver, cardApprovalRequestFormObject.getFrontImage(), "frontImage")//, false);
         );
@@ -249,9 +248,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
             }
         }
         String federationId = cardApprovalRequestFormObject.getFederationId();
-        if (!StringUtil.isTrimmedEmpty(federationId)) {
-            cardApprovalRequest.setIssuingFederation(nationalFederationDao.getModel(Long.parseLong(federationId)));
-        }
+        cardApprovalRequest.setIssuingFederation(nationalFederationDao.getModel(Long.parseLong(federationId)));
     }
 
     private void notifyOnNewCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
@@ -292,5 +289,81 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
             // throw exception to rollback transaction
             throw e;
         }
+    }
+
+    @Override
+    public void declineCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
+        cardApprovalRequest.setStatus(CardApprovalRequestStatus.DECLINED);
+        cardApprovalRequestDao.updateModel(cardApprovalRequest);
+
+        mailService.sendCardApprovalRequestDeclined(cardApprovalRequest);
+    }
+
+    @Override
+    public void approveCardApprovalRequest(CardApprovalRequestEditFormObject formObject, Errors result) {
+        validator.validate(formObject, result);
+        if (result.hasErrors()) {
+            return;
+        }
+        CardApprovalRequest request = cardApprovalRequestDao.getModel(Long.parseLong(formObject.getRequestId()));
+        if (request == null) {
+            result.rejectValue("requestId", "validation.incorrectField");
+            return;
+        }
+        String diverType = formObject.getDiverType();
+        if (StringUtil.isTrimmedEmpty(diverType)) {
+            result.rejectValue("diverType", "validation.emptyField");
+        } else {
+            request.setDiverType(DiverType.valueOf(diverType));
+        }
+        String diverLevel = formObject.getDiverLevel();
+        if (StringUtil.isTrimmedEmpty(diverLevel)) {
+            result.rejectValue("diverLevel", "validation.emptyField");
+        } else {
+            request.setDiverLevel(DiverLevel.valueOf(diverLevel));
+        }
+        String cardType = formObject.getCardType();
+        if (StringUtil.isTrimmedEmpty(cardType)) {
+            result.rejectValue("cardType", "validation.emptyField");
+        } else {
+            request.setCardType(PersonalCardType.valueOf(cardType));
+        }
+        if (result.hasErrors()) {
+            return;
+        }
+
+        String validUntil = formObject.getValidUntil();
+        if (!StringUtil.isTrimmedEmpty(validUntil)) {
+            try {
+                request.setValidUntil(Globals.getDTF().parse(validUntil));
+            } catch (ParseException ignored) {
+            }
+        }
+        request.setFederationName(formObject.getFederationCardNumber());
+
+        Diver diver = request.getDiver();
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        if (diverRegistrationStatus != DiverRegistrationStatus.CMAS_BASIC
+            && diverRegistrationStatus != DiverRegistrationStatus.CMAS_FULL) {
+            diverService.addGuestDiverToFederation(request.getIssuingFederation(), diver);
+        }
+        PersonalCard personalCard = new PersonalCard();
+        personalCard.setNumber(request.getFederationName());
+        personalCard.setDiver(diver);
+        personalCard.setDiverType(request.getDiverType());
+        personalCard.setDiverLevel(request.getDiverLevel());
+        personalCard.setCardType(request.getCardType());
+        personalCard.setFederationName(request.getFederationName());
+        personalCard.setValidUntil(request.getValidUntil());
+        personalCard.setIssuingFederation(request.getIssuingFederation());
+        Long cardId = (Long) personalCardDao.save(personalCard);
+        PersonalCard dbCard = personalCardDao.getModel(cardId);
+        personalCardService.generateAndSaveCardImage(dbCard.getId());
+
+        diverService.updateDiverTypeAndLevelBasingOnCards(diver);
+
+        request.setStatus(CardApprovalRequestStatus.APPROVED);
+        cardApprovalRequestDao.updateModel(request);
+        mailService.sendCardApprovalRequestApproved(dbCard, diverService.getDiverStatusString(diver));
     }
 }

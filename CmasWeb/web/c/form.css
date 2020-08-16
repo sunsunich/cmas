@@ -122,6 +122,11 @@
     margin-right: 2%;
 }
 
+.card-form-label {
+    min-width: 145px;
+    margin-right: 2%;
+}
+
 .dialog-form-row a {
     color: #04c8ff;
     padding-left: 5px;

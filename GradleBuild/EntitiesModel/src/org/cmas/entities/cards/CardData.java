@@ -1,7 +1,6 @@
 package org.cmas.entities.cards;
 
 import com.google.myjson.annotations.Expose;
-import org.cmas.entities.Country;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
@@ -47,23 +46,12 @@ public class CardData {
     @ManyToOne
     private NationalFederation issuingFederation;
 
-    @ManyToOne
-    private Country issuingCountry;
-
     public NationalFederation getIssuingFederation() {
         return issuingFederation;
     }
 
     public void setIssuingFederation(NationalFederation issuingFederation) {
         this.issuingFederation = issuingFederation;
-    }
-
-    public Country getIssuingCountry() {
-        return issuingCountry;
-    }
-
-    public void setIssuingCountry(Country issuingCountry) {
-        this.issuingCountry = issuingCountry;
     }
 
     public Date getValidUntil() {

@@ -72,7 +72,8 @@
             <td><a href="/logout.html">Sign out</a>&nbsp;&nbsp;&nbsp;</td>
             <td><a href="/fed/index.html">Users</a>&nbsp;&nbsp;&nbsp;</td>
 <%--            <td><a href="/fed/addDiversToFederation.html">Add divers with Demo/Guest accounts</a>&nbsp;&nbsp;&nbsp;</td>--%>
-            <td><a href="/fed/passwdForm.html">Change password</a></td>
+            <td><a href="/fed/passwdForm.html">Change password</a>   &nbsp;&nbsp;&nbsp; </td>
+            <td><a href="/fed/cardApprovalRequests.html">Certificate approval requests</a></td>
         </tr>
     </table>
 

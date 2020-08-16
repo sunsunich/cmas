@@ -89,6 +89,10 @@
                 <c:set var="url" value="${url}lastName=${command.lastName}&"/>
                 <c:set var="urlEmpty" value="false"/>
             </c:if>
+            <c:if test="${!empty command.diverType}">
+                <c:set var="url" value="${url}diverType=${command.diverType}&"/>
+                <c:set var="urlEmpty" value="false"/>
+            </c:if>
             <table border="0" cellpadding="4" cellspacing="2">
                 <tr class="infoHeader">
                     <th><my:sort url="${url}" title="E-mail" dir="${command.dir}" columnNumber="${command.sort}"
@@ -174,6 +178,7 @@
         <pg:param name="email"/>
         <pg:param name="firstName"/>
         <pg:param name="lastName"/>
+        <pg:param name="diverType"/>
         <pg:param name="dir"/>
         <pg:index>
             <font face=Helvetica size="-1">Users found (${count}):

@@ -18,8 +18,7 @@
     </div>
     
 </#macro>
-    
-<#-- Ссылка -->
+
 <#macro href url value="Link" word=false>
 <a href="${url}" style="color: #167a9b;"><#if word>${value}<#else>${url}</#if></a>
 </#macro>

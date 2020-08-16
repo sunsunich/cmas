@@ -1,7 +1,5 @@
 package org.cmas.presentation.model.cards;
 
-import com.google.myjson.annotations.Expose;
-import org.hibernate.validator.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -11,21 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class CardApprovalRequestFormObject extends CommonCardApprovalRequestFormObject {
 
-    @Expose
-    @NotEmpty(message = "validation.emptyField")
-    private String countryCode;
-
     private MultipartFile frontImage;
 
     private MultipartFile backImage;
-
-    public String getCountryCode() {
-        return countryCode;
-    }
-
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
 
     public MultipartFile getFrontImage() {
         return frontImage;

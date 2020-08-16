@@ -5,12 +5,14 @@ var add_card_controller = {
 
     init: function () {
         var self = this;
-
         util_controller.setupSelect2(
             'card_diverLevel', add_card_model.diverLevels, '', labels["cmas.face.card.level"]
         );
-        util_controller.setupSelect2('card_countryCode', [], '',
-            labels["cmas.face.registration.form.label.country"]
+        util_controller.setupSelect2(
+            'card_diverType', add_card_model.diverTypes, '', labels["cmas.face.card.diverType"]
+        );
+        util_controller.setupSelect2('card_federationId', [], '',
+            labels["cmas.face.registration.form.label.federation"]
         );
 
         this.validationController = simpleClone(validation_controller);
@@ -25,13 +27,31 @@ var add_card_controller = {
                 }
             },
             {
-                id: 'countryCode',
+                id: 'diverType',
                 validateField: function (value) {
                     if (isStringTrimmedEmpty(value)) {
                         return 'validation.emptyField';
                     }
                 }
-            }
+            },
+            {
+                id: 'federationId',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyField';
+                    }
+                }
+            },
+            {
+                id: 'federationCardNumber',
+                validateField: function (value) {
+                }
+            },
+            {
+                id: 'validUntil',
+                validateField: function (value) {
+                }
+            },
         ];
         this.validationController.submitButton = $('#cardSubmit');
 
@@ -63,6 +83,15 @@ var add_card_controller = {
 
     setListeners: function () {
         var self = this;
+        $("#card_validUntil").datepicker(
+            {
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '0:+10',
+                defaultDate: "1d",
+                dateFormat: 'dd/mm/yy'
+            }
+        );
         $('#cardSubmit').click(function () {
             self.submitForm();
             return false;

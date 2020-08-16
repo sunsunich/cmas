@@ -4,19 +4,26 @@ import com.google.myjson.GsonBuilder;
 import org.cmas.Globals;
 import org.cmas.backend.xls.XlsParseException;
 import org.cmas.entities.Role;
+import org.cmas.entities.cards.CardApprovalRequest;
+import org.cmas.entities.cards.CardApprovalRequestStatus;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.presentation.controller.cards.CardDisplayManager;
+import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
+import org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject;
+import org.cmas.presentation.model.cards.CardApprovalRequestSearchFormObject;
 import org.cmas.presentation.model.user.AddingToFederationFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.DiverService;
 import org.cmas.presentation.service.user.UploadDiversTask;
@@ -65,6 +72,9 @@ public class FederationAdminController {
     private DiverDao diverDao;
 
     @Autowired
+    private CardApprovalRequestDao cardApprovalRequestDao;
+
+    @Autowired
     private AuthenticationService authenticationService;
 
     @Autowired
@@ -84,6 +94,9 @@ public class FederationAdminController {
 
     @Autowired
     private CardDisplayManager cardDisplayManager;
+
+    @Autowired
+    private CardApprovalRequestService cardApprovalRequestService;
 
     @ModelAttribute("diverTypes")
     public DiverType[] getDiverTypes() {
@@ -125,6 +138,63 @@ public class FederationAdminController {
         return mm;
     }
 
+    @RequestMapping("/fed/cardApprovalRequests.html")
+    public ModelAndView cardApprovalRequests(HttpServletRequest request, @ModelAttribute CardApprovalRequestSearchFormObject model) {
+        if (request.getParameterMap().isEmpty()) {
+            model.setStatus(CardApprovalRequestStatus.NEW.getName());
+        }
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        model.setLimit(MAX_PAGE_ITEMS);
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("command", model);
+        NationalFederation federation = currentFedAdmin.getUser().getFederation();
+        List<CardApprovalRequest> requests = cardApprovalRequestDao.searchRequests(model, federation);
+        mm.addAttribute("requests", requests);
+        mm.addAttribute("requestStatuses", CardApprovalRequestStatus.values());
+        mm.addAttribute("count", cardApprovalRequestDao.getMaxCountSearchRequests(model, federation));
+        return new ModelAndView("fed/cardApprovalRequests", mm);
+    }
+
+    @RequestMapping("/fed/declineCardApprovalRequest.html")
+    public ModelAndView declineCardApprovalRequest(@RequestParam("requestId") Long requestId) {
+        CardApprovalRequest cardApprovalRequest = cardApprovalRequestDao.getModel(requestId);
+        if (cardApprovalRequest == null || cardApprovalRequest.getStatus() == CardApprovalRequestStatus.APPROVED) {
+            throw new BadRequestException();
+        }
+        cardApprovalRequestService.declineCardApprovalRequest(cardApprovalRequest);
+        return new ModelAndView("redirect:/fed/cardApprovalRequests.html");
+    }
+
+    @RequestMapping("/fed/viewCardApprovalRequest.html")
+    public ModelAndView viewCardApprovalRequest(@RequestParam("requestId") Long requestId) {
+        CardApprovalRequest cardApprovalRequest = cardApprovalRequestDao.getModel(requestId);
+        if (cardApprovalRequest == null) {
+            throw new BadRequestException();
+        }
+        ModelMap mm = new ModelMap();
+        mm.addAttribute("cardApprovalRequest", cardApprovalRequest);
+        mm.addAttribute("command", new CardApprovalRequestEditFormObject());
+        mm.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
+        return new ModelAndView("fed/viewCardApprovalRequest", mm);
+    }
+
+    @RequestMapping("/fed/approveCardApprovalRequest.html")
+    public View approveCardApprovalRequest(@ModelAttribute CardApprovalRequestEditFormObject formObject, Errors result) {
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        formObject.setFederationId(String.valueOf(currentFedAdmin.getUser().getFederation().getId()));
+        cardApprovalRequestService.approveCardApprovalRequest(formObject, result);
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(result);
+        }
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
     @RequestMapping("/fed/addDiversToFederation.html")
     public ModelAndView addToFederationPage() {
         AddingToFederationFormObject model = new AddingToFederationFormObject();
@@ -162,10 +232,6 @@ public class FederationAdminController {
             throw new BadRequestException();
         }
         diverService.addGuestDiverToFederation(currentFedAdmin.getUser().getFederation(), diver);
-        PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
-        if (primaryPersonalCard != null) {
-            personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
-        }
         return new ModelAndView("redirect:/fed/editDiver.html?userId=" + diverId);
     }
 

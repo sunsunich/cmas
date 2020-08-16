@@ -41,10 +41,12 @@ public class NationalFederationServiceImpl implements NationalFederationService 
     @Override
     public Diver createNewFederation(FederationFormObject formObject) {
         Country country = countryDao.getByCode(formObject.getCountryCode());
+        String email = StringUtil.lowerCaseEmail(StringUtil.correctSpaceCharAndTrim(formObject.getEmail()));
         NationalFederation federation = new NationalFederation();
         federation.setCountry(country);
         federation.setName(formObject.getName());
         federation.setVersion(nationalFederationDao.getMaxVersion() + 1L);
+        federation.setEmail(email);
         Serializable fedId = nationalFederationDao.save(federation);
         NationalFederation dbFederation = nationalFederationDao.getModel(fedId);
 
@@ -55,7 +57,7 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         federationAdmin.setRole(Role.ROLE_FEDERATION_ADMIN);
 
         federationAdmin.setDateReg(new Date());
-        federationAdmin.setEmail(StringUtil.lowerCaseEmail(formObject.getEmail()));
+        federationAdmin.setEmail(email);
         federationAdmin.setPassword("36b1f45f0a95d1624734220892f0e7a9"); // cmasdata
         federationAdmin.setFirstName(formObject.getName());
         federationAdmin.setLastName("");
@@ -75,7 +77,7 @@ public class NationalFederationServiceImpl implements NationalFederationService 
         List<NationalFederation> federations = nationalFederationDao.getAll();
         for (NationalFederation federation : federations) {
             // todo implement
-        //    mailService.sendInsuranceRequestFailed();
+            //    mailService.sendInsuranceRequestFailed();
         }
     }
 
