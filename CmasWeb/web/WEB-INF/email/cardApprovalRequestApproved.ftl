@@ -5,8 +5,8 @@
         Congratulations! your certificate has been approved by ${federationName}.<br/>
     </p>
     <p>
-        Your new card:
-        <img src="${cardUrl}" alt="new card"/>
+        Please follow the link below to view your new card: <br/>
+        ${cardUrl}
     </p>
     <p>
         Your AquaLink account status is: ${statusStr} <br/>
