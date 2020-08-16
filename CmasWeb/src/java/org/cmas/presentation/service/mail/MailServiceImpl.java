@@ -458,7 +458,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(diver);
-        String subj = subjects.renderText("CardApprovalRequestDeclined", locale);
+        String subj = subjects.renderText("CardApprovalRequestApproved", locale);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
 }

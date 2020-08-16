@@ -15,11 +15,12 @@
         <li>
             create date: ${createDate}
         </li>
+    Follow the links to view submitted images:
         <li>
-            front image: <img src="${frontImage}" alt="front image"/>
+            front image: ${frontImage}
         </li>
         <li>
-            back image: <img src="${backImage}" alt="back image"/>
+            back image: ${backImage}
         </li>
     </ul>
     <br/>
