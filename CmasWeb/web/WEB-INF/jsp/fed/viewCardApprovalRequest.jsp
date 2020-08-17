@@ -81,7 +81,6 @@
                                     <option value='${cardType}'>${cardType}</option>
                                 </c:otherwise>
                             </c:choose>
-                            <option value="${cardType}">${cardType}</option>
                         </c:forEach>
                     </optgroup>
                 </c:forEach>
