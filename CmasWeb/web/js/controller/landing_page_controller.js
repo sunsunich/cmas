@@ -16,7 +16,9 @@ var landing_page_controller = {
             self.onResize();
         });
         $('#findDiver').click(function () {
-            window.location = "/diver-verification.html?name=" + $('#name').val() + '&country=' + $('#country').val();
+            window.location = "/diver-verification.html?name=" + $('#name').val()
+                + '&dob=' + $('#dob').val()
+                + '&country=' + $('#country').val();
         });
         $('#insuranceFeature').hover(function () {
             self.showFeature('insurance');
@@ -214,11 +216,24 @@ var landing_page_controller = {
         // second screen
         adjustCssProperty("font-size", "#secondScreenHeader", sizes.minViewPortSize, 1.4, 22, 48);
 
-        $('#name').css('width', Math.max(230, sizes.viewPortWidth * 31 / 100));
+        $('#name').css('width', Math.max(230, sizes.viewPortWidth * 25 / 100));
         adjustCssProperty("margin-right", "#name", sizes.viewPortWidth, 1, 16, 40);
         adjustCssProperty("margin-top", "#name", sizes.viewPortHeight, 3, 16, 40);
+        $('#dob').css('width', 230);
+        $('#ico_dob').css('top', 57).css('left', 195);
+        $("#dob").datepicker(
+            {
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '-100:-10',
+                defaultDate: "-20y",
+                dateFormat: 'dd/mm/yy'
+            }
+        );
+        adjustCssProperty("margin-right", "#dob", sizes.viewPortWidth, 1, 16, 40);
+        adjustCssProperty("margin-top", "#dob", sizes.viewPortHeight, 3, 16, 40);
 
-        $('.select2').css('width', Math.max(230, sizes.viewPortWidth * 31 / 100));
+        $('.select2').css('width', Math.max(230, sizes.viewPortWidth * 25 / 100));
         adjustCssProperty("margin-right", ".select2", sizes.viewPortWidth, 1, 16, 40);
         adjustCssProperty("margin-top", ".select2", sizes.viewPortHeight, 3, 16, 40);
 

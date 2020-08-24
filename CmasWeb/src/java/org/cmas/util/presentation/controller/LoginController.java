@@ -13,12 +13,10 @@ import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.remote.ErrorCodes;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
-import org.cmas.util.http.Cookies;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.RedirectResponse;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
-import org.cmas.util.presentation.spring.LogoutEventBroadcaster;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.providers.encoding.PasswordEncoder;
@@ -35,7 +33,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -108,11 +105,11 @@ public class LoginController {
                 model.addAttribute("lastLogin", obj);
             }
         }
-        Cookie cookie = Cookies.rewriteValueInCookie(request.getCookies()
-                , LogoutEventBroadcaster.AUTH_COOKIE_NAME
-                , ""
-                , 0);
-        response.addCookie(cookie);
+//        Cookie cookie = Cookies.rewriteValueInCookie(request.getCookies()
+//                , LogoutEventBroadcaster.AUTH_COOKIE_NAME
+//                , ""
+//                , 0);
+//        response.addCookie(cookie);
         return buildLoginForm(model);
     }
 

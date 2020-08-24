@@ -123,7 +123,7 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
 
     @Override
     public Diver getDiverByToken(String token) {
-        return (Diver)createCriteria().add(Restrictions.eq("mobileAuthToken", token)).uniqueResult();
+        return (Diver) createCriteria().add(Restrictions.eq("mobileAuthToken", token)).uniqueResult();
     }
 
     @Override
@@ -194,8 +194,14 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
                 }
             }
         }
+        Date dob = null;
+        try {
+            dob = Globals.getDTF().parse(formObject.getDob());
+        } catch (ParseException ignored) {
+        }
         return (List<Diver>) createCriteria()
                 .add(Restrictions.eq("enabled", true))
+                .add(Restrictions.eq("dob", dob))
                 .add(disjunction)
                 .createAlias("federation", "fed")
                 .createAlias("fed.country", "country")

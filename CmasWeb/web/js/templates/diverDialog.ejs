@@ -22,7 +22,7 @@ if (diver.primaryPersonalCard == null) {
 } else {
     cardNumber = diver.primaryPersonalCard.printNumber;
 }
-var dob = diver.dob;
+// var dob = diver.dob;
 var isApnea = false;
 var k;
 for (k = 0; k < diver.cards.length; k++) {
@@ -67,10 +67,10 @@ for (k = 0; k < diver.cards.length; k++) {
                 <% } %>
                 <span class="secondary-large-text foundFriendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
             </div>
-            <div class="foundFriendList-elem-left">
-                <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
-                <span class="secondary-large-text foundFriendList-text"><%= dob %></span>
-            </div>
+<!--            <div class="foundFriendList-elem-left">-->
+<!--                <img class="foundFriendList-ico" src="/i/ic_calendar.png?v=<%=/* webVersion */ %>"/>-->
+<!--                <span class="secondary-large-text foundFriendList-text"><%=/* dob */%></span>-->
+<!--            </div>-->
             <div class="foundFriendList-elem-right">
                 <span class="secondary-large-text foundFriendList-text"><%= diver.country.name %></span>
             </div>

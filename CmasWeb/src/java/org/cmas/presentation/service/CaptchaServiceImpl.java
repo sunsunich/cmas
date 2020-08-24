@@ -4,7 +4,6 @@ import com.google.myjson.Gson;
 import org.apache.commons.httpclient.NameValuePair;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.util.StringUtil;
-import org.cmas.util.http.Cookies;
 import org.cmas.util.http.HttpUtil;
 import org.cmas.util.http.SimpleHttpClient;
 import org.slf4j.Logger;
@@ -29,10 +28,10 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public boolean validateCaptcha(HttpServletRequest servletRequest, HttpServletResponse servletResponse) {
-        String cookieValue = Cookies.getCookieValueByName(servletRequest.getCookies(), CAPTCHA_COOKIE_NAME);
-        if (cookieValue != null) {
-            return true;
-        }
+//        String cookieValue = Cookies.getCookieValueByName(servletRequest.getCookies(), CAPTCHA_COOKIE_NAME);
+//        if (cookieValue != null) {
+//            return true;
+//        }
         String response = servletRequest.getParameter("g-recaptcha-response");
         if (StringUtil.isTrimmedEmpty(response)) {
             return false;
@@ -62,9 +61,9 @@ public class CaptchaServiceImpl implements CaptchaService {
         }
 
         if (validationResponse.isSuccess()) {
-            servletResponse.addCookie(Cookies.createCookie(
-                    CAPTCHA_COOKIE_NAME, String.valueOf(StrictMath.random()), CAPTCHA_COOKIE_AGE
-            ));
+//            servletResponse.addCookie(Cookies.createCookie(
+//                    CAPTCHA_COOKIE_NAME, String.valueOf(StrictMath.random()), CAPTCHA_COOKIE_AGE
+//            ));
             return true;
         } else {
             return false;

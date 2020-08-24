@@ -154,11 +154,11 @@
                     <td>Web site usability, not to show cookie disclaimer once it is accepted</td>
                     <td>5 years</td>
                 </tr>
-                <tr>
-                    <td>CAPTCHA_COOKIE</td>
-                    <td>Web site usability, not to request captcha too often</td>
-                    <td>2 minutes</td>
-                </tr>
+<%--                <tr>--%>
+<%--                    <td>CAPTCHA_COOKIE</td>--%>
+<%--                    <td>Web site usability, not to request captcha too often</td>--%>
+<%--                    <td>2 minutes</td>--%>
+<%--                </tr>--%>
                 <tr>
                     <td>Google reCAPTCHA: CONSENT, PREF, NID, HSID, APISID, SID</td>
                     <td>These are the cookies used by the google reCAPTCHA</td>

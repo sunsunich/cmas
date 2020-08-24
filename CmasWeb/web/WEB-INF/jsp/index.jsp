@@ -2,6 +2,7 @@
 <%@ taglib prefix="my" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="authz" uri="http://www.springframework.org/security/tags" %>
 
 <jsp:useBean id="countries" scope="request" type="java.util.List<org.cmas.entities.Country>"/>
 
@@ -9,6 +10,7 @@
              customCSSFiles="/c/landingPage.css,/c/bf_insurance.css"
              customScripts="/js/controller/country_controller.js,/js/controller/menu_controller.js,/js/controller/landing_page_controller.js"
              hideFooter="true"
+             doNotDoAuth="true"
 >
     <div id="firstScreen" class="backgroundContainer landingPageFirstScreen"
          style="background-image: url(/i/firstScreenBackground_land_480.png)">
@@ -59,14 +61,34 @@
                 </ul>
             </div>
             <div class="landingPageFirstScreenButtons">
-                <button id="joinButton" class="positive-button adjustableButton"
-                        onclick="window.location='/diver-registration.html'">
-                    <s:message code="cmas.face.landing.first.screen.button.registration"/>
-                </button>
-                <button id="signInButton" class="inverse-positive-button adjustableButton"
-                        onclick="window.location='/login-form.html'">
-                    <s:message code="cmas.face.landing.first.screen.button.login"/>
-                </button>
+                <authz:authorize ifNotGranted="ROLE_ADMIN,ROLE_ATHLETE,ROLE_DIVER,ROLE_FEDERATION_ADMIN,ROLE_AMATEUR">
+                    <button id="joinButton" class="positive-button adjustableButton"
+                            onclick="window.location='/diver-registration.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.registration"/>
+                    </button>
+                    <button id="signInButton" class="inverse-positive-button adjustableButton"
+                            onclick="window.location='/login-form.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.login"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_ADMIN">
+                    <button id="joinButton" class="positive-button adjustableButton"
+                            onclick="window.location='/admin/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_FEDERATION_ADMIN">
+                    <button id="joinButton" class="positive-button adjustableButton"
+                            onclick="window.location='/fed/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_ATHLETE,ROLE_DIVER,ROLE_AMATEUR">
+                    <button id="joinButton" class="positive-button adjustableButton"
+                            onclick="window.location='/secure/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
             </div>
         </div>
         <div id="interfaceExamples" class="landingPageInterfaceExamples" style="display: none">
@@ -112,6 +134,13 @@
             <div class="form-row">
                 <input id="name" type="text" name="name"
                        placeholder="<s:message code="cmas.face.registration.form.label.name"/>"/>
+            </div>
+            <div class="form-row">
+                <input id="dob" name="dob" type="text"
+                       placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"
+                />
+                <img src="${pageContext.request.contextPath}/i/ic_calendar.png?v=${webVersion}"
+                     class="error-input-ico" id="ico_dob">
             </div>
             <div class="form-row">
                 <select name="country" id="country" size=1 onChange="">
@@ -376,10 +405,30 @@
                 <s:message code="cmas.face.landing.fourth.screen.text"/>
             </div>
             <div>
-                <button id="bottomJoinButton" class="positive-button"
-                        onclick="window.location='/diver-registration.html'">
-                    <s:message code="cmas.face.landing.first.screen.button.registration"/>
-                </button>
+                <authz:authorize ifNotGranted="ROLE_ADMIN,ROLE_ATHLETE,ROLE_DIVER,ROLE_FEDERATION_ADMIN,ROLE_AMATEUR">
+                    <button id="bottomJoinButton" class="positive-button"
+                            onclick="window.location='/diver-registration.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.registration"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_ADMIN">
+                    <button id="bottomJoinButton" class="positive-button"
+                            onclick="window.location='/admin/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_FEDERATION_ADMIN">
+                    <button id="bottomJoinButton" class="positive-button"
+                            onclick="window.location='/fed/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
+                <authz:authorize ifAnyGranted="ROLE_ATHLETE,ROLE_DIVER,ROLE_AMATEUR">
+                    <button id="bottomJoinButton" class="positive-button"
+                            onclick="window.location='/secure/index.html'">
+                        <s:message code="cmas.face.landing.first.screen.button.toMyAccount"/>
+                    </button>
+                </authz:authorize>
             </div>
         </div>
         <div id="submissionIllustration">

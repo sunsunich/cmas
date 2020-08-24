@@ -29,7 +29,7 @@ var feedback_controller = {
     },
 
     renderRecaptcha: function (reCaptchaPublicKey) {
-        if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
+        // if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
             var viewPortWidth = $(window).width();
             var reCaptchaSize;
             if (viewPortWidth > 450) {
@@ -44,7 +44,7 @@ var feedback_controller = {
                     'size': reCaptchaSize
                 }
             );
-        }
+        // }
     },
 
     setListeners: function () {

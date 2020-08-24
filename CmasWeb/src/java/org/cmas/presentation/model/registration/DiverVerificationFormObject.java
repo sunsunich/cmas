@@ -10,6 +10,7 @@ public class DiverVerificationFormObject implements Validatable {
 
     private String country;
     private String name;
+    private String dob;
 
     @Override
     public void validate(Errors errors) {
@@ -17,6 +18,8 @@ public class DiverVerificationFormObject implements Validatable {
         ValidatorUtils.validateLength(errors, country, "country", "validation.maxLength", Globals.MAX_LENGTH);
         ValidatorUtils.validateEmpty(errors, name, "name", "validation.emptyName");
         ValidatorUtils.validateLength(errors, name, "name", "validation.maxLength", Globals.MAX_LENGTH);
+        ValidatorUtils.validateEmpty(errors, dob, "dob", "validation.incorrectDate");
+        ValidatorUtils.validateLength(errors, dob, "dob", "validation.maxLength", Globals.MAX_LENGTH);
     }
 
     public String getName() {
@@ -35,4 +38,11 @@ public class DiverVerificationFormObject implements Validatable {
         this.country = country;
     }
 
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 }

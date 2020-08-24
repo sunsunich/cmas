@@ -52,10 +52,10 @@
                 <div class="panel-row">
                     <div class="header1-text">${diver.firstName} ${diver.lastName}</div>
                 </div>
-                <div class="panel-row">
-                    <div class="basic-text"><b><s:message code="cmas.face.client.profile.form.label.dob"/></b></div>
-                    <div class="basic-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></div>
-                </div>
+<%--                <div class="panel-row">--%>
+<%--                    <div class="basic-text"><b><s:message code="cmas.face.client.profile.form.label.dob"/></b></div>--%>
+<%--                    <div class="basic-text"><fmt:formatDate value="${diver.dob}" pattern="dd.MM.yyyy"/></div>--%>
+<%--                </div>--%>
             </div>
             <div class="panel">
                 <c:if test="${hasCmasCard}">

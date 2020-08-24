@@ -19,7 +19,7 @@ for(i = 0; i < requests.length;i++) {
     } else if (diver.diverLevel == 'FOUR_STAR') {
         starCnt = 4;
     }
-    var dob = diver.dob;
+    // var dob = diver.dob;
     var isApnea = false;
     var i1;
     for (i1 = 0; i1 < diver.cards.length; i1++) {
@@ -78,10 +78,10 @@ for(i = 0; i < requests.length;i++) {
             <% } %>
             <span class="secondary-large-text friendList-text"><%= labels[diver.diverRegistrationStatus] %></span>
         </div>
-        <div class="friendList-elem-left">
-            <img class="friendList-ico" src="/i/ic_calendar.png?v=<%= webVersion %>"/>
-            <span class="secondary-large-text friendList-text"><%= dob %></span>
-        </div>
+<!--        <div class="friendList-elem-left">-->
+<!--            <img class="friendList-ico" src="/i/ic_calendar.png?v=<%= /* webVersion */ %>"/>-->
+<!--            <span class="secondary-large-text friendList-text"><%= /* dob */ %></span>-->
+<!--        </div>-->
         <div class="friendList-elem-right">
             <span class="secondary-large-text friendList-text"><%= diver.country.name %></span>
         </div>

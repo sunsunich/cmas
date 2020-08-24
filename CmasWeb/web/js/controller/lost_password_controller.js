@@ -23,7 +23,7 @@ var lost_password_controller = {
     },
 
     renderRecaptcha: function (reCaptchaPublicKey) {
-        if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
+        // if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
             var viewPortWidth = $(window).width();
             var reCaptchaSize;
             if (viewPortWidth > 904) {
@@ -38,7 +38,7 @@ var lost_password_controller = {
                     'size': reCaptchaSize
                 }
             );
-        }
+        // }
     },
 
     setListeners: function () {

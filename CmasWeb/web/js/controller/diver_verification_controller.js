@@ -38,6 +38,15 @@ var diver_verification_controller = {
         country_controller.inputId = "diverVerification_country";
         country_controller.defaultValue = country;
         country_controller.init();
+        $("#diverVerification_dob").datepicker(
+            {
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '-100:-10',
+                defaultDate: "-20y",
+                dateFormat: 'dd/mm/yy'
+            }
+        );
         this.validationController = simpleClone(validation_controller);
         this.validationController.prefix = 'diverVerification';
         this.validationController.fields = [
@@ -56,6 +65,14 @@ var diver_verification_controller = {
                         return 'validation.emptyCountry';
                     }
                 }
+            },
+            {
+                id: 'dob',
+                validateField: function (value) {
+                    if (isStringTrimmedEmpty(value)) {
+                        return 'validation.emptyDob';
+                    }
+                }
             }
         ];
         this.validationController.submitButton = $('#diverVerificationSubmit');
@@ -65,7 +82,7 @@ var diver_verification_controller = {
     },
 
     renderRecaptcha: function (reCaptchaPublicKey) {
-        if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
+        // if (!cookie_controller.isCookieExists('CAPTCHA_COOKIE')) {
             var viewPortWidth = $(window).width();
             var reCaptchaSize;
             if (viewPortWidth > 400) {
@@ -80,7 +97,7 @@ var diver_verification_controller = {
                     'size': reCaptchaSize
                 }
             );
-        }
+        // }
     },
 
     setListeners: function () {
@@ -113,6 +130,9 @@ var diver_verification_controller = {
 
         adjustCssProperty("padding-left", ".dialog-content", viewPortWidth, 3, 8, 48);
         adjustCssProperty("padding-right", ".dialog-content", viewPortWidth, 3, 8, 48);
+
+        var inputWidth = $("#diverVerification_dob").width();
+        $('.error-input-ico, .date-form-calendar-input-ico').css('left', inputWidth - 16);
 
         for (var i = 0; i < this.divers_cards.length; i++) {
             var diverIdAndCards = this.divers_cards[i];

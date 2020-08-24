@@ -68,11 +68,11 @@ public abstract class User implements Serializable, HasId {
 
     protected String mobileLockCode;
 
-    @Expose
+//    @Expose
     @Column(unique = true, nullable = false)
     protected String email;
 
-    @Expose
+//    @Expose
     @Column(unique = true, nullable = false)
     protected String phone;
 
@@ -86,7 +86,7 @@ public abstract class User implements Serializable, HasId {
     @ManyToOne
     protected Country country;
 
-    @Expose
+//    @Expose
     @Column
     protected Date dob;
 

@@ -8,8 +8,6 @@ import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.CommonGsonCreator;
 import org.cmas.json.DateTypeAdapter;
-import org.cmas.json.DiverVerificationSerializer;
-import org.cmas.json.GeneralDiverSerializer;
 import org.cmas.json.LogbookEntryEditSerializer;
 import org.cmas.json.LogbookEntrySerializer;
 import org.cmas.json.PersonalCardSerializer;
@@ -44,7 +42,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
 
     @Override
     public GsonView createSocialUpdatesGsonView(Object toSerialize) {
-        return commonCreateDiverView(toSerialize);
+        return createCommonDiverView(toSerialize);
     }
 
     @Override
@@ -55,24 +53,24 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
 
     @Override
     public GsonView createDiverView(List<Diver> divers) {
-        return commonCreateDiverView(divers);
+        return createCommonDiverView(divers);
     }
 
     @Override
     public GsonView createDiverFriendRequestView(List<DiverFriendRequest> friendRequests) {
-        return commonCreateDiverView(friendRequests);
+        return createCommonDiverView(friendRequests);
     }
 
     @Override
     public GsonView createDiverView(Diver diver) {
-        return commonCreateDiverView(diver);
+        return createCommonDiverView(diver);
     }
 
-    private static GsonView commonCreateDiverView(Object toSerialize) {
-        Gson gson = CommonGsonCreator.createCommonGsonBuilder()
-                                     .registerTypeAdapter(Diver.class, new GeneralDiverSerializer())
-                                     .create();
-        return new GsonView(toSerialize, gson);
+    private GsonView createCommonDiverView(Object toSerialize) {
+//        Gson gson = CommonGsonCreator.createCommonGsonBuilder()
+//                                     .registerTypeAdapter(Diver.class, new GeneralDiverSerializer())
+//                                     .create();
+        return new GsonView(toSerialize, getCommonGson());
     }
 
     @Override
@@ -92,12 +90,8 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
 
     @Override
     public GsonView createDiverVerificationGsonView(List<Diver> divers) {
-        return new GsonView(
-                divers,
-                CommonGsonCreator.createCommonGsonBuilder()
-                                 .registerTypeAdapter(Diver.class, new DiverVerificationSerializer())
-                                 .create()
-        );
+        return createCommonDiverView(divers);
+//        .registerTypeAdapter(Diver.class, new DiverVerificationSerializer())
     }
 
     @Override

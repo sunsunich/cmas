@@ -15,6 +15,7 @@
 <jsp:useBean id="divers" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 
 <my:nonsecurepage title="cmas.face.index.header"
+                  doNotDoAuth="true"
                   customScripts="js/model/profile_model.js,js/controller/country_controller.js,js/controller/panel_resize_controller.js,js/controller/cards_controller.js,js/controller/diver_verification_controller.js,https://www.google.com/recaptcha/api.js"
 >
     <script type="application/javascript">
@@ -57,9 +58,10 @@
                                name="name" type="text" value="${command.name}"
                                placeholder="<s:message code="cmas.face.registration.form.label.name"/>"
                         />
-                        <img src="/i/ic_error.png" class="error-input-ico" id="diverVerification_error_ico_name"
+                        <img src="${pageContext.request.contextPath}/i/ic_error.png?v=${webVersion}"
+                             class="error-input-ico" id="diverVerification_error_ico_name"
                              style="display: none">
-                        <div class="error" id="diverVerification_error_lastName">
+                        <div class="error" id="diverVerification_error_name">
                             <s:bind path="name">
                                 <c:if test="${status.error}">
                                     <form:errors path="name" htmlEscape="true"/>
@@ -67,6 +69,26 @@
                             </s:bind>
                         </div>
                     </div>
+                    <div class="form-row form-elem-large">
+                        <input id="diverVerification_dob"
+                               style="width: 100%"
+                               name="dob" type="text" value="${command.dob}"
+                               placeholder="<s:message code="cmas.face.registration.form.label.dob"/>"
+                        />
+                        <img src="${pageContext.request.contextPath}/i/ic_calendar.png?v=${webVersion}"
+                             class="error-input-ico" id="diverVerification_ico_dob">
+                        <img src="${pageContext.request.contextPath}/i/ic_error.png?v=${webVersion}"
+                             class="error-input-ico" id="diverVerification_error_ico_dob"
+                             style="display: none">
+                        <div class="error" id="diverVerification_error_dob">
+                            <s:bind path="dob">
+                                <c:if test="${status.error}">
+                                    <form:errors path="dob" htmlEscape="true"/>
+                                </c:if>
+                            </s:bind>
+                        </div>
+                    </div>
+
                     <div class="form-row form-elem-large">
                         <select name="country" id="diverVerification_country" style="width: 100%">
                             <c:forEach items="${countries}" var="country">
@@ -192,13 +214,13 @@
                                         </c:if>
                                         <span class="secondary-large-text friendList-text convert-with-labels">${diver.diverRegistrationStatus}</span>
                                     </div>
-                                    <div class="friendList-elem-left">
-                                        <img class="friendList-ico"
-                                             src="${pageContext.request.contextPath}/i/ic_calendar.png?v=${webVersion}"/>
-                                        <span class="secondary-large-text friendList-text">
-                                            <fmt:formatDate value="${diver.dob}" pattern="dd/MM"/>
-                                        </span>
-                                    </div>
+<%--                                    <div class="friendList-elem-left">--%>
+<%--                                        <img class="friendList-ico"--%>
+<%--                                             src="${pageContext.request.contextPath}/i/ic_calendar.png?v=${webVersion}"/>--%>
+<%--                                        <span class="secondary-large-text friendList-text">--%>
+<%--                                            <fmt:formatDate value="${diver.dob}" pattern="dd/MM"/>--%>
+<%--                                        </span>--%>
+<%--                                    </div>--%>
                                     <div class="friendList-elem-right">
                                         <span class="secondary-large-text friendList-text">${diver.country.name}</span>
                                     </div>

@@ -22,11 +22,11 @@ var cookie_controller = {
     },
 
     addAuthCookie: function () {
-        this.createCookie("AUTH_COOKIE", "", 0);
+        // this.createCookie("AUTH_COOKIE", "", 0);
     },
 
     removeAuthCookie: function () {
-        this.eraseCookie("AUTH_COOKIE");
+        // this.eraseCookie("AUTH_COOKIE");
     },
 
     isCookieExists: function (cookieName) {

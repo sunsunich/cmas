@@ -37,7 +37,7 @@ var car_mobile_controller = {
                 id: 'cardType',
                 validateField: function (value) {
                     // if (isStringTrimmedEmpty(value)) {
-                    //     return 'validation.emptyDob';
+                    //     return 'validation.emptyField';
                     // }
                 }
             },
@@ -45,7 +45,7 @@ var car_mobile_controller = {
                 id: 'validUntil',
                 validateField: function (value) {
                     // if (isStringTrimmedEmpty(value)) {
-                    //     return 'validation.emailEmpty';
+                    //     return 'validation.emptyField';
                     // }
                 }
             },
