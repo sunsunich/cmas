@@ -73,6 +73,12 @@
                     <div class="form-description">
                         <s:message code="cmas.loyalty.gold.expireText"/> <fmt:formatDate
                             value="${goldExpiryDate}" pattern="dd/MM/yyyy"/>
+                        <div>
+                            <button class="positive-button form-item-right"
+                                    onclick="window.location='/secure/insurance.html'">
+                                <s:message code="cmas.face.client.menu.insurance"/>
+                            </button>
+                        </div>
                     </div>
                 </c:if>
                 <c:choose>
@@ -108,33 +114,33 @@
                     </div>
                 </c:if>
                 <c:if test="${!isGold}">
-                    <div class="form-description">
-                        <s:message code="cmas.face.payment.features.description"/>
-                    </div>
-                    <div class="featuresList">
-                        <c:forEach var="feature" varStatus="step" items="${features}">
-                            <c:if test="${step.index == 1 && !isGold
-                                                             || step.index > 1}">
-                                <div class="form-row">
-                                    <input type="checkbox" name="paidFeature_${feature.id}"
-                                           id="paidFeature_${feature.id}"
-                                           class="css-checkbox">
-                                    <label for="paidFeature_${feature.id}"
-                                           class="css-label radGroup1 clr">
-                                                        <span class="form-checkbox-label-insurance"><s:message
-                                                                code="${feature.name}"/></span>
-                                        <span class="form-payment-price"><s:message
-                                                code="cmas.face.payment.currency"/> ${feature.price}</span>
-                                        <br/>
-                                        <span class="form-feature-description-insurance"><s:message
-                                                code="${feature.descriptionCode}"/></span>
-                                    </label>
-                                </div>
-                            </c:if>
-                        </c:forEach>
-                    </div>
+<%--                    <div class="form-description">--%>
+<%--                        <s:message code="cmas.face.payment.features.description"/>--%>
+<%--                    </div>--%>
+<%--                    <div class="featuresList">--%>
+<%--                        <c:forEach var="feature" varStatus="step" items="${features}">--%>
+<%--                            <c:if test="${step.index == 1 && !isGold--%>
+<%--                                                             || step.index > 1}">--%>
+<%--                                <div class="form-row">--%>
+<%--                                    <input type="checkbox" name="paidFeature_${feature.id}"--%>
+<%--                                           id="paidFeature_${feature.id}"--%>
+<%--                                           class="css-checkbox">--%>
+<%--                                    <label for="paidFeature_${feature.id}"--%>
+<%--                                           class="css-label radGroup1 clr">--%>
+<%--                                                        <span class="form-checkbox-label-insurance"><s:message--%>
+<%--                                                                code="${feature.name}"/></span>--%>
+<%--                                        <span class="form-payment-price"><s:message--%>
+<%--                                                code="cmas.face.payment.currency"/> ${feature.price}</span>--%>
+<%--                                        <br/>--%>
+<%--                                        <span class="form-feature-description-insurance"><s:message--%>
+<%--                                                code="${feature.descriptionCode}"/></span>--%>
+<%--                                    </label>--%>
+<%--                                </div>--%>
+<%--                            </c:if>--%>
+<%--                        </c:forEach>--%>
+<%--                    </div>--%>
                 </c:if>
-                <c:if test="${isDueToPayCmasFullLicence || !isGold}">
+                <c:if test="${isDueToPayCmasFullLicence}"> <%-- || !isGold --%>
                     <div class="form-payment-total">
                         <s:message code="cmas.face.payment.total"/> <s:message code="cmas.face.payment.currency"/>
                         <span id="total">0</span>

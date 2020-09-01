@@ -3,14 +3,14 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ attribute name="diverRegistrationStatus" required="true" type="java.lang.String" %>
 
-<div class="advert-header">
-    <s:message code="cmas.face.advert.registration.gold.header"/>
-</div>
-<ul class="advert-list">
-    <li>
-        <s:message code="cmas.face.advert.registration.gold.elem1"/>
-    </li>
-</ul>
+<%--<div class="advert-header">--%>
+<%--    <s:message code="cmas.face.advert.registration.gold.header"/>--%>
+<%--</div>--%>
+<%--<ul class="advert-list">--%>
+<%--    <li>--%>
+<%--        <s:message code="cmas.face.advert.registration.gold.elem1"/>--%>
+<%--    </li>--%>
+<%--</ul>--%>
 
 <%--<c:if test="${diverRegistrationStatus == 'NEVER_REGISTERED'--%>
 <%--    || diverRegistrationStatus == 'DEMO'--%>

@@ -32,11 +32,11 @@
                     <s:message code="cmas.face.landing.first.screen.frontText"/>
                 </div>
                 <ul class="landing-page-list landingPageFeatureText">
-                    <li id="insuranceFeature">
-                        <span id="insuranceFeatureText" class="feature-list-text firstPageAdjustableText">
-                        <s:message code="cmas.face.landing.first.screen.list.feature.insurance"/>
-                            </span>
-                    </li>
+<%--                    <li id="insuranceFeature">--%>
+<%--                        <span id="insuranceFeatureText" class="feature-list-text firstPageAdjustableText">--%>
+<%--                        <s:message code="cmas.face.landing.first.screen.list.feature.insurance"/>--%>
+<%--                            </span>--%>
+<%--                    </li>--%>
 
                     <li id="logbookFeature" class="firstPageAdjustableText">
                         <span class="feature-list-text firstPageAdjustableText">
@@ -155,54 +155,54 @@
         </div>
     </div>
     <div id="thirdScreen" class="thirdScreen">
-        <div id="insurance">
-            <div class="imageContainer">
-                    <picture>
-                    <!--[if IE 9]>
-                    <video style="display: none;"><![endif]-->
-                    <source srcset="/i/insurance_land_2133.png" media="(min-width: 4266px)">
-                    <source srcset="/i/insurance_land_1920.png" media="(min-width: 3840px)">
-                    <source srcset="/i/insurance_land_1680.png" media="(min-width: 3360px)">
-                    <source srcset="/i/insurance_land_1440.png" media="(min-width: 2880px)">
-                    <source srcset="/i/insurance_land_1280.png" media="(min-width: 2560px)">
-                    <source srcset="/i/insurance_land_1024.png 1x, /i/insurance_land_2133.png 2x"
-                    media="(min-width: 2048px)">
-                    <source srcset="/i/insurance_land_962.png 1x, /i/insurance_land_1920.png 2x, /i/insurance_land_2133.png 3x"
-                    media="(min-width: 1920px)">
-                    <source srcset="/i/insurance_land_840.png 1x, /i/insurance_land_1680.png 2x, /i/insurance_land_2133.png 3x"
-                    media="(min-width: 1680px)">
-                    <source srcset="/i/insurance_land_720.png, /i/insurance_land_1440.png 2x, /i/insurance_land_2133.png 3x"
-                    media="(min-width: 1440px)">
-                    <source srcset="/i/insurance_land_640.png 1x, /i/insurance_land_1280.png 2x, /i/insurance_land_1920.png 3x"
-                    media="(min-width: 1280px)">
-                    <source srcset="/i/insurance_land_512.png, /i/insurance_land_1024.png 2x, /i/insurance_land_1680.png 3x, /i/insurance_land_2133.png 4x"
-                    media="(min-width: 1024px)">
-                    <source srcset="/i/insurance_land_480.png 1x, /i/insurance_land_962.png 2x, /i/insurance_land_1440.png 3x, /i/insurance_land_1920.png 4x"
-                    media="(min-width: 960px)">
-                    <source srcset="/i/insurance_land_320.png 1x, /i/insurance_land_640.png 2x, /i/insurance_land_962.png 3x, /i/insurance_land_1280.png 4x"
-                    media="(min-width: 640px)">
-                    <source srcset="/i/insurance_land_240.png 1x, /i/insurance_land_480.png 2x, /i/insurance_land_720.png 3x, /i/insurance_land_962.png 4x"
-                    >
-                    <!--[if IE 9]></video><![endif]-->
-                    <img id="insuranceIllustration" alt="insurance illustration">
-                    </picture>
-<%--                <img id="insuranceIllustration" src="${pageContext.request.contextPath}/i/camera_discount.png"/>--%>
-            </div>
-            <div id="insuranceTextPart">
-                <div id="insuranceHeader" class="secondaryHeader">
-                    <s:message code="cmas.face.landing.third.screen.header"/>
-                </div>
-                <div id="insuranceText" class="secondaryText">
-                    <s:message code="cmas.face.landing.third.screen.text"/>
-                </div>
-                    <div id="insuranceLink" class="landingPageText">
-                    <%--https://www.sevencorners.com/cmas--%>
-                    <a target="_blank" rel="noopener noreferrer" href="https://www.balticfinance.com/en/aqualink/"><b><s:message code="cmas.face.landing.third.screen.more"/></b>
-                    <img id="insuranceLinkArrow" src="/i/ic_see-more.png" alt="see more image"/>
-                    </a>
-                    </div>
-            </div>
-        </div>
+<%--        <div id="insurance">--%>
+<%--            <div class="imageContainer">--%>
+<%--                    <picture>--%>
+<%--                    <!--[if IE 9]>--%>
+<%--                    <video style="display: none;"><![endif]-->--%>
+<%--                    <source srcset="/i/insurance_land_2133.png" media="(min-width: 4266px)">--%>
+<%--                    <source srcset="/i/insurance_land_1920.png" media="(min-width: 3840px)">--%>
+<%--                    <source srcset="/i/insurance_land_1680.png" media="(min-width: 3360px)">--%>
+<%--                    <source srcset="/i/insurance_land_1440.png" media="(min-width: 2880px)">--%>
+<%--                    <source srcset="/i/insurance_land_1280.png" media="(min-width: 2560px)">--%>
+<%--                    <source srcset="/i/insurance_land_1024.png 1x, /i/insurance_land_2133.png 2x"--%>
+<%--                    media="(min-width: 2048px)">--%>
+<%--                    <source srcset="/i/insurance_land_962.png 1x, /i/insurance_land_1920.png 2x, /i/insurance_land_2133.png 3x"--%>
+<%--                    media="(min-width: 1920px)">--%>
+<%--                    <source srcset="/i/insurance_land_840.png 1x, /i/insurance_land_1680.png 2x, /i/insurance_land_2133.png 3x"--%>
+<%--                    media="(min-width: 1680px)">--%>
+<%--                    <source srcset="/i/insurance_land_720.png, /i/insurance_land_1440.png 2x, /i/insurance_land_2133.png 3x"--%>
+<%--                    media="(min-width: 1440px)">--%>
+<%--                    <source srcset="/i/insurance_land_640.png 1x, /i/insurance_land_1280.png 2x, /i/insurance_land_1920.png 3x"--%>
+<%--                    media="(min-width: 1280px)">--%>
+<%--                    <source srcset="/i/insurance_land_512.png, /i/insurance_land_1024.png 2x, /i/insurance_land_1680.png 3x, /i/insurance_land_2133.png 4x"--%>
+<%--                    media="(min-width: 1024px)">--%>
+<%--                    <source srcset="/i/insurance_land_480.png 1x, /i/insurance_land_962.png 2x, /i/insurance_land_1440.png 3x, /i/insurance_land_1920.png 4x"--%>
+<%--                    media="(min-width: 960px)">--%>
+<%--                    <source srcset="/i/insurance_land_320.png 1x, /i/insurance_land_640.png 2x, /i/insurance_land_962.png 3x, /i/insurance_land_1280.png 4x"--%>
+<%--                    media="(min-width: 640px)">--%>
+<%--                    <source srcset="/i/insurance_land_240.png 1x, /i/insurance_land_480.png 2x, /i/insurance_land_720.png 3x, /i/insurance_land_962.png 4x"--%>
+<%--                    >--%>
+<%--                    <!--[if IE 9]></video><![endif]-->--%>
+<%--                    <img id="insuranceIllustration" alt="insurance illustration">--%>
+<%--                    </picture>--%>
+<%--&lt;%&ndash;                <img id="insuranceIllustration" src="${pageContext.request.contextPath}/i/camera_discount.png"/>&ndash;%&gt;--%>
+<%--            </div>--%>
+<%--            <div id="insuranceTextPart">--%>
+<%--                <div id="insuranceHeader" class="secondaryHeader">--%>
+<%--                    <s:message code="cmas.face.landing.third.screen.header"/>--%>
+<%--                </div>--%>
+<%--                <div id="insuranceText" class="secondaryText">--%>
+<%--                    <s:message code="cmas.face.landing.third.screen.text"/>--%>
+<%--                </div>--%>
+<%--                    <div id="insuranceLink" class="landingPageText">--%>
+<%--                    &lt;%&ndash;https://www.sevencorners.com/cmas&ndash;%&gt;--%>
+<%--                    <a target="_blank" rel="noopener noreferrer" href="https://www.balticfinance.com/en/aqualink/"><b><s:message code="cmas.face.landing.third.screen.more"/></b>--%>
+<%--                    <img id="insuranceLinkArrow" src="/i/ic_see-more.png" alt="see more image"/>--%>
+<%--                    </a>--%>
+<%--                    </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
         <div id="features">
             <div class="feature">
                 <div class="imageContainer">

@@ -58,24 +58,24 @@
                             <c:set var="continueClass" value="inverse-positive-button form-item-left"/>
                         </c:if>
                         <c:if test="${hasAdditionalFeatures}">
-                            <div class="form-description">
-                                <s:message code="cmas.face.payment.success.additionalFeatures"/>
-                            </div>
-                            <ul class="purchased-feature-list">
-                                <c:forEach var="feature" items="${invoice.requestedPaidFeatures}">
-                                    <c:if test="${feature.id != 1 && feature.id != 2}">
-                                        <li>
-                                            <span class="purchased-feature-header">
-                                                <s:message code="${feature.name}"/>
-                                            </span>
-                                            <br/>
-                                            <span class="purchased-feature-text">
-                                            <s:message code="${feature.descriptionCode}"/>
-                                            </span>
-                                        </li>
-                                    </c:if>
-                                </c:forEach>
-                            </ul>
+<%--                            <div class="form-description">--%>
+<%--                                <s:message code="cmas.face.payment.success.additionalFeatures"/>--%>
+<%--                            </div>--%>
+<%--                            <ul class="purchased-feature-list">--%>
+<%--                                <c:forEach var="feature" items="${invoice.requestedPaidFeatures}">--%>
+<%--                                    <c:if test="${feature.id != 1 && feature.id != 2}">--%>
+<%--                                        <li>--%>
+<%--                                            <span class="purchased-feature-header">--%>
+<%--                                                <s:message code="${feature.name}"/>--%>
+<%--                                            </span>--%>
+<%--                                            <br/>--%>
+<%--                                            <span class="purchased-feature-text">--%>
+<%--                                            <s:message code="${feature.descriptionCode}"/>--%>
+<%--                                            </span>--%>
+<%--                                        </li>--%>
+<%--                                    </c:if>--%>
+<%--                                </c:forEach>--%>
+<%--                            </ul>--%>
                         </c:if>
                     </c:when>
                     <c:otherwise>
