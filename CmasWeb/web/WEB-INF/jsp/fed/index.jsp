@@ -17,7 +17,7 @@
 
     <ff:form submitText="Upload" action="/fed/uploadUsers.html" commandName="xlsFileFormObject" method="POST"
              noRequiredText="true" enctype="multipart/form-data" id="diverUpload">
-        <ff:file path="file" label="Xls file with divers"/>
+        <ff:file path="file" label="Xls file with divers" inputId="diverUploadInput"/>
     </ff:form>
 
     <script type="application/javascript">
@@ -26,6 +26,7 @@
             fileUpload_model.processingProgressUrl = "/fed/getUploadUsersProgress.html";
             fileUpload_controller.model = fileUpload_model;
             fileUpload_controller.uploadForm = $("#diverUpload");
+            fileUpload_controller.inputElem = $("#diverUploadInput");
             fileUpload_controller.textElem = $("#progressText");
             fileUpload_controller.progressOuterElem = $("#progressOuter");
             fileUpload_controller.progressElem = $("#progress");

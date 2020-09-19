@@ -4,6 +4,7 @@ var fileUpload_controller = {
 
     uploadForm: null,
     textElem: null,
+    inputElem: null,
     progressOuterElem: null,
     progressElem: null,
     errorElem: null,
@@ -18,6 +19,11 @@ var fileUpload_controller = {
             self.uploadFile(new FormData(this));
             e.preventDefault();
         });
+        if (this.inputElem) {
+            this.inputElem.change(function () {
+                self.errorElem.empty();
+            });
+        }
     },
 
     uploadFile: function (formData) {
@@ -43,8 +49,7 @@ var fileUpload_controller = {
                 var message = error_codes["validation.internal"];
                 if (json && json.fieldErrors && json.fieldErrors.file) {
                     message = error_codes[json.fieldErrors.file];
-                }
-                else if (json && json.errors && json.errors.length && json.errors.length > 0) {
+                } else if (json && json.errors && json.errors.length && json.errors.length > 0) {
                     message = error_codes[json.errors[0]];
                 }
                 self.clearProgress(message);

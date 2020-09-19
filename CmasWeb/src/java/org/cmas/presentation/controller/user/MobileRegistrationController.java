@@ -16,28 +16,35 @@ import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Device;
 import org.cmas.presentation.model.cards.CardApprovalRequestMobileFormObject;
 import org.cmas.presentation.model.registration.DiverRegistrationFormObject;
+import org.cmas.presentation.model.registration.DiverVerificationAjaxFormObject;
 import org.cmas.presentation.model.registration.FullDiverRegistrationFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.AuthenticationService;
+import org.cmas.presentation.service.CaptchaService;
 import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.user.AllUsersService;
 import org.cmas.presentation.service.user.RegistrationService;
+import org.cmas.presentation.validator.HibernateSpringValidator;
 import org.cmas.remote.ErrorCodes;
+import org.cmas.util.StringUtil;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.json.JsonBindingResult;
 import org.cmas.util.json.gson.GsonViewFactory;
 import org.cmas.util.presentation.SpringRole;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.MapBindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,8 +52,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -94,6 +103,11 @@ public class MobileRegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CaptchaService captchaService;
+    @Autowired
+    private HibernateSpringValidator validator;
+
     @RequestMapping("/mobileRegisterForm.html")
     public ModelAndView registerWithCertificates(Model model) {
         model.addAttribute("command", new DiverRegistrationFormObject());
@@ -103,12 +117,32 @@ public class MobileRegistrationController {
         return new ModelAndView("registrationMobile");
     }
 
+    private static SimpleGsonResponse toSimpleGsonResponse(Errors errors) {
+        @Nullable
+        String message;
+        if (errors.hasFieldErrors()) {
+            DefaultMessageSourceResolvable error = (DefaultMessageSourceResolvable) errors.getFieldErrors().get(0);
+            message = error.getCode();
+        } else if (errors.hasErrors()) {
+            DefaultMessageSourceResolvable error = (DefaultMessageSourceResolvable) errors.getAllErrors().get(0);
+            message = error.getCode();
+        } else {
+            message = null;
+        }
+        if (message == null) {
+            return new SimpleGsonResponse(true, "");
+        } else {
+            return new SimpleGsonResponse(false, message);
+        }
+    }
+
     @RequestMapping(value = "/registerWithCertificates.html", method = RequestMethod.POST)
     public View registerWithCertificates(@RequestParam("registrationJson") String registrationJson) {
         //   log.error("registerWithCertificates called:" + registrationJson);
         FullDiverRegistrationFormObject formObject;
         try {
-            formObject = gsonViewFactory.getCommonGson().fromJson(registrationJson, FullDiverRegistrationFormObject.class);
+            formObject = gsonViewFactory.getCommonGson()
+                                        .fromJson(registrationJson, FullDiverRegistrationFormObject.class);
         } catch (Exception e) {
             throw new BadRequestException(e);
         }
@@ -116,7 +150,8 @@ public class MobileRegistrationController {
         Errors result = new MapBindingResult(new HashMap(), "registrationJson");
         registrationService.validateFromMobile(formObject, result);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+//            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+            return gsonViewFactory.createGsonView(toSimpleGsonResponse(result));
         }
         Locale locale = LocaleContextHolder.getLocale();
         formObject.setLocale(locale);
@@ -154,7 +189,8 @@ public class MobileRegistrationController {
         Errors result = new MapBindingResult(new HashMap(), "requestJson");
         cardApprovalRequestService.processCardApprovalRequestFromMobile(result, formObject, diver);
         if (result.hasErrors()) {
-            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+//            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+            return gsonViewFactory.createGsonView(toSimpleGsonResponse(result));
         }
         return gsonViewFactory.createSuccessGsonView();
     }
@@ -163,10 +199,40 @@ public class MobileRegistrationController {
     public View getDiver(@RequestParam("token") String token) {
         Diver diver = diverDao.getDiverByToken(token);
         if (diver == null) {
-            throw new BadRequestException();
+            return gsonViewFactory.createErrorGsonView("validation.tokenUnknown");
         }
         personalCardService.setupDisplayCardsForDivers(Collections.singletonList(diver));
         return gsonViewFactory.createGsonView(diver);
+    }
+
+    @RequestMapping(value = "/diver-verification-ajax.html", method = RequestMethod.POST)
+    public View diverVerificationAjax(
+            HttpServletRequest servletRequest, HttpServletResponse servletResponse,
+            @ModelAttribute("command") DiverVerificationAjaxFormObject formObject,
+            Errors result
+    ) {
+        validator.validate(formObject, result);
+        boolean isCaptchaCorrect = captchaService.validateCaptcha(servletRequest, servletResponse);
+        if (!isCaptchaCorrect) {
+            result.reject("validation.captchaError");
+        }
+        if (result.hasErrors()) {
+            return gsonViewFactory.createGsonView(new JsonBindingResult(result));
+        } else {
+            List<Diver> divers;
+            String universalCmasId = formObject.getUniversalCmasId();
+            if (StringUtil.isTrimmedEmpty(universalCmasId)) {
+                divers = diverDao.searchForVerification(formObject);
+            } else {
+                Diver diver = diverDao.getByPrimaryCardNumber(universalCmasId);
+                if (diver == null) {
+                    return gsonViewFactory.createErrorGsonView("validation.certificateUnknown");
+                }
+                divers = Collections.singletonList(diver);
+            }
+            personalCardService.setupDisplayCardsForDivers(divers);
+            return gsonViewFactory.createDiverVerificationGsonView(divers);
+        }
     }
 
     @RequestMapping("/loginUser.html")
