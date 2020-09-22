@@ -176,11 +176,11 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             if (file == null) {
                 return "validation.emptyField";
             }
-            String contentType = file.getContentType();
-            if (!"application/vnd.ms-excel".equals(contentType)
-                && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
-                return "validation.xlsFileFormat";
-            }
+//            String contentType = file.getContentType();
+//            if (!"application/vnd.ms-excel".equals(contentType)
+//                && !"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".equals(contentType)) {
+//                return "validation.xlsFileFormat";
+//            }
             UploadDiversTask newTask = new UploadDiversTask(this, fedAdmin.getFederation(), file.getInputStream());
             newTask.future = scheduler.schedule(newTask, 0L, TimeUnit.MILLISECONDS);
             fedAdminIdToUploadTask.put(adminId, newTask);
