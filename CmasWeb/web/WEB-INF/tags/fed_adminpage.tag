@@ -73,6 +73,7 @@
             <td><a href="/fed/index.html">Users</a>&nbsp;&nbsp;&nbsp;</td>
 <%--            <td><a href="/fed/addDiversToFederation.html">Add divers with Demo/Guest accounts</a>&nbsp;&nbsp;&nbsp;</td>--%>
             <td><a href="/fed/passwdForm.html">Change password</a>   &nbsp;&nbsp;&nbsp; </td>
+            <td><a href="/fed/editEmail.html">Change email</a>   &nbsp;&nbsp;&nbsp; </td>
             <td><a href="/fed/cardApprovalRequests.html">Certificate approval requests</a></td>
         </tr>
     </table>

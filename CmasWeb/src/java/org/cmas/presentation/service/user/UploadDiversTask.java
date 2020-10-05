@@ -28,8 +28,10 @@ public class UploadDiversTask implements Runnable {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     volatile ScheduledFuture<?> future;
+
     private volatile boolean isRunning;
     private volatile int progress;
+    private volatile int diversProcessed;
     private volatile Exception exception;
 
     private final DiverServiceImpl diverService;
@@ -94,7 +96,6 @@ public class UploadDiversTask implements Runnable {
             throw new UnsupportedOperationException("Federation not supported");
         }
         int totalWork = divers.size();
-        int workDone = 0;
         Map<Long, DiverModificationData> dbDiversToModificationData = new HashMap<>(divers.size());
         for (Diver diver : divers) {
             if (Thread.currentThread().isInterrupted()) {
@@ -110,7 +111,7 @@ public class UploadDiversTask implements Runnable {
 //                }
 //            } else {
                 diverService.uploadDiverFromXls(federation, diver);
-                dbDiver = diverService.diverDao.getByEmail(diver.getEmail());
+                dbDiver = diverService.diverDao.getByEmailForAdmin(diver.getEmail());
                 //hidden functionality creating or editing primary card number
                 updatePrimaryCard(diver, dbDiver);
 //            }
@@ -127,10 +128,10 @@ public class UploadDiversTask implements Runnable {
                     }
                 }
             }
-            workDone++;
-            progress = 20 + workDone * 100 * 2 / totalWork / 5;
+            diversProcessed++;
+            progress = 20 + diversProcessed * 100 * 2 / totalWork / 5;
         }
-        workDone = 0;
+        int finalizationWorkDone = 0;
         for (Map.Entry<Long, DiverModificationData> entry : dbDiversToModificationData.entrySet()) {
             if (Thread.currentThread().isInterrupted()) {
                 return;
@@ -141,8 +142,8 @@ public class UploadDiversTask implements Runnable {
 //            } else {
                 diverService.finalizeDiverFromXls(federation, diverModificationData);
 //            }
-            workDone++;
-            progress = StrictMath.min(60 + workDone * 100 * 2 / totalWork / 5, 99);
+            finalizationWorkDone++;
+            progress = StrictMath.min(60 + finalizationWorkDone * 100 * 2 / totalWork / 5, 99);
         }
         progress = 100;
     }
@@ -193,6 +194,10 @@ public class UploadDiversTask implements Runnable {
 
     public int getProgress() {
         return progress;
+    }
+
+    public int getDiversProcessed() {
+        return diversProcessed;
     }
 
     public Exception getException() {

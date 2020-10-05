@@ -34,6 +34,8 @@ public interface DiverDao extends UserDao<Diver> {
 
     Diver getDiverByToken(String token);
 
+    Diver getByEmailForAdmin(@NotNull String email);
+
     Diver getByPrimaryCardNumber(String cardNumber);
 
     List<Diver> searchForVerification(DiverVerificationFormObject formObject);

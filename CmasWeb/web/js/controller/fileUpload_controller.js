@@ -13,6 +13,8 @@ var fileUpload_controller = {
     isLoadingError: false,
     isProcessingFile: false,
 
+    successAction: null,
+
     init: function () {
         var self = this;
         this.uploadForm.submit(function (e) {
@@ -132,10 +134,16 @@ var fileUpload_controller = {
                 this.isLoadingError = true;
                 break;
             case "DONE" :
-                window.location.reload();
+                this.progressElem.width('100%');
+                this.textElem.empty();
+                if (this.successAction) {
+                    this.successAction(json.diversProcessed);
+                }
                 break;
         }
-        this.resetReloadInterval();
+        if (json.taskStatus != "DONE") {
+            this.resetReloadInterval();
+        }
     },
 
     clearProgress: function (errorMessage) {

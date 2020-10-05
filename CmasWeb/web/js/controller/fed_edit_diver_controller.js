@@ -113,14 +113,14 @@ var fed_edit_diver_controller = {
             if (fed_edit_diver_model.diver.id > 0) {
                 window.location.reload();
             } else {
-                window.location = "/fed/index.html"
+                window.location = "/fed/index.html?sort=dateEdited&dir=true"
             }
         });
         $('#diverSaveSuccessOk').click(function () {
             if (fed_edit_diver_model.diver.id > 0) {
                 window.location.reload();
             } else {
-                window.location = "/fed/index.html"
+                window.location = "/fed/index.html?sort=dateEdited&dir=true"
             }
         });
     },

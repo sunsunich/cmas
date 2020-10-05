@@ -348,7 +348,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             locale = languages.get(0);
         }
         String email = StringUtil.lowerCaseEmail(diver.getEmail());
-        Diver dbDiver = diverDao.getByEmail(email);
+        Diver dbDiver = diverDao.getByEmailForAdmin(email);
         boolean isNew = dbDiver == null;
         if (isNew) {
             dbDiver = diverDao.createNew(Diver.class);
@@ -376,6 +376,8 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         if (dob != null) {
             dbDiver.setDob(dob);
         }
+        dbDiver.setEnabled(true);
+        dbDiver.setDateEdited(new Date());
         if (isNew) {
             diverDao.save(dbDiver);
         } else {

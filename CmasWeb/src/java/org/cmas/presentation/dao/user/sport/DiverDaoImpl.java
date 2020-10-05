@@ -127,6 +127,14 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    public Diver getByEmailForAdmin(@NotNull String email) {
+        Criteria crit = createCriteria();
+        return (Diver) crit.add(Restrictions.eq("email", email))
+                           .setCacheable(true).uniqueResult();
+
+    }
+
+    @Override
     public Diver getByPrimaryCardNumber(String cardNumber) {
         String hql = "select d from org.cmas.entities.diver.Diver d"
                      + " inner join d.cards c"

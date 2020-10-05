@@ -4,6 +4,7 @@ import com.google.myjson.GsonBuilder;
 import org.cmas.Globals;
 import org.cmas.backend.xls.XlsParseException;
 import org.cmas.entities.Role;
+import org.cmas.entities.User;
 import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.cards.CardApprovalRequestStatus;
 import org.cmas.entities.cards.PersonalCard;
@@ -20,6 +21,7 @@ import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject;
 import org.cmas.presentation.model.cards.CardApprovalRequestSearchFormObject;
 import org.cmas.presentation.model.user.AddingToFederationFormObject;
+import org.cmas.presentation.model.user.EmailEditFormObject;
 import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserSearchFormObject;
 import org.cmas.presentation.service.AuthenticationService;
@@ -280,6 +282,7 @@ public class FederationAdminController {
             }
             return gsonViewFactory.createGsonView(new XlsParseProgressJsonBean(status,
                                                                                uploadDiversTask.getProgress(),
+                                                                               uploadDiversTask.getDiversProcessed(),
                                                                                error,
                                                                                xlsParseErrorJsonBean));
         }
@@ -401,5 +404,28 @@ public class FederationAdminController {
     private static ModelAndView buidPassChangeForm(Model model, Diver fedAdmin) {
         model.addAttribute("fedAdmin", fedAdmin);
         return new ModelAndView("fed/passwdForm");
+    }
+
+    @RequestMapping("/fed/editEmail.html")
+    public ModelAndView editEmail(Model model) {
+        EmailEditFormObject formObject = new EmailEditFormObject();
+        model.addAttribute("command", formObject);
+        return new ModelAndView("/fed/changeEmailForm");
+    }
+
+    @RequestMapping("/fed/processEditEmail.html")
+    public ModelAndView processEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
+                                 BindingResult result, Model mm) {
+        BackendUser<? extends User> user = authenticationService.getCurrentUser();
+        if (user == null) {
+            throw new BadRequestException();
+        }
+        diverService.changeEmail((Diver) user.getUser(), formObject, result);
+        if (result.hasErrors()) {
+            return new ModelAndView("fed/changeEmailForm");
+        } else {
+            Map<String, Object> model = new HashMap<String, Object>();
+            return new ModelAndView("fed/emailChangeSuccess", model);
+        }
     }
 }

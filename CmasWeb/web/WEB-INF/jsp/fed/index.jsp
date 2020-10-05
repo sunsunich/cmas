@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ taglib uri="http://jsptags.com/tags/navigation/pager" prefix="pg" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <jsp:useBean id="diverTypes" scope="request" type="org.cmas.entities.diver.DiverType[]"/>
 <jsp:useBean id="users" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
@@ -11,7 +12,7 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
 
 <my:fed_adminpage title="Divers"
-                  customScripts="/js/model/fileUpload_model.js,/js/model/fed_billing_model.js,/js/controller/fed_billing_controller.js,/js/controller/fileUpload_controller.js">
+                  customScripts="/js/model/fileUpload_model.js,/js/model/fed_billing_model.js,/js/controller/fed_billing_controller.js,/js/controller/fileUpload_controller.js,/js/controller/fed_index_controller.js">
 
     <h2>Your federation divers</h2>
 
@@ -19,23 +20,6 @@
              noRequiredText="true" enctype="multipart/form-data" id="diverUpload">
         <ff:file path="file" label="Xls file with divers" inputId="diverUploadInput"/>
     </ff:form>
-
-    <script type="application/javascript">
-        $(document).ready(function () {
-            fileUpload_model.uploadUrl = "/fed/uploadUsers.html";
-            fileUpload_model.processingProgressUrl = "/fed/getUploadUsersProgress.html";
-            fileUpload_controller.model = fileUpload_model;
-            fileUpload_controller.uploadForm = $("#diverUpload");
-            fileUpload_controller.inputElem = $("#diverUploadInput");
-            fileUpload_controller.textElem = $("#progressText");
-            fileUpload_controller.progressOuterElem = $("#progressOuter");
-            fileUpload_controller.progressElem = $("#progress");
-            fileUpload_controller.errorElem = $("#fileUploadError");
-
-            fileUpload_controller.init();
-        });
-
-    </script>
 
     <div id="progressText"></div>
     <div id="fileUploadError" class="error"></div>
@@ -108,9 +92,11 @@
                     <th>Date of birth</th>
                     <th>Instructor or Diver</th>
                     <th>Diver Level</th>
+                    <th><my:sort url="${url}" title="Date edited" dir="${command.dir}"
+                                 columnNumber="${command.sort}" sortColumn="dateEdited"/></th>
                     <th>CMAS card number</th>
                     <th>Certificates</th>
-<%--                    <th>CMAS certificate expires</th>--%>
+                        <%--                    <th>CMAS certificate expires</th>--%>
                     <th><my:sort url="${url}" title="Registration date" dir="${command.dir}"
                                  columnNumber="${command.sort}" sortColumn="dateReg"/>
                     </th>
@@ -124,6 +110,7 @@
                         <td><fmt:formatDate value="${user.dob}" pattern="dd.MM.yyyy"/></td>
                         <td>${user.diverType.name}</td>
                         <td>${user.diverLevel.name}</td>
+                        <td><fmt:formatDate value="${user.dateEdited}" pattern="dd.MM.yyyy HH:mm"/></td>
                         <td style="white-space: nowrap;">
                             <c:choose>
                                 <c:when test="${user.primaryPersonalCard == null}">
@@ -136,13 +123,13 @@
                         </td>
                         <td>
                             <c:forEach var="card" items="${user.cards}">
-                                <div>${card.printName}</div>
+                                <div>${card.printName} ${card.number}</div>
                                 <br/>
                             </c:forEach>
                         </td>
-<%--                        <td>--%>
-<%--                            <fmt:formatDate value="${user.dateLicencePaymentIsDue}" pattern="dd.MM.yyyy HH:mm"/>--%>
-<%--                        </td>--%>
+                            <%--                        <td>--%>
+                            <%--                            <fmt:formatDate value="${user.dateLicencePaymentIsDue}" pattern="dd.MM.yyyy HH:mm"/>--%>
+                            <%--                        </td>--%>
                         <td>
                             <fmt:formatDate value="${user.dateReg}" pattern="dd.MM.yyyy HH:mm"/>
                         </td>
@@ -201,4 +188,14 @@
                 <br></font>
         </pg:index>
     </pg:pager>
+
+    <my:dialog id="uploadSuccess"
+               title="cmas.face.fed.diver.saveTitle"
+               buttonText="cmas.face.dialog.ok">
+        <div>
+            <span><s:message code="cmas.face.fed.diver.uploadText1"/>&nbsp;</span><b id="diverCnt"></b>
+            <span><s:message code="cmas.face.fed.diver.uploadText2"/></span>
+        </div>
+    </my:dialog>
+
 </my:fed_adminpage>

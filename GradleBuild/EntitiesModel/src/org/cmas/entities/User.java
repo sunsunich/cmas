@@ -37,6 +37,9 @@ public abstract class User implements Serializable, HasId {
     protected Date dateReg;
 
     @Column
+    protected Date dateEdited;
+
+    @Column
     protected boolean enabled;
 
     @Column
@@ -139,6 +142,14 @@ public abstract class User implements Serializable, HasId {
                ", lastName='" + lastName + '\'' +
                ", dob=" + dob +
                '}';
+    }
+
+    public Date getDateEdited() {
+        return dateEdited;
+    }
+
+    public void setDateEdited(Date dateEdited) {
+        this.dateEdited = dateEdited;
     }
 
     @Override

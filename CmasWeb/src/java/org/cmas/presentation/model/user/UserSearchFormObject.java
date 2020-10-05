@@ -12,7 +12,12 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     @SuppressWarnings("EnumeratedConstantNamingConvention")
     public enum UserReportColumnNames implements ColumnName {
-        email("email"), dateReg("dateReg"), lastAction("lastAction"), firstName("firstName"), lastName("lastName");
+        email("email"),
+        dateReg("dateReg"),
+        dateEdited("dateEdited"),
+        lastAction("lastAction"),
+        firstName("firstName"),
+        lastName("lastName");
 
         private final String name;
 

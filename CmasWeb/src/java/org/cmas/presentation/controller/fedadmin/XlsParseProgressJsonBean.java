@@ -22,6 +22,9 @@ public class XlsParseProgressJsonBean {
     @Expose
     private int progressPercent;
 
+    @Expose
+    private int diversProcessed;
+
     public XlsParseProgressJsonBean() {
     }
 
@@ -29,11 +32,17 @@ public class XlsParseProgressJsonBean {
         this.taskStatus = taskStatus;
     }
 
-    public XlsParseProgressJsonBean(UploadDiversTaskStatus taskStatus, int progressPercent, String error, XlsParseErrorJsonBean parseError) {
+    public XlsParseProgressJsonBean(UploadDiversTaskStatus taskStatus,
+                                    int progressPercent,
+                                    int diversProcessed,
+                                    String error,
+                                    XlsParseErrorJsonBean parseError
+    ) {
         this.error = error;
         this.parseError = parseError;
         this.taskStatus = taskStatus;
         this.progressPercent = progressPercent;
+        this.diversProcessed = diversProcessed;
     }
 
     public int getProgressPercent() {
@@ -66,5 +75,13 @@ public class XlsParseProgressJsonBean {
 
     public void setTaskStatus(UploadDiversTaskStatus taskStatus) {
         this.taskStatus = taskStatus;
+    }
+
+    public int getDiversProcessed() {
+        return diversProcessed;
+    }
+
+    public void setDiversProcessed(int diversProcessed) {
+        this.diversProcessed = diversProcessed;
     }
 }
