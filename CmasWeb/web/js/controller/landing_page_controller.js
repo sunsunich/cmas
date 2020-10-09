@@ -220,7 +220,6 @@ var landing_page_controller = {
         adjustCssProperty("margin-right", "#name", sizes.viewPortWidth, 1, 16, 40);
         adjustCssProperty("margin-top", "#name", sizes.viewPortHeight, 3, 16, 40);
         $('#dob').css('width', 230);
-        $('#ico_dob').css('top', 57).css('left', 195);
         $("#dob").datepicker(
             {
                 changeYear: true,
@@ -232,6 +231,8 @@ var landing_page_controller = {
         );
         adjustCssProperty("margin-right", "#dob", sizes.viewPortWidth, 1, 16, 40);
         adjustCssProperty("margin-top", "#dob", sizes.viewPortHeight, 3, 16, 40);
+        let dobMarginTop = parseFloat($('#dob').css('margin-top'));
+        $('#ico_dob').css('top', 16 + dobMarginTop).css('left', 195);
 
         $('.select2').css('width', Math.max(230, sizes.viewPortWidth * 25 / 100));
         adjustCssProperty("margin-right", ".select2", sizes.viewPortWidth, 1, 16, 40);
