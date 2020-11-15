@@ -1,0 +1,61 @@
+{
+  "diverLevel": "ONE_STAR",
+  "diverType": "DIVER",
+  "cards": [
+    {
+      "id": "10598",
+      "number": "sdf",
+      "imageUrl": "MTA1OThfc2RmXzE2MDM0NTY2NzczOTc\u003d.png",
+      "diverType": "DIVER",
+      "diverLevel": "ONE_STAR",
+      "cardType": "NATIONAL",
+      "federationName": "sdf",
+      "validUntil": "05/10/2020",
+      "printName": "DIVER ONE_STAR",
+      "printNumber": "sdf"
+    }
+  ],
+  "dateLicencePaymentIsDue": "22/11/2020",
+  "previousRegistrationStatus": "NEVER_REGISTERED",
+  "diverRegistrationStatus": "CMAS_BASIC",
+  "isAddFriendsToLogbookEntries": false,
+  "isNewsFromCurrentLocation": false,
+  "payedAtLeastOnce": false,
+  "primaryPersonalCard": {
+    "id": "10597",
+    "number": "1059705317767191",
+    "imageUrl": "MTA1OSA3MDUzIDE3NzYgNzE5MV8xNjAzNDU2Njc3MjY0.png",
+    "diverType": "DIVER",
+    "diverLevel": "ONE_STAR",
+    "cardType": "PRIMARY",
+    "printName": "DIVER ONE_STAR",
+    "printNumber": "1059 7053 1776 7191"
+  },
+  "federation": {
+    "country": {
+      "code": "ZIM",
+      "iso3166_1_alpha_2_code": "ZW",
+      "id": "128",
+      "name": "Zimbabwe",
+      "version": "1",
+      "deleted": false
+    },
+    "email": "zimbabwe@mailinator.com",
+    "id": "17",
+    "name": "Zimbabwe",
+    "version": "20",
+    "deleted": false
+  },
+  "id": "1272156513625709454",
+  "firstName": "M3Bot",
+  "lastName": "M3",
+  "country": {
+    "code": "ZIM",
+    "iso3166_1_alpha_2_code": "ZW",
+    "id": "128",
+    "name": "Zimbabwe",
+    "version": "1",
+    "deleted": false
+  },
+  "mobileAuthToken": "NjkxNDA3ODEyNzIxNTY1MTM2MjU3MDk0NTQxMDU5ODQ0"
+}

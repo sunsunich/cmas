@@ -51,6 +51,7 @@
             <form:form id="diverVerificationForm"
                        action="${pageContext.request.contextPath}/diver-verification-submit.html"
                        method="POST">
+                <div class="form-row">Please fill in all the fields below to verify the diver</div>
                 <div class="horizontalRow">
                     <div class="form-row form-elem-large">
                         <input id="diverVerification_name"
@@ -135,6 +136,19 @@
                     <c:when test="${divers == null || empty divers}">
                         <div class="form-row">
                             <span class="basic-text"><s:message code="cmas.face.diver.verification.noDivers"/></span>
+                        </div>
+                        <div class="header3-text question">
+                            <s:message code="cmas.face.diver.verification.noDivers.reasons"/>
+                        </div>
+                        <div class="basic-text answer">
+                            <ul class="purchased-feature-list">
+                                <li><s:message code="cmas.face.diver.verification.noDivers.reason1"/></li>
+                                <li><s:message code="cmas.face.diver.verification.noDivers.reason2"/></li>
+                            </ul>
+                        </div>
+                        <div class="form-row">
+                            <span class="basic-text"><s:message
+                                    code="cmas.face.diver.verification.noDivers.advice"/></span>
                         </div>
                     </c:when>
                     <c:otherwise>

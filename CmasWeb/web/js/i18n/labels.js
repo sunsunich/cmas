@@ -168,7 +168,7 @@ var labels = {
     "GUEST": "AquaLink",
     "CMAS_BASIC": "CMAS Basic",
     "CMAS_FULL": "CMAS AquaLink",
-    "cmas.face.card.diverType": "Diver or Instructor",
+    "cmas.face.card.diverType": "Certificate type",
     "INSTRUCTOR": "Instructor",
     "DIVER": "Diver",
 

@@ -1,484 +1,90 @@
-[
-  {
-    "diverLevel": "TWO_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "2471",
-        "number": "RUS/FO1/P2/17/000018",
-        "diverType": "DIVER",
-        "diverLevel": "TWO_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER TWO_STAR",
-        "printNumber": "RUS/FO1/P2/17/000018"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
+{
+  "diverLevel": "THREE_STAR",
+  "diverType": "INSTRUCTOR",
+  "cards": [
+    {
+      "id": "2691",
+      "number": "2691",
+      "imageUrl": "MjY5MV8xNTMxNDM0NzY2MDQ0.png",
+      "diverType": "INSTRUCTOR",
+      "diverLevel": "THREE_STAR",
+      "cardType": "NATIONAL",
+      "printName": "INSTRUCTOR THREE_STAR",
+      "printNumber": "2691"
     },
-    "id": "180265337999446263",
-    "firstName": "Anna",
-    "lastName": "Morozova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "TWO_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "1150",
-        "number": "RUS/FO1/P2/10/000133",
-        "diverType": "DIVER",
-        "diverLevel": "TWO_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER TWO_STAR",
-        "printNumber": "RUS/FO1/P2/10/000133"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
+    {
+      "id": "2694",
+      "number": "2694",
+      "imageUrl": "MjY5NF8xNTMxNDM0NzY2NDQ5.png",
+      "diverType": "INSTRUCTOR",
+      "diverLevel": "ONE_STAR",
+      "cardType": "EXTENDED_RANGE",
+      "printName": "EXTENDED RANGE INSTRUCTOR",
+      "printNumber": "2694"
     },
-    "id": "191773999200076965",
-    "firstName": "Anna",
-    "lastName": "Makina",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "THREE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "1110",
-        "number": "RUS/FO1/P3/05/000021",
-        "diverType": "DIVER",
-        "diverLevel": "THREE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER THREE_STAR",
-        "printNumber": "RUS/FO1/P3/05/000021"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
+    {
+      "id": "2693",
+      "number": "2693",
+      "imageUrl": "MjY5M18xNTMxNDM0NzY2MzM5.png",
+      "diverType": "INSTRUCTOR",
+      "diverLevel": "ONE_STAR",
+      "cardType": "NITROX",
+      "printName": "NITROX INSTRUCTOR",
+      "printNumber": "2693"
     },
-    "id": "454515713798920298",
-    "firstName": "Anna",
-    "lastName": "Kozlova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "ONE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "2238",
-        "number": "RUS/FO1/P1/10/000345",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER ONE_STAR",
-        "printNumber": "RUS/FO1/P1/10/000345"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "675544339251635602",
-    "firstName": "Anna",
-    "lastName": "Khan",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "ONE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "1206",
-        "number": "RUS/FO1/P1/10/000036",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER ONE_STAR",
-        "printNumber": "RUS/FO1/P1/10/000036"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "897537640494714811",
-    "firstName": "Anna",
-    "lastName": "Polyakova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "ONE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "1611",
-        "number": "RUS/FO1/P1/10/000076",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER ONE_STAR",
-        "printNumber": "RUS/FO1/P1/10/000076"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "1135017414647930847",
-    "firstName": "Anna",
-    "lastName": "Bazhanova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "ONE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "2135",
-        "number": "RUS/FO1/P1/17/000120",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER ONE_STAR",
-        "printNumber": "RUS/FO1/P1/17/000120"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "1304813852435888036",
-    "firstName": "Anna",
-    "lastName": "Vyzhina",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "ONE_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "1435",
-        "number": "RUS/FO1/P1/10/000259",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER ONE_STAR",
-        "printNumber": "RUS/FO1/P1/10/000259"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "1347295509092381359",
-    "firstName": "Anna",
-    "lastName": "Savastyanova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  },
-  {
-    "diverLevel": "TWO_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "154",
-        "number": "",
-        "imageUrl": "MTU0XzE1OTcwMzE0NTE3MTA\u003d.png",
-        "diverType": "DIVER",
-        "diverLevel": "TWO_STAR",
-        "cardType": "NATIONAL",
-        "federationName": "DIVER 2*",
-        "printName": "DIVER TWO_STAR",
-        "printNumber": ""
-      }
-    ],
-    "dateLicencePaymentIsDue": "21/05/2019",
-    "previousRegistrationStatus": "CMAS_BASIC",
-    "diverRegistrationStatus": "CMAS_FULL",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": true,
-    "primaryPersonalCard": {
-      "id": "155",
-      "number": "1",
-      "imageUrl": "MDAwMCAwMDAwIDAwMDAgMDAwMV8xNTk3MDMxNDUxODIx.png",
+    {
+      "id": "2692",
+      "number": "2692",
+      "imageUrl": "MjY5Ml8xNTMxNDM0NzY2MjIz.png",
       "diverType": "DIVER",
-      "diverLevel": "TWO_STAR",
-      "cardType": "PRIMARY",
-      "printName": "DIVER TWO_STAR",
-      "printNumber": "0000 0000 0000 0001"
-    },
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    },
-    "id": "1707274570856811641",
-    "firstName": "Anna",
-    "lastName": "Arzhanova",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
+      "diverLevel": "ONE_STAR",
+      "cardType": "TRIMIX",
+      "printName": "RECREATIONAL TRIMIX DIVER",
+      "printNumber": "2692"
     }
+  ],
+  "dateLicencePaymentIsDue": "21/05/2019",
+  "previousRegistrationStatus": "CMAS_BASIC",
+  "diverRegistrationStatus": "CMAS_FULL",
+  "isAddFriendsToLogbookEntries": false,
+  "isNewsFromCurrentLocation": false,
+  "payedAtLeastOnce": true,
+  "primaryPersonalCard": {
+    "id": "2695",
+    "number": "16",
+    "imageUrl": "MDAwMCAwMDAwIDAwMDAgMDAxNl8xNTMxNDM0NzY2NTYx.png",
+    "diverType": "INSTRUCTOR",
+    "diverLevel": "THREE_STAR",
+    "cardType": "PRIMARY",
+    "printName": "INSTRUCTOR THREE_STAR",
+    "printNumber": "0000 0000 0000 0016"
   },
-  {
-    "diverLevel": "TWO_STAR",
-    "diverType": "DIVER",
-    "cards": [
-      {
-        "id": "2001",
-        "number": "RUS/FO1/P2/11/000035",
-        "diverType": "DIVER",
-        "diverLevel": "TWO_STAR",
-        "cardType": "NATIONAL",
-        "printName": "DIVER TWO_STAR",
-        "printNumber": "RUS/FO1/P2/11/000035"
-      },
-      {
-        "id": "2002",
-        "number": "RUS/FO1/ND1/11/000025",
-        "diverType": "DIVER",
-        "diverLevel": "ONE_STAR",
-        "cardType": "NITROX",
-        "printName": "NITROX DIVER",
-        "printNumber": "RUS/FO1/ND1/11/000025"
-      }
-    ],
-    "previousRegistrationStatus": "NEVER_REGISTERED",
-    "diverRegistrationStatus": "NEVER_REGISTERED",
-    "isAddFriendsToLogbookEntries": false,
-    "isNewsFromCurrentLocation": false,
-    "payedAtLeastOnce": false,
-    "federation": {
-      "country": {
-        "code": "RUS",
-        "iso3166_1_alpha_2_code": "RU",
-        "id": "102",
-        "name": "Russia",
-        "version": "1",
-        "deleted": false
-      },
-      "email": "rufservis@inbox.ru",
-      "id": "1",
-      "name": "Russia",
+  "federation": {
+    "country": {
+      "code": "DNK",
+      "iso3166_1_alpha_2_code": "DK",
+      "id": "36",
+      "name": "Denmark",
       "version": "1",
       "deleted": false
     },
-    "id": "2529149640370150701",
-    "firstName": "Anna",
-    "lastName": "Nad\u0027yarnykh",
-    "country": {
-      "code": "RUS",
-      "iso3166_1_alpha_2_code": "RU",
-      "id": "102",
-      "name": "Russia",
-      "version": "1",
-      "deleted": false
-    }
-  }
-]
+    "email": "dsf@sportsdykning.dk",
+    "id": "11",
+    "name": "DANISH SPORTS DIVER FEDERATION  (DSF)",
+    "version": "20",
+    "deleted": false
+  },
+  "id": "3787029374005854106",
+  "firstName": "Flemming",
+  "lastName": "Holm",
+  "country": {
+    "code": "DNK",
+    "iso3166_1_alpha_2_code": "DK",
+    "id": "36",
+    "name": "Denmark",
+    "version": "1",
+    "deleted": false
+  },
+  "userpicUrl": "Mzc4NzAyOTM3NDAwNTg1NDEwNl8xNTMxNDM0NzY1NzI5.png",
+  "mobileAuthToken": "601519ce8f6d1b4deb9414aba919cf04"
+}

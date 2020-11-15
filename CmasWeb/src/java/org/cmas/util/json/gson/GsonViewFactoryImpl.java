@@ -8,6 +8,7 @@ import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.json.CommonGsonCreator;
 import org.cmas.json.DateTypeAdapter;
+import org.cmas.json.GeneralDiverSerializer;
 import org.cmas.json.LogbookEntryEditSerializer;
 import org.cmas.json.LogbookEntrySerializer;
 import org.cmas.json.PersonalCardSerializer;
@@ -28,6 +29,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     public Gson getLogbookEntryEditGson() {
         return CommonGsonCreator.createCommonGsonBuilder()
                                 .registerTypeAdapter(Date.class, new DateTypeAdapter())
+                                .registerTypeAdapter(Diver.class, new GeneralDiverSerializer())
                                 .registerTypeAdapter(LogbookEntry.class, new LogbookEntryEditSerializer())
                                 .create();
     }
@@ -37,6 +39,7 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
         return CommonGsonCreator.createCommonGsonBuilder()
                                 .setDateFormat(Globals.DTF)
                                 .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
+                                .registerTypeAdapter(Diver.class, new GeneralDiverSerializer())
                                 .create();
     }
 
@@ -64,6 +67,15 @@ public class GsonViewFactoryImpl implements GsonViewFactory {
     @Override
     public GsonView createDiverView(Diver diver) {
         return createCommonDiverView(diver);
+    }
+
+    @Override
+    public GsonView createSecureDiverView(Diver diver) {
+        return new GsonView(diver,
+                            CommonGsonCreator.createCommonGsonBuilder()
+                                             .registerTypeAdapter(PersonalCard.class, new PersonalCardSerializer())
+                                             .create()
+        );
     }
 
     private GsonView createCommonDiverView(Object toSerialize) {

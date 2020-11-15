@@ -1,0 +1,6 @@
+include ':app'
+rootProject.name='CmasAndroid'
+include ':Common'
+project(":Common").projectDir = new File(rootDir, "../GradleBuild/Common")
+include ':EntitiesModel'
+project(":EntitiesModel").projectDir = new File(rootDir, "../GradleBuild/EntitiesModel")

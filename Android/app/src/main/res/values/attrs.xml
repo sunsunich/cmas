@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Finder">
+        <attr name="button_align">
+            <enum name="right"
+                  value="0"/>
+            <enum name="left"
+                  value="1"/>
+        </attr>
+        <attr name="hint"
+              format="string"/>
+        <attr name="finderButtonSrc"
+              format="reference|color"/>
+        <attr name="finderButtonBackground"
+              format="reference"/>
+
+        <attr name="finderBtnPadding" format="dimension" />
+        <!-- Sets the padding, in pixels, of the left edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderBtnPaddingLeft" format="dimension" />
+        <!-- Sets the padding, in pixels, of the top edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderBtnPaddingTop" format="dimension" />
+        <!-- Sets the padding, in pixels, of the right edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderBtnPaddingRight" format="dimension" />
+        <!-- Sets the padding, in pixels, of the bottom edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderBtnPaddingBottom" format="dimension" />
+
+        <attr name="finderEditPadding" format="dimension" />
+        <!-- Sets the padding, in pixels, of the left edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderEditPaddingLeft" format="dimension" />
+        <!-- Sets the padding, in pixels, of the top edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderEditPaddingTop" format="dimension" />
+        <!-- Sets the padding, in pixels, of the right edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderEditPaddingRight" format="dimension" />
+        <!-- Sets the padding, in pixels, of the bottom edge; see {@link android.R.attr#padding}. -->
+        <attr name="finderEditPaddingBottom" format="dimension" />
+        <attr name="text"
+              format="string"/>
+        <!-- Text color. -->
+        <attr name="android:textColor"/>
+        <!-- Color of the text selection highlight. -->
+        <attr name="android:textColorHighlight"/>
+        <!-- Color of the hint text. -->
+        <attr name="android:textColorHint"/>
+        <!-- EditText background drawable. -->
+        <attr name="finderTextBackground"
+              format="reference"/>
+        <!-- Size of the text. Recommended dimension type for text is "sp" for scaled-pixels (example: 15sp). -->
+        <attr name="textSize"
+              format="dimension"/>
+        <attr name="enabled"
+              format="boolean"/>
+        <attr name="maxLines"
+              format="integer"/>
+    </declare-styleable>
+    <attr name="direction">
+        <enum name="rightToLeft" value="0" />
+        <enum name="bottomToTop" value="1" />
+        <enum name="leftToRight" value="2" />
+        <enum name="topToBottom" value="3" />
+    </attr>
+    <declare-styleable name="MultiDirectionSlidingDrawer">
+        <attr name="handle" format="reference" />
+        <attr name="handleAlign">
+            <enum name="left" value="-1"/>
+            <enum name="bottom" value="-1"/>
+            <enum name="center" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="top" value="1"/>
+        </attr>
+        <attr name="defState">
+            <enum name="closed" value="0"/>
+            <enum name="opened" value="1"/>
+            <enum name="delayOpened" value="2"/>
+        </attr>
+        <attr name="content" format="reference" />
+        <attr name="direction" />
+        <attr name="bottomOffset" format="dimension"  />
+        <attr name="topOffset" format="dimension"  />
+        <attr name="allowSingleTap" format="boolean" />
+        <attr name="animateOnClick" format="boolean" />
+        <!--<attr name="otherContent" format="reference" />-->
+    </declare-styleable>
+</resources>

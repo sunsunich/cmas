@@ -1,26 +1,16 @@
-apply plugin: 'java'
+apply plugin: 'java-library'
 
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 version = '1.0'
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-        resources {
-            srcDirs = ['src']
-        }
-    }
-}
-
 dependencies {
-    compile project(":Common")
+    api project(":Common")
+    api files(project(":Common").file('lib/agson-2.2.2.jar'))
 //    compile fileTree(dir: new File(project(':Common').projectDir, 'lib'), include: ['*.jar'])
     compile files('./../lib/hibernate-annotations.jar')
     compile files('./../lib/ejb3-persistence.jar')
 
-    sourceCompatibility = 1.7
+    sourceCompatibility = 1.8
 }
 
 

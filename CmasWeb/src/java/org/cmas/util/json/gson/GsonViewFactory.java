@@ -21,6 +21,8 @@ public interface GsonViewFactory {
 
     GsonView createDiverView(Diver diver);
 
+    GsonView createSecureDiverView(Diver diver);
+
     Gson getLogbookEntryEditGson();
 
     GsonView createGsonFeedView(List<LogbookEntry> toSerialize);

@@ -202,7 +202,7 @@ public class MobileRegistrationController {
             return gsonViewFactory.createErrorGsonView("validation.tokenUnknown");
         }
         personalCardService.setupDisplayCardsForDivers(Collections.singletonList(diver));
-        return gsonViewFactory.createGsonView(diver);
+        return gsonViewFactory.createSecureDiverView(diver);
     }
 
     @RequestMapping(value = "/diver-verification-ajax.html", method = RequestMethod.POST)

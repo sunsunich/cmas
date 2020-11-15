@@ -94,7 +94,7 @@
                     <th>Diver Level</th>
                     <th><my:sort url="${url}" title="Date edited" dir="${command.dir}"
                                  columnNumber="${command.sort}" sortColumn="dateEdited"/></th>
-                    <th>CMAS card number</th>
+                    <th>Global CMASDATA ID</th>
                     <th>Certificates</th>
                         <%--                    <th>CMAS certificate expires</th>--%>
                     <th><my:sort url="${url}" title="Registration date" dir="${command.dir}"

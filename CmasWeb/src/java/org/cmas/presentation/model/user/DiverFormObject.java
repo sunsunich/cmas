@@ -9,6 +9,8 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 import org.springframework.validation.Errors;
 
+import java.util.Date;
+
 public class DiverFormObject implements Transferable<Diver>, Validatable {
 
     @Length(max = Globals.MAX_LENGTH, message = "validation.maxLength")
@@ -44,7 +46,8 @@ public class DiverFormObject implements Transferable<Diver>, Validatable {
     public void transferFromEntity(Diver entity) {
         firstName = entity.getFirstName();
         lastName = entity.getLastName();
-        dob = Globals.getDTF().format(entity.getDob());
+        Date entityDo = entity.getDob();
+        dob = entityDo == null ? "" : Globals.getDTF().format(entityDo);
         areaOfInterest = entity.getAreaOfInterest();
         countryCode = entity.getCountry().getCode();
     }
