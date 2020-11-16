@@ -209,10 +209,12 @@ public class DrawCardServiceImpl implements DrawCardService {
         Diver diver = card.getDiver();
         boolean isGold = diver.isGold();
         DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        if(diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
+           || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE){
+            return "cmas_card.png";
+        }
         if (diverRegistrationStatus == DiverRegistrationStatus.GUEST
             || diverRegistrationStatus == DiverRegistrationStatus.DEMO
-            || diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
-            || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE
         ) {
             return isGold ? "aqualink_gold.png" : "aqualink_silver.png";
         }
