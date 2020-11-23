@@ -23,7 +23,7 @@
                 <div class="clearfix">
 
                         <button class="positive-button"
-                                onclick="window.location='https://www.cmasdata.org/login?token=${diver.mobileAuthToken}'">
+                                onclick="window.location='cmas://login?token=${diver.mobileAuthToken}'">
                             LOGIN TO CMAS E-CARDS
                         </button>
 <%--                    <div>--%>

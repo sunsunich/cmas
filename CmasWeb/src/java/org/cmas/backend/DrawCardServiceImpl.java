@@ -30,7 +30,7 @@ import java.io.IOException;
  */
 public class DrawCardServiceImpl implements DrawCardService {
 
-    private static final String QR_CODE_PREFIX = "https://www.cmasdata.org/verify?token=";
+    private static final String QR_CODE_PREFIX = "cmas://verify?token=";
 
     private static final float CARD_WIDTH = 640.0f;
     private static final float CARD_HEIGHT = 414.0f;
