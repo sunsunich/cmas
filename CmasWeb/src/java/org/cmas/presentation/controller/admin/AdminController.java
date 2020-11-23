@@ -55,7 +55,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -189,7 +189,7 @@ public class AdminController {
         Diver federationAdmin = federationService.createNewFederation(formObject);
         return new ModelAndView(
                 "redirect:/admin/index.html?userRole=" + Role.ROLE_FEDERATION_ADMIN.name()
-                + "&email="+ formObject.getEmail()
+                + "&email=" + formObject.getEmail()
                 + "&countryCode=" + formObject.getCountryCode()
                 //switchToUserAsAdmin(federationAdmin.getId(), Role.ROLE_FEDERATION_ADMIN.getName())
         );
@@ -457,15 +457,22 @@ public class AdminController {
     @Autowired
     private UserAnnouncesService userAnnouncesService;
 
+    @RequestMapping(value = "/admin/cmasMobileAnnounceTo.html", method = RequestMethod.GET)
+    public ModelAndView cmasMobileAnnounceTo(@RequestParam("email") String email) {
+        List<Diver> cmasDivers = new ArrayList<>();
+        cmasDivers.add(diverDao.getByEmail(email));
+        userAnnouncesService.sendMobileReadyAnnounce(cmasDivers);
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
     @RequestMapping(value = "/admin/cmasMobileAnnounce.html", method = RequestMethod.GET)
     public ModelAndView cmasMobileAnnounce() {
         @SuppressWarnings("unchecked")
-//        List<Diver> cmasDivers = diverDao.createCriteria().add(
-//                Restrictions.disjunction()
-//                            .add(Restrictions.eq("diverRegistrationStatus", DiverRegistrationStatus.CMAS_BASIC))
-//                            .add(Restrictions.eq("diverRegistrationStatus", DiverRegistrationStatus.CMAS_FULL))
-//        ).list();
-        List<Diver> cmasDivers = Arrays.asList(diverDao.getByEmail("z1@mailinator.com"));
+        List<Diver> cmasDivers = diverDao.createCriteria().add(
+                Restrictions.disjunction()
+                            .add(Restrictions.eq("diverRegistrationStatus", DiverRegistrationStatus.CMAS_BASIC))
+                            .add(Restrictions.eq("diverRegistrationStatus", DiverRegistrationStatus.CMAS_FULL))
+        ).list();
         userAnnouncesService.sendMobileReadyAnnounce(cmasDivers);
         return new ModelAndView("redirect:/admin/index.html");
     }

@@ -1,17 +1,31 @@
 <#import "macro.ftl" as mailer/>
 <@mailer.mail title="Your password">
-<p>Dear ${diver.firstName} ${diver.lastName},</p>
-<p>
-    We are happy to announce the release of an improved CMAS E-cards mobile App for Apple (iOS) devices!<br />
-    We will also add support for Android devices soon<br />
-    <br />
-    To login to CMAS E-cards mobile App please open this email on your mobile device and tap on the link:<br />
-    <@mailer.href url="cmas://login?token=${diver.mobileAuthToken}"/> <br />
-    <br />
-    For iOS users only: if the link does not open the CMAS E-cards mobile App, copy the link, and then do "Paste and Go" in the Safari browser address line on your iOS device.<br />
-    <br />
-    Sincerely yours,<br />
-    AquaLink <br />
-</p>
+    <p>Dear ${diver.firstName} ${diver.lastName},</p>
+    <p>
+        We are happy to announce the release of the improved CMAS E-cards mobile App for Apple (iOS) devices!<br/>
+        We will also add support for Android devices soon.<br/>
+        <br/>
+        To use the CMAS E-cards mobile App please follow the steps below<br/>
+    <ol>
+        <li>
+            Open this email on you mobile device
+        </li>
+        <li>
+            install the CMAS E-cards mobile App from Apple Store:<br/>
+            <@mailer.href url="itms-apps://apps.apple.com/app/id1482247868"/> <br/>
+        </li>
+        <li>
+            Once the CMAS E-cards mobile App is installed login by opening this email on your mobile device and tapping
+            on the link:<br/>
+            <@mailer.href url="cmas://login?token=${diver.mobileAuthToken}"/> <br/>
+            <br/>
+            For iOS users only: if the link does not open the CMAS E-cards mobile App, copy the link, and then do "Paste
+            and Go" in the Safari browser address line on your iOS device.<br/>
+            <br/>
+        </li>
+    </ol>
+    Sincerely yours,<br/>
+    AquaLink <br/>
+    </p>
 </@mailer.mail>        
 
