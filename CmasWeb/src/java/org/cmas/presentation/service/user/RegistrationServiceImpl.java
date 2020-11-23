@@ -96,6 +96,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Autowired
     private DiverService diverService;
 
+    @Autowired
+    private DiverMobileService diverMobileService;
+
     @Override
     public void validate(DiverRegistrationFormObject formObject, Errors errors) {
         validator.validate(formObject, errors);
@@ -314,6 +317,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                     new Date(System.currentTimeMillis() + (long) diverService.getDemoTimeDays() * Globals.ONE_DAY_IN_MS)
             );
         }
+        diverMobileService.setMobileAuthCode(diver);
         diverDao.updateModel(diver);
         mailer.sendDiverPassword(diver);
     }

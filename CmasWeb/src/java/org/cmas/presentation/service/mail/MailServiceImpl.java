@@ -461,5 +461,17 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         String subj = subjects.renderText("CardApprovalRequestApproved", locale);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
     }
+
+    @Override
+    public void cmasMobileAnnounce(Diver diver) {
+        Locale locale = diver.getLocale();
+        String subj = subjects.renderText("CmasMobile", locale, addresses.getSiteName(locale));
+        String text = textRenderer.renderText("cmasMobile.ftl", locale,
+                                              new ModelAttr("diver", diver)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = getInternetAddress(diver);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
 }
 

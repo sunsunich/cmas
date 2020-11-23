@@ -54,6 +54,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private List<String> exceptions = new ArrayList<>();
     private List<String> freePages = new ArrayList<>();
     private List<String> cmasBasicPages = new ArrayList<>();
+    private List<String> cmasBasicFreePages = new ArrayList<>();
     private List<String> demoPages = new ArrayList<>();
     private List<String> guestPages = new ArrayList<>();
     private List<String> goldPages = new ArrayList<>();
@@ -64,6 +65,17 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String requestURI = request.getRequestURI();
+        // todo finish for android - probably need a separate interceptor
+        /*
+            https://www.cmasdata.org/verify
+            https://www.foo.com/bar/BlahBlah will redirect to https://play.google.com/store/apps/details?id=com.bar.foo&referrer=BlahBlah
+             */
+//        if (requestURI.startsWith("/verify?token=") || requestURI.startsWith("/login?token=")) {
+//            String referer = "";
+//            response.sendRedirect("https://play.google.com/store/apps/details?id=com.cmas.cmas_flutter&referrer=" + referer);
+//            return false;
+//        }
+
         if (!requestURI.startsWith("/secure/")) {
             return true;
         }
@@ -100,15 +112,18 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
                 case CMAS_BASIC:
                     if (diver.getPreviousRegistrationStatus() == DiverRegistrationStatus.NEVER_REGISTERED) {
                         // treat as Demo
-                        if (diver.getDateLicencePaymentIsDue().after(new Date())
-                            && demoPages.contains(requestURI)) {
+                        if (diver.getDateLicencePaymentIsDue().after(new Date()) && demoPages.contains(requestURI)
+                            || cmasBasicFreePages.contains(requestURI)
+                        ) {
                             return rejectIfCommonValidationNotPassed(request, response, requestURI);
                         } else {
                             redirectForPayment(request, response);
                             return false;
                         }
                     }
-                    if (demoPages.contains(requestURI) || cmasBasicPages.contains(requestURI)) {
+                    if (demoPages.contains(requestURI)
+                        || cmasBasicFreePages.contains(requestURI)
+                        || cmasBasicPages.contains(requestURI)) {
                         return rejectIfCommonValidationNotPassed(request, response, requestURI);
                     } else {
                         redirectForPayment(request, response);
@@ -240,6 +255,11 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     @Required
     public void setCmasBasicPages(List<String> cmasBasicPages) {
         this.cmasBasicPages = cmasBasicPages;
+    }
+
+    @Required
+    public void setCmasBasicFreePages(List<String> cmasBasicFreePages) {
+        this.cmasBasicFreePages = cmasBasicFreePages;
     }
 
     @Required

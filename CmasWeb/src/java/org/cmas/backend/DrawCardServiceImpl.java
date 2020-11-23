@@ -9,6 +9,7 @@ import org.cmas.entities.cards.CardPrintUtil;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.util.barcode.BarcodeEncoder;
 import org.cmas.util.barcode.Pixels;
@@ -28,6 +29,8 @@ import java.io.IOException;
  * @author Alexander Petukhov
  */
 public class DrawCardServiceImpl implements DrawCardService {
+
+    private static final String QR_CODE_PREFIX = "https://www.cmasdata.org/verify?token=";
 
     private static final float CARD_WIDTH = 640.0f;
     private static final float CARD_HEIGHT = 414.0f;
@@ -94,8 +97,8 @@ public class DrawCardServiceImpl implements DrawCardService {
             @SuppressWarnings("NumericCastThatLosesPrecision")
             int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
             Pixels qrCode = BarcodeEncoder.createQRCode(
-                    // "org.cmasdata.mobile://verify?cmasNumber=" + cardNumber, qrSize, qrSize
-                    cardNumber, qrSize, qrSize
+                    // "https://www.cmasdata.org/verify?token=" + cardNumber, qrSize, qrSize
+                    QR_CODE_PREFIX + cardNumber, qrSize, qrSize
             );
             BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
             qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
@@ -163,7 +166,8 @@ public class DrawCardServiceImpl implements DrawCardService {
                 float middlePoint = (leftX + rightX) / 2.0f;
                 //noinspection NumericCastThatLosesPrecision
                 BufferedImage starImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream("star.png"));
-                switch (card.getDiverLevel()) {
+                DiverLevel diverLevel = card.getDiverLevel() == null ? DiverLevel.ONE_STAR : card.getDiverLevel();
+                switch (diverLevel) {
                     case ONE_STAR:
                         drawStar(starSize, height, g2d, starImage, middlePoint - starSize / 2.0f);
                         break;

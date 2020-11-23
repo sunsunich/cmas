@@ -82,6 +82,8 @@ interface GlobalsStaticContainer {
 
     long CMAS_LICENCE_PAID_FEATURE_DB_ID = 1L;
     long GOLD_MEMBERSHIP_PAID_FEATURE_DB_ID = 2L;
+
+    int USER_TOKEN_RAND_PART_LENGTH = 7;
 }
 
 public final class Globals implements GlobalsStaticContainer {

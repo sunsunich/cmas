@@ -54,4 +54,6 @@ public interface MailService {
     void sendCardApprovalRequestDeclined(CardApprovalRequest cardApprovalRequest);
 
     void sendCardApprovalRequestApproved(PersonalCard newCard, String statusStr);
+
+    void cmasMobileAnnounce(Diver diver);
 }

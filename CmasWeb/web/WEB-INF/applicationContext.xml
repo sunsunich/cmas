@@ -146,6 +146,8 @@
 
     <bean id="sportsFederationService" class="org.cmas.presentation.service.sports.NationalFederationServiceImpl"/>
 
+    <bean id="userAnnouncesService" class="org.cmas.presentation.controller.admin.UserAnnouncesServiceImpl"/>
+
     <bean id="amateurService" class="org.cmas.presentation.service.user.UserServiceImpl">
         <property name="entityClass" value="org.cmas.entities.amateur.Amateur"/>
         <property name="entityDao" ref="amateurDao"/>
@@ -156,6 +158,9 @@
         <property name="entityClass" value="org.cmas.entities.diver.Diver"/>
         <property name="entityDao" ref="diverDao"/>
         <property name="validator" ref="validator"/>
+    </bean>
+
+    <bean id="diverMobileService" class="org.cmas.presentation.service.user.DiverMobileServiceImpl">
     </bean>
 
     <bean id="personalCardService" class="org.cmas.presentation.service.cards.PersonalCardServiceImpl">

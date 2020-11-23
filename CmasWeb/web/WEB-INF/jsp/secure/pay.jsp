@@ -70,27 +70,36 @@
                 </c:choose>
 
                 <c:if test="${isGold}">
-                    <div class="form-description">
+                    <div class="form-description clearfix">
                         <s:message code="cmas.loyalty.gold.expireText"/> <fmt:formatDate
                             value="${goldExpiryDate}" pattern="dd/MM/yyyy"/>
-                        <div>
-                            <button class="positive-button form-item-right"
-                                    onclick="window.location='/secure/insurance.html'">
-                                <s:message code="cmas.face.client.menu.insurance"/>
-                            </button>
-                        </div>
+                    </div>
+                    <div class="form-description">
+                        <button class="positive-button form-item-right"
+                                onclick="window.location='/secure/insurance.html'">
+                            <s:message code="cmas.face.client.menu.insurance"/>
+                        </button>
                     </div>
                 </c:if>
                 <c:choose>
                     <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
                         <div class="form-description clearfix">
                             <span><s:message code="cmas.face.card.cmasBasic"/></span>
-                            <div>
-                                <button class="positive-button form-item-right"
-                                        onclick="window.location='/secure/cards.html'">
-                                    <s:message code="cmas.face.client.menu.myCards"/>
-                                </button>
-                            </div>
+                        </div>
+                        <div class="form-description">
+                            <button class="positive-button"
+                                    onclick="window.location='/secure/cards.html'">
+                                <s:message code="cmas.face.client.menu.myCards"/>
+                            </button>
+                        </div>
+                        <div class="form-description clearfix">
+                            <span><s:message code="cmas.face.card.goToMobile"/></span>
+                        </div>
+                        <div class="form-description">
+                            <button class="positive-button"
+                                    onclick="window.location='/secure/mobile.html'">
+                                <s:message code="cmas.face.client.menu.mobile"/>
+                            </button>
                         </div>
                     </c:when>
                     <c:when test="${diver.diverRegistrationStatus.name != 'CMAS_FULL' && diver.diverRegistrationStatus.name != 'CMAS_BASIC'}">

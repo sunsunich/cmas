@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "1482247868.com.cmas",
+                "paths": [ "/verify*", "/login*"]
+            }
+        ]
+    }
+}

@@ -109,8 +109,7 @@ public abstract class User implements Serializable, HasId {
     private boolean bot;
 
     @Expose
-    //todo set unique
-    @Column //(unique = true)
+    @Column
     private String mobileAuthToken;
 
     protected User() {

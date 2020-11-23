@@ -1,9 +1,9 @@
 package org.cmas.android.storage.settings;
 
 import android.content.SharedPreferences;
-import org.cmas.android.MainApplication;
 import org.cmas.app.Settings;
 import org.cmas.app.SettingsService;
+import org.cmas.android.MainApplication;
 import org.cmas.util.android.SecurePreferences;
 
 public class SettingsServiceImpl implements SettingsService {

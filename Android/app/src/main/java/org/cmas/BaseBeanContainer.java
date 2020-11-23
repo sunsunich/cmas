@@ -15,10 +15,6 @@ import org.cmas.service.VersionableEntityPersister;
 import org.cmas.service.dictionary.DictionaryDataService;
 import org.cmas.service.dictionary.DictionaryDataServiceImpl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 @SuppressWarnings({
         "ClassWithTooManyFields",
         "ClassWithTooManyMethods",
@@ -30,15 +26,15 @@ public class BaseBeanContainer {
     private static BaseBeanContainer instance;
 
     private AppProperties appProperties;
-    private SettingsService settingsService;
-    private NetworkManager networkManager;
+    private final SettingsService settingsService;
+    private final NetworkManager networkManager;
 
-    private RemoteRegistrationServiceImpl remoteRegistrationService;
-    private RemoteDictionaryServiceImpl remoteDictionaryService;
+    private final RemoteRegistrationServiceImpl remoteRegistrationService;
+    private final RemoteDictionaryServiceImpl remoteDictionaryService;
 
-    private VersionableEntityPersister<Country> countryPersister;
+    private final VersionableEntityPersister<Country> countryPersister;
 
-    private DictionaryDataServiceImpl dictionaryDataService;
+    private final DictionaryDataServiceImpl dictionaryDataService;
 
     public static BaseBeanContainer getInstance() {
         if (instance != null) {
@@ -54,24 +50,15 @@ public class BaseBeanContainer {
     }
 
     private BaseBeanContainer() {
-        try {
-            try (InputStream propStream = getClass().getResourceAsStream("app.properties")) {
-                Properties props = new Properties();
-                props.load(propStream);
-                appProperties = new AppProperties(props);
-            }
-            settingsService = new SettingsServiceImpl();
-            networkManager = new NetworkManagerImpl();
+        settingsService = new SettingsServiceImpl();
+        networkManager = new NetworkManagerImpl();
 
-            remoteRegistrationService = new RemoteRegistrationServiceImpl();
-            remoteDictionaryService = new RemoteDictionaryServiceImpl();
+        remoteRegistrationService = new RemoteRegistrationServiceImpl();
+        remoteDictionaryService = new RemoteDictionaryServiceImpl();
 
-            countryPersister = new CountryPersisterImpl();
+        countryPersister = new CountryPersisterImpl();
 
-            dictionaryDataService = new DictionaryDataServiceImpl();
-        } catch (IOException e) {
-            throw new IllegalStateException("Context failed to initialize", e);
-        }
+        dictionaryDataService = new DictionaryDataServiceImpl();
     }
 
     public void initialize() {
@@ -83,6 +70,10 @@ public class BaseBeanContainer {
 
     public AppProperties getAppProperties() {
         return appProperties;
+    }
+
+    public void setAppProperties(AppProperties appProperties) {
+        this.appProperties = appProperties;
     }
 
     public RemoteRegistrationService getRemoteRegistrationService() {

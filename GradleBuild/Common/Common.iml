@@ -9,6 +9,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="commonLib" level="project" />
+    <orderEntry type="library" exported="" name="slf4jlib" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.5" level="project" />
   </component>
 </module>

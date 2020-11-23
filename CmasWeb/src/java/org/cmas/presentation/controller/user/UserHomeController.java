@@ -178,4 +178,9 @@ public class UserHomeController extends DiverAwareController {
             return gsonViewFactory.createSuccessGsonView();
         }
     }
+
+    @RequestMapping(value = "/secure/mobile.html", method = RequestMethod.GET)
+    public ModelAndView showMobile(ModelMap mm) {
+        return new ModelAndView("/secure/mobile", mm);
+    }
 }

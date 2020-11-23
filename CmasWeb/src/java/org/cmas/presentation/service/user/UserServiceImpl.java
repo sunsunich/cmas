@@ -18,9 +18,7 @@ import org.cmas.presentation.model.user.PasswordEditFormObject;
 import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.EntityServiceImpl;
 import org.cmas.presentation.service.mail.MailService;
-import org.cmas.util.Base64Coder;
 import org.cmas.util.StringUtil;
-import org.cmas.util.random.Randomazer;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +34,6 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
         implements UserService<T> {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
-    private static final int USER_TOKEN_RAND_PART_LENGTH = 7;
 
     @Autowired
     private MailService mailer;
@@ -61,9 +58,6 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
 
     @Autowired
     RegistrationDao registrationDao;
-
-    @Autowired
-    private Randomazer randomazer;
 
     @Override
     @Transactional
@@ -95,9 +89,10 @@ public class UserServiceImpl<T extends User> extends EntityServiceImpl<T>
 
         Long id = (Long) entityDao.save(user);
         user.setId(id);
-        user.setMobileAuthToken(
-                Base64Coder.encodeString(randomazer.generateRandomStringByUniqueId(id, USER_TOKEN_RAND_PART_LENGTH))
-        );
+        // not available for non CMAS users
+//        user.setMobileAuthToken(
+//                Base64Coder.encodeString(randomazer.generateRandomStringByUniqueId(id, USER_TOKEN_RAND_PART_LENGTH))
+//        );
 
         userEventDao.save(new UserEvent(UserEventType.REGISTER, ip, "ordinary", user));
 

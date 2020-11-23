@@ -1,7 +1,12 @@
 package org.cmas.android;
 
+import org.cmas.app.AppProperties;
 import org.cmas.BaseBeanContainer;
 import org.cmas.android.storage.MobileDatabase;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class SystemInitializer {
 
@@ -14,10 +19,20 @@ public class SystemInitializer {
         return OUR_INSTANCE;
     }
 
-    public void initialize() {
-        MobileDatabase.initialize(MainApplication.getAppContext());
+    public void initialize() throws IOException {
+        MainApplication appContext = MainApplication.getAppContext();
+        MobileDatabase.initialize(appContext);
+        AppProperties appProperties;
+        try (InputStream propStream = appContext.getAssets().open("app.properties")) {
+            Properties props = new Properties();
+            props.load(propStream);
+            appProperties = new AppProperties(props);
+        }
+
         // todo dagger or koin?
-        BaseBeanContainer.getInstance().initialize();
+        BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
+        beanContainer.setAppProperties(appProperties);
+        beanContainer.initialize();
     }
 
     public void finalise() {

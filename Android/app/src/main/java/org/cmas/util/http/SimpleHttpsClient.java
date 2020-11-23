@@ -40,27 +40,27 @@ public class SimpleHttpsClient {
 
     public static Pair<String, Map<String, String>> sendGetRequest(
             String url
-            , KeyStore keyStore
+        //    , KeyStore keyStore
             , String encoding
             , Map<String, Object> params
             , @Nullable Map<String, String> cookies
     ) throws Exception {
-        return sendRequest(url, keyStore, encoding, params, cookies, "GET");
+        return sendRequest(url, /*keyStore,*/ encoding, params, cookies, "GET");
     }
 
     public static Pair<String, Map<String, String>> sendPostRequest(
             String url
-            , KeyStore keyStore
+         //   , KeyStore keyStore
             , String encoding
             , Map<String, Object> params
             , @Nullable Map<String, String> cookies
     ) throws Exception {
-        return sendRequest(url, keyStore, encoding, params, cookies, "POST");
+        return sendRequest(url, /*keyStore,*/ encoding, params, cookies, "POST");
     }
 
     public static Pair<String, Map<String, String>> sendRequest(
             String url,
-            KeyStore keyStore,
+    //        KeyStore keyStore,
             String encoding,
             Map<String, Object> params,
             Map<String, String> cookies,
@@ -107,11 +107,11 @@ public class SimpleHttpsClient {
             throw e;
         }
 
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(keyStore);
+   //     TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+    //    tmf.init(keyStore);
 
-        SSLContext context = SSLContext.getInstance("TLS");
-        context.init(null, tmf.getTrustManagers(), null);
+    //    SSLContext context = SSLContext.getInstance("TLS");
+      //  context.init(null, tmf.getTrustManagers(), null);
 
         HttpsURLConnection urlConnection = (HttpsURLConnection) urlObj.openConnection();
 
@@ -126,7 +126,7 @@ public class SimpleHttpsClient {
                 }
         );
 
-        urlConnection.setSSLSocketFactory(context.getSocketFactory());
+    //    urlConnection.setSSLSocketFactory(context.getSocketFactory());
         urlConnection.setRequestProperty("Accept-Charset", encoding);
         if (cookies != null) {
             for (Map.Entry<String, String> cookie : cookies.entrySet()) {

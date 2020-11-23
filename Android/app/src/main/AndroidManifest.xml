@@ -28,6 +28,38 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+            <intent-filter android:label="Verify CMAS divers">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <!-- Handle urls starting with "https://www.cmasdata.org/verify" -->
+                <data android:scheme="https"
+                      android:host="www.cmasdata.org"
+                      android:pathPrefix="/verify"/>
+
+                <!-- Handle local urls starting with "cmas://verify" -->
+                <data android:scheme="cmas"
+                      android:host="verify"/>
+
+            </intent-filter>
+
+            <intent-filter android:label="Login to CMAS e-cards">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <!-- Handle urls starting with "https://www.cmasdata.org/login" -->
+                <data android:scheme="https"
+                      android:host="www.cmasdata.org"
+                      android:pathPrefix="/login"/>
+
+                <!-- Handle local urls starting with "cmas://login" -->
+                <data android:scheme="cmas"
+                      android:host="login"/>
+
+            </intent-filter>
         </activity>
 
     </application>

@@ -104,6 +104,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Autowired
     private CardApprovalRequestService cardApprovalRequestService;
 
+    @Autowired
+    private DiverMobileService diverMobileService;
+
     @Override
     public Diver add(Registration registration, String ip) {
         Diver diver = super.add(registration, ip);
@@ -520,6 +523,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             case CMAS_FULL:
                 break;
         }
+        diverMobileService.setMobileAuthCode(dbDiver);
         diverDao.updateModel(dbDiver);
         PersonalCard primaryPersonalCard = dbDiver.getPrimaryPersonalCard();
         if (primaryPersonalCard != null) {

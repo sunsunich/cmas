@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="slf4jlib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/GradleBuild/Common/slf4jlib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/GradleBuild/Common/slf4jlib" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/GradleBuild/Common/slf4jlib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/GradleBuild/Common/slf4jlib" recursive="false" type="SOURCES" />
+  </library>
+</component>

@@ -43,6 +43,9 @@
     <string name="do_register">Register</string>
     <string name="caps_do_register">Register</string>
     <string name="login_no_register">Without registration</string>
+
+    <string name="verify_diver">Verify diver</string>
+
     <string name="find">GET</string>
     <string name="wrong_password">Invalid password</string>
     <string name="user_already_exists">This user is already registered</string>

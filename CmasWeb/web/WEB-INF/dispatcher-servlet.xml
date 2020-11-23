@@ -104,6 +104,12 @@
             </list>
         </property>
 
+        <property name="cmasBasicFreePages">
+            <list>
+                <value>/secure/mobile.html</value>
+            </list>
+        </property>
+
         <property name="cmasBasicPages">
             <list>
             </list>
@@ -188,6 +194,8 @@
                 <value>/secure/cards.html</value>
                 <value>/secure/addCard.html</value>
                 <value>/secure/submitCardApprovalRequest.html</value>
+
+                <value>/secure/mobile.html</value>
 
                 <value>/secure/showSpots.html</value>
                 <value>/secure/getSpots.html</value>

@@ -47,6 +47,19 @@
                         </button>
                     </div>
                 </c:if>
+
+                <c:if test="${diver.diverRegistrationStatus.name == 'CMAS_BASIC' || diver.diverRegistrationStatus.name == 'CMAS_FULL'}">
+                    <div class="form-description clearfix">
+                        <span><s:message code="cmas.face.card.goToMobile"/></span>
+                    </div>
+                    <div class="form-description">
+                        <button class="positive-button"
+                                onclick="window.location='/secure/mobile.html'">
+                            <s:message code="cmas.face.client.menu.mobile"/>
+                        </button>
+                    </div>
+                </c:if>
+
                 <br/>
                 <br/>
                 <c:choose>
