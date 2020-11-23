@@ -1,10 +1,10 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Order from CMAS member">
+<@mailer.mail title="Order from AquaLink member">
 <p>Dear Sirs,</p>
 <p>
-    CMAS guest member ${diver.firstName} has placed an order for ${cameraName}. <br/>
+    AquaLink member ${diver.firstName} has placed an order for ${cameraName}. <br/>
     <br/>
-    Diver's CMAS number is ${diver.primaryPersonalCard.printNumber}.<br />
+    Diver's AquaLink number is ${diver.primaryPersonalCard.printNumber}.<br />
     <br />
     Reference number for this order is: ${referenceNumber}
 </p>

@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="Friend request">
+<@mailer.mail title="Dive verification request">
 <p>Dear ${request.to.firstName} ${request.to.lastName},</p>
 <p>${request.from.firstName} ${request.from.lastName} requests you to verify the dive made on ${diveDate}.</p>
 <p>
