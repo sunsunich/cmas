@@ -5,15 +5,15 @@
         Hope this email finds you well.
     </p>
     <p>
-        We were writing you following the CMAS Head Quarters request to engage your cooperation with CMAS AquaLink – a
+        We are writing you following the CMAS Head Quarters request to engage your cooperation with CMAS AquaLink – a
         web service and mobile applications for divers:<br/>
         <@mailer.href url="${context_path}"/><br/>
         https://apps.apple.com/app/id1482247868<br/>
     </p>
     <p>
         CMAS AquaLink is a global information system developed by CMAS in order to provide divers with secure and fast
-        certification verification worldwide and improve connectivity and communication within divers community. In
-        particular, CMAS would like all it's divers' certificates to be verified online 24/7.
+        certificates verification worldwide and improve connectivity and communication within divers community.
+        Most importantly, CMAS would like all it's divers' certificates to be verified online 24/7.
     </p>
     <p>
         To achieve this goal we require assistance from every National Federation associated with CMAS. At the moment
@@ -35,7 +35,7 @@
             The email will contain the instructions on how to review and accept or decline the diver's request.<br/>
         </li>
         <li>
-            Federation adds a diver to CMAS AquaLink before diver registers<br/>
+            Alternatively, Federation adds a diver to CMAS AquaLink before diver registers<br/>
             In this case a responsible person in your Federation should upload divers' details using the CMAS AquaLink
             federation admin portal. After that divers registering at CMAS AquaLink would be able to use their
             certificates numbers or personal details to locate themselves in CMAS AquaLink database. Once located in the
@@ -112,7 +112,8 @@
         </li>
     </ol>
     <p>
-        If you find excel files data exchange format too complex we are happy to improve the data exchange process.<br/>
+        If you find excel files data exchange format too complicated we are happy to receive your feedback in order to
+        improve the data exchange process.<br/>
         Please provide us with the information on how divers' data is stored in your federation and we will be happy to
         automate the data exchange process.<br/>
         Please see <b>FederationDataExchangeOptions.doc</b> attached for more information.
