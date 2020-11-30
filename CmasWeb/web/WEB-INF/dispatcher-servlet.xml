@@ -29,6 +29,9 @@
                 <value>/secure/registerDevice.html</value>
                 <value>/secure/unregisterDevice.html</value>
 
+                <value>/secure/subscribe.html</value>
+                <value>/secure/unsubscribe.html</value>
+
                 <value>/secure/profile/editDiver.html</value>
                 <value>/secure/profile/submitEditDiver.html</value>
 
@@ -151,6 +154,9 @@
                 <value>/secure/editPassword.html</value>
                 <value>/secure/processEditPassword.html</value>
                 <value>/secure/processEditEmail.html</value>
+
+                <value>/secure/subscribe.html</value>
+                <value>/secure/unsubscribe.html</value>
 
                 <value>/secure/profile/editDiver.html</value>
                 <value>/secure/profile/submitEditDiver.html</value>

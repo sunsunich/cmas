@@ -65,17 +65,6 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String requestURI = request.getRequestURI();
-        // todo finish for android - probably need a separate interceptor
-        /*
-            https://www.cmasdata.org/verify
-            https://www.foo.com/bar/BlahBlah will redirect to https://play.google.com/store/apps/details?id=com.bar.foo&referrer=BlahBlah
-             */
-//        if (requestURI.startsWith("/verify?token=") || requestURI.startsWith("/login?token=")) {
-//            String referer = "";
-//            response.sendRedirect("https://play.google.com/store/apps/details?id=com.cmas.cmas_flutter&referrer=" + referer);
-//            return false;
-//        }
-
         if (!requestURI.startsWith("/secure/")) {
             return true;
         }

@@ -13,6 +13,7 @@ import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
+import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject;
@@ -52,6 +53,9 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
     @Autowired
     private PersonalCardDao personalCardDao;
+
+    @Autowired
+    private DiverDao diverDao;
 
     @Autowired
     private CardApprovalRequestDao cardApprovalRequestDao;
@@ -253,12 +257,20 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
     private void notifyOnNewCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
         mailService.sendCardApprovalRequestToAquaLinkAdmin(cardApprovalRequest);
-
-        if (cardApprovalRequest.getIssuingFederation() == null) {
-            // todo send to CMAS HQ
-        } else {
-            // todo send to federation
-        }
+//        int notificationsCnt = cardApprovalRequest.getFederationNotificationsCnt();
+//        if(notificationsCnt == 0) {
+//            NationalFederation federation = cardApprovalRequest.getIssuingFederation();
+//            if (federation == null) {
+//                mailService.sendCardApprovalRequestToCmasHq(cardApprovalRequest);
+//            } else {
+//                mailService.sendCardApprovalRequestToFederation(
+//                        cardApprovalRequest,
+//                        federation,
+//                        diverDao.getFederationAdmin(federation)
+//                );
+//            }
+//            cardApprovalRequest.setFederationNotificationsCnt(notificationsCnt + 1);
+//        }
     }
 
     private UserFile processFile(Errors result,

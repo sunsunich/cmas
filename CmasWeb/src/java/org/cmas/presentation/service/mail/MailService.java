@@ -6,12 +6,15 @@ import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.user.Registration;
+import org.jetbrains.annotations.Nullable;
 
 public interface MailService {
 
@@ -51,9 +54,16 @@ public interface MailService {
 
     void sendCardApprovalRequestToAquaLinkAdmin(CardApprovalRequest cardApprovalRequest);
 
+    void sendCardApprovalRequestToFederation(CardApprovalRequest cardApprovalRequest,
+                                             NationalFederation issuingFederation,
+                                             @Nullable Diver federationAdmin
+    );
+
+    void sendCardApprovalRequestToCmasHq(CardApprovalRequest cardApprovalRequest);
+
     void sendCardApprovalRequestDeclined(CardApprovalRequest cardApprovalRequest);
 
     void sendCardApprovalRequestApproved(PersonalCard newCard, String statusStr);
 
-    void cmasMobileAnnounce(Diver diver);
+    void cmasMobileAnnounce(Diver diver, NotificationsCounter notificationsCounte);
 }

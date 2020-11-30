@@ -3,6 +3,8 @@ package org.cmas.presentation.controller.user;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.NotificationsCounter;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.service.AuthenticationService;
 import org.cmas.util.http.BadRequestException;
@@ -18,6 +20,9 @@ public class DiverAwareController {
 
     @Autowired
     protected AuthenticationService authenticationService;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @ModelAttribute("user")
     public BackendUser getUser() {
@@ -40,5 +45,19 @@ public class DiverAwareController {
             throw new BadRequestException();
         }
         return diver;
+    }
+
+    @ModelAttribute("notificationsCounter")
+    public NotificationsCounter getNotificationsCounter() {
+        BackendUser<? extends User> user = getUser();
+        Role role = user.getUser().getRole();
+        Diver diver = null;
+        if (role == Role.ROLE_DIVER) {
+            diver = (Diver) user.getUser();
+        }
+        if (diver == null) {
+            throw new BadRequestException();
+        }
+        return notificationsCounterDao.getByDiver(diver);
     }
 }

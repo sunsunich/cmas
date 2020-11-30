@@ -1,5 +1,6 @@
 package org.cmas.backend;
 
+import com.google.firebase.database.utilities.Pair;
 import org.cmas.entities.cards.PersonalCard;
 
 import java.awt.image.BufferedImage;
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage;
  */
 public interface DrawCardService {
 
-    BufferedImage drawDiverCard(PersonalCard card) throws Exception;
+    Pair<BufferedImage,BufferedImage> drawDiverCard(PersonalCard card) throws Exception;
 
     String getFileName(PersonalCard card);
 }

@@ -10,6 +10,7 @@
 <%@ attribute name="activeMenuItem" required="false" %>
 
 <jsp:useBean id="diver" scope="request" type="org.cmas.entities.diver.Diver"/>
+<jsp:useBean id="notificationsCounter" scope="request" type="org.cmas.entities.diver.NotificationsCounter"/>
 
 <c:if test="${empty hideMenu}">
     <c:set var="hideMenu" value="false"/>
@@ -20,6 +21,13 @@
 
 <my:basePage bodyId="secureBody" title="${title}" hideFooter="${hideFooter}"
              doNotDoAuth="true" customScripts="/js/controller/diver_menu_controller.js,${customScripts}">
+
+    <script type="application/javascript">
+        $(document).ready(function () {
+            diver_menu_controller.unsubscribed = ${notificationsCounter.unsubscribed};
+            diver_menu_controller.init();
+        });
+    </script>
 
     <c:choose>
         <c:when test="${diver.diverRegistrationStatus.name == 'CMAS_FULL' || diver.diverRegistrationStatus.name == 'CMAS_BASIC'}">
@@ -237,10 +245,10 @@
                 <li
                         <c:choose>
                             <c:when test="${activeMenuItem == 'editEmail'}">
-                                class="bottomBorder user-menu-active"
+                                class="user-menu-active"
                             </c:when>
                             <c:otherwise>
-                                class="bottomBorder user-menu-inactive"
+                                class="user-menu-inactive"
                             </c:otherwise>
                         </c:choose>
                         onclick="window.location = '${pageContext.request.contextPath}/secure/editEmail.html';"
@@ -249,7 +257,9 @@
                         <span><s:message code="cmas.face.client.menu.changeEmail"/></span>
                     </a>
                 </li>
-
+                <li class="bottomBorder user-menu-inactive" id="menuSubscribeItem">
+                    <a href="#" onclick="return false;"><span id="menuSubscribeText"></span></a>
+                </li>
                 <li
                         <c:choose>
                             <c:when test="${activeMenuItem == 'reportError'}">
@@ -301,6 +311,12 @@
                    title="cmas.face.error.title"
                    buttonText="cmas.face.error.submitText">
             <div class="dialog-form-row" id="errorDialogText"></div>
+        </my:dialog>
+
+        <my:dialog id="subscribeDialog"
+                   title="cmas.face.subscribe.success.header"
+                   buttonText="cmas.face.error.submitText">
+            <div class="dialog-form-row" id="submitDialogText"></div>
         </my:dialog>
     </div>
     <c:if test="${!hideMenu}">

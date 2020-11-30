@@ -1,6 +1,7 @@
 var labels = {
     "cmas.face.link.back.text": "BACK",
     "cmas.face.hello": "Hello",
+    "cmas.face.error.message.again": "Error while processing request. Please try again later",
 
     "cmas.face.registration.form.label.country": "Choose a country",
     "cmas.face.registration.form.label.federation": "Choose your National Federation",
@@ -182,5 +183,10 @@ var labels = {
     "FEMALE": "Female",
 
     "cmas.fed.addDiverFromPaymentList.failed": "Failed to add diver to payment list. Please try again later",
-    "cmas.face.feedback.button.spot": "Report"
+    "cmas.face.feedback.button.spot": "Report",
+
+    "cmas.face.client.menu.subscribe": "TURN ON EMAILS FROM AQUALINK",
+    "cmas.face.client.menu.unsubscribe": "STOP EMAILS FROM AQUALINK",
+    "cmas.face.subscribe.success.text": "Thank you! AquaLink will be sending emails with important updates and news to you",
+    "cmas.face.unsubscribe.success.text": "AquaLink will no longer send you emails with updates or news"
 };

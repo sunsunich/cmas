@@ -1,6 +1,7 @@
 package org.cmas.backend;
 
 
+import com.google.firebase.database.utilities.Pair;
 import com.google.zxing.WriterException;
 import org.cmas.Globals;
 import org.cmas.MockUtil;
@@ -63,7 +64,7 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
-    public BufferedImage drawDiverCard(PersonalCard card) throws WriterException, IOException {
+    public Pair<BufferedImage, BufferedImage> drawDiverCard(PersonalCard card) throws WriterException, IOException {
         String fileName = getFileName(card);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
@@ -93,6 +94,7 @@ public class DrawCardServiceImpl implements DrawCardService {
             );
         }
 
+        BufferedImage qrCodeImage = null;
         if (!isGuest) {
             @SuppressWarnings("NumericCastThatLosesPrecision")
             int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
@@ -100,7 +102,7 @@ public class DrawCardServiceImpl implements DrawCardService {
                     // "https://www.cmasdata.org/verify?token=" + cardNumber, qrSize, qrSize
                     QR_CODE_PREFIX + cardNumber, qrSize, qrSize
             );
-            BufferedImage qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
+            qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
             qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
             //noinspection NumericCastThatLosesPrecision
             g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
@@ -196,7 +198,7 @@ public class DrawCardServiceImpl implements DrawCardService {
             }
         }
         g2d.dispose();
-        return finalImage;
+        return new Pair(finalImage, qrCodeImage);
     }
 
     private static String addLeadingZeors(String cardNumber) {
@@ -213,8 +215,8 @@ public class DrawCardServiceImpl implements DrawCardService {
         Diver diver = card.getDiver();
         boolean isGold = diver.isGold();
         DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
-        if(diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
-           || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE){
+        if (diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
+            || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE) {
             return "cmas_card.png";
         }
         if (diverRegistrationStatus == DiverRegistrationStatus.GUEST
@@ -338,8 +340,8 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     public static void main(String[] args) {
         try {
-            BufferedImage image = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard());
-            ImageIO.write(image, "png", new File("/Users/sunsunich/workplace/сmas/tmp.png"));
+            Pair<BufferedImage,BufferedImage> images = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard());
+            ImageIO.write(images.getFirst(), "png", new File("/Users/sunsunich/workplace/сmas/tmp.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }

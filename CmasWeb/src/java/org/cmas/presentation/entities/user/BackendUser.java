@@ -1,5 +1,6 @@
 package org.cmas.presentation.entities.user;
 
+import org.cmas.Globals;
 import org.cmas.entities.User;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.util.presentation.SpringRole;
@@ -29,7 +30,7 @@ public class BackendUser<T extends User> implements UserDetails, InternetAddress
     public InternetAddress getInternetAddress() throws UnsupportedEncodingException {
         @SuppressWarnings({"CallToSimpleGetterFromWithinClass"})
         String personal = getUsername();
-        return new InternetAddress(user.getEmail(), personal, "UTF-8");
+        return new InternetAddress(user.getEmail(), personal, Globals.UTF_8_ENC);
     }
 
     @Override

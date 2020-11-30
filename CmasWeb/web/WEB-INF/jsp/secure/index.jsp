@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<my:securepage title="ПОИСК ">
+<my:securepage title="cmas.face.index.header">
 
     <div id="navSh" class="navigation navigation-search">   <!-- Navigation menu -->
         <div class="navigation_content">

@@ -80,7 +80,7 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
     }
 
     @Override
-    public void storeCardImage(PersonalCard card, BufferedImage image) throws IOException {
+    public void storeCardImage(PersonalCard card, BufferedImage cardImage, BufferedImage qrImage) throws IOException {
         String cardPath;
         if (card.getCardType() == PersonalCardType.PRIMARY) {
             cardPath = card.getPrintNumber();
@@ -93,11 +93,15 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         cardPath += "_" + System.currentTimeMillis();
         cardPath = Base64Coder.encodeString(cardPath) + ".png";
         File cardFile = new File(getImageStoreLocationForCards() + cardPath);
-        ImageIO.write(image, "png", new FileOutputStream(cardFile));
+        ImageIO.write(cardImage, "png", new FileOutputStream(cardFile));
+        File qrFile = new File(getImageStoreLocationForCardsQR() + cardPath);
+        ImageIO.write(qrImage, "png", new FileOutputStream(qrFile));
+
         String oldImagePath = card.getImageUrl();
         card.setImageUrl(cardPath);
         personalCardDao.updateModel(card);
         deleteOldFile(getImageStoreLocationForCards() + oldImagePath);
+        deleteOldFile(getImageStoreLocationForCardsQR() + oldImagePath);
     }
 
     @Override
@@ -183,6 +187,9 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
             case PERSONAL_CARD:
                 imageStoreLocation = getImageStoreLocationForCards();
                 break;
+            case PERSONAL_CARD_QR:
+                imageStoreLocation = getImageStoreLocationForCardsQR();
+                break;
             case USERPIC:
                 imageStoreLocation = getImageStoreLocationForUserpic();
                 break;
@@ -222,6 +229,14 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         return imageStorageRootLocation
                + File.separatorChar
                + "cards"
+               + File.separatorChar;
+    }
+
+    @NotNull
+    private String getImageStoreLocationForCardsQR() {
+        return imageStorageRootLocation
+               + File.separatorChar
+               + "cards_qr"
                + File.separatorChar;
     }
 

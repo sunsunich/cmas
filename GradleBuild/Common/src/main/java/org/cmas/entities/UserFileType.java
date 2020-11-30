@@ -6,5 +6,5 @@ package org.cmas.entities;
  * @author Alexander Petukhov
  */
 public enum UserFileType {
-    LOGBOOK_ENTRY, PERSONAL_CARD, USERPIC, FEEDBACK, CARD_APPROVAL_REQUEST
+    LOGBOOK_ENTRY, PERSONAL_CARD, PERSONAL_CARD_QR, USERPIC, FEEDBACK, CARD_APPROVAL_REQUEST
 }

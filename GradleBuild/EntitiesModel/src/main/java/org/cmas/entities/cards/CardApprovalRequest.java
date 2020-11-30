@@ -52,6 +52,9 @@ public class CardApprovalRequest extends CardData {
     @Enumerated(EnumType.STRING)
     private CardApprovalRequestStatus status;
 
+    @Column
+    private int federationNotificationsCnt;
+
     public CardApprovalRequest() {
         status = CardApprovalRequestStatus.NEW;
     }
@@ -110,5 +113,13 @@ public class CardApprovalRequest extends CardData {
 
     public void setStatus(CardApprovalRequestStatus status) {
         this.status = status;
+    }
+
+    public int getFederationNotificationsCnt() {
+        return federationNotificationsCnt;
+    }
+
+    public void setFederationNotificationsCnt(int federationNotificationsCnt) {
+        this.federationNotificationsCnt = federationNotificationsCnt;
     }
 }

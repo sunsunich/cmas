@@ -19,7 +19,7 @@ public interface ImageStorageManager {
 
     void storeUserpic(Diver diver, BufferedImage initImage) throws IOException;
 
-    void storeCardImage(PersonalCard card, BufferedImage image) throws IOException;
+    void storeCardImage(PersonalCard card, BufferedImage cardImage, BufferedImage qrImage) throws IOException;
 
     void storeRegCardImage(RegFile regFile, BufferedImage initImage) throws IOException;
 

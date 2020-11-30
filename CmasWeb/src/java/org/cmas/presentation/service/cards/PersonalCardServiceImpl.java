@@ -1,5 +1,6 @@
 package org.cmas.presentation.service.cards;
 
+import com.google.firebase.database.utilities.Pair;
 import org.cmas.Globals;
 import org.cmas.backend.DrawCardService;
 import org.cmas.backend.ImageStorageManager;
@@ -197,8 +198,8 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     public PersonalCard generateAndSaveCardImage(long personalCardId) {
         PersonalCard personalCard = personalCardDao.getById(personalCardId);
         try {
-            BufferedImage image = drawCardService.drawDiverCard(personalCard);
-            imageStorageManager.storeCardImage(personalCard, image);
+            Pair<BufferedImage,BufferedImage> images = drawCardService.drawDiverCard(personalCard);
+            imageStorageManager.storeCardImage(personalCard, images.getFirst(), images.getSecond());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

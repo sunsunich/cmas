@@ -27,7 +27,18 @@ public class JspModelConributeFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        servletRequest.setAttribute("webVersion", 52);
+        // todo finish for android - probably need a separate interceptor
+        /*
+            https://www.cmasdata.org/verify
+            https://www.foo.com/bar/BlahBlah will redirect to https://play.google.com/store/apps/details?id=com.bar.foo&referrer=BlahBlah
+             */
+//        if (requestURI.startsWith("/verify?token=") || requestURI.startsWith("/login?token=")) {
+//            String referer = "";
+//            response.sendRedirect("https://play.google.com/store/apps/details?id=com.cmas.cmas_flutter&referrer=" + referer);
+//            return false;
+//        }
+
+        servletRequest.setAttribute("webVersion", 53);
         servletRequest.setAttribute("userpicRoot", imageStorageManager.getUserpicRoot());
         servletRequest.setAttribute("cardsRoot", imageStorageManager.getCardImagesRoot());
         servletRequest.setAttribute("cardApprovalRequestImagesRoot", imageStorageManager.getCardApprovalRequestImagesRoot());

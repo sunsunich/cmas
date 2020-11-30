@@ -10,12 +10,14 @@ import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.entities.logbook.DiverFriendRequest;
 import org.cmas.entities.logbook.LogbookBuddieRequest;
 import org.cmas.entities.logbook.LogbookEntry;
 import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.PaidFeature;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
@@ -418,6 +420,67 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     }
 
     @Override
+    public void sendCardApprovalRequestToFederation(CardApprovalRequest cardApprovalRequest,
+                                                    NationalFederation issuingFederation,
+                                                    @Nullable Diver federationAdmin
+    ) {
+        Locale locale = Locale.ENGLISH;
+        Diver diver = cardApprovalRequest.getDiver();
+        String text = textRenderer.renderText(
+                "cardApprovalRequestToFederation.ftl", locale,
+                new ModelAttr("id", cardApprovalRequest.getId()),
+                new ModelAttr("federation", issuingFederation),
+                new ModelAttr("diver", diver)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = federationAdmin == null ?
+                getFederationInternetAddress(issuingFederation) :
+                getInternetAddress(federationAdmin);
+        String subj = subjects.renderText("CardApprovalRequestFederation",
+                                          locale,
+                                          diver.getFirstName() + ' ' + diver.getLastName()
+        );
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Nullable
+    private InternetAddress getFederationInternetAddress(NationalFederation federation) {
+        try {
+            return new InternetAddress(federation.getEmail(), federation.getName(), Globals.UTF_8_ENC);
+        } catch (Exception e) {
+            log.error("Can't get mail from federation {}", federation, e);
+            return null;
+        }
+    }
+
+    @Override
+    public void sendCardApprovalRequestToCmasHq(CardApprovalRequest cardApprovalRequest) {
+        Locale locale = Locale.ENGLISH;
+        String frontImage = addresses.getSiteName(locale) +
+                            imageStorageManager.getCardApprovalRequestImagesRoot() +
+                            cardApprovalRequest.getFrontImage().getFileUrl();
+        String backImage = cardApprovalRequest.getBackImage() == null ? ""
+                : addresses.getSiteName(locale) +
+                  imageStorageManager.getCardApprovalRequestImagesRoot() +
+                  cardApprovalRequest.getBackImage().getFileUrl();
+        Diver diver = cardApprovalRequest.getDiver();
+        String text = textRenderer.renderText(
+                "cardApprovalRequestToCmasHq.ftl", locale,
+                new ModelAttr("diver", diver),
+                new ModelAttr("returnEmail", addresses.getSupportEmail()),
+                new ModelAttr("frontImage", frontImage),
+                new ModelAttr("backImage", backImage)
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getCmasHqAddress();
+        String subj = subjects.renderText("CardApprovalRequest",
+                                          locale,
+                                          diver.getFirstName() + ' ' + diver.getLastName()
+        );
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
     public void sendCardApprovalRequestDeclined(CardApprovalRequest cardApprovalRequest) {
         Locale locale = Locale.ENGLISH;
         String frontImage = addresses.getSiteName(locale) +
@@ -463,11 +526,12 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     }
 
     @Override
-    public void cmasMobileAnnounce(Diver diver) {
+    public void cmasMobileAnnounce(Diver diver, NotificationsCounter notificationsCounter) {
         Locale locale = diver.getLocale();
         String subj = subjects.renderText("CmasMobile", locale, addresses.getSiteName(locale));
         String text = textRenderer.renderText("cmasMobile.ftl", locale,
-                                              new ModelAttr("diver", diver)
+                                              new ModelAttr("diver", diver),
+                                              new ModelAttr("unsubscribeToken", notificationsCounter.getUnsubscribeToken())
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(diver);

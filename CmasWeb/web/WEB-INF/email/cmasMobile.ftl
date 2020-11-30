@@ -27,5 +27,9 @@
     Sincerely yours,<br/>
     AquaLink <br/>
     </p>
+    <p>
+        If you do not want to receive emails with updates or news from CMAS AquaLink, please open the link below: <br/>
+        <@mailer.href url="${context_path}/unsubscribe.html?unsubscribeToken=${unsubscribeToken}"/>
+    </p>
 </@mailer.mail>        
 

@@ -5,8 +5,10 @@ import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.User;
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.model.FileUploadBean;
 import org.cmas.presentation.model.user.DiverFormObject;
@@ -57,6 +59,9 @@ public class UserProfileController extends DiverAwareController {
 
     @Autowired
     private DiverDao diverDao;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @Autowired
     private CountryDao countryDao;
@@ -226,6 +231,24 @@ public class UserProfileController extends DiverAwareController {
             log.error(e.getMessage(), e);
             return gsonViewFactory.createErrorGsonView("validation.imageFormat");
         }
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
+    @RequestMapping(value = "/secure/subscribe.html", method = RequestMethod.GET)
+    public View subscribe() {
+        Diver diver = getCurrentDiver();
+        NotificationsCounter notificationsCounter = notificationsCounterDao.getByDiver(diver);
+        notificationsCounter.setUnsubscribed(false);
+        notificationsCounterDao.updateModel(notificationsCounter);
+        return gsonViewFactory.createSuccessGsonView();
+    }
+
+    @RequestMapping(value = "/secure/unsubscribe.html", method = RequestMethod.GET)
+    public View unsubscribe() {
+        Diver diver = getCurrentDiver();
+        NotificationsCounter notificationsCounter = notificationsCounterDao.getByDiver(diver);
+        notificationsCounter.setUnsubscribed(true);
+        notificationsCounterDao.updateModel(notificationsCounter);
         return gsonViewFactory.createSuccessGsonView();
     }
 }

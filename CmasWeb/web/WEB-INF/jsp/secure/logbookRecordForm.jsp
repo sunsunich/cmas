@@ -28,7 +28,7 @@
 <jsp:useBean id="pressureMeasureUnits" scope="request" type="org.cmas.entities.logbook.PressureMeasureUnit[]"/>
 <jsp:useBean id="supplyTypes" scope="request" type="org.cmas.entities.logbook.TankSupplyType[]"/>
 
-<my:securepage title="cmas.face.index.header"
+<my:securepage title="cmas.face.logbook.header"
                customScripts="js/model/util_model.js,js/model/logbook_record_model.js,js/model/fast_search_divers_model.js,js/controller/util_controller.js,js/controller/country_controller.js,js/controller/logbook_record_controller.js,js/controller/logbook_record_diveProfile_controller.js,js/controller/logbook_record_publish_controller.js,/js/controller/fast_search_divers_controller.js">
 
     <script type="application/javascript">

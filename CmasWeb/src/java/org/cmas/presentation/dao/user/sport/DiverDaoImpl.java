@@ -146,6 +146,15 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
     }
 
     @Override
+    @Nullable
+    public Diver getFederationAdmin(NationalFederation federation) {
+        return (Diver)createCriteria()
+                .add(Restrictions.eq("federation", federation))
+                .add(Restrictions.eq("role", Role.ROLE_FEDERATION_ADMIN))
+                .uniqueResult();
+    }
+
+    @Override
     protected Criteria makeSearchRequest(UserSearchFormObject form) {
         Criteria criteria = super.makeSearchRequest(form);
         String diverType = form.getDiverType();

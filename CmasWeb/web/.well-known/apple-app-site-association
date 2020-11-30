@@ -3,8 +3,8 @@
         "apps": [],
         "details": [
             {
-                "appID": "1482247868.com.cmas",
-                "paths": [ "/verify*", "/login*"]
+                "appID": "6632HFHS93.com.cmas",
+                "paths": [ "/mob/*"]
             }
         ]
     }

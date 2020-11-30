@@ -1,6 +1,8 @@
 package org.cmas.presentation.controller.face;
 
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.util.http.BadRequestException;
 import org.cmas.util.mail.MailerConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @SuppressWarnings("HardcodedFileSeparator")
@@ -17,6 +20,9 @@ public class HomePageController {
 
     @Autowired
     private CountryDao countryDao;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @Autowired
     private MailerConfig mailerConfig;
@@ -62,6 +68,14 @@ public class HomePageController {
     public ModelAndView paymentInfo() {
         ModelMap mm = new ModelMap();
         return new ModelAndView("paymentInfo", mm);
+    }
+
+    @RequestMapping(value = "/unsubscribe.html", method = RequestMethod.GET)
+    public ModelAndView unsubscribe(@RequestParam String unsubscribeToken) {
+        NotificationsCounter notificationsCounter = notificationsCounterDao.getByUnsubscribeToken(unsubscribeToken);
+        notificationsCounter.setUnsubscribed(true);
+        notificationsCounterDao.updateModel(notificationsCounter);
+        return new ModelAndView("/unsubscribed");
     }
 }
 

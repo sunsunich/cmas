@@ -18,10 +18,12 @@ public class MailerConfig implements InitializingBean, AddressConfig {
     // Администратор системы
     private String adminMail;
     private String questionFormEmail;
+    private String cmasHqEmail;
 
     private InternetAddress adminMailAddress;
     private InternetAddress supportAddress;
     private InternetAddress questionFormAddress;
+    private InternetAddress cmasHqAddress;
 
     private String hostName;
 
@@ -32,6 +34,7 @@ public class MailerConfig implements InitializingBean, AddressConfig {
         supportAddress = new InternetAddress(supportEmail);
         questionFormAddress = new InternetAddress(questionFormEmail);
         adminMailAddress = new InternetAddress(adminMail);
+        cmasHqAddress = new InternetAddress(cmasHqEmail);
     }
 
     public void setSiteAddress(String siteAddress) {
@@ -126,5 +129,18 @@ public class MailerConfig implements InitializingBean, AddressConfig {
     @Required
     public void setFromText(String fromText) {
         this.fromText = fromText;
+    }
+
+    public String getCmasHqEmail() {
+        return cmasHqEmail;
+    }
+
+    public InternetAddress getCmasHqAddress() {
+        return cmasHqAddress;
+    }
+
+    @Required
+    public void setCmasHqEmail(String cmasHqEmail) {
+        this.cmasHqEmail = cmasHqEmail;
     }
 }
