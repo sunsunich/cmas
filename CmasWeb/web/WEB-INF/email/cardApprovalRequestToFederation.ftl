@@ -1,5 +1,5 @@
 <#import "macro.ftl" as mailer/>
-<@mailer.mail title="AQUALINK: Card approval request submitted">
+<@mailer.mail title="CMAS AQUALINK: Card approval request submitted">
     <p>Dear ${federation.name},</p>
     <p>
         Diver ${diver.firstName} ${diver.lastName} requests your approval of their CMAS certificate.

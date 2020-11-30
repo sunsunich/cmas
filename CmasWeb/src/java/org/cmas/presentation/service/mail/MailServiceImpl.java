@@ -21,13 +21,17 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.InternetAddressOwner;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
+import org.cmas.util.mail.Attachment;
 import org.cmas.util.mail.CommonMailServiceImpl;
 import org.cmas.util.mail.ModelAttr;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.mail.internet.InternetAddress;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -422,7 +426,7 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     @Override
     public void sendCardApprovalRequestToFederation(CardApprovalRequest cardApprovalRequest,
                                                     NationalFederation issuingFederation,
-                                                    @Nullable Diver federationAdmin
+                                                    Diver federationAdmin
     ) {
         Locale locale = Locale.ENGLISH;
         Diver diver = cardApprovalRequest.getDiver();
@@ -433,24 +437,12 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
                 new ModelAttr("diver", diver)
         );
         InternetAddress from = getSiteReplyAddress(locale);
-        InternetAddress to = federationAdmin == null ?
-                getFederationInternetAddress(issuingFederation) :
-                getInternetAddress(federationAdmin);
+        InternetAddress to = getInternetAddress(federationAdmin);
         String subj = subjects.renderText("CardApprovalRequestFederation",
                                           locale,
                                           diver.getFirstName() + ' ' + diver.getLastName()
         );
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
-    }
-
-    @Nullable
-    private InternetAddress getFederationInternetAddress(NationalFederation federation) {
-        try {
-            return new InternetAddress(federation.getEmail(), federation.getName(), Globals.UTF_8_ENC);
-        } catch (Exception e) {
-            log.error("Can't get mail from federation {}", federation, e);
-            return null;
-        }
     }
 
     @Override
@@ -531,11 +523,46 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         String subj = subjects.renderText("CmasMobile", locale, addresses.getSiteName(locale));
         String text = textRenderer.renderText("cmasMobile.ftl", locale,
                                               new ModelAttr("diver", diver),
-                                              new ModelAttr("unsubscribeToken", notificationsCounter.getUnsubscribeToken())
+                                              new ModelAttr("unsubscribeToken",
+                                                            notificationsCounter.getUnsubscribeToken())
         );
         InternetAddress from = getSiteReplyAddress(locale);
         InternetAddress to = getInternetAddress(diver);
         mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
+
+    @Override
+    public void sendFederationManuals(NationalFederation federation, Diver federationAdmin) {
+        Locale locale = Locale.ENGLISH;
+        InternetAddress from = addresses.getSupportAddress();
+        String text = textRenderer.renderText(
+                "manualsToFederation.ftl", locale,
+                new ModelAttr("federation", federation),
+                new ModelAttr("federationAdmin", federationAdmin),
+                new ModelAttr("supportEmail", from.getAddress())
+        );
+
+        InternetAddress to = getInternetAddress(federationAdmin);
+        String subj = subjects.renderText("ManualsToFederation",
+                                          locale
+        );
+        List<String> attachmentFileNames = Arrays.asList(
+                "addSingleDiver.png",
+                "uploadDivers.png",
+                "certificateApprovalRequests.png",
+                "changePassword.png",
+                "FederationDataExchangeOptions.doc",
+                "FederationDataExchangeFormat.doc",
+                "CMAS_Technical_Certificates_to_AquaLink_mapping.doc",
+                "CMAS_Scientific_Certificates_to_AquaLink_mapping.doc",
+                "Data_Example1.xls"
+        );
+        List<Attachment> attachments = new ArrayList<>(attachmentFileNames.size());
+        String attachmentsRoot = addresses.getAttachmentsLocalRoot();
+        for (String attachmentFileName : attachmentFileNames) {
+            attachments.add(new Attachment(attachmentFileName, new File(attachmentsRoot, attachmentFileName)));
+        }
+        mailTransport.sendMail(from, to, text, subj, true, attachments, getMailEncoding(locale));
     }
 }
 

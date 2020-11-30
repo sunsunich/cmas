@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import javax.annotation.Nullable;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -15,6 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Arrays;
+import java.util.List;
 
 public class MailTransportImpl implements MailTransport {
     // Logger instance for class
@@ -41,10 +43,20 @@ public class MailTransportImpl implements MailTransport {
         executor.execute(new SendNewsletterTask(to, from, text, subject, true, encoding));
     }
 
-
     @Override
     public void sendMail(InternetAddress from, InternetAddress to, String text, String subject, boolean html, String encoding) {
-        executor.execute(new SendMailTask(from, to, text, subject, html, encoding));
+        sendMail(from, to, text, subject, html, null, encoding);
+    }
+
+    @Override
+    public void sendMail(InternetAddress from,
+                         InternetAddress to,
+                         String text,
+                         String subject,
+                         boolean html,
+                         List<Attachment> attachments,
+                         String encoding) {
+        executor.execute(new SendMailTask(from, to, text, subject, html, attachments, encoding));
     }
 
     private class SendMailTask implements Runnable {
@@ -54,14 +66,23 @@ public class MailTransportImpl implements MailTransport {
         private final String subject;
         private final boolean html;
         private final String encoding;
+        @Nullable
+        private final List<Attachment> attachments;
 
-        SendMailTask(InternetAddress from, InternetAddress to, String text, String subject, boolean html,  String encoding) {
+        SendMailTask(InternetAddress from,
+                     InternetAddress to,
+                     String text,
+                     String subject,
+                     boolean html,
+                     @Nullable
+                     List<Attachment> attachments,
+                     String encoding) {
             this.from = from;
             this.to = to;
             this.text = text;
             this.subject = subject;
             this.html = html;
-       //     this.attachments = attachments;
+            this.attachments = attachments;
             this.encoding = encoding;
         }
 
@@ -70,35 +91,33 @@ public class MailTransportImpl implements MailTransport {
             MimeMessagePreparator prep = new MimeMessagePreparator() {
                 @Override
                 public void prepare(MimeMessage mimeMessage) throws MessagingException {
-                    boolean isMultiPart = false;//attachments != null;
+                    boolean isMultiPart = attachments != null;
                     MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, isMultiPart, encoding);
                     messageHelper.setFrom(from);
                     messageHelper.setTo(to);
                     messageHelper.setSubject(subject);
-                    // если есть аттачи - добавляем их в письмо.
-//                    if (attachments != null) {
-//                        messageHelper.setText(text, html);
-//                        for (Attachment attachment : attachments) {
-//                            messageHelper.addAttachment(attachment.getFileName(), attachment.getDataSource());
-//                        }
-//                    } else {
-                        // а если нет - отдаем текст по старинке.
+                    if (attachments == null) {
                         if (html) {
-                            messageHelper.getMimeMessage().setContent(text, "text/html; charset=" + messageHelper.getEncoding());
+                            messageHelper.getMimeMessage()
+                                         .setContent(text, "text/html; charset=" + messageHelper.getEncoding());
                         } else {
                             messageHelper.setText(text);
                         }
                         messageHelper.getMimeMessage().removeHeader("Content-Transfer-Encoding");
                         messageHelper.getMimeMessage().addHeader("Content-Transfer-Encoding", "base64");
-            //        }
-
+                    } else {
+                        messageHelper.setText(text, html);
+                        for (Attachment attachment : attachments) {
+                            messageHelper.addAttachment(attachment.getFileName(), attachment.getFile());
+                        }
+                    }
                     messageHelper.getMimeMessage().saveChanges();
                 }
             };
             try {
                 mailSender.send(prep);
             } catch (Exception e) {
-                log.error("error send email, \nto=" + to + "\ntext=" + text+" \n subj="+subject, e);
+                log.error("error send email, \nto=" + to + "\ntext=" + text + " \n subj=" + subject, e);
             }
         }
     }
@@ -140,7 +159,8 @@ public class MailTransportImpl implements MailTransport {
                 message.saveChanges();
                 transport.sendMessage(message, to);
             } catch (Exception e) {
-                log.error("error send newsletter, \ntext=" + text + "\n subj = " + subject + "\n to=" + Arrays.toString(to), e);
+                log.error("error send newsletter, \ntext=" + text + "\n subj = " + subject + "\n to=" + Arrays.toString(
+                        to), e);
             }
         }
     }

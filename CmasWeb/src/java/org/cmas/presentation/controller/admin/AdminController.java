@@ -476,4 +476,26 @@ public class AdminController {
         userAnnouncesService.sendMobileReadyAnnounce(cmasDivers);
         return new ModelAndView("redirect:/admin/index.html");
     }
+
+    @RequestMapping(value = "/admin/federationManualsAnnounceTo.html", method = RequestMethod.GET)
+    public ModelAndView federationManualsAnnounceTo(@RequestParam("email") String email) {
+        Diver federationAdmin = diverDao.getByEmail(email);
+        if (federationAdmin.getRole() != Role.ROLE_FEDERATION_ADMIN) {
+            throw new BadRequestException();
+        }
+        List<Diver> cmasDivers = new ArrayList<>();
+        cmasDivers.add(federationAdmin);
+        userAnnouncesService.sendManualsToFederations(cmasDivers);
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
+    @RequestMapping(value = "/admin/federationManualsAnnounce.html", method = RequestMethod.GET)
+    public ModelAndView federationManualsAnnounce() {
+        @SuppressWarnings("unchecked")
+        List<Diver> cmasDivers = diverDao.createCriteria().add(
+                Restrictions.eq("role", Role.ROLE_FEDERATION_ADMIN)
+        ).list();
+        userAnnouncesService.sendManualsToFederations(cmasDivers);
+        return new ModelAndView("redirect:/admin/index.html");
+    }
 }

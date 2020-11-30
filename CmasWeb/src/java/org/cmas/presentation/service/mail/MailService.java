@@ -14,7 +14,6 @@ import org.cmas.entities.loyalty.CameraOrder;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.entities.user.Registration;
-import org.jetbrains.annotations.Nullable;
 
 public interface MailService {
 
@@ -56,7 +55,7 @@ public interface MailService {
 
     void sendCardApprovalRequestToFederation(CardApprovalRequest cardApprovalRequest,
                                              NationalFederation issuingFederation,
-                                             @Nullable Diver federationAdmin
+                                             Diver federationAdmin
     );
 
     void sendCardApprovalRequestToCmasHq(CardApprovalRequest cardApprovalRequest);
@@ -65,5 +64,7 @@ public interface MailService {
 
     void sendCardApprovalRequestApproved(PersonalCard newCard, String statusStr);
 
-    void cmasMobileAnnounce(Diver diver, NotificationsCounter notificationsCounte);
+    void cmasMobileAnnounce(Diver diver, NotificationsCounter notificationsCounter);
+
+    void sendFederationManuals(NationalFederation federation, Diver federationAdmin);
 }

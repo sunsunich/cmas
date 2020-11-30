@@ -27,6 +27,7 @@ public class MailerConfig implements InitializingBean, AddressConfig {
 
     private String hostName;
 
+    private String attachmentsLocalRoot;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -142,5 +143,14 @@ public class MailerConfig implements InitializingBean, AddressConfig {
     @Required
     public void setCmasHqEmail(String cmasHqEmail) {
         this.cmasHqEmail = cmasHqEmail;
+    }
+
+    public String getAttachmentsLocalRoot() {
+        return attachmentsLocalRoot;
+    }
+
+    @Required
+    public void setAttachmentsLocalRoot(String attachmentsLocalRoot) {
+        this.attachmentsLocalRoot = attachmentsLocalRoot;
     }
 }

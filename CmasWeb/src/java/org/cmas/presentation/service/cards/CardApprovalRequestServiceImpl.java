@@ -11,10 +11,13 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.diver.NotificationsCounter;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject;
 import org.cmas.presentation.model.cards.CardApprovalRequestFormObject;
@@ -56,6 +59,9 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
     @Autowired
     private DiverDao diverDao;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @Autowired
     private CardApprovalRequestDao cardApprovalRequestDao;
@@ -257,20 +263,28 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
     private void notifyOnNewCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
         mailService.sendCardApprovalRequestToAquaLinkAdmin(cardApprovalRequest);
-//        int notificationsCnt = cardApprovalRequest.getFederationNotificationsCnt();
-//        if(notificationsCnt == 0) {
-//            NationalFederation federation = cardApprovalRequest.getIssuingFederation();
-//            if (federation == null) {
-//                mailService.sendCardApprovalRequestToCmasHq(cardApprovalRequest);
-//            } else {
-//                mailService.sendCardApprovalRequestToFederation(
-//                        cardApprovalRequest,
-//                        federation,
-//                        diverDao.getFederationAdmin(federation)
-//                );
-//            }
-//            cardApprovalRequest.setFederationNotificationsCnt(notificationsCnt + 1);
-//        }
+        int notificationsCnt = cardApprovalRequest.getFederationNotificationsCnt();
+        if (notificationsCnt == 0) {
+            Diver federationAdmin = null;
+            NationalFederation federation = cardApprovalRequest.getIssuingFederation();
+            if (federation != null) {
+                federationAdmin = diverDao.getFederationAdmin(federation);
+            }
+            if (federationAdmin == null) {
+                //     mailService.sendCardApprovalRequestToCmasHq(cardApprovalRequest);
+            } else {
+                NotificationsCounter notificationsCounter = notificationsCounterDao.getByDiver(federationAdmin);
+                if (notificationsCounter.getFederationInitialCnt() > 0) {
+                    mailService.sendCardApprovalRequestToFederation(
+                            cardApprovalRequest,
+                            federation,
+                            federationAdmin
+                    );
+                }
+            }
+            cardApprovalRequest.setFederationNotificationsCnt(notificationsCnt + 1);
+            cardApprovalRequestDao.updateModel(cardApprovalRequest);
+        }
     }
 
     private UserFile processFile(Errors result,
