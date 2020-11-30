@@ -4,11 +4,13 @@ import org.cmas.entities.Country;
 import org.cmas.entities.Role;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.presentation.dao.user.sport.NationalFederationDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.model.admin.FederationFormObject;
 import org.cmas.presentation.service.mail.MailService;
 import org.cmas.util.StringUtil;
@@ -34,6 +36,9 @@ public class NationalFederationServiceImpl implements NationalFederationService 
 
     @Autowired
     private CountryDao countryDao;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @Autowired
     private MailService mailService;
@@ -65,6 +70,9 @@ public class NationalFederationServiceImpl implements NationalFederationService 
 
         Serializable adminId = diverDao.save(federationAdmin);
         Diver dbFederationAdmin = diverDao.getModel(adminId);
+        NotificationsCounter notificationsCounter = new NotificationsCounter();
+        notificationsCounter.setDiver(dbFederationAdmin);
+        notificationsCounterDao.save(notificationsCounter);
 
         // todo implement
         // mailService.sendInsuranceRequestFailed();

@@ -7,12 +7,14 @@ import org.cmas.entities.amateur.Amateur;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.entities.logbook.LogbookVisibility;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.UserBalanceDao;
 import org.cmas.presentation.dao.user.sport.AthleteDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.BackendUser;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.model.admin.AdminUserFormObject;
@@ -49,6 +51,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private DiverDao diverDao;
+
+    @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
 
     @Autowired
     private UserBalanceDao userBalanceDao;
@@ -128,7 +133,10 @@ public class AdminServiceImpl implements AdminService {
             personalCardDao.save(newCard);
         }
 
-        diverDao.updateModel(diver);
+        diverDao.updateModel(newDiver);
+        NotificationsCounter notificationsCounter = new NotificationsCounter();
+        notificationsCounter.setDiver(newDiver);
+        notificationsCounterDao.save(notificationsCounter);
     }
 
     @Override

@@ -13,11 +13,13 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
+import org.cmas.entities.diver.NotificationsCounter;
 import org.cmas.entities.loyalty.PaidFeature;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.user.DiverFormObject;
@@ -96,6 +98,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     DiverDao diverDao;
 
     @Autowired
+    private NotificationsCounterDao notificationsCounterDao;
+
+    @Autowired
     PersonalCardDao personalCardDao;
 
     @Autowired
@@ -118,6 +123,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         diver.setAreaOfInterest(registration.getAreaOfInterest());
         diver.setFederation(registration.getFederation());
         diverDao.updateModel(diver);
+        NotificationsCounter notificationsCounter = new NotificationsCounter();
+        notificationsCounter.setDiver(diver);
+        notificationsCounterDao.save(notificationsCounter);
+
         boolean imagesTransferSuccess = true;
         List<RegFile> images = registration.getImages();
         for (int i = 0; i < images.size(); i += 2) {
@@ -382,7 +391,11 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         dbDiver.setEnabled(true);
         dbDiver.setDateEdited(new Date());
         if (isNew) {
-            diverDao.save(dbDiver);
+            Long diverId = (Long) diverDao.save(dbDiver);
+            Diver loadedDiver = diverDao.getById(diverId);
+            NotificationsCounter notificationsCounter = new NotificationsCounter();
+            notificationsCounter.setDiver(loadedDiver);
+            notificationsCounterDao.save(notificationsCounter);
         } else {
             diverDao.updateModel(dbDiver);
         }
