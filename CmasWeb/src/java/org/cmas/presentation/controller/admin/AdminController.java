@@ -1,10 +1,14 @@
 package org.cmas.presentation.controller.admin;
 
 import com.google.myjson.Gson;
+import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
 import org.cmas.entities.Role;
 import org.cmas.entities.User;
+import org.cmas.entities.UserFile;
+import org.cmas.entities.UserFileType;
+import org.cmas.entities.cards.CardApprovalRequest;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
@@ -12,6 +16,8 @@ import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.presentation.dao.CountryDao;
+import org.cmas.presentation.dao.UserFileDao;
+import org.cmas.presentation.dao.cards.CardApprovalRequestDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.AmateurDao;
 import org.cmas.presentation.dao.user.UserDao;
@@ -496,6 +502,51 @@ public class AdminController {
                 Restrictions.eq("role", Role.ROLE_FEDERATION_ADMIN)
         ).list();
         userAnnouncesService.sendManualsToFederations(cmasDivers);
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
+    @Autowired
+    private CardApprovalRequestDao cardApprovalRequestDao;
+
+    @Autowired
+    private ImageStorageManager imageStorageManager;
+
+    @Autowired
+    private UserFileDao userFileDao;
+
+    @RequestMapping(value = "/admin/cleanUpCars.html", method = RequestMethod.GET)
+    public ModelAndView cleanUpCars() {
+        @SuppressWarnings("unchecked")
+        List<Diver> bots = diverDao.createCriteria().add(Restrictions.eq("bot", true)).list();
+        for (Diver bot : bots) {
+            @SuppressWarnings("unchecked")
+            List<CardApprovalRequest> requests = cardApprovalRequestDao.createCriteria()
+                                                                       .add(Restrictions.eq("diver", bot))
+                                                                       .list();
+            for (CardApprovalRequest request : requests) {
+                UserFile frontImage = request.getFrontImage();
+                UserFile backImage = request.getBackImage();
+                cardApprovalRequestDao.deleteModel(request);
+                if (frontImage != null) {
+                    imageStorageManager.deleteUserFile(frontImage);
+                    userFileDao.deleteModel(frontImage);
+                }
+                if (backImage != null) {
+                    imageStorageManager.deleteUserFile(backImage);
+                    userFileDao.deleteModel(backImage);
+                }
+            }
+            @SuppressWarnings("unchecked")
+            List<UserFile> userFiles = userFileDao.createCriteria()
+                                                  .add(Restrictions.eq("creator", bot))
+                                                  .add(Restrictions.eq("userFileType",
+                                                                       UserFileType.CARD_APPROVAL_REQUEST))
+                                                  .list();
+            for (UserFile userFile : userFiles) {
+                imageStorageManager.deleteUserFile(userFile);
+                userFileDao.deleteModel(userFile);
+            }
+        }
         return new ModelAndView("redirect:/admin/index.html");
     }
 }
