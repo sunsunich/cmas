@@ -16,12 +16,12 @@
         Most importantly, CMAS would like all it's divers' certificates to be verified online 24/7.
     </p>
     <p>
-        To achieve this goal we require assistance from every National Federation associated with CMAS. At the moment
+        To achieve this goal we require assistance from every National Federation which is a member of CMAS. At the moment
         National Federations issue only hard copies of certificates – CMAS cards. Now CMAS Head Quarters has made a
         decision to issue secure CMAS e-cards, which could be neither lost, nor faked. CMAS AquaLink is a tool to issue
         and verify such CMAS e-cards.<br/>
         In order to use this tool you are given access to the private section of the web site (the portal) and an admin
-        account dedicated to your federation. The details on how to login to the portal are given at below in this
+        account dedicated to your federation. The details on how to login to the portal are given below in this
         email.
     </p>
     <p>
@@ -47,7 +47,7 @@
         </li>
     </ol>
     <p>
-        To achieve our common goal of online divers' certificates verification, he following action from a diver is
+        To achieve our common goal of online divers' certificates verification, the following action from a diver is
         required: register at CMAS AquaLink.<br/>
         The required action from your Federation would be: either upload diver's data in advance, or approve diver's
         certificate approval request.<br/>
@@ -107,7 +107,6 @@
             in excel files.<br/>
             <b>CMAS_Technical_Certificates_to_AquaLink_mapping.doc</b> and <b>CMAS_Scientific_Certificates_to_AquaLink_mapping.doc</b>
             - documents describing the way CMAS Certificates are mapped into the AquaLink System.<br/>
-            <br/>
             <b>Data_Example1.xls</b> - an example excel file, containing data for one diver.
         </li>
     </ol>
@@ -183,7 +182,7 @@
         Sincerely yours, <br/>
         Alexander Petukhov<br/>
         CMAS AquaLink support team<br/>
-        Email: ${supportEmail}
+        Email: ${supportEmail}<br/>
         Mob UK: +44 7570 819047<br/>
         Mob RUS: +7 926 6656463<br/>
         Viber, WhatsApp, Telegram: +7 925 4069918<br/>

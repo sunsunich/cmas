@@ -78,8 +78,14 @@
     </filter-mapping>
 
 
-    <!--                                фильтры на все адреса                 -->
-
+    <filter>
+        <filter-name>IosUniversalLinkFilter</filter-name>
+        <filter-class>org.cmas.presentation.controller.filter.IosUniversalLinkFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>IosUniversalLinkFilter</filter-name>
+        <url-pattern>/.well-known/*</url-pattern>
+    </filter-mapping>
 
     <filter>
         <description>проверяет авторизацию</description>
@@ -90,8 +96,6 @@
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
-    <!--                      фильтры на адреса динамических страниц            -->
 
     <filter>
         <description>отдает в контекст имя пользователя</description>
