@@ -38,22 +38,6 @@ var fed_edit_diver_controller = {
                         return 'validation.emptyField';
                     }
                 }
-            },
-            {
-                id: 'diverType',
-                validateField: function (value) {
-                    if (isStringTrimmedEmpty(value)) {
-                        return 'validation.emptyField';
-                    }
-                }
-            },
-            {
-                id: 'diverLevel',
-                validateField: function (value) {
-                    if (isStringTrimmedEmpty(value)) {
-                        return 'validation.emptyField';
-                    }
-                }
             }
         ];
         this.validationController.init();
@@ -170,18 +154,7 @@ var fed_edit_diver_controller = {
                 }
             }
 
-            var natFedCardNumber = $('#diver_natFedCardNumber').val();
             var natFedInstructorCardNumber = $('#diver_natFedInstructorCardNumber').val();
-
-            if (!isStringTrimmedEmpty(natFedCardNumber) && fed_edit_diver_model.diver.cards.length === 0) {
-                const card = {
-                    number: natFedCardNumber,
-                    diverType: fed_edit_diver_model.diver.diverType,
-                    diverLevel: fed_edit_diver_model.diver.diverLevel,
-                    cardType: 'NATIONAL'
-                };
-                fed_edit_diver_model.diver.cards.push(card);
-            }
             if (!isStringTrimmedEmpty(natFedInstructorCardNumber)) {
                 const card = {
                     number: natFedInstructorCardNumber

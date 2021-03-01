@@ -1,16 +1,11 @@
 package org.cmas.util.text;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 public final class StringUtil {
@@ -164,82 +159,6 @@ public final class StringUtil {
     }
 
     /**
-     * Возвращает уровень домена
-     * @param str
-     * @return domain level
-     */
-    public static int getDomainLevel(String str) {
-        if (isEmpty(str)) {
-            throw new NullPointerException();
-        }
-        // RFC Requirements
-        if (!str.endsWith(".")) {
-            str += ".";
-        }
-        return StringUtils.countMatches(str, ".");
-    }
-
-    /**
-     * Возвращает алиас к сайту
-     * Алиасы будут определены только для доменов сайта второго уровня
-     * @param source
-     * @return алиас
-     */
-    public static String getAliasToSite(String source) {
-        int level = getDomainLevel(source);
-        source = source.toLowerCase();
-        if (level == 3 && source.startsWith(WWW)) {
-            return source.replaceFirst(WWW, "");
-        }
-        if (!source.startsWith(WWW) && level == 2) {
-            return WWW + source;
-        }
-        return null;
-    }
-
-    /**
-     * return the longest repeated string in s
-     * @param s
-     * @return return the longest repeated string
-     */
-    public static String lrs(String s) {
-        // form the N suffixes
-        int N  = s.length();
-        String[] suffixes = new String[N];
-        for (int i = 0; i < N; i++) {
-            suffixes[i] = s.substring(i, N);
-        }
-        // sort them
-        Arrays.sort(suffixes);
-        // find longest repeated substring by comparing adjacent sorted suffixes
-        String lrs = "";
-        for (int i = 0; i < N - 1; i++) {
-            String x = lcp(suffixes[i], suffixes[i+1]);
-            if (x.length() > lrs.length())
-                lrs = x;
-        }
-        return lrs;
-    }
-
-    /**
-     * Находит the longest repeated string в массиве строк
-     * @param strs
-     * @return
-     */
-    public static String lrs(List<String> strs) {
-        String repeat = null;
-        for (int i = 0; i < strs.size(); i++) {
-            String s = strs.get(i);
-            if (i == 0) {
-                repeat = s;
-            } else {
-                repeat = lcp(repeat, s);
-            }
-        }
-        return repeat;
-    }
-
-    /**
      * return the longest common prefix of s and t
      * @param s
      * @param t
@@ -268,24 +187,6 @@ public final class StringUtil {
                 }
             }
         }
-    }
-
-    /**
-     * Returns reflection-based string
-     * @param obj Any object
-     * @return Reflection toString representation of the given object
-     */
-    @NotNull
-    @SuppressWarnings("StaticMethodNamingConvention")
-    public static String str(@Nullable Object obj) {
-        if (obj == null) { return "NULL"; }
-
-        // Hack. Ask ne why, do not remove (Chess)
-        if (obj instanceof Collection) {
-            return str((Collection) obj);
-        }
-
-        return ToStringBuilder.reflectionToString(obj, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     /**
@@ -337,23 +238,6 @@ public final class StringUtil {
     @SuppressWarnings("StaticMethodNamingConvention")
     public static String f(@NotNull String template, Object... args) {
         return String.format(template, args);
-    }
-
-    /**
-     * Shortcut for String.format(), but applies StringUtil.str() to each of the arguments passed
-     * @param template String template
-     * @param args List of values
-     * @return Applied template
-     * @see String#format(String, Object[])
-     */
-    @SuppressWarnings("StaticMethodNamingConvention")
-    public static String f2(@NotNull String template, Object... args) {
-        final String[] params = new String[args.length];
-        for (int i = 0; i < args.length; i++) {
-            params[i] = str(args[i]);
-        }
-
-        return f(template, (Object[]) params);
     }
 
     /**

@@ -11,6 +11,9 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.entities.diver.Diver"/>
 
 <jsp:useBean id="cardGroups" scope="request" type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
+<jsp:useBean id="heliCardGroups" scope="request"
+             type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
+<jsp:useBean id="nationalFederation" scope="request" type="org.cmas.entities.sport.NationalFederation"/>
 <jsp:useBean id="cardsJson" scope="request" type="java.lang.String"/>
 
 <my:fed_adminpage title="Diver Info"
@@ -51,27 +54,24 @@
         <fed:input prefix="diver" name="firstName" label="First Name" value="${command.firstName}" required="true"/>
         <fed:input prefix="diver" name="lastName" label="Last Name" value="${command.lastName}" required="true"/>
         <fed:input prefix="diver" name="dob" label="Date of birth" value='' required="true"/>
-        <fed:select prefix="diver" name="diverType" label="Diver type" options="${diverTypes}"
-                    value="${command.diverType}"
-                    required="true"/>
-        <fed:select prefix="diver" name="diverLevel" label="Diver level" options="${diverLevels}"
-                    value="${command.diverLevel}"
-                    required="true"/>
+        <c:if test="${command.diverType != null}">
+            <div>
+                <label class="input-fed-admin">Diver type</label>
+                <span>${command.diverType}</span>
+            </div>
+        </c:if>
+        <c:if test="${command.diverLevel != null}">
+            <div>
+                <label class="input-fed-admin">Diver level</label>
+                <span>${command.diverLevel}</span>
+            </div>
+        </c:if>
         <c:if test="${command.primaryPersonalCard != null}">
             <div>
                 <label class="input-fed-admin">CMAS card number</label>
                 <span>${command.primaryPersonalCard.printNumber}</span>
             </div>
         </c:if>
-        <c:choose>
-            <c:when test="${natFedCard != null}">
-                <fed:input prefix="diver" name="natFedCardNumber" label="National Federation card number"
-                           value="${natFedCard.printNumber}"/>
-            </c:when>
-            <c:otherwise>
-                <fed:input prefix="diver" name="natFedCardNumber" label="National Federation card number"/>
-            </c:otherwise>
-        </c:choose>
         <c:choose>
             <c:when test="${natFedInstructorCard != null}">
                 <fed:input prefix="diver" name="natFedInstructorCardNumber"
@@ -91,13 +91,26 @@
                 <div>
                     <label class="input-fed-admin-card"><span class="reqMark">* </span>Type of certificate</label>
                     <select id="card_cardType">
-                        <c:forEach var="cardGroup" items="${cardGroups}">
-                            <optgroup label='<s:message code="${cardGroup.key}"/>'>
-                                <c:forEach var="cardType" items="${cardGroup.value}">
-                                    <option value="${cardType}">${cardType}</option>
+                        <c:choose>
+                            <c:when test="${nationalFederation.isHeli}">
+                                <c:forEach var="cardGroup" items="${heliCardGroups}">
+                                    <optgroup label='<s:message code="${cardGroup.key}"/>'>
+                                        <c:forEach var="cardType" items="${cardGroup.value}">
+                                            <option value='${cardType}'>${cardType}</option>
+                                        </c:forEach>
+                                    </optgroup>
                                 </c:forEach>
-                            </optgroup>
-                        </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach var="cardGroup" items="${cardGroups}">
+                                    <optgroup label='<s:message code="${cardGroup.key}"/>'>
+                                        <c:forEach var="cardType" items="${cardGroup.value}">
+                                            <option value='${cardType}'>${cardType}</option>
+                                        </c:forEach>
+                                    </optgroup>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                     </select>
                     <span id="card_error_cardType" cssclass="error"></span>
                 </div>

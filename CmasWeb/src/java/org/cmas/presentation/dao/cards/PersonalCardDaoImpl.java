@@ -54,4 +54,12 @@ public class PersonalCardDaoImpl extends HibernateDaoImpl<PersonalCard> implemen
                 .addOrder(Order.desc("id"))
                 .list();
     }
+
+    @Override
+    public List<PersonalCard> getCardsByDiver(Diver diver) {
+        //noinspection unchecked
+        return createCriteria()
+                .add(Restrictions.eq("diver", diver))
+                .list();
+    }
 }

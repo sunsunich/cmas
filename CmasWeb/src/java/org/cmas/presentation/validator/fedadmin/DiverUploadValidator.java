@@ -29,12 +29,6 @@ public class DiverUploadValidator extends EditUserValidator {
         if (diver.getDob() == null) {
             errors.rejectValue("dob", "validation.emptyField");
         }
-        if (diver.getDiverType() == null) {
-            errors.rejectValue("diverType", "validation.emptyField");
-        }
-        if (diver.getDiverLevel() == null) {
-            errors.rejectValue("diverLevel", "validation.emptyField");
-        }
         if (diver.getCards() != null) {
             List<PersonalCard> cards = diver.getCards();
             for (int i = 0; i < cards.size(); i++) {

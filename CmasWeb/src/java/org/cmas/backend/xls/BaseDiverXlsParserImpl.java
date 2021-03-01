@@ -192,6 +192,12 @@ public abstract class BaseDiverXlsParserImpl implements DiverXlsParser {
             card.setCardType(PersonalCardType.EXTENDED_RANGE);
         } else if (fixedInputStr.contains("APNOEA")) {
             card.setCardType(PersonalCardType.APNOEA);
+        } else if (fixedInputStr.contains("HELIDIVER")) {
+            card.setCardType(PersonalCardType.HELI_DIVER);
+        } else if (fixedInputStr.contains("HELIRESCUE")) {
+            card.setCardType(PersonalCardType.HELI_RESCUE);
+        } else if (fixedInputStr.contains("POWERBOAT")) {
+            card.setCardType(PersonalCardType.POWERBOAT_RESCUE);
         }
 
         if (card.getCardType() == null) {

@@ -12,6 +12,7 @@ import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.util.MutablePair;
 import org.cmas.util.barcode.BarcodeEncoder;
 import org.cmas.util.barcode.Pixels;
 
@@ -23,6 +24,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created on Dec 14, 2015
@@ -40,15 +42,18 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float QR_X = 480.0f / CARD_WIDTH;
     private static final float QR_Y = 69.0f / CARD_HEIGHT;
 
+    private static final float HELI_QR_X = 93.0f / CARD_WIDTH;
+    private static final float HELI_QR_Y = 135.0f / CARD_HEIGHT;
+
     private static final int CARD_NUMBER_FONT_SIZE = 56;
     private static final float CARD_NUMBER_Y = 210.0f / CARD_HEIGHT;
     private static final float CARD_NUMBER_X_1 = 25.0f / CARD_WIDTH;
-    private static final float CARD_NUMBER_X_2 = 200.0f / CARD_WIDTH;
-    private static final float CARD_NUMBER_X_3 = 320.0f / CARD_WIDTH;
-    private static final float CARD_NUMBER_X_4 = 440.0f / CARD_WIDTH;
+
+    private static final float HELI_CARD_NUMBER_Y = 315.0f / CARD_HEIGHT;
+    private static final float HELI_CARD_NUMBER_X_1 = 315.0f / CARD_WIDTH;
 
     private static final int NAME_FONT_SIZE = 22;
-    private static final float NAME_LEFT_X = 200.0f / CARD_WIDTH;
+    private static final float NAME_LEFT_X = 110.0f / CARD_WIDTH;
     private static final float LONG_NAME_LEFT_X = 130.0f / CARD_WIDTH;
     private static final float NAME_RIGHT_X = 468.0f / CARD_WIDTH;
     private static final float FIRST_NAME_Y = 90.0f / CARD_HEIGHT;
@@ -62,52 +67,52 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float STAR_Y = 140.0f / CARD_HEIGHT;
     private static final float STAR_X_SPACE = 10.0f / CARD_WIDTH;
 
+    private static final String ORDINARY_CMAS_CARD_IMAGE_NAME = "cmas_card.png";
+    private static final String APNEA_CMAS_CARD_IMAGE_NAME = "cmas_card_apnoea.png";
+    private static final String HELI_DIVER_CMAS_CARD_IMAGE_NAME = "heli_diver.png";
+    private static final String HELI_RESCUE_CMAS_CARD_IMAGE_NAME = "heli_rescue.png";
+    private static final String POWER_BOAT_CMAS_CARD_IMAGE_NAME = "power_boat.png";
+
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
     public Pair<BufferedImage, BufferedImage> drawDiverCard(PersonalCard card) throws WriterException, IOException {
-        String fileName = getFileName(card);
+        boolean isPrimary = card.getCardType() == PersonalCardType.PRIMARY;
+        Diver diver = card.getDiver();
+
+        PersonalCard generalizedCard = getGeneralizedPersonalCard(card);
+        String fileName = getFileName(generalizedCard);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
         int height = initImage.getHeight();
-        BufferedImage finalImage = new BufferedImage(
-                width, height, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage finalImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = finalImage.createGraphics();
-        g2d.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(
-                RenderingHints.KEY_TEXT_ANTIALIASING,
-                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2d.drawImage(initImage, 0, 0, null);
 
-        Diver diver = card.getDiver();
-        boolean isGuest = diver.getDiverRegistrationStatus() == DiverRegistrationStatus.GUEST;
-        String cardNumber = diver.getPrimaryPersonalCard().getNumber();
-        String cardNumberToDraw = addLeadingZeors(cardNumber);
-        if (card.getCardType() == PersonalCardType.PRIMARY) {
-            g2d.setPaint(Color.BLACK);
-            g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
-            g2d.drawString(
-                    cardNumberToDraw,
-                    CARD_NUMBER_X_1 * (float) width,
-                    CARD_NUMBER_Y * (float) height
-            );
-        }
+        DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
+        boolean isGuest = diverRegistrationStatus == DiverRegistrationStatus.GUEST
+                          || diverRegistrationStatus == DiverRegistrationStatus.DEMO;
 
-        BufferedImage qrCodeImage = null;
-        if (!isGuest) {
-            @SuppressWarnings("NumericCastThatLosesPrecision")
-            int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
-            Pixels qrCode = BarcodeEncoder.createQRCode(
-                    // "https://www.cmasdata.org/verify?token=" + cardNumber, qrSize, qrSize
-                    QR_CODE_PREFIX + cardNumber, qrSize, qrSize
-            );
-            qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
-            qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
-            //noinspection NumericCastThatLosesPrecision
-            g2d.drawImage(qrCodeImage, (int) (QR_X * (float) width), (int) (QR_Y * (float) height), null);
+        CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(generalizedCard);
+        String cardNumber = diver.getPrimaryPersonalCard().getNumber();
+        if (isPrimary) {
+            String cardNumberToDraw = addLeadingZeros(cardNumber);
+            Color numberColor = cardPrintInfo.heliDiver ? Color.WHITE : Color.BLACK;
+            g2d.setPaint(numberColor);
+            g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
+            float cardNumberX1 = cardPrintInfo.heliDiver ? HELI_CARD_NUMBER_X_1 : CARD_NUMBER_X_1;
+            float cardNumberY = cardPrintInfo.heliDiver ? HELI_CARD_NUMBER_Y : CARD_NUMBER_Y;
+            g2d.drawString(cardNumberToDraw, cardNumberX1 * (float) width, cardNumberY * (float) height);
         }
-        Color nameColor = isGuest ? Color.BLACK : new Color(0x25456c);
+        Color nameColor;
+        if (isGuest) {
+            nameColor = Color.BLACK;
+        } else if (cardPrintInfo.heliDiver) {
+            nameColor = Color.WHITE;
+        } else {
+            nameColor = new Color(0x25456c);
+        }
         g2d.setPaint(nameColor);
         g2d.setFont(new Font("Serif", Font.BOLD, NAME_FONT_SIZE));
         float leftX = NAME_LEFT_X * (float) width;
@@ -131,34 +136,48 @@ public class DrawCardServiceImpl implements DrawCardService {
                 drawWithCenterAlign(g2d, fullName, leftX, rightX, FIRST_NAME_Y * (float) height);
             }
         }
+        BufferedImage qrCodeImage = null;
         if (!isGuest) {
-            CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(card);
-            int cardPrintNameWidth = g2d.getFontMetrics().stringWidth(cardPrintInfo.printName);
-            if ((float) cardPrintNameWidth > rightX - leftX) {
-                String[] parts = cardPrintInfo.printName.split(" ");
-                float longLeftX = LONG_NAME_LEFT_X * (float) width;
-                if (parts.length > 1) {
-                    String[] rows = evalOptimalTwoRowsByMinLength(g2d, parts);
-                    boolean isLong = false;
-                    for (String row : rows) {
-                        isLong = (float) g2d.getFontMetrics().stringWidth(row) > rightX - leftX;
-                    }
-                    if (isLong) {
-                        drawWithCenterAlign(g2d, rows[0], longLeftX, rightX, DIVER_TYPE_Y_1 * (float) height);
-                        drawWithCenterAlign(g2d, rows[1], longLeftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+            @SuppressWarnings("NumericCastThatLosesPrecision")
+            int qrSize = (int) ((float) width * QR_SCALE_FACTOR);
+            Pixels qrCode = BarcodeEncoder.createQRCode(
+                    // "https://www.cmasdata.org/verify?token=" + cardNumber, qrSize, qrSize
+                    QR_CODE_PREFIX + cardNumber, qrSize, qrSize
+            );
+            qrCodeImage = new BufferedImage(qrCode.width, qrCode.height, BufferedImage.TYPE_INT_RGB);
+            qrCodeImage.setRGB(0, 0, qrCode.width, qrCode.height, qrCode.pixels, 0, qrCode.width);
+            //noinspection NumericCastThatLosesPrecision
+            float qrX = cardPrintInfo.heliDiver ? HELI_QR_X : QR_X;
+            float qrY = cardPrintInfo.heliDiver ? HELI_QR_Y : QR_Y;
+            g2d.drawImage(qrCodeImage, (int) (qrX * (float) width), (int) (qrY * (float) height), null);
+            if (!cardPrintInfo.printName.isEmpty() && !cardPrintInfo.heliDiver) {
+                int cardPrintNameWidth = g2d.getFontMetrics().stringWidth(cardPrintInfo.printName);
+                if ((float) cardPrintNameWidth > rightX - leftX) {
+                    String[] parts = cardPrintInfo.printName.split(" ");
+                    float longLeftX = LONG_NAME_LEFT_X * (float) width;
+                    if (parts.length > 1) {
+                        String[] rows = evalOptimalTwoRowsByMinLength(g2d, parts);
+                        boolean isLong = false;
+                        for (String row : rows) {
+                            isLong = (float) g2d.getFontMetrics().stringWidth(row) > rightX - leftX;
+                        }
+                        if (isLong) {
+                            drawWithCenterAlign(g2d, rows[0], longLeftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                            drawWithCenterAlign(g2d, rows[1], longLeftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                        } else {
+                            drawWithCenterAlign(g2d, rows[0], leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
+                            drawWithCenterAlign(g2d, rows[1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                        }
                     } else {
-                        drawWithCenterAlign(g2d, rows[0], leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
-                        drawWithCenterAlign(g2d, rows[1], leftX, rightX, DIVER_TYPE_Y_2 * (float) height);
+                        drawWithCenterAlign(g2d,
+                                            cardPrintInfo.printName,
+                                            longLeftX,
+                                            rightX,
+                                            DIVER_TYPE_Y_1 * (float) height);
                     }
                 } else {
-                    drawWithCenterAlign(g2d,
-                                        cardPrintInfo.printName,
-                                        longLeftX,
-                                        rightX,
-                                        DIVER_TYPE_Y_1 * (float) height);
+                    drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
                 }
-            } else {
-                drawWithCenterAlign(g2d, cardPrintInfo.printName, leftX, rightX, DIVER_TYPE_Y_1 * (float) height);
             }
             if (cardPrintInfo.drawStars) {
                 float fullStarWidth;
@@ -168,7 +187,9 @@ public class DrawCardServiceImpl implements DrawCardService {
                 float middlePoint = (leftX + rightX) / 2.0f;
                 //noinspection NumericCastThatLosesPrecision
                 BufferedImage starImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream("star.png"));
-                DiverLevel diverLevel = card.getDiverLevel() == null ? DiverLevel.ONE_STAR : card.getDiverLevel();
+                DiverLevel diverLevel = generalizedCard.getDiverLevel() == null ?
+                        DiverLevel.ONE_STAR :
+                        generalizedCard.getDiverLevel();
                 switch (diverLevel) {
                     case ONE_STAR:
                         drawStar(starSize, height, g2d, starImage, middlePoint - starSize / 2.0f);
@@ -198,10 +219,10 @@ public class DrawCardServiceImpl implements DrawCardService {
             }
         }
         g2d.dispose();
-        return new Pair(finalImage, qrCodeImage);
+        return new Pair<>(finalImage, qrCodeImage);
     }
 
-    private static String addLeadingZeors(String cardNumber) {
+    private static String addLeadingZeros(String cardNumber) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < Globals.SPORTS_CARD_NUMBER_MAX_LENGTH - cardNumber.length(); i++) {
             sb.append('0');
@@ -217,19 +238,19 @@ public class DrawCardServiceImpl implements DrawCardService {
         DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
         if (diverRegistrationStatus == DiverRegistrationStatus.NEVER_REGISTERED
             || diverRegistrationStatus == DiverRegistrationStatus.INACTIVE) {
-            return "cmas_card.png";
+            return ORDINARY_CMAS_CARD_IMAGE_NAME;
         }
         if (diverRegistrationStatus == DiverRegistrationStatus.GUEST
             || diverRegistrationStatus == DiverRegistrationStatus.DEMO
         ) {
             return isGold ? "aqualink_gold.png" : "aqualink_silver.png";
         }
-        String fileName = "cmas_card.png";
+        String fileName = ORDINARY_CMAS_CARD_IMAGE_NAME;
         switch (card.getCardType()) {
             case CHILDREN_DIVING:
             case PRIMARY:
             case NATIONAL:
-                fileName = "cmas_card.png";
+                fileName = ORDINARY_CMAS_CARD_IMAGE_NAME;
                 break;
             case EXTENDED_RANGE:
             case TRIMIX:
@@ -241,7 +262,7 @@ public class DrawCardServiceImpl implements DrawCardService {
                 fileName = "cmas_card_yellow.png";
                 break;
             case APNOEA:
-                fileName = "cmas_card_apnoea.png";
+                fileName = APNEA_CMAS_CARD_IMAGE_NAME;
                 break;
             case DRY_SUIT:
             case ICE_DIVING:
@@ -274,8 +295,73 @@ public class DrawCardServiceImpl implements DrawCardService {
             case HERITAGE_DISCOVERY:
                 fileName = "cmas_card_green.png";
                 break;
+            case HELI_DIVER:
+                fileName = HELI_DIVER_CMAS_CARD_IMAGE_NAME;
+                break;
+            case HELI_RESCUE:
+                fileName = HELI_RESCUE_CMAS_CARD_IMAGE_NAME;
+                break;
+            case POWERBOAT_RESCUE:
+                fileName = POWER_BOAT_CMAS_CARD_IMAGE_NAME;
+                break;
         }
         return fileName;
+    }
+
+    private static PersonalCard getGeneralizedPersonalCard(PersonalCard card) {
+        PersonalCard generalizedCard = new PersonalCard();
+        generalizedCard.setDiverType(card.getDiverType());
+        generalizedCard.setDiverLevel(card.getDiverLevel());
+        generalizedCard.setDiver(card.getDiver());
+        if (card.getCardType() == PersonalCardType.PRIMARY) {
+            generalizedCard.setCardType(getGeneralizedCardType(card.getDiver()));
+        } else {
+            generalizedCard.setCardType(card.getCardType());
+        }
+        return generalizedCard;
+    }
+
+    private static PersonalCardType getGeneralizedCardType(Diver diver) {
+        MutablePair<Boolean, Boolean> apneaPair = new MutablePair<>(false, true);  // hasApnea, isOnlyApnea
+        MutablePair<Boolean, Boolean> heliDiverPair = new MutablePair<>(false, true);
+        MutablePair<Boolean, Boolean> heliRescuePair = new MutablePair<>(false, true);
+        MutablePair<Boolean, Boolean> powerBoatPair = new MutablePair<>(false, true);
+        for (PersonalCard card : diver.getCards()) {
+            PersonalCardType cardType = card.getCardType();
+            if (cardType == PersonalCardType.PRIMARY || cardType == PersonalCardType.NATIONAL) {
+                continue;
+            }
+            checkPair(cardType, PersonalCardType.APNOEA, apneaPair);
+            checkPair(cardType, PersonalCardType.HELI_DIVER, heliDiverPair);
+            checkPair(cardType, PersonalCardType.HELI_RESCUE, heliRescuePair);
+            checkPair(cardType, PersonalCardType.POWERBOAT_RESCUE, powerBoatPair);
+        }
+        if (apneaPair.first && apneaPair.second) {
+            return PersonalCardType.APNOEA;
+        }
+        if (heliDiverPair.first && heliDiverPair.second) {
+            return PersonalCardType.HELI_DIVER;
+        }
+        if (heliRescuePair.first && heliRescuePair.second) {
+            return PersonalCardType.HELI_RESCUE;
+        }
+        if (powerBoatPair.first && powerBoatPair.second) {
+            return PersonalCardType.POWERBOAT_RESCUE;
+        }
+        return PersonalCardType.PRIMARY;
+    }
+
+    private static void checkPair(PersonalCardType cardType,
+                                  PersonalCardType testCardType,
+                                  MutablePair<Boolean, Boolean> booleanPair
+    ) {
+        if (cardType == testCardType) {
+            // has this card type (e.g. hasApnea = true)
+            booleanPair.first = true;
+        } else {
+            // has card type other than given, hence, this card type is not the only one (e.g. isOnlyApnea = false)
+            booleanPair.second = false;
+        }
     }
 
     @SuppressWarnings("NumericCastThatLosesPrecision")
@@ -340,8 +426,16 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     public static void main(String[] args) {
         try {
-            Pair<BufferedImage,BufferedImage> images = new DrawCardServiceImpl().drawDiverCard(MockUtil.getDiver().getPrimaryPersonalCard());
-            ImageIO.write(images.getFirst(), "png", new File("/Users/sunsunich/workplace/сmas/tmp.png"));
+            DrawCardServiceImpl drawCardService = new DrawCardServiceImpl();
+            List<PersonalCard> cards = MockUtil.getHeliDiver().getCards();
+            for (int i = 0; i < cards.size(); i++) {
+                PersonalCard personalCard = cards.get(i);
+                Pair<BufferedImage, BufferedImage> images = drawCardService.drawDiverCard(personalCard);
+                ImageIO.write(images.getFirst(),
+                              "png",
+                              new File("/Users/sunsunich/workplace/сmas/tmp" + i + ".png")
+                );
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

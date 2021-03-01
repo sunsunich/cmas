@@ -8,4 +8,5 @@ package org.cmas.entities.cards;
 public class CardPrintInfo {
     public String printName;
     public boolean drawStars;
+    public boolean heliDiver;
 }

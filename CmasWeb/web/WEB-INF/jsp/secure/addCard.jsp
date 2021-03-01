@@ -15,6 +15,9 @@
 <jsp:useBean id="cardGroups" scope="request"
              type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
 
+<jsp:useBean id="heliCardGroups" scope="request"
+             type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
+
 <my:securepage title="cmas.face.index.header"
                activeMenuItem="cards"
                customScripts="js/model/add_card_model.js,js/controller/multiple_fileUpload_controller.js,js/controller/add_card_controller.js"

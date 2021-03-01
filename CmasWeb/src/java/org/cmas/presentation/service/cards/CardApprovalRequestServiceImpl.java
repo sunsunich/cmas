@@ -193,8 +193,18 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
         validator.validate(cardApprovalRequestFormObject, result);
         String federationId = cardApprovalRequestFormObject.getFederationId();
         if (!result.hasFieldErrors("federationId") && !StringUtil.isTrimmedEmpty(federationId)) {
-            if (nationalFederationDao.getModel(Long.parseLong(federationId)) == null) {
+            NationalFederation nationalFederation = nationalFederationDao.getModel(Long.parseLong(federationId));
+            if (nationalFederation == null) {
                 result.rejectValue("federationId", "validation.incorrectField");
+            } else {
+                String cardType = cardApprovalRequestFormObject.getCardType();
+                if (!result.hasFieldErrors("cardType") && !StringUtil.isTrimmedEmpty(cardType)) {
+                    if (!personalCardService.canFederationEditCard(nationalFederation,
+                                                                   PersonalCardType.valueOf(cardType))) {
+                        //better error message
+                        result.rejectValue("cardType", "validation.incorrectField");
+                    }
+                }
             }
         }
     }

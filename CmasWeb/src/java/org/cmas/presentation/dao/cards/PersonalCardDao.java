@@ -16,4 +16,6 @@ public interface PersonalCardDao extends HibernateDao<PersonalCard>{
     void deleteDiverCards(Diver diver);
 
     List<PersonalCard> getNationalCardsOrdered(Diver diver);
+
+    List<PersonalCard> getCardsByDiver(Diver diver);
 }

@@ -121,6 +121,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         );
         diver.setDiverRegistrationStatus(DiverRegistrationStatus.DEMO);
         diver.setAreaOfInterest(registration.getAreaOfInterest());
+        //todo why set federation to demo???
         diver.setFederation(registration.getFederation());
         diverDao.updateModel(diver);
         NotificationsCounter notificationsCounter = new NotificationsCounter();
@@ -328,9 +329,16 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         personalCardDao.deleteDiverCards(dbDiver);
         Map<CardEqualityKey, PersonalCard> cardsToAdd = new HashMap<>(cards.size());
         for (PersonalCard card : cards) {
+            if (!personalCardService.canFederationEditCard(federation, card.getCardType())) {
+                continue;
+            }
             PersonalCardType cardType = card.getCardType();
             if (cardType == PersonalCardType.PRIMARY) {
                 continue;
+            }
+            DiverLevel diverLevel = card.getDiverLevel();
+            if (diverLevel == null) {
+                card.setDiverLevel(DiverLevel.ONE_STAR);
             }
             @SuppressWarnings("ObjectAllocationInLoop")
             CardEqualityKey key = new CardEqualityKey(
@@ -340,6 +348,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         }
         for (PersonalCard card : cardsToAdd.values()) {
             card.setDiver(dbDiver);
+            card.setIssuingFederation(federation);
             personalCardDao.save(card);
         }
         updateDiverTypeAndLevelBasingOnCards(dbDiver);
@@ -347,6 +356,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             personalCardService.generateNonPrimaryCardsImages(dbDiver);
         }
     }
+
 
     @NotNull
     private Diver saveOrUpdateDiver(NationalFederation federation, Diver diver) {
@@ -404,6 +414,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
 
     private void saveOrUpdateCards(NationalFederation federation, Diver dbDiver, Iterable<PersonalCard> cards) {
         for (PersonalCard card : cards) {
+            if (!personalCardService.canFederationEditCard(federation, card.getCardType())) {
+                continue;
+            }
             String cardNumber = card.getNumber();
             PersonalCard dbCard = null;
             if (!StringUtil.isTrimmedEmpty(cardNumber)) {
@@ -444,7 +457,10 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
         PersonalCard maxNationalCard = personalCardService.getMaxNationalCard(dbDiver);
         if (maxNationalCard == null) {
-            return;
+            maxNationalCard = personalCardService.getMaxCard(dbDiver);
+            if (maxNationalCard == null) {
+                return;
+            }
         }
         DiverType newDiverType = maxNationalCard.getDiverType();
         boolean typeOrLevelUpdated = false;

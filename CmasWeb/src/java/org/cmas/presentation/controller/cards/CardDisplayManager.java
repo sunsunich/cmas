@@ -15,6 +15,8 @@ public class CardDisplayManager implements InitializingBean {
 
     private final Map<String, PersonalCardType[]> personalCardGroups = new LinkedHashMap<>();
 
+    private final Map<String, PersonalCardType[]> heliCardGroups = new LinkedHashMap<>();
+
     @Override
     public void afterPropertiesSet() throws Exception {
         personalCardGroups.put("cmas.card.type.common",
@@ -60,9 +62,18 @@ public class CardDisplayManager implements InitializingBean {
                 PersonalCardType.MARINE_BIOLOGY,
                 PersonalCardType.HERITAGE_DISCOVERY
         });
+        heliCardGroups.put("cmas.card.type.heli", new PersonalCardType[]{
+                PersonalCardType.HELI_DIVER,
+                PersonalCardType.HELI_RESCUE,
+                PersonalCardType.POWERBOAT_RESCUE
+        });
     }
 
     public Map<String, PersonalCardType[]> getPersonalCardGroups() {
         return personalCardGroups;
+    }
+
+    public Map<String, PersonalCardType[]> getHeliCardGroups() {
+        return heliCardGroups;
     }
 }

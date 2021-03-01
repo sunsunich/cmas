@@ -41,13 +41,13 @@ public final class MockUtil {
         instructor.setDiverType(DiverType.INSTRUCTOR);
 
         NationalFederation federation = getSportsFederation();
-        PersonalCard card = new PersonalCard();
-        card.setCardType(PersonalCardType.PRIMARY);
-        card.setNumber("123");
-        card.setDiverLevel(instructor.getDiverLevel());
-        card.setDiver(instructor);
+        PersonalCard primaryCard = new PersonalCard();
+        primaryCard.setCardType(PersonalCardType.PRIMARY);
+        primaryCard.setNumber("123");
+        primaryCard.setDiverLevel(instructor.getDiverLevel());
+        primaryCard.setDiver(instructor);
         instructor.setFederation(federation);
-        instructor.setPrimaryPersonalCard(card);
+        instructor.setPrimaryPersonalCard(primaryCard);
 
         users.put("a1@gmail.com", instructor);
     }
@@ -57,6 +57,99 @@ public final class MockUtil {
 
     public static Diver getDiver() {
         return users.values().iterator().next();
+    }
+
+    public static Diver getHeliDiver() {
+        Diver heliDiver = new Diver(1L);
+        heliDiver.setEmail("heli1@mailinator.com");
+        heliDiver.setPassword("aaa");
+        heliDiver.setCountry(getCountry());
+        heliDiver.setDob(new Date());
+        heliDiver.setFirstName("Christopher");
+        heliDiver.setLastName("Wolfeschlegelsteinhausenbergerdorff");
+
+//        heliDiver.setFirstName("Alexander");
+//        heliDiver.setLastName("Petukhov");
+        heliDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        heliDiver.setDiverLevel(DiverLevel.THREE_STAR);
+        heliDiver.setDiverType(DiverType.INSTRUCTOR);
+
+        List<PersonalCard> cards = new ArrayList<>();
+        heliDiver.setCards(cards);
+//        {
+//            PersonalCard card = new PersonalCard();
+//            card.setCardType(PersonalCardType.UNDERWATER_ARCHAEOLOGY);
+//            card.setNumber("HD/123123123/123123/123");
+//            card.setDiverLevel(DiverLevel.THREE_STAR);
+//            card.setDiverType(DiverType.INSTRUCTOR);
+//            card.setDiver(heliDiver);
+//            cards.add(card);
+//        }
+//        {
+//            PersonalCard card = new PersonalCard();
+//            card.setCardType(PersonalCardType.HELI_DIVER);
+//            card.setNumber("HD/123123123/123123/123");
+//            card.setDiverLevel(DiverLevel.ONE_STAR);
+//            card.setDiverType(DiverType.DIVER);
+//            card.setDiver(heliDiver);
+//            cards.add(card);
+//        }
+//        {
+//            PersonalCard card = new PersonalCard();
+//            card.setCardType(PersonalCardType.HELI_RESCUE);
+//            card.setNumber("HD/123123123/123123/123");
+//            card.setDiverLevel(DiverLevel.ONE_STAR);
+//            card.setDiverType(DiverType.DIVER);
+//            card.setDiver(heliDiver);
+//            cards.add(card);
+//        }
+        {
+            PersonalCard card = new PersonalCard();
+            card.setCardType(PersonalCardType.POWERBOAT_RESCUE);
+            card.setNumber("HD/123123123/123123/123");
+            card.setDiverLevel(DiverLevel.ONE_STAR);
+            card.setDiverType(DiverType.DIVER);
+            card.setDiver(heliDiver);
+            cards.add(card);
+        }
+//        {
+//            PersonalCard card = new PersonalCard();
+//            card.setCardType(PersonalCardType.APNOEA);
+//            card.setNumber("HD/123123123/123123/123");
+//            card.setDiverLevel(DiverLevel.TWO_STAR);
+//            card.setDiverType(DiverType.INSTRUCTOR);
+//            card.setDiver(heliDiver);
+//            cards.add(card);
+//        }
+        {
+            PersonalCard card = new PersonalCard();
+            card.setCardType(PersonalCardType.NATIONAL);
+            card.setNumber("HD/123123123/123123/123");
+            card.setDiverLevel(DiverLevel.TWO_STAR);
+            card.setDiverType(DiverType.INSTRUCTOR);
+            card.setDiver(heliDiver);
+            cards.add(card);
+        }
+//        {
+//            PersonalCard card = new PersonalCard();
+//            card.setCardType(PersonalCardType.NITROX_GASBLENDER);
+//            card.setNumber("HD/123123123/123123/123");
+//            card.setDiverLevel(DiverLevel.ONE_STAR);
+//            card.setDiverType(DiverType.INSTRUCTOR);
+//            card.setDiver(heliDiver);
+//            cards.add(card);
+//        }
+
+        PersonalCard primaryCard = new PersonalCard();
+        primaryCard.setCardType(PersonalCardType.PRIMARY);
+        primaryCard.setNumber("1233456712343456");
+        primaryCard.setDiverLevel(heliDiver.getDiverLevel());
+        primaryCard.setDiverType(heliDiver.getDiverType());
+        primaryCard.setDiver(heliDiver);
+        cards.add(primaryCard);
+        heliDiver.setPrimaryPersonalCard(primaryCard);
+
+        return heliDiver;
     }
 
 //    public static Pair<User, String> loginMockDiver(String email, String password) {

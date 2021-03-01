@@ -12,6 +12,9 @@
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.cards.CardApprovalRequestEditFormObject"/>
 <jsp:useBean id="cardGroups" scope="request"
              type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
+<jsp:useBean id="heliCardGroups" scope="request"
+             type="java.util.Map<java.lang.String, org.cmas.entities.cards.PersonalCard[]>"/>
+<jsp:useBean id="nationalFederation" scope="request" type="org.cmas.entities.sport.NationalFederation"/>
 
 <my:fed_adminpage title="Certificate approval request"
                   customScripts="/js/model/fed_card_approval_request_model.js,/js/controller/fed_card_approval_request_controller.js">
@@ -70,20 +73,40 @@
         <div>
             <label class="input-fed-admin-card"><span class="reqMark">* </span>Type of certificate</label>
             <select id="card_cardType">
-                <c:forEach var="cardGroup" items="${cardGroups}">
-                    <optgroup label='<s:message code="${cardGroup.key}"/>'>
-                        <c:forEach var="cardType" items="${cardGroup.value}">
-                            <c:choose>
-                                <c:when test="${cardType.name == cardApprovalRequest.cardType.name}">
-                                    <option value='${cardType}' selected="selected">${cardType}</option>
-                                </c:when>
-                                <c:otherwise>
-                                    <option value='${cardType}'>${cardType}</option>
-                                </c:otherwise>
-                            </c:choose>
+                <c:choose>
+                    <c:when test="${nationalFederation.isHeli}">
+                        <c:forEach var="cardGroup" items="${heliCardGroups}">
+                            <optgroup label='<s:message code="${cardGroup.key}"/>'>
+                                <c:forEach var="cardType" items="${cardGroup.value}">
+                                    <c:choose>
+                                        <c:when test="${cardType.name == cardApprovalRequest.cardType.name}">
+                                            <option value='${cardType}' selected="selected">${cardType}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value='${cardType}'>${cardType}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </optgroup>
                         </c:forEach>
-                    </optgroup>
-                </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="cardGroup" items="${cardGroups}">
+                            <optgroup label='<s:message code="${cardGroup.key}"/>'>
+                                <c:forEach var="cardType" items="${cardGroup.value}">
+                                    <c:choose>
+                                        <c:when test="${cardType.name == cardApprovalRequest.cardType.name}">
+                                            <option value='${cardType}' selected="selected">${cardType}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option value='${cardType}'>${cardType}</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </optgroup>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
             </select>
             <span id="card_error_cardType" class="error"></span>
         </div>

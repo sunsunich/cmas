@@ -31,6 +31,7 @@ public final class CardPrintUtil {
         StringBuilder stringBuilder = new StringBuilder();
         switch (cardType) {
             case PRIMARY:
+                // fall through
             case NATIONAL:
                 stringBuilder.append(diverType);
                 result.drawStars = true;
@@ -361,6 +362,17 @@ public final class CardPrintUtil {
                         }
                         break;
                 }
+                break;
+            case HELI_DIVER:
+                // fall through
+            case HELI_RESCUE:
+                // fall through
+            case POWERBOAT_RESCUE:
+                stringBuilder.append(cardType);
+                if (diverType == DiverType.INSTRUCTOR) {
+                    stringBuilder.append(" INSTRUCTOR");
+                }
+                result.heliDiver = true;
                 break;
         }
         result.printName = stringBuilder.toString();

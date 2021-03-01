@@ -34,6 +34,8 @@ public class NationalFederation extends DictionaryEntity {
     @OneToMany(mappedBy = "federation")
     private List<Diver> diverList;
 
+    private boolean isHeli;
+
     public Country getCountry() {
         return country;
     }
@@ -64,5 +66,13 @@ public class NationalFederation extends DictionaryEntity {
 
     public void setDiverList(List<Diver> diverList) {
         this.diverList = diverList;
+    }
+
+    public boolean getIsHeli() {
+        return isHeli;
+    }
+
+    public void setIsHeli(boolean heli) {
+        isHeli = heli;
     }
 }

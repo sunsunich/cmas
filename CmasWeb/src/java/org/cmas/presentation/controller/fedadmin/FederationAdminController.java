@@ -131,6 +131,7 @@ public class FederationAdminController {
         model.setLimit(MAX_PAGE_ITEMS);
         ModelMap mm = new ModelMap();
         mm.addAttribute("command", model);
+        // todo exclude demo and guest
         List<Diver> users = diverDao.searchUsers(model);
         if (isSetupCards) {
             personalCardService.setupDisplayCardsForDivers(users);
@@ -180,6 +181,12 @@ public class FederationAdminController {
         mm.addAttribute("cardApprovalRequest", cardApprovalRequest);
         mm.addAttribute("command", new CardApprovalRequestEditFormObject());
         mm.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
+        mm.addAttribute("heliCardGroups", cardDisplayManager.getHeliCardGroups());
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        mm.addAttribute("nationalFederation", currentFedAdmin.getUser().getFederation());
         return new ModelAndView("fed/viewCardApprovalRequest", mm);
     }
 
@@ -355,9 +362,6 @@ public class FederationAdminController {
         ModelMap mmap = new ModelMap();
         mmap.addAttribute("command", diver);
         List<PersonalCard> diverCards = diver.getCards();
-        PersonalCard natFedCard = diverCards == null ? null : personalCardService.getMaxNationalCard(diver);
-        mmap.addAttribute("natFedCard", natFedCard);
-
         PersonalCard natFedInstructorCard = null;
         if (diver.getInstructor() != null) {
             natFedInstructorCard = personalCardService.getMaxNationalCard(diver.getInstructor());
@@ -365,6 +369,12 @@ public class FederationAdminController {
         mmap.addAttribute("natFedInstructorCard", natFedInstructorCard);
 
         mmap.addAttribute("cardGroups", cardDisplayManager.getPersonalCardGroups());
+        mmap.addAttribute("heliCardGroups", cardDisplayManager.getHeliCardGroups());
+        BackendUser<Diver> currentFedAdmin = authenticationService.getCurrentDiver();
+        if (currentFedAdmin == null) {
+            throw new BadRequestException();
+        }
+        mmap.addAttribute("nationalFederation", currentFedAdmin.getUser().getFederation());
         mmap.addAttribute("cardsJson", gsonViewFactory.getCommonGson().toJson(diverCards));
 
         return new ModelAndView("fed/userInfo", mmap);
@@ -415,7 +425,7 @@ public class FederationAdminController {
 
     @RequestMapping("/fed/processEditEmail.html")
     public ModelAndView processEditEmail(@ModelAttribute("command") EmailEditFormObject formObject,
-                                 BindingResult result, Model mm) {
+                                         BindingResult result, Model mm) {
         BackendUser<? extends User> user = authenticationService.getCurrentUser();
         if (user == null) {
             throw new BadRequestException();

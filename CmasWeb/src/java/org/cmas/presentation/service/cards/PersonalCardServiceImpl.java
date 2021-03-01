@@ -12,6 +12,7 @@ import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.dao.HibernateDao;
@@ -26,6 +27,7 @@ import javax.annotation.Nullable;
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -103,6 +105,16 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Override
     public PersonalCard getMaxNationalCard(Diver diver) {
         List<PersonalCard> diverCards = personalCardDao.getNationalCardsOrdered(diver);
+        return getMaxCard(diverCards);
+    }
+
+    @Nullable
+    @Override
+    public PersonalCard getMaxCard(Diver diver) {
+        return getMaxCard(personalCardDao.getCardsByDiver(diver));
+    }
+
+    private PersonalCard getMaxCard(List<PersonalCard> diverCards) {
         if (diverCards == null) {
             return null;
         }
@@ -233,5 +245,19 @@ public class PersonalCardServiceImpl implements PersonalCardService {
             dec.append(random.nextInt(9) + 1);
         }
         return dec.toString();
+    }
+
+    //todo create a table mapping
+    public static final List<PersonalCardType> HELI_CARD_TYPES = Arrays.asList(
+            PersonalCardType.HELI_DIVER, PersonalCardType.HELI_RESCUE, PersonalCardType.POWERBOAT_RESCUE
+    );
+
+    @Override
+    public boolean canFederationEditCard(NationalFederation nationalFederation, PersonalCardType cardType) {
+        if (nationalFederation.getIsHeli()) {
+            return HELI_CARD_TYPES.contains(cardType);
+        } else {
+            return !HELI_CARD_TYPES.contains(cardType);
+        }
     }
 }
