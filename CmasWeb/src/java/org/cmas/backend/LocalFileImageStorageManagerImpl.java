@@ -94,14 +94,18 @@ public class LocalFileImageStorageManagerImpl implements ImageStorageManager {
         cardPath = Base64Coder.encodeString(cardPath) + ".png";
         File cardFile = new File(getImageStoreLocationForCards() + cardPath);
         ImageIO.write(cardImage, "png", new FileOutputStream(cardFile));
-        File qrFile = new File(getImageStoreLocationForCardsQR() + cardPath);
-        ImageIO.write(qrImage, "png", new FileOutputStream(qrFile));
+        if (qrImage != null) {
+            File qrFile = new File(getImageStoreLocationForCardsQR() + cardPath);
+            ImageIO.write(qrImage, "png", new FileOutputStream(qrFile));
+        }
 
         String oldImagePath = card.getImageUrl();
         card.setImageUrl(cardPath);
         personalCardDao.updateModel(card);
         deleteOldFile(getImageStoreLocationForCards() + oldImagePath);
-        deleteOldFile(getImageStoreLocationForCardsQR() + oldImagePath);
+        if (qrImage != null) {
+            deleteOldFile(getImageStoreLocationForCardsQR() + oldImagePath);
+        }
     }
 
     @Override
