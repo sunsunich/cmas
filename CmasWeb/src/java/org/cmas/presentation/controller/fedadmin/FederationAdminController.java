@@ -241,6 +241,10 @@ public class FederationAdminController {
             throw new BadRequestException();
         }
         diverService.addGuestDiverToFederation(currentFedAdmin.getUser().getFederation(), diver);
+        PersonalCard primaryPersonalCard = diver.getPrimaryPersonalCard();
+        if (primaryPersonalCard != null) {
+            personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
+        }
         return new ModelAndView("redirect:/fed/editDiver.html?userId=" + diverId);
     }
 

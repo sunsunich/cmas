@@ -272,7 +272,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
     }
 
     private void notifyOnNewCardApprovalRequest(CardApprovalRequest cardApprovalRequest) {
-        mailService.sendCardApprovalRequestToAquaLinkAdmin(cardApprovalRequest);
+//        mailService.sendCardApprovalRequestToAquaLinkAdmin(cardApprovalRequest);
         int notificationsCnt = cardApprovalRequest.getFederationNotificationsCnt();
         if (notificationsCnt == 0) {
             Diver federationAdmin = null;
@@ -281,7 +281,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
                 federationAdmin = diverDao.getFederationAdmin(federation);
             }
             if (federationAdmin == null) {
-                //     mailService.sendCardApprovalRequestToCmasHq(cardApprovalRequest);
+                mailService.sendCardApprovalRequestToCmasHq(cardApprovalRequest);
             } else {
                 NotificationsCounter notificationsCounter = notificationsCounterDao.getByDiver(federationAdmin);
                 if (notificationsCounter.getFederationInitialCnt() > 0) {
@@ -292,7 +292,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
                     );
                 }
             }
-            cardApprovalRequest.setFederationNotificationsCnt(notificationsCnt + 1);
+            cardApprovalRequest.setFederationNotificationsCnt(1);
             cardApprovalRequestDao.updateModel(cardApprovalRequest);
         }
     }
@@ -379,8 +379,9 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
 
         Diver diver = request.getDiver();
         DiverRegistrationStatus diverRegistrationStatus = diver.getDiverRegistrationStatus();
-        if (diverRegistrationStatus != DiverRegistrationStatus.CMAS_BASIC
-            && diverRegistrationStatus != DiverRegistrationStatus.CMAS_FULL) {
+        boolean isNotCmas = diverRegistrationStatus != DiverRegistrationStatus.CMAS_BASIC
+                            && diverRegistrationStatus != DiverRegistrationStatus.CMAS_FULL;
+        if (isNotCmas) {
             diverService.addGuestDiverToFederation(request.getIssuingFederation(), diver);
         }
         PersonalCard personalCard = new PersonalCard();
@@ -396,7 +397,7 @@ public class CardApprovalRequestServiceImpl implements CardApprovalRequestServic
         PersonalCard dbCard = personalCardDao.getModel(cardId);
         personalCardService.generateAndSaveCardImage(dbCard.getId());
 
-        diverService.updateDiverTypeAndLevelBasingOnCards(diver);
+        diverService.updateDiverTypeAndLevelBasingOnCards(diver, isNotCmas);
 
         request.setStatus(CardApprovalRequestStatus.APPROVED);
         cardApprovalRequestDao.updateModel(request);

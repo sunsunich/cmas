@@ -22,7 +22,7 @@ public interface DiverService extends UserService<Diver> {
 
     void uploadSingleDiver(NationalFederation federation, Diver diver);
 
-    void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver);
+    void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver, boolean forceUpdate);
 
     void addGuestDiverToFederation(NationalFederation federation, Diver dbDiver);
 

@@ -13,6 +13,7 @@ import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.Athlete;
 import org.cmas.entities.sport.NationalFederation;
+import org.cmas.presentation.controller.cards.CardDisplayManager;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
 import org.cmas.util.dao.HibernateDao;
@@ -28,6 +29,7 @@ import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,9 @@ public class PersonalCardServiceImpl implements PersonalCardService {
 
     @Autowired
     private ImageStorageManager imageStorageManager;
+
+    @Autowired
+    private CardDisplayManager cardDisplayManager;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -114,7 +119,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         return getMaxCard(personalCardDao.getCardsByDiver(diver));
     }
 
-    private PersonalCard getMaxCard(List<PersonalCard> diverCards) {
+    private static PersonalCard getMaxCard(Collection<PersonalCard> diverCards) {
         if (diverCards == null) {
             return null;
         }
@@ -247,17 +252,16 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         return dec.toString();
     }
 
-    //todo create a table mapping
-    public static final List<PersonalCardType> HELI_CARD_TYPES = Arrays.asList(
-            PersonalCardType.HELI_DIVER, PersonalCardType.HELI_RESCUE, PersonalCardType.POWERBOAT_RESCUE
-    );
-
     @Override
     public boolean canFederationEditCard(NationalFederation nationalFederation, PersonalCardType cardType) {
-        if (nationalFederation.getIsHeli()) {
-            return HELI_CARD_TYPES.contains(cardType);
-        } else {
-            return !HELI_CARD_TYPES.contains(cardType);
+        Map<String, PersonalCardType[]> personalCardTypes = nationalFederation.getIsHeli()
+                ? cardDisplayManager.getHeliCardGroups()
+                : cardDisplayManager.getPersonalCardGroups();
+        for (PersonalCardType[] heliCards : personalCardTypes.values()) {
+            if (Arrays.asList(heliCards).contains(cardType)) {
+                return true;
+            }
         }
+        return false;
     }
 }

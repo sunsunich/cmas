@@ -50,7 +50,7 @@ public class DrawCardServiceImpl implements DrawCardService {
     private static final float CARD_NUMBER_X_1 = 25.0f / CARD_WIDTH;
 
     private static final float HELI_CARD_NUMBER_Y = 315.0f / CARD_HEIGHT;
-    private static final float HELI_CARD_NUMBER_X_1 = 315.0f / CARD_WIDTH;
+    private static final float HELI_CARD_NUMBER_X_1 = 230.0f / CARD_WIDTH;
 
     private static final int NAME_FONT_SIZE = 22;
     private static final float NAME_LEFT_X = 110.0f / CARD_WIDTH;

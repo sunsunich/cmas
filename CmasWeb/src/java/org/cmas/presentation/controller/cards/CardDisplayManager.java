@@ -3,7 +3,9 @@ package org.cmas.presentation.controller.cards;
 import org.cmas.entities.cards.PersonalCardType;
 import org.springframework.beans.factory.InitializingBean;
 
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,6 +69,8 @@ public class CardDisplayManager implements InitializingBean {
                 PersonalCardType.HELI_RESCUE,
                 PersonalCardType.POWERBOAT_RESCUE
         });
+        heliCardGroups.put("cmas.card.type.common",
+                           new PersonalCardType[]{PersonalCardType.NATIONAL});
     }
 
     public Map<String, PersonalCardType[]> getPersonalCardGroups() {
@@ -75,5 +79,17 @@ public class CardDisplayManager implements InitializingBean {
 
     public Map<String, PersonalCardType[]> getHeliCardGroups() {
         return heliCardGroups;
+    }
+
+    public static void main(String[] args) throws Exception {
+        CardDisplayManager manager = new CardDisplayManager();
+        manager.afterPropertiesSet();
+        for (PersonalCardType[] heliCards : manager.heliCardGroups.values()) {
+            List<PersonalCardType> personalCardTypes = Arrays.asList(heliCards);
+            for(PersonalCardType personalCardType : personalCardTypes){
+                System.out.print(personalCardType + ", ");
+            }
+            System.out.println();
+        }
     }
 }

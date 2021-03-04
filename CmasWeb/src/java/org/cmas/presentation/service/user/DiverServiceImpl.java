@@ -452,7 +452,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     }
 
     @Override
-    public void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
+    public void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver, boolean forceUpdate) {
         DiverType dbDiverType = dbDiver.getDiverType();
         DiverLevel dbDiverDiverLevel = dbDiver.getDiverLevel();
         PersonalCard maxNationalCard = personalCardService.getMaxNationalCard(dbDiver);
@@ -473,10 +473,15 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             dbDiver.setDiverLevel(newDiverLevel);
             typeOrLevelUpdated = true;
         }
-        if (typeOrLevelUpdated) {
+        if (typeOrLevelUpdated || forceUpdate) {
             diverDao.updateModel(dbDiver);
             updatePrimaryCard(dbDiver);
         }
+    }
+
+
+    private void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
+        updateDiverTypeAndLevelBasingOnCards(dbDiver, false);
     }
 
     private void updatePrimaryCard(Diver dbDiver) {
@@ -554,10 +559,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
         }
         diverMobileService.setMobileAuthCode(dbDiver);
         diverDao.updateModel(dbDiver);
-        PersonalCard primaryPersonalCard = dbDiver.getPrimaryPersonalCard();
-        if (primaryPersonalCard != null) {
-            personalCardService.generateAndSaveCardImage(primaryPersonalCard.getId());
-        }
     }
 
     @Override

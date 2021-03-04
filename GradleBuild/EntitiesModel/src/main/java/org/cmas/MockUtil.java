@@ -85,24 +85,24 @@ public final class MockUtil {
 //            card.setDiver(heliDiver);
 //            cards.add(card);
 //        }
-//        {
-//            PersonalCard card = new PersonalCard();
-//            card.setCardType(PersonalCardType.HELI_DIVER);
-//            card.setNumber("HD/123123123/123123/123");
-//            card.setDiverLevel(DiverLevel.ONE_STAR);
-//            card.setDiverType(DiverType.DIVER);
-//            card.setDiver(heliDiver);
-//            cards.add(card);
-//        }
-//        {
-//            PersonalCard card = new PersonalCard();
-//            card.setCardType(PersonalCardType.HELI_RESCUE);
-//            card.setNumber("HD/123123123/123123/123");
-//            card.setDiverLevel(DiverLevel.ONE_STAR);
-//            card.setDiverType(DiverType.DIVER);
-//            card.setDiver(heliDiver);
-//            cards.add(card);
-//        }
+        {
+            PersonalCard card = new PersonalCard();
+            card.setCardType(PersonalCardType.HELI_DIVER);
+            card.setNumber("HD/123123123/123123/123");
+            card.setDiverLevel(DiverLevel.ONE_STAR);
+            card.setDiverType(DiverType.DIVER);
+            card.setDiver(heliDiver);
+            cards.add(card);
+        }
+        {
+            PersonalCard card = new PersonalCard();
+            card.setCardType(PersonalCardType.HELI_RESCUE);
+            card.setNumber("HD/123123123/123123/123");
+            card.setDiverLevel(DiverLevel.ONE_STAR);
+            card.setDiverType(DiverType.DIVER);
+            card.setDiver(heliDiver);
+            cards.add(card);
+        }
         {
             PersonalCard card = new PersonalCard();
             card.setCardType(PersonalCardType.POWERBOAT_RESCUE);
