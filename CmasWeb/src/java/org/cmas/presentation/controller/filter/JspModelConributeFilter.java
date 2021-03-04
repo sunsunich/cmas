@@ -38,7 +38,7 @@ public class JspModelConributeFilter implements Filter {
 //            return false;
 //        }
 
-        servletRequest.setAttribute("webVersion", 54);
+        servletRequest.setAttribute("webVersion", 55);
         servletRequest.setAttribute("userpicRoot", imageStorageManager.getUserpicRoot());
         servletRequest.setAttribute("cardsRoot", imageStorageManager.getCardImagesRoot());
         servletRequest.setAttribute("cardApprovalRequestImagesRoot", imageStorageManager.getCardApprovalRequestImagesRoot());

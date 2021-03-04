@@ -21,9 +21,6 @@ var add_card_controller = {
             {
                 id: 'diverLevel',
                 validateField: function (value) {
-                    if (isStringTrimmedEmpty(value)) {
-                        return 'validation.emptyField';
-                    }
                 }
             },
             {

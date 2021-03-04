@@ -29,8 +29,8 @@ var add_card_model = {
     uploadCardRequest: function (formData, files, successHandler, unSuccessHandler) {
         loader_controller.startwait();
         var form = new FormData();
-        form.append('diverLevel', formData.diverLevel);
-        form.append('diverType', formData.diverType);
+        form.append('diverLevel', formData.diverLevel == null ? "" : formData.diverLevel);
+        form.append('diverType', formData.diverType == null ? "" : formData.diverType);
         form.append('validUntil', formData.validUntil);
         form.append('federationCardNumber', formData.federationCardNumber);
         form.append('federationId', formData.federationId);

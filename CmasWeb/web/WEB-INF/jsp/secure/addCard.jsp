@@ -48,14 +48,6 @@
                 <label class="error" id="card_error_diverType"></label>
             </div>
             <div class="form-row">
-                <label class="form-label card-form-label" for="card_diverLevel"><s:message
-                        code="cmas.face.card.level"/></label>
-                <select name="diverLevel" id="card_diverLevel" size=1 onChange=""
-                        style="width: 205px">
-                </select>
-                <label class="error" id="card_error_diverLevel"></label>
-            </div>
-            <div class="form-row">
                 <label class="form-label card-form-label" for="card_federationId"><s:message
                         code="cmas.face.card.federation"/></label>
                 <select name="federationId" id="card_federationId" size=1 onChange=""
@@ -68,6 +60,14 @@
             </div>
             <div class="logbookHeader header2-text">
                 <label><s:message code="cmas.face.card.addCard.optional"/></label>
+            </div>
+            <div class="form-row">
+                <label class="form-label card-form-label" for="card_diverLevel"><s:message
+                        code="cmas.face.card.level"/></label>
+                <select name="diverLevel" id="card_diverLevel" size=1 onChange=""
+                        style="width: 205px">
+                </select>
+                <label class="error" id="card_error_diverLevel"></label>
             </div>
             <div class="form-row">
                 <label class="form-label card-form-label"><s:message code="cmas.face.card.number"/></label>
