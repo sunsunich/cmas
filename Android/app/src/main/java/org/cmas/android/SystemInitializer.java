@@ -1,8 +1,8 @@
 package org.cmas.android;
 
-import org.cmas.app.AppProperties;
 import org.cmas.BaseBeanContainer;
 import org.cmas.android.storage.MobileDatabase;
+import org.cmas.app.AppProperties;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,9 +33,5 @@ public class SystemInitializer {
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
         beanContainer.setAppProperties(appProperties);
         beanContainer.initialize();
-    }
-
-    public void finalise() {
-        MobileDatabase.finalise();
     }
 }

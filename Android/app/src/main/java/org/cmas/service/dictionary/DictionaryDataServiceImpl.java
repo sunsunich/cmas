@@ -5,6 +5,7 @@ import org.cmas.BaseBeanContainer;
 import org.cmas.InitializingBean;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.remote.NetworkUnavailableException;
 import org.cmas.remote.RemoteDictionaryService;
 import org.cmas.service.RemoteListEntityGetter;
@@ -20,6 +21,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
 
     private RemoteDictionaryService remoteDictionaryService;
     private VersionableEntityPersister<Country> countryPersister;
+    private VersionableEntityPersister<NationalFederation> federationPersister;
     private final List<VersionableEntityPersister<?>> allPersisters = new ArrayList<>();
 
     @Override
@@ -28,7 +30,9 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
 
         remoteDictionaryService = beanContainer.getRemoteDictionaryService();
         countryPersister = beanContainer.getCountryPersister();
+        federationPersister = beanContainer.getFederationPersister();
         allPersisters.add(countryPersister);
+        allPersisters.add(federationPersister);
     }
 
     @Override
@@ -46,6 +50,12 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
             loadEntity(
                     maxVersion -> remoteDictionaryService.getCountries(maxVersion),
                     countryPersister
+            );
+            currentProgress += increasingProgress;
+            publishProgress(progressListener, progressStatus, currentProgress);
+            loadEntity(
+                    maxVersion -> remoteDictionaryService.getNationalFederations(maxVersion),
+                    federationPersister
             );
             currentProgress += increasingProgress;
             publishProgress(progressListener, progressStatus, currentProgress);

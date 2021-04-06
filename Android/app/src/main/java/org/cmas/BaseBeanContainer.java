@@ -2,10 +2,12 @@ package org.cmas;
 
 import org.cmas.android.remote.NetworkManagerImpl;
 import org.cmas.android.storage.convert.CountryPersisterImpl;
+import org.cmas.android.storage.convert.NationalFederationPersisterImpl;
 import org.cmas.android.storage.settings.SettingsServiceImpl;
 import org.cmas.app.AppProperties;
 import org.cmas.app.SettingsService;
 import org.cmas.entities.Country;
+import org.cmas.entities.sport.NationalFederation;
 import org.cmas.remote.NetworkManager;
 import org.cmas.remote.RemoteDictionaryService;
 import org.cmas.remote.RemoteDictionaryServiceImpl;
@@ -33,6 +35,7 @@ public class BaseBeanContainer {
     private final RemoteDictionaryServiceImpl remoteDictionaryService;
 
     private final VersionableEntityPersister<Country> countryPersister;
+    private final VersionableEntityPersister<NationalFederation> federationPersister;
 
     private final DictionaryDataServiceImpl dictionaryDataService;
 
@@ -57,6 +60,7 @@ public class BaseBeanContainer {
         remoteDictionaryService = new RemoteDictionaryServiceImpl();
 
         countryPersister = new CountryPersisterImpl();
+        federationPersister = new NationalFederationPersisterImpl();
 
         dictionaryDataService = new DictionaryDataServiceImpl();
     }
@@ -94,6 +98,10 @@ public class BaseBeanContainer {
 
     public VersionableEntityPersister<Country> getCountryPersister() {
         return countryPersister;
+    }
+
+    public VersionableEntityPersister<NationalFederation> getFederationPersister() {
+        return federationPersister;
     }
 
     public DictionaryDataService getDictionaryDataService() {

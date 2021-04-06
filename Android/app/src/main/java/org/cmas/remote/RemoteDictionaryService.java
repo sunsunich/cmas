@@ -2,7 +2,7 @@ package org.cmas.remote;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cmas.entities.Country;
-
+import org.cmas.entities.sport.NationalFederation;
 
 import java.util.List;
 
@@ -17,4 +17,6 @@ public interface RemoteDictionaryService extends BaseRemoteService {
 //    Pair<List<DiveSpot>, String> getDiveSpots(long maxVersion) throws Exception;
 
     Pair<List<Country>, String> getCountries(long maxVersion) throws Exception;
+
+    Pair<List<NationalFederation>, String> getNationalFederations(long maxVersion) throws Exception;
 }

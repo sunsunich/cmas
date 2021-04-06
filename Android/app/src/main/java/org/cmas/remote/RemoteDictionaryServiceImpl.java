@@ -4,6 +4,7 @@ import com.google.myjson.reflect.TypeToken;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
+import org.cmas.entities.sport.NationalFederation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,16 @@ public class RemoteDictionaryServiceImpl extends BaseRemoteServiceImpl implement
                 maxVersion,
                 appProperties.getGetCountriesURL(),
                 new TypeToken<List<Country>>() {
+                }
+        );
+    }
+
+    @Override
+    public Pair<List<NationalFederation>, String> getNationalFederations(long maxVersion) throws Exception {
+        return getDictionaryEntities(
+                maxVersion,
+                appProperties.getGetFederationsURL(),
+                new TypeToken<List<NationalFederation>>() {
                 }
         );
     }

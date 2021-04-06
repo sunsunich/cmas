@@ -2,23 +2,39 @@
 <resources>
     <string name="app_name">CMAS</string>
 
+    <!--    loading screen -->
     <string name="loading_libraries_complete">Loading libraries complete</string>
     <string name="loading_libraries">Loading libraries</string>
-    <string name="proceed_to_payment">Proceed to payment</string>
-    <string name="card_purchase_text">In order to proceed you are required to purchase CMAS Diver Electronic Card</string>
-    <string name="first_login_payment">First login payment</string>
+
+    <!--  registration -->
+    <string name="register_header">Register</string>
+    <string name="empty_field_error">please enter value for required field</string>
+    <string name="email">Email</string>
+    <string name="email_error">invalid email</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="date_birthday">Date of birth</string>
+    <string name="country_prompt">Choose your country</string>
+    <string name="federation_prompt">Choose your federation</string>
+
+    <string name="area_of_interest_hint">Area of interest</string>
+    <string name="area_of_interest_prompt">Choose your area of interest</string>
+    <string name="area_of_interest_scuba_diving">Scuba diving</string>
+    <string name="area_of_interest_free_diving">Free diving</string>
+    <string name="area_of_interest_blue_helmets">Blue helmets</string>
+    <string name="area_of_interest_other">Other</string>
+    <string name="consent_text">By ticking this box I hereby acknowledge and confirm my consent of</string>
+    <string name="consent_text_link"><a href="https://www.cmasdata.org/privacyPolicy.html">AquaLink Privacy Policy</a></string>
+    <string name="terms_not_agreed">Please tick the box to accept AquaLink Privacy Policy</string>
+    <string name="forward">NEXT</string>
+
     <string name="diving_spots">Diving spots</string>
 
     <bool name="is_tablet">false</bool>
     <string name="debug_key">AIzaSyBOs3hgNjuJ3f6LMGH_1ml9XOUO4703k0s</string>
     <string name="release_key">AIzaSyCG-zflBvuu9dXCYZ7ZgOabTNXFO3kGkTw</string>
-    <string name="forward">Next</string>
-    <string name="country">Country</string>
-    <string name="select_country">Select Country</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
     <string name="dob">Dob</string>
-    <string name="username">E-mail</string>
+    <string name="username">Email</string>
     <string name="password">Password</string>
     <string name="new_password">new password</string>
     <string name="repeat_password">Confirm Password</string>
@@ -30,7 +46,7 @@
     <string name="wait_text">Wait for a</string>
     <string name="error_connecting_to_server">Error connecting to server</string>
     <string name="registration_success">Registration is successful</string>
-    <string name="terms_not_agreed">You do not agree to the terms of the application</string>
+
     <string name="error">Error</string>
     <string name="fatal_error">An error has occurred. Please restart the application.</string>
     <string name="search_txt">Search</string>
@@ -39,12 +55,12 @@
     <string name="expand">Expand</string>
     <string name="login_enter">ENTER</string>
     <string name="login_register">REGISTER</string>
-    <string name="caps_login_register">Sign in</string>
+    <string name="caps_login_register">Register</string>
     <string name="do_register">Register</string>
-    <string name="caps_do_register">Register</string>
+    <string name="caps_do_register">REGISTER</string>
     <string name="login_no_register">Without registration</string>
 
-    <string name="verify_diver">Verify diver</string>
+    <string name="verify_diver">VERIFY DIVER</string>
 
     <string name="find">GET</string>
     <string name="wrong_password">Invalid password</string>
@@ -96,7 +112,6 @@
     <string name="code_4_digit">4-digit code</string>
     <string name="confirm">CONFIRM</string>
     <string name="repeat_code">Repeat code</string>
-    <string name="email">email</string>
     <string name="email_txt">You can specify your email address here to be able to restore the code, login
                 and password
     </string>
@@ -114,8 +129,6 @@
     <string name="select_userpic_caps">SELECT USERPIC</string>
     <string name="enter_user_name_hint">Enter the profile name</string>
     <string name="enter_oms_hint">Enter policy OMC</string>
-    <string name="calendar_icon">calendar icon</string>
-    <string name="date_birthday_hint">Date of Birth</string>
     <string name="date_birthday_format">Date of birth. {0}</string>
     <string name="add_access">Add access rights</string>
     <string name="barcode_image_description">image of the bar code</string>
@@ -123,7 +136,6 @@
     <string name="code_mismatch_error">entered codes do not match</string>
     <string name="code_error">code must be 4 digits</string>
     <string name="add_email_header">set email</string>
-    <string name="email_error">invalid email</string>
     <string name="code_enter_header">enter the code</string>
     <string name="wrong_code">invalid code</string>
     <string name="saved_successfully">Data successfully saved</string>
@@ -257,8 +269,13 @@
     <string name="change_pass">Change Password</string>
 
     <!--    Permissions    -->
-    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
-    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my
+        location\' feature, which shows your current location on the map.
+    </string>
+    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\'
+        layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it
+        can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.
+    </string>
     <string name="permission_required_toast">Location permission is required for this demo.</string>
     <string name="dive_spot_name_hint">Diving spot name</string>
     <string name="edit_diving_spot">Edit diving spot</string>

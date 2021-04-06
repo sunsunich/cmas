@@ -17,7 +17,9 @@ import com.cmas.cmas_flutter.R;
 import com.cmas.cmas_flutter.databinding.LoadingFragmentBinding;
 import org.cmas.android.DeepLinkType;
 import org.cmas.android.MainActivity;
-import org.cmas.util.android.ProgressUpdater;
+import org.cmas.android.ui.signin.RegistrationFragment;
+import org.cmas.android.ui.verify.DiverVerificationFragment;
+import org.cmas.util.android.ui.ProgressUpdater;
 
 public class LoadingFragment extends Fragment {
 
@@ -56,24 +58,32 @@ public class LoadingFragment extends Fragment {
                                                taskProgressUpdate -> progressUpdater.reportProgress(taskProgressUpdate));
         loadingViewModel.getResult().observe(viewLifecycleOwner, result -> {
             FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
             if (result) {
                 switch (deepLinkType) {
                     case NONE:
                         MainActivity.replaceFragment(activity, RegistrationFragment.newInstance());
                         break;
                     case VERIFY:
-                        Log.d(getClass().getName(), "VERIFY:" + data.toString());
-                        MainActivity.replaceFragment(activity, RegistrationFragment.newInstance());
+                        Log.d(getClass().getName(), "VERIFY: " + data.toString());
+                        MainActivity.replaceFragment(activity, DiverVerificationFragment.newInstance());
                         break;
                     case LOGIN:
-                        Log.d(getClass().getName(), "LOGIN:" + data.toString());
+                        Log.d(getClass().getName(), "LOGIN: " + data.toString());
                         MainActivity.replaceFragment(activity, RegistrationFragment.newInstance());
                         break;
                 }
             } else {
-                MainActivity.reportError(activity, "Error");
+                MainActivity.reportError(activity, getString(R.string.fatal_error));
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         loadingViewModel.start();
     }
 }

@@ -25,24 +25,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
-        Intent intent = getIntent();
-        @Nullable
-        String action = intent.getAction();
-        @Nullable
-        Uri data = intent.getData();
-        DeepLinkType deepLinkType = DeepLinkType.NONE;
-        if (ACTION_VIEW.equals(action) && data != null) {
-            Set<String> queryParameterNames = data.getQueryParameterNames();
-            if (queryParameterNames.contains("verify")) {
-                deepLinkType = DeepLinkType.VERIFY;
-            } else if (queryParameterNames.contains("login")) {
-                deepLinkType = DeepLinkType.LOGIN;
-            }
-        }
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                                       .replace(R.id.container, LoadingFragment.newInstance(deepLinkType, data))
-                                       .commitNow();
+            Intent intent = getIntent();
+            @Nullable
+            String action = intent.getAction();
+            @Nullable
+            Uri data = intent.getData();
+            DeepLinkType deepLinkType = DeepLinkType.NONE;
+            if (ACTION_VIEW.equals(action) && data != null) {
+                Set<String> queryParameterNames = data.getQueryParameterNames();
+                if (queryParameterNames.contains("verify")) {
+                    deepLinkType = DeepLinkType.VERIFY;
+                } else if (queryParameterNames.contains("login")) {
+                    deepLinkType = DeepLinkType.LOGIN;
+                }
+            }
+            replaceFragment(this, LoadingFragment.newInstance(deepLinkType, data));
         }
     }
 
@@ -57,14 +55,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static void replaceFragment(FragmentActivity activity, Fragment fragment) {
-        activity.getSupportFragmentManager().beginTransaction()
+        activity.getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.container, fragment)
                 .commitNow();
     }
 
-    @Override
-    protected void onDestroy() {
-        SystemInitializer.getInstance().finalise();
-        super.onDestroy();
+    public static void gotoFragment(FragmentActivity activity, Fragment fragment) {
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .addToBackStack(fragment.getClass().getName())
+                .commit();
     }
 }

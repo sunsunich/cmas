@@ -6,6 +6,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import org.cmas.android.storage.dao.CountryDao;
+import org.cmas.android.storage.dao.NationalFederationDao;
 import org.cmas.android.storage.entities.CmasTypeConverters;
 import org.cmas.android.storage.entities.Country;
 import org.cmas.android.storage.entities.CountryToponymCrossRef;
@@ -53,4 +54,6 @@ public abstract class MobileDatabase extends RoomDatabase {
     }
 
     public abstract CountryDao getCountryDao();
+
+    public abstract NationalFederationDao getNationalFederationDao();
 }

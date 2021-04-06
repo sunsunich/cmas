@@ -21,6 +21,7 @@ public class AppProperties {
     private final String changeProfileURL;
 
     private final String getCountriesURL;
+    private final String getFederationsURL;
 
     private final String getDiveSpotsURL;
     private final String getDiverLogbookEntriesURL;
@@ -42,14 +43,14 @@ public class AppProperties {
         registerNewProfileURL = properties.getProperty("cmas.registerNewProfileURL");
         changeProfileURL = properties.getProperty("cmas.changeProfileURL");
 
-        getCountriesURL =properties.getProperty("cmas.getCountriesURL");
+        getCountriesURL = properties.getProperty("cmas.getCountriesURL");
+        getFederationsURL = properties.getProperty("cmas.getFederationsURL");
 
-
-        getDiveSpotsURL =properties.getProperty("cmas.getDiveSpotsURL");
-        getDiverLogbookEntriesURL =properties.getProperty("getDiverLogbookEntriesURL");
-        addNewLogbookEntryURL =properties.getProperty("cmas.addNewLogbookEntryURL");
-        editLogbookEntryURL =properties.getProperty("cmas.editLogbookEntryURL");
-        deleteLogbookEntryURL =properties.getProperty("cmas.deleteLogbookEntryURL");
+        getDiveSpotsURL = properties.getProperty("cmas.getDiveSpotsURL");
+        getDiverLogbookEntriesURL = properties.getProperty("getDiverLogbookEntriesURL");
+        addNewLogbookEntryURL = properties.getProperty("cmas.addNewLogbookEntryURL");
+        editLogbookEntryURL = properties.getProperty("cmas.editLogbookEntryURL");
+        deleteLogbookEntryURL = properties.getProperty("cmas.deleteLogbookEntryURL");
     }
 
     public String getAddCodeURL() {
@@ -114,5 +115,9 @@ public class AppProperties {
 
     public String getGetCountriesURL() {
         return getCountriesURL;
+    }
+
+    public String getGetFederationsURL() {
+        return getFederationsURL;
     }
 }
