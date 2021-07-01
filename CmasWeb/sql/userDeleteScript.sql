@@ -18,7 +18,9 @@ delete from divers where id = @idToDelete;
 # delete the images!!! - look in user_files
 select @idToDelete := (select GROUP_CONCAT(id) from divers
                        where not (email like '%@mailinator.com') and role = 'ROLE_DIVER' || role <> 'ROLE_DIVER');
+#select @idToDelete := (select id from divers where federation_id = 35 and enabled = false);
 
+select @idToDelete := (select GROUP_CONCAT(id) from divers where email = 'a1@mailinator.com' );
 
 select @balanceToDelete := (select GROUP_CONCAT(userBalance_id) from divers where FIND_IN_SET(id, @idToDelete));
 
@@ -35,6 +37,7 @@ delete from feedback_items where FIND_IN_SET(creator_id, @idToDelete);
 
 select @invoiceToDelete := (select GROUP_CONCAT(id) from invoice where FIND_IN_SET(diver_id, @idToDelete));
 delete from invoice_requested_paid_features where FIND_IN_SET(invoiceId, @invoiceToDelete);
+delete from insurance_requests where FIND_IN_SET(invoice_id, @invoiceToDelete);
 delete from invoice_paid_for_divers where FIND_IN_SET(invoiceId, @invoiceToDelete);
 delete from invoice where FIND_IN_SET(id, @invoiceToDelete);
 
@@ -52,4 +55,7 @@ delete from diver_friend_requests where FIND_IN_SET(from_id, @idToDelete);
 delete from diver_friend_requests where FIND_IN_SET(to_id, @idToDelete);
 
 update divers set instructor_id = null where FIND_IN_SET(instructor_id, @idToDelete);
+
+delete from notifications_counter where FIND_IN_SET(diver_id, @idToDelete);
+delete from fin_log where FIND_IN_SET(diver_id, @idToDelete);
 delete from divers where FIND_IN_SET(id, @idToDelete);
