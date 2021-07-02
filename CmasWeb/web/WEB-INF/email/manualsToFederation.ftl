@@ -184,8 +184,7 @@
         CMAS AquaLink support team<br/>
         Email: ${supportEmail}<br/>
         Mob UK: +44 7570 819047<br/>
-        Mob RUS: +7 926 6656463<br/>
-        Viber, WhatsApp, Telegram: +7 925 4069918<br/>
+        Mob RUS, WhatsApp, Telegram: +7 926 6656463<br/>
         Skype: sonsunich<br/>
     </p>
 </@mailer.mail>

@@ -19,7 +19,7 @@ public interface MailService {
 
     void sendDiverPassword(Diver diver);
 
-    void sendRegistration(Registration reg);
+    void sendRegistration(Registration reg, boolean isResend);
 
     void regCompleteNotify(User user);
 

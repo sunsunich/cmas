@@ -378,7 +378,7 @@ public class RegistrationServiceImpl implements RegistrationService {
                 }
             }
         }
-        mailer.sendRegistration(entity);
+        mailer.sendRegistration(entity, false);
         return entity;
     }
 

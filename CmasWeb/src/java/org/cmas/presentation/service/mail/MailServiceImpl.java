@@ -50,9 +50,10 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
     }
 
     @Override
-    public void sendRegistration(Registration reg) {
+    public void sendRegistration(Registration reg, boolean isResend) {
         Locale locale = reg.getLocale();
-        String text = textRenderer.renderText("sendRegistration.ftl", locale
+        String templateName = isResend ? "resendRegistration.ftl" : "sendRegistration.ftl";
+        String text = textRenderer.renderText(templateName, locale
                 , new ModelAttr("reg", reg)
         );
         String subj = subjects.renderText("Registration", locale, addresses.getSiteName(locale));

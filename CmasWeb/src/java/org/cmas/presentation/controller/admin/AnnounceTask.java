@@ -1,6 +1,5 @@
 package org.cmas.presentation.controller.admin;
 
-import org.cmas.entities.diver.Diver;
 import org.cmas.util.schedule.Scheduler;
 
 import java.util.ArrayDeque;
@@ -8,25 +7,25 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ScheduledFuture;
 
-public abstract class AnnounceTask implements Runnable {
+public abstract class AnnounceTask<T> implements Runnable {
 
     private final Object monitor;
     private final Scheduler scheduler;
 
     private ScheduledFuture<?> scheduledFuture;
-    private Queue<Diver> diversToProcess;
+    private Queue<T> elementsToProcess;
 
     protected AnnounceTask(Object monitor, Scheduler scheduler) {
         this.monitor = monitor;
         this.scheduler = scheduler;
     }
 
-    public void schedule(Collection<Diver> divers) {
+    public void schedule(Collection<T> elements) {
         synchronized (monitor) {
-            diversToProcess = new ArrayDeque<>(divers.size());
-            for (Diver diver : divers) {
-                if (shouldAnnounce(diver)) {
-                    diversToProcess.add(diver);
+            elementsToProcess = new ArrayDeque<>(elements.size());
+            for (T element : elements) {
+                if (shouldAnnounce(element)) {
+                    elementsToProcess.add(element);
                 }
             }
             scheduledFuture = scheduler.scheduleWithFixedDelay(this,
@@ -38,18 +37,18 @@ public abstract class AnnounceTask implements Runnable {
     @Override
     public void run() {
         synchronized (monitor) {
-            if (diversToProcess.isEmpty()) {
+            if (elementsToProcess.isEmpty()) {
                 scheduledFuture.cancel(false);
             } else {
-                Diver diver = diversToProcess.poll();
-                if (shouldAnnounce(diver)) {
-                    announce(diver);
+                T element = elementsToProcess.poll();
+                if (shouldAnnounce(element)) {
+                    announce(element);
                 }
             }
         }
     }
 
-    protected abstract boolean shouldAnnounce(Diver diver);
+    protected abstract boolean shouldAnnounce(T element);
 
-    protected abstract void announce(Diver diver);
+    protected abstract void announce(T element);
 }
