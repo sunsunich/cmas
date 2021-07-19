@@ -20,7 +20,7 @@ public class EgyptDiverXlsParserImplTest {
         EgyptDiverXlsParserImpl sut = new EgyptDiverXlsParserImpl();
         try {
             Collection<Diver> divers = sut.getDivers(new File(
-                    "/Users/sunsunich/Documents/cmas/federations/Egypt/Second.xlsx"
+                    "/Users/sunsunich/Documents/cmas/federations/Egypt/2021/CMAS Data.xlsx"
             ), new ProgressListener() {
                 @Override
                 public void updateProgress(int newPercentValue) {

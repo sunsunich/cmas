@@ -325,7 +325,7 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public void generateAllCardsImages(Diver diver) {
         if (diver.getPrimaryPersonalCard() == null) {
-            personalCardService.generatePrimaryCard(diver, diverDao);
+            personalCardService.generatePrimaryCard(diver, diverDao, true);
             personalCardService.generateNonPrimaryCardsImages(diver);
         }
     }

@@ -451,7 +451,7 @@ public class AdminController {
                     .add(Restrictions.eq("diver", diver))
                     .list();
             if (diver.getPrimaryPersonalCard() == null) {
-                personalCardService.generatePrimaryCard(diver, diverDao);
+                personalCardService.generatePrimaryCard(diver, diverDao, true);
             }
             for (PersonalCard card : cardsToRegenerate) {
                 personalCardService.generateAndSaveCardImage(card.getId());

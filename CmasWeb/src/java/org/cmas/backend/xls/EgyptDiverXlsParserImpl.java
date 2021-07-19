@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.cmas.Globals;
 import org.cmas.entities.Country;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
@@ -40,13 +41,16 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                 Sheet sheet = wb.getSheetAt(i);
                 PersonalCard globalCard = evalDiverTypeLevel(sheet);
                 if (globalCard == null) {
+                    String sheetName = sheet.getSheetName();
+                    System.err.println("error reading diver's card:" + "sheetName:" + sheetName);
                     continue;
                 }
-                for (int r = 4; r < sheet.getPhysicalNumberOfRows(); r++) {
+                for (int r = 2; r < sheet.getPhysicalNumberOfRows(); r++) {
                     try {
                         Row row = sheet.getRow(r);
                         Diver diver = evalDiver(row);
                         if (diver == null) {
+                            System.err.println("error reading diver: row number:" + r);
                             continue;
                         }
                         diver.setDiverType(globalCard.getDiverType());
@@ -97,7 +101,7 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
     }
 
     @Nullable
-    private static Diver evalDiver(Row row) {
+    private static Diver evalDiver(Row row) throws Exception {
         Diver diver = new Diver();
         String name = StringUtil.correctSpaceCharAndTrim(row.getCell(1).getStringCellValue());
         int lastSpaceIndex = name.lastIndexOf(' ');
@@ -127,15 +131,20 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
             diver.setCards(cards);
         }
 
-        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
+        String email = StringUtil.correctSpaceCharAndTrim(row.getCell(4).getStringCellValue());
         diver.setEmail(email);
 
-        String password = StringUtil.correctSpaceCharAndTrim(row.getCell(6).getStringCellValue());
+        String password = StringUtil.correctSpaceCharAndTrim(row.getCell(5).getStringCellValue());
         diver.setGeneratedPassword(password);
 
-        Date dob = row.getCell(7).getDateCellValue();
+        Cell dobCell = row.getCell(6);
+        Date dob;
+        if (dobCell.getCellType() == Cell.CELL_TYPE_STRING) {
+            dob = Globals.getDTF().parse(dobCell.getStringCellValue());
+        } else {
+            dob = dobCell.getDateCellValue();
+        }
         diver.setDob(dob);
-
         return diver;
     }
 

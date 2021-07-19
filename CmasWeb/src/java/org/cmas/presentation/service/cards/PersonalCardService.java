@@ -29,7 +29,7 @@ public interface PersonalCardService {
 
     void generateNonPrimaryCardsImages(CardUser cardUser);
 
-    <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao);
+    <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao, boolean generateImage);
 
     PersonalCard generateAndSaveCardImage(long personalCardId);
 

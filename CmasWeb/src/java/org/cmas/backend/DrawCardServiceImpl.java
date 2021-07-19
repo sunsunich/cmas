@@ -75,11 +75,11 @@ public class DrawCardServiceImpl implements DrawCardService {
 
     @SuppressWarnings({"OverlyLongMethod", "MagicNumber", "StringConcatenation", "MagicCharacter"})
     @Override
-    public Pair<BufferedImage, BufferedImage> drawDiverCard(PersonalCard card) throws WriterException, IOException {
+    public Pair<BufferedImage, BufferedImage> drawDiverCard(PersonalCard card, PersonalCard primaryCard, List<PersonalCard> otherCards) throws WriterException, IOException {
         boolean isPrimary = card.getCardType() == PersonalCardType.PRIMARY;
         Diver diver = card.getDiver();
 
-        PersonalCard generalizedCard = getGeneralizedPersonalCard(card);
+        PersonalCard generalizedCard = getGeneralizedPersonalCard(card, otherCards);
         String fileName = getFileName(generalizedCard);
         BufferedImage initImage = ImageIO.read(DrawCardServiceImpl.class.getResourceAsStream(fileName));
         int width = initImage.getWidth();
@@ -95,7 +95,7 @@ public class DrawCardServiceImpl implements DrawCardService {
                           || diverRegistrationStatus == DiverRegistrationStatus.DEMO;
 
         CardPrintInfo cardPrintInfo = CardPrintUtil.toPrintName(generalizedCard);
-        String cardNumber = diver.getPrimaryPersonalCard().getNumber();
+        String cardNumber = primaryCard.getNumber();
         if (isPrimary) {
             String cardNumberToDraw = addLeadingZeros(cardNumber);
             Color numberColor = cardPrintInfo.heliDiver ? Color.WHITE : Color.BLACK;
@@ -308,25 +308,25 @@ public class DrawCardServiceImpl implements DrawCardService {
         return fileName;
     }
 
-    private static PersonalCard getGeneralizedPersonalCard(PersonalCard card) {
+    private static PersonalCard getGeneralizedPersonalCard(PersonalCard card, List<PersonalCard> otherCards) {
         PersonalCard generalizedCard = new PersonalCard();
         generalizedCard.setDiverType(card.getDiverType());
         generalizedCard.setDiverLevel(card.getDiverLevel());
         generalizedCard.setDiver(card.getDiver());
         if (card.getCardType() == PersonalCardType.PRIMARY) {
-            generalizedCard.setCardType(getGeneralizedCardType(card.getDiver()));
+            generalizedCard.setCardType(getGeneralizedCardType(otherCards));
         } else {
             generalizedCard.setCardType(card.getCardType());
         }
         return generalizedCard;
     }
 
-    private static PersonalCardType getGeneralizedCardType(Diver diver) {
+    private static PersonalCardType getGeneralizedCardType(List<PersonalCard> otherCards) {
         MutablePair<Boolean, Boolean> apneaPair = new MutablePair<>(false, true);  // hasApnea, isOnlyApnea
         MutablePair<Boolean, Boolean> heliDiverPair = new MutablePair<>(false, true);
         MutablePair<Boolean, Boolean> heliRescuePair = new MutablePair<>(false, true);
         MutablePair<Boolean, Boolean> powerBoatPair = new MutablePair<>(false, true);
-        for (PersonalCard card : diver.getCards()) {
+        for (PersonalCard card : otherCards) {
             PersonalCardType cardType = card.getCardType();
             if (cardType == PersonalCardType.PRIMARY || cardType == PersonalCardType.NATIONAL) {
                 continue;
@@ -424,20 +424,20 @@ public class DrawCardServiceImpl implements DrawCardService {
         return result;
     }
 
-    public static void main(String[] args) {
-        try {
-            DrawCardServiceImpl drawCardService = new DrawCardServiceImpl();
-            List<PersonalCard> cards = MockUtil.getHeliDiver().getCards();
-            for (int i = 0; i < cards.size(); i++) {
-                PersonalCard personalCard = cards.get(i);
-                Pair<BufferedImage, BufferedImage> images = drawCardService.drawDiverCard(personalCard);
-                ImageIO.write(images.getFirst(),
-                              "png",
-                              new File("/Users/sunsunich/workplace/сmas/tmp" + i + ".png")
-                );
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//        try {
+//            DrawCardServiceImpl drawCardService = new DrawCardServiceImpl();
+//            List<PersonalCard> cards = MockUtil.getHeliDiver().getCards();
+//            for (int i = 0; i < cards.size(); i++) {
+//                PersonalCard personalCard = cards.get(i);
+//                Pair<BufferedImage, BufferedImage> images = drawCardService.drawDiverCard(personalCard);
+//                ImageIO.write(images.getFirst(),
+//                              "png",
+//                              new File("/Users/sunsunich/workplace/сmas/tmp" + i + ".png")
+//                );
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

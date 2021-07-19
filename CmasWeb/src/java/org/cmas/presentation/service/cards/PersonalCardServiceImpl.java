@@ -171,7 +171,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     }
 
     @Override
-    public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao) {
+    public <T extends CardUser> PersonalCard generatePrimaryCard(T cardUser, HibernateDao<T> entityDao, boolean generateImage) {
         final PersonalCard personalCard = new PersonalCard();
         personalCard.setCardType(PersonalCardType.PRIMARY);
         saveAndSetCardNumber(personalCard);
@@ -199,7 +199,7 @@ public class PersonalCardServiceImpl implements PersonalCardService {
         personalCardDao.updateModel(personalCard);
         cardUser.setPrimaryPersonalCard(personalCard);
         entityDao.updateModel(cardUser);
-        if (cardUser.getRole() == Role.ROLE_DIVER) {
+        if (generateImage && cardUser.getRole() == Role.ROLE_DIVER) {
             scheduler.schedule(
                     new RunInHibernate(sessionFactory) {
                         @Override
@@ -214,8 +214,33 @@ public class PersonalCardServiceImpl implements PersonalCardService {
     @Override
     public PersonalCard generateAndSaveCardImage(long personalCardId) {
         PersonalCard personalCard = personalCardDao.getById(personalCardId);
+        // fetching everything manually, hibernate fetch fails sometimes
+        Diver diver = diverDao.getById(personalCard.getDiver().getId());
+        if (diver == null) {
+            log.error("Cannot generateAndSaveCardImage, personalCardId=" + personalCardId
+                      + ". No diver for this card");
+            return personalCard;
+        }
+        List<PersonalCard> diversCards = personalCardDao.getCardsByDiver(diver);
+        PersonalCard primaryCard = null;
+        List<PersonalCard> otherCards = new ArrayList<>(diversCards.size());
+        for (PersonalCard card : diversCards) {
+            if (card.getCardType() == PersonalCardType.PRIMARY) {
+                primaryCard = card;
+            } else {
+                otherCards.add(card);
+            }
+        }
+        if (primaryCard == null) {
+            log.error("Cannot generateAndSaveCardImage, personalCardId=" + personalCardId
+                      + ". No primary card for diver id=" + diver.getId());
+            return personalCard;
+        }
+
         try {
-            Pair<BufferedImage,BufferedImage> images = drawCardService.drawDiverCard(personalCard);
+            Pair<BufferedImage, BufferedImage> images = drawCardService.drawDiverCard(personalCard,
+                                                                                      primaryCard,
+                                                                                      otherCards);
             imageStorageManager.storeCardImage(personalCard, images.getFirst(), images.getSecond());
         } catch (Exception e) {
             log.error(e.getMessage(), e);

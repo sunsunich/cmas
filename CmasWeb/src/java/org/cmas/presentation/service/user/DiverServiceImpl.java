@@ -9,6 +9,7 @@ import org.cmas.entities.UserBalance;
 import org.cmas.entities.billing.Invoice;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
+import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
 import org.cmas.entities.diver.DiverRegistrationStatus;
@@ -19,10 +20,12 @@ import org.cmas.entities.sport.NationalFederation;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.cards.PersonalCardDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.dao.user.sport.NationalFederationDao;
 import org.cmas.presentation.dao.user.sport.NotificationsCounterDao;
 import org.cmas.presentation.entities.user.Registration;
 import org.cmas.presentation.entities.user.cards.RegFile;
 import org.cmas.presentation.model.user.DiverFormObject;
+import org.cmas.presentation.model.user.UserDetails;
 import org.cmas.presentation.service.cards.CardApprovalRequestService;
 import org.cmas.presentation.service.cards.PersonalCardService;
 import org.cmas.presentation.service.mail.MailService;
@@ -38,6 +41,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.security.providers.encoding.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Nonnull;
@@ -76,9 +80,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     @Qualifier("rusDiverXlsParser")
     DiverXlsParser rusDiverXlsParser;
 
-//    @Autowired
-//    @Qualifier("egyptDiverXlsParser")
-//    DiverXlsParser egyptDiverXlsParser;
+    @Autowired
+    @Qualifier("egyptDiverXlsParser")
+    DiverXlsParser egyptDiverXlsParser;
 
     @Autowired
     @Qualifier("iranDiverXlsParser")
@@ -89,10 +93,16 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     DiverXlsParser singleTableDiverXlsParser;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private MailService mailService;
 
     @Autowired
     private CountryDao countryDao;
+
+    @Autowired
+    private NationalFederationDao nationalFederationDao;
 
     @Autowired
     DiverDao diverDao;
@@ -214,112 +224,106 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     }
 
     void finalizeDiverFromXls(NationalFederation federation, DiverModificationData diverModificationData) {
-        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver);
+        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver, false);
         setDiverInstructor(federation, diverModificationData.dbDiver, diverModificationData.instructor);
     }
 
-//    boolean uploadExistingEgyptianDiver(Diver diver) {
-//        Country egypt = countryDao.getByCode(Country.EGYPT_COUNTRY_CODE);
-//        Country country = countryDao.getByName(diver.getCountry().getName());
-//        String firstName = diver.getFirstName();
-//        String lastName = diver.getLastName();
-//        List<PersonalCard> cards = diver.getCards();
-//        PersonalCard personalCard = cards.get(0);
-//        String primaryCardNumber = personalCard.getNumber();
-//        DiverType diverType = personalCard.getDiverType();
-//        DiverLevel diverLevel = personalCard.getDiverLevel();
-//        if (country == null) {
-//            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
-//            LOGGER.error("country not found for diver:"
-//                         + " firstName = " + firstName
-//                         + ", lastName = " + lastName
-//                         + ", cardNumber = " + primaryCardNumber
-//                         + ' ' + diverType
-//                         + ' ' + diverLevel
-//                         + " from " + diver.getCountry().getName()
-//            );
-//            return false;
-//        }
-//        String email = diver.getEmail();
-//        Diver dbDiver = diverDao.getByEmail(email);
-//        if (dbDiver == null) {
-//            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
-//            LOGGER.error("cannot upload existing diver for Egypt federation, no such diver:"
-//                         + " email = " + email
-//                         + " firstName = " + firstName
-//                         + ", lastName = " + lastName
-//                         + ", cardNumber = " + primaryCardNumber
-//                         + ' ' + diverType
-//                         + ' ' + diverLevel
-//                         + " from " + country.getName()
-//            );
-//            return false;
-//        }
-//        Date dob = diver.getDob();
-//        String dbFullNameNoSpaces = getNameNoSpaces(dbDiver.getFirstName()) + getNameNoSpaces(dbDiver.getLastName());
-//        String fullNameNoSpaces = getNameNoSpaces(firstName) + getNameNoSpaces(lastName);
-//        if (!dbFullNameNoSpaces.equals(fullNameNoSpaces)){
-//            LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
-//                         + " email = " + email
-//                         + " dbFullNameNoSpaces = " + dbFullNameNoSpaces
-//                         + ", fullNameNoSpaces = " + fullNameNoSpaces
-//                         + ", dob = " + dob
-//                         + ", cardNumber = " + primaryCardNumber
-//                         + ' ' + diverType
-//                         + ' ' + diverLevel
-//                         + " from " + country.getName()
-//            );
-//            return false;
-//        }
-//        String formattedDob = Globals.getDTF().format(dob);
-//        String formattedDobDb = Globals.getDTF().format(dbDiver.getDob());
-//        if (!formattedDobDb.equals(formattedDob)){
-//            LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
-//                         + " email = " + email
-//                         + ", fullNameNoSpaces = " + fullNameNoSpaces
-//                         + " dbDob = " + formattedDobDb
-//                         + ", dob = " + formattedDob
-//                         + ", cardNumber = " + primaryCardNumber
-//                         + ' ' + diverType
-//                         + ' ' + diverLevel
-//                         + " from " + country.getName()
-//            );
-//            return false;
-//        }
-//
-//        dbDiver.setCountry(country);
-//        dbDiver.setFirstName(StringUtil.correctSpaceCharAndTrim(firstName));
-//        dbDiver.setLastName(StringUtil.correctSpaceCharAndTrim(lastName));
-//
-//        String generatedPassword = diver.getGeneratedPassword();
-//        if (StringUtil.isTrimmedEmpty(dbDiver.getPassword())
-//            && !StringUtil.isTrimmedEmpty(generatedPassword)) {
-//            dbDiver.setGeneratedPassword(generatedPassword);
-//            dbDiver.setPassword(
-//                    passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT)
-//            );
-//        }
-//        diverDao.updateModel(dbDiver);
-//
-//        NationalFederation federation = nationalFederationDao.getByCountry(egypt).get(0);
-//        saveOrUpdateCards(federation, dbDiver, cards);
-//        return true;
-//    }
+    boolean uploadEgyptianDiver(Diver diver) {
+        Country egypt = countryDao.getByCode(Country.EGYPT_COUNTRY_CODE);
+        Country country = countryDao.getByName(diver.getCountry().getName());
+        String firstName = diver.getFirstName();
+        String lastName = diver.getLastName();
+        List<PersonalCard> cards = diver.getCards();
+        PersonalCard personalCard = cards.get(0);
+        String primaryCardNumber = personalCard.getNumber();
+        DiverType diverType = personalCard.getDiverType();
+        DiverLevel diverLevel = personalCard.getDiverLevel();
+        if (country == null) {
+            //noinspection StringConcatenationArgumentToLogCall,StringConcatenation,MagicCharacter
+            LOGGER.error("country not found for diver:"
+                         + " firstName = " + firstName
+                         + ", lastName = " + lastName
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + diver.getCountry().getName()
+            );
+            return false;
+        }
+        NationalFederation federation = nationalFederationDao.getByCountry(egypt).get(0);
+        String email = diver.getEmail();
+        Diver dbDiver = diverDao.getByEmail(email);
+        if (dbDiver == null) {
+            //registering new user
+            diver.setDateReg(new Date());
+            diver.setAreaOfInterest(AreaOfInterest.SCUBA_DIVING.name());
+            dbDiver = saveOrUpdateDiver(federation, diver);
+        }
+        Date dob = diver.getDob();
+        String dbFullNameNoSpaces = getNameNoSpaces(dbDiver.getFirstName()) + getNameNoSpaces(dbDiver.getLastName());
+        String fullNameNoSpaces = getNameNoSpaces(firstName) + getNameNoSpaces(lastName);
+        if (!dbFullNameNoSpaces.equals(fullNameNoSpaces)) {
+            LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
+                         + " email = " + email
+                         + " dbFullNameNoSpaces = " + dbFullNameNoSpaces
+                         + ", fullNameNoSpaces = " + fullNameNoSpaces
+                         + ", dob = " + dob
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + country.getName()
+            );
+            return false;
+        }
+        String formattedDob = Globals.getDTF().format(dob);
+        String formattedDobDb = Globals.getDTF().format(dbDiver.getDob());
+        if (!formattedDobDb.equals(formattedDob)) {
+            LOGGER.error("cannot upload existing diver for Egypt federation, diver data mismatch:"
+                         + " email = " + email
+                         + ", fullNameNoSpaces = " + fullNameNoSpaces
+                         + " dbDob = " + formattedDobDb
+                         + ", dob = " + formattedDob
+                         + ", cardNumber = " + primaryCardNumber
+                         + ' ' + diverType
+                         + ' ' + diverLevel
+                         + " from " + country.getName()
+            );
+            return false;
+        }
 
-//    @NotNull
-//    private static String getNameNoSpaces(String firstName) {
-//        return StringUtil.correctSpaceCharAndTrim(firstName).replaceAll(" ", "");
-//    }
+        dbDiver.setCountry(country);
+        dbDiver.setFirstName(StringUtil.correctSpaceCharAndTrim(firstName));
+        dbDiver.setLastName(StringUtil.correctSpaceCharAndTrim(lastName));
 
-//    void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {
-//        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver);
-//        Diver dbDiver = diverModificationData.dbDiver;
-//        // egyptians have paid
-//        dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
-//        dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
-//        // dao update in the method below
-//        addGuestDiverToFederation(federation, dbDiver);
-//    }
+        String generatedPassword = diver.getGeneratedPassword();
+        if (StringUtil.isTrimmedEmpty(dbDiver.getPassword())
+            && !StringUtil.isTrimmedEmpty(generatedPassword)) {
+            dbDiver.setGeneratedPassword(generatedPassword);
+            dbDiver.setPassword(
+                    passwordEncoder.encodePassword(generatedPassword, UserDetails.SALT)
+            );
+        }
+        diverDao.updateModel(dbDiver);
+
+        saveOrUpdateCards(federation, dbDiver, cards);
+        return true;
+    }
+
+    @NotNull
+    private static String getNameNoSpaces(String firstName) {
+        return StringUtil.correctSpaceCharAndTrim(firstName).replaceAll(" ", "");
+    }
+
+    void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {
+        personalCardService.generatePrimaryCard(diverModificationData.dbDiver, diverDao, false);
+        updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver, true);
+        Diver dbDiver = diverModificationData.dbDiver;
+        // egyptians have paid
+        dbDiver.setPreviousRegistrationStatus(DiverRegistrationStatus.CMAS_BASIC);
+        dbDiver.setDiverRegistrationStatus(DiverRegistrationStatus.CMAS_FULL);
+        // dao update in the method below
+        addGuestDiverToFederation(federation, dbDiver);
+    }
 
     @Override
     public void uploadSingleDiver(NationalFederation federation, Diver diver) {
@@ -351,7 +355,7 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             card.setIssuingFederation(federation);
             personalCardDao.save(card);
         }
-        updateDiverTypeAndLevelBasingOnCards(dbDiver);
+        updateDiverTypeAndLevelBasingOnCards(dbDiver, false);
         if (dbDiver.getDiverRegistrationStatus() != DiverRegistrationStatus.NEVER_REGISTERED) {
             personalCardService.generateNonPrimaryCardsImages(dbDiver);
         }
@@ -477,11 +481,6 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
             diverDao.updateModel(dbDiver);
             updatePrimaryCard(dbDiver);
         }
-    }
-
-
-    private void updateDiverTypeAndLevelBasingOnCards(@Nonnull Diver dbDiver) {
-        updateDiverTypeAndLevelBasingOnCards(dbDiver, false);
     }
 
     private void updatePrimaryCard(Diver dbDiver) {
