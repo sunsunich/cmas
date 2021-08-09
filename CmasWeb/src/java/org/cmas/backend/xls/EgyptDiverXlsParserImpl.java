@@ -13,6 +13,8 @@ import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.service.user.ProgressListener;
 import org.cmas.util.StringUtil;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ import java.util.Map;
 @SuppressWarnings("MagicCharacter")
 public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EgyptDiverXlsParserImpl.class);
+
     @Override
     public Collection<Diver> getDivers(InputStream file, ProgressListener progressListener) throws Exception {
         try (Workbook wb = WorkbookFactory.create(file)) {
@@ -42,15 +46,18 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                 PersonalCard globalCard = evalDiverTypeLevel(sheet);
                 if (globalCard == null) {
                     String sheetName = sheet.getSheetName();
-                    System.err.println("error reading diver's card:" + "sheetName:" + sheetName);
+                    LOGGER.error("error reading diver's card:" + "sheetName:" + sheetName);
                     continue;
                 }
                 for (int r = 2; r < sheet.getPhysicalNumberOfRows(); r++) {
                     try {
                         Row row = sheet.getRow(r);
+                        if (row == null) {
+                            continue;
+                        }
                         Diver diver = evalDiver(row);
                         if (diver == null) {
-                            System.err.println("error reading diver: row number:" + r);
+                            LOGGER.error("error reading diver: row number:" + r);
                             continue;
                         }
                         diver.setDiverType(globalCard.getDiverType());
@@ -66,22 +73,26 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
                         if (existingDiver == null) {
                             divers.put(key, diver);
                         } else {
-                            System.out.println("diver repetition:"
-                                               + "cell number:"
-                                               + row.getCell(0)
-                                               + ", diver:"
-                                               + diver.getFirstName()
-                                               + ' '
-                                               + diver.getLastName()
-                                               + ' '
-                                               + diver.getDob()
-                                               + ' '
-                                               + diver.getDiverLevel()
-                                               + ",  new card:"
-                                               + card.getDiverType()
-                                               + ' '
-                                               + card.getDiverLevel()
+                            LOGGER.error("diver repetition:"
+                                         + "cell number:"
+                                         + row.getCell(0)
+                                         + ", diver:"
+                                         + existingDiver.getFirstName()
+                                         + ", "
+                                         + existingDiver.getLastName()
+                                         + ", "
+                                         + Globals.getDTF().format(existingDiver.getDob())
+                                         + ", "
+                                         + existingDiver.getDiverType()
+                                         + ", "
+                                         + existingDiver.getDiverLevel()
+                                         + ",  new card:"
+                                         + card.getDiverType()
+                                         + ", "
+                                         + card.getDiverLevel()
                             );
+                            // use the email of the latest diver - helps a little to avoid duplicates
+                            existingDiver.setEmail(diver.getEmail());
                             List<PersonalCard> existingDiverCards = existingDiver.getCards();
                             existingDiverCards.add(card);
                         }
@@ -103,7 +114,11 @@ public class EgyptDiverXlsParserImpl extends BaseDiverXlsParserImpl {
     @Nullable
     private static Diver evalDiver(Row row) throws Exception {
         Diver diver = new Diver();
-        String name = StringUtil.correctSpaceCharAndTrim(row.getCell(1).getStringCellValue());
+        Cell nameCell = row.getCell(1);
+        if (nameCell == null || nameCell.getStringCellValue() == null) {
+            return null;
+        }
+        String name = StringUtil.correctSpaceCharAndTrim(nameCell.getStringCellValue());
         int lastSpaceIndex = name.lastIndexOf(' ');
         if (lastSpaceIndex == -1) {
             return null;

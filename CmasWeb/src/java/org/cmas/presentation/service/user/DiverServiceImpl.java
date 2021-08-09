@@ -315,7 +315,9 @@ public class DiverServiceImpl extends UserServiceImpl<Diver> implements DiverSer
     }
 
     void finalizeExistingEgyptianDiver(NationalFederation federation, DiverModificationData diverModificationData) {
-        personalCardService.generatePrimaryCard(diverModificationData.dbDiver, diverDao, false);
+        if (diverModificationData.dbDiver.getPrimaryPersonalCard() == null) {
+            personalCardService.generatePrimaryCard(diverModificationData.dbDiver, diverDao, false);
+        }
         updateDiverTypeAndLevelBasingOnCards(diverModificationData.dbDiver, true);
         Diver dbDiver = diverModificationData.dbDiver;
         // egyptians have paid
