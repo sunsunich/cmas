@@ -1,6 +1,7 @@
 package org.cmas.presentation.controller.admin;
 
 import com.google.myjson.Gson;
+import org.cmas.Globals;
 import org.cmas.backend.ImageStorageManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
@@ -9,6 +10,7 @@ import org.cmas.entities.User;
 import org.cmas.entities.UserFile;
 import org.cmas.entities.UserFileType;
 import org.cmas.entities.cards.CardApprovalRequest;
+import org.cmas.entities.cards.CardApprovalRequestStatus;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.cards.PersonalCardType;
 import org.cmas.entities.diver.Diver;
@@ -63,6 +65,7 @@ import org.springframework.web.servlet.View;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -545,6 +548,33 @@ public class AdminController {
             for (UserFile userFile : userFiles) {
                 imageStorageManager.deleteUserFile(userFile);
                 userFileDao.deleteModel(userFile);
+            }
+        }
+        return new ModelAndView("redirect:/admin/index.html");
+    }
+
+    @RequestMapping(value = "/admin/cleanUpPrecessedCars.html", method = RequestMethod.GET)
+    public ModelAndView cleanUpPrecessedCars() {
+        @SuppressWarnings("unchecked")
+        List<CardApprovalRequest> requests = cardApprovalRequestDao
+                .createCriteria()
+                .add(Restrictions.ne("status",
+                                     CardApprovalRequestStatus.NEW))
+                .add(
+                        Restrictions.le("createDate", new Date(System.currentTimeMillis() - 14 * Globals.ONE_DAY_IN_MS))
+                )
+                .list();
+        for (CardApprovalRequest request : requests) {
+            UserFile frontImage = request.getFrontImage();
+            UserFile backImage = request.getBackImage();
+            cardApprovalRequestDao.deleteModel(request);
+            if (frontImage != null) {
+                imageStorageManager.deleteUserFile(frontImage);
+                userFileDao.deleteModel(frontImage);
+            }
+            if (backImage != null) {
+                imageStorageManager.deleteUserFile(backImage);
+                userFileDao.deleteModel(backImage);
             }
         }
         return new ModelAndView("redirect:/admin/index.html");
