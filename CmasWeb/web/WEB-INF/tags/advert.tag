@@ -34,6 +34,9 @@
     <li>
         <s:message code="cmas.face.advert.registration.guest.elem4"/>
     </li>
+    <li>
+        <s:message code="cmas.face.advert.registration.guest.elem5"/>
+    </li>
 </ul>
 <div class="advert-header">
     <s:message code="cmas.face.advert.registration.cmas.header"/>

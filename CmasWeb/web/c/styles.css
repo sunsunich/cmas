@@ -491,6 +491,10 @@ html, body {
     font-size: 12px;
 }
 
+.error-color {
+    color: #f4225b;
+}
+
 .dialog {
     background: #ffffff;
     min-width: 304px;

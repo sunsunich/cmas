@@ -123,6 +123,10 @@
                 <value>/secure/createCameraOrder.html</value>
                 <value>/secure/createSpot.html</value>
                 <value>/secure/deleteSpot.html</value>
+
+                <value>/secure/elearning.html</value>
+                <value>/secure/getElearningToken.html</value>
+                <value>/secure/elearningRegister.html</value>
             </list>
         </property>
 
@@ -215,6 +219,10 @@
                 <value>/secure/insurance.html</value>
 
                 <!-- CMAS_FULL only  -->
+                <value>/secure/elearning.html</value>
+                <value>/secure/getElearningToken.html</value>
+                <value>/secure/elearningRegister.html</value>
+
                 <value>/secure/createCameraOrder.html</value>
 
                 <value>/secure/createLogbookRecordForm.html</value>

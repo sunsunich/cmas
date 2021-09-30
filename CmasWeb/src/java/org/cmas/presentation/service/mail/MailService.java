@@ -67,4 +67,6 @@ public interface MailService {
     void cmasMobileAnnounce(Diver diver, NotificationsCounter notificationsCounter);
 
     void sendFederationManuals(NationalFederation federation, Diver federationAdmin);
+
+    void sendElearningTokensWarning();
 }

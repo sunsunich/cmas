@@ -6,12 +6,14 @@ import org.cmas.entities.Country;
 import org.cmas.entities.Gender;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverRegistrationStatus;
+import org.cmas.entities.elearning.ElearningToken;
 import org.cmas.entities.loyalty.InsuranceRequest;
 import org.cmas.entities.loyalty.LoyaltyProgramItem;
 import org.cmas.presentation.dao.CountryDao;
 import org.cmas.presentation.dao.billing.LoyaltyProgramItemDao;
 import org.cmas.presentation.dao.billing.PaidFeatureDao;
 import org.cmas.presentation.dao.user.sport.DiverDao;
+import org.cmas.presentation.service.elearning.ElearningService;
 import org.cmas.presentation.service.loyalty.CameraOrderService;
 import org.cmas.presentation.service.loyalty.InsuranceRequestService;
 import org.cmas.presentation.service.user.RegistrationService;
@@ -63,6 +65,9 @@ public class UserHomeController extends DiverAwareController {
     @Autowired
     private LoyaltyProgramItemDao loyaltyProgramItemDao;
 
+    @Autowired
+    private ElearningService elearningService;
+
     @RequestMapping(value = "/secure/index.html", method = RequestMethod.GET)
     public ModelAndView showIndex() {
         Diver diver = getCurrentDiver();
@@ -84,6 +89,39 @@ public class UserHomeController extends DiverAwareController {
         }
         registrationService.generateAllCardsImages(diver);
         return new ModelAndView("/secure/welcome");
+    }
+
+    @RequestMapping(value = "/secure/elearning.html", method = RequestMethod.GET)
+    public ModelAndView showElearning(ModelMap mm) {
+        return new ModelAndView("/secure/elearning", mm);
+    }
+
+    @RequestMapping(value = "/secure/getElearningToken.html", method = RequestMethod.GET)
+    public View getElearningToken() {
+        Diver diver = getCurrentDiver();
+        try {
+            ElearningToken token = elearningService.getElearningToken(diver);
+            if (token == null) {
+                return gsonViewFactory.createErrorGsonView("error.elearning.no.tokens");
+            } else {
+                return gsonViewFactory.createGsonView(token);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return gsonViewFactory.createErrorGsonView("error.elearning.internal");
+        }
+    }
+
+    @RequestMapping(value = "/secure/elearningRegister.html", method = RequestMethod.GET)
+    public View elearningRegister() {
+        Diver diver = getCurrentDiver();
+        try {
+            elearningService.elearningRegister(diver);
+            return gsonViewFactory.createSuccessGsonView();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return gsonViewFactory.createErrorGsonView("error.elearning.internal");
+        }
     }
 
     @RequestMapping(value = "/secure/loyaltyProgram.html", method = RequestMethod.GET)

@@ -104,6 +104,9 @@ var error_codes = {
 
     "validation.insurance.alreadyHave": "You are already covered by divers insurance",
 
-    "validation.cards.images" : "Please attach front and back photo of the certificate",
-    "validation.registration.images" : "Please attach at least one file"
+    "validation.cards.images": "Please attach front and back photo of the certificate",
+    "validation.registration.images": "Please attach at least one file",
+
+    "error.elearning.no.tokens": "Your coupon will be issued soon. Please wait for 2 days and try again.",
+    "error.elearning.internal": "Temporary error while obtaining your e-learning coupon. Please reload the page."
 };

@@ -565,5 +565,17 @@ public class MailServiceImpl extends CommonMailServiceImpl implements MailServic
         }
         mailTransport.sendMail(from, to, text, subj, true, attachments, getMailEncoding(locale));
     }
+
+    @Override
+    public void sendElearningTokensWarning() {
+        Locale locale = Locale.ENGLISH;
+        String text = textRenderer.renderText(
+                "elearningTokenWarning.ftl", locale
+        );
+        InternetAddress from = getSiteReplyAddress(locale);
+        InternetAddress to = addresses.getAdminMailAddress();
+        String subj = subjects.renderText("ElearningTokenWarning", locale);
+        mailTransport.sendMail(from, to, text, subj, true, getMailEncoding(locale));
+    }
 }
 

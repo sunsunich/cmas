@@ -55,6 +55,7 @@
                 <value>org.cmas.entities.loyalty.LoyaltyProgramItem</value>
                 <value>org.cmas.entities.loyalty.InsuranceRequest</value>
                 <value>org.cmas.entities.loyalty.CameraOrder</value>
+                <value>org.cmas.entities.elearning.ElearningToken</value>
 
                 <value>org.cmas.entities.billing.Invoice</value>
                 <value>org.cmas.presentation.entities.billing.FinLog</value>
@@ -213,6 +214,10 @@
     </bean>
 
     <bean id="cameraOrderDao" class="org.cmas.presentation.dao.loyalty.CameraOrderDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="elearningToken" class="org.cmas.presentation.dao.elearning.ElearningTokenDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 

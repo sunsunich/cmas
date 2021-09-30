@@ -5,6 +5,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="ff" tagdir="/WEB-INF/tags/form" %>
 <%@ attribute name="title" required="false" %>
+<%@ attribute name="customScripts" required="false" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
@@ -13,6 +15,14 @@
 
     <link rel="stylesheet" type="text/css" href="/c/admin.css?v=${webVersion}" media="all"/>
     <script type="text/javascript" src="/js/util.js?v=${webVersion}"></script>
+
+    <c:forEach items="${customScripts}" var="customScript">
+        <script type="text/javascript" src="${customScript}?v=${webVersion}"></script>
+    </c:forEach>
+
+    <script type="application/javascript">
+        var webVersion = ${webVersion};
+    </script>
 
 </head>
 <body>
@@ -35,7 +45,8 @@
                 <tr>
                     <td><a href="/logout.html">Sign out</a>&nbsp;&nbsp;&nbsp;</td>
                     <td><a href="/admin/index.html">Users</a>&nbsp;&nbsp;&nbsp;</td>
-                    <td><a href="/admin/addFederation.html">Add new Federation</a></td>
+                    <td><a href="/admin/addFederation.html">Add new Federation</a>&nbsp;&nbsp;&nbsp;</td>
+                    <td><a href="/admin/elearningTokens.html">Upload e-learning tokens</a>&nbsp;&nbsp;&nbsp;</td>
                 </tr>
             </table>
 

@@ -71,6 +71,15 @@ public class CardDisplayManager implements InitializingBean {
         });
         heliCardGroups.put("cmas.card.type.common",
                            new PersonalCardType[]{PersonalCardType.NATIONAL});
+        heliCardGroups.put("cmas.card.type.gas.mixing", new PersonalCardType[]{
+                PersonalCardType.EXTENDED_RANGE,
+                PersonalCardType.NITROX,
+                PersonalCardType.NITROX_GASBLENDER,
+                PersonalCardType.TRIMIX,
+                PersonalCardType.TRIMIX_GASBLENDER,
+                PersonalCardType.OXYGEN_ADMINISTATOR,
+                PersonalCardType.REBREATHER
+        });
     }
 
     public Map<String, PersonalCardType[]> getPersonalCardGroups() {

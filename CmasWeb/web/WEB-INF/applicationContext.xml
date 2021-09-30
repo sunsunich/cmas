@@ -223,6 +223,8 @@
 
     <bean id="cameraOrderService" class="org.cmas.presentation.service.loyalty.CameraOrderServiceImpl"/>
 
+    <bean id="elearningService" class="org.cmas.presentation.service.elearning.ElearningServiceImpl"/>
+
     <bean id="insuranceRequestService" class="org.cmas.presentation.service.loyalty.InsuranceRequestServiceImpl"/>
 
     <bean id="balticFinanceRemoteService"
