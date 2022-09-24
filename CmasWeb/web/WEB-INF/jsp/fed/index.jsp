@@ -7,6 +7,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <jsp:useBean id="diverTypes" scope="request" type="org.cmas.entities.diver.DiverType[]"/>
+<jsp:useBean id="diverStatuses" scope="request" type="org.cmas.entities.diver.DiverRegistrationStatus[]"/>
 <jsp:useBean id="users" scope="request" type="java.util.List<org.cmas.entities.diver.Diver>"/>
 <jsp:useBean id="count" scope="request" type="java.lang.Integer"/>
 <jsp:useBean id="command" scope="request" type="org.cmas.presentation.model.user.UserSearchFormObject"/>
@@ -36,6 +37,8 @@
                 <ff:input path="firstName" label="First Name" maxLen="250" required="false"/>
                 <ff:input path="lastName" label="Last Name" maxLen="250" required="false"/>
                 <ff:select path="diverType" label="Diver type" options="${diverTypes}" itemValue="name"
+                           itemLabel="name"/>
+                <ff:select path="diverStatus" label="Account status" options="${diverStatuses}" itemValue="name"
                            itemLabel="name"/>
                 <input type="hidden" name="sort" value="${command.sort}"/>
                 <input type="hidden" name="dir" value="${command.dir}"/>
@@ -78,6 +81,10 @@
                 <c:set var="url" value="${url}diverType=${command.diverType}&"/>
                 <c:set var="urlEmpty" value="false"/>
             </c:if>
+            <c:if test="${!empty command.diverStatus}">
+                <c:set var="url" value="${url}diverStatus=${command.diverStatus}&"/>
+                <c:set var="urlEmpty" value="false"/>
+            </c:if>
             <table border="0" cellpadding="4" cellspacing="2">
                 <tr class="infoHeader">
                     <th><my:sort url="${url}" title="E-mail" dir="${command.dir}" columnNumber="${command.sort}"
@@ -92,6 +99,7 @@
                     <th>Date of birth</th>
                     <th>Instructor or Diver</th>
                     <th>Diver Level</th>
+                    <th>Account status</th>
                     <th><my:sort url="${url}" title="Date edited" dir="${command.dir}"
                                  columnNumber="${command.sort}" sortColumn="dateEdited"/></th>
                     <th>Global CMASDATA ID</th>
@@ -110,6 +118,7 @@
                         <td><fmt:formatDate value="${user.dob}" pattern="dd.MM.yyyy"/></td>
                         <td>${user.diverType.name}</td>
                         <td>${user.diverLevel.name}</td>
+                        <td>${user.diverRegistrationStatus.name}</td>
                         <td><fmt:formatDate value="${user.dateEdited}" pattern="dd.MM.yyyy HH:mm"/></td>
                         <td style="white-space: nowrap;">
                             <c:choose>

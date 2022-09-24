@@ -137,7 +137,8 @@ public class MobileRegistrationController {
     }
 
     @RequestMapping(value = "/registerWithCertificates.html", method = RequestMethod.POST)
-    public View registerWithCertificates(@RequestParam("registrationJson") String registrationJson) {
+    public View registerWithCertificates(HttpServletRequest request) {
+        String registrationJson = request.getParameter("registrationJson");
         //   log.error("registerWithCertificates called:" + registrationJson);
         FullDiverRegistrationFormObject formObject;
         try {
@@ -171,12 +172,13 @@ public class MobileRegistrationController {
     }
 
     @RequestMapping(value = "/submitCertificateApprovalRequest.html", method = RequestMethod.POST)
-    public View submitCertificateApprovalRequest(HttpServletRequest request, @RequestParam("requestJson") String requestJson) {
+    public View submitCertificateApprovalRequest(HttpServletRequest request) {
         String token = request.getHeader("CMAS_AUTH_TOKEN");
         Diver diver = diverDao.getDiverByToken(token);
         if (diver == null) {
             return gsonViewFactory.createErrorGsonView("validation.tokenUnknown");
         }
+        String requestJson = request.getParameter("requestJson");
         //   log.error("registerWithCertificates called:" + requestJson);
         CardApprovalRequestMobileFormObject formObject;
         try {

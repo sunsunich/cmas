@@ -1,6 +1,7 @@
 package org.cmas.presentation.model.user;
 
 import org.cmas.entities.Role;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.presentation.model.ColumnName;
 import org.cmas.presentation.model.SortPaginatorImpl;
@@ -37,6 +38,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     private String countryCode;
     private String userRole;
     private String diverType;
+    private String diverStatus;
     private String federationId;
 
     public UserSearchFormObject() {
@@ -47,6 +49,7 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
     public void validate(Errors errors) {
         ValidatorUtils.validateEnum(errors, userRole, Role.class, "userRole", "validation.incorrectField");
         ValidatorUtils.validateEnum(errors, diverType, DiverType.class, "diverType", "validation.incorrectField");
+        ValidatorUtils.validateEnum(errors, diverStatus, DiverRegistrationStatus.class, "diverStatus", "validation.incorrectField");
     }
 
     @Override
@@ -60,6 +63,14 @@ public class UserSearchFormObject extends SortPaginatorImpl<UserSearchFormObject
 
     public void setDiverType(String diverType) {
         this.diverType = diverType;
+    }
+
+    public String getDiverStatus() {
+        return diverStatus;
+    }
+
+    public void setDiverStatus(String diverStatus) {
+        this.diverStatus = diverStatus;
     }
 
     public String getEmail() {

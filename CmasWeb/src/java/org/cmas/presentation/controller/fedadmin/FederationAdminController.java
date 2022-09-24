@@ -10,6 +10,7 @@ import org.cmas.entities.cards.CardApprovalRequestStatus;
 import org.cmas.entities.cards.PersonalCard;
 import org.cmas.entities.diver.Diver;
 import org.cmas.entities.diver.DiverLevel;
+import org.cmas.entities.diver.DiverRegistrationStatus;
 import org.cmas.entities.diver.DiverType;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.json.SimpleGsonResponse;
@@ -103,6 +104,15 @@ public class FederationAdminController {
     @ModelAttribute("diverTypes")
     public DiverType[] getDiverTypes() {
         return DiverType.values();
+    }
+
+    @ModelAttribute("diverStatuses")
+    public DiverRegistrationStatus[] getDiverStatuses() {
+        return new DiverRegistrationStatus[]{
+                DiverRegistrationStatus.NEVER_REGISTERED,
+                DiverRegistrationStatus.CMAS_BASIC,
+                DiverRegistrationStatus.CMAS_FULL
+        };
     }
 
     @ModelAttribute("diverLevels")

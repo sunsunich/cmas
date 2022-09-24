@@ -161,6 +161,10 @@ public class DiverDaoImpl extends UserDaoImpl<Diver> implements DiverDao {
         if (!StringUtil.isTrimmedEmpty(diverType)) {
             criteria.add(Restrictions.eq("diverType", DiverType.valueOf(diverType)));
         }
+        String diverStatus = form.getDiverStatus();
+        if (!StringUtil.isTrimmedEmpty(diverStatus)) {
+            criteria.add(Restrictions.eq("diverRegistrationStatus", DiverRegistrationStatus.valueOf(diverStatus)));
+        }
         String country = form.getCountryCode();
         if (!StringUtil.isTrimmedEmpty(country)) {
             criteria.createAlias("federation", "fed")
