@@ -1,99 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 >
-    <ScrollView
+    <!--    <ScrollView-->
+    <!--            android:layout_width="fill_parent"-->
+    <!--            android:layout_height="fill_parent"-->
+    <!--            android:fillViewport="true"-->
+    <!--            android:id="@+id/main_container"-->
+    <!--            android:background="@color/background"-->
+    <!--    >-->
+    <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:fillViewport="true"
-            android:id="@+id/main_container"
-    >
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            android:background="@color/background"
 
-            <TextView
-                    android:id="@+id/registration_tv"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/panel_horizontal_padding"
+            android:paddingEnd="@dimen/panel_horizontal_padding"
+    >
+        <RelativeLayout
+                android:id="@+id/loadingPanel"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
+
+            <ProgressBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/caps_login_register"
-                    android:layout_marginTop="20dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textColor="@color/primary"
-                    android:textStyle="bold"
-                    android:textSize="19sp"/>
+                    android:indeterminate="true"/>
+        </RelativeLayout>
 
-            <!--<TextView-->
-            <!--android:id="@+id/country_spinner_label"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:layout_marginLeft="20dp"-->
-            <!--android:layout_marginRight="20dp"-->
-            <!--android:textStyle="bold"-->
-            <!--android:singleLine="true"-->
-            <!--android:text="@string/select_country"-->
-            <!--style="CMAS.TextView"-->
-            <!--/>-->
-            <Spinner
-                    android:id="@+id/country_spinner"
-                    android:layout_width="match_parent"
+        <LinearLayout
+                android:id="@+id/controlsPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+        >
+            <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:prompt="@string/country_prompt"
-                    android:popupBackground="@color/hint_color"
+                    style="@style/App.TitleText"
+                    android:layout_gravity="center_horizontal"
+
+                    android:text="@string/reg_add_certificates_header"
             />
 
-            <EditText
-                    android:id="@+id/first_name_input"
-                    android:textColor="@color/hint_color"
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/images"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dip"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:hint="@string/first_name"
-                    android:drawablePadding="10dp"
-                    android:paddingLeft="10dp"/>
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
 
-            <EditText
-                    android:id="@+id/last_name_input"
-                    android:textColor="@color/hint_color"
-                    android:layout_width="match_parent"
+                    android:scrollbars="vertical"
+                    android:scrollbarThumbVertical="@color/disabled"
+                    android:scrollbarSize="@dimen/scroll_bar_size"
+            />
+
+            <Button
+                    style="@style/App.Button.Primary"
+                    android:id="@+id/add_image"
+
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dip"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:singleLine="true"
-                    android:inputType="text"
-                    android:hint="@string/last_name"
-                    android:drawablePadding="10dp"
-                    android:paddingLeft="10dp"/>
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/vertical_space_between_views"
+
+                    android:text="@string/add_certificate_image"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/vertical_space_between_views"
-                    android:layout_marginLeft="@dimen/margin_from_screen_borders"
-                    android:layout_marginRight="@dimen/margin_from_screen_borders"
+                    android:layout_marginTop="@dimen/vertical_space_buttons"
+                    android:layout_marginBottom="@dimen/vertical_space_between_views"
+
                     android:orientation="horizontal"
                     android:gravity="center">
                 <Button
                         style="@style/App.Button.Secondary"
-                        android:id="@+id/bnt_verify"
+                        android:id="@+id/bnt_back"
 
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_width="0dp"
 
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="@string/verify_diver"/>
+                        android:text="@string/back"/>
 
                 <Button
                         style="@style/App.Button.Primary"
@@ -103,12 +92,9 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
 
-                        android:layout_marginTop="15dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:text="@string/caps_do_register"/>
+                        android:text="@string/submit"/>
             </LinearLayout>
         </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
+    <!--    </ScrollView>-->
 </layout>

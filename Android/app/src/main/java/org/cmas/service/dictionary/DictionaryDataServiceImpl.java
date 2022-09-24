@@ -3,11 +3,13 @@ package org.cmas.service.dictionary;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cmas.BaseBeanContainer;
 import org.cmas.InitializingBean;
+import org.cmas.android.i18n.ErrorCodesManager;
 import org.cmas.entities.Country;
 import org.cmas.entities.DictionaryEntity;
 import org.cmas.entities.sport.NationalFederation;
 import org.cmas.remote.NetworkUnavailableException;
 import org.cmas.remote.RemoteDictionaryService;
+import org.cmas.service.EntityPersister;
 import org.cmas.service.RemoteListEntityGetter;
 import org.cmas.service.VersionableEntityPersister;
 import org.cmas.util.ProgressListener;
@@ -20,6 +22,7 @@ import java.util.List;
 public class DictionaryDataServiceImpl implements DictionaryDataService, InitializingBean {
 
     private RemoteDictionaryService remoteDictionaryService;
+    private ErrorCodesManager errorCodesManager;
     private VersionableEntityPersister<Country> countryPersister;
     private VersionableEntityPersister<NationalFederation> federationPersister;
     private final List<VersionableEntityPersister<?>> allPersisters = new ArrayList<>();
@@ -29,6 +32,7 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
 
         remoteDictionaryService = beanContainer.getRemoteDictionaryService();
+        errorCodesManager = beanContainer.getErrorCodesManager();
         countryPersister = beanContainer.getCountryPersister();
         federationPersister = beanContainer.getFederationPersister();
         allPersisters.add(countryPersister);
@@ -44,9 +48,14 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
         String progressStatus = "loading_dictionaries";
         int currentProgress = startProgress;
         publishProgress(progressListener, progressStatus, currentProgress);
-        int entityCnt = allPersisters.size();
+        int entityCnt = allPersisters.size() + 1; /* errorCodesManager */
         int increasingProgress = (int) ((double) (endProgress - startProgress) / (double) entityCnt);
         try {
+            persistEntities(
+                    errorCodesManager, remoteDictionaryService.getErrorCodes()
+            );
+            errorCodesManager.loadErrorCodesToMemory();
+
             loadEntity(
                     maxVersion -> remoteDictionaryService.getCountries(maxVersion),
                     countryPersister
@@ -72,6 +81,9 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
 //
 //        publishProgress(progressListener, progressStatus, currentProgress);
         } catch (NetworkUnavailableException e) {
+            if (!errorCodesManager.hasData()) {
+                errorCodesManager.loadErrorCodesToMemory();
+            }
             if (hasLocalDictionaryData()) {
                 publishProgress(progressListener, "offline_mode", endProgress);
             } else {
@@ -87,26 +99,33 @@ public class DictionaryDataServiceImpl implements DictionaryDataService, Initial
             boolean hasDataForPersister = persister.getMaxVersion() > 0L;
             hasLocalData = hasLocalData && hasDataForPersister;
         }
-        return hasLocalData;
+        return hasLocalData && errorCodesManager.hasData();
     }
 
     private static <T extends DictionaryEntity> void loadEntity(
             RemoteListEntityGetter<T> entityGetter,
             VersionableEntityPersister<T> persister
     ) throws Exception {
+        Pair<List<T>, String> result;
         try {
             long maxVersion = persister.getMaxVersion();
-            Pair<List<T>, String> result = entityGetter.getEntitiesList(maxVersion);
-            List<T> entities = result.getLeft();
-            if (entities == null) {
-                String message = "Failed to load Entities, cause: " + result.getRight();
-                throw new Exception(message);
-            } else {
-                persister.persist(entities);
-            }
+            result = entityGetter.getEntitiesList(maxVersion);
         } catch (Exception e) {
             String message = "Failed to load Entities, cause: " + e.getMessage();
             throw new Exception(message, e);
+        }
+        persistEntities(persister, result);
+    }
+
+    private static <T> void persistEntities(
+            EntityPersister<T> persister, Pair<List<T>, String> result
+    ) throws Exception {
+        List<T> entities = result.getLeft();
+        if (entities == null) {
+            String message = "Failed to load Entities, cause: " + result.getRight();
+            throw new Exception(message);
+        } else {
+            persister.persist(entities);
         }
     }
 

@@ -2,7 +2,7 @@ package org.cmas.util.android.ui;
 
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.android.MainApplication;
 import org.cmas.util.LabelValue;
 

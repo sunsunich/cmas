@@ -5,12 +5,13 @@
     <!--    loading screen -->
     <string name="loading_libraries_complete">Loading libraries complete</string>
     <string name="loading_libraries">Loading libraries</string>
+    <string name="fatal_error">An error has occurred. Please restart the application.</string>
 
     <!--  registration -->
     <string name="register_header">Register</string>
-    <string name="empty_field_error">please enter value for required field</string>
+    <string name="error_empty_field">please enter value for required field</string>
     <string name="email">Email</string>
-    <string name="email_error">invalid email</string>
+    <string name="error_email">invalid email</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="date_birthday">Date of birth</string>
@@ -24,9 +25,32 @@
     <string name="area_of_interest_blue_helmets">Blue helmets</string>
     <string name="area_of_interest_other">Other</string>
     <string name="consent_text">By ticking this box I hereby acknowledge and confirm my consent of</string>
-    <string name="consent_text_link"><a href="https://www.cmasdata.org/privacyPolicy.html">AquaLink Privacy Policy</a></string>
+    <string name="consent_text_link">
+        <a href="https://www.cmasdata.org/privacyPolicy.html">AquaLink Privacy Policy</a>
+    </string>
     <string name="terms_not_agreed">Please tick the box to accept AquaLink Privacy Policy</string>
     <string name="forward">NEXT</string>
+
+    <!--  registration certificates -->
+    <string name="reg_add_certificates_header">Please add your certificate images</string>
+    <string name="add_certificate_image">ADD CERTIFICATE IMAGE</string>
+    <string name="select_image">Select image</string>
+    <string name="photo_from_camera">TAKE A PHOTO</string>
+    <string name="error_image_creation">Cannot create a file for an image. Please make sure you have enough space on the
+        device
+    </string>
+    <string name="error_photo_too_big">Photo image is too big, please decrease the camera quality</string>
+    <string name="error_image_too_big">Chosen image is too big, please pick a smaller image</string>
+    <string name="error_photo_cannot_read">Cannot open the photo image, please try selecting a file from a disk</string>
+    <string name="error_image_cannot_read">Cannot open the file from a disk, make sure you select an image file</string>
+    <string name="error_images_too_few">Please attach at least one image</string>
+    <string name="error_images_too_many">The total size of attached files is to big, please attach less files or smaller
+        files
+    </string>
+    <string name="file_from_disc">FILE FROM DISK</string>
+    <string name="back">BACK</string>
+    <string name="submit">SUBMIT</string>
+    <string name="registration_success">Registration was successful, please check your email box for further instructions</string>
 
     <string name="diving_spots">Diving spots</string>
 
@@ -42,13 +66,10 @@
     <string name="reg_mobile_text">To register, enter the password twice</string>
     <string name="reg_pass_advice">The password must contain numbers and letters mixed case</string>
     <string name="password_mismatch_error">The entered passwords do not match</string>
-    <string name="back">Back</string>
     <string name="wait_text">Wait for a</string>
     <string name="error_connecting_to_server">Error connecting to server</string>
-    <string name="registration_success">Registration is successful</string>
 
     <string name="error">Error</string>
-    <string name="fatal_error">An error has occurred. Please restart the application.</string>
     <string name="search_txt">Search</string>
     <string name="back_to_main">The main menu</string>
     <string name="forgot_password_main">Forgot your password?</string>
@@ -255,8 +276,6 @@
     <string name="change_password_caps">CHANGE PASSWORD</string>
     <string name="change_password">Change password</string>
     <string name="restore_password">Forgot your password?</string>
-    <string name="photo_from_camera">Camera pictures</string>
-    <string name="file_from_disc">The file from disk</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="continue_str">Continue</string>
@@ -304,4 +323,12 @@
     <string name="error_entry_name_empty">Empty document name</string>
     <string name="relationship_title">The kind of relationship</string>
     <string name="gender_title">Gender</string>
+
+    <string name="upload_progress_header">Upload in progress</string>
+    <string name="upload_progress_text">Uploading certificates…</string>
+
+    <string name="upload_success_header">Certificates uploaded successfully</string>
+    <string name="upload_success_text">Tap to proceed</string>
+
+    <string name="upload_failure_header">Failed to upload Certificates</string>
 </resources>

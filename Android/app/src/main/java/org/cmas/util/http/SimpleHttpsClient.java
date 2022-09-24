@@ -1,5 +1,6 @@
 package org.cmas.util.http;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cmas.util.StringUtil;
 import org.slf4j.Logger;
@@ -11,13 +12,9 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -113,6 +110,24 @@ public class SimpleHttpsClient {
     //    SSLContext context = SSLContext.getInstance("TLS");
       //  context.init(null, tmf.getTrustManagers(), null);
 
+/* making ssl connection insecure, do not use in prod
+        // Create a trust manager that does not validate certificate chains
+//        TrustManager[] trustAllCerts = new TrustManager[] {new X509TrustManager() {
+//            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+//                return null;
+//            }
+//            public void checkClientTrusted(X509Certificate[] certs, String authType) {
+//            }
+//            public void checkServerTrusted(X509Certificate[] certs, String authType) {
+//            }
+//        }
+//        };
+//
+//        // Install the all-trusting trust manager
+//        SSLContext sc = SSLContext.getInstance("SSL");
+//        sc.init(null, trustAllCerts, new java.security.SecureRandom());
+//        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+*/
         HttpsURLConnection urlConnection = (HttpsURLConnection) urlObj.openConnection();
 
         //TODO fix this when we have a proper server with proper host name
@@ -127,7 +142,7 @@ public class SimpleHttpsClient {
         );
 
     //    urlConnection.setSSLSocketFactory(context.getSocketFactory());
-        urlConnection.setRequestProperty("Accept-Charset", encoding);
+        urlConnection.setRequestProperty("Accept-Encoding", encoding);
         if (cookies != null) {
             for (Map.Entry<String, String> cookie : cookies.entrySet()) {
                 urlConnection.addRequestProperty(
@@ -143,9 +158,16 @@ public class SimpleHttpsClient {
             if ("POST".equals(requestMethod)) {
                 //            urlConnection.setReadTimeout(7000);
                 //            urlConnection.setConnectTimeout(7000);
+                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+                urlConnection.setRequestProperty("Connection", "keep-alive");
+                urlConnection.setRequestProperty("Accept", "application/json, text/javascript, */*; q=0.01");
+                urlConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+                String body = bodyBuilder.toString();
+                byte[] bytes = body.getBytes(encoding);
+                urlConnection.setRequestProperty("Content-Length", String.valueOf(bytes.length));
                 urlConnection.setDoOutput(true);
-                urlConnection.setChunkedStreamingMode(0);
-                writeStream(urlConnection.getOutputStream(), bodyBuilder.toString(), encoding);
+//                urlConnection.setChunkedStreamingMode(0);
+                writeStream(urlConnection.getOutputStream(), bytes);
             }
 
             urlConnection.connect();
@@ -167,7 +189,7 @@ public class SimpleHttpsClient {
 
             List<String> cookiePairs = urlConnection.getHeaderFields().get("Set-Cookie");
             if (cookiePairs == null) {
-                return Pair.<String, Map<String, String>>of(responseBody, new HashMap<String, String>());
+                return Pair.of(responseBody, new HashMap<>());
             } else {
                 Map<String, String> cookieMap = new HashMap<>(cookiePairs.size());
                 for (String cookiePair : cookiePairs) {
@@ -256,7 +278,7 @@ public class SimpleHttpsClient {
                 writeStream(urlConnection.getOutputStream(), bytes);
             } else {
                 urlConnection.setChunkedStreamingMode(0);
-                writeStream(urlConnection.getOutputStream(), paramEntity, encoding);
+                writeStream(urlConnection.getOutputStream(), bytes);
             }
 
             urlConnection.connect();
@@ -277,7 +299,7 @@ public class SimpleHttpsClient {
 
             List<String> cookiePairs = urlConnection.getHeaderFields().get("Set-Cookie");
             if (cookiePairs == null) {
-                return Pair.<String, Map<String, String>>of(responseBody, new HashMap<String, String>());
+                return Pair.of(responseBody, new HashMap<String, String>());
             } else {
                 Map<String, String> cookieMap = new HashMap<>(cookiePairs.size());
                 for (String cookiePair : cookiePairs) {
@@ -309,24 +331,14 @@ public class SimpleHttpsClient {
         if (in == null) {
             return "";
         }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, encoding))) {
-            StringBuilder result = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-            return result.toString();
+        StringBuilder result = new StringBuilder();
+        for(Object line : IOUtils.readLines(in, encoding)){
+            result.append(line);
         }
+        return result.toString();
     }
 
     private static void writeStream(OutputStream outputStream, byte[] body) throws IOException {
         outputStream.write(body);
     }
-
-    private static void writeStream(OutputStream outputStream, String body, String encoding) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, encoding))) {
-            writer.write(body);
-        }
-    }
-
 }

@@ -12,13 +12,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import com.cmas.cmas_flutter.R;
-import com.cmas.cmas_flutter.databinding.LoadingFragmentBinding;
 import org.cmas.android.DeepLinkType;
 import org.cmas.android.MainActivity;
+import org.cmas.android.ui.signin.RegistrationFormObject;
 import org.cmas.android.ui.signin.RegistrationFragment;
 import org.cmas.android.ui.verify.DiverVerificationFragment;
+import org.cmas.ecards.R;
+import org.cmas.ecards.databinding.LoadingFragmentBinding;
+import org.cmas.util.android.TaskViewModel;
 import org.cmas.util.android.ui.ProgressUpdater;
 
 public class LoadingFragment extends Fragment {
@@ -30,11 +31,16 @@ public class LoadingFragment extends Fragment {
 
     private DeepLinkType deepLinkType;
     private Uri data;
+    @Nullable
+    private RegistrationFormObject registrationFormObject;
 
-    public static LoadingFragment newInstance(DeepLinkType deepLinkType, @Nullable Uri data) {
+    public static LoadingFragment newInstance(DeepLinkType deepLinkType,
+                                              @Nullable Uri data,
+                                              @Nullable RegistrationFormObject registrationFormObject) {
         LoadingFragment loadingFragment = new LoadingFragment();
         loadingFragment.deepLinkType = deepLinkType;
         loadingFragment.data = data;
+        loadingFragment.registrationFormObject = registrationFormObject;
         return loadingFragment;
     }
 
@@ -42,7 +48,7 @@ public class LoadingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        loadingViewModel = new ViewModelProvider(this).get(LoadingViewModel.class);
+        loadingViewModel = TaskViewModel.safelyInitTask(this, LoadingViewModel.class);
         binding = DataBindingUtil.inflate(inflater, R.layout.loading_fragment, container, false);
 
         progressUpdater = new ProgressUpdater(binding.progressStatus, binding.progress);
@@ -53,7 +59,6 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
-        loadingViewModel.init();
         loadingViewModel.getProgress().observe(viewLifecycleOwner,
                                                taskProgressUpdate -> progressUpdater.reportProgress(taskProgressUpdate));
         loadingViewModel.getResult().observe(viewLifecycleOwner, result -> {
@@ -62,18 +67,22 @@ public class LoadingFragment extends Fragment {
                 return;
             }
             if (result) {
-                switch (deepLinkType) {
-                    case NONE:
-                        MainActivity.replaceFragment(activity, RegistrationFragment.newInstance());
-                        break;
-                    case VERIFY:
-                        Log.d(getClass().getName(), "VERIFY: " + data.toString());
-                        MainActivity.replaceFragment(activity, DiverVerificationFragment.newInstance());
-                        break;
-                    case LOGIN:
-                        Log.d(getClass().getName(), "LOGIN: " + data.toString());
-                        MainActivity.replaceFragment(activity, RegistrationFragment.newInstance());
-                        break;
+                if(registrationFormObject == null) {
+                    switch (deepLinkType) {
+                        case NONE:
+                            MainActivity.replaceFragment(activity, RegistrationFragment.newInstance(null));
+                            break;
+                        case VERIFY:
+                            Log.d(getClass().getName(), "VERIFY: " + data);
+                            MainActivity.replaceFragment(activity, DiverVerificationFragment.newInstance());
+                            break;
+                        case LOGIN:
+                            Log.d(getClass().getName(), "LOGIN: " + data);
+                            MainActivity.replaceFragment(activity, RegistrationFragment.newInstance(null));
+                            break;
+                    }
+                } else {
+                    MainActivity.replaceFragment(activity, RegistrationFragment.newInstance(registrationFormObject));
                 }
             } else {
                 MainActivity.reportError(activity, getString(R.string.fatal_error));
@@ -84,6 +93,6 @@ public class LoadingFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadingViewModel.start();
+        loadingViewModel.start(null);
     }
 }

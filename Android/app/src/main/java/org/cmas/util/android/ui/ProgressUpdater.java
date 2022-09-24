@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.android.MainApplication;
 import org.cmas.util.TaskProgressUpdate;
 

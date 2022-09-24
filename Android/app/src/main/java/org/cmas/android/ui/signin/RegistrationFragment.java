@@ -11,27 +11,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import com.cmas.cmas_flutter.R;
-import com.cmas.cmas_flutter.databinding.RegistrationFragmentBinding;
 import org.cmas.Globals;
 import org.cmas.android.MainActivity;
 import org.cmas.android.storage.entities.Country;
 import org.cmas.android.storage.entities.sport.NationalFederation;
 import org.cmas.android.ui.EnumToLabelUtil;
-import org.cmas.android.ui.FileAdditionFragment;
+import org.cmas.android.ui.file.FileAdditionFragment;
 import org.cmas.android.ui.verify.DiverVerificationFragment;
 import org.cmas.android.validation.CheckedBoxValidationView;
 import org.cmas.android.validation.TextValidationView;
 import org.cmas.android.validation.ValidationHelper;
 import org.cmas.android.validation.ValidationItem;
+import org.cmas.ecards.R;
+import org.cmas.ecards.databinding.RegistrationFragmentBinding;
 import org.cmas.entities.diver.AreaOfInterest;
 import org.cmas.util.LabelValue;
 import org.cmas.util.StringUtil;
+import org.cmas.util.android.TaskViewModel;
 import org.cmas.util.android.ui.DatePickerFragment;
 import org.cmas.util.android.ui.ViewUtils;
 
 import javax.annotation.Nullable;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,20 +41,21 @@ import java.util.List;
 
 public class RegistrationFragment extends Fragment {
 
-    private static final String COUNTRY_SPINNER_SELECTION_KEY = "COUNTRY_SPINNER_SELECTION";
-    private static final String FEDERATIONS_SPINNER_SELECTION_KEY = "FEDERATIONS_SPINNER_SELECTION";
-
     private RegistrationFragmentBinding binding;
     private ArrayAdapter<LabelValue<Country>> countryAdapter;
-    private int countrySelectionInitPosition = 0;
+
     private ArrayAdapter<LabelValue<NationalFederation>> nationalFederationAdapter;
-    private int federationSelectionInitPosition = 0;
 
     private RegistrationLoadInitDataViewModel registrationLoadInitDataViewModel;
     private ValidationHelper validationHelper;
 
-    public static RegistrationFragment newInstance() {
-        return new RegistrationFragment();
+    @Nullable
+    private RegistrationFormObject registrationFormObject;
+
+    public static RegistrationFragment newInstance(RegistrationFormObject registrationFormObject) {
+        RegistrationFragment registrationFragment = new RegistrationFragment();
+        registrationFragment.registrationFormObject = registrationFormObject;
+        return registrationFragment;
     }
 
     @Nullable
@@ -60,12 +63,9 @@ public class RegistrationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        registrationLoadInitDataViewModel = new ViewModelProvider(this).get(RegistrationLoadInitDataViewModel.class);
-        validationHelper = new ValidationHelper(savedInstanceState);
-        if (savedInstanceState != null) {
-            countrySelectionInitPosition = savedInstanceState.getInt(COUNTRY_SPINNER_SELECTION_KEY, 0);
-            federationSelectionInitPosition = savedInstanceState.getInt(FEDERATIONS_SPINNER_SELECTION_KEY, 0);
-        }
+        registrationLoadInitDataViewModel = TaskViewModel.safelyInitTask(this,
+                                                                         RegistrationLoadInitDataViewModel.class);
+        validationHelper = new ValidationHelper(registrationLoadInitDataViewModel.startSingleItemValidation);
         binding = DataBindingUtil.inflate(inflater, R.layout.registration_fragment, container, false);
 
         return binding.getRoot();
@@ -74,29 +74,43 @@ public class RegistrationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
-        registrationLoadInitDataViewModel.init();
 
         registrationLoadInitDataViewModel.getResult().observe(viewLifecycleOwner, result -> {
             if (result == null) {
                 MainActivity.reportError(getActivity(), getString(R.string.fatal_error));
             } else {
+                if (registrationFormObject != null) {
+                    // must be called before populateData() to restore state properly
+                    restoreForm(result, registrationFormObject);
+                }
                 populateData(result);
+                if (registrationFormObject != null) {
+                    // fast forward to image picking
+                    binding.bntRegister.callOnClick();
+                }
             }
         });
 
         binding.dateOfBirthday.setOnClickListener(view12 -> {
+            SimpleDateFormat dtf = Globals.getDTF();
+            Date initDate = dtf.parse(binding.dateOfBirthday.getText().toString(), new ParsePosition(0));
+            if (initDate == null) {
+                //looking for 18 year olds
+                initDate = new Date(System.currentTimeMillis() - 18 * Globals.APPROX_ONE_YEAR_IN_MS);
+            }
             DialogFragment datePickerFragment = new DatePickerFragment(
-                    new Date(),
+                    initDate,
                     (view121, year, monthOfYear, dayOfMonth) -> {
                         Calendar date = Calendar.getInstance();
                         date.set(year, monthOfYear, dayOfMonth);
-                        binding.dateOfBirthday.setText(Globals.getDTF().format(date.getTime()));
+
+                        binding.dateOfBirthday.setText(dtf.format(date.getTime()));
                     });
-            datePickerFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+            datePickerFragment.show(requireActivity().getSupportFragmentManager(), "datePicker");
         });
 
         AreaOfInterest[] areasOfInterests = AreaOfInterest.values();
-        List<LabelValue<AreaOfInterest>> elements = new ArrayList<>(areasOfInterests.length + 1);
+        List<LabelValue<AreaOfInterest>> elements = new ArrayList<>(areasOfInterests.length);
         for (AreaOfInterest areaOfInterest : areasOfInterests) {
             elements.add(
                     new LabelValue<>(
@@ -127,43 +141,45 @@ public class RegistrationFragment extends Fragment {
         setupValidation();
 
         binding.bntVerify.setOnClickListener(
-                view1 -> MainActivity.gotoFragment(getActivity(), DiverVerificationFragment.newInstance())
+                view1 -> MainActivity.gotoFragment(requireActivity(), DiverVerificationFragment.newInstance())
         );
         binding.bntRegister.setOnClickListener(
                 view1 -> {
                     if (validationHelper.validateAll()) {
-                        MainActivity.gotoFragment(getActivity(), FileAdditionFragment.newInstance(collectForm()));
+                        MainActivity.gotoFragment(requireActivity(), FileAdditionFragment.newInstance(collectForm()));
                     }
                 }
         );
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        registrationLoadInitDataViewModel.start();
+    public void onPause() {
+        super.onPause();
+        registrationLoadInitDataViewModel.countrySelectionInitPosition
+                = binding.countrySpinner.getSelectedItemPosition();
+        registrationLoadInitDataViewModel.federationSelectionInitPosition
+                = binding.federationSpinner.getSelectedItemPosition();
+        registrationLoadInitDataViewModel.startSingleItemValidation = validationHelper.isStartSingleItemValidation();
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        validationHelper.saveUiState(savedInstanceState);
-        savedInstanceState.putInt(COUNTRY_SPINNER_SELECTION_KEY, binding.countrySpinner.getSelectedItemPosition());
-        savedInstanceState.putInt(FEDERATIONS_SPINNER_SELECTION_KEY, binding.federationSpinner.getSelectedItemPosition());
+    public void onResume() {
+        super.onResume();
+        registrationLoadInitDataViewModel.start(null);
     }
 
     private void setupValidation() {
         validationHelper.addValidationItem(new ValidationItem(
-                new TextValidationView(binding.emailNameInput), binding.emailNameInputError) {
+                new TextValidationView(binding.emailInput), binding.emailNameInputError) {
             @Nullable
             @Override
             public String validateForErrorText() {
-                String value = binding.emailNameInput.getText().toString();
+                String value = binding.emailInput.getText().toString();
                 if (StringUtil.isTrimmedEmpty(value)) {
-                    return getString(R.string.empty_field_error);
+                    return getString(R.string.error_empty_field);
                 }
                 if (!value.matches(Globals.SIMPLE_EMAIL_REGEXP)) {
-                    return getString(R.string.email_error);
+                    return getString(R.string.error_email);
                 }
                 return null;
             }
@@ -204,7 +220,8 @@ public class RegistrationFragment extends Fragment {
             countriesAndLabels.add(new LabelValue<>(country.name, country));
         }
         ViewUtils.populateAdapter(countryAdapter, countriesAndLabels);
-        if (countrySelectionInitPosition < countriesAndLabels.size()) {
+        int countrySelectionInitPosition = registrationLoadInitDataViewModel.countrySelectionInitPosition;
+        if (countrySelectionInitPosition <= countriesAndLabels.size() && countrySelectionInitPosition != 0) {
             binding.countrySpinner.setSelection(countrySelectionInitPosition);
         }
 
@@ -214,14 +231,58 @@ public class RegistrationFragment extends Fragment {
             federationsAndLabels.add(new LabelValue<>(nationalFederation.name, nationalFederation));
         }
         ViewUtils.populateAdapter(nationalFederationAdapter, federationsAndLabels);
-        if (federationSelectionInitPosition < countriesAndLabels.size()) {
+        int federationSelectionInitPosition = registrationLoadInitDataViewModel.federationSelectionInitPosition;
+        if (federationSelectionInitPosition <= federationsAndLabels.size() && federationSelectionInitPosition != 0) {
             binding.federationSpinner.setSelection(federationSelectionInitPosition);
         }
     }
 
+    private void restoreForm(RegistrationInitData registrationInitData,
+                             RegistrationFormObject registrationFormObject){
+        binding.emailInput.setText(registrationFormObject.email);
+        binding.firstNameInput.setText(registrationFormObject.firstName);
+        binding.lastNameInput.setText(registrationFormObject.lastName);
+        binding.dateOfBirthday.setText(registrationFormObject.dob);
+
+        int federationInitPosition = 0;
+        List<NationalFederation> federations = registrationInitData.nationalFederations;
+        for (int i = 0; i < federations.size(); i++) {
+            NationalFederation federation = federations.get(i);
+            if (String.valueOf(federation.id).equals(registrationFormObject.federationId)) {
+                federationInitPosition = i;
+                break;
+            }
+        }
+        registrationLoadInitDataViewModel.federationSelectionInitPosition = federationInitPosition;
+
+        int countryInitPosition = 0;
+        List<Country> countries = registrationInitData.countries;
+        for (int i = 0; i < countries.size(); i++) {
+            Country country = countries.get(i);
+            if (country.code.equals(registrationFormObject.countryCode)) {
+                countryInitPosition = i;
+                break;
+            }
+        }
+        registrationLoadInitDataViewModel.countrySelectionInitPosition = countryInitPosition;
+
+        AreaOfInterest[] areasOfInterests = AreaOfInterest.values();
+        int areaInitPosition = 0;
+        for (int i = 0; i < areasOfInterests.length; i++) {
+            AreaOfInterest areaOfInterest = areasOfInterests[i];
+            if (areaOfInterest.getName().equals(registrationFormObject.areaOfInterest)) {
+                areaInitPosition = i;
+                break;
+            }
+        }
+        binding.areaOfInterestSpinner.setSelection(areaInitPosition);
+
+        binding.consentCheckbox.setChecked(true);
+    }
+
     private RegistrationFormObject collectForm() {
         return new RegistrationFormObject(
-                binding.emailNameInput.getText().toString(),
+                binding.emailInput.getText().toString(),
                 binding.firstNameInput.getText().toString(),
                 binding.lastNameInput.getText().toString(),
                 binding.dateOfBirthday.getText().toString(),

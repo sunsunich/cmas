@@ -1,13 +1,11 @@
 package org.cmas.android.validation;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import com.cmas.cmas_flutter.R;
 import org.cmas.android.MainApplication;
+import org.cmas.ecards.R;
 import org.cmas.util.StringUtil;
 
 import javax.annotation.Nullable;
@@ -16,18 +14,12 @@ import java.util.List;
 
 public class ValidationHelper {
 
-    private static final String VALIDATION_STARTED_KEY = "VALIDATION_STARTED";
-
     private final List<ValidationItem> validationItems = new ArrayList<>();
 
     private boolean startSingleItemValidation;
 
-    public ValidationHelper(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            startSingleItemValidation = false;
-        } else {
-            startSingleItemValidation = savedInstanceState.getBoolean(VALIDATION_STARTED_KEY, false);
-        }
+    public ValidationHelper(boolean startSingleItemValidation) {
+        this.startSingleItemValidation = startSingleItemValidation;
     }
 
     public void restoreValidationState() {
@@ -38,8 +30,8 @@ public class ValidationHelper {
         }
     }
 
-    public void saveUiState(@NonNull Bundle savedInstanceState) {
-        savedInstanceState.putBoolean(VALIDATION_STARTED_KEY, startSingleItemValidation);
+    public boolean isStartSingleItemValidation() {
+        return startSingleItemValidation;
     }
 
     public boolean validateAll() {
@@ -76,7 +68,7 @@ public class ValidationHelper {
             public String validateForErrorText() {
                 String value = input.getValue();
                 if (StringUtil.isTrimmedEmpty(value)) {
-                    return MainApplication.getAppContext().getString(R.string.empty_field_error);
+                    return MainApplication.getAppContext().getString(R.string.error_empty_field);
                 }
                 return null;
             }

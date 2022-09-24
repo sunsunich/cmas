@@ -2,8 +2,6 @@ package org.cmas.remote;
 
 public final class ErrorCodes {
 
-
-
     private ErrorCodes() {
     }
 
@@ -11,15 +9,9 @@ public final class ErrorCodes {
     public static final String ERROR_REGISTERING_DEVICE = "error.registering.device";
     public static final String ERROR_UNREGISTERING_DEVICE = "error.unregistering.device";
     public static final String ERROR_WHILE_SAVING_USER = "error.while.saving.user";
-    public static final String ERROR_WHILE_SAVING_PROFILE = "error.while.saving.profile";
-
-    public static final String ERROR_WHILE_SAVING_DOCUMENT = "error.while.saving.document";
 
     public static final String ERROR = "error";
-    public static final String NO_SUCH_DIRECTIVE = "no.such.directive";
-
-    public static final String NO_SUCH_PROFILE = "no.such.profile";
-    public static final String NO_SUCH_DOCUMENT = "no.such.document";
+    public static final String TOTAL_IMAGE_SIZE_TOO_BIG = "validation.multipleImagesSize";
 
     public static final String USER_ALREADY_EXISTS = "user.already.exists";
     public static final String USER_IS_DELETED = "user.is.deleted";
@@ -31,5 +23,4 @@ public final class ErrorCodes {
     public static final String SESSION_EXPIRED = "session.expired";
     public static final String INTERNET_IS_UNAVAILABLE = "net.unavailable";
     public static final String EMAIL_ALREADY_EXISTS="validation.emailExists";
-
 }

@@ -4,17 +4,16 @@ import com.google.myjson.Gson;
 import com.google.myjson.GsonBuilder;
 import com.google.myjson.JsonSyntaxException;
 import org.apache.commons.lang3.tuple.Pair;
-import org.cmas.app.AppProperties;
 import org.cmas.BaseBeanContainer;
 import org.cmas.Globals;
 import org.cmas.InitializingBean;
+import org.cmas.app.AppProperties;
 import org.cmas.app.Settings;
 import org.cmas.app.SettingsService;
 import org.cmas.json.SimpleGsonResponse;
 import org.cmas.remote.json.DateDeserializer;
 import org.cmas.util.StringUtil;
 import org.cmas.util.http.SimpleHttpsClient;
-import org.cmas.util.http.ssl.AliasKeyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,13 +97,16 @@ public abstract class BaseRemoteServiceImpl implements BaseRemoteService, Initia
         Settings settings = settingsService.getSettings();
         Map<String, String> cookies = getSessionCookie(settings);
 
-      //  AliasKeyManager keyManager = networkManager.getAliasKeyManager();
+        //  AliasKeyManager keyManager = networkManager.getAliasKeyManager();
         Pair<String, Map<String, String>> reply = SimpleHttpsClient.sendRequest(
                 serverUrl,
-          //      keyManager.getKeyStore(),
+                //      keyManager.getKeyStore(),
                 Globals.UTF_8_ENC, params, cookies, requestMethod
         );
         String responseBody = reply.getLeft();
+        if (resultType.equals(String.class)) {
+            return Pair.of(Pair.of((T)responseBody, ""), reply.getRight());
+        }
         T result;
         String message;
         try {

@@ -2,7 +2,7 @@ package org.cmas.android.ui;
 
 import android.content.Context;
 import android.util.Log;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.BaseBeanContainer;
 import org.cmas.android.MainApplication;
 import org.cmas.android.SystemInitializer;
@@ -10,10 +10,13 @@ import org.cmas.remote.NetworkUnavailableException;
 import org.cmas.util.TaskProgressUpdate;
 import org.cmas.util.android.TaskViewModel;
 
+import javax.annotation.Nullable;
+
 public class LoadingViewModel extends TaskViewModel<Void, TaskProgressUpdate, Boolean> {
 
+    @Nullable
     @Override
-    protected Boolean runInBackground(Void... args) {
+    protected Boolean runInBackground(Void arg) {
         Context context = MainApplication.getAppContext();
         try {
             reportProgress(new TaskProgressUpdate(0, context.getString(R.string.initializing_application)));

@@ -10,7 +10,7 @@ public class AppProperties {
 
     private final String loginURL;
 
-    private final String checkDiverRegistrationURL;
+    private final String registrationURL;
     private final String addCodeURL;
     private final String addEmailURL;
 
@@ -20,6 +20,7 @@ public class AppProperties {
     private final String registerNewProfileURL;
     private final String changeProfileURL;
 
+    private final String getErrorCodesURL;
     private final String getCountriesURL;
     private final String getFederationsURL;
 
@@ -33,7 +34,7 @@ public class AppProperties {
         isDebug = Boolean.parseBoolean(properties.getProperty("cmas.isDebug"));
         serverHOST = properties.getProperty("cmas.serverHOST");
         loginURL = properties.getProperty("cmas.loginURL");
-        checkDiverRegistrationURL = properties.getProperty("cmas.checkDiverRegistrationURL");
+        registrationURL = properties.getProperty("cmas.registrationURL");
         addCodeURL = properties.getProperty("cmas.addCodeURL");
         addEmailURL = properties.getProperty("cmas.addEmailURL");
 
@@ -43,6 +44,7 @@ public class AppProperties {
         registerNewProfileURL = properties.getProperty("cmas.registerNewProfileURL");
         changeProfileURL = properties.getProperty("cmas.changeProfileURL");
 
+        getErrorCodesURL = properties.getProperty("cmas.getErrorCodesURL");
         getCountriesURL = properties.getProperty("cmas.getCountriesURL");
         getFederationsURL = properties.getProperty("cmas.getFederationsURL");
 
@@ -89,8 +91,8 @@ public class AppProperties {
         return loginURL;
     }
 
-    public String getCheckDiverRegistrationURL() {
-        return checkDiverRegistrationURL;
+    public String getRegistrationURL() {
+        return registrationURL;
     }
 
     public String getGetDiveSpotsURL() {
@@ -111,6 +113,10 @@ public class AppProperties {
 
     public String getDeleteLogbookEntryURL() {
         return deleteLogbookEntryURL;
+    }
+
+    public String getGetErrorCodesURL() {
+        return getErrorCodesURL;
     }
 
     public String getGetCountriesURL() {

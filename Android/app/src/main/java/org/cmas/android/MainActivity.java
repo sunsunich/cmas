@@ -8,9 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import com.cmas.cmas_flutter.R;
-import com.cmas.cmas_flutter.databinding.MainActivityBinding;
 import org.cmas.android.ui.LoadingFragment;
+import org.cmas.android.ui.signin.PostToServerService;
+import org.cmas.android.ui.signin.RegistrationFormObject;
+import org.cmas.ecards.R;
+import org.cmas.ecards.databinding.MainActivityBinding;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -40,7 +42,13 @@ public class MainActivity extends AppCompatActivity {
                     deepLinkType = DeepLinkType.LOGIN;
                 }
             }
-            replaceFragment(this, LoadingFragment.newInstance(deepLinkType, data));
+            replaceFragment(this, LoadingFragment.newInstance(
+                    deepLinkType,
+                    data,
+                    (RegistrationFormObject) intent.getSerializableExtra(
+                            PostToServerService.REGISTRATION_FORM_OBJECT_KEY)
+                            )
+            );
         }
     }
 

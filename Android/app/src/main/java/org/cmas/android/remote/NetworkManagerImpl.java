@@ -3,7 +3,7 @@ package org.cmas.android.remote;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.android.MainApplication;
 import org.cmas.remote.NetworkManager;
 import org.cmas.util.http.ssl.AliasKeyManager;

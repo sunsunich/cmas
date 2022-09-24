@@ -1,4 +1,4 @@
-package com.cmas.cmas_flutter;
+package org.cmas.ecards;
 
 import org.junit.Test;
 

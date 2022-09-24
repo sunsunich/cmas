@@ -1,13 +1,14 @@
 package org.cmas.remote;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.cmas.android.ui.signin.RegistrationFormObject;
 import org.cmas.json.JsonBindingResultModel;
 import org.cmas.json.SimpleGsonResponse;
 
 public interface RemoteRegistrationService extends BaseRemoteService {
 
-    Pair<JsonBindingResultModel, String> checkDiverRegistration(
-            String countryCode, String firstName, String lastName, String dobStr
+    Pair<SimpleGsonResponse, String> diverRegistration(
+            RegistrationFormObject formObject
     ) throws Exception;
 
     Pair<SimpleGsonResponse, String> addCode(

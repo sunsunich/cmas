@@ -1,20 +1,30 @@
 package org.cmas.android.ui.signin;
 
+import com.google.myjson.annotations.Expose;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrationFormObject {
+public class RegistrationFormObject implements Serializable {
 
+    @Expose
     public final String email;
+    @Expose
     public final String firstName;
+    @Expose
     public final String lastName;
+    @Expose
     public final String dob;
+    @Expose
     public final String countryCode;
+    @Expose
     public final String federationId;
+    @Expose
     public final String areaOfInterest;
-
+    @Expose
     public final boolean termsAndCondAccepted;
-
+    @Expose
     public final List<String> images = new ArrayList<>();
 
     public RegistrationFormObject(String email,

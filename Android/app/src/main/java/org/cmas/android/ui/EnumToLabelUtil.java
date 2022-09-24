@@ -1,7 +1,7 @@
 package org.cmas.android.ui;
 
 import androidx.annotation.StringRes;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.entities.diver.AreaOfInterest;
 
 public final class EnumToLabelUtil {

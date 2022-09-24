@@ -23,7 +23,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.util.Base64;
 import android.util.Log;
-import com.cmas.cmas_flutter.R;
+import org.cmas.ecards.R;
 import org.cmas.Globals;
 
 import javax.crypto.Cipher;

@@ -1,6 +1,7 @@
 package org.cmas.remote;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.cmas.android.storage.entities.i18n.ErrorCode;
 import org.cmas.entities.Country;
 import org.cmas.entities.sport.NationalFederation;
 
@@ -19,4 +20,6 @@ public interface RemoteDictionaryService extends BaseRemoteService {
     Pair<List<Country>, String> getCountries(long maxVersion) throws Exception;
 
     Pair<List<NationalFederation>, String> getNationalFederations(long maxVersion) throws Exception;
+
+    Pair<List<ErrorCode>, String> getErrorCodes() throws Exception;
 }

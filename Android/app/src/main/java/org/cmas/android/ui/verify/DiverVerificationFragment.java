@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import com.cmas.cmas_flutter.R;
-import com.cmas.cmas_flutter.databinding.DiverVerificationFragmentBinding;
+import org.cmas.ecards.R;
+import org.cmas.ecards.databinding.DiverVerificationFragmentBinding;
 import org.cmas.android.MainActivity;
+import org.cmas.util.android.TaskViewModel;
 
 public class DiverVerificationFragment extends Fragment {
 
@@ -27,7 +27,7 @@ public class DiverVerificationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        diverVerificationViewModel = new ViewModelProvider(this).get(DiverVerificationViewModel.class);
+        diverVerificationViewModel = TaskViewModel.safelyInitTask(this, DiverVerificationViewModel.class);
         binding = DataBindingUtil.inflate(inflater, R.layout.diver_verification_fragment, container, false);
 
         return binding.getRoot();
@@ -36,7 +36,6 @@ public class DiverVerificationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         LifecycleOwner viewLifecycleOwner = getViewLifecycleOwner();
-        diverVerificationViewModel.init();
 
         diverVerificationViewModel.getResult().observe(viewLifecycleOwner, result -> {
             if (result) {
@@ -46,14 +45,15 @@ public class DiverVerificationFragment extends Fragment {
             }
         });
 
-        binding.bntVerify.setOnClickListener(view1 -> MainActivity.replaceFragment(getActivity(), DiverVerificationFragment
-                .newInstance()));
+        binding.bntVerify.setOnClickListener(view1 -> MainActivity.replaceFragment(getActivity(),
+                                                                                   DiverVerificationFragment
+                                                                                           .newInstance()));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        diverVerificationViewModel.start();
+        diverVerificationViewModel.start(null);
     }
 
 }

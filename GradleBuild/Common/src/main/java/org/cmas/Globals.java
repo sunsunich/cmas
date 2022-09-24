@@ -64,6 +64,8 @@ interface GlobalsStaticContainer {
 
     long ONE_WEEK_IN_MS = ONE_DAY_IN_MS * 7L;
 
+    long APPROX_ONE_YEAR_IN_MS = 365 * ONE_DAY_IN_MS;
+
     String SIMPLE_EMAIL_REGEXP = ".+@.+\\..+";
 
     String PHONE_REGEXP = "[\\+0-9 ]+";

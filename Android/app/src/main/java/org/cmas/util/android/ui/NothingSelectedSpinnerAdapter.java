@@ -10,13 +10,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 
-/**
- * Created with IntelliJ IDEA.
- * User: 1
- * Date: 08.02.14
- * Time: 15:19
- * To change this template use File | Settings | File Templates.
- */
 public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter
 {
 

@@ -6,6 +6,7 @@ version = '1.0'
 dependencies {
     api project(":Common")
     api files(project(":Common").file('lib/agson-2.2.2.jar'))
+    api files(project(":Common").file('lib/commons-io-1.4.jar'))
 //    compile fileTree(dir: new File(project(':Common').projectDir, 'lib'), include: ['*.jar'])
     compile files('./../lib/hibernate-annotations.jar')
     compile files('./../lib/ejb3-persistence.jar')

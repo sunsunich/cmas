@@ -1,9 +1,12 @@
 package org.cmas;
 
+import androidx.lifecycle.MutableLiveData;
+import org.cmas.android.i18n.ErrorCodesManager;
 import org.cmas.android.remote.NetworkManagerImpl;
 import org.cmas.android.storage.convert.CountryPersisterImpl;
 import org.cmas.android.storage.convert.NationalFederationPersisterImpl;
 import org.cmas.android.storage.settings.SettingsServiceImpl;
+import org.cmas.android.ui.signin.PostToServiceResult;
 import org.cmas.app.AppProperties;
 import org.cmas.app.SettingsService;
 import org.cmas.entities.Country;
@@ -34,10 +37,13 @@ public class BaseBeanContainer {
     private final RemoteRegistrationServiceImpl remoteRegistrationService;
     private final RemoteDictionaryServiceImpl remoteDictionaryService;
 
+    private final ErrorCodesManager errorCodesManager;
     private final VersionableEntityPersister<Country> countryPersister;
     private final VersionableEntityPersister<NationalFederation> federationPersister;
 
     private final DictionaryDataServiceImpl dictionaryDataService;
+
+    private final MutableLiveData<PostToServiceResult> postToServiceResultLiveData = new MutableLiveData<>();
 
     public static BaseBeanContainer getInstance() {
         if (instance != null) {
@@ -59,6 +65,7 @@ public class BaseBeanContainer {
         remoteRegistrationService = new RemoteRegistrationServiceImpl();
         remoteDictionaryService = new RemoteDictionaryServiceImpl();
 
+        errorCodesManager = new ErrorCodesManager();
         countryPersister = new CountryPersisterImpl();
         federationPersister = new NationalFederationPersisterImpl();
 
@@ -96,6 +103,10 @@ public class BaseBeanContainer {
         return networkManager;
     }
 
+    public ErrorCodesManager getErrorCodesManager() {
+        return errorCodesManager;
+    }
+
     public VersionableEntityPersister<Country> getCountryPersister() {
         return countryPersister;
     }
@@ -106,6 +117,10 @@ public class BaseBeanContainer {
 
     public DictionaryDataService getDictionaryDataService() {
         return dictionaryDataService;
+    }
+
+    public MutableLiveData<PostToServiceResult> getPostToServiceResultLiveData() {
+        return postToServiceResultLiveData;
     }
 }
 

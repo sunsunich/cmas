@@ -1,8 +1,11 @@
 package org.cmas.remote;
 
+import com.google.myjson.Gson;
 import org.apache.commons.lang3.tuple.Pair;
+import org.cmas.Globals;
+import org.cmas.android.ui.signin.RegistrationFormObject;
 import org.cmas.entities.DeviceType;
-import org.cmas.json.JsonBindingResultModel;
+import org.cmas.json.CommonGsonCreator;
 import org.cmas.json.SimpleGsonResponse;
 
 import java.util.HashMap;
@@ -38,24 +41,24 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
 
 
     @Override
-    public Pair<JsonBindingResultModel, String> checkDiverRegistration(
-            String countryCode, String firstName, String lastName, String dobStr
+    public Pair<SimpleGsonResponse, String> diverRegistration(
+            RegistrationFormObject formObject
     ) throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("country", countryCode);
-        params.put("firstName", firstName);
-        params.put("lastName", lastName);
-        params.put("dob", dobStr);
+        Gson gson = CommonGsonCreator.createCommonGsonBuilder()
+                                     .disableHtmlEscaping()
+                                     .setDateFormat(Globals.DTF).create();
+        Map<String, Object> params = new HashMap<>();
+        params.put("registrationJson", gson.toJson(formObject));
 
-        Pair<Pair<JsonBindingResultModel, String>, Map<String, String>> result = basicGetRequestSend(
-                appProperties.getCheckDiverRegistrationURL(), params, JsonBindingResultModel.class);
+        Pair<Pair<SimpleGsonResponse, String>, Map<String, String>> result = basicPostRequestSend(
+                appProperties.getRegistrationURL(), params, SimpleGsonResponse.class);
         return result.getLeft();
     }
 
     @Override
     public Pair<SimpleGsonResponse, String> addCode(String code)
             throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("mobileLockCode", code);
 
         Pair<Pair<SimpleGsonResponse, String>, Map<String, String>> result =
@@ -66,7 +69,7 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
     @Override
     public Pair<SimpleGsonResponse, String> addEmail(String email)
             throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("email", email);
 
         Pair<Pair<SimpleGsonResponse, String>, Map<String, String>> result =
@@ -76,15 +79,15 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
 
     @Override
     public Pair<SimpleGsonResponse, String> registerDevice(
-             String deviceId, String gcmRegId)
+            String deviceId, String gcmRegId)
             throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("deviceType", DeviceType.ANDROID.name());
         params.put("deviceId", deviceId);
         params.put("pushServiceRegId", gcmRegId);
 
         Pair<Pair<SimpleGsonResponse, String>, Map<String, String>> result =
-                basicGetRequestSend( appProperties.getRegisterDeviceURL(), params, SimpleGsonResponse.class);
+                basicGetRequestSend(appProperties.getRegisterDeviceURL(), params, SimpleGsonResponse.class);
         Pair<SimpleGsonResponse, String> responseStringPair = result.getLeft();
         if (responseStringPair.getLeft() != null) {
             //       GCMRegistrar.setRegisteredOnServer( true);
@@ -93,14 +96,14 @@ public class RemoteRegistrationServiceImpl extends BaseRemoteServiceImpl impleme
     }
 
     @Override
-    public Pair<SimpleGsonResponse, String> unregisterDevice( String deviceId, String gcmRegId)
+    public Pair<SimpleGsonResponse, String> unregisterDevice(String deviceId, String gcmRegId)
             throws Exception {
-        Map<String, Object> params = new HashMap<String, Object>();
+        Map<String, Object> params = new HashMap<>();
         params.put("deviceId", deviceId);
         params.put("pushServiceRegId", gcmRegId);
 
         Pair<Pair<SimpleGsonResponse, String>, Map<String, String>> result =
-                basicGetRequestSend( appProperties.getUnregisterDeviceURL(), params, SimpleGsonResponse.class);
+                basicGetRequestSend(appProperties.getUnregisterDeviceURL(), params, SimpleGsonResponse.class);
         return result.getLeft();
     }
 }

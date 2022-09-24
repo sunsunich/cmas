@@ -1,6 +1,7 @@
 package org.cmas.android;
 
 import org.cmas.BaseBeanContainer;
+import org.cmas.android.dagger.ComponentManager;
 import org.cmas.android.storage.MobileDatabase;
 import org.cmas.app.AppProperties;
 
@@ -21,7 +22,12 @@ public class SystemInitializer {
 
     public void initialize() throws IOException {
         MainApplication appContext = MainApplication.getAppContext();
+//        dagger or koin???
+//        ComponentManager componentManager = ComponentManager.getInstance();
+//        componentManager.initComponents(appContext);
+
         MobileDatabase.initialize(appContext);
+
         AppProperties appProperties;
         try (InputStream propStream = appContext.getAssets().open("app.properties")) {
             Properties props = new Properties();
@@ -29,7 +35,8 @@ public class SystemInitializer {
             appProperties = new AppProperties(props);
         }
 
-        // todo dagger or koin?
+
+
         BaseBeanContainer beanContainer = BaseBeanContainer.getInstance();
         beanContainer.setAppProperties(appProperties);
         beanContainer.initialize();
